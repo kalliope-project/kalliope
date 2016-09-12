@@ -1,0 +1,25 @@
+---
+  - name: "Say hello"
+    neurons:
+      say: "Hello sir"
+    when:
+      - order: "Say hello"
+
+  - name: "Run a simple script"
+    neurons:
+      - script: /some/local/script.sh --some-arguments 1234
+      - say: "Script launched sir"
+    when:
+      - order: "Run script"
+
+  - name: "Say local date"
+    neurons:
+      - system_date
+    when:
+      - order: "What time is it?"
+    register: date_result
+
+  - name: "Run when date"
+    neurons:
+      - say: "It is late, sir?"
+    when: date_result
