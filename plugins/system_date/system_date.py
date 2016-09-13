@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import time
-from lib import Neurone
+from core import Neurone
 
 
 class SystemDate(Neurone):
