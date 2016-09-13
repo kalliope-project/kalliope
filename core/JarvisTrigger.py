@@ -7,7 +7,7 @@ class JarvisTrigger:
     """
     def __init__(self):
         # TODO update this to load the file from settings
-        self.model = "stt/snowboy/resources/snowboy.umdl"
+        self.model = "stt/snowboy/resources/jarviss.pmdl"
         # boolean used to stop the snowbow listening
         self.interrupted = False
 
