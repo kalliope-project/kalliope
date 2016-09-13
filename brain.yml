@@ -1,7 +1,7 @@
 ---
   - name: "Say hello"
     neurons:
-      say: "Hello sir"
+      - say: "Hello sir"
     when:
       - order: "Say hello"
 
