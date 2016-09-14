@@ -7,4 +7,7 @@ class SystemDate(Neurone):
     def __init__(self):
         Neurone.__init__(self)
         date_now = time.strftime("%H:%M")
-        self.say(date_now)
+        hour = time.strftime("%H")
+        minute = time.strftime("%M")
+        message = "Il est %s heure %s" % (hour, minute)
+        self.say(message)

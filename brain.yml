@@ -14,7 +14,7 @@
 
   - name: "Say local date"
     neurons:
-      - system_date
+      - systemdate
     when:
       - order: "What time is it?"
     register: date_result

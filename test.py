@@ -1,4 +1,7 @@
-from core import Neurone
+from neurons import Say
+from neurons import SystemDate
 
-neurone = Neurone()
-neurone.say("oui monsieur?")
+#say_neurone = Say("oui monsieur?")
+
+
+date_neurone = SystemDate()
