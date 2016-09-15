@@ -1,3 +1,4 @@
+from core.OrderListener import OrderListener
 from stt.snowboy import snowboydecoder
 
 
@@ -10,6 +11,7 @@ class JarvisTrigger:
         self.model = "stt/snowboy/resources/jarviss.pmdl"
         # boolean used to stop the snowbow listening
         self.interrupted = False
+        self.order_listener = OrderListener()
 
     def interrupt_callback(self):
         """
@@ -24,11 +26,11 @@ class JarvisTrigger:
         :return:
         """
 
-        detector = snowboydecoder.HotwordDetector(self.model, sensitivity=0.5)
+        detector = snowboydecoder.HotwordDetector(self.model, sensitivity=0.4)
 
         # start snowboy loop
         # TODO change to callback, call a function that wait for an audio order
-        detector.start(detected_callback=snowboydecoder.play_audio_file,
+        detector.start(detected_callback=self.order_listener.hotword_detected,
                        interrupt_check=self.interrupt_callback,
                        sleep_time=0.03)
 

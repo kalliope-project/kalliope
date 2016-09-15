@@ -1,7 +1,7 @@
 from neurons import Say
 from neurons import SystemDate
 
-#say_neurone = Say("oui monsieur?")
+say_neurone = Say("oui monsieur?")
 
 
-date_neurone = SystemDate()
+#date_neurone = SystemDate()

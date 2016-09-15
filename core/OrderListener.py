@@ -1,3 +1,4 @@
+from neurons import Say
 
 
 class OrderListener:
@@ -8,3 +9,8 @@ class OrderListener:
     """
     def __init__(self):
         pass
+
+    def hotword_detected(self):
+        print "Start listening order"
+        say = Say("oui monsieur?")
+
