@@ -6,12 +6,17 @@ class JarvisTrigger:
     """
     Class used to catch the trigger word before listening for an order to process
     """
-    def __init__(self):
+    def __init__(self, main_controller):
+        """
+
+        :param main_controller: Main controller of the app
+        :type main_controller MainController
+        """
+        self.main_controller = main_controller
         # TODO update this to load the file from settings
         self.model = "stt/snowboy/resources/jarviss.pmdl"
         # boolean used to stop the snowbow listening
         self.interrupted = False
-        self.order_listener = OrderListener()
 
     def interrupt_callback(self):
         """
@@ -29,8 +34,7 @@ class JarvisTrigger:
         detector = snowboydecoder.HotwordDetector(self.model, sensitivity=0.4)
 
         # start snowboy loop
-        # TODO change to callback, call a function that wait for an audio order
-        detector.start(detected_callback=self.order_listener.hotword_detected,
+        detector.start(detected_callback=self.main_controller.get_order_listenner().hotword_detected,
                        interrupt_check=self.interrupt_callback,
                        sleep_time=0.03)
 
