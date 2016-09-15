@@ -1,5 +1,6 @@
 from core.JarvisTrigger import JarvisTrigger
 from core.OrderListener import OrderListener
+from neurons import Say
 
 
 class MainController:
@@ -21,3 +22,15 @@ class MainController:
         :return:
         """
         pass
+
+    def hotword_detected(self):
+        """
+        # we have detected the hotword, we can now pause the Jarvis Trigger for a while
+        # The user can speak out loud his order during this time.
+        :return:
+        """
+        # pause the snowboy process
+        self.pause_jarvis_trigger()
+        print "Start listening for order"
+        Say("oui monsieur?")
+        self.order_listener.start()

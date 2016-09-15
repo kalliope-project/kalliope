@@ -1,4 +1,3 @@
-from core.OrderListener import OrderListener
 from stt.snowboy import snowboydecoder
 
 
@@ -34,7 +33,7 @@ class JarvisTrigger:
         detector = snowboydecoder.HotwordDetector(self.model, sensitivity=0.4)
 
         # start snowboy loop
-        detector.start(detected_callback=self.main_controller.get_order_listenner().hotword_detected,
+        detector.start(detected_callback=self.main_controller.hotword_detected,
                        interrupt_check=self.interrupt_callback,
                        sleep_time=0.03)
 
