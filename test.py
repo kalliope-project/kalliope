@@ -1,7 +1,7 @@
-from neurons import Say
-from neurons import SystemDate
-
-say_neurone = Say("oui monsieur?")
+from core.OrderListener import OrderListener
 
 
-#date_neurone = SystemDate()
+oder = OrderListener()
+
+oder.start()
+

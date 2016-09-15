@@ -30,7 +30,7 @@ class JarvisTrigger:
         :return:
         """
 
-        detector = snowboydecoder.HotwordDetector(self.model, sensitivity=0.4)
+        detector = snowboydecoder.HotwordDetector(self.model, sensitivity=0.5)
 
         # start snowboy loop
         detector.start(detected_callback=self.main_controller.hotword_detected,
