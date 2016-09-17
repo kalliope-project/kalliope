@@ -3,7 +3,7 @@ import re
 
 
 class OrderAnalyser:
-    def __init__(self, main_controller, order):
+    def __init__(self, order, main_controller=None):
         """
         Class used to load
         :param order: spelt order
@@ -28,19 +28,20 @@ class OrderAnalyser:
                     print "Order found! Run neurons: %s" % el["neurons"]
                     neurons = el["neurons"]
                     for neuron in neurons:
-                        for plugin, parameter in neuron.items():
+                        if isinstance(neuron, dict):
+                            for plugin, parameter in neuron.items():
+                                # capitalizes the first letter (because classes have first letter upper case)
+                                plugin = plugin.capitalize()
+                                self._run_plugin(plugin, parameter)
+                        else:
+                            plugin = neuron
                             # capitalizes the first letter (because classes have first letter upper case)
                             plugin = plugin.capitalize()
-                            print "Run plugin %s with parameter %s" % (plugin, parameter)
-                            mod = __import__('neurons', fromlist=[plugin])
-                            klass = getattr(mod, plugin)
-                            # run the plugin
-                            if not parameter:
-                                klass()
-                            else:
-                                klass(parameter)
-                            # once we ran all plugin, we can start back jarvis triger
-                            self.main_controller.unpause_jarvis_trigger()
+                            self._run_plugin(plugin)
+
+        # once we ran all plugin, we can start back jarvis trigger
+        if self.main_controller is not None:
+            self.main_controller.unpause_jarvis_trigger()
 
     def _spelt_order_match_brain_order(self, order_to_test):
         """
@@ -52,5 +53,15 @@ class OrderAnalyser:
 
         if re.search(my_regex, self.order, re.IGNORECASE):
             return True
+
+    def _run_plugin(self, plugin, parameter=None):
+        print "Run plugin %s with parameter %s" % (plugin, parameter)
+        mod = __import__('neurons', fromlist=[plugin])
+        klass = getattr(mod, plugin)
+        # run the plugin
+        if not parameter:
+            klass()
+        else:
+            klass(parameter)
 
 

@@ -44,5 +44,5 @@ class MainController:
         Receive an order, try to retreive it in the brain.yml to launch to attached plugins
         :return:
         """
-        order_analyser = OrderAnalyser(self, order)
+        order_analyser = OrderAnalyser(order, main_controller=self)
         order_analyser.start()

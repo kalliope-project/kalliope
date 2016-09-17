@@ -14,7 +14,7 @@
 
   - name: "Say local date"
     neurons:
-      - systemdate: ""
+      - systemdate
     when:
       - order: "quelle heure"
 
