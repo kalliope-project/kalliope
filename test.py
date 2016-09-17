@@ -10,9 +10,10 @@ from core.OrderListener import OrderListener
 # order = "quelle heure est il?"
 
 # test run script
-order = "lance script jarvis"
+# order = "lance script jarvis"
 
-
+# run command
+order = "ferme les volets"
 order_analyser = OrderAnalyser(order)
 
 order_analyser.start()

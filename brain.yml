@@ -18,3 +18,18 @@
     when:
       - order: "quelle heure"
 
+  - name: "Close rolling shutter"
+    neurons:
+      - command: "curl http://192.168.0.22:5000/fermeture -d \"password=monpass\" -X POST"
+      - say: "Fermeture en cours, monsieur"
+    when:
+      - order: "ferme les volets"
+
+  - name: "Open rolling shutter"
+    neurons:
+      - command: "curl http://192.168.0.22:5000/ouverture -d \"password=monpass\" -X POST"
+      - say: "Ouverture en cours, monsieur"
+    when:
+      - order: "ouvre les volets"
+
+
