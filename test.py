@@ -1,7 +1,13 @@
+from core.OrderAnalyser import OrderAnalyser
 from core.OrderListener import OrderListener
 
+#
+# oder = OrderListener()
+#
+# oder.start()
 
-oder = OrderListener()
+order = "jarvis dit bonjour s'il te plait"
+order_analyser = OrderAnalyser(order)
 
-oder.start()
+order_analyser.start()
 

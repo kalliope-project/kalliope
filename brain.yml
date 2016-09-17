@@ -1,9 +1,9 @@
 ---
   - name: "Say hello"
     neurons:
-      - say: "Hello sir"
+      - Say: "Bonjour monsieur"
     when:
-      - order: "Say hello"
+      - order: "dis bonjour"
 
   - name: "Run a simple script"
     neurons:
@@ -17,9 +17,4 @@
       - systemdate
     when:
       - order: "What time is it?"
-    register: date_result
 
-  - name: "Run when date"
-    neurons:
-      - say: "It is late, sir?"
-    when: date_result

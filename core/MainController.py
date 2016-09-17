@@ -1,4 +1,5 @@
 from core.JarvisTrigger import JarvisTrigger
+from core.OrderAnalyser import OrderAnalyser
 from core.OrderListener import OrderListener
 from neurons import Say
 
@@ -34,3 +35,11 @@ class MainController:
         print "Start listening for order"
         Say("oui monsieur?")
         self.order_listener.start()
+
+    def analyse_order(self, order):
+        """
+        Receive an order, try to retreive it in the brain.yml to launch to attached plugins
+        :return:
+        """
+        order_analyser = OrderAnalyser(order)
+        order_analyser.start()

@@ -31,7 +31,9 @@ class OrderListener:
             # for testing purposes, we're just using the default API key
             # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
             # instead of `r.recognize_google(audio)`
-            print("Google Speech Recognition thinks you said " + r.recognize_google(audio, key=None, language="fr-FR"))
+            captured_audio = r.recognize_google(audio, key=None, language="fr-FR")
+            print "Google Speech Recognition thinks you said %s" % captured_audio
+            self.main_controller.analyse_order(captured_audio)
         except sr.UnknownValueError:
             print("Google Speech Recognition could not understand audio")
         except sr.RequestError as e:
