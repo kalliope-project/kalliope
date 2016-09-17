@@ -1,5 +1,4 @@
 from Utils import *
-import importlib
 import re
 
 
@@ -28,12 +27,16 @@ class OrderAnalyser:
                     neurons = el["neurons"]
                     for neuron in neurons:
                         for plugin, parameter in neuron.items():
+                            # capitalizes the first letter (because classes have first letter upper case)
+                            plugin = plugin.capitalize()
                             print "Run plugin %s with parameter %s" % (plugin, parameter)
                             mod = __import__('neurons', fromlist=[plugin])
                             klass = getattr(mod, plugin)
                             # run the plugin
-                            klass(parameter)
-
+                            if not parameter:
+                                klass()
+                            else:
+                                klass(parameter)
 
     def _spelt_order_match_brain_order(self, order_to_test):
         """

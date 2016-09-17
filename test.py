@@ -6,7 +6,7 @@ from core.OrderListener import OrderListener
 #
 # oder.start()
 
-order = "jarvis dit bonjour s'il te plait"
+order = "quelle heure est il?"
 order_analyser = OrderAnalyser(order)
 
 order_analyser.start()

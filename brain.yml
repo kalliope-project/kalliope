@@ -1,7 +1,7 @@
 ---
   - name: "Say hello"
     neurons:
-      - Say: "Bonjour monsieur"
+      - say: "Bonjour monsieur"
     when:
       - order: "dis bonjour"
 
@@ -14,7 +14,7 @@
 
   - name: "Say local date"
     neurons:
-      - systemdate
+      - systemdate: ""
     when:
-      - order: "What time is it?"
+      - order: "quelle heure"
 

@@ -3,7 +3,7 @@ import time
 from core import Neurone
 
 
-class SystemDate(Neurone):
+class Systemdate(Neurone):
     def __init__(self):
         Neurone.__init__(self)
         date_now = time.strftime("%H:%M")
