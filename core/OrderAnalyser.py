@@ -3,11 +3,13 @@ import re
 
 
 class OrderAnalyser:
-    def __init__(self, order):
+    def __init__(self, main_controller, order):
         """
         Class used to load
-        :param order:
+        :param order: spelt order
+        :param main_controller
         """
+        self.main_controller = main_controller
         self.order = order
         self.brain = get_brain()
         print "Receiver order: %s" % self.order
@@ -37,6 +39,8 @@ class OrderAnalyser:
                                 klass()
                             else:
                                 klass(parameter)
+                            # once we ran all plugin, we can start back jarvis triger
+                            self.main_controller.unpause_jarvis_trigger()
 
     def _spelt_order_match_brain_order(self, order_to_test):
         """

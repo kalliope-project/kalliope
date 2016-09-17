@@ -40,9 +40,12 @@ class JarvisTrigger:
         # we wait that a callback
         detector.terminate()
 
-    def stop(self):
+    def pause(self):
         """
         Stop the Snowboy main thread
         :return:
         """
         self.interrupted = True
+
+    def unpause(self):
+        self.interrupted = False

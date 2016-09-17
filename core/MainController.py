@@ -22,7 +22,10 @@ class MainController:
         The hotwork to wake up jarvis has been detected, we pause the snowboy process
         :return:
         """
-        pass
+        self.jarvis_triger.pause()
+
+    def unpause_jarvis_trigger(self):
+        self.jarvis_triger.unpause()
 
     def hotword_detected(self):
         """
@@ -41,5 +44,5 @@ class MainController:
         Receive an order, try to retreive it in the brain.yml to launch to attached plugins
         :return:
         """
-        order_analyser = OrderAnalyser(order)
+        order_analyser = OrderAnalyser(self, order)
         order_analyser.start()
