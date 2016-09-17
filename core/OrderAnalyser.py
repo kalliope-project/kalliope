@@ -55,6 +55,12 @@ class OrderAnalyser:
             return True
 
     def _run_plugin(self, plugin, parameter=None):
+        """
+        Dynamic loading of a module
+        :param plugin: Module name to load
+        :param parameter: Parameter of the module
+        :return:
+        """
         print "Run plugin %s with parameter %s" % (plugin, parameter)
         mod = __import__('neurons', fromlist=[plugin])
         klass = getattr(mod, plugin)

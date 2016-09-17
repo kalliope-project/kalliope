@@ -7,10 +7,10 @@
 
   - name: "Run a simple script"
     neurons:
-      - script: /some/local/script.sh --some-arguments 1234
-      - say: "Script launched sir"
+      - script: "/home/nico/test.sh"
+      - say: "Script lancé, monsieur"
     when:
-      - order: "Run script"
+      - order: "lance le script"
 
   - name: "Say local date"
     neurons:

@@ -6,7 +6,13 @@ from core.OrderListener import OrderListener
 #
 # oder.start()
 
-order = "quelle heure est il?"
+# test give hour
+# order = "quelle heure est il?"
+
+# test run script
+order = "lance script jarvis"
+
+
 order_analyser = OrderAnalyser(order)
 
 order_analyser.start()
