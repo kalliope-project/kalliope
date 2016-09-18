@@ -13,7 +13,7 @@ class JarvisTrigger:
         """
         self.main_controller = main_controller
         # TODO update this to load the file from settings
-        self.model = "stt/snowboy/resources/jarviss.pmdl"
+        self.model = "stt/snowboy/resources/GlaDOS.pmdl"
         # boolean used to stop the snowbow listening
         self.interrupted = False
 

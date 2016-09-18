@@ -13,8 +13,10 @@ from core.OrderListener import OrderListener
 # order = "lance script jarvis"
 
 # run command
-order = "ferme les volets"
-order_analyser = OrderAnalyser(order)
+# order = "ferme les volets"
+# order_analyser = OrderAnalyser(order)
+#
+# order_analyser.start()
 
-order_analyser.start()
+
 
