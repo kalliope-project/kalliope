@@ -32,4 +32,35 @@
     when:
       - order: "ouvre les volets"
 
+  - name: "Start steam"
+    neurons:
+      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"kodi\",\"state\":\"stop\"}' http://192.168.0.17:5000/app"
+      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"steam\",\"state\":\"start\"}' http://192.168.0.17:5000/app"
+      - say: "Lancement en cours, monsieur"
+    when:
+      - order: "lance steam"
 
+  - name: "Start Kodi"
+    neurons:
+      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"steam\",\"state\":\"stop\"}' http://192.168.0.17:5000/app"
+      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"kodi\",\"state\":\"start\"}' http://192.168.0.17:5000/app"
+      - say: "Lancement en cours, monsieur"
+    when:
+      - order: "lance Cody"
+
+  - name: "Start music"
+    neurons:
+      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"start\"}' http://192.168.0.17:5000/app"
+      - say: "Musique lancée, monsieur"
+    when:
+      - order: "mais nous de la musique"
+      - order: "musique rock"
+
+  - name: "Stop music"
+    neurons:
+      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"stop\"}' http://192.168.0.17:5000/app"
+      - say: "Musique stoppé, monsieur"
+    when:
+      - order: "arrête la musique"
+      - order: "stop la musique"
+      - order: "éteins la musique"
