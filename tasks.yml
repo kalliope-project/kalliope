@@ -1,0 +1,25 @@
+---
+- name: Playbook
+  hosts: localhost
+  gather_facts: no
+  connection: local
+
+  tasks:
+    - shell: /usr/bin/uptime
+      register: shell_out
+
+    - debug: msg="{{ shell_out.stdout }}"
+
+
+    - name: "Call api"
+      uri:
+          url: "http://192.168.0.17:8000/app"
+          HEADER_Content-Type: "application/json"
+          method: POST
+          user: admin
+          password: secret
+          force_basic_auth: yes
+          status_code: 201
+          body_format: json
+          body: >
+            {"app_name": "music", "state": "stop"}

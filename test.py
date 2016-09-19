@@ -13,10 +13,14 @@ from core.OrderListener import OrderListener
 # order = "lance script jarvis"
 
 # run command
-# order = "ferme les volets"
-# order_analyser = OrderAnalyser(order)
+order = "playbook"
+order_analyser = OrderAnalyser(order)
+
+order_analyser.start()
+# from neurons.ansible_tasks.ansible_tasks import Ansible_tasks
 #
-# order_analyser.start()
+# tasks_file = "tasks.yml"
+# ansible_tasks = Ansible_tasks(tasks_file)
 
 
 

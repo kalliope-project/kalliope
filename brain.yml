@@ -64,3 +64,10 @@
       - order: "arrête la musique"
       - order: "stop la musique"
       - order: "éteins la musique"
+
+  - name: "Ansible test"
+    neurons:
+      - ansible_tasks: "tasks.yml"
+      - say: "Tache terminée"
+    when:
+      - order: "playbook"
