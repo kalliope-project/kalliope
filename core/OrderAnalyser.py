@@ -10,7 +10,7 @@ class OrderAnalyser:
         """
         self.main_controller = main_controller
         self.order = order
-        self.brain = main_controller.conf.brainLoader.get_config() # Bouh ! pas beau !
+        self.brain = main_controller.conf.brainLoader.get_config()
         print "Receiver order: %s" % self.order
 
     def start(self):
