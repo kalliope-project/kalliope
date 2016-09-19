@@ -1,11 +1,16 @@
 from core.JarvisTrigger import JarvisTrigger
 from core.OrderAnalyser import OrderAnalyser
 from core.OrderListener import OrderListener
+from core.ConfigurationManager.ConfigurationManager import ConfigurationManager
+
 from neurons import Say
 
 
 class MainController:
     def __init__(self):
+        # Manage Global Configuration
+        self.conf = ConfigurationManager()
+
         # create an order listener object
         self.order_listener = OrderListener(self)
         # Wait that the jarvis trigger is pronounced by the user

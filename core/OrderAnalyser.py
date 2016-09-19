@@ -1,4 +1,3 @@
-from Utils import *
 import re
 
 
@@ -11,7 +10,7 @@ class OrderAnalyser:
         """
         self.main_controller = main_controller
         self.order = order
-        self.brain = get_brain()
+        self.brain = main_controller.conf.brainLoader.get_config() # Bouh ! pas beau !
         print "Receiver order: %s" % self.order
 
     def start(self):
