@@ -1,14 +1,17 @@
 ---
   - name: "Say hello"
     neurons:
-      - say: "Bonjour monsieur"
+      - say:
+          message: "Bonjour monsieur"
     when:
       - order: "dis bonjour"
 
   - name: "Run a simple script"
     neurons:
-      - script: "/home/nico/test.sh"
-      - say: "Script lancé, monsieur"
+      - script:
+        path: "/home/nico/test.sh"
+      - say:
+          message: "Script lancé, monsieur"
     when:
       - order: "lance le script"
 
@@ -21,14 +24,16 @@
   - name: "Close rolling shutter"
     neurons:
       - command: "curl http://192.168.0.22:5000/fermeture -d \"password=monpass\" -X POST"
-      - say: "Fermeture en cours, monsieur"
+      - say:
+          message: "Fermeture en cours, monsieur"
     when:
       - order: "ferme les volets"
 
   - name: "Open rolling shutter"
     neurons:
       - command: "curl http://192.168.0.22:5000/ouverture -d \"password=monpass\" -X POST"
-      - say: "Ouverture en cours, monsieur"
+      - say:
+          message: "Ouverture en cours, monsieur"
     when:
       - order: "ouvre les volets"
 
@@ -36,7 +41,8 @@
     neurons:
       - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"kodi\",\"state\":\"stop\"}' http://192.168.0.17:5000/app"
       - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"steam\",\"state\":\"start\"}' http://192.168.0.17:5000/app"
-      - say: "Lancement en cours, monsieur"
+      - say:
+          message: "Lancement en cours, monsieur"
     when:
       - order: "lance steam"
 
@@ -44,14 +50,16 @@
     neurons:
       - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"steam\",\"state\":\"stop\"}' http://192.168.0.17:5000/app"
       - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"kodi\",\"state\":\"start\"}' http://192.168.0.17:5000/app"
-      - say: "Lancement en cours, monsieur"
+      - say:
+          message: "Lancement en cours, monsieur"
     when:
       - order: "lance Cody"
 
   - name: "Start music"
     neurons:
       - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"start\"}' http://192.168.0.17:5000/app"
-      - say: "Musique lancée, monsieur"
+      - say:
+          message: "Musique lancée, monsieur"
     when:
       - order: "mais nous de la musique"
       - order: "musique rock"
@@ -59,7 +67,8 @@
   - name: "Stop music"
     neurons:
       - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"stop\"}' http://192.168.0.17:5000/app"
-      - say: "Musique stoppé, monsieur"
+      - say:
+          message: "Musique stoppé, monsieur"
     when:
       - order: "arrête la musique"
       - order: "stop la musique"
@@ -68,6 +77,7 @@
   - name: "Ansible test"
     neurons:
       - ansible_tasks: "tasks.yml"
-      - say: "Tache terminée"
+      - say:
+          message: "Tache terminée"
     when:
       - order: "playbook"

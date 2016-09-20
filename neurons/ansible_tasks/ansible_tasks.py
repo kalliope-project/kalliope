@@ -1,13 +1,10 @@
-#!/usr/bin/env python
-
 from collections import namedtuple
 from ansible.parsing.dataloader import DataLoader
 from ansible.vars import VariableManager
 from ansible.inventory import Inventory
-from ansible.playbook import Playbook
 from ansible.executor.playbook_executor import PlaybookExecutor
 
-from core import Neurone
+from neurons import Neurone
 
 
 class Ansible_tasks(Neurone):

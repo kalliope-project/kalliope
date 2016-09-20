@@ -1,0 +1,17 @@
+---
+# JARVIS default settings
+# Use YAML syntax
+
+# This is the snowboy hotword file used to wake up jarvis and listen for a new order
+jarvis_trigger: "jarviss.pmdl"
+
+# Default Spreech to Text engine
+# Available engine are:
+# - google
+# -
+default_stt: "google"
+
+# Default Text to Spreech engine
+# Available engine are:
+# - pico2wave
+default_tts: "pico2wave"

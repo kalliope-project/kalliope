@@ -1,4 +1,4 @@
-from core import Neurone
+from neurons import Neurone
 
 
 class Say(Neurone):

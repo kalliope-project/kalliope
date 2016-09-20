@@ -13,7 +13,3 @@ class Neurone:
         tts_backend = importlib.import_module("tts." + self.tts)
         tts_backend.say(message)
 
-    def debug_kwargs(self, *args, **kwargs):
-        if kwargs is not None:
-            for key, value in kwargs.iteritems():
-                print "%s == %s" % (key, value)

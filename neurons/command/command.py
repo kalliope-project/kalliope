@@ -1,5 +1,6 @@
-from core import Neurone
 import subprocess
+
+from neurons import Neurone
 
 
 class Command(Neurone):

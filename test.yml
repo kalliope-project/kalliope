@@ -1,7 +1,10 @@
 ---
   - name: "Say hello"
     neurons:
+      - command: "/home/nico/tmp/test.sh"
       - systemdate
+      - say:
+          message: "Commande terminée"
 
     when:
       - order: "dis bonjour"

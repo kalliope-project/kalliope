@@ -4,7 +4,7 @@ apt-get install libtts-pico-utils
 ```
 
 
-instal flac
+install audio utils
 ```
 apt-get install flac
 ```
@@ -13,4 +13,5 @@ Python lib
 ```
 pip install SpeechRecognition
 pip install pyaudio
+pip install ansible
 ```
