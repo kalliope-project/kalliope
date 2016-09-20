@@ -1,5 +1,7 @@
 import re
 
+from core.NeuroneLauncher import NeuroneLauncher
+
 
 class OrderAnalyser:
     def __init__(self, order, main_controller=None):
@@ -27,16 +29,7 @@ class OrderAnalyser:
                     print "Order found! Run neurons: %s" % el["neurons"]
                     neurons = el["neurons"]
                     for neuron in neurons:
-                        if isinstance(neuron, dict):
-                            for plugin, parameter in neuron.items():
-                                # capitalizes the first letter (because classes have first letter upper case)
-                                plugin = plugin.capitalize()
-                                self._run_plugin(plugin, parameter)
-                        else:
-                            plugin = neuron
-                            # capitalizes the first letter (because classes have first letter upper case)
-                            plugin = plugin.capitalize()
-                            self._run_plugin(plugin)
+                        NeuroneLauncher().start_neurone(neuron)
 
         # once we ran all plugin, we can start back jarvis trigger
         if self.main_controller is not None:
@@ -52,21 +45,6 @@ class OrderAnalyser:
 
         if re.search(my_regex, self.order, re.IGNORECASE):
             return True
-
-    def _run_plugin(self, plugin, parameter=None):
-        """
-        Dynamic loading of a module
-        :param plugin: Module name to load
-        :param parameter: Parameter of the module
-        :return:
-        """
-        print "Run plugin %s with parameter %s" % (plugin, parameter)
-        mod = __import__('neurons', fromlist=[plugin])
-        klass = getattr(mod, plugin)
-        # run the plugin
-        if not parameter:
-            klass()
-        else:
-            klass(parameter)
+        return False
 
 

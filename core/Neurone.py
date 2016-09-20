@@ -12,3 +12,8 @@ class Neurone:
         # the module is imported on fly, depending on the selected tts from settings
         tts_backend = importlib.import_module("tts." + self.tts)
         tts_backend.say(message)
+
+    def debug_kwargs(self, *args, **kwargs):
+        if kwargs is not None:
+            for key, value in kwargs.iteritems():
+                print "%s == %s" % (key, value)

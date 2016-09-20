@@ -1,0 +1,8 @@
+---
+  - name: "Say hello"
+    neurons:
+      - systemdate
+
+    when:
+      - order: "dis bonjour"
+
