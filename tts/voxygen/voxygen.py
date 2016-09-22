@@ -1,8 +1,10 @@
-import sha
+import hashlib
 import os
+import shutil
 
 import pygame
 import requests
+import logging
 
 VOXYGEN_LANGUAGES = {
     "fr" : {"electra":"Electra","emma":"Emma","becool":"Becool","agnes":"Agnes","loic":"Loic","fabienne":"Fabienne","helene":"Helene","marion":"Marion","matteo":"Matteo","melodine":"Melodine","mendoo":"Mendoo","michel":"Michel","moussa":"Moussa","philippe":"Philippe","sorciere":"Sorciere"},
@@ -14,14 +16,15 @@ VOXYGEN_LANGUAGES = {
     "it" : {"sonia":"Sonia"}
 }
 
+CACHE_PATH = "/tmp/jarvis/tts/voxygen/"
+
 def say(words=None, voice=None, language=None, cache=None):
-    path = "/tmp/jarvis/tts/voxygen/"
-    if not os.path.exists(path):
-        os.makedirs(path)
+    if not os.path.exists(CACHE_PATH):
+        os.makedirs(CACHE_PATH)
 
-    sha1 = sha.new(words).hexdigest()
+    sha1 = hashlib.sha1(words).hexdigest()
 
-    tempfile = path+voice+"."+sha1+".tts"
+    tempfile = CACHE_PATH+voice+"."+sha1+".tts"
 
     get_audio(voice,words,tempfile,cache)
 
@@ -67,3 +70,7 @@ def get_voice(voice=None, language=None):
 
     logging.debug("Cannot find language maching language: %s voice: %s",language,voice)
     return ""
+
+def wipe_cache():
+    shutil.rmtree(CACHE_PATH)
+
