@@ -19,7 +19,7 @@ VOXYGEN_LANGUAGES = dict(
 CACHE_PATH = "/tmp/jarvis/tts/voxygen/"
 
 
-def say(words=None, voice=None, language=None, cache=False):
+def say(words=None, voice=None, language=None, cache=None):
     if not os.path.exists(CACHE_PATH):
         os.makedirs(CACHE_PATH)
 
