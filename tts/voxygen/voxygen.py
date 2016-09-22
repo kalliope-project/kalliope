@@ -6,17 +6,18 @@ import pygame
 import requests
 import logging
 
-VOXYGEN_LANGUAGES = {
-    "fr" : {"electra":"Electra","emma":"Emma","becool":"Becool","agnes":"Agnes","loic":"Loic","fabienne":"Fabienne","helene":"Helene","marion":"Marion","matteo":"Matteo","melodine":"Melodine","mendoo":"Mendoo","michel":"Michel","moussa":"Moussa","philippe":"Philippe","sorciere":"Sorciere"},
-    "ar" : {"adel":"Adel"},
-    "de" : {"matthias":"Matthias","jylvia":"Sylvia"},
-    "uk" : {"bronwen":"Bronwen","elizabeth":"elizabeth","judith":"Judith","paul":"Paul","witch":"Witch"},
-    "us" : {"bruce":"Bruce","jenny":"Jenny"},
-    "es" : {"martha":"Martha"},
-    "it" : {"sonia":"Sonia"}
-}
+VOXYGEN_LANGUAGES = dict(
+    fr=dict(electra="Electra", emma="Emma", becool="Becool", agnes="Agnes", loic="Loic", fabienne="Fabienne", helene="Helene", marion="Marion", matteo="Matteo",
+            melodine="Melodine", mendoo="Mendoo", michel="Michel", moussa="Moussa", philippe="Philippe", sorciere="Sorciere"),
+    ar=dict(adel="Adel"),
+    de=dict(matthias="Matthias", jylvia="Sylvia"),
+    uk=dict(bronwen="Bronwen", elizabeth="elizabeth", judith="Judith", paul="Paul", witch="Witch"),
+    us=dict(bruce="Bruce", jenny="Jenny"),
+    es=dict(martha="Martha"),
+    it=dict(sonia="Sonia"))
 
 CACHE_PATH = "/tmp/jarvis/tts/voxygen/"
+
 
 def say(words=None, voice=None, language=None, cache=None):
     if not os.path.exists(CACHE_PATH):
@@ -24,29 +25,31 @@ def say(words=None, voice=None, language=None, cache=None):
 
     sha1 = hashlib.sha1(words).hexdigest()
 
-    tempfile = CACHE_PATH+voice+"."+sha1+".tts"
+    tempfile = CACHE_PATH + voice + "." + sha1 + ".tts"
 
-    get_audio(voice,words,tempfile,cache)
+    get_audio(voice, words, tempfile, cache)
 
     play_audio(tempfile)
 
     if not cache:
         os.remove(tempfile)
 
-def get_audio(voice, text, filepath,cache):
+
+def get_audio(voice, text, filepath, cache):
     if not cache or not os.path.exists(filepath):
-        payload ={
-            "method" : "redirect",
-            "text" : text.encode('utf8'),
-            "voice" : voice
+        payload = {
+            "method": "redirect",
+            "text": text.encode('utf8'),
+            "voice": voice
         }
 
         r = requests.get("https://www.voxygen.fr/sites/all/modules/voxygen_voices/assets/proxy/index.php", params=payload, stream=True)
-        logging.debug("Trying to get url: %s response code: %s",r.url,r.status_code)
+        logging.debug("Trying to get url: %s response code: %s", r.url, r.status_code)
 
-        if r.status_code==200:
+        if r.status_code == 200:
             with open(os.path.abspath(filepath), "wb") as sound_file:
                 sound_file.write(r.content)
+
 
 def play_audio(music_file, volume=0.8):
     pygame.mixer.init(16000, -16, 1, 2048)
@@ -63,13 +66,15 @@ def play_audio(music_file, volume=0.8):
     while pygame.mixer.music.get_busy():
         clock.tick(10)
 
+
 def get_voice(voice=None, language=None):
     if language in VOXYGEN_LANGUAGES:
         if voice in VOXYGEN_LANGUAGES[language]:
             return VOXYGEN_LANGUAGES[language][voice]
 
-    logging.debug("Cannot find language maching language: %s voice: %s",language,voice)
+    logging.debug("Cannot find language maching language: %s voice: %s", language, voice)
     return ""
+
 
 def wipe_cache():
     shutil.rmtree(CACHE_PATH)
