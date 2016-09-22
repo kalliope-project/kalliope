@@ -2,13 +2,11 @@ import speech_recognition as sr
 from core.OrderListener import OrderListener
 
 
-class GoogleSpeechRecognition(OrderListener):
+class Google(OrderListener):
 
-    def __init__(self, main_controller=None):
+    def __init__(self, main_controller=None, **kwargs):
         OrderListener.__init__(self, main_controller)
-        self.listen()
 
-    def listen(self):
         """
         Start recording the microphone
         :return:
@@ -26,7 +24,12 @@ class GoogleSpeechRecognition(OrderListener):
             # for testing purposes, we're just using the default API key
             # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
             # instead of `r.recognize_google(audio)`
-            captured_audio = r.recognize_google(audio, key=None, language="fr-FR")
+
+            key = kwargs.get('key', None)
+            language = kwargs.get('language', "en-US")
+            show_all = kwargs.get('show_all', False)
+
+            captured_audio = r.recognize_google(audio, key=key, language=language, show_all=show_all)
             print "Google Speech Recognition thinks you said %s" % captured_audio
             self._analyse_audio(captured_audio)
 

@@ -42,7 +42,7 @@ class MainController:
         self.pause_jarvis_trigger()
         print "Start listening for order"
         Say("oui monsieur?")
-        self.order_listener.start()
+        self.order_listener.loadSTTPlugin()
 
     def analyse_order(self, order):
         """
