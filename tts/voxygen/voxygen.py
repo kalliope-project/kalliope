@@ -17,6 +17,10 @@ VOXYGEN_LANGUAGES = dict(
     it=dict(sonia="Sonia"))
 
 CACHE_PATH = "/tmp/jarvis/tts/voxygen/"
+AUDIO_FREQUENCY = 16000
+AUDIO_SIZE = -16
+AUDIO_CHANNEL = 1
+AUDIO_BUFFER = 2048
 
 
 def say(words=None, voice=None, language=None, cache=None):
@@ -34,7 +38,7 @@ def say(words=None, voice=None, language=None, cache=None):
     play_audio(tempfile)
 
     if not cache:
-        os.remove(tempfile)
+        remove_file(tempfile)
 
 
 def get_audio(voice, text, filepath, cache):
@@ -54,14 +58,14 @@ def get_audio(voice, text, filepath, cache):
 
 
 def play_audio(music_file, volume=0.8):
-    pygame.mixer.init(16000, -16, 1, 2048)
+    pygame.mixer.init(AUDIO_FREQUENCY, AUDIO_SIZE, AUDIO_CHANNEL, AUDIO_BUFFER)
     pygame.mixer.music.set_volume(volume)
     clock = pygame.time.Clock()
     try:
         pygame.mixer.music.load(music_file)
         logging.debug("Music file {} loaded!".format(music_file))
     except pygame.error:
-        os.remove(music_file)
+        remove_file(music_file)
         logging.debug("File {} not found! ({})".format(music_file, pygame.get_error()))
         return
     pygame.mixer.music.play()
@@ -76,6 +80,11 @@ def get_voice(voice=None, language=None):
 
     logging.debug("Cannot find language maching language: %s voice: %s", language, voice)
     return ""
+
+
+def remove_file(path):
+    if os.path.exists(path):
+        os.remove(path)
 
 
 def wipe_cache():
