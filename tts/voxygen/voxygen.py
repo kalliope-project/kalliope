@@ -19,11 +19,13 @@ VOXYGEN_LANGUAGES = dict(
 CACHE_PATH = "/tmp/jarvis/tts/voxygen/"
 
 
-def say(words=None, voice=None, language=None, cache=None):
+def say(words=None, voice=None, language=None, cache=False):
     if not os.path.exists(CACHE_PATH):
         os.makedirs(CACHE_PATH)
 
     sha1 = hashlib.sha1(words).hexdigest()
+
+    voice = get_voice(voice, language)
 
     tempfile = CACHE_PATH + voice + "." + sha1 + ".tts"
 
