@@ -52,9 +52,16 @@ def get_audio(voice, text, filepath, cache):
         r = requests.get("https://www.voxygen.fr/sites/all/modules/voxygen_voices/assets/proxy/index.php", params=payload, stream=True)
         logging.debug("Trying to get url: %s response code: %s", r.url, r.status_code)
 
-        if r.status_code == 200:
-            with open(os.path.abspath(filepath), "wb") as sound_file:
-                sound_file.write(r.content)
+        try:
+            if r.status_code == 200:
+                with open(os.path.abspath(filepath), "w") as sound_file:
+                    sound_file.write(r.content)
+        except IOError as e:
+            print "I/O error({0}): {1}".format(e.errno, e.strerror)
+        except ValueError:
+            print "Could not convert data to an integer."
+        except:
+            print "Unexpected error:", sys.exc_info()[0]
 
 
 def play_audio(music_file, volume=0.8):
