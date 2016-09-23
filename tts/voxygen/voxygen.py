@@ -125,7 +125,7 @@ def remove_file(file_path):
 
 
 def write_in_file(file_path, content):
-    with open(file_path, "w") as file_open:
+    with open(file_path, "wb") as file_open:
         file_open.write(content)
         file_open.close()
 
