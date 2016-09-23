@@ -27,12 +27,10 @@ AUDIO_CHANNEL = 1
 AUDIO_BUFFER = 2048
 
 
-def say(words=None, voice=None, language=None, cache=None):
-    create_directory()
-
+def say(words=None, voice=None, language="default", cache=None):
     voice = get_voice(voice, language)
 
-    file_path = get_file_path(words,voice,language)
+    file_path = get_file_path(words, voice, language)
 
     get_audio(voice, words, file_path, cache)
 
@@ -44,14 +42,15 @@ def say(words=None, voice=None, language=None, cache=None):
 def get_file_path(words, voice, language):
     sha1 = hashlib.sha1(words).hexdigest()
     filename = voice + "." + sha1 + CACHE_EXTENSION
-    file_path = os.path.join(CACHE_PATH, filename)
+    cache_directory = os.path.join(CACHE_PATH, language)
+    file_path = os.path.join(cache_directory, filename)
+    create_directory(cache_directory)
     return file_path
 
 
-def get_voice(voice=None, language=None):
-    if language in VOXYGEN_LANGUAGES:
-        if voice in VOXYGEN_LANGUAGES[language]:
-            return VOXYGEN_LANGUAGES[language][voice]
+def get_voice(voice, language):
+    if language in VOXYGEN_LANGUAGES and voice in VOXYGEN_LANGUAGES[language]:
+        return VOXYGEN_LANGUAGES[language][voice]
 
     logging.debug("Cannot find language matching language: %s voice: %s replace by default voice: %s", language, voice, VOXYGEN_LANGUAGE_DEFAULT)
     return VOXYGEN_LANGUAGE_DEFAULT
@@ -70,30 +69,39 @@ def get_audio(voice, text, file_path, cache):
 
         try:
             if r.status_code == 200:
-                with open(file_path, "w") as sound_file:
-                    sound_file.write(r.content)
+                write_in_file(file_path, r.content)
         except IOError as e:
-            print("I/O error({0}): {1}".format(e.errno, e.strerror))
+            print("I/O error(%s): %s", e.errno, e.strerror)
         except ValueError:
             print("Could not convert data to an integer.")
         except:
-            print("Unexpected error:", sys.exc_info()[0])
+            print("Unexpected error: %s", sys.exc_info()[0])
 
 
 def play_audio(music_file, volume=0.8):
-    pygame.mixer.init(AUDIO_FREQUENCY, AUDIO_SIZE, AUDIO_CHANNEL, AUDIO_BUFFER)
-    pygame.mixer.music.set_volume(volume)
-    clock = pygame.time.Clock()
     try:
-        pygame.mixer.music.load(music_file)
+        init_player_audio(music_file, volume)
         logging.debug("Music file %s loaded!", music_file)
     except pygame.error:
         remove_file(music_file)
-        logging.debug("File %s not found! (%s)",music_file, pygame.get_error())
+        logging.debug("File %s not found! (%s)", music_file, pygame.get_error())
         return
+
+    start_player_audio()
+
+
+def init_player_audio(music_file, volume):
+    pygame.mixer.init(AUDIO_FREQUENCY, AUDIO_SIZE, AUDIO_CHANNEL, AUDIO_BUFFER)
+    pygame.mixer.music.set_volume(volume)
+    pygame.mixer.music.load(music_file)
+
+
+def start_player_audio():
     pygame.mixer.music.play()
+    clock = pygame.time.Clock()
     while pygame.mixer.music.get_busy():
         clock.tick(10)
+    return
 
 
 def remove_temp_file(file_path, cache):
@@ -101,14 +109,19 @@ def remove_temp_file(file_path, cache):
         remove_file(file_path)
 
 
-def remove_file(path):
-    if os.path.exists(path):
-        os.remove(path)
+def remove_file(file_path):
+    if os.path.exists(file_path):
+        os.remove(file_path)
 
 
-def create_directory():
-    if not os.path.exists(CACHE_PATH):
-        os.makedirs(CACHE_PATH)
+def write_in_file(file_path, content):
+    with open(file_path, "w") as file_open:
+        file_open.write(content)
+
+
+def create_directory(cache_path):
+    if not os.path.exists(cache_path):
+        os.makedirs(cache_path)
 
 
 def wipe_cache():
