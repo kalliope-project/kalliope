@@ -20,6 +20,7 @@ VOXYGEN_VOICE_DEFAULT = "Michel"
 VOXYGEN_LANGUAGES_DEFAULT = "default"
 VOXYGEN_URL = "https://www.voxygen.fr/sites/all/modules/voxygen_voices/assets/proxy/index.php"
 VOXYGEN_CONTENT_TYPE = "audio/mpeg"
+VOXYGEN_TIMEOUT_SEC = 30
 
 CACHE_PATH = "/tmp/jarvis/tts/voxygen"
 CACHE_EXTENSION = ".tts"
@@ -66,7 +67,8 @@ def get_audio(voice, text, file_path, cache):
             "voice": voice
         }
 
-        r = requests.get(VOXYGEN_URL, params=payload, stream=True)
+        r = requests.get(VOXYGEN_URL, params=payload, stream=True, timeout=VOXYGEN_TIMEOUT_SEC)
+
         content_type = r.headers['Content-Type']
         logging.debug("Trying to get url: %s response code: %s and content-type: %s", r.url, r.status_code, content_type)
 
