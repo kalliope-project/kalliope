@@ -3,11 +3,15 @@
 This documentation deals with the manual installation of components for developement of JARVIS.
 
 ## System tools
+## Audio tools
+```
+sudo apt-get install libsmpeg0
+```
 
 ## Text to spreech engine
 Install pico2wave on Linux
 ```
-apt-get install libtts-pico-utils
+apt-get install libtts-pico-utils sudo apt-get install libsmpeg0
 ```
 
 
