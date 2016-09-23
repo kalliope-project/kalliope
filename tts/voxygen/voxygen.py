@@ -58,7 +58,7 @@ def get_voice(voice, language):
 
 
 def get_audio(voice, text, file_path, cache):
-    if not cache or not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
+    if not cache or not os.path.exists(file_path) or file_is_empty(file_path):
         payload = {
             "method": "redirect",
             "text": text.encode('utf8'),
@@ -124,6 +124,10 @@ def write_in_file(file_path, content):
     with open(file_path, "w") as file_open:
         file_open.write(content)
         file_open.close()
+
+
+def file_is_empty(file_path):
+    return os.path.getsize(file_path) == 0
 
 
 def create_directory(cache_path):
