@@ -58,7 +58,7 @@ def get_voice(voice, language):
 
 
 def get_audio(voice, text, file_path, cache):
-    if not cache or not os.path.exists(file_path):
+    if not cache or not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
         payload = {
             "method": "redirect",
             "text": text.encode('utf8'),
