@@ -42,8 +42,8 @@ def say(words=None, voice=None, language=VOXYGEN_LANGUAGES_DEFAULT, cache=None):
 
 
 def get_file_path(words, voice, language):
-    sha1 = hashlib.sha1(words).hexdigest()
-    filename = voice + "." + sha1 + CACHE_EXTENSION
+    md5 = hashlib.md5(words).hexdigest()
+    filename = voice + "." + md5 + CACHE_EXTENSION
     cache_directory = os.path.join(CACHE_PATH, language)
     file_path = os.path.join(cache_directory, filename)
     create_directory(cache_directory)
