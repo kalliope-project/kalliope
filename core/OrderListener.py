@@ -1,5 +1,3 @@
-import speech_recognition as sr
-
 
 class OrderListener:
 
@@ -12,29 +10,46 @@ class OrderListener:
         :type main_controller: MainController
         """
         self.main_controller = main_controller
+        self.settings = main_controller.conf.settingLoader.get_config()
 
-    def start(self):
-        """
-        Start recording the microphone
-        :return:
-        """
-        # obtain audio from the microphone
-        r = sr.Recognizer()
-        with sr.Microphone() as source:
-            # listen for 1 second to calibrate the energy threshold for ambient noise levels
-            r.adjust_for_ambient_noise(source)
-            print("Say something!")
-            audio = r.listen(source)
 
-        # recognize speech using Google Speech Recognition
-        try:
-            # for testing purposes, we're just using the default API key
-            # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
-            # instead of `r.recognize_google(audio)`
-            captured_audio = r.recognize_google(audio, key=None, language="fr-FR")
-            print "Google Speech Recognition thinks you said %s" % captured_audio
-            self.main_controller.analyse_order(captured_audio)
-        except sr.UnknownValueError:
-            print("Google Speech Recognition could not understand audio")
-        except sr.RequestError as e:
-            print("Could not request results from Google Speech Recognition service; {0}".format(e))
+    def _getSTTPlugin(self):
+        return self.settings["speechToText"]["name"]
+
+    def _getSTTArgs(self):
+        args = None
+        if 'args' in self.settings["speechToText"]:
+            args = self.settings["speechToText"]["args"]
+        return args
+
+    def loadSTTPlugin(self):
+        sttPlugin = self._getSTTPlugin()
+        sttArgs = self._getSTTArgs()
+
+        # capitalizes the first letter (because classes have first letter upper case)
+        sttPlugin = sttPlugin.capitalize()
+        self._runSTTPPlugin(sttPlugin, sttArgs)
+
+
+    def _runSTTPPlugin(self, sttPlugin, parameters=None):
+        """
+           Dynamic loading of a STT module
+           :param plugin: Module name to load
+           :param parameters: Parameter of the module
+           :return:
+           """
+        print "Running STT %s with parameter %s" % (sttPlugin, parameters)
+        mod = __import__('stt', fromlist=[sttPlugin])
+
+        klass = getattr(mod, sttPlugin)
+
+        if klass is not None:
+            # run the plugin
+            if not parameters:
+                klass(self.main_controller)
+            elif isinstance(parameters, dict):
+                klass(self.main_controller, **parameters)
+            else:
+                klass(self.main_controller, parameters)
+
+

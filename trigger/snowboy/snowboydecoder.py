@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
 import collections
-import pyaudio
-import snowboydetect
+import logging
+import os
 import time
 import wave
-import os
-import logging
+
+import pyaudio
+
+import snowboydetect
 
 logging.basicConfig()
 logger = logging.getLogger("snowboy")
