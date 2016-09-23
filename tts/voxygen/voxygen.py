@@ -16,18 +16,20 @@ VOXYGEN_LANGUAGES = dict(
     es=dict(martha="Martha"),
     it=dict(sonia="Sonia"))
 
-VOXYGEN_LANGUAGE_DEFAULT = "Michel"
+VOXYGEN_VOICE_DEFAULT = "Michel"
+VOXYGEN_LANGUAGES_DEFAULT = "default"
 VOXYGEN_URL = "https://www.voxygen.fr/sites/all/modules/voxygen_voices/assets/proxy/index.php"
 
 CACHE_PATH = "/tmp/jarvis/tts/voxygen"
 CACHE_EXTENSION = ".tts"
+
 AUDIO_FREQUENCY = 16000
 AUDIO_SIZE = -16
 AUDIO_CHANNEL = 1
 AUDIO_BUFFER = 2048
 
 
-def say(words=None, voice=None, language="default", cache=None):
+def say(words=None, voice=None, language=VOXYGEN_LANGUAGES_DEFAULT, cache=None):
     voice = get_voice(voice, language)
 
     file_path = get_file_path(words, voice, language)
@@ -52,8 +54,8 @@ def get_voice(voice, language):
     if language in VOXYGEN_LANGUAGES and voice in VOXYGEN_LANGUAGES[language]:
         return VOXYGEN_LANGUAGES[language][voice]
 
-    logging.debug("Cannot find language matching language: %s voice: %s replace by default voice: %s", language, voice, VOXYGEN_LANGUAGE_DEFAULT)
-    return VOXYGEN_LANGUAGE_DEFAULT
+    logging.debug("Cannot find language matching language: %s voice: %s replace by default voice: %s", language, voice, VOXYGEN_VOICE_DEFAULT)
+    return VOXYGEN_VOICE_DEFAULT
 
 
 def get_audio(voice, text, file_path, cache):
