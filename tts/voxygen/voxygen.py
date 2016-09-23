@@ -34,11 +34,9 @@ def say(words=None, voice=None, language=VOXYGEN_LANGUAGES_DEFAULT, cache=None):
 
     file_path = get_file_path(words, voice, language)
 
-    get_audio(voice, words, file_path, cache)
-
-    play_audio(file_path)
-
-    remove_temp_file(file_path, cache)
+    if get_audio(voice, words, file_path, cache):
+        play_audio(file_path)
+        remove_temp_file(file_path, cache)
 
 
 def get_file_path(words, voice, language):
@@ -47,6 +45,7 @@ def get_file_path(words, voice, language):
     cache_directory = os.path.join(CACHE_PATH, language)
     file_path = os.path.join(cache_directory, filename)
     create_directory(cache_directory)
+    logging.debug("Cache directory %s exists and File path for audio is: %s", cache_directory, file_path)
     return file_path
 
 
@@ -72,12 +71,17 @@ def get_audio(voice, text, file_path, cache):
         try:
             if r.status_code == 200:
                 write_in_file(file_path, r.content)
+                return True
+            else:
+                return False
         except IOError as e:
             print("I/O error(%s): %s", e.errno, e.strerror)
         except ValueError:
             print("Could not convert data to an integer.")
         except:
             print("Unexpected error: %s", sys.exc_info()[0])
+    else:
+        return True
 
 
 def play_audio(music_file, volume=0.8):
@@ -119,6 +123,7 @@ def remove_file(file_path):
 def write_in_file(file_path, content):
     with open(file_path, "w") as file_open:
         file_open.write(content)
+        file_open.close()
 
 
 def create_directory(cache_path):
