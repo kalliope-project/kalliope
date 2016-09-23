@@ -55,7 +55,7 @@ def get_voice(voice, language):
     if language in VOXYGEN_LANGUAGES and voice in VOXYGEN_LANGUAGES[language]:
         return VOXYGEN_LANGUAGES[language][voice]
 
-    logging.debug("Cannot find language matching language: %s voice: %s replace by default voice: %s", language, voice, VOXYGEN_VOICE_DEFAULT)
+    logging.warn("Cannot find language matching language: %s voice: %s replace by default voice: %s", language, voice, VOXYGEN_VOICE_DEFAULT)
     return VOXYGEN_VOICE_DEFAULT
 
 
@@ -74,16 +74,15 @@ def get_audio(voice, text, file_path, cache):
 
         try:
             if r.status_code == requests.codes.ok and content_type == VOXYGEN_CONTENT_TYPE:
-                write_in_file(file_path, r.content)
-                return True
+                return write_in_file(file_path, r.content)
             else:
                 return False
         except IOError as e:
-            print("I/O error(%s): %s", e.errno, e.strerror)
+            logging.error("I/O error(%s): %s", e.errno, e.strerror)
         except ValueError:
-            print("Could not convert data to an integer.")
+            logging.error("Could not convert data to an integer.")
         except:
-            print("Unexpected error: %s", sys.exc_info()[0])
+            logging.error("Unexpected error: %s", sys.exc_info()[0])
     else:
         return True
 
@@ -94,7 +93,7 @@ def play_audio(music_file, volume=0.8):
         logging.debug("Music file %s loaded!", music_file)
     except pygame.error:
         remove_file(music_file)
-        logging.debug("File %s not found! (%s)", music_file, pygame.get_error())
+        logging.error("File %s not found! (%s)", music_file, pygame.get_error())
         return
 
     start_player_audio()
@@ -128,6 +127,7 @@ def write_in_file(file_path, content):
     with open(file_path, "wb") as file_open:
         file_open.write(content)
         file_open.close()
+    return not file_is_empty(file_path)
 
 
 def file_is_empty(file_path):
