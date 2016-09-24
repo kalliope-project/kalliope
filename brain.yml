@@ -2,7 +2,9 @@
   - name: "Say hello"
     neurons:
       - say:
-          message: "Bonjour monsieur"
+          message:
+            - "Bonjour monsieur"
+            - "Bonjour Nicolas"
       - sleep:
           seconds: 1
       - say:

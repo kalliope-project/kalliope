@@ -31,4 +31,4 @@ text_to_speech:
       language: "fr-FR"
   - voxygen:
       language: "fr"
-      voice: "moussa"
+      voice: "michel"
