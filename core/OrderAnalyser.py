@@ -29,7 +29,7 @@ class OrderAnalyser:
                     print "Order found! Run neurons: %s" % el["neurons"]
                     neurons = el["neurons"]
                     for neuron in neurons:
-                        NeuroneLauncher().start_neurone(neuron)
+                        NeuroneLauncher.start_neurone(neuron)
 
         # once we ran all plugin, we can start back jarvis trigger
         if self.main_controller is not None:

@@ -4,10 +4,17 @@ from SettingLoader import SettingLoader
 
 class ConfigurationManager:
 
-    def __init__(self, brain_file_name=None, setting_file_name=None):
+    def __init__(self):
+        pass
+
+    @classmethod
+    def get_brain(cls, brain_file_name=None):
         if brain_file_name is None:
             brain_file_name = "brain.yml"
+        return BrainLoader(brain_file_name).get_config()
+
+    @classmethod
+    def get_settings(cls, setting_file_name=None):
         if setting_file_name is None:
             setting_file_name = "settings.yml"
-        self.brainLoader = BrainLoader(brain_file_name)
-        self.settingLoader = SettingLoader(setting_file_name)
+        return SettingLoader(setting_file_name).get_config()

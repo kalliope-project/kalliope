@@ -39,4 +39,5 @@ class Google(OrderListener):
             print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
     def _analyse_audio(self, audio):
-        self.main_controller.analyse_order(audio)
+        if self.main_controller is not None:
+            self.main_controller.analyse_order(audio)

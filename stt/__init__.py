@@ -1,1 +1,1 @@
-from Google import Google
+from google import Google

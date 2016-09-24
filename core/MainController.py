@@ -9,7 +9,7 @@ from neurons import Say
 class MainController:
     def __init__(self):
         # Manage Global Configuration
-        self.conf = ConfigurationManager()
+        self.conf = ConfigurationManager().get_settings()
 
         # create an order listener object
         self.order_listener = OrderListener(self)
@@ -41,8 +41,9 @@ class MainController:
         # pause the snowboy process
         self.pause_jarvis_trigger()
         print "Start listening for order"
+        # Todo add a list of words in settings
         Say(message="oui monsieur?")
-        self.order_listener.loadSTTPlugin()
+        self.order_listener.load_stt_plugin()
 
     def analyse_order(self, order):
         """
@@ -51,3 +52,4 @@ class MainController:
         """
         order_analyser = OrderAnalyser(order, main_controller=self)
         order_analyser.start()
+

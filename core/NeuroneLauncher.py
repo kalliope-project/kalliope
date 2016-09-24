@@ -32,8 +32,8 @@ class NeuroneLauncher:
     def __init__(self):
         pass
 
-    @staticmethod
-    def start_neurone(neuron):
+    @classmethod
+    def start_neurone(cls, neuron):
         """
         Neuron dict to start. {'neurone_name': {'args1': 'value1',  'args2': 'value2'}}
         :param neuron: Dict with neuron declaration
