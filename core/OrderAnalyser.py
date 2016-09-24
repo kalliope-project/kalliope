@@ -24,7 +24,7 @@ class OrderAnalyser:
             whens = el["when"]
             for when in whens:
                 brain_order = when["order"]
-                print "order to test: %s" % brain_order
+                # print "order to test: %s" % brain_order
                 if self._spelt_order_match_brain_order(brain_order):
                     print "Order found! Run neurons: %s" % el["neurons"]
                     neurons = el["neurons"]

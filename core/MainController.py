@@ -41,7 +41,7 @@ class MainController:
         # pause the snowboy process
         self.pause_jarvis_trigger()
         print "Start listening for order"
-        Say("oui monsieur?")
+        Say(message="oui monsieur?")
         self.order_listener.loadSTTPlugin()
 
     def analyse_order(self, order):

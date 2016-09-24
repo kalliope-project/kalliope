@@ -1,4 +1,9 @@
 from neurons import Neurone
+import random
+
+
+class NoMessageException(Exception):
+    pass
 
 
 class Say(Neurone):
@@ -6,5 +11,14 @@ class Say(Neurone):
         Neurone.__init__(self)
 
         # get message to spell out loud
-        message = kwargs.get('message', "")
-        self.say(message)
+        message = kwargs.get('message', None)
+        # user must specify a message
+        if message is None:
+            raise NoMessageException("You must specify a message string or a list of messages as parameter")
+        else:
+            # check if it's a single message or multiple one
+            if isinstance(message, list):
+                # then we play randomly one message
+                self.say(random.choice(message))
+            else:
+                self.say(message)

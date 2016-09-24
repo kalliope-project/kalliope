@@ -5,8 +5,8 @@ class Neurone:
     def __init__(self, stt=None, tts=None):
         # TODO load the stt and tts from settings
         self.stt = "google"
-        # self.tts = "pico2wave"
-        self.tts = "voxygen"
+        self.tts = "pico2wave"
+        #self.tts = "voxygen"
 
     def say(self, message):
         # here we use the tts to make jarvis talk

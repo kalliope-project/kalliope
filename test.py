@@ -1,3 +1,4 @@
+# coding=utf-8
 from core import ConfigurationManager
 from core.NeuroneLauncher import NeuroneLauncher
 from core.OrderAnalyser import OrderAnalyser
@@ -42,5 +43,18 @@ logger.setLevel(logging.DEBUG)
 #
 #     # test_multi_args(**el["neurons"][0]["say"])
 
-Say(message="bonjour monsieur")
+# test unique message
+# Say(message="A vôtre écoute")
+
+# test multiple message
+messages = list()
+messages.append("Je vous écoute")
+messages.append("Oui monsieur?")
+messages.append("Que puis-je faire pour vous?")
+messages.append("Monsieur?")
+messages.append("A vôtre écoute")
+messages.append("J'écoute")
+
+Say(message=messages)
+
 
