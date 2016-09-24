@@ -1,5 +1,6 @@
 import re
 
+from core import ConfigurationManager
 from core.NeuroneLauncher import NeuroneLauncher
 
 
@@ -12,7 +13,7 @@ class OrderAnalyser:
         """
         self.main_controller = main_controller
         self.order = order
-        self.brain = main_controller.conf.brainLoader.get_config()
+        self.brain = ConfigurationManager.get_brain()
         print "Receiver order: %s" % self.order
 
     def start(self):

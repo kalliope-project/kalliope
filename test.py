@@ -11,7 +11,9 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 
-order = OrderListener()
+order = OrderAnalyser("dis bonjour")
 
-order.load_stt_plugin()
+order.start()
+
+
 

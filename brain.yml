@@ -3,6 +3,10 @@
     neurons:
       - say:
           message: "Bonjour monsieur"
+      - sleep:
+          seconds: 2
+      - say:
+          message: "Je suis Jarvice"
     when:
       - order: "dis bonjour"
 
