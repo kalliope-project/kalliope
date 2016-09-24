@@ -5,6 +5,9 @@ import shutil
 import pygame
 import requests
 import logging
+import sys
+
+from core import AudioPlayer
 
 VOXYGEN_LANGUAGES = dict(
     fr=dict(electra="Electra", emma="Emma", becool="Becool", agnes="Agnes", loic="Loic", fabienne="Fabienne", helene="Helene", marion="Marion", matteo="Matteo",
@@ -31,14 +34,13 @@ AUDIO_CHANNEL = 1
 AUDIO_BUFFER = 2048
 
 
-def say(words=None, voice=None, language=VOXYGEN_LANGUAGES_DEFAULT, cache=None):
+def say(words=None, voice=None, language=VOXYGEN_LANGUAGES_DEFAULT, cache=True):
     voice = get_voice(voice, language)
 
     file_path = get_file_path(words, voice, language)
 
     if get_audio(voice, words, file_path, cache):
-        play_audio(file_path)
-        remove_temp_file(file_path, cache)
+        AudioPlayer.play_audio(file_path, keep_file=cache)
 
 
 def get_file_path(words, voice, language):
@@ -85,42 +87,6 @@ def get_audio(voice, text, file_path, cache):
             logging.error("Unexpected error: %s", sys.exc_info()[0])
     else:
         return True
-
-
-def play_audio(music_file, volume=0.8):
-    try:
-        init_player_audio(music_file, volume)
-        logging.debug("Music file %s loaded!", music_file)
-    except pygame.error:
-        remove_file(music_file)
-        logging.error("File %s not found! (%s)", music_file, pygame.get_error())
-        return
-
-    start_player_audio()
-
-
-def init_player_audio(music_file, volume):
-    pygame.mixer.init(AUDIO_FREQUENCY, AUDIO_SIZE, AUDIO_CHANNEL, AUDIO_BUFFER)
-    pygame.mixer.music.set_volume(volume)
-    pygame.mixer.music.load(music_file)
-
-
-def start_player_audio():
-    pygame.mixer.music.play()
-    clock = pygame.time.Clock()
-    while pygame.mixer.music.get_busy():
-        clock.tick(10)
-    return
-
-
-def remove_temp_file(file_path, cache):
-    if not cache:
-        remove_file(file_path)
-
-
-def remove_file(file_path):
-    if os.path.exists(file_path):
-        os.remove(file_path)
 
 
 def write_in_file(file_path, content):

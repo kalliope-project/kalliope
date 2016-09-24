@@ -30,4 +30,5 @@ Then install libs
 pip install SpeechRecognition
 pip install pyaudio
 pip install ansible
+pip install pygame
 ```
