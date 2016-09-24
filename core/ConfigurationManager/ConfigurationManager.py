@@ -46,6 +46,19 @@ class ConfigurationManager:
             raise DefaultSpeechToTextNotFound("Attribute default_speech_to_text not found in settings")
 
     @classmethod
+    def get_default_text_to_speech(cls):
+        settings = cls.get_settings()
+
+        try:
+            default_text_to_speech = settings["default_text_to_speech"]
+            if default_text_to_speech is None:
+                raise DefaultSpeechNull("Attribute default_text_to_speech is null")
+            logging.info("Default TTS: %s" % default_text_to_speech)
+            return default_text_to_speech
+        except KeyError:
+            raise DefaultSpeechToTextNotFound("Attribute default_text_to_speech not found in settings")
+
+    @classmethod
     def get_stt_args(cls, default_stt_plugin_name):
         """
         Return argument set for the current STT engine
@@ -82,4 +95,41 @@ class ConfigurationManager:
 
         logging.debug("Args for %s STT: %s" % (default_stt_plugin_name, args))
 
+        return args
+
+    @classmethod
+    def get_tts_args(cls, tts_name):
+        """
+        Return argument set for the current STT engine
+        :param tts_name: Name of the TTS engine
+        :return:
+        """
+
+        def find(lst, key):
+            """
+            Find a key name in a list
+            :param lst: list()
+            :param key: key name to find i the list
+            :return: Return the dict
+            """
+            for el in lst:
+                try:
+                    if el[key]:
+                        return el[key]
+                except TypeError:
+                    pass
+                except KeyError:
+                    pass
+            return None
+
+        settings = cls.get_settings()
+        try:
+            texts_to_speech = settings["text_to_speech"]
+        except KeyError:
+            raise NoSpeechToTextConfiguration("No text_to_speech in settings")
+
+        logging.debug("Settings file content: %s" % texts_to_speech)
+        # get args
+        args = find(texts_to_speech, tts_name)
+        logging.debug("Args for %s STT: %s" % (tts_name, args))
         return args

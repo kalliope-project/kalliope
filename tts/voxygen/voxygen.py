@@ -28,11 +28,6 @@ VOXYGEN_TIMEOUT_SEC = 30
 CACHE_PATH = "/tmp/jarvis/tts/voxygen"
 CACHE_EXTENSION = ".tts"
 
-AUDIO_FREQUENCY = 16000
-AUDIO_SIZE = -16
-AUDIO_CHANNEL = 1
-AUDIO_BUFFER = 2048
-
 
 def say(words=None, voice=None, language=VOXYGEN_LANGUAGES_DEFAULT, cache=True):
     voice = get_voice(voice, language)

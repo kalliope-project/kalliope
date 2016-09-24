@@ -4,9 +4,10 @@
       - say:
           message: "Bonjour monsieur"
       - sleep:
-          seconds: 2
+          seconds: 1
       - say:
           message: "Je suis Jarvice"
+          tts: "voxygen"
     when:
       - order: "dis bonjour"
 

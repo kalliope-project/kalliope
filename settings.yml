@@ -11,6 +11,7 @@ trigger:
 # This is the STT that will be used by default
 default_speech_to_text: "google"
 # This is the default TTS that will be used by JARVIS to talk.
+#default_text_to_speech: "pico2wave"
 default_text_to_speech: "pico2wave"
 
 # Spreech to Text engines configuration
@@ -28,3 +29,6 @@ speech_to_text:
 text_to_speech:
   - pico2wave:
       language: "fr-FR"
+  - voxygen:
+      language: "fr"
+      voice: "moussa"
