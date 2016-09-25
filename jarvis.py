@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 import argparse
+
+from core import ShellGui
 from core.MainController import MainController
 import signal
 import sys
@@ -22,6 +24,9 @@ def main():
 
     # parse arguments from script parameters
     args = parser.parse_args()
+    if len(sys.argv[1:]) == 0:
+        parser.print_usage()
+        sys.exit(1)
 
     if args.start:
         print "Starting JARVIS. Press Ctrl+C for stopping"
@@ -32,7 +37,7 @@ def main():
         main_controller.start()
 
     if args.gui:
-        pass
+        ShellGui()
 
 if __name__ == '__main__':
     main()
