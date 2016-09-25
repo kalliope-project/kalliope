@@ -40,10 +40,10 @@ class OrderListener:
         if klass is not None:
             # run the plugin
             if not parameters:
-                klass(self.main_controller)
+                klass(self.main_controller.get_analyse_order_callback())
             elif isinstance(parameters, dict):
-                klass(self.main_controller, **parameters)
+                klass(self.main_controller.get_analyse_order_callback(), **parameters)
             else:
-                klass(self.main_controller, parameters)
+                klass(self.main_controller.get_analyse_order_callback(), parameters)
 
 

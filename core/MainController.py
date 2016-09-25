@@ -53,3 +53,5 @@ class MainController:
         order_analyser = OrderAnalyser(order, main_controller=self)
         order_analyser.start()
 
+    def get_analyse_order_callback(self):
+        return self.analyse_order
