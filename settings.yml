@@ -11,8 +11,17 @@ trigger:
 # This is the STT that will be used by default
 default_speech_to_text: "google"
 # This is the default TTS that will be used by JARVIS to talk.
-#default_text_to_speech: "pico2wave"
 default_text_to_speech: "pico2wave"
+
+# When jarvis detect the hotword/trigger, he will select randomly a phrase in the following list
+# to notify the user that he's listening for orders
+random_wake_up_answers:
+  - "Oui monsieur?"
+  - "Je vous écoute"
+  - "Monsieur?"
+  - "Que puis-je faire pour vous?"
+  - "J'écoute"
+  - "Oui?"
 
 # Spreech to Text engines configuration
 # Available engine are:

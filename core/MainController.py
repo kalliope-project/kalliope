@@ -41,8 +41,8 @@ class MainController:
         # pause the snowboy process
         self.pause_jarvis_trigger()
         print "Start listening for order"
-        # Todo add a list of words in settings
-        Say(message="oui monsieur?")
+        random_answers = self.conf["random_wake_up_answers"]
+        Say(message=random_answers)
         self.order_listener.load_stt_plugin()
 
     def analyse_order(self, order):
