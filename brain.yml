@@ -13,6 +13,14 @@
     when:
       - order: "dis bonjour"
 
+  - name: "Meaning of life"
+    neurons:
+      - say:
+          message:
+            - "42"
+    when:
+      - order: "sens de la vie"
+
   - name: "Run a simple script"
     neurons:
       - script:
