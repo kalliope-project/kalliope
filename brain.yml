@@ -88,3 +88,11 @@
           message: "Tache terminée"
     when:
       - order: "playbook"
+
+  - name: "Stop jarvis"
+    neurons:
+      - say:
+          message: "Aurevoir"
+      - kill_switch
+    when:
+      - order: "ferme-toi"
