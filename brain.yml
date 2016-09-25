@@ -4,7 +4,7 @@
       - say:
           message:
             - "Bonjour monsieur"
-            - "Bonjour Nicolas"
+            - "Bonjour maitre"
       - sleep:
           seconds: 1
       - say:
@@ -18,6 +18,7 @@
       - say:
           message:
             - "42"
+          tts: "voxygen"
     when:
       - order: "sens de la vie"
 
@@ -32,7 +33,12 @@
 
   - name: "Say local date"
     neurons:
-      - systemdate
+      - systemdate:
+          say_template:
+            - "il est {{ hours }} heures et {{ minutes }} minutes"
+            - "{{ hours }} heures et {{ minutes }} minutes praicizaiman"
+            - "ma montre indique {{ hours }} heures et {{ minutes }} minutes"
+          tts: "voxygen"
     when:
       - order: "quelle heure"
 

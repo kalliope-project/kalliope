@@ -32,4 +32,5 @@ pip install pyaudio
 pip install ansible
 pip install pygame
 pip install python2-pythondialog
+pip install jinja
 ```

@@ -5,9 +5,13 @@ from neurons import Neurone
 
 
 class Systemdate(Neurone):
-    def __init__(self):
-        Neurone.__init__(self)
+    def __init__(self, *args , **kwargs):
+        Neurone.__init__(self, **kwargs)
         hour = time.strftime("%H")
         minute = time.strftime("%M")
-        message = "Il est %s heure %s" % (hour, minute)
-        self.say(message)
+
+        message = {
+            "hours":hour,
+            "minutes":minute
+        }
+        self.say(message, kwargs)

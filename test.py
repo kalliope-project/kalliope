@@ -7,8 +7,12 @@ from neurons import Say
 from neurons.ansible_tasks.ansible_tasks import Ansible_tasks
 import logging
 
-from core import ShellGui
+#from core import ShellGui
+from jinja2 import Template
+import time
 
-
-
-shelgui = ShellGui()
+hour = time.strftime("%H")
+minute = time.strftime("%M")
+t = Template("il est {{ hour }} heures et {{ minutes }}!")
+uu= t.render(hour=hour, minutes=minute)
+print uu

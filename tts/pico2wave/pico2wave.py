@@ -1,5 +1,4 @@
 import subprocess
-import os
 from core import AudioPlayer
 
 AUDIO_FREQUENCY = 16000
