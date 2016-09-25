@@ -4,25 +4,28 @@ from core import ConfigurationManager
 
 class OrderListener:
 
-    def __init__(self, main_controller=None):
+    def __init__(self, callback=None, stt=None):
         """
         This class is called after we catch the hotword that have woke up JARVIS.
         We now wait for an order spoken out loud by the user, translate the order into a text and run the action
          attached to this order from settings
-        :param main_controller:
-        :type main_controller: MainController
+        :param callback: callback function to call
+        :param stt: Speech to text plugin name to load. If not provided,
+        we will load the default one set in settings
         """
-        self.main_controller = main_controller
+        self.stt = stt
+        self.callback = callback
         # self.settings = main_controller.conf.settingLoader.get_config()
         self.settings = ConfigurationManager().get_settings()
 
     def load_stt_plugin(self):
-        default_stt_plugin = ConfigurationManager.get_default_speech_to_text()
+        if self.stt is None:
+            self.stt = ConfigurationManager.get_default_speech_to_text()
 
-        stt_args = ConfigurationManager.get_stt_args(default_stt_plugin)
+        stt_args = ConfigurationManager.get_stt_args(self.stt)
 
         # capitalizes the first letter (because classes have first letter upper case)
-        default_stt_plugin = default_stt_plugin.capitalize()
+        default_stt_plugin = self.stt.capitalize()
         self._run_stt_plugin(default_stt_plugin, stt_args)
 
     def _run_stt_plugin(self, stt_plugin, parameters=None):
@@ -40,10 +43,10 @@ class OrderListener:
         if klass is not None:
             # run the plugin
             if not parameters:
-                klass(self.main_controller.get_analyse_order_callback())
+                klass(self.callback)
             elif isinstance(parameters, dict):
-                klass(self.main_controller.get_analyse_order_callback(), **parameters)
+                klass(self.callback, **parameters)
             else:
-                klass(self.main_controller.get_analyse_order_callback(), parameters)
+                klass(self.callback, parameters)
 
 
