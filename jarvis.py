@@ -1,12 +1,38 @@
+#!/usr/bin/env python
+import argparse
 from core.MainController import MainController
+import signal
+import sys
+
+
+def signal_handler(signal, frame):
+        print "\n"
+        print('Ctrl+C pressed. Killing Jarvis')
+        sys.exit(0)
 
 
 def main():
     """
     Entry point of jarvis program
     """
-    main_controller = MainController()
-    main_controller.start()
+    # create arguments
+    parser = argparse.ArgumentParser(description='JARVIS')
+    parser.add_argument("--start", action='store_true', help="Start Jarvis in the current shell")
+    parser.add_argument("--gui", action='store_true', help="Run Jarvis with shell GUI to test components")
+
+    # parse arguments from script parameters
+    args = parser.parse_args()
+
+    if args.start:
+        print "Starting JARVIS. Press Ctrl+C for stopping"
+        # catch signal for killing on Ctrl+C pressed
+        signal.signal(signal.SIGINT, signal_handler)
+        # start the main controller
+        main_controller = MainController()
+        main_controller.start()
+
+    if args.gui:
+        pass
 
 if __name__ == '__main__':
     main()

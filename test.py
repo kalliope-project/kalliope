@@ -7,13 +7,8 @@ from neurons import Say
 from neurons.ansible_tasks.ansible_tasks import Ansible_tasks
 import logging
 
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
-
-
-order = OrderAnalyser("dis bonjour")
-
-order.start()
+from core import ShellGui
 
 
 
+shelgui = ShellGui()

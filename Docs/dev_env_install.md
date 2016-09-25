@@ -31,4 +31,5 @@ pip install SpeechRecognition
 pip install pyaudio
 pip install ansible
 pip install pygame
+pip install python2-pythondialog
 ```

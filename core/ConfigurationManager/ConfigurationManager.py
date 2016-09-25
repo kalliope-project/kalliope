@@ -133,3 +133,13 @@ class ConfigurationManager:
         args = find(texts_to_speech, tts_name)
         logging.debug("Args for %s STT: %s" % (tts_name, args))
         return args
+
+    @classmethod
+    def get_tts_list(cls):
+        settings = cls.get_settings()
+        try:
+            texts_to_speech = settings["text_to_speech"]
+        except KeyError:
+            raise NoSpeechToTextConfiguration("No text_to_speech in settings")
+
+        return texts_to_speech
