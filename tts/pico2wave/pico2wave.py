@@ -1,5 +1,4 @@
 import subprocess
-import os
 from core import AudioPlayer
 from tts import TTS
 
