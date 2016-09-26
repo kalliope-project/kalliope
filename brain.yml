@@ -46,7 +46,7 @@
           file_template: fr_systemdate_template_example.j2
           tts: "voxygen"
     when:
-      - order: "quelle heure 2"
+      - order: "test heure"
 
   - name: "Close rolling shutter"
     neurons:

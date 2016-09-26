@@ -9,4 +9,7 @@ import logging
 
 from core import ShellGui
 
-Say(message="bonjour", tts="pico2wave")
+
+oa = OrderAnalyser("test heure")
+
+oa.start()
