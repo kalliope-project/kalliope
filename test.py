@@ -9,6 +9,4 @@ import logging
 
 from core import ShellGui
 
-
-
-shelgui = ShellGui()
+Say(message="bonjour", tts="pico2wave")
