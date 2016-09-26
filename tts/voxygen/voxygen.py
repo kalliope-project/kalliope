@@ -5,6 +5,7 @@ import logging
 import sys
 
 from core import AudioPlayer
+from core import FileManager
 from tts import TTS
 
 
@@ -27,7 +28,7 @@ class Voxygen(TTS):
     VOXYGEN_TIMEOUT_SEC = 30
 
     def __init__(self):
-        TTS.__init__(self)
+        TTS.__init__(self, AudioPlayer.PLAYER_MP3)
 
     def say(self, words=None, voice=None, language=VOXYGEN_LANGUAGES_DEFAULT, cache=True):
         voice = self.get_voice(voice, language)
@@ -35,7 +36,7 @@ class Voxygen(TTS):
         file_path = self.cache.get_audio_file_cache_path(words, voice, language)
 
         if self.get_audio(voice, words, file_path, cache):
-            AudioPlayer.play_audio(file_path, keep_file=cache)
+            self.play_audio(file_path, keep_file=cache)
 
     def get_voice(self, voice, language):
         if language in self.VOXYGEN_LANGUAGES and voice in self.VOXYGEN_LANGUAGES[language]:
@@ -45,7 +46,7 @@ class Voxygen(TTS):
         return self.VOXYGEN_VOICE_DEFAULT
 
     def get_audio(self, voice, text, file_path, cache):
-        if not cache or not os.path.exists(file_path) or self.cache.file_is_empty(file_path):
+        if not cache or not os.path.exists(file_path) or FileManager.file_is_empty(file_path):
             payload = {
                 "method": "redirect",
                 "text": text.encode('utf8'),
@@ -59,7 +60,7 @@ class Voxygen(TTS):
 
             try:
                 if r.status_code == requests.codes.ok and content_type == self.VOXYGEN_CONTENT_TYPE:
-                    return self.cache.write_in_file(file_path, r.content)
+                    return FileManager.write_in_file(file_path, r.content)
                 else:
                     return False
             except IOError as e:
