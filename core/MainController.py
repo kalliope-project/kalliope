@@ -12,7 +12,7 @@ class MainController:
         self.conf = ConfigurationManager().get_settings()
 
         # create an order listener object
-        self.order_listener = OrderListener(self)
+        self.order_listener = OrderListener(self.get_analyse_order_callback())
         # Wait that the jarvis trigger is pronounced by the user
         self.jarvis_triger = JarvisTrigger(self)
 
@@ -53,3 +53,5 @@ class MainController:
         order_analyser = OrderAnalyser(order, main_controller=self)
         order_analyser.start()
 
+    def get_analyse_order_callback(self):
+        return self.analyse_order

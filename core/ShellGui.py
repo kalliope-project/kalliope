@@ -2,6 +2,7 @@ from dialog import Dialog
 import locale
 
 from core import ConfigurationManager
+from core import OrderListener
 from neurons import Say
 
 
@@ -35,7 +36,22 @@ class ShellGui:
                 self.show_tts_test_menu()
 
     def show_stt_test_menu(self):
-        pass
+        # we get STT from settings
+        stt_list = ConfigurationManager.get_stt_list()
+        print stt_list
+        choices = self._get_choices_tuple_from_list(stt_list)
+
+        code, tag = self.d.menu("Select the STT to test:",
+                                choices=choices)
+
+        if code == self.d.CANCEL:
+            self.show_main_menu()
+
+        if code == self.d.OK:
+            print tag
+            self.d.infobox("Please talk now")
+            order_listener = OrderListener(callback=self.callback_stt, stt=str(tag))
+            order_listener.load_stt_plugin()
 
     def show_tts_test_menu(self, sentence_to_test=None):
         """
@@ -59,13 +75,7 @@ class ShellGui:
             tts_list = ConfigurationManager.get_tts_list()
 
             # create a list of tuple that can be used by the dialog menu
-            choices = list()
-            for tts in tts_list:
-                for name, settings in tts.iteritems():
-                    print name
-                    print settings
-                    tup = (str(name), str(settings))
-                    choices.append(tup)
+            choices = self._get_choices_tuple_from_list(tts_list)
 
             code, tag = self.d.menu("Sentence to test: %s" % sentence_to_test,
                                     choices=choices)
@@ -86,3 +96,34 @@ class ShellGui:
         """
         Say(message=sentence_to_test, tts=tag)
 
+    @staticmethod
+    def _get_choices_tuple_from_list(list_to_convert):
+        """
+        Return a list of tup that can be used in Dialog menu
+        :param stt_list:
+        :return:
+        """
+        # create a list of tuple that can be used by the dialog menu
+        choices = list()
+        for el in list_to_convert:
+            try:
+                for name, settings in el.iteritems():
+                    print name
+                    print settings
+                    tup = (str(name), str(settings))
+                    choices.append(tup)
+            except AttributeError:
+                # sometime there is no settings for the STT key
+                tup = (str(el), str("No settings"))
+                choices.append(tup)
+        return choices
+
+    def callback_stt(self, audio):
+        """
+        Callback function called after the STT has finish his job
+        :param audio: Text from the translated audio
+        """
+        code = self.d.msgbox("The STT engine think you said:\n %s" % audio, width=50)
+
+        if code == self.d.OK:
+            self.show_stt_test_menu()

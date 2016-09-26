@@ -143,3 +143,13 @@ class ConfigurationManager:
             raise NoSpeechToTextConfiguration("No text_to_speech in settings")
 
         return texts_to_speech
+
+    @classmethod
+    def get_stt_list(cls):
+        settings = cls.get_settings()
+        try:
+            speech_to_text = settings["speech_to_text"]
+        except KeyError:
+            raise NoSpeechToTextConfiguration("No speech_to_text in settings")
+
+        return speech_to_text
