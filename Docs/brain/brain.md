@@ -6,10 +6,11 @@ Brain is the link between input and output actions.
 
 An input action can be:
 - **an order:** Something that has been spoke out loud by the user.
-- **an event:** A date
+- **an event:** A date or a frequency (E.G: repeat each morning at 8:30)
 
 An output action is
-- a neuron: A module that will perform some actions like simply talking, run a script, run a command or a complex Ansible playbook.
+- a neuron: A module or plugin that will perform some actions like simply talking, run a script, run a command or a complex Ansible playbook.
+- a list of neurons
 
 Brain is expressed in YAML format (see YAML Syntax) and have a minimum of syntax, which intentionally tries to not be a programming language or script, 
 but rather a model of a configuration or a process.
@@ -26,7 +27,7 @@ Let's look a basic brain:
       - order: "say hello"
 ```
 
-Let's break this down in sections so we can understand how these files are built and what each piece means.
+Let's break this down in sections so we can understand how the file is built and what each piece means.
 
 The file starts with:
 ```
@@ -51,15 +52,17 @@ neurons:
 ```
 
 Neurons are modules that will be executed when the input action is triggered.
-Some neuron need parameters that can be passed as argument following the syntax bellow:
+Some neurons need parameters that can be passed as argument following the syntax bellow:
 ```
 neurons:
     - neuron_name:
         parameter1: "value1"
         parameter2: "value2"
 ```
+Not here that parameters are indented this one tabulation.
 
-In this example, the neuron say will make Jarvis speak out loud the phrase in parameter **message**.
+
+In this example, the neuron called "say" will make Jarvis speak out loud the phrase in parameter **message**.
 
 The last part, called **when** is a list of input action. This last works exactly the same way as neurons. You must place here at least one action.
 ```

@@ -2,7 +2,8 @@
 
 JARVIS is voice controlled personal assistant. 
 
-TODO: insert video demo
+TODO: insert video demo EN
+TODO: insert video demo FR
 
 
 ## Installation
