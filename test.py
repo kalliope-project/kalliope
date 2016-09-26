@@ -11,8 +11,8 @@ import logging
 from jinja2 import Template
 import time
 
-hour = time.strftime("%H")
-minute = time.strftime("%M")
-t = Template("il est {{ hour }} heures et {{ minutes }}!")
-uu= t.render(hour=hour, minutes=minute)
-print uu
+
+
+oa = OrderAnalyser("quelle heure")
+
+oa.start()

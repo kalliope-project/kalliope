@@ -35,12 +35,18 @@
     neurons:
       - systemdate:
           say_template:
-            - "il est {{ hours }} heures et {{ minutes }} minutes"
-            - "{{ hours }} heures et {{ minutes }} minutes praicizaiman"
-            - "ma montre indique {{ hours }} heures et {{ minutes }} minutes"
+            - "Il est {{ hours }} heures et {{ minutes }} minutes"
           tts: "voxygen"
     when:
       - order: "quelle heure"
+
+  - name: "Say local date from template"
+    neurons:
+      - systemdate:
+          file_template: fr_systemdate_template_example.j2
+          tts: "voxygen"
+    when:
+      - order: "quelle heure 2"
 
   - name: "Close rolling shutter"
     neurons:
