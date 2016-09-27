@@ -54,6 +54,12 @@ class Neurone:
             self.tts = tts
             self.tts_args = ConfigurationManager.get_tts_args(self.tts)
 
+        # get if the cache settings is present
+        override_cache = kwargs.get('cache', None)
+        if override_cache is not None:
+            # the user set the "cache var"
+            self.tts_args = self._update_cache_var(override_cache)
+
         # check if it's a single message or multiple one
         if isinstance(message, list):
             # then we pick randomly one message
@@ -117,3 +123,10 @@ class Neurone:
     def _get_content_of_file(real_file_template_path):
         with open(real_file_template_path, 'r') as content_file:
             return content_file.read()
+
+    def _update_cache_var(self, override_cache):
+        print "args for TTS plugin before update: %s" % str(self.tts_args)
+        self.tts_args["cache"] = override_cache
+
+        print "args for TTS plugin after update: %s" % str(self.tts_args)
+        return self.tts_args

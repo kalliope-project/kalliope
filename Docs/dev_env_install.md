@@ -12,7 +12,7 @@ Tested env
 ### Packages installation
 On Ubuntu distribution:
 ```
-sudo apt-get install python-pip python-dev libsmpeg0 libtts-pico-utils sudo apt-get install libsmpeg0 flac dialog
+sudo apt-get install python-pip python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog
 ```
 
 ### Python lib

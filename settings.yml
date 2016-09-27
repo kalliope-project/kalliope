@@ -41,3 +41,4 @@ text_to_speech:
   - voxygen:
       language: "fr"
       voice: "michel"
+      cache: True
