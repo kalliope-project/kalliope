@@ -4,18 +4,21 @@ import logging
 
 from core.FileManager import FileManager
 
+DEFAULT_MODULE_NAME = "default"
+DEFAULT_CACHE_PATH = "/tmp/jarvis/tts"
+DEFAULT_CACHE_EXTENSION = "tts"
+DEFAULT_LANGUAGE = "default"
+DEFAULT_VOICE = "default"
+
 
 class Cache:
-    DEFAULT_MODULE_NAME = "default"
-    DEFAULT_CACHE_PATH = "/tmp/jarvis/tts"
-    DEFAULT_CACHE_EXTENSION = "tts"
-    DEFAULT_LANGUAGE = "default"
-    DEFAULT_VOICE = "default"
 
     def __init__(self, module_name=DEFAULT_MODULE_NAME, cache_path=DEFAULT_CACHE_PATH, cache_extension=DEFAULT_CACHE_EXTENSION):
         self._module_name = module_name
         self._cache_path = cache_path
         self._cache_extension = cache_extension
+        if self._cache_extension is None:
+            self._cache_extension = DEFAULT_CACHE_EXTENSION
 
     def get_audio_file_cache_path(self, words, voice, language):
         # fix UnicodeEncodeError: 'ascii' codec can't encode character X in position Y
