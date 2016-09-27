@@ -10,6 +10,9 @@ import logging
 from core import ShellGui
 
 
-oa = OrderAnalyser("test heure")
+# oa = OrderAnalyser("test heure")
+#
+# oa.start()
 
-oa.start()
+
+Say(message="bonjour")

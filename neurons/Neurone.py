@@ -2,6 +2,7 @@ import importlib
 from jinja2 import Template
 import random
 import os.path
+import logging
 
 from core import ConfigurationManager
 
@@ -93,8 +94,8 @@ class Neurone:
         self.tts_instance.say(words=message, **(self.tts_args if self.tts_args is not None else {}))
 
     def _get_tts_instance(self):
-        print "Import TTS module named %s " % self.tts
-        mod = __import__('tts', fromlist=[self.tts])
+        logging.info("Import TTS module named %s " % self.tts)
+        mod = __import__('tts', fromlist=[str(self.tts)])
         try:
             klass = getattr(mod, self.tts)
         except ImportError, e:

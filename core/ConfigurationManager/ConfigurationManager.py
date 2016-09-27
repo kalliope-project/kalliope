@@ -132,7 +132,7 @@ class ConfigurationManager:
         # get args
         args = find(texts_to_speech, tts_name)
         logging.debug("Args for %s TTS: %s" % (tts_name, args))
-        print args
+        # print args
         return args
 
     @classmethod
