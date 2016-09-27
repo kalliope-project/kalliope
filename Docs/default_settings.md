@@ -89,7 +89,9 @@ speech_to_text:
   - bing
 ```
 
-Please refer to the STT doc to know available parameter for each supported TTS
+Some arguments are required, some other optional, please refer to the STT documentation to know available parameters for each supported STT.
+
+
 #### text_to_speech
 Text to speech configuration
 Each TTS has it own configuration. This configuration is passed as argument following the syntax bellow
@@ -108,3 +110,5 @@ text_to_speech:
       language: "fr"
       voice: "michel"
 ```
+
+Some arguments are required, some other optional, please refer to the TTS documentation to know available parameters for each supported TTS.

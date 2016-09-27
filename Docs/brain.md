@@ -9,8 +9,8 @@ An input action can be:
 - **an event:** A date or a frequency (E.G: repeat each morning at 8:30)
 
 An output action is
-- a neuron: A module or plugin that will perform some actions like simply talking, run a script, run a command or a complex Ansible playbook.
-- a list of neurons
+- **a neuron:** A module or plugin that will perform some actions like simply talking, run a script, run a command or a complex Ansible playbook.
+- **a list:** of neurons
 
 Brain is expressed in YAML format (see YAML Syntax) and have a minimum of syntax, which intentionally tries to not be a programming language or script, 
 but rather a model of a configuration or a process.
@@ -59,7 +59,7 @@ neurons:
         parameter1: "value1"
         parameter2: "value2"
 ```
-Not here that parameters are indented this one tabulation.
+Not here that parameters are indented with one tabulation bellow the neuron's name.
 
 
 In this example, the neuron called "say" will make Jarvis speak out loud the phrase in parameter **message**.
@@ -77,3 +77,4 @@ In this example, the task is launched when the captured order contains "say hell
 - "i say goodbye you say hello"
 - "whatever I say as long it contains say hello"
 
+To know if your spoken order will be triggered by jarvis, we recommend you to [use the GUI](run_jarvis/md) for testing your STT.

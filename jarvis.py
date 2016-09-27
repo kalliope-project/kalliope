@@ -19,8 +19,7 @@ def main():
     """
     # create arguments
     parser = argparse.ArgumentParser(description='JARVIS')
-    parser.add_argument("--start", action='store_true', help="Start Jarvis in the current shell")
-    parser.add_argument("--gui", action='store_true', help="Run Jarvis with shell GUI to test components")
+    parser.add_argument("action", help="[start|gui]")
 
     # parse arguments from script parameters
     args = parser.parse_args()
@@ -28,7 +27,7 @@ def main():
         parser.print_usage()
         sys.exit(1)
 
-    if args.start:
+    if args.action == "start":
         print "Starting JARVIS. Press Ctrl+C for stopping"
         # catch signal for killing on Ctrl+C pressed
         signal.signal(signal.SIGINT, signal_handler)
@@ -36,7 +35,7 @@ def main():
         main_controller = MainController()
         main_controller.start()
 
-    if args.gui:
+    if args.action == "gui":
         ShellGui()
 
 if __name__ == '__main__':

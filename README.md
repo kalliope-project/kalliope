@@ -5,34 +5,43 @@ JARVIS is voice controlled personal assistant.
 TODO: insert video demo EN
 TODO: insert video demo FR
 
+JARVIS is easy-peasy to use, see the hello world
+```
+  - name: "Hello world"
+    neurons:      
+      - say:
+          message: "Hello world!"
+    when:
+      - order: "say hello"
+```
+
 
 ## Installation
 
-- Automated installation with Ansible 
-- Manual installation for developement
+- [Automated installation](Docs/automated_install.md)
+- [Manual installation for developement](Docs/dev_env_install.md)
 
 ## Usage
 
-- Configure default settings
-- Create the brain of your JARVIS
-- Run JARVIS
+- [Configure default settings](Docs/default_settings.md)
+- [Create the brain of your JARVIS](Docs/brain.md)
+- [Run JARVIS](Docs/run_jarvis.md)
 
 ## Neurons
 
 A neuron is a plugin that can be used from your **brain.yml**. 
 
-- See the list of available neuron.
-- See how to create your own neuron.
-
-
+- See the list of [available neurons](Docs/neurons.md).
+- See how to [create your own neuron](Docs/contributing.md).
 
 
 ## Contributing
 
-If you'd like to contribute to JARVIS, please read our Contributing Guide, which contains the philosophies we want to preserve, tests to run, and more. 
+If you'd like to contribute to JARVIS, please read our [Contributing Guide](Docs/contributing.md), which contains the philosophies we want to preserve, tests to run, and more. 
 We highly recommend reading through this guide before writing any code.
 
-
+- Contribute
+- Add [issues and feature requests](../../issues)
 
 ## Credits
 
