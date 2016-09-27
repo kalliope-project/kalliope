@@ -25,6 +25,7 @@ pip install ansible
 pip install pygame
 pip install python2-pythondialog
 pip install jinja
+pip install python-crontab
 ```
 
 ### Test your env

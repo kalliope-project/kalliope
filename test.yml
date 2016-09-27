@@ -4,5 +4,5 @@
       - say:
           message: "Script lancé, monsieur"
     when:
-      - order: "dis bonjour"
+      - event: "* * 5 5 *"
 
