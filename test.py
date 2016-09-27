@@ -10,9 +10,9 @@ import logging
 from core import ShellGui
 
 
-# oa = OrderAnalyser("test heure")
-#
-# oa.start()
+oa = OrderAnalyser("dis bonjour", brain_file="test.yml")
+
+oa.start()
 
 
-Say(message="bonjour")
+

@@ -1,11 +1,9 @@
 ---
   - name: "Say hello"
     neurons:
-      - command: "/home/nico/tmp/test.sh"
-      - systemdate
-      - say:
-          message: "Commande terminée"
-
+      - systemdate:
+          file_template: fr_systemdate_template_example.j2
+          cache: False
     when:
       - order: "dis bonjour"
 

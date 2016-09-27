@@ -1,27 +1,29 @@
 import re
 
 from core import ConfigurationManager
+from core.ConfigurationManager.BrainLoader import BrainLoader
 from core.NeuroneLauncher import NeuroneLauncher
+import logging
 
 
 class OrderAnalyser:
-    def __init__(self, order, main_controller=None):
+    def __init__(self, order, main_controller=None, brain_file=None):
         """
-        Class used to load
+        Class used to load brain and run neuron attached to the received order
         :param order: spelt order
         :param main_controller
+        :param brain_file: To override the default brain.yml file
         """
         self.main_controller = main_controller
         self.order = order
-        self.brain = ConfigurationManager.get_brain()
-        print "Receiver order: %s" % self.order
+        if brain_file is None:
+            self.brain = ConfigurationManager.get_brain()
+        else:
+            self.brain = BrainLoader(brain_file).get_config()
+        logging.info("Receiver order: %s" % self.order)
 
     def start(self):
-        print self.brain
-
         for el in self.brain:
-            # print el
-            # print el["when"]
             whens = el["when"]
             for when in whens:
                 brain_order = when["order"]

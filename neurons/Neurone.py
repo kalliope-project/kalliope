@@ -29,9 +29,11 @@ class TTSNotInstantiable(Exception):
 
 class Neurone:
     def __init__(self, **kwargs):
-        # get the name of the plugin
+        # get the name of the plugin who load Neurone mother class
         # print self.__class__.__name__
-        # load the tts from settings
+
+        print "Neurone class called with parameters: %s" % kwargs
+
         # get the tts if is specified otherwise use default
         tts = kwargs.get('tts', None)
         if tts is not None:
