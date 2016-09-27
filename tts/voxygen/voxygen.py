@@ -36,7 +36,8 @@ class Voxygen(TTS):
         file_path = self.cache.get_audio_file_cache_path(words, voice, language)
 
         if self.get_audio(voice, words, file_path, cache):
-            self.play_audio(file_path, keep_file=cache)
+            self.play_audio(file_path)
+            self.cache.remove_audio_file(file_path, cache)
 
     def get_voice(self, voice, language):
         if language in self.VOXYGEN_LANGUAGES and voice in self.VOXYGEN_LANGUAGES[language]:
@@ -45,11 +46,11 @@ class Voxygen(TTS):
         logging.warn("Cannot find language matching language: %s voice: %s replace by default voice: %s", language, voice, self.VOXYGEN_VOICE_DEFAULT)
         return self.VOXYGEN_VOICE_DEFAULT
 
-    def get_audio(self, voice, text, file_path, cache):
+    def get_audio(self, voice, words, file_path, cache):
         if not cache or not os.path.exists(file_path) or FileManager.file_is_empty(file_path):
             payload = {
                 "method": "redirect",
-                "text": text.encode('utf8'),
+                "text": words.encode('utf8'),
                 "voice": voice
             }
 

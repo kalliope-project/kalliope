@@ -37,7 +37,7 @@ speech_to_text:
 # - pico2wave
 text_to_speech:
   - pico2wave:
-      language: "fr-FR"
+      language: "fr"
   - voxygen:
       language: "fr"
       voice: "michel"

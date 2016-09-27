@@ -8,7 +8,9 @@ from core.FileManager import FileManager
 class Cache:
     DEFAULT_MODULE_NAME = "default"
     DEFAULT_CACHE_PATH = "/tmp/jarvis/tts"
-    DEFAULT_CACHE_EXTENSION = ".tts"
+    DEFAULT_CACHE_EXTENSION = "tts"
+    DEFAULT_LANGUAGE = "default"
+    DEFAULT_VOICE = "default"
 
     def __init__(self, module_name=DEFAULT_MODULE_NAME, cache_path=DEFAULT_CACHE_PATH, cache_extension=DEFAULT_CACHE_EXTENSION):
         self._module_name = module_name
@@ -25,3 +27,9 @@ class Cache:
         FileManager.create_directory(cache_directory)
         logging.debug("Cache directory %s exists and File path for audio is: %s", cache_directory, file_path)
         return file_path
+
+    @staticmethod
+    def remove_audio_file(file_path, cache):
+        if not cache:
+            FileManager.remove_file(file_path)
+
