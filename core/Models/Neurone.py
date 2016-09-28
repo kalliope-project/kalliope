@@ -1,10 +1,9 @@
-import importlib
 from jinja2 import Template
 import random
 import os.path
 import logging
 
-from core import ConfigurationManager
+from core.ConfigurationManager.SettingLoader import SettingLoader
 
 
 class NoTemplateException(Exception):
@@ -28,20 +27,22 @@ class TTSNotInstantiable(Exception):
 
 
 class Neurone:
-    def __init__(self, **kwargs):
+    def __init__(self, name=None, parameters=None):
         # get the name of the plugin who load Neurone mother class
         # print self.__class__.__name__
+        self.name = name
+        self.parameters = parameters
 
-        print "Neurone class called with parameters: %s" % kwargs
+        print "Neurone class called with name %s and parameters: %s" % (name, parameters)
 
         # get the tts if is specified otherwise use default
-        tts = kwargs.get('tts', None)
+        tts = self.parameters.get('tts', None)
         if tts is not None:
             self.tts = tts
         else:
-            self.tts = ConfigurationManager.get_default_text_to_speech()
+            self.tts = SettingLoader().get_default_text_to_speech()
         # get tts args
-        self.tts_args = ConfigurationManager.get_tts_args(self.tts)
+        self.tts_args = SettingLoader().get_tts_args(self.tts)
         # capitalise for loading module name
         self.tts = self.tts.capitalize()
         # load the module
@@ -52,7 +53,7 @@ class Neurone:
         tts = kwargs.get('tts', None)
         if tts is not None:
             self.tts = tts
-            self.tts_args = ConfigurationManager.get_tts_args(self.tts)
+            self.tts_args = SettingLoader().get_tts_args(self.tts)
 
         # get if the cache settings is present
         override_cache = kwargs.get('cache', None)

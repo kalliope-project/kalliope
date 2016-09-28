@@ -4,7 +4,7 @@ from ansible.vars import VariableManager
 from ansible.inventory import Inventory
 from ansible.executor.playbook_executor import PlaybookExecutor
 
-from neurons import Neurone
+from core.Models.Neurone import Neurone
 
 
 class Ansible_tasks(Neurone):

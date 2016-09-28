@@ -1,7 +1,7 @@
 import subprocess
 import os
 
-from neurons import Neurone
+from core.Models.Neurone import Neurone
 
 
 class ScriptNotFound(Exception):

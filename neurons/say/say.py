@@ -1,4 +1,4 @@
-from neurons import Neurone
+from core.Models.Neurone import Neurone
 
 
 class NoMessageException(Exception):

@@ -1,5 +1,6 @@
-from neurons import Neurone
 import time
+
+from core.Models.Neurone import Neurone
 
 
 class NoSecondsException(Exception):

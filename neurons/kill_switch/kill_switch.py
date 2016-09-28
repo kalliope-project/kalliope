@@ -1,5 +1,7 @@
-from neurons import Neurone
 import sys
+
+from core.Models.Neurone import Neurone
+
 
 class Kill_switch(Neurone):
 

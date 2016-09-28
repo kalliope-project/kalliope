@@ -3,6 +3,11 @@
     neurons:
       - say:
           message: "Script lancé, monsieur"
-    when:
-      - event: "* * 5 5 *"
-
+    signals:
+      - order: "sens de la vie"
+      - event:
+          id: 1
+          period: "* * 5 5 *"
+      - event:
+          id: 2
+          period: "* * 4 4 *"
