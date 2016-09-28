@@ -31,13 +31,13 @@ class ConfigurationChecker:
     def check_synape_dict(synape_dict):
 
         if 'name' not in synape_dict:
-            raise NoSynapeName("The Synape does not have a name: %s" % synape_dict)
+            raise NoSynapeName("The Synapse does not have a name: %s" % synape_dict)
 
         if 'neurons' not in synape_dict:
-            raise NoSynapeNeurons("The Synape does not have neurons: %s" % synape_dict)
+            raise NoSynapeNeurons("The Synapse does not have neurons: %s" % synape_dict)
 
         if 'signals' not in synape_dict:
-            raise NoSynapeSignals("The Synape does not have signals: %s" % synape_dict)
+            raise NoSynapeSignals("The Synapse does not have signals: %s" % synape_dict)
 
         return True
 

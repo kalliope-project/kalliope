@@ -26,14 +26,14 @@ class TTSNotInstantiable(Exception):
     pass
 
 
-class Neurone:
+class Neurone(object):
     def __init__(self, name=None, parameters=None):
         # get the name of the plugin who load Neurone mother class
         # print self.__class__.__name__
         self.name = name
         self.parameters = parameters
 
-        print "Neurone class called with name %s and parameters: %s" % (name, parameters)
+        # print "Neurone class called with name %s and parameters: %s" % (name, parameters)
 
         # get the tts if is specified otherwise use default
         tts = self.parameters.get('tts', None)

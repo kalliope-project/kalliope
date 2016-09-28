@@ -1,6 +1,9 @@
 from crontab import CronTab
 from crontab import CronSlices
 
+from core.ConfigurationManager.BrainLoader import BrainLoader
+from core.Models import Event
+
 
 class InvalidCrontabPeriod(Exception):
     pass
@@ -12,20 +15,25 @@ class CrontabManager:
 
     def __init__(self, brain_file=None):
         self.my_user_cron = CronTab(user=True)
-        self.base_command = "/usr/bin/echo"
+        self.base_command = "/path/to/jarvis/"
+        self.brain = BrainLoader(filename=brain_file).get_brain()
 
     def load_events_in_crontab(self):
         # clean the current crontab from all jarvis event
         self._remove_all_jarvis_job()
         # # load the brain file
-        period_string = "* * 5 5 *"
-        event_id = 1
-        # for all tasks with an event, we add the task id to the crontab
-        self._add_event(period_string=period_string, event_id=event_id)
+        for synapse in self.brain.synapes:
+            for signal in synapse.signals:
+                print signal
+                # if it's an event we add it to the crontab
+                if type(signal) == Event:
+                    print "is event"
+                    # for all tasks with an event, we add the task id to the crontab
+                    self._add_event(period_string=signal.period, event_id=signal.identifier)
 
     def _add_event(self, period_string, event_id):
         my_user_cron = CronTab(user=True)
-        job = my_user_cron.new(command=self.base_command, comment=CRONTAB_COMMENT)
+        job = my_user_cron.new(command=self.base_command+" "+str(event_id), comment=CRONTAB_COMMENT)
         if CronSlices.is_valid(period_string):
             job.setall(period_string)
             job.enable()

@@ -34,6 +34,11 @@ class BrainLoader(YAMLLoader):
         return events_in_brain
 
     def get_brain(self):
+        """
+        return a brain object from YAML settings
+        :return: Brain object
+        :rtype: Brain
+        """
         # get the brain with dict
         dict_brain = self.get_config()
         # create a new brain
@@ -41,14 +46,16 @@ class BrainLoader(YAMLLoader):
         # create list of Synapse
         synapses = list()
         for synapes_dict in dict_brain:
-            print synapes_dict
+            # print synapes_dict
             if ConfigurationChecker().check_synape_dict(synapes_dict):
-                print "synapes_dict ok"
+                # print "synapes_dict ok"
                 name = synapes_dict["name"]
                 neurons = self._get_neurons(synapes_dict["neurons"])
                 signals = self._get_signals(synapes_dict["signals"])
                 new_synapse = Synapse(name=name, neurons=neurons, signals=signals)
                 synapses.append(new_synapse)
+        brain.synapes = synapses
+        return brain
 
     def _get_neurons(self, neurons_dict):
         """
@@ -58,25 +65,26 @@ class BrainLoader(YAMLLoader):
         """
         neurons = list()
         for neuron_dict in neurons_dict:
-            print neuron_dict
+            # print neuron_dict
             if ConfigurationChecker().check_neuron_dict(neuron_dict):
-                print "Neurons dict ok"
-            for neuron_name in neuron_dict:
-                name = neuron_name
-                parameters = neuron_dict[name]
-                # print parameters
-                new_neuron = Neurone(name=name, parameters=parameters)
-                neurons.append(new_neuron)
+                # print "Neurons dict ok"
+                for neuron_name in neuron_dict:
+                    name = neuron_name
+                    parameters = neuron_dict[name]
+                    # print parameters
+                    new_neuron = Neurone(name=name, parameters=parameters)
+                    neurons.append(new_neuron)
 
         return neurons
 
     def _get_signals(self, signals_dict):
-        print signals_dict
+        # print signals_dict
         signals = list()
         for signal_dict in signals_dict:
             if ConfigurationChecker().check_signal_dict(signal_dict):
-                print "Signals dict ok"
-                event_or_oder = self._get_event_or_order_from_dict(signal_dict)
+                # print "Signals dict ok"
+                event_or_order = self._get_event_or_order_from_dict(signal_dict)
+                signals.append(event_or_order)
 
         return signals
 
@@ -84,14 +92,14 @@ class BrainLoader(YAMLLoader):
     def _get_event_or_order_from_dict(signal_or_event_dict):
 
         if 'event' in signal_or_event_dict:
-            print "is event"
+            # print "is event"
             event = signal_or_event_dict["event"]
             if ConfigurationChecker.check_event_dict(event):
                 return Event(identifier=event["id"], period=event["period"])
 
         if 'order' in signal_or_event_dict:
-            print "is order"
-            if ConfigurationChecker.check_order_dict(signal_or_event_dict["order"]):
-                return Order(signal_or_event_dict["order"])
+            order = signal_or_event_dict["order"]
+            if ConfigurationChecker.check_order_dict(order):
+                return Order(sentence=order)
 
 
