@@ -5,10 +5,5 @@
           message:
             - "Bonjour monsieur"
             - "Bonjour maitre"
-      - sleep:
-          seconds: 1
-      - say:
-          message: "Je suis Jarvice"
-          tts: "voxygen"
     signals:
-      - order: "dis bonjour"
+      - order: "dit bonjour"

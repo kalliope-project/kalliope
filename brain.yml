@@ -1,17 +1,4 @@
 ---
-  - name: "Say hello"
-    neurons:
-      - say:
-          message:
-            - "Bonjour monsieur"
-            - "Bonjour maitre"
-      - sleep:
-          seconds: 1
-      - say:
-          message: "Je suis Jarvice"
-          tts: "voxygen"
-    when:
-      - order: "dis bonjour"
 
   - name: "Meaning of life"
     neurons:
@@ -25,7 +12,7 @@
   - name: "Run a simple script"
     neurons:
       - script:
-        path: "/home/nico/test.sh"
+          path: "/home/nico/test.sh"
       - say:
           message: "Script lancé, monsieur"
     when:
@@ -37,7 +24,7 @@
           say_template:
             - "Il est {{ hours }} heures et {{ minutes }} minutes"
           tts: "voxygen"
-    when:
+    signals:
       - order: "quelle heure"
 
   - name: "Say local date from template"

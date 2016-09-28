@@ -13,13 +13,13 @@ import logging
 from core import ShellGui
 from crontab import CronSlices, CronTab
 
-# oa = OrderAnalyser("dis bonjour", brain_file="test.yml")
+oa = OrderAnalyser("sens de la vie", brain_file="brain_examples/fr/say_examples.yml")
+
+oa.start()
+
 #
-# oa.start()
-
-
-cron_manager = CrontabManager(brain_file="test.yml")
-cron_manager.load_events_in_crontab()
+# cron_manager = CrontabManager(brain_file="test.yml")
+# cron_manager.load_events_in_crontab()
 
 # command = "/path/to/my/command"
 # comment = "JARVIS"

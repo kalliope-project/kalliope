@@ -27,7 +27,7 @@ class TTSNotInstantiable(Exception):
 
 
 class Neurone(object):
-    def __init__(self, name=None, parameters=None):
+    def __init__(self, name=None, parameters=None, **kargs):
         # get the name of the plugin who load Neurone mother class
         # print self.__class__.__name__
         self.name = name
@@ -36,7 +36,10 @@ class Neurone(object):
         # print "Neurone class called with name %s and parameters: %s" % (name, parameters)
 
         # get the tts if is specified otherwise use default
-        tts = self.parameters.get('tts', None)
+        tts = None
+        if self.parameters is not None:
+            tts = self.parameters.get('tts', None)
+
         if tts is not None:
             self.tts = tts
         else:
@@ -48,7 +51,7 @@ class Neurone(object):
         # load the module
         self.tts_instance = self._get_tts_instance()
 
-    def say(self, message, kwargs):
+    def say(self, message, **kwargs):
         # get the tts if is specified otherwise use default
         tts = kwargs.get('tts', None)
         if tts is not None:

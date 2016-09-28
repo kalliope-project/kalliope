@@ -14,4 +14,4 @@ class Say(Neurone):
         if message is None:
             raise NoMessageException("You must specify a message string or a list of messages as parameter")
         else:
-            self.say(message, kwargs)
+            self.say(**kwargs)

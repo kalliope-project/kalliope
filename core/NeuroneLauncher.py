@@ -35,19 +35,23 @@ class NeuroneLauncher:
     @classmethod
     def start_neurone(cls, neuron):
         """
-        Neuron dict to start. {'neurone_name': {'args1': 'value1',  'args2': 'value2'}}
-        :param neuron: Dict with neuron declaration
-        :type neuron: Dict
+        Start a neuron plugin
+        :param neuron: neuron object
+        :type neuron: Neurone
         :return:
         """
-        if isinstance(neuron, dict):
-            for plugin, parameters in neuron.items():
-                # capitalizes the first letter (because classes have first letter upper case)
-                plugin = plugin.capitalize()
-                _run_plugin(plugin, parameters)
-        else:
-            plugin = neuron
-            # capitalizes the first letter (because classes have first letter upper case)
-            plugin = plugin.capitalize()
-            _run_plugin(plugin)
+        plugin = neuron.name.capitalize()
+        plugin = plugin.capitalize()
+        _run_plugin(plugin, neuron.parameters)
+
+        # if isinstance(neuron, dict):
+        #     for plugin, parameters in neuron.items():
+        #         # capitalizes the first letter (because classes have first letter upper case)
+        #         plugin = plugin.capitalize()
+        #         _run_plugin(plugin, parameters)
+        # else:
+        #     plugin = neuron
+        #     # capitalizes the first letter (because classes have first letter upper case)
+        #     plugin = plugin.capitalize()
+        #     _run_plugin(plugin)
 

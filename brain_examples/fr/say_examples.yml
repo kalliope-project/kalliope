@@ -1,0 +1,9 @@
+---
+  - name: "Meaning of life"
+    neurons:
+      - say:
+          message:
+            - "42"
+          tts: "pico2wave"
+    signals:
+      - order: "sens de la vie"
