@@ -4,6 +4,5 @@
       - say:
           message:
             - "42"
-          tts: "voxygen"
     signals:
-      - order: "sens de la vie"
+      - order: "test"

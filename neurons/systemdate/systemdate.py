@@ -1,14 +1,15 @@
 #!/usr/bin/python
 import time
 
-from core.Models.Neurone import Neurone
+from core.NeuronModule import NeuronModule
 
 
-class Systemdate(Neurone):
+class Systemdate(NeuronModule):
     def __init__(self, **kwargs):
-        Neurone.__init__(self, **kwargs)
+        super(Systemdate, self).__init__(**kwargs)
 
         # get hours and minutes
+
         hour = time.strftime("%H")
         minute = time.strftime("%M")
 
@@ -16,4 +17,4 @@ class Systemdate(Neurone):
             "hours": hour,
             "minutes": minute
         }
-        self.say(message, **kwargs)
+        self.say(message)

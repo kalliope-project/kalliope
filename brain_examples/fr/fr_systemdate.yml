@@ -3,7 +3,7 @@
     - systemdate:
         say_template:
           - "Il est {{ hours }} heures et {{ minutes }} minutes"
-        tts: "pico2wave"
+        tts: "voxygen"
   signals:
     - order: "test"
 
@@ -12,6 +12,6 @@
   neurons:
     - systemdate:
         file_template: fr_systemdate_template_example.j2
-        tts: "pico2wave"
+        tts: "voxygen"
   signals:
-    - order: "test 2"
+    - order: "tempate"

@@ -1,11 +1,10 @@
 import sys
 
-from core.Models.Neurone import Neurone
+from core.NeuronModule import NeuronModule
 
 
-class Kill_switch(Neurone):
+class Kill_switch(NeuronModule):
 
-    def __init__(self, *args , **kwargs):
-        Neurone.__init__(self)
-
+    def __init__(self, **kwargs):
+        super(Kill_switch, self).__init__(**kwargs)
         sys.exit()

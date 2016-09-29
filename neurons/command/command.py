@@ -1,11 +1,11 @@
 import subprocess
 
-from core.Models.Neurone import Neurone
+from core.NeuronModule import NeuronModule
 
 
-class Command(Neurone):
-    def __init__(self, command):
-        Neurone.__init__(self)
+class Command(NeuronModule):
+    def __init__(self, command, **kwargs):
+        super(Command, self).__init__(**kwargs)
         p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
         (output, err) = p.communicate()
 

@@ -3,7 +3,7 @@ from YAMLLoader import YAMLLoader
 from core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
 from core.Models.Brain import Brain
 from core.Models.Event import Event
-from core.Models.Neurone import Neurone
+from core.Models.Neuron import Neuron
 from core.Models.Order import Order
 from core.Models.Synapse import Synapse
 
@@ -72,7 +72,7 @@ class BrainLoader(YAMLLoader):
                     name = neuron_name
                     parameters = neuron_dict[name]
                     # print parameters
-                    new_neuron = Neurone(name=name, parameters=parameters)
+                    new_neuron = Neuron(name=name, parameters=parameters)
                     neurons.append(new_neuron)
 
         return neurons

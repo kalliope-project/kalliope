@@ -1,18 +1,17 @@
 import time
 
-from core.Models.Neurone import Neurone
+from core.NeuronModule import NeuronModule
 
 
 class NoSecondsException(Exception):
     pass
 
 
-class Sleep(Neurone):
+class Sleep(NeuronModule):
 
-    def __init__(self, *args , **kwargs):
-        Neurone.__init__(self)
-
+    def __init__(self, **kwargs):
         # get message to spell out loud
+        super(Sleep, self).__init__(**kwargs)
         seconds = kwargs.get('seconds', None)
         # user must specify a message
         if seconds is None:
