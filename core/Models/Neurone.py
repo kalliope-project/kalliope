@@ -33,7 +33,7 @@ class Neurone(object):
         self.name = name
         self.parameters = parameters
 
-        # print "Neurone class called with name %s and parameters: %s" % (name, parameters)
+        logging.debug("Neurone class called with name %s and parameters: %s" % (name, parameters))
 
         # get the tts if is specified otherwise use default
         tts = None
@@ -104,6 +104,7 @@ class Neurone(object):
 
         # here we use the tts to make jarvis talk
         # the module is imported on fly, depending on the selected tts from settings
+        print "To TTS instance type is: %s" % self.tts_instance.__class__.__name__
         self.tts_instance.say(words=message, **(self.tts_args if self.tts_args is not None else {}))
 
     def _get_tts_instance(self):

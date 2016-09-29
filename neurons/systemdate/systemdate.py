@@ -16,4 +16,4 @@ class Systemdate(Neurone):
             "hours": hour,
             "minutes": minute
         }
-        self.say(message, kwargs)
+        self.say(message, **kwargs)
