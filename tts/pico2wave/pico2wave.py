@@ -29,3 +29,4 @@ class Pico2wave(TTS):
         subprocess.check_output(["/usr/bin/pico2wave", "-l=%s" % language, "-w=%s" % file_path, words], stderr=sys.stderr)
 
 
+# logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)

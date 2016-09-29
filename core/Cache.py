@@ -17,8 +17,7 @@ class Cache:
         self._module_name = module_name
         self._cache_path = cache_path
         self._cache_extension = cache_extension
-        if self._cache_extension is None:
-            self._cache_extension = DEFAULT_CACHE_EXTENSION
+        self._cache_extension = DEFAULT_CACHE_EXTENSION
 
     def get_audio_file_cache_path(self, words, voice, language):
         # fix UnicodeEncodeError: 'ascii' codec can't encode character X in position Y
