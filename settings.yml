@@ -11,7 +11,7 @@ trigger:
 # This is the STT that will be used by default
 default_speech_to_text: "google"
 # This is the default TTS that will be used by JARVIS to talk.
-default_text_to_speech: "voxygen"
+default_text_to_speech: "pico2wave"
 
 # When jarvis detect the hotword/trigger, he will select randomly a phrase in the following list
 # to notify the user that he's listening for orders

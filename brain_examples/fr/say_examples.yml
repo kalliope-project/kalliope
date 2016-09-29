@@ -4,6 +4,6 @@
       - say:
           message:
             - "42"
-          tts: "pico2wave"
+          tts: "voxygen"
     signals:
       - order: "sens de la vie"

@@ -24,7 +24,7 @@ class Cache:
         # fix UnicodeEncodeError: 'ascii' codec can't encode character X in position Y
         words = words.encode('utf-8')
         md5 = hashlib.md5(words).hexdigest()
-        filename = voice + "." + md5 + self._cache_extension
+        filename = voice + "." + md5 + "." + self._cache_extension
         cache_directory = os.path.join(self._cache_path, self._module_name, language)
         file_path = os.path.join(cache_directory, filename)
         FileManager.create_directory(cache_directory)

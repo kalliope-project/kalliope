@@ -39,6 +39,7 @@ class Neurone(object):
         tts = None
         if self.parameters is not None:
             tts = self.parameters.get('tts', None)
+            print "tts %s" % tts
 
         if tts is not None:
             self.tts = tts

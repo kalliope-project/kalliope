@@ -29,14 +29,14 @@ pip install python-crontab
 ```
 
 ### Test your env
-Run the follwing command to capture audio from your microphone
+Run the following command to capture audio from your microphone
 ```
-
+rec test.wav
 ```
 
 Then play the recorded audio file
 ```
-
+play test.wav
 ```
 
 ## Installation

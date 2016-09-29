@@ -12,7 +12,7 @@ class Pico2wave(TTS):
 
     def say(self, words=None, language=PICO2WAVE_LANGUAGES_DEFAULT, cache=False):
         language = self.get_voice(language)
-        file_path = self.cache.get_audio_file_cache_path(words, language=language)
+        file_path = self.cache.get_audio_file_cache_path(words, language=language, voice="default")
 
         self.get_audio(words, language, file_path)
         self.play_audio(file_path, cache=cache)
