@@ -47,8 +47,6 @@ class Neurone(object):
             self.tts = SettingLoader().get_default_text_to_speech()
         # get tts args
         self.tts_args = SettingLoader().get_tts_args(self.tts)
-        # capitalise for loading module name
-        self.tts = self.tts.capitalize()
         # load the module
         self.tts_instance = self._get_tts_instance()
 
@@ -56,7 +54,9 @@ class Neurone(object):
         # get the tts if is specified otherwise use default
         tts = kwargs.get('tts', None)
         if tts is not None:
+            # the user want to use another TSS than the default one for this neuron
             self.tts = tts
+            self.tts_instance = self._get_tts_instance()
             self.tts_args = SettingLoader().get_tts_args(self.tts)
 
         # get if the cache settings is present
@@ -108,6 +108,8 @@ class Neurone(object):
         self.tts_instance.say(words=message, **(self.tts_args if self.tts_args is not None else {}))
 
     def _get_tts_instance(self):
+        # capitalise for loading module name
+        self.tts = self.tts.capitalize()
         logging.info("Import TTS module named %s " % self.tts)
         mod = __import__('tts', fromlist=[str(self.tts)])
         try:

@@ -8,6 +8,10 @@ class Pico2wave(TTS):
     PICO2WAVE_LANGUAGES_DEFAULT = PICO2WAVE_LANGUAGES['fr']
 
     def __init__(self, audio_player_type=None):
+        """
+
+        :param audio_player_type: MP3 or WAV
+        """
         TTS.__init__(self, audio_player_type, "wav")
 
     def say(self, words=None, language=PICO2WAVE_LANGUAGES_DEFAULT, cache=False):

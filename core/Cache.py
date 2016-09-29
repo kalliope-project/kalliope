@@ -13,7 +13,8 @@ DEFAULT_VOICE = "default"
 
 class Cache:
 
-    def __init__(self, module_name=DEFAULT_MODULE_NAME, cache_path=DEFAULT_CACHE_PATH, cache_extension=DEFAULT_CACHE_EXTENSION):
+    def __init__(self, module_name=DEFAULT_MODULE_NAME, cache_path=DEFAULT_CACHE_PATH,
+                 cache_extension=DEFAULT_CACHE_EXTENSION):
         self._module_name = module_name
         self._cache_path = cache_path
         self._cache_extension = cache_extension

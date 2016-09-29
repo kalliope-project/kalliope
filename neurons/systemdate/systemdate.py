@@ -5,7 +5,7 @@ from core.Models.Neurone import Neurone
 
 
 class Systemdate(Neurone):
-    def __init__(self, *args , **kwargs):
+    def __init__(self, **kwargs):
         Neurone.__init__(self, **kwargs)
 
         # get hours and minutes

@@ -6,7 +6,7 @@ class NoMessageException(Exception):
 
 
 class Say(Neurone):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         Neurone.__init__(self, **kwargs)
         # get message to spell out loud
         message = kwargs.get('message', None)

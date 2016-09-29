@@ -1,0 +1,17 @@
+- name: "Say local date"
+  neurons:
+    - systemdate:
+        say_template:
+          - "Il est {{ hours }} heures et {{ minutes }} minutes"
+        tts: "pico2wave"
+  signals:
+    - order: "test"
+
+
+- name: "Say local date"
+  neurons:
+    - systemdate:
+        file_template: fr_systemdate_template_example.j2
+        tts: "pico2wave"
+  signals:
+    - order: "test 2"
