@@ -54,8 +54,8 @@ class ConfigurationChecker:
 
     @staticmethod
     def check_event_dict(event_dict):
-        if 'id' not in event_dict:
-            raise NoEventID("Event must contain a unique ID: %s" % event_dict)
+        # if 'id' not in event_dict:
+        #     raise NoEventID("Event must contain a unique ID: %s" % event_dict)
         if 'period' not in event_dict:
             raise NoEventPeriod("Event must contain a period: %s" % event_dict)
 

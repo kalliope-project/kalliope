@@ -20,6 +20,7 @@ def main():
     # create arguments
     parser = argparse.ArgumentParser(description='JARVIS')
     parser.add_argument("action", help="[start|gui]")
+    parser.add_argument("--synapse", help="SYNAPSE")
 
     # parse arguments from script parameters
     args = parser.parse_args()
@@ -28,12 +29,17 @@ def main():
         sys.exit(1)
 
     if args.action == "start":
-        print "Starting JARVIS. Press Ctrl+C for stopping"
-        # catch signal for killing on Ctrl+C pressed
-        signal.signal(signal.SIGINT, signal_handler)
-        # start the main controller
-        main_controller = MainController()
-        main_controller.start()
+        # user set a synapse to start
+        if args.synapse is not None:
+            print "Playing synapse: %s" % args.synapse
+
+        if args.synapse is None:
+            print "Starting JARVIS. Press Ctrl+C for stopping"
+            # catch signal for killing on Ctrl+C pressed
+            signal.signal(signal.SIGINT, signal_handler)
+            # start the main controller
+            main_controller = MainController()
+            main_controller.start()
 
     if args.action == "gui":
         ShellGui()

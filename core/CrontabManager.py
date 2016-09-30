@@ -34,11 +34,11 @@ class CrontabManager:
                 # if the signal is an event we add it to the crontab
                 if type(signal) == Event:
                     # for all synapse with an event, we add the task id to the crontab
-                    self._add_event(period_string=signal.period, event_id=signal.identifier)
+                    self._add_event(period_string=signal.period, event_id=synapse.name)
 
     def _add_event(self, period_string, event_id):
         my_user_cron = CronTab(user=True)
-        job = my_user_cron.new(command=self.base_command+" "+str(event_id), comment=CRONTAB_COMMENT)
+        job = my_user_cron.new(command=self.base_command+" "+str("\""+ event_id + "\""), comment=CRONTAB_COMMENT)
         if CronSlices.is_valid(period_string):
             job.setall(period_string)
             job.enable()

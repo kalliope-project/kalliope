@@ -1,14 +1,9 @@
 ---
-  - name: "Say hello"
+  - name: "say hello"
     neurons:
       - say:
           message:
             - "Bonjour monsieur"
-            - "Bonjour maitre"
-      - sleep:
-          seconds: 1
-      - say:
-          message: "Je suis Jarvice"
-          tts: "voxygen"
     signals:
-      - order: "dis bonjour"
+      - event:
+          period: "* * * 5 *"
