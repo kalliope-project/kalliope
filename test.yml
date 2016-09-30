@@ -7,3 +7,4 @@
     signals:
       - event:
           period: "* * * 5 *"
+

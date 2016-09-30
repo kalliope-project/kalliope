@@ -22,6 +22,10 @@ class NoEventPeriod(Exception):
     pass
 
 
+class MultipleSameSynapseName(Exception):
+    pass
+
+
 class ConfigurationChecker:
 
     def __init__(self):
@@ -75,5 +79,9 @@ class ConfigurationChecker:
         :type synapses_list: list of Synapse
         :return:
         """
-        # TODO: check no same name
-        pass
+        seen = set()
+        for synapse in synapses_list:
+            if synapse.name in seen:
+                raise MultipleSameSynapseName("Synapse with same name: %s" % synapse.name)
+            seen.add(synapse.name)
+        return True
