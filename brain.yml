@@ -4,6 +4,7 @@
       - say:
           message:
             - "Bonjour monsieur"
+      - kill_switch
     signals:
       - event: "57 22 * * *"
       - order: "say hello"
@@ -14,7 +15,7 @@
           message:
             - "42"
           tts: "voxygen"
-    when:
+    signals:
       - order: "sens de la vie"
 
   - name: "Run a simple script"
@@ -23,7 +24,7 @@
           path: "/home/nico/test.sh"
       - say:
           message: "Script lancé, monsieur"
-    when:
+    signals:
       - order: "lance le script"
 
   - name: "Say local date"
@@ -41,7 +42,7 @@
           file_template: fr_systemdate_template_example.j2
           tts: "voxygen"
           cache: False
-    when:
+    signals:
       - order: "test heure"
 
   - name: "Close rolling shutter"
@@ -49,7 +50,7 @@
       - command: "curl http://192.168.0.22:5000/fermeture -d \"password=monpass\" -X POST"
       - say:
           message: "Fermeture en cours, monsieur"
-    when:
+    signals:
       - order: "ferme les volets"
 
   - name: "Open rolling shutter"
@@ -57,7 +58,7 @@
       - command: "curl http://192.168.0.22:5000/ouverture -d \"password=monpass\" -X POST"
       - say:
           message: "Ouverture en cours, monsieur"
-    when:
+    signals:
       - order: "ouvre les volets"
 
   - name: "Start steam"
@@ -66,7 +67,7 @@
       - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"steam\",\"state\":\"start\"}' http://192.168.0.17:5000/app"
       - say:
           message: "Lancement en cours, monsieur"
-    when:
+    signals:
       - order: "lance steam"
 
   - name: "Start Kodi"
@@ -75,7 +76,7 @@
       - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"kodi\",\"state\":\"start\"}' http://192.168.0.17:5000/app"
       - say:
           message: "Lancement en cours, monsieur"
-    when:
+    signals:
       - order: "lance Cody"
 
   - name: "Start music"
@@ -83,7 +84,7 @@
       - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"start\"}' http://192.168.0.17:5000/app"
       - say:
           message: "Musique lancée, monsieur"
-    when:
+    signals:
       - order: "mais nous de la musique"
       - order: "musique rock"
 
@@ -92,7 +93,7 @@
       - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"stop\"}' http://192.168.0.17:5000/app"
       - say:
           message: "Musique stoppé, monsieur"
-    when:
+    signals:
       - order: "arrête la musique"
       - order: "stop la musique"
       - order: "éteins la musique"
@@ -102,7 +103,7 @@
       - ansible_tasks: "tasks.yml"
       - say:
           message: "Tache terminée"
-    when:
+    signals:
       - order: "playbook"
 
   - name: "Stop jarvis"
@@ -110,5 +111,5 @@
       - say:
           message: "Aurevoir"
       - kill_switch
-    when:
+    signals:
       - order: "ferme-toi"
