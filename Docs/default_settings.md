@@ -82,6 +82,7 @@ speech_to_text:
       parameter_name: "value"
 ```      
 
+E.g:
 ```
 speech_to_text:
   - google:

@@ -11,7 +11,7 @@ JARVIS is easy-peasy to use, see the hello world
     neurons:      
       - say:
           message: "Hello world!"
-    when:
+    signals:
       - order: "say hello"
 ```
 
@@ -25,7 +25,7 @@ JARVIS is easy-peasy to use, see the hello world
 
 - [Configure default settings](Docs/default_settings.md)
 - [Create the brain of your JARVIS](Docs/brain.md)
-- [Run JARVIS](Docs/run_jarvis.md)
+- [Run JARVIS with CLI](Docs/jarvis_cli.md)
 
 ## Neurons
 

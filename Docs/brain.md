@@ -2,20 +2,21 @@
 
 The brain is where you create your personal assistant, your own configuration.
 
-Brain is the link between input and output actions.
+Brain is composed by synapses, a synapse is the link between input and output actions.
 
-An input action can be:
+
+
+A input action(signal) can be:
 - **an order:** Something that has been spoke out loud by the user.
 - **an event:** A date or a frequency (E.G: repeat each morning at 8:30)
 
 An output action is
-- **a neuron:** A module or plugin that will perform some actions like simply talking, run a script, run a command or a complex Ansible playbook.
-- **a list:** of neurons
+- **a list of neurons:** A module or plugin that will perform some actions like simply talking, run a script, run a command or a complex Ansible playbook.
 
 Brain is expressed in YAML format (see YAML Syntax) and have a minimum of syntax, which intentionally tries to not be a programming language or script, 
 but rather a model of a configuration or a process.
 
-Let's look a basic brain:
+Let's look a basic synapse in our brain:
 
 ```
 ---
@@ -23,7 +24,7 @@ Let's look a basic brain:
     neurons:      
       - say:
           message: "Hello, sir"
-    when:
+    signals:
       - order: "say hello"
 ```
 
@@ -41,7 +42,7 @@ At the top level we have a "name"
 ```
 - name: "Say hello"
 ```
-This is the identifier of the task. This one must be unique as it will be used by the event handler based on crontab.
+This is the identifier of the synapse.
 
 Then we have the neurons declaration that contain a list (because it starts with a "-") which contains neurons
 ```
@@ -61,12 +62,13 @@ neurons:
 ```
 Not here that parameters are indented with one tabulation bellow the neuron's name.
 
+In this example, the neuron called "say" will make Jarvis speak out loud the sentence in parameter **message**.
+See the complete list of [available neurons](neurons.md) here.
 
-In this example, the neuron called "say" will make Jarvis speak out loud the phrase in parameter **message**.
-
-The last part, called **when** is a list of input action. This last works exactly the same way as neurons. You must place here at least one action.
+The last part, called **signals** is a list of input action. This last works exactly the same way as neurons. You must place here at least one action.
+In the following example, we use just one signal, an order. See the complete list of [available signals](signals.md) here.
 ```
-when:
+signals:
   - order: "say hello"
 ```
 
@@ -77,4 +79,4 @@ In this example, the task is launched when the captured order contains "say hell
 - "i say goodbye you say hello"
 - "whatever I say as long it contains say hello"
 
-To know if your spoken order will be triggered by jarvis, we recommend you to [use the GUI](run_jarvis/md) for testing your STT.
+To know if your spoken order will be triggered by jarvis, we recommend you to [use the GUI](jarvis_cli.md) for testing your STT engine.
