@@ -7,7 +7,8 @@ from neurons import Say
 
 
 class MainController:
-    def __init__(self):
+    def __init__(self, brain_file=None):
+        self.brain_file = brain_file
         # Manage Global Configuration
         self.conf = ConfigurationManager().get_settings()
 
@@ -50,7 +51,7 @@ class MainController:
         Receive an order, try to retreive it in the brain.yml to launch to attached plugins
         :return:
         """
-        order_analyser = OrderAnalyser(order, main_controller=self)
+        order_analyser = OrderAnalyser(order, main_controller=self, brain_file=self.brain_file)
         order_analyser.start()
 
     def get_analyse_order_callback(self):

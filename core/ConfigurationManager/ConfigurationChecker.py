@@ -65,7 +65,6 @@ class ConfigurationChecker:
 
     @staticmethod
     def check_event_dict(event_dict):
-        print event_dict
         if event_dict is None:
             raise NoEventPeriod("Event must contain a period: %s" % event_dict)
 

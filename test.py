@@ -15,9 +15,9 @@ logger.setLevel(logging.DEBUG)
 #
 # oa.start()
 
-# cmd = "python jarvis.py start --synapse \"this is my synapse\""
-#
-# os.system(cmd)
+cmd = "python jarvis.py start --run-synapse \"say hello\" --brain-file test.yml"
 
-crontab_manager = CrontabManager(brain_file="test.yml")
-crontab_manager.load_events_in_crontab()
+os.system(cmd)
+
+# crontab_manager = CrontabManager(brain_file="test.yml")
+# crontab_manager.load_events_in_crontab()
