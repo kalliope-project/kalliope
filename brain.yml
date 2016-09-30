@@ -1,4 +1,12 @@
 ---
+  - name: "say hello"
+    neurons:
+      - say:
+          message:
+            - "Bonjour monsieur"
+    signals:
+      - event: "57 22 * * *"
+      - order: "say hello"
 
   - name: "Meaning of life"
     neurons:

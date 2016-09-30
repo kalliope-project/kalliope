@@ -1,3 +1,6 @@
+import inspect
+import logging
+import os
 
 from YAMLLoader import YAMLLoader
 from core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
@@ -7,17 +10,15 @@ from core.Models.Neuron import Neuron
 from core.Models.Order import Order
 from core.Models.Synapse import Synapse
 
-FILE_NAME = "brain.yml"
-
 
 class BrainLoader(YAMLLoader):
 
-    def __init__(self, filename=None):
-        self.fileName = filename
-        if filename is None:
-            self.fileName = FILE_NAME
-        self.filePath = "../../" + self.fileName
-        YAMLLoader.__init__(self, self.filePath)
+    def __init__(self, filepath=None):
+        self.brain_file_path = filepath
+        if filepath is None:
+            self.brain_file_path = self._get_root_brain_path()
+        # self.filePath = "../../" + self.fileName
+        YAMLLoader.__init__(self, self.brain_file_path)
 
     def get_config(self):
         return YAMLLoader.get_config(self)
@@ -44,12 +45,14 @@ class BrainLoader(YAMLLoader):
                 new_synapse = Synapse(name=name, neurons=neurons, signals=signals)
                 synapses.append(new_synapse)
         brain.synapes = synapses
+        brain.brain_file = self.brain_file_path
         # check that no synapse have the same name than another
         if ConfigurationChecker().check_synapes(synapses):
             return brain
         return None
 
-    def _get_neurons(self, neurons_dict):
+    @staticmethod
+    def _get_neurons(neurons_dict):
         """
         Get a list of Neuron object from a neuron dict
         :param neurons_dict:
@@ -93,5 +96,22 @@ class BrainLoader(YAMLLoader):
             order = signal_or_event_dict["order"]
             if ConfigurationChecker.check_order_dict(order):
                 return Order(sentence=order)
+
+    @staticmethod
+    def _get_root_brain_path():
+        """
+        Return the full path of the default brain file
+        :return:
+        """
+        # get current script directory path. We are in /an/unknown/path/jarvis/core/ConfigurationManager
+        cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+        # get parent dir. Now we are in /an/unknown/path/jarvis
+        parent_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)
+        brain_path = parent_dir + "brain.yml"
+        logging.debug("Real brain.yml path: %s" % brain_path)
+        if os.path.isfile(brain_path):
+            return brain_path
+        raise IOError("Default brain.yml file not found")
+
 
 

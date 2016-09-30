@@ -17,8 +17,8 @@ class CrontabManager:
 
     def __init__(self, brain_file=None):
         self.my_user_cron = CronTab(user=True)
+        self.brain = BrainLoader(filepath=brain_file).get_brain()
         self.base_command = self._get_base_command()
-        self.brain = BrainLoader(filename=brain_file).get_brain()
 
     def load_events_in_crontab(self):
         """
@@ -87,5 +87,7 @@ class CrontabManager:
         # We test that the file exist before return it
         logging.debug("Real jarvis.py path: %s" % real_jarvis_entry_point_path)
         if os.path.isfile(real_jarvis_entry_point_path):
-            return real_jarvis_entry_point_path
+            crontab_cmd = "python %s start --brain-file %s --run-synapse " % (real_jarvis_entry_point_path,
+                                                                              self.brain.brain_file)
+            return crontab_cmd
         raise IOError("jarvis.py file not found")
