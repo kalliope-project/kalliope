@@ -60,14 +60,20 @@ class BrainLoader(YAMLLoader):
         """
         neurons = list()
         for neuron_dict in neurons_dict:
-            # print neuron_dict
-            if ConfigurationChecker().check_neuron_dict(neuron_dict):
-                # print "Neurons dict ok"
-                for neuron_name in neuron_dict:
-                    name = neuron_name
-                    parameters = neuron_dict[name]
-                    # print parameters
-                    new_neuron = Neuron(name=name, parameters=parameters)
+            if isinstance(neuron_dict, dict):
+                if ConfigurationChecker().check_neuron_dict(neuron_dict):
+                    # print "Neurons dict ok"
+                    for neuron_name in neuron_dict:
+
+                        name = neuron_name
+                        parameters = neuron_dict[name]
+                        # print parameters
+                        new_neuron = Neuron(name=name, parameters=parameters)
+                        neurons.append(new_neuron)
+            else:
+                # the neuron does not have parameter
+                if ConfigurationChecker().check_neuron_dict(neuron_dict):
+                    new_neuron = Neuron(name=neuron_dict)
                     neurons.append(new_neuron)
 
         return neurons
@@ -106,8 +112,9 @@ class BrainLoader(YAMLLoader):
         # get current script directory path. We are in /an/unknown/path/jarvis/core/ConfigurationManager
         cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         # get parent dir. Now we are in /an/unknown/path/jarvis
-        parent_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)
-        brain_path = parent_dir + "brain.yml"
+        parent_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir + os.sep + os.pardir)
+        brain_path = parent_dir + os.sep + "brain.yml"
+        print brain_path
         logging.debug("Real brain.yml path: %s" % brain_path)
         if os.path.isfile(brain_path):
             return brain_path

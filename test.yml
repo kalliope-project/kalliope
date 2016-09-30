@@ -6,4 +6,3 @@
             - "Bonjour monsieur"
     signals:
       - event: "23 23 * * *"
-      - order: "say hello"

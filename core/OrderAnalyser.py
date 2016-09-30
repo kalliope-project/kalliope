@@ -18,7 +18,7 @@ class OrderAnalyser:
         self.main_controller = main_controller
         self.order = order
         if brain_file is None:
-            self.brain = BrainLoader.get_brain()
+            self.brain = BrainLoader().get_brain()
         else:
             self.brain = BrainLoader(brain_file).get_brain()
         logging.info("Receiver order: %s" % self.order)
