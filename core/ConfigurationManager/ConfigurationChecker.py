@@ -66,3 +66,14 @@ class ConfigurationChecker:
         if order_dict is not None:
             return True
         return False
+
+    @staticmethod
+    def check_synapes(synapses_list):
+        """
+        Check the synapse list is ok. No double same name
+        :param synapses_list:
+        :type synapses_list: list of Synapse
+        :return:
+        """
+        # TODO: check no same name
+        pass

@@ -22,17 +22,6 @@ class BrainLoader(YAMLLoader):
     def get_config(self):
         return YAMLLoader.get_config(self)
 
-    def get_events(self):
-        events_in_brain = list()
-        for el in self.get_config():
-            whens = el["when"]
-            for when in whens:
-                # if key event exist in when of the task
-                if 'event' in when:
-                    events_in_brain.append(when['event'])
-
-        return events_in_brain
-
     def get_brain(self):
         """
         return a brain object from YAML settings
@@ -55,7 +44,10 @@ class BrainLoader(YAMLLoader):
                 new_synapse = Synapse(name=name, neurons=neurons, signals=signals)
                 synapses.append(new_synapse)
         brain.synapes = synapses
-        return brain
+        # check that no synapse have the same name than another
+        if ConfigurationChecker().check_synapes(synapses):
+            return brain
+        return None
 
     def _get_neurons(self, neurons_dict):
         """
