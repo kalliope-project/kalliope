@@ -20,7 +20,7 @@ def main():
     # create arguments
     parser = argparse.ArgumentParser(description='JARVIS')
     parser.add_argument("action", help="[start|gui]")
-    parser.add_argument("--synapse", help="SYNAPSE. Name of a synapse to load in quote")
+    parser.add_argument("--run-synapse", help="SYNAPSE. Name of a synapse to load surrounded by quote")
     parser.add_argument("--brain-file", help="BRAIN_PATH_FILE")
 
     # parse arguments from script parameters

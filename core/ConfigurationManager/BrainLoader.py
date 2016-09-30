@@ -87,7 +87,7 @@ class BrainLoader(YAMLLoader):
             # print "is event"
             event = signal_or_event_dict["event"]
             if ConfigurationChecker.check_event_dict(event):
-                return Event(period=event["period"])
+                return Event(period=event)
 
         if 'order' in signal_or_event_dict:
             order = signal_or_event_dict["order"]

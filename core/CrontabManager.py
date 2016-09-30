@@ -10,13 +10,14 @@ class InvalidCrontabPeriod(Exception):
     pass
 
 CRONTAB_COMMENT = "JARVIS"
+JARVIS_ENTRY_POINT_SCRIPT = "jarvis.py"
 
 
 class CrontabManager:
 
     def __init__(self, brain_file=None):
         self.my_user_cron = CronTab(user=True)
-        self.base_command = "/path/to/jarvis/"
+        self.base_command = self._get_base_command()
         self.brain = BrainLoader(filename=brain_file).get_brain()
 
     def load_events_in_crontab(self):
@@ -38,7 +39,7 @@ class CrontabManager:
 
     def _add_event(self, period_string, event_id):
         my_user_cron = CronTab(user=True)
-        job = my_user_cron.new(command=self.base_command+" "+str("\""+ event_id + "\""), comment=CRONTAB_COMMENT)
+        job = my_user_cron.new(command=self.base_command+" "+str("\"" + event_id + "\""), comment=CRONTAB_COMMENT)
         if CronSlices.is_valid(period_string):
             job.setall(period_string)
             job.enable()
@@ -68,3 +69,23 @@ class CrontabManager:
         sum_job = sum(1 for _ in new_iter)
         while sum_job > 0:
             self._remove_all_jarvis_job()
+
+    def _get_base_command(self):
+        """
+        Return the path of the entry point of Jarvis
+        Example: /home/user/jarvis/jarvis.py
+        :return: The path of the entry point script jarvis.py
+        """
+        import inspect
+        import os
+        # get current script directory path. We are in /an/unknown/path/jarvis/core
+        cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+        # get parent dir. Now we are in /an/unknown/path/jarvis
+        parent_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)
+        # we add the jarvis.py file name
+        real_jarvis_entry_point_path = parent_dir + os.sep + JARVIS_ENTRY_POINT_SCRIPT
+        # We test that the file exist before return it
+        logging.debug("Real jarvis.py path: %s" % real_jarvis_entry_point_path)
+        if os.path.isfile(real_jarvis_entry_point_path):
+            return real_jarvis_entry_point_path
+        raise IOError("jarvis.py file not found")

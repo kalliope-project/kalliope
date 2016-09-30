@@ -1,3 +1,6 @@
+import re
+
+
 class NoSynapeName(Exception):
     pass
 
@@ -23,6 +26,10 @@ class NoEventPeriod(Exception):
 
 
 class MultipleSameSynapseName(Exception):
+    pass
+
+
+class NotValidSynapseName(Exception):
     pass
 
 
@@ -58,9 +65,8 @@ class ConfigurationChecker:
 
     @staticmethod
     def check_event_dict(event_dict):
-        # if 'id' not in event_dict:
-        #     raise NoEventID("Event must contain a unique ID: %s" % event_dict)
-        if 'period' not in event_dict:
+        print event_dict
+        if event_dict is None:
             raise NoEventPeriod("Event must contain a period: %s" % event_dict)
 
         return True
@@ -74,14 +80,21 @@ class ConfigurationChecker:
     @staticmethod
     def check_synapes(synapses_list):
         """
-        Check the synapse list is ok. No double same name
+        Check the synapse list is ok:
+         - No double same name
+         - No accent of special character
         :param synapses_list:
         :type synapses_list: list of Synapse
         :return:
         """
         seen = set()
         for synapse in synapses_list:
-            if synapse.name in seen:
-                raise MultipleSameSynapseName("Synapse with same name: %s" % synapse.name)
+            # convert ascii to UTF-8
+            synapse_name = synapse.name.encode('utf-8')
+            if synapse_name in seen:
+                raise MultipleSameSynapseName("Multiple synapse found with the same name: %s" % synapse_name)
             seen.add(synapse.name)
+            if not re.match("^[a-zA-Z0-9_\s]*$", synapse.name):
+                raise NotValidSynapseName("Synapse's name %s not valid." % synapse_name)
+
         return True

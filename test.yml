@@ -5,6 +5,5 @@
           message:
             - "Bonjour monsieur"
     signals:
-      - event:
-          period: "* * * 5 *"
-
+      - event: "* * * 5 *"
+      - order: "say hello"
