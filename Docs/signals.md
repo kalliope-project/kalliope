@@ -90,3 +90,14 @@ The synapse in the brain would be
 ```
 
 After setting up an event, we must call a jarvis command to load the crontab automatically
+```
+python jarvis.py load-events
+```
+
+If the syntax is ok, JARVIS will show you each synapse that he has loaded in the crontab
+```
+Synapse "wake up" added to the crontab
+Event loaded in crontab
+```
+
+That's it, the synapse is now scheduled and will be started automatically.
