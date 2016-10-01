@@ -1,0 +1,12 @@
+---
+  - name: "wake up"
+    neurons:
+      - say:
+          message:
+            - "Bonjour monsieur"
+      - systemdate:
+          say_template:
+            - "Il est {{ hours }} heures et {{ minutes }} minutes"
+      - command: "mplayer http://192.99.17.12:6410/"  # Launch Asterisk radio
+    signals:
+      - event: "30 7 * * 1,2,3,4,5" # each morning of working day at 7:30
