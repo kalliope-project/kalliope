@@ -24,7 +24,7 @@ class OrderAnalyser:
             self.brain = BrainLoader().get_brain()
         else:
             self.brain = BrainLoader(brain_file).get_brain()
-            logger.info("Receiver order: %s" % self.order)
+            logger.debug("Receiver order: %s" % self.order)
 
     def start(self):
         for synapse in self.brain.synapses:

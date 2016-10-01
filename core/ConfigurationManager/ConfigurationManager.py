@@ -43,7 +43,7 @@ class ConfigurationManager:
             default_speech_to_text = settings["default_speech_to_text"]
             if default_speech_to_text is None:
                 raise DefaultSpeechNull("Attribute default_speech_to_text is null")
-            logger.info("Default STT: %s" % default_speech_to_text)
+            logger.debug("Default STT: %s" % default_speech_to_text)
             return default_speech_to_text
         except KeyError:
             raise DefaultSpeechToTextNotFound("Attribute default_speech_to_text not found in settings")
@@ -56,7 +56,7 @@ class ConfigurationManager:
             default_text_to_speech = settings["default_text_to_speech"]
             if default_text_to_speech is None:
                 raise DefaultSpeechNull("Attribute default_text_to_speech is null")
-            logger.info("Default TTS: %s" % default_text_to_speech)
+            logger.debug("Default TTS: %s" % default_text_to_speech)
             return default_text_to_speech
         except KeyError:
             raise DefaultSpeechToTextNotFound("Attribute default_text_to_speech not found in settings")

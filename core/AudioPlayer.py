@@ -49,7 +49,7 @@ class AudioPlayer:
 
     @staticmethod
     def _start_player_audio():
-        logger.info("Starting pygame audio player")
+        logger.debug("Starting pygame audio player")
         pygame.mixer.music.play()
         clock = pygame.time.Clock()
         while pygame.mixer.music.get_busy():
