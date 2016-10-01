@@ -1,8 +1,12 @@
 ---
-  - name: "say hello"
+  - name: "wake up"
     neurons:
       - say:
           message:
             - "Bonjour monsieur"
+      - systemdate:
+          say_template:
+            - "Il est {{ hours }} heures et {{ minutes }} minutes"
+      - command: "mplayer http://192.99.17.12:6410/"
     signals:
-      - event: "23 23 * * *"
+      - event: "20 12 * * *"

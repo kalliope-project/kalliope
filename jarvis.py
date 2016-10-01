@@ -69,7 +69,7 @@ def main():
     if args.action == "load-events":
         crontab_manager = CrontabManager(brain_file=brain_file)
         crontab_manager.load_events_in_crontab()
-        Utils.print_success("Event loaded in crontab")
+        Utils.print_success("Events loaded in crontab")
 
 if __name__ == '__main__':
     main()

@@ -1,6 +1,7 @@
 from crontab import CronTab
 from crontab import CronSlices
 
+from core import Utils
 from core.ConfigurationManager.BrainLoader import BrainLoader
 from core.Models import Event
 import logging
@@ -47,6 +48,7 @@ class CrontabManager:
             raise InvalidCrontabPeriod("The crontab period %s is not valid" % period_string)
         # write the file
         my_user_cron.write()
+        Utils.print_info("Synapse \"%s\" added to the crontab" % event_id)
 
     def get_jobs(self):
         return self.my_user_cron.find_comment(CRONTAB_COMMENT)
