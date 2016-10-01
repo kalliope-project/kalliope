@@ -73,15 +73,15 @@ class NeuronModule(object):
         tts_message = None
 
         if isinstance(message, str):
-            print "message is string"
+            logger.debug("message is string")
             tts_message = message
 
         if isinstance(message, list):
-            print "message is list"
+            logger.debug("message is list")
             tts_message = self._get_message_from_list(message)
 
         if isinstance(message, dict):
-            print "message is dict"
+            logger.debug("message is dict")
             tts_message = self._get_message_from_dict(message)
 
         if message is not None:
@@ -155,8 +155,7 @@ class NeuronModule(object):
 
     @staticmethod
     def _update_cache_var(new_override_cache, args_list):
-        print "args for TTS plugin before update: %s" % str(args_list)
+        logger.debug("args for TTS plugin before update: %s" % str(args_list))
         args_list["cache"] = new_override_cache
-
-        print "args for TTS plugin after update: %s" % str(args_list)
+        logger.debug("args for TTS plugin after update: %s" % str(args_list))
         return args_list

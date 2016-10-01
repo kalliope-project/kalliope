@@ -1,4 +1,6 @@
 import speech_recognition as sr
+
+from core import Utils
 from core.OrderListener import OrderListener
 
 
@@ -23,7 +25,7 @@ class Google(OrderListener):
         with sr.Microphone() as source:
             # listen for 1 second to calibrate the energy threshold for ambient noise levels
             r.adjust_for_ambient_noise(source)
-            print("Say something!")
+            Utils.print_info("Say something!")
             audio = r.listen(source)
 
         # recognize speech using Google Speech Recognition
@@ -37,13 +39,13 @@ class Google(OrderListener):
             show_all = kwargs.get('show_all', False)
 
             captured_audio = r.recognize_google(audio, key=key, language=language, show_all=show_all)
-            print "Google Speech Recognition thinks you said %s" % captured_audio
+            Utils.print_success("Google Speech Recognition thinks you said %s" % captured_audio)
             self._analyse_audio(captured_audio)
 
         except sr.UnknownValueError:
-            print("Google Speech Recognition could not understand audio")
+            Utils.print_warning("Google Speech Recognition could not understand audio")
         except sr.RequestError as e:
-            print("Could not request results from Google Speech Recognition service; {0}".format(e))
+            Utils.print_danger("Could not request results from Google Speech Recognition service; {0}".format(e))
 
     def _analyse_audio(self, audio):
         # if self.main_controller is not None:

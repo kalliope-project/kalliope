@@ -1,9 +1,14 @@
+import logging
+
 from dialog import Dialog
 import locale
 
 from core import ConfigurationManager
 from core import OrderListener
 from neurons import Say
+
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
 
 
 class ShellGui:
@@ -38,7 +43,7 @@ class ShellGui:
     def show_stt_test_menu(self):
         # we get STT from settings
         stt_list = ConfigurationManager.get_stt_list()
-        print stt_list
+        logger.debug("Loaded stt list: %s" % str(stt_list))
         choices = self._get_choices_tuple_from_list(stt_list)
 
         code, tag = self.d.menu("Select the STT to test:",
@@ -48,7 +53,6 @@ class ShellGui:
             self.show_main_menu()
 
         if code == self.d.OK:
-            print tag
             self.d.infobox("Please talk now")
             order_listener = OrderListener(callback=self.callback_stt, stt=str(tag))
             order_listener.load_stt_plugin()
@@ -108,11 +112,11 @@ class ShellGui:
         for el in list_to_convert:
             try:
                 for name, settings in el.iteritems():
-                    print name
-                    print settings
                     tup = (str(name), str(settings))
                     choices.append(tup)
+                    logger.debug("Add stt to the list: %s with parameters: %s" % (str(el), str(settings)))
             except AttributeError:
+                logger.debug("Add stt to the list: %s" % str(el))
                 # sometime there is no settings for the STT key
                 tup = (str(el), str("No settings"))
                 choices.append(tup)

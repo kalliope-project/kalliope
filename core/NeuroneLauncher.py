@@ -1,3 +1,9 @@
+import logging
+
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
+
+
 class NeuroneNotFoundError(Exception):
     pass
 
@@ -9,12 +15,12 @@ def _run_plugin(plugin, parameters=None):
     :param parameters: Parameter of the module
     :return:
     """
-    print "Run plugin %s with parameter %s" % (plugin, parameters)
+    logger.debug("Run plugin %s with parameter %s" % (plugin, parameters))
     mod = __import__('neurons', fromlist=[plugin])
     try:
         klass = getattr(mod, plugin)
     except AttributeError:
-        print "Error: No module named %s " % plugin
+        logger.debug("Error: No module named %s " % plugin)
         raise NeuroneNotFoundError
 
     if klass is not None:

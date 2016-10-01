@@ -26,12 +26,12 @@ class Pico2wave(TTS):
         self.play_audio(file_path, cache=cache)
 
     def get_voice(self, language):
-        print "asked lang: %s" % language
+        logger.debug("Pico2wave asked lang: %s" % language)
 
         if language in self.PICO2WAVE_LANGUAGES:
             return self.PICO2WAVE_LANGUAGES[language]
 
-        logger.warn("Cannot find language matching language:  %s replace by default voice: %s", language, self.PICO2WAVE_LANGUAGES_DEFAULT)
+        logger.debug("Cannot find language matching language:  %s replace by default voice: %s", language, self.PICO2WAVE_LANGUAGES_DEFAULT)
         return self.PICO2WAVE_LANGUAGES_DEFAULT
 
     @staticmethod
