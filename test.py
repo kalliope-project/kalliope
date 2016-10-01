@@ -5,8 +5,8 @@ from core.CrontabManager import CrontabManager
 from core.OrderAnalyser import OrderAnalyser
 
 import logging
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
 
 
 # oa = OrderAnalyser("wake up", brain_file="/home/nico/Documents/jarvis/test.yml")

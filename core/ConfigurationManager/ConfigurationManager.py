@@ -2,6 +2,9 @@ from BrainLoader import BrainLoader
 from SettingLoader import SettingLoader
 import logging
 
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
+
 
 class DefaultSpeechToTextNotFound(Exception):
     pass
@@ -40,7 +43,7 @@ class ConfigurationManager:
             default_speech_to_text = settings["default_speech_to_text"]
             if default_speech_to_text is None:
                 raise DefaultSpeechNull("Attribute default_speech_to_text is null")
-            logging.info("Default STT: %s" % default_speech_to_text)
+            logger.info("Default STT: %s" % default_speech_to_text)
             return default_speech_to_text
         except KeyError:
             raise DefaultSpeechToTextNotFound("Attribute default_speech_to_text not found in settings")
@@ -53,7 +56,7 @@ class ConfigurationManager:
             default_text_to_speech = settings["default_text_to_speech"]
             if default_text_to_speech is None:
                 raise DefaultSpeechNull("Attribute default_text_to_speech is null")
-            logging.info("Default TTS: %s" % default_text_to_speech)
+            logger.info("Default TTS: %s" % default_text_to_speech)
             return default_text_to_speech
         except KeyError:
             raise DefaultSpeechToTextNotFound("Attribute default_text_to_speech not found in settings")
@@ -89,11 +92,11 @@ class ConfigurationManager:
         except KeyError:
             raise NoSpeechToTextConfiguration("No speech_to_text in settings")
 
-        logging.debug("Settings file content: %s" % speechs_to_text)
+        logger.debug("Settings file content: %s" % speechs_to_text)
         # get args
         args = find(speechs_to_text, default_stt_plugin_name)
 
-        logging.debug("Args for %s STT: %s" % (default_stt_plugin_name, args))
+        logger.debug("Args for %s STT: %s" % (default_stt_plugin_name, args))
 
         return args
 
@@ -128,10 +131,10 @@ class ConfigurationManager:
         except KeyError:
             raise NoSpeechToTextConfiguration("No text_to_speech in settings")
 
-        logging.debug("Settings file content: %s" % texts_to_speech)
+        logger.debug("Settings file content: %s" % texts_to_speech)
         # get args
         args = find(texts_to_speech, tts_name)
-        logging.debug("Args for %s TTS: %s" % (tts_name, args))
+        logger.debug("Args for %s TTS: %s" % (tts_name, args))
         # print args
         return args
 

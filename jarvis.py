@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import argparse
 import logging
 
@@ -10,6 +11,9 @@ import signal
 import sys
 
 from core.SynapseLauncher import SynapseLauncher
+
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
 
 
 def signal_handler(signal, frame):
@@ -29,13 +33,19 @@ def main():
     parser.add_argument("action", help="[start|gui|load-events]")
     parser.add_argument("--run-synapse", help="Name of a synapse to load surrounded by quote")
     parser.add_argument("--brain-file", help="Full path of a brain file")
+    parser.add_argument("--debug", action='store_true', help="Show debug output")
 
     # parse arguments from script parameters
     args = parser.parse_args()
-    logging.debug("jarvis args: %s" % args)
+
     if len(sys.argv[1:]) == 0:
         parser.print_usage()
         sys.exit(1)
+
+    # check if we want debug
+    configure_logging(debug=args.debug)
+
+    logger.debug("jarvis args: %s" % args)
 
     # by default, no brain file is set. Use the default one: brain.yml in the root path
     brain_file = None
@@ -70,6 +80,30 @@ def main():
         crontab_manager = CrontabManager(brain_file=brain_file)
         crontab_manager.load_events_in_crontab()
         Utils.print_success("Events loaded in crontab")
+
+
+def configure_logging(debug=None):
+    """
+    Prepare log folder in current home directory
+    :param debug: If true, set the lof level to debug
+    :return:
+    """
+    logger = logging.getLogger("jarvis")
+    logger.propagate = False
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
+    ch.setFormatter(formatter)
+
+    # add the handlers to logger
+    logger.addHandler(ch)
+
+    if debug:
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
+
+    logger.debug("Logger ready")
 
 if __name__ == '__main__':
     main()

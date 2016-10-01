@@ -6,6 +6,9 @@ from jinja2 import Template
 
 from core.ConfigurationManager import SettingLoader
 
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
+
 
 class NoTemplateException(Exception):
     pass
@@ -36,7 +39,7 @@ class NeuronModule(object):
         """
         # get the child who called the class
         child_name = self.__class__.__name__
-        logging.debug("NeuronModule called from class %s with parameters: %s" % (child_name, kwargs))
+        logger.debug("NeuronModule called from class %s with parameters: %s" % (child_name, kwargs))
 
         # check if the user has overrider the TTS
         tts = kwargs.get('tts', None)
@@ -65,7 +68,7 @@ class NeuronModule(object):
         :param message: Can be a String or a dict
         :return:
         """
-        logging.debug("NeuronModule Say() called with message: %s" % message)
+        logger.debug("NeuronModule Say() called with message: %s" % message)
 
         tts_message = None
 
@@ -137,7 +140,7 @@ class NeuronModule(object):
     def _get_tts_instance(tts_name):
         # capitalise for loading module name
         tts = tts_name.capitalize()
-        logging.info("Import TTS module named %s " % tts)
+        logger.debug("Import TTS module named %s " % tts)
         mod = __import__('tts', fromlist=[str(tts)])
         try:
             klass = getattr(mod, tts)

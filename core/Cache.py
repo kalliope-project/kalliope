@@ -10,6 +10,8 @@ DEFAULT_CACHE_EXTENSION = "tts"
 DEFAULT_LANGUAGE = "default"
 DEFAULT_VOICE = "default"
 
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
 
 class Cache:
 
@@ -27,7 +29,7 @@ class Cache:
         cache_directory = os.path.join(self._cache_path, self._module_name, language)
         file_path = os.path.join(cache_directory, filename)
         FileManager.create_directory(cache_directory)
-        logging.debug("Cache directory %s exists and File path for audio is: %s", cache_directory, file_path)
+        logger.debug("Cache directory %s exists and File path for audio is: %s", cache_directory, file_path)
         return file_path
 
     @staticmethod

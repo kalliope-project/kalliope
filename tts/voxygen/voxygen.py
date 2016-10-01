@@ -8,6 +8,9 @@ from core import AudioPlayer
 from core import FileManager
 from tts import TTS
 
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
+
 
 class Voxygen(TTS):
     VOXYGEN_LANGUAGES = dict(
@@ -43,7 +46,7 @@ class Voxygen(TTS):
         if language in self.VOXYGEN_LANGUAGES and voice in self.VOXYGEN_LANGUAGES[language]:
             return self.VOXYGEN_LANGUAGES[language][voice]
 
-        logging.warn("Cannot find language matching language: %s voice: %s replace by default voice: %s", language, voice, self.VOXYGEN_VOICE_DEFAULT)
+        logger.warn("Cannot find language matching language: %s voice: %s replace by default voice: %s", language, voice, self.VOXYGEN_VOICE_DEFAULT)
         return self.VOXYGEN_VOICE_DEFAULT
 
     def get_audio(self, voice, words, file_path, cache):
@@ -57,7 +60,7 @@ class Voxygen(TTS):
             r = requests.get(self.VOXYGEN_URL, params=payload, stream=True, timeout=self.VOXYGEN_TIMEOUT_SEC)
 
             content_type = r.headers['Content-Type']
-            logging.debug("Trying to get url: %s response code: %s and content-type: %s", r.url, r.status_code, content_type)
+            logger.debug("Trying to get url: %s response code: %s and content-type: %s", r.url, r.status_code, content_type)
 
             try:
                 if r.status_code == requests.codes.ok and content_type == self.VOXYGEN_CONTENT_TYPE:
@@ -65,10 +68,10 @@ class Voxygen(TTS):
                 else:
                     return False
             except IOError as e:
-                logging.error("I/O error(%s): %s", e.errno, e.strerror)
+                logger.error("I/O error(%s): %s", e.errno, e.strerror)
             except ValueError:
-                logging.error("Could not convert data to an integer.")
+                logger.error("Could not convert data to an integer.")
             except:
-                logging.error("Unexpected error: %s", sys.exc_info()[0])
+                logger.error("Unexpected error: %s", sys.exc_info()[0])
         else:
             return True

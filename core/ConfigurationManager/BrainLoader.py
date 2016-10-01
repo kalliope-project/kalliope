@@ -10,6 +10,9 @@ from core.Models.Neuron import Neuron
 from core.Models.Order import Order
 from core.Models.Synapse import Synapse
 
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
+
 
 class BrainLoader(YAMLLoader):
 
@@ -36,9 +39,9 @@ class BrainLoader(YAMLLoader):
         # create list of Synapse
         synapses = list()
         for synapes_dict in dict_brain:
-            # print synapes_dict
+            # print synapses_dict
             if ConfigurationChecker().check_synape_dict(synapes_dict):
-                # print "synapes_dict ok"
+                # print "synapses_dict ok"
                 name = synapes_dict["name"]
                 neurons = self._get_neurons(synapes_dict["neurons"])
                 signals = self._get_signals(synapes_dict["signals"])
@@ -114,8 +117,7 @@ class BrainLoader(YAMLLoader):
         # get parent dir. Now we are in /an/unknown/path/jarvis
         parent_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir + os.sep + os.pardir)
         brain_path = parent_dir + os.sep + "brain.yml"
-        print brain_path
-        logging.debug("Real brain.yml path: %s" % brain_path)
+        logger.debug("Real brain.yml path: %s" % brain_path)
         if os.path.isfile(brain_path):
             return brain_path
         raise IOError("Default brain.yml file not found")

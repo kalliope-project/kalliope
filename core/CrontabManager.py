@@ -6,6 +6,9 @@ from core.ConfigurationManager.BrainLoader import BrainLoader
 from core.Models import Event
 import logging
 
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
+
 
 class InvalidCrontabPeriod(Exception):
     pass
@@ -60,7 +63,7 @@ class CrontabManager:
         """
         iter = self.my_user_cron.find_comment(CRONTAB_COMMENT)
         for job in iter:
-            logging.debug("remove job %s from crontab" % job)
+            logger.debug("remove job %s from crontab" % job)
             self.my_user_cron.remove(job)
         # write the file
         self.my_user_cron.write()
@@ -87,7 +90,7 @@ class CrontabManager:
         # we add the jarvis.py file name
         real_jarvis_entry_point_path = parent_dir + os.sep + JARVIS_ENTRY_POINT_SCRIPT
         # We test that the file exist before return it
-        logging.debug("Real jarvis.py path: %s" % real_jarvis_entry_point_path)
+        logger.debug("Real jarvis.py path: %s" % real_jarvis_entry_point_path)
         if os.path.isfile(real_jarvis_entry_point_path):
             crontab_cmd = "python %s start --brain-file %s --run-synapse " % (real_jarvis_entry_point_path,
                                                                               self.brain.brain_file)

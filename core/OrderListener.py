@@ -1,6 +1,9 @@
 import logging
 from core import ConfigurationManager
 
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
+
 
 class OrderListener:
 
@@ -31,11 +34,11 @@ class OrderListener:
     def _run_stt_plugin(self, stt_plugin, parameters=None):
         """
         Dynamic loading of a STT module
-        :param plugin: Module name to load
+        :param stt_plugin: Module name to load
         :param parameters: Parameter of the module
         :return:
         """
-        logging.debug("Running STT %s with parameter %s" % (stt_plugin, parameters))
+        logger.debug("Running STT %s with parameter %s" % (stt_plugin, parameters))
         mod = __import__('stt', fromlist=[stt_plugin])
 
         klass = getattr(mod, stt_plugin)

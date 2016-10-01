@@ -1,6 +1,10 @@
 import subprocess
 from tts import TTS
-import logging, sys
+import logging
+import sys
+
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
 
 
 class Pico2wave(TTS):
@@ -27,12 +31,10 @@ class Pico2wave(TTS):
         if language in self.PICO2WAVE_LANGUAGES:
             return self.PICO2WAVE_LANGUAGES[language]
 
-        logging.warn("Cannot find language matching language:  %s replace by default voice: %s", language, self.PICO2WAVE_LANGUAGES_DEFAULT)
+        logger.warn("Cannot find language matching language:  %s replace by default voice: %s", language, self.PICO2WAVE_LANGUAGES_DEFAULT)
         return self.PICO2WAVE_LANGUAGES_DEFAULT
 
     @staticmethod
     def get_audio(words, language, file_path):
         subprocess.check_output(["/usr/bin/pico2wave", "-l=%s" % language, "-w=%s" % file_path, words], stderr=sys.stderr)
 
-
-# logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)

@@ -6,6 +6,9 @@ from core.Models import Order
 from core.NeuroneLauncher import NeuroneLauncher
 import logging
 
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
+
 
 class OrderAnalyser:
     def __init__(self, order, main_controller=None, brain_file=None):
@@ -21,14 +24,14 @@ class OrderAnalyser:
             self.brain = BrainLoader().get_brain()
         else:
             self.brain = BrainLoader(brain_file).get_brain()
-        logging.info("Receiver order: %s" % self.order)
+            logger.info("Receiver order: %s" % self.order)
 
     def start(self):
         for synapse in self.brain.synapes:
             for signal in synapse.signals:
                 if type(signal) == Order:
                     if self._spelt_order_match_brain_order(signal.sentence):
-                        print "Order found! Run neurons: %s" % synapse.neurons
+                        logger.debug("Order found! Run neurons: %s" % synapse.neurons)
                         for neuron in synapse.neurons:
                             NeuroneLauncher.start_neurone(neuron)
 

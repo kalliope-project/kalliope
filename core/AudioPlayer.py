@@ -3,6 +3,9 @@ import pygame
 
 from core.FileManager import FileManager
 
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
+
 
 class AudioPlayer:
     PLAYER_MP3 = "MP3"
@@ -32,10 +35,10 @@ class AudioPlayer:
     def play_audio(self, music_file):
         try:
             self._init_player_audio(music_file)
-            logging.debug("Music file %s loaded!", music_file)
+            logger.debug("Music file %s loaded!", music_file)
         except pygame.error:
             FileManager.remove_file(music_file)
-            logging.error("File %s not found! (%s)", music_file, pygame.get_error())
+            logger.error("File %s not found! (%s)", music_file, pygame.get_error())
             return
 
         self._start_player_audio()
@@ -46,7 +49,7 @@ class AudioPlayer:
 
     @staticmethod
     def _start_player_audio():
-        logging.info("Starting pygame audio player")
+        logger.info("Starting pygame audio player")
         pygame.mixer.music.play()
         clock = pygame.time.Clock()
         while pygame.mixer.music.get_busy():
