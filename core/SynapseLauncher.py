@@ -27,7 +27,7 @@ class SynapseLauncher(object):
 
         # check if we have found and launched the synapse
         synapse_launched = False
-        for synapse in brain.synapes:
+        for synapse in brain.synapses:
             if synapse.name == synapse_name_launch:
                 cls._run_synapse(synapse)
                 synapse_launched = True

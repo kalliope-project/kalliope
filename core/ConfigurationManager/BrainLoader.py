@@ -38,16 +38,16 @@ class BrainLoader(YAMLLoader):
         brain = Brain()
         # create list of Synapse
         synapses = list()
-        for synapes_dict in dict_brain:
+        for synapses_dict in dict_brain:
             # print synapses_dict
-            if ConfigurationChecker().check_synape_dict(synapes_dict):
+            if ConfigurationChecker().check_synape_dict(synapses_dict):
                 # print "synapses_dict ok"
-                name = synapes_dict["name"]
-                neurons = self._get_neurons(synapes_dict["neurons"])
-                signals = self._get_signals(synapes_dict["signals"])
+                name = synapses_dict["name"]
+                neurons = self._get_neurons(synapses_dict["neurons"])
+                signals = self._get_signals(synapses_dict["signals"])
                 new_synapse = Synapse(name=name, neurons=neurons, signals=signals)
                 synapses.append(new_synapse)
-        brain.synapes = synapses
+        brain.synapses = synapses
         brain.brain_file = self.brain_file_path
         # check that no synapse have the same name than another
         if ConfigurationChecker().check_synapes(synapses):

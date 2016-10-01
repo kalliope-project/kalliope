@@ -33,7 +33,7 @@ class CrontabManager:
         # clean the current crontab from all jarvis event
         self._remove_all_jarvis_job()
         # load the brain file
-        for synapse in self.brain.synapes:
+        for synapse in self.brain.synapses:
             for signal in synapse.signals:
                 # print signal
                 # if the signal is an event we add it to the crontab

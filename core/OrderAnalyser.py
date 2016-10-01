@@ -27,7 +27,7 @@ class OrderAnalyser:
             logger.info("Receiver order: %s" % self.order)
 
     def start(self):
-        for synapse in self.brain.synapes:
+        for synapse in self.brain.synapses:
             for signal in synapse.signals:
                 if type(signal) == Order:
                     if self._spelt_order_match_brain_order(signal.sentence):
