@@ -26,6 +26,7 @@ pip install pygame
 pip install python2-pythondialog
 pip install jinja
 pip install python-crontab
+pip install cffi
 ```
 
 ### Test your env

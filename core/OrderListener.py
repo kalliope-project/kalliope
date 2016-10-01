@@ -1,4 +1,8 @@
 import logging
+import os
+from cffi import FFI as _FFI
+import sys
+
 from core import ConfigurationManager
 
 logging.basicConfig()
@@ -16,6 +20,9 @@ class OrderListener:
         :param stt: Speech to text plugin name to load. If not provided,
         we will load the default one set in settings
         """
+        # this is a trick to ignore ALSA output error
+        # see http://stackoverflow.com/questions/7088672/pyaudio-working-but-spits-out-error-messages-each-time
+        self._ignore_stderr()
         self.stt = stt
         self.callback = callback
         # self.settings = main_controller.conf.settingLoader.get_config()
@@ -51,5 +58,26 @@ class OrderListener:
                 klass(self.callback, **parameters)
             else:
                 klass(self.callback, parameters)
+
+    @staticmethod
+    def _ignore_stderr():
+        """Try to forward PortAudio messages from stderr to /dev/null."""
+        ffi = _FFI()
+        ffi.cdef("""
+        /* from stdio.h */
+        FILE* fopen(const char* path, const char* mode);
+        int fclose(FILE* fp);
+        FILE* stderr;  /* GNU C library */
+        FILE* __stderrp;  /* Mac OS X */
+        """)
+        stdio = ffi.dlopen(None)
+        devnull = stdio.fopen(os.devnull.encode(), b'w')
+        try:
+            stdio.stderr = devnull
+        except KeyError:
+            try:
+                stdio.__stderrp = devnull
+            except KeyError:
+                stdio.fclose(devnull)
 
 
