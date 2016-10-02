@@ -1,6 +1,6 @@
 import re
 
-from core import ConfigurationManager
+from core.Utils import Utils
 from core.ConfigurationManager.BrainLoader import BrainLoader
 from core.Models import Order
 from core.NeuroneLauncher import NeuroneLauncher
@@ -27,14 +27,18 @@ class OrderAnalyser:
             logger.debug("Receiver order: %s" % self.order)
 
     def start(self):
+        synapses_found = False
         for synapse in self.brain.synapses:
             for signal in synapse.signals:
                 if type(signal) == Order:
                     if self._spelt_order_match_brain_order(signal.sentence):
                         logger.debug("Order found! Run neurons: %s" % synapse.neurons)
+                        Utils.print_success("Order matched in the brain. Running synapse %s" % synapse.name)
                         for neuron in synapse.neurons:
                             NeuroneLauncher.start_neurone(neuron)
 
+        if not synapses_found:
+            Utils.print_info("No synapse match the captured order: %s" % self.order)
         # once we ran all plugin, we can start back jarvis trigger
         if self.main_controller is not None:
             self.main_controller.unpause_jarvis_trigger()

@@ -7,7 +7,7 @@
       - kill_switch
     signals:
       - event: "57 22 * * *"
-      - order: "say hello"
+      - order: "dis bonjour"
 
   - name: "Meaning of life"
     neurons:
