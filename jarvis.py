@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# coding: utf8
 import argparse
 import logging
 
@@ -17,9 +17,9 @@ logger = logging.getLogger("jarvis")
 
 
 def signal_handler(signal, frame):
-        print "\n"
-        Utils.print_info("Ctrl+C pressed. Killing Jarvis")
-        sys.exit(0)
+    print "\n"
+    Utils.print_info("Ctrl+C pressed. Killing Jarvis")
+    sys.exit(0)
 
 ACTION_LIST = ["start", "gui", "load-events"]
 
