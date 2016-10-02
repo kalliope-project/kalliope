@@ -17,9 +17,6 @@ class MainController:
         # Wait that the jarvis trigger is pronounced by the user
         self.jarvis_triger = JarvisTrigger(self)
 
-    def get_order_listenner(self):
-        return self.order_listener
-
     def start(self):
         self.jarvis_triger.start()
 
