@@ -1,9 +1,8 @@
 import logging
 import os
 from cffi import FFI as _FFI
-import sys
 
-from core import ConfigurationManager
+from core.ConfigurationManager import SettingLoader
 
 logging.basicConfig()
 logger = logging.getLogger("jarvis")
@@ -25,14 +24,15 @@ class OrderListener:
         self._ignore_stderr()
         self.stt = stt
         self.callback = callback
-        # self.settings = main_controller.conf.settingLoader.get_config()
-        self.settings = ConfigurationManager().get_settings()
+        self.settings = SettingLoader.get_settings()
 
     def load_stt_plugin(self):
         if self.stt is None:
-            self.stt = ConfigurationManager.get_default_speech_to_text()
+            self.stt = self.settings.default_stt_name
 
-        stt_args = ConfigurationManager.get_stt_args(self.stt)
+        for stt_object in self.settings.stts:
+            if stt_object.name == self.stt:
+                stt_args = stt_object.parameters
 
         # capitalizes the first letter (because classes have first letter upper case)
         default_stt_plugin = self.stt.capitalize()

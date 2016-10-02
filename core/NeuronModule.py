@@ -41,11 +41,13 @@ class NeuronModule(object):
         child_name = self.__class__.__name__
         logger.debug("NeuronModule called from class %s with parameters: %s" % (child_name, kwargs))
 
+        self.settings = SettingLoader.get_settings()
+
         # check if the user has overrider the TTS
         tts = kwargs.get('tts', None)
         if tts is None:
             # No tts provided,  we load the default one
-            self.tts = SettingLoader().get_default_text_to_speech()
+            self.tts = self.settings.default_tts_name
         else:
             self.tts = tts
 
@@ -87,7 +89,11 @@ class NeuronModule(object):
         if message is not None:
             # get an instance of the target TTS
             tts_instance = self._get_tts_instance(self.tts)
-            tts_args = SettingLoader().get_tts_args(self.tts)
+            tts_args = None
+            for tts_object in self.settings.ttss:
+                if tts_object.name == self.tts:
+                    tts_args = tts_object.parameters
+
             # change the cache settings with the one precised for the current neuron
             if self.override_cache:
                 tts_args = self._update_cache_var(self.override_cache, tts_args)

@@ -1,7 +1,7 @@
+from core.ConfigurationManager import SettingLoader
 from core.JarvisTrigger import JarvisTrigger
 from core.OrderAnalyser import OrderAnalyser
 from core.OrderListener import OrderListener
-from core.ConfigurationManager.ConfigurationManager import ConfigurationManager
 
 from neurons import Say
 
@@ -9,8 +9,8 @@ from neurons import Say
 class MainController:
     def __init__(self, brain_file=None):
         self.brain_file = brain_file
-        # Manage Global Configuration
-        self.conf = ConfigurationManager().get_settings()
+        # get global configuration
+        self.settings = SettingLoader.get_settings()
 
         # create an order listener object
         self.order_listener = OrderListener(self.get_analyse_order_callback())
@@ -38,8 +38,7 @@ class MainController:
         """
         # pause the snowboy process
         self.pause_jarvis_trigger()
-        random_answers = self.conf["random_wake_up_answers"]
-        Say(message=random_answers)
+        Say(message=self.settings.random_wake_up_answers)
         self.order_listener.load_stt_plugin()
 
     def analyse_order(self, order):

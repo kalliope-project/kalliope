@@ -4,10 +4,9 @@
 # Use YAML syntax
 # ---------------------------
 
-# This is the snowboy hotword file used to wake up and listen for a new order
-trigger:
-  name: "jarviss.pmdl"
 
+# This is the trigger that will catch your magic work to wake up JARVIS
+default_trigger: "snowboy"
 # This is the STT that will be used by default
 default_speech_to_text: "google"
 # This is the default TTS that will be used by JARVIS to talk.
@@ -42,3 +41,8 @@ text_to_speech:
       language: "fr"
       voice: "michel"
       cache: True
+
+
+triggers:
+  - snowboy:
+      pmdl_file: "jarviss.pmdl"

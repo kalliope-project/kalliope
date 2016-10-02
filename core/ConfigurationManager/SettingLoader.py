@@ -185,3 +185,5 @@ class SettingLoader(object):
         # The list cannot be empty
         if random_wake_up_answers_list is None:
             raise NullSettingException("random_wake_up_answers settings is null")
+
+        return random_wake_up_answers_list

@@ -3,8 +3,8 @@ import logging
 from dialog import Dialog
 import locale
 
-from core import ConfigurationManager
 from core import OrderListener
+from core.ConfigurationManager import SettingLoader
 from neurons import Say
 
 logging.basicConfig()
@@ -14,7 +14,7 @@ logger = logging.getLogger("jarvis")
 class ShellGui:
     def __init__(self):
         # get settings
-        self.conf = ConfigurationManager().get_settings()
+        self.settings = SettingLoader.get_settings()
         locale.setlocale(locale.LC_ALL, '')
 
         self.d = Dialog(dialog="dialog")
@@ -42,7 +42,7 @@ class ShellGui:
 
     def show_stt_test_menu(self):
         # we get STT from settings
-        stt_list = ConfigurationManager.get_stt_list()
+        stt_list = self.settings.stts
         logger.debug("Loaded stt list: %s" % str(stt_list))
         choices = self._get_choices_tuple_from_list(stt_list)
 
@@ -76,7 +76,7 @@ class ShellGui:
 
         if continue_bool:
             # we get TTS from settings
-            tts_list = ConfigurationManager.get_tts_list()
+            tts_list = self.settings.ttss
 
             # create a list of tuple that can be used by the dialog menu
             choices = self._get_choices_tuple_from_list(tts_list)
@@ -104,22 +104,15 @@ class ShellGui:
     def _get_choices_tuple_from_list(list_to_convert):
         """
         Return a list of tup that can be used in Dialog menu
-        :param stt_list:
+        :param list_to_convert: List of object to convert into tuple
         :return:
         """
         # create a list of tuple that can be used by the dialog menu
         choices = list()
         for el in list_to_convert:
-            try:
-                for name, settings in el.iteritems():
-                    tup = (str(name), str(settings))
-                    choices.append(tup)
-                    logger.debug("Add stt to the list: %s with parameters: %s" % (str(el), str(settings)))
-            except AttributeError:
-                logger.debug("Add stt to the list: %s" % str(el))
-                # sometime there is no settings for the STT key
-                tup = (str(el), str("No settings"))
-                choices.append(tup)
+            tup = (str(el.name), str(el.parameters))
+            choices.append(tup)
+            logger.debug("Add el to the list: %s with parameters: %s" % (str(el.name), str(el.parameters)))
         return choices
 
     def callback_stt(self, audio):
