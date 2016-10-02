@@ -21,9 +21,9 @@ class SynapseLauncher(object):
         synapse_name_launch = name
         # get the brain
         if brain_file is None:
-            brain = BrainLoader().get_brain()
+            brain = BrainLoader.get_brain()
         else:
-            brain = BrainLoader(brain_file).get_brain()
+            brain = BrainLoader.get_brain(file_path=brain_file)
 
         # check if we have found and launched the synapse
         synapse_launched = False

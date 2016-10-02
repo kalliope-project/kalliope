@@ -26,19 +26,18 @@ class SettingLoader(object):
         pass
 
     @classmethod
-    def get_yaml_config(cls, file_name=None):
-        if file_name is None:
-            file_name = FILE_NAME
-        file_path = "../../" + file_name
+    def get_yaml_config(cls, file_path=None):
+        if file_path is None:
+            file_path = "../../" + FILE_NAME
         return YAMLLoader.get_config(file_path)
 
     @classmethod
-    def get_settings(cls, file_name=None):
+    def get_settings(cls, file_path=None):
         """
         Return a Settings object from settings.yml file
         :return:
         """
-        settings = cls.get_yaml_config(file_name)
+        settings = cls.get_yaml_config(file_path)
         default_stt_name = cls._get_default_speech_to_text(settings)
         default_tts_name = cls._get_default_text_to_speech(settings)
         default_trigger_name = cls._get_default_trigger(settings)

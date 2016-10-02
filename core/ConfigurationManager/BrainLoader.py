@@ -14,26 +14,28 @@ logging.basicConfig()
 logger = logging.getLogger("jarvis")
 
 
-class BrainLoader(YAMLLoader):
+class BrainLoader(object):
 
-    def __init__(self, filepath=None):
-        self.brain_file_path = filepath
-        if filepath is None:
-            self.brain_file_path = self._get_root_brain_path()
-        # self.filePath = "../../" + self.fileName
-        YAMLLoader.__init__(self, self.brain_file_path)
+    def __init__(self):
+        pass
 
-    def get_config(self):
-        return YAMLLoader.get_config(self)
+    @classmethod
+    def get_yaml_config(cls, file_path=None):
+        if file_path is None:
+            brain_file_path = cls._get_root_brain_path()
+        else:
+            brain_file_path = file_path
+        return YAMLLoader.get_config(brain_file_path)
 
-    def get_brain(self):
+    @classmethod
+    def get_brain(cls, file_path=None):
         """
         return a brain object from YAML settings
         :return: Brain object
         :rtype: Brain
         """
         # get the brain with dict
-        dict_brain = self.get_config()
+        dict_brain = cls.get_yaml_config(file_path)
         # create a new brain
         brain = Brain()
         # create list of Synapse
@@ -43,12 +45,15 @@ class BrainLoader(YAMLLoader):
             if ConfigurationChecker().check_synape_dict(synapses_dict):
                 # print "synapses_dict ok"
                 name = synapses_dict["name"]
-                neurons = self._get_neurons(synapses_dict["neurons"])
-                signals = self._get_signals(synapses_dict["signals"])
+                neurons = cls._get_neurons(synapses_dict["neurons"])
+                signals = cls._get_signals(synapses_dict["signals"])
                 new_synapse = Synapse(name=name, neurons=neurons, signals=signals)
                 synapses.append(new_synapse)
         brain.synapses = synapses
-        brain.brain_file = self.brain_file_path
+        if file_path is None:
+            brain.brain_file = cls._get_root_brain_path()
+        else:
+            brain.brain_file = file_path
         # check that no synapse have the same name than another
         if ConfigurationChecker().check_synapes(synapses):
             return brain
@@ -81,13 +86,14 @@ class BrainLoader(YAMLLoader):
 
         return neurons
 
-    def _get_signals(self, signals_dict):
+    @classmethod
+    def _get_signals(cls, signals_dict):
         # print signals_dict
         signals = list()
         for signal_dict in signals_dict:
             if ConfigurationChecker().check_signal_dict(signal_dict):
                 # print "Signals dict ok"
-                event_or_order = self._get_event_or_order_from_dict(signal_dict)
+                event_or_order = cls._get_event_or_order_from_dict(signal_dict)
                 signals.append(event_or_order)
 
         return signals
