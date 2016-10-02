@@ -1,131 +1,188 @@
 from YAMLLoader import YAMLLoader
 import logging
 
+from core.Models.Settings import Settings
+from core.Models.Stt import Stt
+from core.Models.Trigger import Trigger
+from core.Models.Tts import Tts
+
 FILE_NAME = "settings.yml"
 
 logging.basicConfig()
 logger = logging.getLogger("jarvis")
 
 
-class DefaultSpeechToTextNotFound(Exception):
+class NullSettingException(Exception):
     pass
 
 
-class DefaultSpeechNull(Exception):
+class SettingNotFound(Exception):
     pass
 
 
-class NoSpeechToTextConfiguration(Exception):
-    pass
+class SettingLoader(object):
 
+    def __init__(self):
+        pass
 
-class SettingLoader(YAMLLoader):
+    @classmethod
+    def get_yaml_config(cls, file_name=None):
+        if file_name is None:
+            file_name = FILE_NAME
+        file_path = "../../" + file_name
+        return YAMLLoader.get_config(file_path)
 
-    def __init__(self, filename=None):
-        self.fileName = filename
-        if filename is None:
-            self.fileName = FILE_NAME
-        self.filePath = "../../" + self.fileName
-        YAMLLoader.__init__(self, self.filePath)
+    @classmethod
+    def get_settings(cls, file_name=None):
+        """
+        Return a Settings object from settings.yml file
+        :return:
+        """
+        settings = cls.get_yaml_config(file_name)
+        default_stt_name = cls._get_default_speech_to_text(settings)
+        default_tts_name = cls._get_default_text_to_speech(settings)
+        default_trigger_name = cls._get_default_trigger(settings)
+        stts = cls._get_stts(settings)
+        ttss = cls._get_ttss(settings)
+        triggers = cls._get_triggers(settings)
+        random_wake_up_answers = cls._get_random_wake_up_answers(settings)
+        # create a setting object
+        setting_object = Settings(default_stt_name=default_stt_name,
+                                  default_tts_name=default_tts_name,
+                                  default_trigger_name=default_trigger_name,
+                                  stts=stts,
+                                  ttss=ttss,
+                                  triggers=triggers,
+                                  random_wake_up_answers=random_wake_up_answers)
+        return setting_object
 
-    def get_config(self):
-        return YAMLLoader.get_config(self)
-
-    def get_default_speech_to_text(self):
-        settings = self.get_config()
+    @staticmethod
+    def _get_default_speech_to_text(settings):
 
         try:
             default_speech_to_text = settings["default_speech_to_text"]
             if default_speech_to_text is None:
-                raise DefaultSpeechNull("Attribute default_speech_to_text is null")
+                raise NullSettingException("Attribute default_speech_to_text is null")
             logger.debug("Default STT: %s" % default_speech_to_text)
             return default_speech_to_text
         except KeyError:
-            raise DefaultSpeechToTextNotFound("Attribute default_speech_to_text not found in settings")
+            raise SettingNotFound("Attribute default_speech_to_text not found in settings")
 
-    def get_default_text_to_speech(self):
-        settings = self.get_config()
-
+    @staticmethod
+    def _get_default_text_to_speech(settings):
         try:
             default_text_to_speech = settings["default_text_to_speech"]
             if default_text_to_speech is None:
-                raise DefaultSpeechNull("Attribute default_text_to_speech is null")
+                raise NullSettingException("Attribute default_text_to_speech is null")
             logger.debug("Default TTS: %s" % default_text_to_speech)
             return default_text_to_speech
         except KeyError:
-            raise DefaultSpeechToTextNotFound("Attribute default_text_to_speech not found in settings")
+            raise SettingNotFound("Attribute default_text_to_speech not found in settings")
 
-    def get_stt_args(self, default_stt_plugin_name):
+    @staticmethod
+    def _get_default_trigger(settings):
+        try:
+            default_trigger = settings["default_trigger"]
+            if default_trigger is None:
+                raise NullSettingException("Attribute default_trigger is null")
+            logger.debug("Default Trigger name: %s" % default_trigger)
+            return default_trigger
+        except KeyError:
+            raise SettingNotFound("Attribute default_trigger not found in settings")
+
+    @classmethod
+    def _get_stts(cls, settings):
         """
-        Return argument set for the current STT engine
-        :param default_stt_plugin_name: Name of the STT engine
+        Return a list of stt object
+        :param settings: loaded settings file
+        :return: List of Stt
+        """
+        try:
+            speechs_to_text_list = settings["speech_to_text"]
+        except KeyError:
+            raise NullSettingException("speech_to_text settings not found")
+
+        stts = list()
+        for speechs_to_text_el in speechs_to_text_list:
+            if isinstance(speechs_to_text_el, dict):
+                # print "Neurons dict ok"
+                for stt_name in speechs_to_text_el:
+                    name = stt_name
+                    parameters = speechs_to_text_el[name]
+                    new_stt = Stt(name=name, parameters=parameters)
+                    stts.append(new_stt)
+            else:
+                # the neuron does not have parameter
+                new_stt = Stt(name=speechs_to_text_el)
+                stts.append(new_stt)
+        return stts
+
+    @classmethod
+    def _get_ttss(cls, settings):
+        """
+        Return a list of Tts object
+        :param settings: loaded settings file
+        :return: List of Tts
+        """
+        try:
+            text_to_speech_list = settings["text_to_speech"]
+        except KeyError:
+            raise SettingNotFound("text_to_speech settings not found")
+
+        ttss = list()
+        for text_to_speech_el in text_to_speech_list:
+            if isinstance(text_to_speech_el, dict):
+                # print "Neurons dict ok"
+                for tts_name in text_to_speech_el:
+                    name = tts_name
+                    parameters = text_to_speech_el[name]
+                    new_tts = Tts(name=name, parameters=parameters)
+                    ttss.append(new_tts)
+            else:
+                # the neuron does not have parameter
+                new_tts = Tts(name=text_to_speech_el)
+                ttss.append(new_tts)
+        return ttss
+
+    @classmethod
+    def _get_triggers(cls, settings):
+        """
+        Return a list of Trigger object
+        :param settings: loaded settings file
+        :return: List of Trigger
+        """
+        try:
+            triggers_list = settings["triggers"]
+        except KeyError:
+            raise SettingNotFound("text_to_speech settings not found")
+
+        triggers = list()
+        for trigger_el in triggers_list:
+            if isinstance(trigger_el, dict):
+                # print "Neurons dict ok"
+                for tts_name in trigger_el:
+                    name = tts_name
+                    parameters = trigger_el[name]
+                    new_tts = Trigger(name=name, parameters=parameters)
+                    triggers.append(new_tts)
+            else:
+                # the neuron does not have parameter
+                new_tts = Trigger(name=trigger_el)
+                triggers.append(new_tts)
+        return triggers
+
+    @classmethod
+    def _get_random_wake_up_answers(cls, settings):
+        """
+        return a list of string
+        :param settings:
         :return:
         """
-
-        def find(lst, key):
-            """
-            Find a key name in a list
-            :param lst: list()
-            :param key: key name to find i the list
-            :return: Return the dict
-            """
-            for el in lst:
-                try:
-                    if el[key]:
-                        return el[key]
-                except TypeError:
-                    pass
-                except KeyError:
-                    pass
-            return None
-
-        settings = self.get_config()
         try:
-            speechs_to_text = settings["speech_to_text"]
+            random_wake_up_answers_list = settings["random_wake_up_answers"]
         except KeyError:
-            raise NoSpeechToTextConfiguration("No speech_to_text in settings")
+            raise SettingNotFound("text_to_speech settings not found")
 
-        logger.debug("Settings file content: %s" % speechs_to_text)
-        # get args
-        args = find(speechs_to_text, default_stt_plugin_name)
-
-        logger.debug("Args for %s STT: %s" % (default_stt_plugin_name, args))
-
-        return args
-
-    def get_tts_args(self, tts_name):
-        """
-        Return argument set for the current STT engine
-        :param tts_name: Name of the TTS engine
-        :return:
-        """
-
-        def find(lst, key):
-            """
-            Find a key name in a list
-            :param lst: list()
-            :param key: key name to find i the list
-            :return: Return the dict
-            """
-            for el in lst:
-                try:
-                    if el[key]:
-                        return el[key]
-                except TypeError:
-                    pass
-                except KeyError:
-                    pass
-            return None
-
-        settings = self.get_config()
-        try:
-            texts_to_speech = settings["text_to_speech"]
-        except KeyError:
-            raise NoSpeechToTextConfiguration("No text_to_speech in settings")
-
-        logger.debug("Settings file content: %s" % texts_to_speech)
-        # get args
-        args = find(texts_to_speech, tts_name)
-        logger.debug("Args for %s TTS: %s" % (tts_name, args))
-        # print args
-        return args
+        # The list cannot be empty
+        if random_wake_up_answers_list is None:
+            raise NullSettingException("random_wake_up_answers settings is null")
