@@ -53,7 +53,8 @@ class Voxygen(TTS):
         if not cache or not os.path.exists(file_path) or FileManager.file_is_empty(file_path):
             payload = {
                 "method": "redirect",
-                "text": words.encode('utf8'),
+                # "text": words.encode('utf8'),
+                "text": words,
                 "voice": voice
             }
 

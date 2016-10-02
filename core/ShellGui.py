@@ -1,14 +1,28 @@
+# coding: utf8
+
 import logging
 
+import sys
+
+import signal
 from dialog import Dialog
 import locale
 
 from core import OrderListener
+from core.Utils import Utils
 from core.ConfigurationManager import SettingLoader
 from neurons import Say
 
 logging.basicConfig()
 logger = logging.getLogger("jarvis")
+
+
+def signal_handler(signal, frame):
+    print "\n"
+    Utils.print_info("Ctrl+C pressed. Killing Jarvis")
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
 
 
 class ShellGui:
@@ -91,14 +105,17 @@ class ShellGui:
                 # then go back to this menu with the same sentence
                 self.show_tts_test_menu(sentence_to_test=sentence_to_test)
 
-    def _run_tts_test(self, tag, sentence_to_test):
+    def _run_tts_test(self, tts_name, sentence_to_test):
         """
         Call the TTS
-        :param tag:
+        :param tts_name: Name of the TTS module to launch
         :param sentence_to_test:
         :return:
         """
-        Say(message=sentence_to_test, tts=tag)
+        print type(sentence_to_test)
+        sentence_to_test = sentence_to_test.encode('utf-8')
+        print type(sentence_to_test)
+        Say(message=sentence_to_test, tts=tts_name)
 
     @staticmethod
     def _get_choices_tuple_from_list(list_to_convert):

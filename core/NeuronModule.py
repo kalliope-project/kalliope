@@ -1,3 +1,4 @@
+# coding: utf8
 import logging
 import os
 import random
@@ -39,7 +40,7 @@ class NeuronModule(object):
         """
         # get the child who called the class
         child_name = self.__class__.__name__
-        logger.debug("NeuronModule called from class %s with parameters: %s" % (child_name, kwargs))
+        logger.debug("NeuronModule called from class %s with parameters: %s" % (child_name, str(kwargs)))
 
         self.settings = SettingLoader.get_settings()
 
@@ -93,7 +94,9 @@ class NeuronModule(object):
             for tts_object in self.settings.ttss:
                 if tts_object.name == self.tts:
                     tts_args = tts_object.parameters
+                    logger.debug("NeuronModule: tts_args: %s" % tts_args)
 
+            logger.debug("tts_message to say: %s" % tts_message)
             # change the cache settings with the one precised for the current neuron
             if self.override_cache:
                 tts_args = self._update_cache_var(self.override_cache, tts_args)
