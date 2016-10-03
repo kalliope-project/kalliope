@@ -22,8 +22,9 @@ class OrderListener:
         """
         # this is a trick to ignore ALSA output error
         # see http://stackoverflow.com/questions/7088672/pyaudio-working-but-spits-out-error-messages-each-time
-        self._ignore_stderr()
         self.stt = stt
+        self._ignore_stderr()
+        self.stt_module_name = stt
         self.callback = callback
         self.settings = SettingLoader.get_settings()
 

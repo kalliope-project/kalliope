@@ -27,6 +27,7 @@ pip install python2-pythondialog
 pip install jinja
 pip install python-crontab
 pip install cffi
+pip install pygmail
 ```
 
 ### Test your env

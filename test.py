@@ -12,12 +12,12 @@ from core.TriggerLauncher import TriggerLauncher
 logging.basicConfig()
 logger = logging.getLogger("jarvis")
 
+order = "est-ce que j'ai des emails"
 
-# oa = OrderAnalyser("wake up", brain_file="/home/nico/Documents/jarvis/test.yml")
-#
-# oa = OrderAnalyser("test", brain_file="brain_examples/fr/fr_systemdate.yml")
-#
-# oa.start()
+oa = OrderAnalyser(order=order)
+
+oa.start()
+
 
 
 

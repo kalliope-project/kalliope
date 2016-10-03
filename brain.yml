@@ -112,3 +112,11 @@
       - kill_switch
     signals:
       - order: "ferme-toi"
+
+  - name: "check email"
+    neurons:
+      - gmail_checker:
+          username: "me@gmail.com"
+          password: "my_password"
+    signals:
+      - order: "est-ce que j'ai des emails"

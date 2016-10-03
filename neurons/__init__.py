@@ -5,4 +5,5 @@ from say import Say
 from script import Script
 from sleep import Sleep
 from systemdate import Systemdate
+from gmail_checker import Gmail_checker
 
