@@ -34,6 +34,7 @@ speech_to_text:
 # Text to Spreech engines configuration
 # Available engine are:
 # - pico2wave
+# - voxygen
 text_to_speech:
   - pico2wave:
       language: "fr"
@@ -42,7 +43,9 @@ text_to_speech:
       voice: "michel"
       cache: True
 
-
+# Trigger engine configuration
+# Available engine are:
+# - snowboy
 triggers:
   - snowboy:
-      pmdl_file: "jarviss.pmdl"
+      pmdl_file: "trigger/snowboy/resources/jarviss.pmdl"

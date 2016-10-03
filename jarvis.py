@@ -70,8 +70,7 @@ def main():
             # catch signal for killing on Ctrl+C pressed
             signal.signal(signal.SIGINT, signal_handler)
             # start the main controller
-            main_controller = MainController(brain_file=brain_file)
-            main_controller.start()
+            MainController(brain_file=brain_file)
 
     if args.action == "gui":
         ShellGui()

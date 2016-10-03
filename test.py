@@ -1,10 +1,14 @@
 # coding=utf-8
 import os
 
+from core.ConfigurationManager import SettingLoader
 from core.CrontabManager import CrontabManager
 from core.OrderAnalyser import OrderAnalyser
 
 import logging
+
+from core.TriggerLauncher import TriggerLauncher
+
 logging.basicConfig()
 logger = logging.getLogger("jarvis")
 
@@ -19,5 +23,17 @@ logger = logging.getLogger("jarvis")
 #
 # os.system(cmd)
 
-crontab_manager = CrontabManager(brain_file="/home/nico/Documents/jarvis/test.yml")
-crontab_manager.load_events_in_crontab()
+# crontab_manager = CrontabManager(brain_file="/home/nico/Documents/jarvis/test.yml")
+# crontab_manager.load_events_in_crontab()
+
+
+def callback():
+    print "callback called"
+
+
+settings = SettingLoader.get_settings()
+
+
+for trigger in settings.triggers:
+    if trigger.name == settings.default_trigger_name:
+        TriggerLauncher.start_trigger(trigger, callback=callback)

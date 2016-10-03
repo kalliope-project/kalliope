@@ -1,5 +1,7 @@
 import logging
 
+from core import Utils
+
 logging.basicConfig()
 logger = logging.getLogger("jarvis")
 
@@ -9,16 +11,18 @@ class TriggerLauncher(object):
         pass
 
     @classmethod
-    def start_trigger(cls, trigger_name, callback, parameters=None):
+    def get_trigger(cls, trigger, callback):
         """
-
-        :param trigger_name: Name of the trigger class to instantiate
+        Start a trigger module
+        :param trigger: trigger object to instantiate
+        :type trigger: Trigger
         :param callback: Callback function to call when the trigger
         catch the magic word
-        :param parameters: Dict of parameter to send to the trigger
         :return:
         """
-        pass
-        # plugin = neuron.name.capitalize()
-        # plugin = plugin.capitalize()
-        # _run_plugin(plugin, neuron.parameters)
+        # add the callback method to parameters
+        trigger.parameters["callback"] = callback
+        logger.debug("TriggerLauncher: Start trigger %s with parameters: %s" % (trigger.name, trigger.parameters))
+        return Utils.get_dynamic_class_instantiation("trigger", trigger.name.capitalize(),
+                                                                 trigger.parameters)
+
