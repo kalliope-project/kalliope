@@ -8,7 +8,6 @@ class MissingParameterException(Exception):
 class Snowboy(object):
 
     def __init__(self, **kwargs):
-        print "loaded"
         # pause listening boolean
         self.interrupted = False
 
@@ -35,7 +34,6 @@ class Snowboy(object):
         Start the snowboy thread and wait for a Jarvis trigger word
         :return:
         """
-        print "started"
         detector = snowboydecoder.HotwordDetector(self.pmdl, sensitivity=0.5)
 
         # start snowboy loop

@@ -4,7 +4,6 @@
       - say:
           message:
             - "Bonjour monsieur"
-      - kill_switch
     signals:
       - event: "57 22 * * *"
       - order: "dis bonjour"

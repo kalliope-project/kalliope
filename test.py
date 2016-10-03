@@ -19,21 +19,6 @@ logger = logging.getLogger("jarvis")
 #
 # oa.start()
 
-# cmd = "python jarvis.py start --run-synapse \"say hello\" --brain-file /home/nico/Documents/jarvis/test.yml"
-#
-# os.system(cmd)
-
-# crontab_manager = CrontabManager(brain_file="/home/nico/Documents/jarvis/test.yml")
-# crontab_manager.load_events_in_crontab()
 
 
-def callback():
-    print "callback called"
 
-
-settings = SettingLoader.get_settings()
-
-
-for trigger in settings.triggers:
-    if trigger.name == settings.default_trigger_name:
-        TriggerLauncher.start_trigger(trigger, callback=callback)

@@ -1,3 +1,4 @@
+from core import Utils
 from core.ConfigurationManager import SettingLoader
 from core.OrderAnalyser import OrderAnalyser
 from core.OrderListener import OrderListener
@@ -17,6 +18,7 @@ class MainController:
         # Wait that the jarvis trigger is pronounced by the user
         self.trigger_instance = self._get_default_trigger()
         self.trigger_instance.start()
+        Utils.print_info("Waiting for trigger detection")
 
     def callback(self):
         """
@@ -37,6 +39,7 @@ class MainController:
         order_analyser = OrderAnalyser(order, main_controller=self, brain_file=self.brain_file)
         order_analyser.start()
         # restart the trigger when the order analyser has finish his job
+        Utils.print_info("Waiting for trigger detection")
         self.trigger_instance.unpause()
 
     def _get_default_trigger(self):
@@ -47,3 +50,7 @@ class MainController:
         for trigger in self.settings.triggers:
             if trigger.name == self.settings.default_trigger_name:
                 return TriggerLauncher.get_trigger(trigger, callback=self.callback)
+
+    def unpause_jarvis_trigger(self):
+        print "call unpause"
+        self.trigger_instance.unpause()
