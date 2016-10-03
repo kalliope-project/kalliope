@@ -5,6 +5,7 @@ import random
 
 from jinja2 import Template
 
+from core.Utils import Utils
 from core.ConfigurationManager import SettingLoader
 
 logging.basicConfig()
@@ -147,20 +148,7 @@ class NeuronModule(object):
 
     @staticmethod
     def _get_tts_instance(tts_name):
-        # capitalise for loading module name
-        tts = tts_name.capitalize()
-        logger.debug("Import TTS module named %s " % tts)
-        mod = __import__('tts', fromlist=[str(tts)])
-        try:
-            klass = getattr(mod, tts)
-        except ImportError, e:
-            raise TTSModuleNotFound("The TTS not found: %s" % e)
-
-        if klass is not None:
-            # run the plugin
-            return klass()
-        else:
-            raise TTSNotInstantiable("TTS module %s not instantiable" % tts)
+        return Utils.get_dynamic_class_instantiation("tts", tts_name.capitalize())
 
     @staticmethod
     def _update_cache_var(new_override_cache, args_list):
