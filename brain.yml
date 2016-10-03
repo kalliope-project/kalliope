@@ -34,7 +34,7 @@
             - "Il est {{ hours }} heures et {{ minutes }} minutes"
           tts: "voxygen"
     signals:
-      - order: "quelle heure"
+      - order: "what time"
 
   - name: "Say local date from template"
     neurons:
