@@ -1,9 +1,11 @@
 # Jarvis
 
-JARVIS is voice controlled personal assistant. 
+JARVIS is a modular always-on voice controlled personal assistant designed for home automation.
 
 TODO: insert video demo EN
 TODO: insert video demo FR
+
+JARVIS can run on a Raspberry Pi and he's multi-lang.
 
 JARVIS is easy-peasy to use, see the hello world
 ```
@@ -37,8 +39,8 @@ A neuron is a plugin that can be used from your **brain.yml**.
 
 ## Contributing
 
-If you'd like to contribute to JARVIS, please read our [Contributing Guide](Docs/contributing.md), which contains the philosophies we want to preserve, tests to run, and more. 
-We highly recommend reading through this guide before writing any code.
+If you'd like to contribute to JARVIS, please read our [Contributing Guide](Docs/contributing.md), which contains the philosophies to preserve, tests to run, and more. 
+Reading through this guide before writing any code is recommended.
 
 - Contribute
 - Add [issues and feature requests](../../issues)
