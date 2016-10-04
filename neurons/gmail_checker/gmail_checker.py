@@ -1,4 +1,4 @@
-# coding: utf8
+# -*- coding: utf-8 -*-
 import logging
 
 from gmail import Gmail
@@ -52,17 +52,25 @@ class Gmail_checker(NeuronModule):
 
             returned_dict["subjects"] = subject_list
 
-        print returned_dict
+        logger.debug("gmail neuron returned dict: %s" % str(returned_dict))
         # logout of gmail
         g.logout()
+        self.say(returned_dict)
+
+    def _parse_subject(self, encoded_subject):
+        dh = decode_header(encoded_subject)
+
+        return ''.join([self.try_parse(t[0], t[1]) for t in dh])
 
     @staticmethod
-    def _parse_subject(encoded_subject):
-        dh = decode_header(encoded_subject)
-        # TODO decode that shit
-        print str(encoded_subject.decode("ascii").encode("utf8"))
-        default_charset = 'ASCII'
-        string = ''.join([unicode(t[0], t[1] or default_charset) for t in dh])
-        print type(string)
-        return string.encode('utf8')
+    def try_parse(header, encoding):
 
+        if encoding is None:
+            encoding = 'ASCII'
+        try:
+            return unicode(header, encoding)
+        except UnicodeDecodeError:
+            try:
+                return unicode(header, 'ISO-8859-1')
+            except UnicodeDecodeError:
+                return unicode(header, 'UTF-8')
