@@ -9,20 +9,18 @@ The syntax used is YAML.
 
 In the settings.yml, the following settings are tunable:
 
-#### trigger
+#### default_trigger
 
-The current hotword(also called a wake word or trigger word) detector is based on [Snowboy](https://snowboy.kitt.ai/).
+The trigger is the module in charge detecting the hotword that wake up JARVIS.
 Common usage of hotword include Alexa on Amazon Echo, OK Google on some Android devices and Hey Siri on iPhones.
-With JARVIS project, you can set the Hotword you want. You can create your magic word by connecting to [Snowboy](https://snowboy.kitt.ai/) 
-and then download the trained model file.
 
-Once downloaded, place the file in **trigger/snowboy/resources**.
+Specify the name of the trigger module you want to use.
+```
+default_trigger: "trigger_name"
+```
 
-Then, specify the name of the Snowboy model use the following syntax
-```
-trigger:
-  name: "my_model_name.pmdl"
-```
+Available trigger for JARVIS are:
+- snowboy
 
 #### default_speech_to_text
 
@@ -113,3 +111,20 @@ text_to_speech:
 ```
 
 Some arguments are required, some other optional, please refer to the TTS documentation to know available parameters for each supported TTS.
+
+#### triggers
+The default hotword (also called a wake word or trigger word) detector is based on [Snowboy](https://snowboy.kitt.ai/).
+
+Each Trigger has it own configuration. This configuration is passed as argument following the syntax bellow
+```
+triggers:
+  - trigger_name:
+      parameter_name: "value"
+```
+
+E.g, the default Snowboy trigger configuration is
+```
+triggers:
+  - snowboy:
+      pmdl_file: "trigger/snowboy/resources/jarvis.pmdl"
+```

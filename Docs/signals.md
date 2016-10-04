@@ -6,9 +6,6 @@ The syntax is the following
 ```
 signals:
     - signal_name: parameter
-    - signal_name:
-        parameter_1: value
-        parameter_2: value
 ```
 
 ## Order
@@ -18,7 +15,7 @@ An **order** signal is a word, or a sentence caught by the microphone and proces
 Syntax:
 ```
 signals:
-    - order: "sentence"
+    - order: "<sentence>"
 ```
 
 Example:
