@@ -4,7 +4,7 @@
 
 Little description of what the neuron do.
 
-## Parameters
+## Options
 
 (usage of a [table generator](http://www.tablesgenerator.com/markdown_tables) is recommended)
 
@@ -15,17 +15,40 @@ Little description of what the neuron do.
 | parameter_name_3 | yes      | default_value_if_not_provided |                                   | description of the parameter |
 
 
-## Synapse example
+## Return Values
 
+Only necessary when the neuron use a template to say something
+
+| name      | description                        | type       | sample                    |
+|-----------|------------------------------------|------------|---------------------------|
+| value_key | dictionary containing all the data | dictionary | {"name":"me", "email": 2} |
+| value_key | list of value                      | list       | ["val1", "val2", "val3"]  |
+| value_key | string value                       | string     | "2"                       |
+
+
+## Synapses example
+
+Description of what the synapse will do
 ```
  - name: "type here your name"
     neurons:      
       - neuron_name:
           parameter: "value"
+          parameter: "value"
+          file_template: template_name.j2
     signals:
       - order: "this is what I have to say to run this synapse"
 ```
 
+## Templates example 
+
+Description of the template
+```
+This is a var {{ var }} 
+{% for item in items %}
+ This is the  {{ item }}  
+{% endfor %}
+```
 
 ## Notes
 

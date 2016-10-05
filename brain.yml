@@ -32,6 +32,7 @@
           say_template:
             - "Il est {{ hours }} heures et {{ minutes }} minutes"
           tts: "voxygen"
+          cache: False
     signals:
       - order: "what time"
 

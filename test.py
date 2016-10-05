@@ -11,8 +11,8 @@ from core.TriggerLauncher import TriggerLauncher
 
 logging.basicConfig()
 logger = logging.getLogger("jarvis")
-
-order = "est-ce que j'ai des emails"
+logger.setLevel(logging.DEBUG)
+order = "dis bonjour"
 
 oa = OrderAnalyser(order=order)
 
