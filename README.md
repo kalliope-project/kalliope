@@ -25,7 +25,7 @@ JARVIS is easy-peasy to use, see the hello world
 
 ## Usage
 
-- [Configure default settings](Docs/default_settings.md)
+- [Configure default settings](Docs/settings.md)
 - [Create the brain of your JARVIS](Docs/brain.md)
 - [Run JARVIS with CLI](Docs/jarvis_cli.md)
 

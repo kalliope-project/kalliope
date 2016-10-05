@@ -47,7 +47,7 @@ speech_to_text:
 # - voxygen
 text_to_speech:
   - pico2wave:
-      language: "fr"
+      language: "us"
       cache: True
   - voxygen:
       language: "fr"

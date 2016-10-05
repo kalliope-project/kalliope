@@ -12,7 +12,7 @@ Tested env
 ### Packages installation
 On Ubuntu distribution:
 ```
-sudo apt-get install python-pip python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev
+sudo apt-get install python-pip python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev portaudio19-dev build-essential libssl-dev libffi-dev sox
 ```
 
 ### Python lib

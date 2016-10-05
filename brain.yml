@@ -1,4 +1,12 @@
 ---
+  - name: "hello world"
+    neurons:
+      - say:
+          message:
+            - "Hello, I'm Jarvis"
+    signals:
+      - order: "hello"
+
   - name: "say hello"
     neurons:
       - say:
