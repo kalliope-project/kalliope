@@ -99,8 +99,9 @@ class NeuronModule(object):
 
             logger.debug("tts_message to say: %s" % tts_message)
             # change the cache settings with the one precised for the current neuron
-            if self.override_cache:
+            if self.override_cache is not None:
                 tts_args = self._update_cache_var(self.override_cache, tts_args)
+            logger.debug("NeuroneModule: TTS args: %s" % tts_args)
             tts_instance.say(words=tts_message, **(tts_args if tts_args is not None else {}))
 
     @staticmethod
