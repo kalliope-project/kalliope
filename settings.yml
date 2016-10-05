@@ -48,6 +48,7 @@ speech_to_text:
 text_to_speech:
   - pico2wave:
       language: "fr"
+      cache: True
   - voxygen:
       language: "fr"
       voice: "michel"
