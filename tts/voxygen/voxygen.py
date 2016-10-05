@@ -31,18 +31,19 @@ class Voxygen(TTS):
     VOXYGEN_TIMEOUT_SEC = 30
 
     def __init__(self):
-        TTS.__init__(self, AudioPlayer.PLAYER_MP3, cache_extension="tts")
+        TTS.__init__(self, AudioPlayer.PLAYER_MP3)
 
     def say(self, words=None, voice=None, language=VOXYGEN_LANGUAGES_DEFAULT, cache=True):
         voice = self.get_voice(voice, language)
 
-        file_path = self.cache.get_audio_file_cache_path(words, voice, language)
+        file_path = self.cache.get_audio_file_cache_path(words, language, voice)
 
         if self.get_audio(voice, words, file_path, cache):
-            self.play_audio(file_path)
-            self.cache.remove_audio_file(file_path, cache)
+            self.play_audio(file_path,cache)
 
     def get_voice(self, voice, language):
+        language = self.unify_key(language)
+        voice = self.unify_key(voice)
         if language in self.VOXYGEN_LANGUAGES and voice in self.VOXYGEN_LANGUAGES[language]:
             return self.VOXYGEN_LANGUAGES[language][voice]
 

@@ -19,14 +19,15 @@ class Pico2wave(TTS):
         TTS.__init__(self, audio_player_type, "wav")
 
     def say(self, words=None, language=PICO2WAVE_LANGUAGES_DEFAULT, cache=False):
+        file_path = self.cache.get_audio_file_cache_path(words, language)
         language = self.get_voice(language)
-        file_path = self.cache.get_audio_file_cache_path(words, language=language, voice="default")
 
         self.get_audio(words, language, file_path)
         self.play_audio(file_path, cache=cache)
 
     def get_voice(self, language):
         logger.debug("Pico2wave asked lang: %s" % language)
+        language = self.unify_key(language)
 
         if language in self.PICO2WAVE_LANGUAGES:
             return self.PICO2WAVE_LANGUAGES[language]

@@ -10,3 +10,6 @@ class TTS:
     def play_audio(self, music_file, cache=False):
         self.audio_player.play_audio(music_file)
         self.cache.remove_audio_file(music_file, cache)
+
+    def unify_key(self, key):
+        return key.lower()

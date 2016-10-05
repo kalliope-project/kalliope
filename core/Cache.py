@@ -13,19 +13,20 @@ DEFAULT_VOICE = "default"
 logging.basicConfig()
 logger = logging.getLogger("jarvis")
 
-class Cache:
 
+class Cache:
     def __init__(self, module_name=DEFAULT_MODULE_NAME, cache_path=DEFAULT_CACHE_PATH,
-                 cache_extension=DEFAULT_CACHE_EXTENSION):
+                 cache_extension=None):
+        if cache_extension is None:
+            cache_extension = DEFAULT_CACHE_EXTENSION
+
         self._module_name = module_name
         self._cache_path = cache_path
         self._cache_extension = cache_extension
 
-    def get_audio_file_cache_path(self, words, voice, language):
+    def get_audio_file_cache_path(self, words, language=DEFAULT_LANGUAGE, voice=DEFAULT_VOICE):
         # fix UnicodeEncodeError: 'ascii' codec can't encode character X in position Y
-        if isinstance(words, unicode):
-            words = words.encode('utf-8')
-        md5 = hashlib.md5(words).hexdigest()
+        md5 = self.generate_md5_from_words(words)
         filename = voice + "." + md5 + "." + self._cache_extension
         cache_directory = os.path.join(self._cache_path, self._module_name, language)
         file_path = os.path.join(cache_directory, filename)
@@ -34,7 +35,12 @@ class Cache:
         return file_path
 
     @staticmethod
+    def generate_md5_from_words(words):
+        if isinstance(words, unicode):
+            words = words.encode('utf-8')
+        return hashlib.md5(words).hexdigest()
+
+    @staticmethod
     def remove_audio_file(file_path, cache):
         if not cache:
             FileManager.remove_file(file_path)
-
