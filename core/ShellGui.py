@@ -112,9 +112,9 @@ class ShellGui:
         :param sentence_to_test:
         :return:
         """
-        print type(sentence_to_test)
         sentence_to_test = sentence_to_test.encode('utf-8')
-        print type(sentence_to_test)
+        tts_name = tts_name.encode('utf-8')
+
         Say(message=sentence_to_test, tts=tts_name)
 
     @staticmethod
