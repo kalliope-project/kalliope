@@ -26,6 +26,8 @@ class Cache:
 
     def get_audio_file_cache_path(self, words, language=DEFAULT_LANGUAGE, voice=DEFAULT_VOICE):
         # fix UnicodeEncodeError: 'ascii' codec can't encode character X in position Y
+        if voice is None:
+            voice = DEFAULT_VOICE
         md5 = self.generate_md5_from_words(words)
         filename = voice + "." + md5 + "." + self._cache_extension
         cache_directory = os.path.join(self._cache_path, self._module_name, language)

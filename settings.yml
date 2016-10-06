@@ -47,11 +47,11 @@ speech_to_text:
 # - voxygen
 text_to_speech:
   - pico2wave:
-      language: "us"
+      language: "en-US"
       cache: True
   - voxygen:
       language: "fr"
-      voice: "michel"
+      voice: "Emma"
       cache: True
 
 # Trigger engine configuration

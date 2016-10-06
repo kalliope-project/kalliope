@@ -1,4 +1,6 @@
 import subprocess
+
+from core import AudioPlayer
 from tts import TTS
 import logging
 import sys
@@ -8,34 +10,15 @@ logger = logging.getLogger("jarvis")
 
 
 class Pico2wave(TTS):
-    PICO2WAVE_LANGUAGES = dict(fr="fr-FR", us="en-US", uk="en-GB", de="de-DE", es="es-ES", it="it-IT")
-    PICO2WAVE_LANGUAGES_DEFAULT = 'fr'
+    TTS_LANGUAGES_DEFAULT = 'fr-FR'
 
-    def __init__(self, audio_player_type=None):
-        """
+    def __init__(self):
+        TTS.__init__(self, AudioPlayer.PLAYER_WAV)
 
-        :param audio_player_type: MP3 or WAV
-        """
-        TTS.__init__(self, audio_player_type, "wav")
-
-    def say(self, words=None, language=PICO2WAVE_LANGUAGES_DEFAULT, cache=False):
-        file_path = self.cache.get_audio_file_cache_path(words, language)
-        language = self.get_voice(language)
-
-        self.get_audio(words, language, file_path)
-        self.play_audio(file_path, cache=cache)
-
-    def get_voice(self, language):
-        logger.debug("Pico2wave asked lang: %s" % language)
-        language = self.unify_key(language)
-
-        if language in self.PICO2WAVE_LANGUAGES:
-            return self.PICO2WAVE_LANGUAGES[language]
-
-        logger.debug("Cannot find language matching language:  %s replace by default voice: %s", language, self.PICO2WAVE_LANGUAGES_DEFAULT)
-        return self.PICO2WAVE_LANGUAGES_DEFAULT
+    def say(self, words=None, language=TTS_LANGUAGES_DEFAULT, cache=False):
+        self.say_generic(cache, language, words, self.get_audio_pico2wave, AudioPlayer.PLAYER_WAV, AudioPlayer.AUDIO_MP3_FREQUENCY)
 
     @staticmethod
-    def get_audio(words, language, file_path):
+    def get_audio_pico2wave(language, words, file_path, cache):
         subprocess.check_output(["/usr/bin/pico2wave", "-l=%s" % language, "-w=%s" % file_path, words], stderr=sys.stderr)
-
+        return True
