@@ -5,6 +5,7 @@ import logging
 import os
 import requests
 import sys
+import re
 from core import FileManager
 
 logging.basicConfig()
@@ -24,7 +25,7 @@ class TTS:
     def say_generic(self, cache, language, words, get_audio_specific, audio_type, audio_frequency, voice=None):
         file_path = self.cache.get_audio_file_cache_path(words, language, voice)
 
-        if get_audio_specific(language, words, file_path, cache):
+        if get_audio_specific(language, words, file_path, cache, voice):
             self.play_audio(file_path, audio_type, audio_frequency, cache)
 
     @staticmethod
