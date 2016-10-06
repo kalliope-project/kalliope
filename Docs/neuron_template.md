@@ -2,7 +2,7 @@
 
 ## Synopsis
 
-Little description of what the neuron do.
+Little description of what the neuron does.
 
 ## Options
 
