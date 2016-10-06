@@ -31,34 +31,34 @@ The google STT is based on the [Google Speech Recognition API](https://cloud.goo
 | parameter| required | default | choices | comments |
 |----------|----------|---------|---------|----------|
 | key      | No       | None    |         |          |
-| language | No       | en-US   | fr-FR   |          |
+| language | No       | en-US   | [lang](https://en.wikipedia.org/wiki/Google_Voice_Search#Supported_languages)   |LCID string|
 
 ### Bing
 
-The google STT is based on the [Microsoft Bing Voice Recognition API](https://www.microsoft.com/cognitive-services/en-us/speech-api)
+The Bing STT is based on the [Microsoft Bing Voice Recognition API](https://www.microsoft.com/cognitive-services/en-us/speech-api)
 
 | parameter| required | default | choices | comments |
 |----------|----------|---------|---------|----------|
 | key      | YES      | None    |         |User info |
-| language | No       | en-US   | fr-FR   |          |
+| language | No       | en-US   | [lang](https://www.microsoft.com/cognitive-services/en-us/speech-api)|7 languages|
 
 ### wit.ai
 
-The google STT is based on the Microsoft [Wit.ai API](https://wit.ai/)
+The wit.ai STT is based on the Microsoft [Wit.ai API](https://wit.ai/)
 
 | parameter| required | default | choices | comments |
 |----------|----------|---------|---------|----------|
 | key      | YES      | None    |         |User info |
-| language | No       | en-US   |         |          |
+| language | No       | en-US   |[lang](https://docs.api.ai/docs/languages)|          |
 
 ### api.ai
 
-The google STT is based on the [api.ai API](https://api.ai/)
+The api.ai STT is based on the [api.ai API](https://api.ai/)
 
 | parameter| required | default | choices | comments |
 |----------|----------|---------|---------|----------|
 | key      | YES      | None    |         |User info |
-| language | No       | en-US   | fr-FR   |          |
+| language | No       | en-US   |[lang](https://docs.api.ai/docs/languages)|          |
 
 ### Houndify
 
@@ -68,7 +68,7 @@ Not working yet ... in coming
 |----------|----------|---------|---------|----------|
 | key      | YES      | None    |         |User info |
 | client_id| YES      | None    |         |User info |
-| language | No       | en-US   | fr-FR   |          |
+| language | No       | en-US   | en-US   |          |
 
 ## Full Example
 
