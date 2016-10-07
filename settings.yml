@@ -53,6 +53,16 @@ text_to_speech:
       language: "fr"
       voice: "Emma"
       cache: True
+  - acapela:
+      language: "sonid15"
+      voice: "Manon"
+      cache: True
+  - googletts:
+      language: "fr"
+      cache: True
+  - voicerss:
+      language: "fr-fr"
+      cache: True
 
 # Trigger engine configuration
 # Available engine are:

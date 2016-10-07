@@ -20,7 +20,7 @@ class Voxygen(TTS):
     def say(self, words=None, voice=TTS_VOICE_DEFAULT, language=TTS_LANGUAGES_DEFAULT, cache=True):
         self.say_generic(cache, language, words, self.get_audio_voxygen, AudioPlayer.PLAYER_MP3, AudioPlayer.AUDIO_MP3_FREQUENCY, voice)
 
-    def get_audio_voxygen(self, voice, words, file_path, cache):
+    def get_audio_voxygen(self, language, words, file_path, cache, voice):
         payload = {
             "method": "redirect",
             "text": words,
