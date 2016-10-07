@@ -58,12 +58,14 @@ def _get_list_word_in_order_without_parameter(list_word_in_order):
     print list_word_in_order
     list_word_without_bracket = list()
     list_parameter_position = list()
+    parameters_name = list()
 
     index = 0   # index to count element in the list counting the brackets
     returned_index = 0  # this is the index where the parameter is placed
     for el in list_word_in_order:
         if _is_containing_opening_bracket(el):
             list_parameter_position.append(returned_index)
+            parameters_name.append(list_word_in_order[index+1])
         else:
             try:
                 # if the next element is not a closing bracket
@@ -81,9 +83,11 @@ def _get_list_word_in_order_without_parameter(list_word_in_order):
 
     print list_word_without_bracket
     print list_parameter_position
+    print parameters_name
     returned_dict = dict()
     returned_dict["list_word_without_bracket"] = list_word_without_bracket
     returned_dict["list_parameter_position"] = list_parameter_position
+    returned_dict["parameters_name"] = parameters_name
     return returned_dict
 
 
