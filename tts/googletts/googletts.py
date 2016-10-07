@@ -24,12 +24,16 @@ class Googletts(TTS):
         cache = kwargs.get('cache', None)
         file_path = kwargs.get('file_path', None)
         language = kwargs.get('language', None)
+        payload = Googletts.get_payload(language,words)
 
-        payload = {
+        return TTS.get_audio(file_path, cache, payload, self.TTS_URL)
+
+    @staticmethod
+    def get_payload(language, words):
+        return {
             "q": words,
             "tl": language,
             "ie": "UTF-8",
             "total": "1",
             "client": "tw-ob"
         }
-        return self.get_audio(file_path, cache, payload, self.TTS_URL, self.TTS_CONTENT_TYPE, self.TTS_TIMEOUT_SEC)

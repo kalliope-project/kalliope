@@ -12,6 +12,9 @@ logger = logging.getLogger("jarvis")
 
 
 class TTS:
+    TTS_CONTENT_TYPE = "audio/mpeg"
+    TTS_TIMEOUT_SEC = 30
+
     def __init__(self, cache_extension=None, volume=0.8):
         self.cache = Cache(module_name=self.__class__.__name__, cache_extension=cache_extension)
         self.audio_player = AudioPlayer(volume=volume)
@@ -32,7 +35,7 @@ class TTS:
         return key.lower()
 
     @staticmethod
-    def get_audio(file_path, cache, payload, url, content_type_expected, timeout_expected=30):
+    def get_audio(file_path, cache, payload, url, content_type_expected=TTS_CONTENT_TYPE, timeout_expected=TTS_TIMEOUT_SEC):
         if not cache or not os.path.exists(file_path) or FileManager.file_is_empty(file_path):
 
             r = requests.get(url, params=payload, stream=True, timeout=timeout_expected)

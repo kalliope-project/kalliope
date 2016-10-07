@@ -24,10 +24,14 @@ class Voicerss(TTS):
         cache = kwargs.get('cache', None)
         file_path = kwargs.get('file_path', None)
         language = kwargs.get('language', None)
+        payload = Voicerss.get_payload(language, words)
 
-        payload = {
+        return TTS.get_audio(file_path, cache, payload, self.TTS_URL)
+
+    @staticmethod
+    def get_payload(language, words):
+        return {
             "src": words,
             "hl": language,
             "c": "mp3"
         }
-        return self.get_audio(file_path, cache, payload, self.TTS_URL, self.TTS_CONTENT_TYPE, self.TTS_TIMEOUT_SEC)

@@ -30,19 +30,23 @@ class Acapela(TTS):
         cache = kwargs.get('cache', None)
         file_path = kwargs.get('file_path', None)
         voice = kwargs.get('voice', None)
-
-        payload = {
-            "MyLanguages": language,
-            "MySelectedVoice": voice,
-            "MyTextForTTS": words,
-            "t": "1",
-            "SendToVaaS": ""
-        }
+        payload = Acapela.get_payload(language, voice, words)
         url = Acapela.get_audio_link(self.TTS_URL, payload)
-        return self.get_audio(file_path, cache, payload, url, self.TTS_CONTENT_TYPE, self.TTS_TIMEOUT_SEC)
+
+        return TTS.get_audio(file_path, cache, payload, url)
 
     @staticmethod
     def get_audio_link(url, payload, timeout_expected=30):
         r = requests.post(url, payload, timeout=timeout_expected)
         data = r.content
         return re.search("(?P<url>https?://[^\s]+).mp3", data).group(0)
+
+    @staticmethod
+    def get_payload(language, voice, words):
+        return {
+            "MyLanguages": language,
+            "MySelectedVoice": voice,
+            "MyTextForTTS": words,
+            "t": "1",
+            "SendToVaaS": ""
+        }
