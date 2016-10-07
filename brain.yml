@@ -6,6 +6,7 @@
             - "Hello, I'm Jarvis"
     signals:
       - order: "hello"
+      - order: "je voudrais ecouter {{ artist_name }}"
 
   - name: "say hello"
     neurons:
