@@ -57,15 +57,16 @@ def _get_list_word_in_order_without_parameter(list_word_in_order):
     """
     print list_word_in_order
     list_word_without_bracket = list()
-    list_parameter_position = list()
-    parameters_name = list()
+    list_parameter_position_and_name = list()
 
     index = 0   # index to count element in the list counting the brackets
-    returned_index = 0  # this is the index where the parameter is placed
+    returned_index = 1  # this is the index where the parameter is placed
     for el in list_word_in_order:
         if _is_containing_opening_bracket(el):
-            list_parameter_position.append(returned_index)
-            parameters_name.append(list_word_in_order[index+1])
+            new_parameter = dict()
+            new_parameter["name"] = list_word_in_order[index+1]
+            new_parameter["index"] = returned_index
+            list_parameter_position_and_name.append(new_parameter)
         else:
             try:
                 # if the next element is not a closing bracket
@@ -82,13 +83,28 @@ def _get_list_word_in_order_without_parameter(list_word_in_order):
         index += 1
 
     print list_word_without_bracket
-    print list_parameter_position
-    print parameters_name
+    print list_parameter_position_and_name
     returned_dict = dict()
     returned_dict["list_word_without_bracket"] = list_word_without_bracket
-    returned_dict["list_parameter_position"] = list_parameter_position
-    returned_dict["parameters_name"] = parameters_name
+    returned_dict["list_parameter_position_and_name"] = list_parameter_position_and_name
     return returned_dict
+
+
+def _get_usefull_words(list_word_user_said, list_word_without_bracket):
+    first_valid_word = list_word_without_bracket[0]
+    last_word_valid_word = list_word_without_bracket[len(list_word_without_bracket)-1]
+    print first_valid_word
+    print last_word_valid_word
+
+    start_index = list_word_user_said.index(first_valid_word)
+    stop_index = list_word_user_said.index(last_word_valid_word)
+
+    new_list = list()
+    for x in (range(start_index, stop_index)):
+        new_list.append(list_word_user_said[int(x)])
+    print new_list
+
+    return new_list
 
 
 def try_match_order_in_synapse(list_word_user_said, list_word_in_order):
@@ -102,20 +118,23 @@ def try_match_order_in_synapse(list_word_user_said, list_word_in_order):
     returned_dict = _get_list_word_in_order_without_parameter(list_word_in_order)
 
     list_word_without_bracket = returned_dict["list_word_without_bracket"]
-    parameters_position = returned_dict["list_parameter_position"]
+    parameters_position_and_name = returned_dict["list_parameter_position_and_name"]
 
     number_of_word_in_order = len(list_word_without_bracket)
     # if all words in the list of what the user said in in the list of word in the order
     if len(set(list_word_without_bracket).intersection(list_word_user_said)) == number_of_word_in_order:
         # we match the order!
-        print "order matched !"
-        # we can get parameters in the sentence the user said
-        # TODO get parameters
-        # # we create a new list from the order with parameter tag inside
-        # order_list_with_parameter_tag = None
-        # for position in parameters_position:
-        #     order_list_with_parameter_tag = list_word_without_bracket.insert(int(position), "#PARAMETER#")
-        # print order_list_with_parameter_tag
+        print "order matched !"     # we can get parameters in the sentence the user said
+
+        # remove unused word in the list of word spelt by the user.
+        usefull_words_in_user_said_list = _get_usefull_words(list_word_user_said, list_word_without_bracket)
+        val_parameter = dict()
+        for el in parameters_position_and_name:
+            print el["name"]
+            print
+            val_parameter[el["name"]] = list_word_user_said[int(el["index"])]
+
+        print "The dict Var : %s" % val_parameter
 
 
 # make a list of word
