@@ -24,7 +24,13 @@ class Acapela(TTS):
     def say(self, words=None, language=TTS_LANGUAGES_DEFAULT, voice=TTS_VOICE_DEFAULT, cache=True):
         self.say_generic(cache, language, words, self.get_audio_acapela, AudioPlayer.PLAYER_MP3, AudioPlayer.AUDIO_MP3_22050_FREQUENCY, voice)
 
-    def get_audio_acapela(self, language, words, file_path, cache, voice):
+    def get_audio_acapela(self, **kwargs):
+        language = kwargs.get('language', None)
+        words = kwargs.get('words', None)
+        cache = kwargs.get('cache', None)
+        file_path = kwargs.get('file_path', None)
+        voice = kwargs.get('voice', None)
+
         payload = {
             "MyLanguages": language,
             "MySelectedVoice": voice,

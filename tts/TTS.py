@@ -24,12 +24,7 @@ class TTS:
     def say_generic(self, cache, language, words, get_audio_specific, audio_type, audio_frequency, voice=None):
         file_path = self.cache.get_audio_file_cache_path(words, language, voice)
 
-        if voice is None:
-            return_code = get_audio_specific(language, words, file_path, cache)
-        else:
-            return_code = get_audio_specific(language, words, file_path, cache, voice)
-
-        if return_code:
+        if get_audio_specific(language=language, words=words, file_path=file_path, cache=cache, voice=voice):
             self.play_audio(file_path, audio_type, audio_frequency, cache)
 
     @staticmethod
