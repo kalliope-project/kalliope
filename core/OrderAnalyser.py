@@ -58,7 +58,7 @@ class OrderAnalyser:
         order_vector = text_to_vector(order_to_test)
 
         cosine = get_cosine(user_vector, order_vector)
-        print "the cosine : ", cosine, ", pour user_vector: ", self.order, " et order_vector: ", order_to_test
+        logger.debug("the cosine : %s, pour user_vector: %s , order_vector: %s" % (cosine, self.order, order_to_test))
         return cosine >= 0.5
 
 
