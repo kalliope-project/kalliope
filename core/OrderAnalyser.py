@@ -1,3 +1,4 @@
+# coding: utf8
 import re
 
 from core.Utils import Utils
@@ -26,14 +27,14 @@ class OrderAnalyser:
             self.brain = BrainLoader.get_brain()
         else:
             self.brain = BrainLoader.get_brain(file_path=brain_file)
-            logger.debug("Receiver order: %s" % self.order)
+        logger.debug("OrderAnalyser, Received order: %s" % self.order)
 
     def start(self):
         synapses_found = False
         for synapse in self.brain.synapses:
             for signal in synapse.signals:
                 if type(signal) == Order:
-                    if self._spelt_order_match_brain_order(signal.sentence):
+                    if self._spelt_order_match_brain_order_via_table(signal.sentence, self.order):
                         synapses_found = True
                         logger.debug("Order found! Run neurons: %s" % synapse.neurons)
                         Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
@@ -46,7 +47,7 @@ class OrderAnalyser:
                         for neuron in synapse.neurons:
                             if isinstance(neuron.parameters, dict):
                                 if "args" in neuron.parameters:
-                                    print "the neuron wait for parameter"
+                                    logger.debug("The neuron wait for parameter")
                                     # check that the user added parameters to his order
                                     if params is None:
                                         # TODO: raise an error and break the program?
@@ -59,6 +60,7 @@ class OrderAnalyser:
                                                 logger.debug("Parameter %s added to the current parameter "
                                                              "of the neuron: %s" % (arg, neuron.name))
                                                 neuron.parameters[arg] = params[arg]
+                                                print params[arg]
                                             else:
                                                 # TODO: raise an error and break the program?
                                                 Utils.print_danger("Error: Argument \"%s\" not found in the"
@@ -139,3 +141,35 @@ class OrderAnalyser:
         ite = list.__iter__()
         next(ite, None)
         return next(ite, None)
+
+    def _spelt_order_match_brain_order_via_table(self, order_to_analyse, user_said):
+        """
+        return true if all string that are in the sentence are present in the order to test
+        :param order_to_analyse: String order to test
+        :param user_said: String to compare to the order
+        :return: True if all string are present in the order
+        """
+        list_word_user_said = user_said.split()
+        split_order_without_bracket = self._get_split_order_without_bracket(order_to_analyse)
+        print split_order_without_bracket
+
+        number_of_word_in_order = len(split_order_without_bracket)
+        # if all words in the list of what the user said in in the list of word in the order
+        return len(set(split_order_without_bracket).intersection(list_word_user_said)) == number_of_word_in_order
+
+    @staticmethod
+    def _get_split_order_without_bracket(order):
+        """
+        Get an order with bracket inside like: "hello my name is {{ name }}.
+        return a list of string without bracket like ["hello", "my", "name", "is"]
+        :param order: sentence to split
+        :return: list of string without bracket
+        """
+        pattern = r"((?:{{\s*)[\w\.]+(?:\s*}}))"
+        # find everything like {{ word }}
+        matches = re.findall(pattern, order)
+        for match in matches:
+            order = order.replace(match, "")
+        # then split
+        split_order = order.split()
+        return split_order

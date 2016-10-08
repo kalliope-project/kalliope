@@ -1,15 +1,15 @@
 ---
-#  - name: "hello world"
-#    neurons:
-#      - say:
-#          message:
-#            - "Bonjour monsieur"
-#          args:
-#            - song_name
-#            - artist_name
-#    signals:
-#      - order: "hello"
-#      - order: "je voudrais la musique {{song_name}} de {{ artist_name }}"
+  - name: "hello world"
+    neurons:
+      - say:
+          message:
+            - "Bonjour monsieur"
+          args:
+            - hour
+            - minute
+
+    signals:
+      - order: "régle le réveil pour {{ hour }} heures et {{ minute }} minutes"
 
   - name: "say hello"
     neurons:
@@ -17,7 +17,6 @@
           message:
             - "Bonjour monsieur"
     signals:
-      - event: "57 22 * * *"
       - order: "dis bonjour"
 
   - name: "Meaning of life"
@@ -42,11 +41,10 @@
     neurons:
       - systemdate:
           say_template:
-            - "Il est {{ hours }} heures et {{ minutes }} minutes {{insulte}}"
-          tts: "voxygen"
+            - "il est {{ hours }} heure et {{ minutes }} minute"
           cache: False
     signals:
-      - order: "{{politesse}} quelle heure est-il {{insulte}}"
+      - order: "what time is it"
 
   - name: "Say local date from template"
     neurons:
@@ -95,7 +93,7 @@
     neurons:
       - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"start\"}' http://192.168.0.17:8000/app"
       - say:
-          message: "Musique lancée, monsieur"
+          message: "Musique lance, monsieur"
     signals:
       - order: "mais nous de la musique"
       - order: "musique rock"
@@ -104,7 +102,7 @@
     neurons:
       - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"stop\"}' http://192.168.0.17:8000/app"
       - say:
-          message: "Musique stoppé, monsieur"
+          message: "Musique stopp, monsieur"
     signals:
       - order: "arrête la musique"
       - order: "stop la musique"
@@ -134,3 +132,4 @@
           file_template: fr_gmail.j2
     signals:
       - order: "est-ce que j'ai des emails"
+

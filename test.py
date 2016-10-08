@@ -1,119 +1,52 @@
-# -*- coding: utf-8 -*-
+# coding: utf8
+import logging
+import re
+from core import OrderAnalyser
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
+logger.setLevel(logging.DEBUG)
 
-import re, math
-from collections import Counter
-
-
-
-# user_said = "maman je voudrais ecouter ACDC"
-# order = "je voudrais ecouter {{ artist_name }}"
-
-user_said = "s'il te plait regle le reveil pour dix huit heures et dix neuf  minutes trente trois  secondes cent quatre vingt dix "
-
-user_said_list = [" regle le reveil pour neuf  heures et quinze minutes trente trois secondes ",
-                 "s'il te plait regle le reveil pour dix huit huf  minutes trente trois  secondes cent quatre vingt dix ",
-                 "regle pour dix huit heures et   trente trois  secondes cent quatre vingt dix ",
-                 "s'il te plait regle le reveil poutes trente trois  secondes cent quatre vingt dix ",
-                 "RIEN A VOIR"
-                  ]
-
-order = "{{ politesse }} regle le reveil pour {{ hour}} heures et {{minute }} minutes {{ seconde  }} secondes {{mili}}"
-
-order_list = ["regle le reveil pour  heures et  minutes  secondes ",
-              "{{ politesse }} regle le reveil pour {{ hour}} heures et {{minute }} minutes {{ seconde  }} secondes {{mili}}",
-              " reveil pour {{ hour}}  et {{minute }} minutes  secondes {{mili}}",
-              "{{ politesse }} regle le reveil pour "
-              ]
-
-
-# take a look to each order
-
-WORD = re.compile(r'\w+')
-
-def get_cosine(vec1, vec2):
-     intersection = set(vec1.keys()) & set(vec2.keys())
-     numerator = sum([vec1[x] * vec2[x] for x in intersection])
-
-     sum1 = sum([vec1[x]**2 for x in vec1.keys()])
-     sum2 = sum([vec2[x]**2 for x in vec2.keys()])
-     denominator = math.sqrt(sum1) * math.sqrt(sum2)
-
-     if not denominator:
-        return 0.0
-     else:
-        return float(numerator) / denominator
-
-def text_to_vector(text):
-     words = WORD.findall(text)
-     return Counter(words)
-
-
-def _is_containing_bracket(sentence):
-    # print "sentence to test %s" % sentence
-    pattern = r"{{|}}"
-    # prog = re.compile(pattern)
-    bool = re.search(pattern, sentence)
-    if bool is not None:
-        return True
-    return False
-
-
-def _get_next_value_list(list):
-    ite = list.__iter__()
-    next(ite, None)
-    return next(ite, None)
-
-# check if the order contain bracket
-if _is_containing_bracket(order):
-    # remove white space between {{ and }}
-    # get a table of word said
-    list_word_in_order = re.sub('\s+(?=[^\{\{\}\}]*\}\})', '',order).split()
-    print "order matched: %s" % list_word_in_order
-
-    # get the order, defined by the first words before {{
-    the_order = order[:order.find('{{')]
-    print "the order catched %s" % the_order
-
-
-    # remove sentence before order
-    nb = user_said[user_said.find(the_order):]
-    truncate_list_word_said = nb.split()
-    print "truncate_list_word_said : %s" % truncate_list_word_said
-
-
-    # make dict var:value
-    dictVar = {}
-    for idx, ow in enumerate(list_word_in_order):
-        if _is_containing_bracket(ow):
-            # remove bracket et key dict
-            varname = ow.replace("{{","").replace("}}", "")
-            stopValue = _get_next_value_list(list_word_in_order[idx:])
-            if stopValue is None:
-                dictVar[varname] = " ".join(truncate_list_word_said)
-                break
-            for word_said in truncate_list_word_said:
-                if word_said == stopValue: break
-                if varname in dictVar:
-                    dictVar[varname] += " " + word_said
-                    truncate_list_word_said = truncate_list_word_said[1:]
-                else:
-                    dictVar[varname] = word_said
-        truncate_list_word_said = truncate_list_word_said[1:]
-    print "The dict Var : %s" % dictVar
-
-
-
-# for us in user_said_list:
-#     for od in order_list:
-#         vector1 = text_to_vector(us)
-#         vector2 = text_to_vector(od)
+# This does not work because of different encoding when using accent
+# from core import OrderAnalyser
+# order = "jarvis régle le réveil pour sept heures et vingt minutes"
 #
-#         cosine = get_cosine(vector1, vector2)
+# oa = OrderAnalyser(order)
 #
-#         print "Cosine -> ", cosine, " for usersaid: ",us, " ,order:", od
+# oa.start()
 
 
+user_said = "jarvis régle le réveil pour sept heures et vingts minutes please"
+
+order = "régle le réveil pour {{ hour }} heures et {{ minute }} minutes"
 
 
+def _spelt_order_match_brain_order_via_table(order_to_analyse, user_said):
+    list_word_user_said = user_said.split()
+    split_order_without_bracket = _get_list_word_without_bracket(order_to_analyse)
+
+    number_of_word_in_order = len(split_order_without_bracket)
+    # if all words in the list of what the user said in in the list of word in the order
+    return len(set(split_order_without_bracket).intersection(list_word_user_said)) == number_of_word_in_order
 
 
+def _get_list_word_without_bracket(order):
+    """
+    Get an order with bracket inside like: "hello my name is {{ name }}.
+    return a list of string without bracket like ["hello", "my", "name", "is"]
+    :param order: sentence to split
+    :return: list of string without bracket
+    """
+    pattern = r"((?:{{\s*)[\w\.]+(?:\s*}}))"
+    # find everything like {{ word }}
+    matches = re.findall(pattern, order)
+    for match in matches:
+        order = order.replace(match, "")
+    # then split
+    split_order = order.split()
+    return split_order
+
+# main test
+if _spelt_order_match_brain_order_via_table(order, user_said):
+    print "order matched"
+else:
+    print "order does not match"
