@@ -17,6 +17,7 @@ class AudioPlayer:
     AUDIO_MP3_BUFFER = 2048
 
     AUDIO_MP3_44100_FREQUENCY = 44100
+    AUDIO_MP3_22050_FREQUENCY = 22050
 
     AUDIO_DEFAULT_VOLUME = 0.8
 
@@ -35,7 +36,8 @@ class AudioPlayer:
             audio_buffer = audio_buffer
 
         audio_frequency = audio_frequency
-        pygame.mixer.init(audio_frequency, audio_size, audio_channel, audio_buffer)
+        pygame.mixer.pre_init(audio_frequency, audio_size, audio_channel, audio_buffer)
+        pygame.mixer.init()
 
     def play_audio(self, music_file):
         try:
@@ -60,4 +62,5 @@ class AudioPlayer:
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy():
             clock.tick(20)
+        pygame.mixer.quit()
         return
