@@ -6,10 +6,13 @@ cd
 git clone https://repo/jarvis.git
 ```
 
-Run the install script with root privileges
+Run the install script.
 ```
-sudo ./jarvis/install/install_jarvis.sh
+./jarvis/install/install_jarvis.sh
 ```
+
+>**Note:** The install script must not be ran as root or with sudo. 
+You will be prompted to enter your sudo password during the installation process.
 
 You will be prompted to enter your sudo password during the installation process.
 

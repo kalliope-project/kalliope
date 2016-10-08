@@ -13,7 +13,7 @@ class MainController:
         # get global configuration
         self.settings = SettingLoader.get_settings()
 
-        # create an order listener object
+        # create an order listener object. This last will the trigger callback before starting
         self.order_listener = OrderListener(self.analyse_order)
         # Wait that the jarvis trigger is pronounced by the user
         self.trigger_instance = self._get_default_trigger()
@@ -28,8 +28,9 @@ class MainController:
         """
         # pause the snowboy process
         self.trigger_instance.pause()
+        # start listening for an order
+        self.order_listener.start()
         Say(message=self.settings.random_wake_up_answers)
-        self.order_listener.load_stt_plugin()
 
     def analyse_order(self, order):
         """
@@ -41,6 +42,10 @@ class MainController:
         # restart the trigger when the order analyser has finish his job
         Utils.print_info("Waiting for trigger detection")
         self.trigger_instance.unpause()
+        # create a new order listener that will wait for start
+        self.order_listener = OrderListener(self.analyse_order)
+        # restart the trigger to catch the hotword
+        self.trigger_instance.start()
 
     def _get_default_trigger(self):
         """
