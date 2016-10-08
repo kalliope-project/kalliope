@@ -13,8 +13,11 @@ class Systemdate(NeuronModule):
         hour = time.strftime("%H")
         minute = time.strftime("%M")
 
+
         message = {
             "hours": hour,
-            "minutes": minute
+            "minutes": minute,
         }
+        if "insulte" in kwargs:
+            message["insulte"] = kwargs.get("insulte")
         self.say(message)

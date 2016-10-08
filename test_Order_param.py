@@ -14,13 +14,15 @@ user_said_list = [" regle le reveil pour neuf  heures et quinze minutes trente t
                  "s'il te plait regle le reveil pour dix huit huf  minutes trente trois  secondes cent quatre vingt dix ",
                  "regle pour dix huit heures et   trente trois  secondes cent quatre vingt dix ",
                  "s'il te plait regle le reveil poutes trente trois  secondes cent quatre vingt dix ",
-                 "RIEN A VOIR"
+                 "RIEN A VOIR",
+                " minutes neuf trente reveil regle secondes  quinze  le heures et    trois  pour "
                   ]
 
 order = "{{ politesse }} regle le reveil pour {{ hour}} heures et {{minute }} minutes {{ seconde  }} secondes {{mili}}"
 
 order_list = ["regle le reveil pour  heures et  minutes  secondes ",
               "{{ politesse }} regle le reveil pour {{ hour}} heures et {{minute }} minutes {{ seconde  }} secondes {{mili}}",
+              "politesse  regle le reveil pour  hour heures et minute  minutes  seconde   secondes mili",
               " reveil pour {{ hour}}  et {{minute }} minutes  secondes {{mili}}",
               "{{ politesse }} regle le reveil pour "
               ]
@@ -103,14 +105,14 @@ if _is_containing_bracket(order):
 
 
 
-# for us in user_said_list:
-#     for od in order_list:
-#         vector1 = text_to_vector(us)
-#         vector2 = text_to_vector(od)
-#
-#         cosine = get_cosine(vector1, vector2)
-#
-#         print "Cosine -> ", cosine, " for usersaid: ",us, " ,order:", od
+for us in user_said_list:
+    for od in order_list:
+        vector1 = text_to_vector(us)
+        vector2 = text_to_vector(od)
+
+        cosine = get_cosine(vector1, vector2)
+
+        print "Cosine -> ", cosine, " for usersaid: ",us, " ,order:", od
 
 
 

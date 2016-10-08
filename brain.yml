@@ -6,7 +6,7 @@
             - "Hello, I'm Jarvis"
     signals:
       - order: "hello"
-      - order: "je voudrais ecouter {{ artist_name }}"
+      - order: "je voudrais la musique {{song-name}} de {{ artist_name }}"
 
   - name: "say hello"
     neurons:
@@ -39,11 +39,11 @@
     neurons:
       - systemdate:
           say_template:
-            - "Il est {{ hours }} heures et {{ minutes }} minutes"
+            - "Il est {{ hours }} heures et {{ minutes }} minutes {{insulte}}"
           tts: "voxygen"
           cache: False
     signals:
-      - order: "what time"
+      - order: "{{politesse}} quelle heure est-il {{insulte}}"
 
   - name: "Say local date from template"
     neurons:
