@@ -19,6 +19,10 @@ class Pico2wave(TTS):
         self.say_generic(cache, language, words, self.get_audio_pico2wave, AudioPlayer.PLAYER_WAV, AudioPlayer.AUDIO_MP3_FREQUENCY)
 
     @staticmethod
-    def get_audio_pico2wave(language, words, file_path, cache):
+    def get_audio_pico2wave(**kwargs):
+        language = kwargs.get('language', None)
+        words = kwargs.get('words', None)
+        file_path = kwargs.get('file_path', None)
+
         subprocess.check_output(["/usr/bin/pico2wave", "-l=%s" % language, "-w=%s" % file_path, words], stderr=sys.stderr)
         return True
