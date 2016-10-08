@@ -1,5 +1,7 @@
 import logging
 import os
+from threading import Thread
+
 from cffi import FFI as _FFI
 
 from core.Utils import Utils
@@ -9,7 +11,7 @@ logging.basicConfig()
 logger = logging.getLogger("jarvis")
 
 
-class OrderListener:
+class OrderListener(Thread):
 
     def __init__(self, callback=None, stt=None):
         """
@@ -22,11 +24,15 @@ class OrderListener:
         """
         # this is a trick to ignore ALSA output error
         # see http://stackoverflow.com/questions/7088672/pyaudio-working-but-spits-out-error-messages-each-time
+        super(OrderListener, self).__init__()
         self.stt = stt
         self._ignore_stderr()
         self.stt_module_name = stt
         self.callback = callback
         self.settings = SettingLoader.get_settings()
+
+    def run(self):
+        self.load_stt_plugin()
 
     def load_stt_plugin(self):
         if self.stt is None:
