@@ -45,6 +45,8 @@ class SettingLoader(object):
         ttss = cls._get_ttss(settings)
         triggers = cls._get_triggers(settings)
         random_wake_up_answers = cls._get_random_wake_up_answers(settings)
+        random_wake_up_sounds = cls._get_random_wake_up_sounds(settings)
+
         # create a setting object
         setting_object = Settings(default_stt_name=default_stt_name,
                                   default_tts_name=default_tts_name,
@@ -52,7 +54,8 @@ class SettingLoader(object):
                                   stts=stts,
                                   ttss=ttss,
                                   triggers=triggers,
-                                  random_wake_up_answers=random_wake_up_answers)
+                                  random_wake_up_answers=random_wake_up_answers,
+                                  random_wake_up_sounds=random_wake_up_sounds)
         return setting_object
 
     @staticmethod
@@ -180,10 +183,30 @@ class SettingLoader(object):
         try:
             random_wake_up_answers_list = settings["random_wake_up_answers"]
         except KeyError:
-            raise SettingNotFound("text_to_speech settings not found")
+            # User does not provide this settings
+            return None
 
         # The list cannot be empty
         if random_wake_up_answers_list is None:
             raise NullSettingException("random_wake_up_answers settings is null")
 
         return random_wake_up_answers_list
+
+    @classmethod
+    def _get_random_wake_up_sounds(cls, settings):
+        """
+        return a list of string
+        :param settings:
+        :return: List of string
+        """
+        try:
+            random_wake_up_sounds_list = settings["random_wake_up_sounds"]
+        except KeyError:
+            # User does not provide this settings
+            return None
+
+        # The the setting is present, the list cannot be empty
+        if random_wake_up_sounds_list is None:
+            raise NullSettingException("random_wake_up_sounds settings is empty")
+
+        return random_wake_up_sounds_list
