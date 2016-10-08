@@ -41,7 +41,8 @@ class OrderAnalyser:
                         if self._is_containing_bracket(signal.sentence):
                             params = self._associate_order_params_to_values(signal.sentence)
                         for neuron in synapse.neurons:
-                            NeuroneLauncher.start_neurone(neuron, params)
+                            neuron.parameters = dict(neuron.parameters.items() + params.items())
+                            NeuroneLauncher.start_neurone(neuron)
 
         if not synapses_found:
             Utils.print_info("No synapse match the captured order: %s" % self.order)
