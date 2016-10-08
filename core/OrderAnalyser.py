@@ -37,11 +37,35 @@ class OrderAnalyser:
                         synapses_found = True
                         logger.debug("Order found! Run neurons: %s" % synapse.neurons)
                         Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
-                        params = {}
+                        # if the order contains bracket, we get parameters said by the user
+                        params = None
                         if self._is_containing_bracket(signal.sentence):
                             params = self._associate_order_params_to_values(signal.sentence)
+                            logger.debug("Parameters for order: %s" % params)
+
                         for neuron in synapse.neurons:
-                            neuron.parameters = dict(neuron.parameters.items() + params.items())
+                            if isinstance(neuron.parameters, dict):
+                                if "args" in neuron.parameters:
+                                    print "the neuron wait for parameter"
+                                    # check that the user added parameters to his order
+                                    if params is None:
+                                        # TODO: raise an error and break the program?
+                                        Utils.print_danger("Error: The neuron %s is waiting for argument. "
+                                                           "Argument found in bracket in the given order" % neuron.name)
+                                    else:
+                                        # we add wanted arguments the existing neuron parameter dict
+                                        for arg in neuron.parameters["args"]:
+                                            if arg in params:
+                                                logger.debug("Parameter %s added to the current parameter "
+                                                             "of the neuron: %s" % (arg, neuron.name))
+                                                neuron.parameters[arg] = params[arg]
+                                            else:
+                                                # TODO: raise an error and break the program?
+                                                Utils.print_danger("Error: Argument \"%s\" not found in the"
+                                                                   " order" % arg)
+
+                            # neuron.parameters = dict(neuron.parameters.items() + params.items())
+                            print neuron.parameters
                             NeuroneLauncher.start_neurone(neuron)
 
         if not synapses_found:
@@ -60,8 +84,7 @@ class OrderAnalyser:
 
         cosine = get_cosine(user_vector, order_vector)
         logger.debug("the cosine : %s, pour user_vector: %s , order_vector: %s" % (cosine, self.order, order_to_test))
-        return cosine >= 0.5
-
+        return cosine >= 0.9
 
     def _associate_order_params_to_values(self, order_to_check):
         """
@@ -101,7 +124,6 @@ class OrderAnalyser:
             truncate_list_word_said = truncate_list_word_said[1:]
         return dictVar
 
-
     @staticmethod
     def _is_containing_bracket(sentence):
         # print "sentence to test %s" % sentence
@@ -117,4 +139,3 @@ class OrderAnalyser:
         ite = list.__iter__()
         next(ite, None)
         return next(ite, None)
-

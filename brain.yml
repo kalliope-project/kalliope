@@ -1,12 +1,15 @@
 ---
-  - name: "hello world"
-    neurons:
-      - say:
-          message:
-            - "Hello, I'm Jarvis"
-    signals:
-      - order: "hello"
-      - order: "je voudrais la musique {{song-name}} de {{ artist_name }}"
+#  - name: "hello world"
+#    neurons:
+#      - say:
+#          message:
+#            - "Bonjour monsieur"
+#          args:
+#            - song_name
+#            - artist_name
+#    signals:
+#      - order: "hello"
+#      - order: "je voudrais la musique {{song_name}} de {{ artist_name }}"
 
   - name: "say hello"
     neurons:
@@ -72,17 +75,17 @@
 
   - name: "Start steam"
     neurons:
-      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"kodi\",\"state\":\"stop\"}' http://192.168.0.17:5000/app"
-      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"steam\",\"state\":\"start\"}' http://192.168.0.17:5000/app"
+      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"kodi\",\"state\":\"stop\"}' http://192.168.0.17:8000/app"
+      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"steam\",\"state\":\"start\"}' http://192.168.0.17:8000/app"
       - say:
           message: "Lancement en cours, monsieur"
     signals:
-      - order: "lance steam"
+      - order: "lance Steam"
 
   - name: "Start Kodi"
     neurons:
-      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"steam\",\"state\":\"stop\"}' http://192.168.0.17:5000/app"
-      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"kodi\",\"state\":\"start\"}' http://192.168.0.17:5000/app"
+      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"steam\",\"state\":\"stop\"}' http://192.168.0.17:8000/app"
+      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"kodi\",\"state\":\"start\"}' http://192.168.0.17:8000/app"
       - say:
           message: "Lancement en cours, monsieur"
     signals:
@@ -90,7 +93,7 @@
 
   - name: "Start music"
     neurons:
-      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"start\"}' http://192.168.0.17:5000/app"
+      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"start\"}' http://192.168.0.17:8000/app"
       - say:
           message: "Musique lancée, monsieur"
     signals:
@@ -99,7 +102,7 @@
 
   - name: "Stop music"
     neurons:
-      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"stop\"}' http://192.168.0.17:5000/app"
+      - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"stop\"}' http://192.168.0.17:8000/app"
       - say:
           message: "Musique stoppé, monsieur"
     signals:
