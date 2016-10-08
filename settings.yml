@@ -22,6 +22,15 @@ random_wake_up_answers:
   - "J'écoute"
   - "Oui?"
 
+# You can play a sound when jarvis detect the hotword/trigger instead of saying something from
+# the `random_wake_up_answers`.
+# Place here the full path of the sound file or just the name of the file in /usr/lib/jarvis/sounds
+# The file must be .wav or .mp3 format. By default two file are provided: ding.wav and dong.wav
+random_wake_up_sounds:
+  - "ding.wav"
+  - "dong.wav"
+  # - "/my/personal/full/path/my_file.mp3"
+
 # Spreech to Text engines configuration
 # Available engine are:
 # - google (via SpeechRecognition)

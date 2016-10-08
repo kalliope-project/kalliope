@@ -1,3 +1,8 @@
+import logging
+import os
+import random
+
+from core import AudioPlayer
 from core import Utils
 from core.ConfigurationManager import SettingLoader
 from core.OrderAnalyser import OrderAnalyser
@@ -6,6 +11,8 @@ from core.TriggerLauncher import TriggerLauncher
 
 from neurons import Say
 
+logging.basicConfig()
+logger = logging.getLogger("jarvis")
 
 class MainController:
     def __init__(self, brain_file=None):
@@ -30,7 +37,14 @@ class MainController:
         self.trigger_instance.pause()
         # start listening for an order
         self.order_listener.start()
-        Say(message=self.settings.random_wake_up_answers)
+        # if random wake answer sentence are present, we play this
+        if self.settings.random_wake_up_answers is not None:
+            Say(message=self.settings.random_wake_up_answers)
+        else:
+            ap = AudioPlayer()
+            ap.init_play()
+            random_sound_to_play = self._get_random_sound(self.settings.random_wake_up_sounds)
+            ap.play_audio(random_sound_to_play)
 
     def analyse_order(self, order):
         """
@@ -59,3 +73,22 @@ class MainController:
     def unpause_jarvis_trigger(self):
         print "call unpause"
         self.trigger_instance.unpause()
+
+    @staticmethod
+    def _get_random_sound(random_wake_up_sounds):
+        """
+        Return a path of a sound to play
+        If the path is absolute, test if file exist
+        If the path is relative, we check if the file exist in the sound folder
+        :param random_wake_up_sounds:
+        :return:
+        """
+        # take first randomly a path
+        random_path = random.choice(random_wake_up_sounds)
+        logger.debug("Selected sound: %s" % random_path)
+        if os.path.isabs(random_path):
+            logger.debug("Path of file %s is absolute" % random_path)
+            return random_path
+        else:
+            logger.debug("Path of file %s is relative" % random_path)
+            return "sounds" + os.sep + random_path
