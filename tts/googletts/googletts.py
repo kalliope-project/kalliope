@@ -19,12 +19,21 @@ class Googletts(TTS):
     def say(self, words=None, language=TTS_LANGUAGES_DEFAULT, cache=True):
         self.say_generic(cache, language, words, self.get_audio_googletts, AudioPlayer.PLAYER_MP3, 25000)
 
-    def get_audio_googletts(self, language, words, file_path, cache):
-        payload = {
+    def get_audio_googletts(self, **kwargs):
+        words = kwargs.get('words', None)
+        cache = kwargs.get('cache', None)
+        file_path = kwargs.get('file_path', None)
+        language = kwargs.get('language', None)
+        payload = Googletts.get_payload(language,words)
+
+        return TTS.get_audio(file_path, cache, payload, self.TTS_URL)
+
+    @staticmethod
+    def get_payload(language, words):
+        return {
             "q": words,
             "tl": language,
             "ie": "UTF-8",
             "total": "1",
             "client": "tw-ob"
         }
-        return self.get_audio(file_path, cache, payload, self.TTS_URL, self.TTS_CONTENT_TYPE, self.TTS_TIMEOUT_SEC)

@@ -19,10 +19,19 @@ class Voicerss(TTS):
     def say(self, words=None, language=TTS_LANGUAGES_DEFAULT, cache=True):
         self.say_generic(cache, language, words, self.get_audio_voicerss, AudioPlayer.PLAYER_MP3, AudioPlayer.AUDIO_MP3_44100_FREQUENCY)
 
-    def get_audio_voicerss(self, language, words, file_path, cache):
-        payload = {
+    def get_audio_voicerss(self, **kwargs):
+        words = kwargs.get('words', None)
+        cache = kwargs.get('cache', None)
+        file_path = kwargs.get('file_path', None)
+        language = kwargs.get('language', None)
+        payload = Voicerss.get_payload(language, words)
+
+        return TTS.get_audio(file_path, cache, payload, self.TTS_URL)
+
+    @staticmethod
+    def get_payload(language, words):
+        return {
             "src": words,
             "hl": language,
             "c": "mp3"
         }
-        return self.get_audio(file_path, cache, payload, self.TTS_URL, self.TTS_CONTENT_TYPE, self.TTS_TIMEOUT_SEC)
