@@ -14,8 +14,6 @@ Run the install script.
 >**Note:** The install script must not be ran as root or with sudo. 
 You will be prompted to enter your sudo password during the installation process.
 
-You will be prompted to enter your sudo password during the installation process.
-
 Be sure you can record you voice, run the following command to capture audio from your microphone
 ```
 rec test.wav
