@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-import os
 
-import re
-
-
-import logging
+import re, math
+from collections import Counter
 
 
 
@@ -12,10 +9,33 @@ import logging
 # order = "je voudrais ecouter {{ artist_name }}"
 
 user_said = "s'il te plait regle le reveil pour dix huit heures et dix neuf  minutes trente trois  secondes cent quatre vingt dix "
+user_said2 = "s'il te pingt dix "
+user_said3 = "s'il te plait regle le reveil pour dix huit huf  minutes trente trois  secondes cent quatre vingt dix "
+user_said4 = "s'il te plait regle lpour dix huit heures et dix neuf  minutes trente trois  secondes cent quatre vingt dix "
+user_said5 = "s'il te plait regle le reveil poutes trente trois  secondes cent quatre vingt dix "
 order = "regle le reveil pour {{ hour}} heures et {{minute }} minutes {{ seconde  }} secondes {{mili}}"
 
 
 # take a look to each order
+
+WORD = re.compile(r'\w+')
+
+def get_cosine(vec1, vec2):
+     intersection = set(vec1.keys()) & set(vec2.keys())
+     numerator = sum([vec1[x] * vec2[x] for x in intersection])
+
+     sum1 = sum([vec1[x]**2 for x in vec1.keys()])
+     sum2 = sum([vec2[x]**2 for x in vec2.keys()])
+     denominator = math.sqrt(sum1) * math.sqrt(sum2)
+
+     if not denominator:
+        return 0.0
+     else:
+        return float(numerator) / denominator
+
+def text_to_vector(text):
+     words = WORD.findall(text)
+     return Counter(words)
 
 
 def _is_containing_bracket(sentence):
@@ -73,7 +93,12 @@ if _is_containing_bracket(order):
 
 
 
+vector1 = text_to_vector(user_said)
+vector2 = text_to_vector(order)
 
+cosine = get_cosine(vector1, vector2)
+
+print 'Cosine:', cosine
 
 
 
