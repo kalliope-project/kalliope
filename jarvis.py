@@ -30,7 +30,7 @@ def main():
     """
     # create arguments
     parser = argparse.ArgumentParser(description='JARVIS')
-    parser.add_argument("action", help="[start|gui|load-events]")
+    parser.add_argument("action", help="[start|gui]")
     parser.add_argument("--run-synapse", help="Name of a synapse to load surrounded by quote")
     parser.add_argument("--brain-file", help="Full path of a brain file")
     parser.add_argument("--debug", action='store_true', help="Show debug output")
@@ -65,6 +65,11 @@ def main():
             SynapseLauncher.start_synapse(args.run_synapse, brain_file=brain_file)
 
         if args.run_synapse is None:
+            # first, load events in crontab
+            crontab_manager = CrontabManager(brain_file=brain_file)
+            crontab_manager.load_events_in_crontab()
+            Utils.print_success("Events loaded in crontab")
+            # then stat jarvis
             Utils.print_success("Starting JARVIS")
             Utils.print_info("Press Ctrl+C for stopping")
             # catch signal for killing on Ctrl+C pressed
@@ -74,11 +79,6 @@ def main():
 
     if args.action == "gui":
         ShellGui()
-
-    if args.action == "load-events":
-        crontab_manager = CrontabManager(brain_file=brain_file)
-        crontab_manager.load_events_in_crontab()
-        Utils.print_success("Events loaded in crontab")
 
 
 def configure_logging(debug=None):

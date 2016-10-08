@@ -86,9 +86,9 @@ The synapse in the brain would be
       - event: "0 7 * * 1,2,3,4,5"
 ```
 
-After setting up an event, we must call a jarvis command to load the crontab automatically
+After setting up an event, you must restart jarvis
 ```
-python jarvis.py load-events
+python jarvis.py start
 ```
 
 If the syntax is ok, JARVIS will show you each synapse that he has loaded in the crontab
