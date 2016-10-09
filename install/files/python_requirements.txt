@@ -7,3 +7,4 @@ jinja==1.2
 python-crontab==2.1.1
 cffi==1.8.3
 pygmail==0.0.5.4
+pushetta==1.0.15

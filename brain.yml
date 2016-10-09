@@ -1,15 +1,12 @@
 ---
-  - name: "hello world"
+  - name: "Send push message"
     neurons:
-      - say:
-          message:
-            - "Bonjour monsieur"
-          args:
-            - hour
-            - minute
-
+      - push_message:
+           message: "Message to send"
+           api_key: "my_token_key"
+           channel_name: "my_chanel_name"
     signals:
-      - order: "régle le réveil pour {{ hour }} heures et {{ minute }} minutes"
+      - order: "push message"
 
   - name: "say hello"
     neurons:

@@ -14,7 +14,7 @@ from core import OrderAnalyser
 # order = "jarvis régle le réveil pour sept heures et vingt minutes"
 # order = "mais nous de la musique"
 
-order = "arrête la musique"
+order = "push message"
 # order = order.decode('utf-8')
 # print type(order)
 oa = OrderAnalyser(order)

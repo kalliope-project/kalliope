@@ -28,6 +28,7 @@ pip install jinja
 pip install python-crontab
 pip install cffi
 pip install pygmail
+pip install pushetta
 ```
 
 ### Test your env
