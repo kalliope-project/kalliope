@@ -155,7 +155,8 @@ class OrderAnalyser:
 
         number_of_word_in_order = len(split_order_without_bracket)
         # if all words in the list of what the user said in in the list of word in the order
-        return len(set(split_order_without_bracket).intersection(list_word_user_said)) == number_of_word_in_order
+        # return len(set(split_order_without_bracket).intersection(list_word_user_said)) == number_of_word_in_order
+        return self._counterSubset(split_order_without_bracket, list_word_user_said)
 
     @staticmethod
     def _get_split_order_without_bracket(order):
@@ -173,3 +174,17 @@ class OrderAnalyser:
         # then split
         split_order = order.split()
         return split_order
+
+    @staticmethod
+    def _counterSubset(list1, list2):
+        """
+        check if the number of occurrences matches
+        :param list1:
+        :param list2:
+        :return:
+        """
+        c1, c2 = Counter(list1), Counter(list2)
+        for k, n in c1.items():
+            if n > c2[k]:
+                return False
+        return True
