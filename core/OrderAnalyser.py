@@ -65,7 +65,6 @@ class OrderAnalyser:
                                                 logger.debug("Parameter %s added to the current parameter "
                                                              "of the neuron: %s" % (arg, neuron.name))
                                                 neuron.parameters[arg] = params[arg]
-                                                print params[arg]
                                             else:
                                                 # we don't raise an error and break the program but
                                                 # we don't run the neuron
@@ -73,7 +72,7 @@ class OrderAnalyser:
                                                                    " order" % arg)
 
                             # if no error detected, we run the neuron
-                            if not problem_in_neuron_found:
+                            if problem_in_neuron_found:
                                 NeuroneLauncher.start_neurone(neuron)
 
         if not synapses_found:
@@ -143,7 +142,6 @@ class OrderAnalyser:
         """
         list_word_user_said = user_said.split()
         split_order_without_bracket = self._get_split_order_without_bracket(order_to_analyse)
-        print split_order_without_bracket
 
         # if all words in the list of what the user said in in the list of word in the order
         return self._counter_subset(split_order_without_bracket, list_word_user_said)
