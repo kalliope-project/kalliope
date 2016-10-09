@@ -1,6 +1,8 @@
 # coding: utf8
 import logging
 import re
+from collections import Counter
+
 from core import OrderAnalyser
 logging.basicConfig()
 logger = logging.getLogger("jarvis")
@@ -15,9 +17,23 @@ logger.setLevel(logging.DEBUG)
 # oa.start()
 
 
-user_said = "jarvis régle le réveil pour sept heures et vingts minutes please"
+user_said = "jarvis régle le réveil pour sept heures et pour vingts minutes"
 
-order = "régle le réveil pour {{ hour }} heures et {{ minute }} minutes"
+order = "régle le réveil pour {{ hour }} heures et pour {{ minute }} minutes"
+
+
+def counterSubset(list1, list2):
+    """
+    check if the number of occurrences matches
+    :param list1:
+    :param list2:
+    :return:
+    """
+    c1, c2 = Counter(list1), Counter(list2)
+    for k, n in c1.items():
+        if n > c2[k]:
+            return False
+    return True
 
 
 def _spelt_order_match_brain_order_via_table(order_to_analyse, user_said):
@@ -26,7 +42,8 @@ def _spelt_order_match_brain_order_via_table(order_to_analyse, user_said):
 
     number_of_word_in_order = len(split_order_without_bracket)
     # if all words in the list of what the user said in in the list of word in the order
-    return len(set(split_order_without_bracket).intersection(list_word_user_said)) == number_of_word_in_order
+    # return len(set(split_order_without_bracket).intersection(list_word_user_said)) == number_of_word_in_order
+    return counterSubset(split_order_without_bracket, list_word_user_said)
 
 
 def _get_list_word_without_bracket(order):
