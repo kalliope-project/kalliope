@@ -12,8 +12,8 @@ logger.setLevel(logging.DEBUG)
 # This does not work because of different encoding when using accent
 from core import OrderAnalyser
 order = "jarvis régle le réveil pour sept heures et vingt minutes"
-
-
+# order = order.decode('utf-8')
+# print type(order)
 oa = OrderAnalyser(order)
 
 oa.start()

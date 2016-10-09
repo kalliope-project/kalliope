@@ -1,11 +1,11 @@
 # coding: utf8
 import re
+from collections import Counter
 
 from core.Utils import Utils
 from core.ConfigurationManager.BrainLoader import BrainLoader
 from core.Models import Order
 from core.NeuroneLauncher import NeuroneLauncher
-from Cosine import *
 
 import logging
 
@@ -23,6 +23,8 @@ class OrderAnalyser:
         """
         self.main_controller = main_controller
         self.order = order
+        if isinstance(self.order, str):
+            self.order = order.decode('utf-8')
         if brain_file is None:
             self.brain = BrainLoader.get_brain()
         else:
@@ -31,6 +33,7 @@ class OrderAnalyser:
 
     def start(self):
         synapses_found = False
+        problem_in_neuron_found = False
         for synapse in self.brain.synapses:
             for signal in synapse.signals:
                 if type(signal) == Order:
@@ -50,53 +53,41 @@ class OrderAnalyser:
                                     logger.debug("The neuron wait for parameter")
                                     # check that the user added parameters to his order
                                     if params is None:
-                                        # TODO: raise an error and break the program?
+                                        # we don't raise an error and break the program but we don't run the neuron
+                                        problem_in_neuron_found = True
                                         Utils.print_danger("Error: The neuron %s is waiting for argument. "
                                                            "Argument found in bracket in the given order" % neuron.name)
                                     else:
                                         # we add wanted arguments the existing neuron parameter dict
                                         for arg in neuron.parameters["args"]:
                                             if arg in params:
+                                                problem_in_neuron_found = True
                                                 logger.debug("Parameter %s added to the current parameter "
                                                              "of the neuron: %s" % (arg, neuron.name))
                                                 neuron.parameters[arg] = params[arg]
                                                 print params[arg]
                                             else:
-                                                # TODO: raise an error and break the program?
+                                                # we don't raise an error and break the program but
+                                                # we don't run the neuron
                                                 Utils.print_danger("Error: Argument \"%s\" not found in the"
                                                                    " order" % arg)
 
-                            # neuron.parameters = dict(neuron.parameters.items() + params.items())
-                            print neuron.parameters
-                            NeuroneLauncher.start_neurone(neuron)
+                            # if no error detected, we run the neuron
+                            if not problem_in_neuron_found:
+                                NeuroneLauncher.start_neurone(neuron)
 
         if not synapses_found:
             Utils.print_info("No synapse match the captured order: %s" % self.order)
 
-    def _spelt_order_match_brain_order(self, order_to_test):
-        """
-
-        test if the current order match the order spelt by the user
-        :param order_to_test:
-        :return:
-        """
-        # TODO : In "order_to_test" should we remove double brace and variable name before checking to optimise the cosine ?
-        user_vector = text_to_vector(self.order)
-        order_vector = text_to_vector(order_to_test)
-
-        cosine = get_cosine(user_vector, order_vector)
-        logger.debug("the cosine : %s, pour user_vector: %s , order_vector: %s" % (cosine, self.order, order_to_test))
-        return cosine >= 0.9
-
     def _associate_order_params_to_values(self, order_to_check):
         """
         Associate the variables from the order to the incoming user order
-        :param order: the order to check
+        :param order_to_check: the order to check
         :return: the dict corresponding to the key / value of the params
         """
-
+        pattern = '\s+(?=[^\{\{\}\}]*\}\})'
         # Remove white spaces (if any) between the variable and the double brace then split
-        list_word_in_order = re.sub('\s+(?=[^\{\{\}\}]*\}\})', '', order_to_check).split()
+        list_word_in_order = re.sub(pattern, '', order_to_check).split()
 
         # get the order, defined by the first words before {{
         # /!\ Could be empty if order starts with double brace
@@ -107,38 +98,39 @@ class OrderAnalyser:
         truncate_list_word_said = truncate_user_sentence.split()
 
         # make dict var:value
-        dictVar = {}
+        dict_var = {}
         for idx, ow in enumerate(list_word_in_order):
             if self._is_containing_bracket(ow):
                 # remove bracket and grab the next value / stop value
-                varname = ow.replace("{{", "").replace("}}", "")
-                stopValue = self._get_next_value_list(list_word_in_order[idx:])
-                if stopValue is None:
-                    dictVar[varname] = " ".join(truncate_list_word_said)
+                var_name = ow.replace("{{", "").replace("}}", "")
+                stop_value = self._get_next_value_list(list_word_in_order[idx:])
+                if stop_value is None:
+                    dict_var[var_name] = " ".join(truncate_list_word_said)
                     break
                 for word_said in truncate_list_word_said:
-                    if word_said == stopValue: break
-                    if varname in dictVar:
-                        dictVar[varname] += " " + word_said
+                    if word_said == stop_value:
+                        break
+                    if var_name in dict_var:
+                        dict_var[var_name] += " " + word_said
                         truncate_list_word_said = truncate_list_word_said[1:]
                     else:
-                        dictVar[varname] = word_said
+                        dict_var[var_name] = word_said
             truncate_list_word_said = truncate_list_word_said[1:]
-        return dictVar
+        return dict_var
 
     @staticmethod
     def _is_containing_bracket(sentence):
         # print "sentence to test %s" % sentence
         pattern = r"{{|}}"
         # prog = re.compile(pattern)
-        bool = re.search(pattern, sentence)
-        if bool is not None:
+        check_bool = re.search(pattern, sentence)
+        if check_bool is not None:
             return True
         return False
 
     @staticmethod
-    def _get_next_value_list(list):
-        ite = list.__iter__()
+    def _get_next_value_list(list_to_check):
+        ite = list_to_check.__iter__()
         next(ite, None)
         return next(ite, None)
 
@@ -153,10 +145,8 @@ class OrderAnalyser:
         split_order_without_bracket = self._get_split_order_without_bracket(order_to_analyse)
         print split_order_without_bracket
 
-        number_of_word_in_order = len(split_order_without_bracket)
         # if all words in the list of what the user said in in the list of word in the order
-        # return len(set(split_order_without_bracket).intersection(list_word_user_said)) == number_of_word_in_order
-        return self._counterSubset(split_order_without_bracket, list_word_user_said)
+        return self._counter_subset(split_order_without_bracket, list_word_user_said)
 
     @staticmethod
     def _get_split_order_without_bracket(order):
@@ -176,7 +166,7 @@ class OrderAnalyser:
         return split_order
 
     @staticmethod
-    def _counterSubset(list1, list2):
+    def _counter_subset(list1, list2):
         """
         check if the number of occurrences matches
         :param list1:
