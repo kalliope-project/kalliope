@@ -49,6 +49,7 @@ class OrderAnalyser:
 
                         for neuron in synapse.neurons:
                             if isinstance(neuron.parameters, dict):
+                                print neuron.parameters
                                 if "args" in neuron.parameters:
                                     logger.debug("The neuron wait for parameter")
                                     # check that the user added parameters to his order
@@ -61,19 +62,22 @@ class OrderAnalyser:
                                         # we add wanted arguments the existing neuron parameter dict
                                         for arg in neuron.parameters["args"]:
                                             if arg in params:
-                                                problem_in_neuron_found = True
                                                 logger.debug("Parameter %s added to the current parameter "
                                                              "of the neuron: %s" % (arg, neuron.name))
                                                 neuron.parameters[arg] = params[arg]
                                             else:
                                                 # we don't raise an error and break the program but
                                                 # we don't run the neuron
+                                                problem_in_neuron_found = True
                                                 Utils.print_danger("Error: Argument \"%s\" not found in the"
                                                                    " order" % arg)
 
                             # if no error detected, we run the neuron
-                            if problem_in_neuron_found:
+                            if not problem_in_neuron_found:
                                 NeuroneLauncher.start_neurone(neuron)
+                            else:
+                                Utils.print_danger("A problem has been found in the Synapse.")
+
 
         if not synapses_found:
             Utils.print_info("No synapse match the captured order: %s" % self.order)
