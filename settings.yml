@@ -78,4 +78,4 @@ text_to_speech:
 # - snowboy
 triggers:
   - snowboy:
-      pmdl_file: "trigger/snowboy/resources/kalliope-FR-2samples.pmdl"
+      pmdl_file: "trigger/snowboy/resources/kalliope-FR-6samples.pmdl"
