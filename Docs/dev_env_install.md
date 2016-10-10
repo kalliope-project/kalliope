@@ -1,6 +1,6 @@
 # Dev environment installation
 
-This documentation aims at explaining the step by step manual deployment of JARVIS.
+This documentation aims at explaining the step by step manual deployment of Kalliope.
 
 Tested env
 - Ubuntu 16.04

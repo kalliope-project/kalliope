@@ -70,10 +70,6 @@ class MainController:
             if trigger.name == self.settings.default_trigger_name:
                 return TriggerLauncher.get_trigger(trigger, callback=self.callback)
 
-    def unpause_jarvis_trigger(self):
-        print "call unpause"
-        self.trigger_instance.unpause()
-
     @staticmethod
     def _get_random_sound(random_wake_up_sounds):
         """

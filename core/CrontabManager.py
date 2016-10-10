@@ -7,14 +7,14 @@ from core.Models import Event
 import logging
 
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 
 
 class InvalidCrontabPeriod(Exception):
     pass
 
-CRONTAB_COMMENT = "JARVIS"
-JARVIS_ENTRY_POINT_SCRIPT = "jarvis.py"
+CRONTAB_COMMENT = "KALLIOPE"
+KALLIOPE_ENTRY_POINT_SCRIPT = "kalliope.py"
 
 
 class CrontabManager:
@@ -31,7 +31,7 @@ class CrontabManager:
         :return:
         """
         # clean the current crontab from all jarvis event
-        self._remove_all_jarvis_job()
+        self._remove_all_job()
         # load the brain file
         for synapse in self.brain.synapses:
             for signal in synapse.signals:
@@ -56,7 +56,7 @@ class CrontabManager:
     def get_jobs(self):
         return self.my_user_cron.find_comment(CRONTAB_COMMENT)
 
-    def _remove_all_jarvis_job(self):
+    def _remove_all_job(self):
         """
         Remove all line in crontab that are attached to JARVIS
         :return:
@@ -73,7 +73,7 @@ class CrontabManager:
         new_iter = self.my_user_cron.find_comment(CRONTAB_COMMENT)
         sum_job = sum(1 for _ in new_iter)
         while sum_job > 0:
-            self._remove_all_jarvis_job()
+            self._remove_all_job()
 
     def _get_base_command(self):
         """
@@ -88,11 +88,11 @@ class CrontabManager:
         # get parent dir. Now we are in /an/unknown/path/jarvis
         parent_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)
         # we add the jarvis.py file name
-        real_jarvis_entry_point_path = parent_dir + os.sep + JARVIS_ENTRY_POINT_SCRIPT
+        real_entry_point_path = parent_dir + os.sep + KALLIOPE_ENTRY_POINT_SCRIPT
         # We test that the file exist before return it
-        logger.debug("Real jarvis.py path: %s" % real_jarvis_entry_point_path)
-        if os.path.isfile(real_jarvis_entry_point_path):
-            crontab_cmd = "python %s start --brain-file %s --run-synapse " % (real_jarvis_entry_point_path,
+        logger.debug("Real jarvis.py path: %s" % real_entry_point_path)
+        if os.path.isfile(real_entry_point_path):
+            crontab_cmd = "python %s start --brain-file %s --run-synapse " % (real_entry_point_path,
                                                                               self.brain.brain_file)
             return crontab_cmd
         raise IOError("jarvis.py file not found")

@@ -1,4 +1,4 @@
-# JARVIS automated install
+# kalliope automated install
 
 Clone the project
 ```
@@ -26,4 +26,4 @@ Then play the recorded audio file
 play test.wav
 ```
 
-If everything is ok, you can start playing with jarvis. First, 
+If everything is ok, you can start playing with kalliope. First, 

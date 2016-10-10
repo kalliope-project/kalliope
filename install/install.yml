@@ -4,13 +4,13 @@
   connection: local
   vars:
     - git_url: "git@gitlab.pwit.fr:millionsfortomorrow/jarvis.git"
-    - temp_local_repo: "/tmp/jarvis_repo"
+    - temp_local_repo: "/tmp/kalliope_repo"
 
   tasks:
     - name: clone project in /tmp as standart user
       git:
         repo: "{{ git_url }}"
-        dest: /tmp/jarvis_repo
+        dest: /tmp/kalliope_repo
         accept_hostkey: yes
 
 
@@ -20,8 +20,8 @@
   become: True
   vars:
     - git_url: "git@gitlab.pwit.fr:millionsfortomorrow/jarvis.git"
-    - temp_local_repo: "/tmp/jarvis_repo"
-    - jarvis_install_path: "/usr/lib/jarvis"
+    - temp_local_repo: "/tmp/kalliope_repo"
+    - install_path: "/usr/lib/jarvis"
   tasks:
     - name: Install packages
       apt: name={{ item }} update_cache=yes
@@ -61,17 +61,17 @@
 
     - name: Remove old version if exist
       file:
-        path: "{{ jarvis_install_path }}"
+        path: "{{ install_path }}"
         state: absent
 
     - name: Move repo in /usr/lib
-      command: mv "{{ temp_local_repo }}" "{{ jarvis_install_path }}"
+      command: mv "{{ temp_local_repo }}" "{{ install_path }}"
       when: git_repo_stat.stat.exists
 
     - name: Add entry in /usr/bin
       file:
-        src: "{{ jarvis_install_path }}/jarvis.py"
-        dest: /usr/bin/jarvis
+        src: "{{ install_path }}/kalliope.py"
+        dest: /usr/bin/kalliope
         state: link
         force: True
 

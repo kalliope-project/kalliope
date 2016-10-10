@@ -1,44 +1,36 @@
-# JARVIS Command-line interface
+# Kalliope Command-line interface
 
 ## SYNOPSIS
-This is the syntax used to run jarvis from command line
+This is the syntax used to run Kalliope from command line
 ```
-cd /path/to/jarvis
-python jarvis.py command --option <argument>
+cd /path/to/kalliope
+python kalliope.py command --option <argument>
 ```
 
-For example, to start JARVIS we simply use
+For example, to start Kalliope we simply use
 ```
-python jarvis.py start
+python kalliope.py start
 ```
 
 ## ARGUMENTS
 
 ### start
-Start jarvis main program
+Start Kalliope main program
 
 Example usage
 ```
-python jarvis.py start
+python kalliope.py start
 ```
 
-To kill jarvis, you can press "Ctrl-C" on your keyboard.
+To kill Kalliope, you can press "Ctrl-C" on your keyboard.
 
 ### gui
-Launch the jarvis shell Graphical User Interface. 
-The GUI allow you to test your [STT](stt.md) and [TTS](tts.md) that you have configured in [settings.yml](default_settings.md) file of JARVIS.
+Launch the Kalliope shell Graphical User Interface. 
+The GUI allow you to test your [STT](stt.md) and [TTS](tts.md) that you have configured in [settings.yml](default_settings.md) file of Kalliope.
 
 Example usage
 ```
-python jarvis.py gui
-```
-
-### load-events
-Load crontab file with synapses from the brain which they have an event attached as inout signal.
-
-Example usage
-```
-python jarvis.py load-events
+python kalliope.py gui
 ```
 
 ## OPTIONS
@@ -49,7 +41,7 @@ Run a specific synapse from the brain file.
 
 Example usage
 ```
-python jarvis.py start --run-synapse "say hello"
+python kalliope.py start --run-synapse "say hello"
 ```
 
 ### --brain-file BRAIN_FILE

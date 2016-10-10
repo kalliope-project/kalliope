@@ -7,5 +7,5 @@ sudo apt-get install python-pip
 sudo pip install ansible==2.1.1.0
 
 # Install the project
-cd jarvis/install
+cd kalliope/install
 ansible-playbook install.yml -K
