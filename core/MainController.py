@@ -22,14 +22,14 @@ class MainController:
 
         # create an order listener object. This last will the trigger callback before starting
         self.order_listener = OrderListener(self.analyse_order)
-        # Wait that the jarvis trigger is pronounced by the user
+        # Wait that the kalliope trigger is pronounced by the user
         self.trigger_instance = self._get_default_trigger()
         self.trigger_instance.start()
         Utils.print_info("Waiting for trigger detection")
 
     def callback(self):
         """
-        # we have detected the hotword, we can now pause the Jarvis Trigger for a while
+        # we have detected the hotword, we can now pause the kalliope Trigger for a while
         # The user can speak out loud his order during this time.
         :return:
         """

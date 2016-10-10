@@ -62,7 +62,7 @@ neurons:
 ```
 Not here that parameters are indented with one tabulation bellow the neuron's name.
 
-In this example, the neuron called "say" will make Jarvis speak out loud the sentence in parameter **message**.
+In this example, the neuron called "say" will make Kalliope speak out loud the sentence in parameter **message**.
 See the complete list of [available neurons](neurons.md) here.
 
 The last part, called **signals** is a list of input action. This last works exactly the same way as neurons. You must place here at least one action.
@@ -73,10 +73,10 @@ signals:
 ```
 
 In this example, the task is launched when the captured order contains "say hello". This means the order would start if you say
-- "say hello jarvis"
-- "jarvis, say hello"
+- "say hello Kalliope"
+- "Kalliope, say hello"
 - "I want you to say hello"
 - "i say goodbye you say hello"
 - "whatever I say as long it contains say hello"
 
-To know if your spoken order will be triggered by jarvis, we recommend you to [use the GUI](jarvis_cli.md) for testing your STT engine.
+To know if your spoken order will be triggered by Kalliope, we recommend you to [use the GUI](kalliope_cli.md) for testing your STT engine.

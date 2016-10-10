@@ -30,7 +30,7 @@ class CrontabManager:
         Then add back line from event in the brain.yml
         :return:
         """
-        # clean the current crontab from all jarvis event
+        # clean the current crontab from all Kalliope event
         self._remove_all_job()
         # load the brain file
         for synapse in self.brain.synapses:
@@ -58,7 +58,7 @@ class CrontabManager:
 
     def _remove_all_job(self):
         """
-        Remove all line in crontab that are attached to JARVIS
+        Remove all line in crontab that are attached to Kalliope
         :return:
         """
         iter = self.my_user_cron.find_comment(CRONTAB_COMMENT)
@@ -77,22 +77,22 @@ class CrontabManager:
 
     def _get_base_command(self):
         """
-        Return the path of the entry point of Jarvis
-        Example: /home/user/jarvis/jarvis.py
-        :return: The path of the entry point script jarvis.py
+        Return the path of the entry point of Kalliope
+        Example: /home/user/kalliope/kalliope.py
+        :return: The path of the entry point script kalliope.py
         """
         import inspect
         import os
-        # get current script directory path. We are in /an/unknown/path/jarvis/core
+        # get current script directory path. We are in /an/unknown/path/kalliope/core
         cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-        # get parent dir. Now we are in /an/unknown/path/jarvis
+        # get parent dir. Now we are in /an/unknown/path/kalliope
         parent_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)
-        # we add the jarvis.py file name
+        # we add the kalliope.py file name
         real_entry_point_path = parent_dir + os.sep + KALLIOPE_ENTRY_POINT_SCRIPT
         # We test that the file exist before return it
-        logger.debug("Real jarvis.py path: %s" % real_entry_point_path)
+        logger.debug("Real Kalliope.py path: %s" % real_entry_point_path)
         if os.path.isfile(real_entry_point_path):
             crontab_cmd = "python %s start --brain-file %s --run-synapse " % (real_entry_point_path,
                                                                               self.brain.brain_file)
             return crontab_cmd
-        raise IOError("jarvis.py file not found")
+        raise IOError("kalliope.py file not found")

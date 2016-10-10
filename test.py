@@ -11,7 +11,7 @@ logger.setLevel(logging.DEBUG)
 
 # This does not work because of different encoding when using accent
 from core import OrderAnalyser
-# order = "jarvis régle le réveil pour sept heures et vingt minutes"
+# order = "kalliope régle le réveil pour sept heures et vingt minutes"
 # order = "mais nous de la musique"
 
 order = "push message"
@@ -22,7 +22,7 @@ oa = OrderAnalyser(order)
 oa.start()
 
 
-# user_said = "jarvis régle le réveil pour sept heures et pour vingts minutes"
+# user_said = "kalliope régle le réveil pour sept heures et pour vingts minutes"
 #
 # order = "régle le réveil pour {{ hour }} heures et pour {{ minute }} minutes"
 #

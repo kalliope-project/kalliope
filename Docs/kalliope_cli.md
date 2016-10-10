@@ -51,8 +51,8 @@ To use another brain file than the default one from the root of the project fold
 
 Example usage
 ```
-python jarvis.py start --brain-file /home/me/my_other_brain.yml
-python jarvis.py start --run-synapse "say hello" --brain-file /home/me/my_other_brain.yml
+python kalliope.py start --brain-file /home/me/my_other_brain.yml
+python kalliope.py start --run-synapse "say hello" --brain-file /home/me/my_other_brain.yml
 ```
 
 ### --debug
@@ -61,5 +61,5 @@ Show debug output in the console
 
 Example usage
 ```
-python jarvis.py start --debug
+python kalliope.py start --debug
 ```

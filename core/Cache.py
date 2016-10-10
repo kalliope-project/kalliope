@@ -5,7 +5,7 @@ import logging
 from core.FileManager import FileManager
 
 DEFAULT_MODULE_NAME = "default"
-DEFAULT_CACHE_PATH = "/tmp/jarvis/tts"
+DEFAULT_CACHE_PATH = "/tmp/kalliope/tts"
 DEFAULT_CACHE_EXTENSION = "tts"
 DEFAULT_LANGUAGE = "default"
 DEFAULT_VOICE = "default"

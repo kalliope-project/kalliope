@@ -19,7 +19,7 @@ logger = logging.getLogger("kalliope")
 
 def signal_handler(signal, frame):
     print "\n"
-    Utils.print_info("Ctrl+C pressed. Killing Jarvis")
+    Utils.print_info("Ctrl+C pressed. Killing Kalliope")
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -33,7 +33,7 @@ class ShellGui:
 
         self.d = Dialog(dialog="dialog")
 
-        self.d.set_background_title("Jarvis shell UI")
+        self.d.set_background_title("Kalliope shell UI")
 
         self.show_main_menu()
 
@@ -44,7 +44,7 @@ class ShellGui:
         :return:
         """
 
-        code, tag = self.d.menu("Test your JARVIS settings from this menu",
+        code, tag = self.d.menu("Test your Kalliope settings from this menu",
                                 choices=[("TTS", "Text to Speech"),
                                          ("STT", "Speech to text")])
 

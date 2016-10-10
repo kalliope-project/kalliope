@@ -45,7 +45,7 @@ def main():
     # check if we want debug
     configure_logging(debug=args.debug)
 
-    logger.debug("jarvis args: %s" % args)
+    logger.debug("kalliope args: %s" % args)
 
     # by default, no brain file is set. Use the default one: brain.yml in the root path
     brain_file = None
@@ -69,8 +69,8 @@ def main():
             crontab_manager = CrontabManager(brain_file=brain_file)
             crontab_manager.load_events_in_crontab()
             Utils.print_success("Events loaded in crontab")
-            # then stat jarvis
-            Utils.print_success("Starting JARVIS")
+            # then start kalliope
+            Utils.print_success("Starting Kalliope")
             Utils.print_info("Press Ctrl+C for stopping")
             # catch signal for killing on Ctrl+C pressed
             signal.signal(signal.SIGINT, signal_handler)

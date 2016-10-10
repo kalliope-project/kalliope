@@ -3,12 +3,12 @@
 Clone the project
 ```
 cd
-git clone https://repo/jarvis.git
+git clone https://repo/kalliope.git
 ```
 
 Run the install script.
 ```
-./jarvis/install/install_jarvis.sh
+./kalliope/install/install_kalliope.sh
 ```
 
 >**Note:** The install script must not be ran as root or with sudo. 
@@ -26,4 +26,4 @@ Then play the recorded audio file
 play test.wav
 ```
 
-If everything is ok, you can start playing with kalliope. First, 
+If everything is ok, you can start playing with Kalliope. First, 

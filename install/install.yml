@@ -21,7 +21,7 @@
   vars:
     - git_url: "git@gitlab.pwit.fr:millionsfortomorrow/jarvis.git"
     - temp_local_repo: "/tmp/kalliope_repo"
-    - install_path: "/usr/lib/jarvis"
+    - install_path: "/usr/lib/kalliope"
   tasks:
     - name: Install packages
       apt: name={{ item }} update_cache=yes

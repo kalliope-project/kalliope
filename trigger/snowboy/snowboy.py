@@ -31,7 +31,7 @@ class Snowboy(object):
 
     def start(self):
         """
-        Start the snowboy thread and wait for a Jarvis trigger word
+        Start the snowboy thread and wait for a Kalliope trigger word
         :return:
         """
         detector = snowboydecoder.HotwordDetector(self.pmdl, sensitivity=0.5)

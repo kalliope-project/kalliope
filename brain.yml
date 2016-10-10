@@ -113,7 +113,7 @@
     signals:
       - order: "playbook"
 
-  - name: "Stop jarvis"
+  - name: "Stop kalliope"
     neurons:
       - say:
           message: "Aurevoir"

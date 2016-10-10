@@ -118,9 +118,9 @@ class BrainLoader(object):
         Return the full path of the default brain file
         :return:
         """
-        # get current script directory path. We are in /an/unknown/path/jarvis/core/ConfigurationManager
+        # get current script directory path. We are in /an/unknown/path/kalliope/core/ConfigurationManager
         cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-        # get parent dir. Now we are in /an/unknown/path/jarvis
+        # get parent dir. Now we are in /an/unknown/path/kalliope
         parent_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir + os.sep + os.pardir)
         brain_path = parent_dir + os.sep + "brain.yml"
         logger.debug("Real brain.yml path: %s" % brain_path)

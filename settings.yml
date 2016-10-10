@@ -1,18 +1,18 @@
 ---
 # ---------------------------
-# JARVIS default settings
+# Kalliope default settings
 # Use YAML syntax
 # ---------------------------
 
 
-# This is the trigger that will catch your magic work to wake up JARVIS
+# This is the trigger that will catch your magic work to wake up Kalliope
 default_trigger: "snowboy"
 # This is the STT that will be used by default
 default_speech_to_text: "google"
-# This is the default TTS that will be used by JARVIS to talk.
+# This is the default TTS that will be used by Kalliope to talk.
 default_text_to_speech: "pico2wave"
 
-# When jarvis detect the hotword/trigger, he will select randomly a phrase in the following list
+# When Kalliope detect the hotword/trigger, he will select randomly a phrase in the following list
 # to notify the user that he's listening for orders
 random_wake_up_answers:
   - "Oui monsieur?"
@@ -22,9 +22,9 @@ random_wake_up_answers:
   - "J'écoute"
   - "Oui?"
 
-# You can play a sound when jarvis detect the hotword/trigger instead of saying something from
+# You can play a sound when Kalliope detect the hotword/trigger instead of saying something from
 # the `random_wake_up_answers`.
-# Place here the full path of the sound file or just the name of the file in /usr/lib/jarvis/sounds
+# Place here the full path of the sound file or just the name of the file in /usr/lib/kalliope/sounds
 # The file must be .wav or .mp3 format. By default two file are provided: ding.wav and dong.wav
 random_wake_up_sounds:
   - "ding.wav"
