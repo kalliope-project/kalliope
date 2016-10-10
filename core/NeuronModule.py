@@ -76,7 +76,7 @@ class NeuronModule(object):
 
         tts_message = None
 
-        if isinstance(message, str):
+        if isinstance(message, str) or isinstance(message, unicode):
             logger.debug("message is string")
             tts_message = message
 
@@ -102,6 +102,7 @@ class NeuronModule(object):
             if self.override_cache is not None:
                 tts_args = self._update_cache_var(self.override_cache, tts_args)
             logger.debug("NeuroneModule: TTS args: %s" % tts_args)
+
             tts_instance.say(words=tts_message, **(tts_args if tts_args is not None else {}))
 
     @staticmethod

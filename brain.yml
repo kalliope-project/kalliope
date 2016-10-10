@@ -99,7 +99,7 @@
     neurons:
       - command: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"stop\"}' http://192.168.0.17:8000/app"
       - say:
-          message: "Musique stopp, monsieur"
+          message: "musique stoppé, monsieur"
     signals:
       - order: "arrête la musique"
       - order: "stop la musique"
@@ -140,5 +140,5 @@
             - music_name
     signals:
       - order: "I would like to hear the song {{ music_name }}"
-       - order: "I would like to hear {{ artist_name }}"
+      - order: "I would like to hear {{ artist_name }}"
 
