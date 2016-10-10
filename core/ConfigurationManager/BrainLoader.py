@@ -11,7 +11,7 @@ from core.Models.Order import Order
 from core.Models.Synapse import Synapse
 
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 
 
 class BrainLoader(object):

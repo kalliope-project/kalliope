@@ -6,7 +6,7 @@ from email.header import decode_header
 from core.NeuronModule import NeuronModule
 
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 
 
 class MissingParameterException(Exception):

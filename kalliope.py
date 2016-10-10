@@ -13,12 +13,12 @@ import sys
 from core.SynapseLauncher import SynapseLauncher
 
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 
 
 def signal_handler(signal, frame):
     print "\n"
-    Utils.print_info("Ctrl+C pressed. Killing Jarvis")
+    Utils.print_info("Ctrl+C pressed. Killing Kalliope")
     sys.exit(0)
 
 ACTION_LIST = ["start", "gui", "load-events"]
@@ -26,10 +26,10 @@ ACTION_LIST = ["start", "gui", "load-events"]
 
 def main():
     """
-    Entry point of jarvis program
+    Entry point of Kalliope program
     """
     # create arguments
-    parser = argparse.ArgumentParser(description='JARVIS')
+    parser = argparse.ArgumentParser(description='Kalliope')
     parser.add_argument("action", help="[start|gui]")
     parser.add_argument("--run-synapse", help="Name of a synapse to load surrounded by quote")
     parser.add_argument("--brain-file", help="Full path of a brain file")
@@ -87,7 +87,7 @@ def configure_logging(debug=None):
     :param debug: If true, set the lof level to debug
     :return:
     """
-    logger = logging.getLogger("jarvis")
+    logger = logging.getLogger("kalliope")
     logger.propagate = False
     ch = logging.StreamHandler()
     ch.setLevel(logging.DEBUG)

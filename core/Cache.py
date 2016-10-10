@@ -11,7 +11,7 @@ DEFAULT_LANGUAGE = "default"
 DEFAULT_VOICE = "default"
 
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 
 
 class Cache:

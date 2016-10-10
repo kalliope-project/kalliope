@@ -9,7 +9,7 @@ from core.Models.Tts import Tts
 FILE_NAME = "settings.yml"
 
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 
 
 class NullSettingException(Exception):

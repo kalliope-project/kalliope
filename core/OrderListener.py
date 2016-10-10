@@ -8,7 +8,7 @@ from core.Utils import Utils
 from core.ConfigurationManager import SettingLoader
 
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 
 
 class OrderListener(Thread):

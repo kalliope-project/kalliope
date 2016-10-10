@@ -6,7 +6,7 @@ import logging
 import sys
 
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 
 
 class Pico2wave(TTS):

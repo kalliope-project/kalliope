@@ -3,7 +3,7 @@ import logging
 from core import Utils
 
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 
 
 class TriggerLauncher(object):

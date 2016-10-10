@@ -10,7 +10,7 @@ from core.NeuroneLauncher import NeuroneLauncher
 import logging
 
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 
 
 class OrderAnalyser:

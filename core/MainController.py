@@ -12,7 +12,7 @@ from core.TriggerLauncher import TriggerLauncher
 from neurons import Say
 
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 
 class MainController:
     def __init__(self, brain_file=None):

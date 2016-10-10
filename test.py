@@ -5,7 +5,7 @@ from collections import Counter
 
 from core import OrderAnalyser
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 logger.setLevel(logging.DEBUG)
 
 

@@ -4,7 +4,7 @@ import pygame
 from core.FileManager import FileManager
 
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 
 
 class AudioPlayer:

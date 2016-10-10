@@ -8,7 +8,7 @@ import sys
 from core import FileManager
 
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 
 
 class TTS:

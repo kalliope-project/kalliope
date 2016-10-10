@@ -14,7 +14,7 @@ from core.ConfigurationManager import SettingLoader
 from neurons import Say
 
 logging.basicConfig()
-logger = logging.getLogger("jarvis")
+logger = logging.getLogger("kalliope")
 
 
 def signal_handler(signal, frame):
