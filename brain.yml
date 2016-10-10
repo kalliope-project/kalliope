@@ -130,3 +130,15 @@
     signals:
       - order: "est-ce que j'ai des emails"
 
+  - name: "run soundcloud"
+    neurons:
+      - soundcloud:
+          username: "me@gmail.com"
+          password: "my_password"
+          args:
+            - artist_name
+            - music_name
+    signals:
+      - order: "I would like to hear the song {{ music_name }}"
+       - order: "I would like to hear {{ artist_name }}"
+
