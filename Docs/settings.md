@@ -126,5 +126,5 @@ E.g, the default Snowboy trigger configuration is
 ```
 triggers:
   - snowboy:
-      pmdl_file: "trigger/snowboy/resources/jarvis.pmdl"
+      pmdl_file: "trigger/snowboy/resources/kalliope-FR-2samples.pmdl"
 ```
