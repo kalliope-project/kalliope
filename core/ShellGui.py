@@ -9,6 +9,8 @@ from dialog import Dialog
 import locale
 
 from core import OrderListener
+from core.ConfigurationManager.BrainLoader import BrainLoader
+from core.SynapseLauncher import SynapseLauncher
 from core.Utils import Utils
 from core.ConfigurationManager import SettingLoader
 from neurons import Say
@@ -26,7 +28,9 @@ signal.signal(signal.SIGINT, signal_handler)
 
 
 class ShellGui:
-    def __init__(self):
+    def __init__(self, brain_file=None):
+        # override brain
+        self.brain_file = brain_file
         # get settings
         self.settings = SettingLoader.get_settings()
         locale.setlocale(locale.LC_ALL, '')
@@ -46,13 +50,16 @@ class ShellGui:
 
         code, tag = self.d.menu("Test your Kalliope settings from this menu",
                                 choices=[("TTS", "Text to Speech"),
-                                         ("STT", "Speech to text")])
+                                         ("STT", "Speech to text"),
+                                         ("Synapses", "Run a synapse")])
 
         if code == self.d.OK:
             if tag == "STT":
                 self.show_stt_test_menu()
             if tag == "TTS":
                 self.show_tts_test_menu()
+            if tag == "Synapses":
+                self.show_synapses_test_menu()
 
     def show_stt_test_menu(self):
         # we get STT from settings
@@ -105,7 +112,8 @@ class ShellGui:
                 # then go back to this menu with the same sentence
                 self.show_tts_test_menu(sentence_to_test=sentence_to_test)
 
-    def _run_tts_test(self, tts_name, sentence_to_test):
+    @staticmethod
+    def _run_tts_test(tts_name, sentence_to_test):
         """
         Call the TTS
         :param tts_name: Name of the TTS module to launch
@@ -141,3 +149,29 @@ class ShellGui:
 
         if code == self.d.OK:
             self.show_stt_test_menu()
+
+    def show_synapses_test_menu(self):
+        """
+        Show a list of available synapse in the brain to run it directly
+        :return:
+        """
+        # get the list of synapse from the brain
+        brain = BrainLoader.get_brain(file_path=self.brain_file)
+
+        # create a tuple for the list menu
+        choices = list()
+        x = 0
+        for el in brain.synapses:
+            tup = (str(el.name), str(x))
+            choices.append(tup)
+            x += 1
+
+        code, tag = self.d.menu("Select a synapse to run",
+                                choices=choices)
+
+        if code == self.d.CANCEL:
+            self.show_main_menu()
+        if code == self.d.OK:
+            logger.debug("Run synapse from GUI: %s" % tag)
+            SynapseLauncher.start_synapse(tag, brain_file=self.brain_file)
+            self.show_synapses_test_menu()
