@@ -69,7 +69,7 @@ For example, if we want Kalliope to run the synapse every day a 8 PM. The event 
 
 Let make a complete example. We want Kalliope to wake us up each morning of working day (Monday to friday) at 7 AM and:
 - Wish us good morning
-- Give us the our
+- Give us the time
 - Play our favourite web radio
 
 The synapse in the brain would be

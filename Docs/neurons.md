@@ -23,5 +23,5 @@ neurons:
 
 To know which parameter are required, check of documentation of the neuron.
 
-## List of available neuron
+Full list of [available neuron here](neuron_list.md)
 

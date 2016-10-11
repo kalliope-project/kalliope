@@ -4,12 +4,12 @@ The brain is where you create your personal assistant, your own configuration.
 
 Brain is composed by synapses, a synapse is the link between input and output actions.
 
-A input action, called a "signal" can be:
+A input action, called a "[signal](signals.md)" can be:
 - **an order:** Something that has been spoke out loud by the user.
 - **an event:** A date or a frequency (E.G: repeat each morning at 8:30)
 
 An output action is
-- **a list of neurons:** A module or plugin that will perform some actions like simply talking, run a script, run a command or a complex Ansible playbook.
+- **a list of neurons:** A [neuron](neurons.md) is a module or plugin that will perform some actions like simply talking, run a script, run a command or a complex Ansible playbook.
 
 Brain is expressed in YAML format (see YAML Syntax) and have a minimum of syntax, which intentionally tries to not be a programming language or script, 
 but rather a model of a configuration or a process.
