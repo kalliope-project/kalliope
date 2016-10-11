@@ -4,9 +4,7 @@ The brain is where you create your personal assistant, your own configuration.
 
 Brain is composed by synapses, a synapse is the link between input and output actions.
 
-
-
-A input action(signal) can be:
+A input action, called a "signal" can be:
 - **an order:** Something that has been spoke out loud by the user.
 - **an event:** A date or a frequency (E.G: repeat each morning at 8:30)
 
@@ -42,7 +40,7 @@ At the top level we have a "name"
 ```
 - name: "Say hello"
 ```
-This is the identifier of the synapse.
+This is the **unique identifier** of the synapse. It must be unique to each synapse and should not contain any accent.
 
 Then we have the neurons declaration that contain a list (because it starts with a "-") which contains neurons
 ```
