@@ -33,7 +33,7 @@ Kalliope is easy-peasy to use, see the hello world
 
 A neuron is a plugin that can be used from your **brain.yml**. 
 
-- See the list of [available neurons](Docs/neurons.md).
+- See the list of [available neurons](Docs/neuron_list.md).
 - See how to [create your own neuron](Docs/contributing.md).
 
 

@@ -1,7 +1,7 @@
 # Speech To Text (STT)
 
 This chapter describes how STT are working.
-This configuration must apply in the settings.yml.
+This configuration must apply in the [settings.yml](settings.md) file.
 
 The syntax used is YAML.
 
