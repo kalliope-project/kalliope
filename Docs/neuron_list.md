@@ -1,5 +1,6 @@
 # List of available neuron
 
+A neuron is a module you can use in your synapses. See the [complete neuron documentation](neurons.md) for more information.
 
 | Name                                                | Description                                                                             |
 |-----------------------------------------------------|-----------------------------------------------------------------------------------------|

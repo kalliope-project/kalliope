@@ -78,7 +78,7 @@ def main():
             MainController(brain_file=brain_file)
 
     if args.action == "gui":
-        ShellGui()
+        ShellGui(args.brain_file)
 
 
 def configure_logging(debug=None):
