@@ -1,7 +1,11 @@
 # Speech To Text (STT)
 
 This chapter describes how STT are working.
-This configuration must apply in the [settings.yml](settings.md) file.
+
+The STT are programs or API that converts the voice to text.
+Each of them have a specific configuration and support multiple voice and/or languages.
+
+The configuration for each STT must apply in the [settings.yml](settings.md) file.
 
 The syntax used is YAML.
 
@@ -24,51 +28,11 @@ speech_to_text:
 
 ## Current Available STT
 
-### Google
-
-The google STT is based on the [Google Speech Recognition API](https://cloud.google.com/speech/)
-
-| parameter| required | default | choices | comments |
-|----------|----------|---------|---------|----------|
-| key      | No       | None    |         |          |
-| language | No       | en-US   | [lang](https://en.wikipedia.org/wiki/Google_Voice_Search#Supported_languages)   |LCID string|
-
-### Bing
-
-The Bing STT is based on the [Microsoft Bing Voice Recognition API](https://www.microsoft.com/cognitive-services/en-us/speech-api)
-
-| parameter| required | default | choices | comments |
-|----------|----------|---------|---------|----------|
-| key      | YES      | None    |         |User info |
-| language | No       | en-US   | [lang](https://www.microsoft.com/cognitive-services/en-us/speech-api)|7 languages|
-
-### wit.ai
-
-The wit.ai STT is based on the Microsoft [Wit.ai API](https://wit.ai/)
-
-| parameter| required | default | choices | comments |
-|----------|----------|---------|---------|----------|
-| key      | YES      | None    |         |User info |
-| language | No       | en-US   |[lang](https://docs.api.ai/docs/languages)|          |
-
-### api.ai
-
-The api.ai STT is based on the [api.ai API](https://api.ai/)
-
-| parameter| required | default | choices | comments |
-|----------|----------|---------|---------|----------|
-| key      | YES      | None    |         |User info |
-| language | No       | en-US   |[lang](https://docs.api.ai/docs/languages)|          |
-
-### Houndify
-
-Not working yet ... in coming
-
-| parameter| required | default | choices | comments |
-|----------|----------|---------|---------|----------|
-| key      | YES      | None    |         |User info |
-| client_id| YES      | None    |         |User info |
-| language | No       | en-US   | en-US   |          |
+[apiai](../stt/apiai/README.md)
+[bing](../stt/bing/README.md)
+[google](../stt/google/README.md)
+[houndify](../stt/houndify/README.md)
+[witai](../stt/wit/README.md)
 
 ## Full Example
 
