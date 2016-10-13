@@ -2,7 +2,7 @@
 
 Not working yet ... in coming
 
-| parameter | required | default | language tag | comment   |
+| parameter | required  | default | choices      | comment   |
 |:---------:|-----------|---------|--------------|-----------|
 | key       | Yes       | None    |              | User info |
 | client_id | Yes       | None    |              | User info |
