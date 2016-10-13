@@ -28,11 +28,11 @@ speech_to_text:
 
 ## Current Available STT
 
-[apiai](../stt/apiai/STT_INFO.md)
-[bing](../stt/bing/STT_INFO.md)
-[google](../stt/google/STT_INFO.md)
-[houndify](../stt/houndify/STT_INFO.md)
-[witai](../stt/wit/STT_INFO.md)
+[apiai](../stt/apiai/README.md)
+[bing](../stt/bing/README.md)
+[google](../stt/google/README.md)
+[houndify](../stt/houndify/README.md)
+[witai](../stt/wit/README.md)
 
 ## Full Example
 
