@@ -12,6 +12,10 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
+class MissingParameterException(Exception):
+    pass
+
+
 class NoTemplateException(Exception):
     pass
 

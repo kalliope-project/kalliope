@@ -142,3 +142,12 @@
       - order: "I would like to hear the song {{ music_name }}"
       - order: "I would like to hear {{ artist_name }}"
 
+  - name: "find my phone"
+    neurons:
+      - say:
+          message: "Je fais sonner le téléphone, monsieur"
+      - tasker_autoremote:
+          key: "APA91bqmY"
+          message: "lost"
+    signals:
+      - order: "où est mon téléphone"
