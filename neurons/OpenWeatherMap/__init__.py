@@ -1,3 +1,0 @@
-from OpenWeatherMap import OpenWeatherMap
-
-

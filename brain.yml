@@ -11,11 +11,14 @@
   - name: "get the weather"
     neurons:
       - openweathermap:
-          api_key: "your_key"
+          api_key: "your_api"
+          lang: "fr"
           say_template:
-          - "Les prévisions pour {{ date }} sont {{ weather }}"
+          - "Aujourd'hui a {{ location }} le temps est {{ weather }}, demain il sera {{ weather_tomorrow }}"
+          args:
+          - location
     signals:
-      - order: "{{ date }} quel temps fait-il a {{ location }}"
+      - order: "quel temps fait-il à {{ location }}"
 
   - name: "say hello"
     neurons:
