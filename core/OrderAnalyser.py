@@ -49,7 +49,7 @@ class OrderAnalyser:
 
                         for neuron in synapse.neurons:
                             if isinstance(neuron.parameters, dict):
-                                print neuron.parameters
+                                # print neuron.parameters
                                 if "args" in neuron.parameters:
                                     logger.debug("The neuron wait for parameter")
                                     # check that the user added parameters to his order

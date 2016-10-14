@@ -21,7 +21,7 @@ def signal_handler(signal, frame):
     Utils.print_info("Ctrl+C pressed. Killing Kalliope")
     sys.exit(0)
 
-ACTION_LIST = ["start", "gui", "load-events"]
+ACTION_LIST = ["start", "gui"]
 
 
 def main():
