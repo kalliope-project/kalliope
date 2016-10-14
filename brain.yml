@@ -8,6 +8,15 @@
     signals:
       - order: "push message"
 
+  - name: "get the weather"
+    neurons:
+      - openweathermap:
+          api_key: "your_key"
+          say_template:
+          - "Les prévisions pour {{ date }} sont {{ weather }}"
+    signals:
+      - order: "{{ date }} quel temps fait-il a {{ location }}"
+
   - name: "say hello"
     neurons:
       - say:

@@ -14,6 +14,7 @@ from neurons import Say
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
+
 class MainController:
     def __init__(self, brain_file=None):
         self.brain_file = brain_file
