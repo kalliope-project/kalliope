@@ -56,21 +56,25 @@ First, create a task, that you could call "start_ringing" that will perform:
 - Disable the silent mode
 - Set media volume to the maximum value
 - Play a local music
+
 ![task play music](images/task_play_music.png)
 
 Then, create a new task with just one action:
 - Stop the music
+
 ![task stop music](images/task_stop_music.png)
 
 Create the input profile. 
 - create a context of type Event > Plugin > Autoremote
 - Set the word you want
 - Attach the event to the task "start_ringing"
+
 ![task stop music](images/profile_auto_remote.png)
 
 Finally, create a event, to stop the music when we unlock the phone
 - create a context of type Event > Display > Display Unlocked
 - Attach the event to the stop that stop the music
+
 ![task stop music](images/profile_display_unlocked.png)
 
 Exit Tasker with the exit menu to be sure all events and task have been saved.
