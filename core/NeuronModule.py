@@ -3,6 +3,7 @@ import logging
 import os
 import random
 
+import sys
 from jinja2 import Template
 
 from core.Utils import Utils
@@ -132,6 +133,9 @@ class NeuronModule(object):
                 t = Template(self.say_template)
                 returned_message = t.render(**message_dict)
 
+            # trick to remobe unicode problem when loading jinja template with non ascii char
+            reload(sys)
+            sys.setdefaultencoding('utf-8')
             # the user choose a file_template option
             if self.file_template is not None:  # the user choose a file_template option
                 real_file_template_path = "templates/%s" % self.file_template

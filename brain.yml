@@ -39,16 +39,13 @@
       - systemdate:
           say_template:
             - "il est {{ hours }} heure et {{ minutes }} minute"
-          cache: False
     signals:
       - order: "what time is it"
 
   - name: "Say local date from template"
     neurons:
       - systemdate:
-          file_template: fr_systemdate_template_example.j2
-          tts: "voxygen"
-          cache: False
+          file_template: en_systemdate_template_example.j2
     signals:
       - order: "test heure"
 
