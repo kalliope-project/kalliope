@@ -11,10 +11,11 @@
   - name: "get the weather"
     neurons:
       - openweathermap:
-          api_key: "your_api"
+          api_key: "your-api"
           lang: "fr"
+          temp_unit: "celsius"
           say_template:
-          - "Aujourd'hui a {{ location }} le temps est {{ weather }}, demain il sera {{ weather_tomorrow }}"
+          - "Aujourd'hui a {{ location }} le temps est {{ weather_today }} avec une température de {{ temp_today_temp }} degrés et demain le temps sera {{ weather_tomorrow }} avec une température de {{ temp_tomorrow_temp }} degrés"
           args:
           - location
     signals:
@@ -49,11 +50,12 @@
   - name: "Say local date"
     neurons:
       - systemdate:
+          tts: "voxygen"
           say_template:
             - "il est {{ hours }} heure et {{ minutes }} minute"
           cache: False
     signals:
-      - order: "what time is it"
+      - order: "quelle heure est-il"
 
   - name: "Say local date from template"
     neurons:
