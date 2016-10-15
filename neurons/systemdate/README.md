@@ -50,6 +50,7 @@ Synapse that give complete date and time with a template file.
 
 
 ## Templates example 
+Following examples are available in the [neuron directory](template_examples/).
 
 This template will transcribe received numbers from the neuron into natural language
 ```
