@@ -1,11 +1,12 @@
 # Kalliope
 
 Kalliope is a modular always-on voice controlled personal assistant designed for home automation.
+Kalliope is based on audio input recognition, so it recognize an order pronounced by the user and then execute actions attached to the order.
 
-TODO: insert video demo EN
-TODO: insert video demo FR
+You can create your own Kalliope bot, by simply choosing and composing the existing modules without writing any code. But, if you need a particular module, you can
+write it by yourself and add it to your project. You can also propose it to the community.
 
-Kalliope can run on a Raspberry Pi and he's multi-lang.
+Kalliope can run on all Linux distribution including a Raspberry Pi and it's multi-lang. The only thing you need is a microphone.
 
 Kalliope is easy-peasy to use, see the hello world
 ```

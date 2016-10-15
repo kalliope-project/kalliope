@@ -46,6 +46,6 @@ play test.wav
 
 Clone the project
 ```
-git clone <TODO set github address>
+git clone https://github.com/kalliope-project/kalliope.git
 ```
 
