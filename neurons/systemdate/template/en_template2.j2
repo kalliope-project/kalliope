@@ -1,0 +1,12 @@
+{% set day_of_week = {"0": "sunday", "1": "monday", "2": "tuesday", "3": "wednesday", "4": "thursday", "5": "friday", "6": "saturday"}[weekday] | default("") -%}
+{% set month_word = {"1": "january", "2": "february", "3": "march", "4": "april", "5": "may", "6": "june", "7": "july", "8": "august", "9": "september", "10": "october", "11": "november", "12": "december"}[month] | default("") -%}
+
+{% set day_month_formated = {
+{
+"15": "fifteenth"
+}
+}
+[day_month] | default("") -%}
+
+It' {{ hours }} hours and {{ minutes }} minutes.
+We are the {{ day_of_week }} {{ month_word }} the {{ day_month_formated }} {{ year }}

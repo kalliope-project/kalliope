@@ -1,1 +1,5 @@
-ma montre indique {{ hours }} heures et {{ minutes }} minutes
+{% set day_of_week = {"0": "dimanche", "1": "lundi", "2": "mardi", "3": "mercredi", "4": "jeudi", "5": "vendredi", "6": "samedi"}[weekday] | default("") -%}
+{% set month_word = {"1": "janvier", "2": "février", "3": "mars", "4": "avril", "5": "mai", "6": "juin", "7": "juillet", "8": "août", "9": "septembre", "10": "octobre", "11": "novembre", "12": "décembre"}[month] | default("") -%}
+
+Il est {{ hours }} heures et {{ minutes }} minutes.
+Nous sommes le {{ day_of_week }} {{ day_month }} {{ month_word }} {{ year }}
