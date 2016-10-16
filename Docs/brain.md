@@ -96,4 +96,4 @@ and
 signals:
   - order: "say"
 ```
-When you will pronounce "say" or "say hello", it will trigger both synapses. 
+When you will pronounce "say hello", it will trigger both synapses. 
