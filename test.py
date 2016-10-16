@@ -12,8 +12,9 @@ logger = logging.getLogger("kalliope")
 logger.setLevel(logging.DEBUG)
 
 
-
-order = "test heure"
+# order = "musique rock"
+# order = "stop la musique"
+order = "rm file"
 oa = OrderAnalyser(order)
 oa.start()
 
