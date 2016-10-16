@@ -19,7 +19,7 @@ Give the today and tomorrow weather with the related data (humidity, temperature
 | Name                        | Description                                | Type   | sample                 |
 |-----------------------------|--------------------------------------------|--------|------------------------|
 | location                    | The current location                       | String | Grenoble               |
-| weather_today               | Today : The weather sentence               | String | nuageux                |
+| weather_today               | Today : The weather sentence               | String | cloudy                 |
 | sunset_today_time           | Today : The sunset time (iso)              | String | 2016-10-15 20:07:57+00 |
 | sunrise_today_time          | Today : The sunrise time (iso)             | String | 2016-10-15 07:07:57+00 |
 | temp_today_temp             | Today : Average temperature                | float  | 25                     |
@@ -33,7 +33,7 @@ Give the today and tomorrow weather with the related data (humidity, temperature
 | snow_today                  | Today : Volume of snow                     | float  | 0                      |
 | rain_today                  | Today : Rain volume                        | float  | 0                      |
 | clouds_coverage_today       | Today : % Cloud coverage                   | float  | 65                     |
-| weather_tomorrow            | Tomorrow : The weather sentence            | String | ensoleillé             |
+| weather_tomorrow            | Tomorrow : The weather sentence            | String | sunny                  |
 | sunset_time_tomorrow        | Tomorrow : The sunset time (iso)           | String | 2016-10-16 20:07:57+00 |
 | sunrise_time_tomorrow       | Tomorrow : The sunrise time (iso)          | String | 2016-10-16 07:07:57+00 |
 | temp_tomorrow_temp          | Tomorrow : Average temperature             | float  | 25                     |
