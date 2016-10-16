@@ -31,6 +31,7 @@ pip install pygmail
 pip install pushetta
 pip install wakeonlan
 pip install ipaddress
+pip install pyowm
 ```
 
 ### Test your env

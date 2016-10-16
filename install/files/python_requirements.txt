@@ -10,3 +10,4 @@ pygmail==0.0.5.4
 pushetta==1.0.15
 wakeonlan==0.2.2
 ipaddress==1.0.16
+pyowm==2.5.0
