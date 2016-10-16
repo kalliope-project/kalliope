@@ -1,20 +1,20 @@
 # Brain
 
-The brain is where you create your personal assistant, your own configuration.
+The brain is a main component of Kalliope. It's a module that gives a confuguration of your own personal assistant and, so, determines it's behavior and fonctionnalities.
 
-Brain is composed by synapses, a synapse is the link between input and output actions.
+Brain is composed by synapses: a synapse is the link between input and output actions.
 
-A input action, called a "[signal](signals.md)" can be:
+An input action, called a "[signal](signals.md)" can be:
 - **an order:** Something that has been spoke out loud by the user.
 - **an event:** A date or a frequency (E.G: repeat each morning at 8:30)
 
 An output action is
 - **a list of neurons:** A [neuron](neurons.md) is a module or plugin that will perform some actions like simply talking, run a script, run a command or a complex Ansible playbook.
 
-Brain is expressed in YAML format (see YAML Syntax) and have a minimum of syntax, which intentionally tries to not be a programming language or script, 
+Brain is expressed in YAML format (see YAML Syntax) and has a minimum of syntax, which intentionally tries to not be a programming language or script, 
 but rather a model of a configuration or a process.
 
-Let's look a basic synapse in our brain:
+Let's take a look on a basic synapse in our brain:
 
 ```
 ---
@@ -26,7 +26,7 @@ Let's look a basic synapse in our brain:
       - order: "say hello"
 ```
 
-Let's break this down in sections so we can understand how the file is built and what each piece means.
+Let's break this down in sections so we can understand how the file is built and what each part means.
 
 The file starts with:
 ```
@@ -34,15 +34,14 @@ The file starts with:
 ```
 This is a requirement for YAML to interpret the file as a proper document.
 
-Items that begin with a ```-``` are considered list items. Items that have the format of ```key: value``` operate as hashes or dictionaries.
+Items that begin with a ```-``` are considered as list items. Items have the format of ```key: value``` where value can be a simple string or a sequence of other items.
 
-At the top level we have a "name"
+At the top level we have a "name" tag. This is the **unique identifier** of the synapse. It must be unique to each synapse and should not contain any accent.
 ```
 - name: "Say hello"
 ```
-This is the **unique identifier** of the synapse. It must be unique to each synapse and should not contain any accent.
 
-Then we have the neurons declaration that contain a list (because it starts with a "-") which contains neurons
+Then we have the neurons declaration. Neurons are modules that will be executed when the input action is triggered. You can define as many neurons as you want to the same input action (for example: say somethning, then do something etc...). This declaration contains a list (because it starts with a "-") of neurons
 ```
 neurons:
     - neuron_name
@@ -50,31 +49,51 @@ neurons:
     - another_neuron
 ```
 
-Neurons are modules that will be executed when the input action is triggered.
-Some neurons need parameters that can be passed as argument following the syntax bellow:
+The order of execution of neurons is defined by the order in which they are listed in neurons declaration.
+
+Some neurons need parameters that can be passed as arguments following the syntax bellow:
 ```
 neurons:
     - neuron_name:
         parameter1: "value1"
         parameter2: "value2"
 ```
-Not here that parameters are indented with one tabulation bellow the neuron's name.
+Note here that parameters are indented with one tabulation bellow the neuron's name (YAML syntax requirement).
 
 In this example, the neuron called "say" will make Kalliope speak out loud the sentence in parameter **message**.
 See the complete list of [available neurons](neurons.md) here.
 
-The last part, called **signals** is a list of input action. This last works exactly the same way as neurons. You must place here at least one action.
+The last part, called **signals** is a list of input actions. This works exactly the same way as neurons. You must place here at least one action.
 In the following example, we use just one signal, an order. See the complete list of [available signals](signals.md) here.
 ```
 signals:
   - order: "say hello"
 ```
 
-In this example, the task is launched when the captured order contains "say hello". This means the order would start if you say
+You can add as many orders as you want for the signals. Even if literally they do not mean the same thing (For example order "say hello" and order "adventure" or whatever) as long they are in the same synaps, they will trigger the same action defined in neurons. 
+
+Note that you are not limited by the exact sentence you put in your order. Kalliope uses the matching, it means that you can pronounce the sentence which contains your order (so, can be much longer) and it will lauch an attached task anyway. In this example, the task attached to order "say hello" will be launched even if you say
 - "say hello Kalliope"
 - "Kalliope, say hello"
 - "I want you to say hello"
 - "i say goodbye you say hello"
 - "whatever I say as long it contains say hello"
 
-To know if your spoken order will be triggered by Kalliope, we recommend you to [use the GUI](kalliope_cli.md) for testing your STT engine.
+To know if your order will be triggered by Kalliope, we recommend you to [use the GUI](kalliope_cli.md) for testing your STT engine.
+
+>**Note:**
+You must pay attention to define the orders as precise as possible. As Kalliope is based on matching, if you define your orders in different synapses too similiary, Kalliope risks to trigger more actions that you were expecting. For exemple, if you define two different synapses as shown below:
+```
+- name: "Say hello"
+...
+signals:
+  - order: "say hello"
+```
+and 
+```
+- name: "Say something"
+...
+signals:
+  - order: "say"
+```
+When you will pronounce "say hello", it will trigger both synapses. 
