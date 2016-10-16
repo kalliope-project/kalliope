@@ -12,6 +12,7 @@ Give the today and tomorrow weather with the related data (humidity, temperature
 | location  | YES      | None    |                             | The location                                                                                      |
 | lang      | No       | en      | multiple                    | First 2 letters cf : section Multilingual support in : [lang](https://openweathermap.org/current) |
 | temp_unit | No       | Kelvin  | Celsius, Kelvin, Fahrenheit |                                                                                                   |
+| country   | No       | US      | multiple                    |  Frist 2 letters of the country cf API doc                                                        |
 
 ## Return Values
 
@@ -75,6 +76,7 @@ You also can define the "location" args directly in neuron argument list.
           lang: "fr"
           temp_unit: "celsius"
           location : "grenoble"
+          country: "FR"
           say_template:
           - "Aujourd'hui a {{ location }} le temps est {{ weather_today }} avec une température de {{ temp_today_temp }} degrés et demain le temps sera {{ weather_tomorrow }} avec une température de {{ temp_tomorrow_temp }} degrés"
     signals:
