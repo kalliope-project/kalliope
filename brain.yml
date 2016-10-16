@@ -52,16 +52,13 @@
           tts: "voxygen"
           say_template:
             - "il est {{ hours }} heure et {{ minutes }} minute"
-          cache: False
     signals:
       - order: "quelle heure est-il"
 
   - name: "Say local date from template"
     neurons:
       - systemdate:
-          file_template: fr_systemdate_template_example.j2
-          tts: "voxygen"
-          cache: False
+          file_template: en_systemdate_template_example.j2
     signals:
       - order: "test heure"
 
@@ -155,3 +152,12 @@
       - order: "I would like to hear the song {{ music_name }}"
       - order: "I would like to hear {{ artist_name }}"
 
+  - name: "find my phone"
+    neurons:
+      - say:
+          message: "Je fais sonner le téléphone, monsieur"
+      - tasker_autoremote:
+          key: "APA91bqmY"
+          message: "lost"
+    signals:
+      - order: "où est mon téléphone"
