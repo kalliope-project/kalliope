@@ -12,16 +12,21 @@ class Openweathermap(NeuronModule):
         location = kwargs.get('location', None)
         lang = kwargs.get('lang', 'en')
         temp_unit = kwargs.get('temp_unit', 'celsius')
+        country = kwargs.get('country', 'US')
 
         if api_key is None:
             raise NotImplementedError("OpenWeatherMap neuron needs an api_key")
         if location is None:
             raise NotImplementedError("OpenWeatherMap neuron needs a location")
+        extended_location = location
+        if country is not None:
+            extended_location = location + "," + country
+
 
         owm = pyowm.OWM(API_key=api_key, language=lang)
 
         # Tomorrow
-        forecast = owm.daily_forecast(location)
+        forecast = owm.daily_forecast(extended_location)
         tomorrow = pyowm.timeutils.tomorrow()
         weather_tomorrow = forecast.get_weather_at(tomorrow)
         weather_tomorrow_status = weather_tomorrow.get_detailed_status()
@@ -48,7 +53,7 @@ class Openweathermap(NeuronModule):
         clouds_coverage_tomorrow = weather_tomorrow.get_clouds()
 
         # Today
-        observation = owm.weather_at_place(location)
+        observation = owm.weather_at_place(extended_location)
         weather_today = observation.get_weather()
         weather_today_status = weather_today.get_detailed_status()
         sunset_time_today = weather_today.get_sunset_time('iso')
