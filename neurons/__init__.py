@@ -7,5 +7,5 @@ from sleep import Sleep
 from systemdate import Systemdate
 from gmail_checker import Gmail_checker
 from push_message import Push_message
-from Openweathermap import Openweathermap
+from openweathermap import Openweathermap
 from tasker_autoremote import Tasker_autoremote
