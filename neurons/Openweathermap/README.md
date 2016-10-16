@@ -65,6 +65,22 @@ Give the today and tomorrow weather with the related data (humidity, temperature
 
 ```
 
+You also can define the "location" args directly in neuron argument list. 
+
+```
+  - name: "get the weather"
+    neurons:
+      - openweathermap:
+          api_key: "fdfba4097c318aed7836b2a85a6a05ef"
+          lang: "fr"
+          temp_unit: "celsius"
+          location : "grenoble"
+          say_template:
+          - "Aujourd'hui a {{ location }} le temps est {{ weather_today }} avec une température de {{ temp_today_temp }} degrés et demain le temps sera {{ weather_tomorrow }} avec une température de {{ temp_tomorrow_temp }} degrés"
+    signals:
+      - order: "quel temps fait-il "
+```
+
 ## Templates example 
 
 

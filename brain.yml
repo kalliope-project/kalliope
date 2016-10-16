@@ -14,12 +14,11 @@
           api_key: "your-api"
           lang: "fr"
           temp_unit: "celsius"
+          location : "grenoble"
           say_template:
           - "Aujourd'hui a {{ location }} le temps est {{ weather_today }} avec une température de {{ temp_today_temp }} degrés et demain le temps sera {{ weather_tomorrow }} avec une température de {{ temp_tomorrow_temp }} degrés"
-          args:
-          - location
     signals:
-      - order: "quel temps fait-il à {{ location }}"
+      - order: "quel temps fait-il "
 
   - name: "say hello"
     neurons:
