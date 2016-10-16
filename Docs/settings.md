@@ -1,17 +1,19 @@
 # Kalliope settings
 
-This part of the documentation deals with the main configuration of Kalliope. 
-This configuration is a file placed at the root of the project tree and called settings.yml.
+This part of the documentation explains the main configuration of Kalliope.
+You will have to modify the configuration file called `settings.yml` which is located in the root of the project tree.
 
-The syntax used is YAML.
+The file is written on YAML syntax.
 
-# General defaults
+## Tunable settings
 
-In the settings.yml, the following settings are tunable:
+The following settings can be modified:
+
+## Triggers configuration
 
 #### default_trigger
 
-The trigger is the module in charge detecting the hotword that wake up Kalliope.
+The trigger is the module detecting the hotword that will wake up Kalliope.
 Common usage of hotword include Alexa on Amazon Echo, OK Google on some Android devices and Hey Siri on iPhones.
 
 Specify the name of the trigger module you want to use.
@@ -19,31 +21,70 @@ Specify the name of the trigger module you want to use.
 default_trigger: "trigger_name"
 ```
 
-Available trigger for Kalliope are:
+Available triggers for Kalliope are:
 - snowboy
+
+#### triggers
+The default hotword (also called a wake word or trigger word) detector is based on [Snowboy](https://snowboy.kitt.ai/).
+
+Each Trigger has it own configuration. This configuration is passed as argument following the syntax bellow
+```
+triggers:
+  - trigger_name:
+      parameter_name: "value"
+```
+
+E.g, the default Snowboy trigger configuration is
+```
+triggers:
+  - snowboy:
+      pmdl_file: "trigger/snowboy/resources/model.pmdl"
+```
+
+## Speech to text configuration
 
 #### default_speech_to_text
 
-A Speech To Text(STT) is an engine used to translate what you say into a text that can be processed by Kalliope core. 
-By default, Kalliope use google STT engine.
+A Speech To Text(STT) is an engine used to translate what you say into a text that can be processed by Kalliope core.
+By default, Kalliope uses google STT engine.
 
-You must provide an engine name in this variable following the syntax bellow
+The following syntax is used to provide the engine name:
 ```
 default_speech_to_text: "stt_name"
 ```
 
 E.g
 ```
-default_speech_to_text: "snowboy"
+default_speech_to_text: "google"
 ```
 
 Get the full list of [SST engine here](stt.md).
+
+#### speech_to_text
+Each STT has it own configuration. This configuration is passed as argument as shown bellow
+```
+speech_to_text:
+  - stt_name:
+      parameter_name: "value"
+```
+
+E.g:
+```
+speech_to_text:
+  - google:
+      language: "fr-FR"
+  - bing
+```
+
+Some arguments are required, some others are optional, please refer to the [STT documentation](stt.md) to know available parameters for each supported STT.
+
+## Text to speech configuration
 
 #### default_text_to_speech
 A Text To Speech is an engine used to translate written text into a speech, into an audio stream.
 By default, Kalliope use Pico2wave TTS engine.
 
-You must provide a TTS engine name in this variable following the syntax bellow
+The following syntax is used to provide the TTS engine name
 ```
 default_text_to_speech: "tts_name"
 ```
@@ -55,74 +96,7 @@ default_text_to_speech: "pico2wave"
 
 Get the full list of [TTS engine here](tts.md).
 
-#### random_wake_up_answers
-When Kalliope detects your trigger/hotword/magic word, she lets you know that he's operational and now waiting for order by answering randomly 
-one of the sentences provided in the variable random_wake_up_answers.
-
-This variable must contain a list of string following the syntax bellow
-```
-random_wake_up_answers:
-  - "You sentence"
-  - "Another sentence"
-```
-
-E.g
-```
-random_wake_up_answers:
-  - "Yes sir?"
-  - "I'm listening"
-  - "Sir?"
-  - "What can I do for you?"
-  - "Listening"
-  - "Yes?"
-```
-
-#### random_wake_up_sounds
-You can play a sound when Kalliope detect the hotword/trigger instead of saying something from
-the `random_wake_up_answers`.
-Place here a list of full path of the sound file or just the name of the file in `/usr/lib/kalliope/sounds`
-The file must be .wav or .mp3 format. By default two file are provided: ding.wav and dong.wav. Of more than on file is present in the list,
-Kalliope will select one randomly at each wake up.
-
-```
-random_wake_up_sounds:
-  - "local_file_in_sounds_folder.wav" 
-  - "/my/personal/full/path/my_file.mp3"
-```
-
-E.g
-```
-random_wake_up_sounds:
-  - "ding.wav"
-  - "dong.wav"
-  - "/my/personal/full/path/my_file.mp3"
-```
-
->**Note: ** If you want to use a wake up sound instead of a wake up answer you must comment out the `random_wake_up_answers` section.
-E.g: `# random_wake_up_answers:`
-
-#### speech_to_text
-Speech to text configuration.
-Each STT has it own configuration. This configuration is passed as argument following the syntax bellow
-```
-speech_to_text:
-  - stt_name:
-      parameter_name: "value"
-```      
-
-E.g:
-```
-speech_to_text:
-  - google:
-      language: "fr-FR"
-  - bing
-```
-
-Some arguments are required, some other optional, please refer to the [STT documentation](stt.md) to know available parameters for each supported STT.
-
-
 #### text_to_speech
-Text to speech configuration
 Each TTS has it own configuration. This configuration is passed as argument following the syntax bellow
 ```
 text_to_speech:
@@ -142,19 +116,50 @@ text_to_speech:
 
 Some arguments are required, some other optional, please refer to the [TTS documentation](tts.md) to know available parameters for each supported TTS.
 
-#### triggers
-The default hotword (also called a wake word or trigger word) detector is based on [Snowboy](https://snowboy.kitt.ai/).
+## Wake up answers configuration
 
-Each Trigger has it own configuration. This configuration is passed as argument following the syntax bellow
+#### random_wake_up_answers
+When Kalliope detects your trigger/hotword/magic word, it lets you know that it's operational and now waiting for order. It's done by answering randomly
+one of the sentences provided in the variable random_wake_up_answers.
+
+This variable must contain a list of strings as shownbellow
 ```
-triggers:
-  - trigger_name:
-      parameter_name: "value"
+random_wake_up_answers:
+  - "You sentence"
+  - "Another sentence"
 ```
 
-E.g, the default Snowboy trigger configuration is
+E.g
 ```
-triggers:
-  - snowboy:
-      pmdl_file: "trigger/snowboy/resources/model.pmdl"
+random_wake_up_answers:
+  - "Yes sir?"
+  - "I'm listening"
+  - "Sir?"
+  - "What can I do for you?"
+  - "Listening"
+  - "Yes?"
 ```
+
+#### random_wake_up_sounds
+You can play a sound when Kalliope detects the hotword/trigger instead of saying something from
+the `random_wake_up_answers`.
+Place here a list of full paths of the sound files you want to use. Otherwise, you can use some default sounds provided by Kalliope which you can find in `/usr/lib/kalliope/sounds`.
+By default two file are provided: ding.wav and dong.wav. In all cases, the file must be in `.wav` or `.mp3` format. If more than on file is present in the list,
+Kalliope will select one randomly at each wake up.
+
+```
+random_wake_up_sounds:
+  - "local_file_in_sounds_folder.wav"
+  - "/my/personal/full/path/my_file.mp3"
+```
+
+E.g
+```
+random_wake_up_sounds:
+  - "ding.wav"
+  - "dong.wav"
+  - "/my/personal/full/path/my_file.mp3"
+```
+
+>**Note: ** If you want to use a wake up sound instead of a wake up answer you must comment out the `random_wake_up_answers` section.
+E.g: `# random_wake_up_answers:`
