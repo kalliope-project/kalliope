@@ -8,6 +8,19 @@
     signals:
       - order: "push message"
 
+  - name: "get the weather"
+    neurons:
+      - openweathermap:
+          api_key: "fdfba4097c318aed7836b2a85a6a05ef"
+          lang: "fr"
+          temp_unit: "celsius"
+          location : "grenoble"
+          country: "FR"
+          say_template:
+          - "Aujourd'hui a {{ location }} le temps est {{ weather_today }} avec une température de {{ temp_today_temp }} degrés et demain le temps sera {{ weather_tomorrow }} avec une température de {{ temp_tomorrow_temp }} degrés"
+    signals:
+      - order: "quel temps fait-il "
+
   - name: "say hello"
     neurons:
       - say:
@@ -37,10 +50,11 @@
   - name: "Say local date"
     neurons:
       - systemdate:
+          tts: "voxygen"
           say_template:
             - "il est {{ hours }} heure et {{ minutes }} minute"
     signals:
-      - order: "what time is it"
+      - order: "quelle heure est-il"
 
   - name: "Say local date from template"
     neurons:

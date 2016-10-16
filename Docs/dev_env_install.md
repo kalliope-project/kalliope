@@ -29,6 +29,7 @@ pip install python-crontab
 pip install cffi
 pip install pygmail
 pip install pushetta
+pip install pyowm
 ```
 
 ### Test your env
