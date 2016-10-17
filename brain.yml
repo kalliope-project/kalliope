@@ -1,17 +1,13 @@
 ---
-  - name: "say hello"
-    neurons:
-      - say:
-          message:
-            - "Bonjour monsieur"
-    signals:
-      - order: "bonjour"
 
   - !include brains/ansible_playbook.yml
   - !include brains/gmail_checker.yml
   - !include brains/kill_switch.yml
   - !include brains/openweathermap.yml
   - !include brains/push_message.yml
+  - !include brains/say.yml
   - !include brains/script.yml
   - !include brains/shell.yml
   - !include brains/systemdate.yml
+  - !include brains/tasker_autoremote.yml
+  - !include brains/wake_on_lan.yml

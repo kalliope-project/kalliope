@@ -12,7 +12,7 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 logger.setLevel(logging.DEBUG)
 
-order = "est-ce que j'ai des emails"
+order = "bonjour"
 oa = OrderAnalyser(order=order)
 oa.start()
 
