@@ -93,3 +93,4 @@ You also can define the "location" args directly in neuron argument list.
 
 ## Notes
 
+> **Note:** You need to create a free account on [openweathermap.org](http://openweathermap.org/) to get your API key.

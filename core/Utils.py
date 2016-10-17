@@ -73,3 +73,13 @@ class Utils(object):
             else:
                 return klass(parameters)
         return None
+
+    @classmethod
+    def print_yaml_nicely(cls, to_print):
+        """
+        Used for debug
+        :param to_print: Dict to print nicely
+        :return:
+        """
+        import json
+        print json.dumps(to_print, indent=2)

@@ -3,14 +3,10 @@ import logging
 
 from gmail import Gmail
 from email.header import decode_header
-from core.NeuronModule import NeuronModule
+from core.NeuronModule import NeuronModule, MissingParameterException
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
-
-
-class MissingParameterException(Exception):
-    pass
 
 
 class Gmail_checker(NeuronModule):

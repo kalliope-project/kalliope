@@ -1,0 +1,9 @@
+---
+  - name: "Send push message"
+    neurons:
+      - push_message:
+           message: "Message to send"
+           api_key: "my_token_key"
+           channel_name: "my_chanel_name"
+    signals:
+      - order: "push message"
