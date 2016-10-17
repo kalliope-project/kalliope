@@ -13,7 +13,7 @@ logger.setLevel(logging.DEBUG)
 
 
 
-order = "test heure"
+order = "réveil mon PC"
 oa = OrderAnalyser(order)
 oa.start()
 

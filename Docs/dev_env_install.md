@@ -29,6 +29,8 @@ pip install python-crontab
 pip install cffi
 pip install pygmail
 pip install pushetta
+pip install wakeonlan
+pip install ipaddress
 pip install pyowm
 ```
 

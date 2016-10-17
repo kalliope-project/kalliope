@@ -162,3 +162,10 @@
           message: "lost"
     signals:
       - order: "où est mon téléphone"
+
+  - name: "wake my PC"
+    neurons:
+      - wake_on_lan:
+          mac_address: "00-00-00-00-00-00"
+    signals:
+      - order: "réveil mon PC"
