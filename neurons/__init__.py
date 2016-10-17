@@ -9,3 +9,4 @@ from gmail_checker import Gmail_checker
 from push_message import Push_message
 from openweathermap import Openweathermap
 from tasker_autoremote import Tasker_autoremote
+from wake_on_lan import Wake_on_lan
