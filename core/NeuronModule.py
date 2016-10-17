@@ -93,7 +93,7 @@ class NeuronModule(object):
             logger.debug("message is dict")
             tts_message = self._get_message_from_dict(message)
 
-        if message is not None:
+        if tts_message is not None:
             # get an instance of the target TTS
             tts_instance = self._get_tts_instance(self.tts)
             tts_args = None
@@ -148,8 +148,9 @@ class NeuronModule(object):
                                                         % real_file_template_path)
             return returned_message
 
-        else:
-            raise NoTemplateException("You must specify a say_template or a file_template")
+        # we don't force the usage of a template. The user can choose to do nothing with returned value
+        # else:
+        #     raise NoTemplateException("You must specify a say_template or a file_template")
 
     @staticmethod
     def _get_content_of_file(real_file_template_path):
