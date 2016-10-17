@@ -40,7 +40,7 @@ class YAMLLoader:
         logger.debug("File path to load: %s " % file_path_to_load)
         if os.path.isfile(yaml_file):
             data = IncludeLoader(open(file_path_to_load, 'r')).get_data()
-            print Utils.print_yaml_nicely(data)
+            # print Utils.print_yaml_nicely(data)
             return data
         else:
             raise YAMLFileNotFound("File %s not found" % file_path_to_load)
@@ -62,7 +62,6 @@ class IncludeLoader(yaml.Loader):
         oldRoot = self.root
         filename = os.path.join(self.root, loader.construct_scalar(node))
         self.root = os.path.dirname(filename)
-        print self.root
         data = yaml.load(open(filename, 'r'))
         self.root = oldRoot
         return data
