@@ -1,0 +1,9 @@
+---
+  - name: "Run a simple script"
+    neurons:
+      - script:
+          path: "/home/nico/test.sh"
+      - say:
+          message: "Script lancé, monsieur"
+    signals:
+      - order: "lance le script"

@@ -41,7 +41,10 @@ class BrainLoader(object):
         # create list of Synapse
         synapses = list()
         for synapses_dict in dict_brain:
-            # print synapses_dict
+            print synapses_dict
+            # if the synapse is a list, it come from an include
+            if isinstance(synapses_dict, list):
+                synapses_dict = synapses_dict[0]
             if ConfigurationChecker().check_synape_dict(synapses_dict):
                 # print "synapses_dict ok"
                 name = synapses_dict["name"]

@@ -7,9 +7,9 @@ from ansible.executor.playbook_executor import PlaybookExecutor
 from core.NeuronModule import NeuronModule
 
 
-class Ansible_tasks(NeuronModule):
+class Ansible_playbook(NeuronModule):
     def __init__(self, task_file, **kwargs):
-        super(Ansible_tasks, self).__init__(**kwargs)
+        super(Ansible_playbook, self).__init__(**kwargs)
         Options = namedtuple('Options',
                              ['connection', 'forks', 'become', 'become_method', 'become_user', 'check', 'listhosts',
                               'listtasks', 'listtags', 'syntax', 'module_path'])
