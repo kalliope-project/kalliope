@@ -1,6 +1,7 @@
 from YAMLLoader import YAMLLoader
 import logging
 
+from core.Models.RestAPI import RestAPI
 from core.Models.Settings import Settings
 from core.Models.Stt import Stt
 from core.Models.Trigger import Trigger
@@ -46,6 +47,7 @@ class SettingLoader(object):
         triggers = cls._get_triggers(settings)
         random_wake_up_answers = cls._get_random_wake_up_answers(settings)
         random_wake_up_sounds = cls._get_random_wake_up_sounds(settings)
+        rest_api = cls._get_rest_api(settings)
 
         # create a setting object
         setting_object = Settings(default_stt_name=default_stt_name,
@@ -55,7 +57,8 @@ class SettingLoader(object):
                                   ttss=ttss,
                                   triggers=triggers,
                                   random_wake_up_answers=random_wake_up_answers,
-                                  random_wake_up_sounds=random_wake_up_sounds)
+                                  random_wake_up_sounds=random_wake_up_sounds,
+                                  rest_api=rest_api)
         return setting_object
 
     @staticmethod
@@ -210,3 +213,18 @@ class SettingLoader(object):
             raise NullSettingException("random_wake_up_sounds settings is empty")
 
         return random_wake_up_sounds_list
+
+    @classmethod
+    def _get_rest_api(cls, settings):
+        try:
+            rest_api = settings["rest_api"]
+        except KeyError:
+            return None
+
+        if rest_api is not None:
+            password_protected = rest_api["password_protected"]
+            login = rest_api["login"]
+            password = rest_api["password"]
+            rest_api_obj = RestAPI(password_protected=password_protected, login=login, password=password)
+
+            return rest_api_obj

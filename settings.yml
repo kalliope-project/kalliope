@@ -95,3 +95,12 @@ random_wake_up_sounds:
   - "ding.wav"
   - "dong.wav"
   # - "/my/personal/full/path/my_file.mp3"
+
+
+# ---------------------------
+# Rest API
+# ---------------------------
+rest_api:
+  password_protected: True
+  login: admin
+  password: secret
