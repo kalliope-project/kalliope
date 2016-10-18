@@ -12,7 +12,7 @@ class Openweathermap(NeuronModule):
         location = kwargs.get('location', None)
         lang = kwargs.get('lang', 'en')
         temp_unit = kwargs.get('temp_unit', 'celsius')
-        country = kwargs.get('country', 'US')
+        country = kwargs.get('country', None)
 
         if api_key is None:
             raise NotImplementedError("OpenWeatherMap neuron needs an api_key")
