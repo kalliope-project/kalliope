@@ -2,7 +2,7 @@
   - name: "get the weather"
     neurons:
       - openweathermap:
-          api_key: "fdfba4097c318aed7836b2a85a6a05ef"
+          api_key: "your-api"
           lang: "fr"
           temp_unit: "celsius"
           location : "grenoble"
