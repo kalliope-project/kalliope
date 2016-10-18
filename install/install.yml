@@ -3,7 +3,7 @@
   gather_facts: no
   connection: local
   vars:
-    - git_url: "git@gitlab.pwit.fr:millionsfortomorrow/kalliope.git"
+    - git_url: "git@github.com:kalliope-project/kalliope.git"
     - temp_local_repo: "/tmp/kalliope_repo"
 
   tasks:
@@ -19,7 +19,7 @@
   connection: local
   become: True
   vars:
-    - git_url: "git@gitlab.pwit.fr:millionsfortomorrow/kalliope.git"
+    - git_url: "git@github.com:kalliope-project/kalliope.git"
     - temp_local_repo: "/tmp/kalliope_repo"
     - install_path: "/usr/lib/kalliope"
   tasks:
@@ -39,6 +39,7 @@
         - libssl-dev
         - libffi-dev
         - sox
+        - libatlas3-base
 
     - name: Copy requirement
       copy:

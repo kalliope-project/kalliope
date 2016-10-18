@@ -28,7 +28,7 @@ class SettingLoader(object):
     @classmethod
     def get_yaml_config(cls, file_path=None):
         if file_path is None:
-            file_path = "../../" + FILE_NAME
+            file_path = FILE_NAME
         return YAMLLoader.get_config(file_path)
 
     @classmethod

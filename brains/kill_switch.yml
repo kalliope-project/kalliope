@@ -1,0 +1,9 @@
+---
+
+  - name: "Stop kalliope"
+    neurons:
+      - say:
+          message: "Aurevoir"
+      - kill_switch
+    signals:
+      - order: "ferme-toi"

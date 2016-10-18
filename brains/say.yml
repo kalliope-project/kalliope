@@ -1,0 +1,8 @@
+---
+  - name: "say hello"
+    neurons:
+      - say:
+          message:
+            - "Bonjour monsieur"
+    signals:
+      - order: "bonjour"

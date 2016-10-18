@@ -1,0 +1,63 @@
+---
+
+  - name: "Close rolling shutter"
+    neurons:
+      - shell:
+          cmd: "curl http://192.168.0.22:5000/fermeture -d \"password=monpass\" -X POST"
+      - say:
+          message: "Fermeture en cours, monsieur"
+    signals:
+      - order: "ferme les volets"
+
+  - name: "Open rolling shutter"
+    neurons:
+      - shell:
+          cmd: "curl http://192.168.0.22:5000/ouverture -d \"password=monpass\" -X POST"
+      - say:
+          message: "Ouverture en cours, monsieur"
+    signals:
+      - order: "ouvre les volets"
+
+
+  - name: "Start steam"
+    neurons:
+      - shell:
+          cmd: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"kodi\",\"state\":\"stop\"}' http://192.168.0.17:8000/app"
+      - shell:
+          cmd: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"steam\",\"state\":\"start\"}' http://192.168.0.17:8000/app"
+      - say:
+          message: "Lancement en cours, monsieur"
+    signals:
+      - order: "lance Steam"
+
+  - name: "Start Kodi"
+    neurons:
+      - shell:
+          cmd: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"steam\",\"state\":\"stop\"}' http://192.168.0.17:8000/app"
+      - shell:
+          cmd: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"kodi\",\"state\":\"start\"}' http://192.168.0.17:8000/app"
+      - say:
+          message: "Lancement en cours, monsieur"
+    signals:
+      - order: "lance Cody"
+
+  - name: "Start music"
+    neurons:
+      - shell:
+          cmd: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"start\"}' http://192.168.0.17:8000/app"
+      - say:
+          message: "Musique lance, monsieur"
+    signals:
+      - order: "mais nous de la musique"
+      - order: "musique rock"
+
+  - name: "Stop music"
+    neurons:
+      - shell:
+          cmd: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"stop\"}' http://192.168.0.17:8000/app"
+      - say:
+          message: "musique stoppé, monsieur"
+    signals:
+      - order: "arrête la musique"
+      - order: "stop la musique"
+      - order: "éteins la musique"

@@ -13,6 +13,10 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
+class InvalidParameterException(Exception):
+    pass
+
+
 class MissingParameterException(Exception):
     pass
 

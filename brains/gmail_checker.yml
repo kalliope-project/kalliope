@@ -1,0 +1,10 @@
+---
+
+  - name: "check email"
+    neurons:
+      - gmail_checker:
+          username: "me@gmail.com"
+          password: "my_password"
+          file_template: fr_gmail.j2
+    signals:
+      - order: "est-ce que j'ai des emails"

@@ -12,7 +12,7 @@ Tested env
 ### Packages installation
 On Ubuntu distribution:
 ```
-sudo apt-get install python-pip python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev portaudio19-dev build-essential libssl-dev libffi-dev sox
+sudo apt-get install python-pip python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base
 ```
 
 ### Python lib
@@ -29,6 +29,8 @@ pip install python-crontab
 pip install cffi
 pip install pygmail
 pip install pushetta
+pip install wakeonlan
+pip install ipaddress
 pip install pyowm
 ```
 
