@@ -9,10 +9,7 @@ def check_auth(username, password):
     password combination is valid.
     """
     settings = SettingLoader.get_settings()
-    # we only check the password if the user select password protected
-    if settings.rest_api.password_protected:
-        return username == settings.rest_api.login and password == settings.rest_api.password
-    return True
+    return username == settings.rest_api.login and password == settings.rest_api.password
 
 
 def authenticate():
@@ -26,8 +23,10 @@ def authenticate():
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password):
-            return authenticate()
+        settings = SettingLoader.get_settings()
+        if settings.rest_api.password_protected:
+            auth = request.authorization
+            if not auth or not check_auth(auth.username, auth.password):
+                return authenticate()
         return f(*args, **kwargs)
     return decorated
