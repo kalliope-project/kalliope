@@ -33,6 +33,7 @@ pip install wakeonlan
 pip install ipaddress
 pip install pyowm
 pip install flask
+pip install python-twitter==3.1
 ```
 
 ### Test your env
