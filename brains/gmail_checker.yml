@@ -1,6 +1,6 @@
 ---
 
-  - name: "check email"
+  - name: "check-email"
     neurons:
       - gmail_checker:
           username: "me@gmail.com"

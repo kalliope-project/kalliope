@@ -1,6 +1,6 @@
 ---
 
-  - name: "Close rolling shutter"
+  - name: "close-rolling-shutter"
     neurons:
       - shell:
           cmd: "curl http://192.168.0.22:5000/fermeture -d \"password=monpass\" -X POST"
@@ -9,7 +9,7 @@
     signals:
       - order: "ferme les volets"
 
-  - name: "Open rolling shutter"
+  - name: "open-rolling-shutter"
     neurons:
       - shell:
           cmd: "curl http://192.168.0.22:5000/ouverture -d \"password=monpass\" -X POST"
@@ -19,7 +19,7 @@
       - order: "ouvre les volets"
 
 
-  - name: "Start steam"
+  - name: "start-steam"
     neurons:
       - shell:
           cmd: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"kodi\",\"state\":\"stop\"}' http://192.168.0.17:8000/app"
@@ -30,7 +30,7 @@
     signals:
       - order: "lance Steam"
 
-  - name: "Start Kodi"
+  - name: "start-Kodi"
     neurons:
       - shell:
           cmd: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"steam\",\"state\":\"stop\"}' http://192.168.0.17:8000/app"
@@ -41,7 +41,7 @@
     signals:
       - order: "lance Cody"
 
-  - name: "Start music"
+  - name: "start-music"
     neurons:
       - shell:
           cmd: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"start\"}' http://192.168.0.17:8000/app"
@@ -51,7 +51,7 @@
       - order: "mais nous de la musique"
       - order: "musique rock"
 
-  - name: "Stop music"
+  - name: "stop-music"
     neurons:
       - shell:
           cmd: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"stop\"}' http://192.168.0.17:8000/app"

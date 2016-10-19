@@ -1,6 +1,6 @@
 ---
 
-  - name: "Ansible test"
+  - name: "ansible-test"
     neurons:
       - ansible_playbook: "tasks.yml"
       - say:

@@ -24,9 +24,9 @@ logger.setLevel(logging.DEBUG)
 
 brain = BrainLoader.get_brain()
 
-app = Flask(__name__)
-flask_api = FlaskAPI(app, brain)
-flask_api.start()
+# app = Flask(__name__)
+# flask_api = FlaskAPI(app, brain)
+# flask_api.start()
 
 
 
