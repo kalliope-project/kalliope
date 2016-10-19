@@ -11,3 +11,4 @@
   - !include brains/systemdate.yml
   - !include brains/tasker_autoremote.yml
   - !include brains/wake_on_lan.yml
+  - !include brains/twitter.yml

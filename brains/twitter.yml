@@ -1,0 +1,15 @@
+---
+
+  - name: "post-tweet"
+    neurons:
+      - twitter:
+          consumer_key: ""
+          consumer_secret: ""
+          access_token_key: ""
+          access_token_secret: ""
+          say_template:
+          - "voici le tweet {{ tweet }}"
+          args:
+            - tweet
+    signals:
+      - order: "envoie sur Twitter {{ tweet }}"
