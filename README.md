@@ -35,7 +35,7 @@ Kalliope is easy-peasy to use, see the hello world
 | Link                               | Detail                                                                                      |
 |------------------------------------|---------------------------------------------------------------------------------------------|
 | [Settings](Docs/settings.md)       | The main Kalliope configuration                                                             |
-| [Brain](Docs/brain.md)             | What is the brain and how o create your own bot                                             |
+| [Brain](Docs/brain.md)             | What is the brain and how to create your own bot                                            |
 | [neuron](Docs/neurons.md)          | What is a neuron and how to use it                                                          |
 | [neuron list](Docs/neuron_list.md) | List of availlable neurons                                                                  |
 | [CLI](Docs/kalliope_cli.md)        | How to use Kalliope from the command line interface                                         |
