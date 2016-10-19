@@ -6,6 +6,8 @@ from core.NeuronModule import NeuronModule
 class Twitter(NeuronModule):
     def __init__(self, **kwargs):
 
+        super(Twitter, self).__init__(**kwargs)
+
         consumer_key = kwargs.get('consumer_key', None)
         consumer_secret = kwargs.get('consumer_secret', None)
         access_token_key = kwargs.get('access_token_key', None)
@@ -28,10 +30,10 @@ class Twitter(NeuronModule):
                           access_token_key=access_token_key,
                           access_token_secret=access_token_secret)
 
-        status = api.PostUpdate(tweet)
-
+        # status = api.PostUpdate(tweet)
+        status = "test"
         message = {
-            "status" : status
+            "tweet" : status
         }
 
         self.say(message)
