@@ -101,6 +101,7 @@ random_wake_up_sounds:
 # Rest API
 # ---------------------------
 rest_api:
+  active: True
   password_protected: True
   login: admin
   password: secret

@@ -225,6 +225,7 @@ class SettingLoader(object):
             password_protected = rest_api["password_protected"]
             login = rest_api["login"]
             password = rest_api["password"]
-            rest_api_obj = RestAPI(password_protected=password_protected, login=login, password=password)
+            active = rest_api["active"]
+            rest_api_obj = RestAPI(password_protected=password_protected, login=login, password=password, active=active)
 
             return rest_api_obj

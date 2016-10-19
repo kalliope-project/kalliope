@@ -1,11 +1,20 @@
 class RestAPI(object):
-    def __init__(self, password_protected=None, login=None, password=None):
+    def __init__(self, password_protected=None, login=None, password=None, active=None):
+        """
+
+        :param password_protected: If true, the rest api will ask for an authentication
+        :param login: login used if auth is activated
+        :param password: password used if auth is activated
+        :param active: specify if the rest api is loaded on start with Kalliope
+        """
         self.password_protected = password_protected
         self.login = login
         self.password = password
+        self.active = active
 
     def __str__(self):
-        return "%s: RestAPI: password_protected: %s, login: %s, password: %s" % (self.__class__.__name__,
-                                                                                 self.password_protected,
-                                                                                 self.login,
-                                                                                 self.password)
+        return "%s: RestAPI: password_protected: %s, login: %s, password: %s, active: %s" % (self.__class__.__name__,
+                                                                                             self.password_protected,
+                                                                                             self.login,
+                                                                                             self.password,
+                                                                                             self.active)
