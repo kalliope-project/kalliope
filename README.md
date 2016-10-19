@@ -30,12 +30,19 @@ Kalliope is easy-peasy to use, see the hello world
 - [Create the brain of your Kalliope](Docs/brain.md)
 - [Run Kalliope with CLI](Docs/kalliope_cli.md)
 
-## Neurons
+## Documentation summary
 
-A neuron is a plugin that can be used from your **brain.yml**. 
-
-- See the list of [available neurons](Docs/neuron_list.md).
-- See how to [create your own neuron](Docs/contributing.md).
+| Link                               | Detail                                                                                      |
+|------------------------------------|---------------------------------------------------------------------------------------------|
+| [Settings](Docs/settings.md)       | The main Kalliope configuration                                                             |
+| [Brain](Docs/brain.md)             | What is the brain and how o create your own bot                                             |
+| [neuron](Docs/neurons.md)          | What is a neuron and how to use it                                                          |
+| [neuron list](Docs/neuron_list.md) | List of availlable neurons                                                                  |
+| [CLI](Docs/kalliope_cli.md)        | How to use Kalliope from the command line interface                                         |
+| [Signals](Docs/signals.md)         | Signals are input event that can wake up kalliope (spoken order, scheduled event, REST API) |
+| [STT](Docs/stt.md)                 | Speech to text configuration                                                                |
+| [TTS](Docs/tts.md)                 | Text to speech configuration                                                                |
+| [Triggers](Docs/tts.md)            | Magic hotword engine used to make Kalliope listtening for an order                          |
 
 
 ## Contributing
