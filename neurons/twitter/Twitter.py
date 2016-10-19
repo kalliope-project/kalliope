@@ -6,13 +6,16 @@ from core.NeuronModule import NeuronModule
 class Twitter(NeuronModule):
     def __init__(self, **kwargs):
 
-        consumer_key = ''
-        consumer_secret = ''
-
+        consumer_key = kwargs.get('consumer_key', None)
+        consumer_secret = kwargs.get('consumer_secret', None)
         access_token_key = kwargs.get('access_token_key', None)
         access_token_secret = kwargs.get('access_token_secret', None)
         tweet = kwargs.get('tweet', None)
 
+        if consumer_key is None:
+            raise NotImplementedError("Twitter needs a consumer_key")
+        if consumer_secret is None:
+            raise NotImplementedError("Twitter needs a consumer_secret")
         if access_token_key is None:
             raise NotImplementedError("Twitter needs an access_token_key")
         if access_token_secret is None:
@@ -26,5 +29,13 @@ class Twitter(NeuronModule):
                           access_token_secret=access_token_secret)
 
         status = api.PostUpdate(tweet)
+
+        message = {
+            "status" : status
+        }
+
+        self.say(message)
+
+
 
 
