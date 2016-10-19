@@ -74,7 +74,7 @@ Let make a complete example. We want Kalliope to wake us up each morning of work
 
 The synapse in the brain would be
 ```
-  - name: "wake up"
+  - name: "wake-up"
     neurons:
       - say:
           message:

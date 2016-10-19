@@ -32,6 +32,7 @@ pip install pushetta
 pip install wakeonlan
 pip install ipaddress
 pip install pyowm
+pip install flask
 ```
 
 ### Test your env
