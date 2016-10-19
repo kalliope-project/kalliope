@@ -21,12 +21,12 @@ logger.setLevel(logging.DEBUG)
 # oa = OrderAnalyser(order=order)
 # oa.start()
 
+SettingLoader.get_settings()
 
 
-
-app = Flask(__name__)
-flask_api = FlaskAPI(app)
-flask_api.start()
+# app = Flask(__name__)
+# flask_api = FlaskAPI(app)
+# flask_api.start()
 
 
 
