@@ -8,9 +8,10 @@ from core.SynapseLauncher import SynapseLauncher
 
 
 class FlaskAPI(threading.Thread):
-    def __init__(self, app, brain_file=None):
+    def __init__(self, app, port=5000, brain_file=None):
         super(FlaskAPI, self).__init__()
         self.app = app
+        self.port = port
         self.brain_file = brain_file
         self.brain_yaml = BrainLoader.get_yaml_config(file_path=self.brain_file)
 
@@ -19,7 +20,7 @@ class FlaskAPI(threading.Thread):
         self.app.add_url_rule('/synapses/<synapse_name>', view_func=self.run_synapse, methods=['POST'])
 
     def run(self):
-        self.app.run(host='0.0.0.0', debug=True, threaded=True, use_reloader=False)
+        self.app.run(host='0.0.0.0', port="%s" % int(self.port), debug=True, threaded=True, use_reloader=False)
 
     def _get_synapse_by_name(self, synapse_name):
         """

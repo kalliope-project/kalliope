@@ -102,6 +102,7 @@ random_wake_up_sounds:
 # ---------------------------
 rest_api:
   active: True
+  port: 5000
   password_protected: True
   login: admin
   password: secret

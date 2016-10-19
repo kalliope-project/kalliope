@@ -1,5 +1,5 @@
 class RestAPI(object):
-    def __init__(self, password_protected=None, login=None, password=None, active=None):
+    def __init__(self, password_protected=None, login=None, password=None, active=None, port=None):
         """
 
         :param password_protected: If true, the rest api will ask for an authentication
@@ -11,10 +11,13 @@ class RestAPI(object):
         self.login = login
         self.password = password
         self.active = active
+        self.port = port
 
     def __str__(self):
-        return "%s: RestAPI: password_protected: %s, login: %s, password: %s, active: %s" % (self.__class__.__name__,
-                                                                                             self.password_protected,
-                                                                                             self.login,
-                                                                                             self.password,
-                                                                                             self.active)
+        return "%s: RestAPI: password_protected: %s, login: %s, " \
+               "password: %s, active: %s, port: %s" % (self.__class__.__name__,
+                                                       self.password_protected,
+                                                       self.login,
+                                                       self.password,
+                                                       self.active,
+                                                       self.port)
