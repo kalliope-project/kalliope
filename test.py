@@ -22,10 +22,10 @@ logger.setLevel(logging.DEBUG)
 # oa.start()
 
 
-brain = BrainLoader.get_brain()
+
 
 app = Flask(__name__)
-flask_api = FlaskAPI(app, brain)
+flask_api = FlaskAPI(app)
 flask_api.start()
 
 
