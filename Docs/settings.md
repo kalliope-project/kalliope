@@ -163,3 +163,38 @@ random_wake_up_sounds:
 
 >**Note: ** If you want to use a wake up sound instead of a wake up answer you must comment out the `random_wake_up_answers` section.
 E.g: `# random_wake_up_answers:`
+
+
+## Rest API
+
+A Rest API can be activated in order to:
+- List synapses
+- Get synapse's detail
+- Run a synapse
+
+For the complete API ref see the [signals documentation](signals.md)
+
+Settings examples:
+```
+rest_api:
+  active: True
+  port: 5000
+  password_protected: True
+  login: admin
+  password: secret
+```
+
+#### active
+To enable the rest api server.
+
+#### port
+The listening port of the web server. Must be an integer in range 1024-65535.
+
+#### password_protected
+If `True`, the whole api will be password protected.
+
+#### Login
+Login used by the basic HTTP authentication. Must be provided if `password_protected` is `True`
+
+#### Password
+Password used by the basic HTTP authentication. Must be provided if `password_protected` is `True`
