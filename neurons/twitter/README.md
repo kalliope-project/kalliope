@@ -43,8 +43,8 @@ In order to be able to post on Twitter, you need to grant access of your applica
 
 ### How to create my Twitter app
 
-1. Sign in your [Twitter account](www.twitter.com)
-2. Let's create your app [apps.twitter.com](apps.twitter.com)
+1. Sign in your [Twitter account](https://www.twitter.com)
+2. Let's create your app [apps.twitter.com](https://apps.twitter.com)
 3. click on the button "Create New App"
 4. Fill in your application details
 5. Create your access token (to post a tweet, you need at least "Read and Write" access)
