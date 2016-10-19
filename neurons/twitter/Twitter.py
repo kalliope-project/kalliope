@@ -32,7 +32,7 @@ class Twitter(NeuronModule):
 
         status = api.PostUpdate(tweet)
         message = {
-            "tweet" : status
+            "tweet" : status.text
         }
 
         self.say(message)
