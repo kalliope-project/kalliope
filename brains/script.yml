@@ -1,5 +1,5 @@
 ---
-  - name: "Run a simple script"
+  - name: "run-simple-script"
     neurons:
       - script:
           path: "/home/nico/test.sh"

@@ -1,6 +1,6 @@
 ---
 
-  - name: "wake my PC"
+  - name: "wake-my-PC"
     neurons:
       - wake_on_lan:
           mac_address: "00-00-00-00-00-00"

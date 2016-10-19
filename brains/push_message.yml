@@ -1,5 +1,5 @@
 ---
-  - name: "Send push message"
+  - name: "send-push-message"
     neurons:
       - push_message:
            message: "Message to send"

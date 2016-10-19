@@ -8,7 +8,8 @@ from core.ConfigurationManager import SettingLoader
 from core.OrderAnalyser import OrderAnalyser
 from core.OrderListener import OrderListener
 from core.TriggerLauncher import TriggerLauncher
-
+from flask import Flask
+from core.RestAPI.FlaskAPI import FlaskAPI
 from neurons import Say
 
 logging.basicConfig()
@@ -20,6 +21,13 @@ class MainController:
         self.brain_file = brain_file
         # get global configuration
         self.settings = SettingLoader.get_settings()
+
+        # run the api if the user want it
+        if self.settings.rest_api.active:
+            Utils.print_info("Starting REST API Listening port: %s" % self.settings.rest_api.port)
+            app = Flask(__name__)
+            flask_api = FlaskAPI(app, port=self.settings.rest_api.port, brain_file=brain_file)
+            flask_api.start()
 
         # create an order listener object. This last will the trigger callback before starting
         self.order_listener = OrderListener(self.analyse_order)
