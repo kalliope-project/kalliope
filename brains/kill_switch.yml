@@ -1,6 +1,6 @@
 ---
 
-  - name: "Stop kalliope"
+  - name: "stop-kalliope"
     neurons:
       - say:
           message: "Aurevoir"

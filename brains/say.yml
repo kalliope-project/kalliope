@@ -1,5 +1,5 @@
 ---
-  - name: "say hello"
+  - name: "Say-hello"
     neurons:
       - say:
           message:

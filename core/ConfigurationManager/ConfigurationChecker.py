@@ -1,6 +1,10 @@
 import re
 
 
+class InvalidSynapeName(Exception):
+    pass
+
+
 class NoSynapeName(Exception):
     pass
 
@@ -44,6 +48,15 @@ class ConfigurationChecker:
         if 'name' not in synape_dict:
             raise NoSynapeName("The Synapse does not have a name: %s" % synape_dict)
 
+        # check that the name is conform
+        # Regex for [a - zA - Z0 - 9\-] with dashes allowed in between but not at the start or end
+        pattern = r'(?=[a-zA-Z0-9\-]{4,25}$)^[a-zA-Z0-9]+(\-[a-zA-Z0-9]+)*$'
+        prog = re.compile(pattern)
+        result = prog.match(synape_dict["name"])
+        if result is None:
+            raise InvalidSynapeName("Error with synapse name \"%s\".Valid syntax: [a - zA - Z0 - 9\-] with dashes "
+                                    "allowed in between but not at the start or end" % synape_dict["name"])
+
         if 'neurons' not in synape_dict:
             raise NoSynapeNeurons("The Synapse does not have neurons: %s" % synape_dict)
 
@@ -81,7 +94,6 @@ class ConfigurationChecker:
         """
         Check the synapse list is ok:
          - No double same name
-         - No accent of special character
         :param synapses_list:
         :type synapses_list: list of Synapse
         :return:
@@ -93,7 +105,5 @@ class ConfigurationChecker:
             if synapse_name in seen:
                 raise MultipleSameSynapseName("Multiple synapse found with the same name: %s" % synapse_name)
             seen.add(synapse.name)
-            if not re.match("^[a-zA-Z0-9_\s]*$", synapse.name):
-                raise NotValidSynapseName("Synapse's name %s not valid." % synapse_name)
 
         return True

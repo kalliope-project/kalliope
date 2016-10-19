@@ -1,5 +1,5 @@
 ---
-  - name: "get the weather"
+  - name: "get-the-weather"
     neurons:
       - openweathermap:
           api_key: "your-api"

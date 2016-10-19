@@ -1,6 +1,6 @@
 ---
 
-  - name: "find my phone"
+  - name: "find-my-phone"
     neurons:
       - say:
           message: "Je fais sonner le téléphone, monsieur"
