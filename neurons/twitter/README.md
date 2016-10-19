@@ -46,6 +46,6 @@ In order to be able to post on Twitter, you need to grant access of your applica
 2. Let's create your app [apps.twitter.com](apps.twitter.com)
 3. click on the button "Create New App"
 4. Fill in your application details
-5. Create your acess token (to post a tweet, you need at least "Read and Write" access)
+5. Create your access token (to post a tweet, you need at least "Read and Write" access)
 6. Get your consumer_key, consumer_secret, access_token_key and access_token_secret from the tab "Key and access token" (Keep them secret !)
 7. Post your first message with this neuron !

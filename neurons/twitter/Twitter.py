@@ -30,8 +30,7 @@ class Twitter(NeuronModule):
                           access_token_key=access_token_key,
                           access_token_secret=access_token_secret)
 
-        # status = api.PostUpdate(tweet)
-        status = "test"
+        status = api.PostUpdate(tweet)
         message = {
             "tweet" : status
         }
