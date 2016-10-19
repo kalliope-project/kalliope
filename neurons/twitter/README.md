@@ -3,6 +3,7 @@
 ## Synopsis
 
 Twitter is an online social networking service that enables users to send and read short 140-character messages called "tweets".
+This neuron allows you to send a tweet on your timeline.
 
 ## Options
 
