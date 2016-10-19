@@ -1,6 +1,6 @@
 import twitter
 
-from core.NeuronModule import NeuronModule
+from core.NeuronModule import NeuronModule, InvalidParameterException
 
 
 class Twitter(NeuronModule):
@@ -15,15 +15,15 @@ class Twitter(NeuronModule):
         tweet = kwargs.get('tweet', None)
 
         if consumer_key is None:
-            raise NotImplementedError("Twitter needs a consumer_key")
+            raise InvalidParameterException("Twitter needs a consumer_key")
         if consumer_secret is None:
-            raise NotImplementedError("Twitter needs a consumer_secret")
+            raise InvalidParameterException("Twitter needs a consumer_secret")
         if access_token_key is None:
-            raise NotImplementedError("Twitter needs an access_token_key")
+            raise InvalidParameterException("Twitter needs an access_token_key")
         if access_token_secret is None:
-            raise NotImplementedError("Twitter needs and access_token_secret")
+            raise InvalidParameterException("Twitter needs and access_token_secret")
         if tweet is None:
-            raise NotImplementedError("You need to provide something to tweet !")
+            raise InvalidParameterException("You need to provide something to tweet !")
 
         api = twitter.Api(consumer_key=consumer_key,
                           consumer_secret=consumer_secret,
