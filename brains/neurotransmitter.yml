@@ -1,0 +1,30 @@
+---
+  - name: "synapse1"
+    neurons:
+      - neurotransmitter:
+          question: "do you like fries?"
+          link:
+            - synapse: "synapse2"
+              answers:
+                - "yes"
+                - "maybe"
+            - synapse: "synapse3"
+              answers:
+                - "no"
+    signals:
+      - order: "pose moi une question"
+
+  - name: "synapse2"
+    neurons:
+      - say:
+          message: "You like french fries! Me too!"
+    signals:
+      - order: "synapse2"
+
+
+  - name: "synapse3"
+    neurons:
+      - say:
+          message: "Ok you don't like french  fries"
+    signals:
+      - order: "synapse3"
