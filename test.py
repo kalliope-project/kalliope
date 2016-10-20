@@ -23,11 +23,10 @@ logger.setLevel(logging.DEBUG)
 
 SettingLoader.get_settings()
 
+order = "pose moi une question"
+oa = OrderAnalyser(order=order)
 
-# app = Flask(__name__)
-# flask_api = FlaskAPI(app)
-# flask_api.start()
-
+oa.start()
 
 
 

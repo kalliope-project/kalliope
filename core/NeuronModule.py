@@ -6,6 +6,7 @@ import random
 import sys
 from jinja2 import Template
 
+from core import OrderListener
 from core.Utils import Utils
 from core.ConfigurationManager import SettingLoader
 
@@ -91,7 +92,7 @@ class NeuronModule(object):
 
         if isinstance(message, list):
             logger.debug("message is list")
-            tts_message = self._get_message_from_list(message)
+            tts_message = random.choice(message)
 
         if isinstance(message, dict):
             logger.debug("message is dict")
@@ -99,7 +100,7 @@ class NeuronModule(object):
 
         if tts_message is not None:
             # get an instance of the target TTS
-            tts_instance = self._get_tts_instance(self.tts)
+            tts_instance = Utils.get_dynamic_class_instantiation("tts", self.tts.capitalize())
             tts_args = None
             for tts_object in self.settings.ttss:
                 if tts_object.name == self.tts:
@@ -114,16 +115,12 @@ class NeuronModule(object):
 
             tts_instance.say(words=tts_message, **(tts_args if tts_args is not None else {}))
 
-    @staticmethod
-    def _get_message_from_list(message_list):
+    def _get_message_from_dict(self, message_dict):
         """
-        Return an element from the list randomly
-        :param message_list:
+        Generate a message taht can be played by a TTS engine from a dict of variable and the jinja template
+        :param message_dict:
         :return:
         """
-        return random.choice(message_list)
-
-    def _get_message_from_dict(self, message_dict):
         returned_message = None
 
         if (self.say_template is not None and self.file_template is None) or \
@@ -162,12 +159,19 @@ class NeuronModule(object):
             return content_file.read()
 
     @staticmethod
-    def _get_tts_instance(tts_name):
-        return Utils.get_dynamic_class_instantiation("tts", tts_name.capitalize())
-
-    @staticmethod
     def _update_cache_var(new_override_cache, args_list):
         logger.debug("args for TTS plugin before update: %s" % str(args_list))
         args_list["cache"] = new_override_cache
         logger.debug("args for TTS plugin after update: %s" % str(args_list))
         return args_list
+
+    @staticmethod
+    def get_audio_from_stt(callback):
+        """
+        Call the default STT to get an audio sample and return it into the callback method
+        :param callback:
+        :return:
+        """
+        # call the order listenner
+        oa = OrderListener(callback=callback)
+        oa.start()

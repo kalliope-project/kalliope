@@ -1,9 +1,10 @@
 ---
   - name: "synapse1"
     neurons:
+#      - say:
+#          message: "aimez vous les frites?"
       - neurotransmitter:
-          question: "do you like fries?"
-          link:
+          links:
             - synapse: "synapse2"
               answers:
                 - "yes"
