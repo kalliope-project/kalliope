@@ -23,7 +23,8 @@ logger.setLevel(logging.DEBUG)
 
 SettingLoader.get_settings()
 
-order = "pose moi une question"
+# order = "pose moi une question"
+order = "synapse2"
 oa = OrderAnalyser(order=order)
 
 oa.start()

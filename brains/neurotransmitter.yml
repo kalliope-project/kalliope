@@ -7,25 +7,24 @@
           links:
             - synapse: "synapse2"
               answers:
-                - "yes"
-                - "maybe"
+                - "absolument"
+                - "peut-être"
             - synapse: "synapse3"
               answers:
-                - "no"
+                - "non"
     signals:
       - order: "pose moi une question"
 
   - name: "synapse2"
     neurons:
       - say:
-          message: "You like french fries! Me too!"
+          message: "Vous aimez les frites! Moi aussi!"
     signals:
       - order: "synapse2"
-
 
   - name: "synapse3"
     neurons:
       - say:
-          message: "Ok you don't like french  fries"
+          message: "vous n'aimez pas les frites. c'est pas grave."
     signals:
       - order: "synapse3"

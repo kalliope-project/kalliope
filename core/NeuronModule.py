@@ -7,6 +7,7 @@ import sys
 from jinja2 import Template
 
 from core import OrderListener
+from core.SynapseLauncher import SynapseLauncher
 from core.Utils import Utils
 from core.ConfigurationManager import SettingLoader
 
@@ -172,6 +173,11 @@ class NeuronModule(object):
         :param callback:
         :return:
         """
-        # call the order listenner
+        # call the order listener
         oa = OrderListener(callback=callback)
         oa.start()
+
+    @staticmethod
+    def run_synapse_ny_name(name):
+        # TODO find a way to get the current brain file. NeuronModule doesn't have any ref about it
+        SynapseLauncher.start_synapse(name=name)

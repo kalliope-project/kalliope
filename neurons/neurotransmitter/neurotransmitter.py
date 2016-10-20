@@ -19,7 +19,13 @@ class Neurotransmitter(NeuronModule):
 
     def callback(self, audio):
         logger.debug("Neurotransmitter, receiver audio from STT: %s" % audio)
-        print audio
+        print self.links
+        for el in self.links:
+            if audio in el["answers"]:
+                print "found"
+                self.run_synapse_ny_name(el["synapse"])
+                # we don't need to check to rest of answer
+                break
 
     def _links_content_ok(self):
         """
