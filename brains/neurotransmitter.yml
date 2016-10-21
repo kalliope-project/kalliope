@@ -12,6 +12,7 @@
             - synapse: "synapse3"
               answers:
                 - "non"
+          default: "synapse4"
     signals:
       - order: "pose moi une question"
 
@@ -28,3 +29,12 @@
           message: "vous n'aimez pas les frites. c'est pas grave."
     signals:
       - order: "synapse3"
+
+  - name: "synapse4"
+    neurons:
+      - say:
+          message: "Je n'ai pas compris votre réponse"
+    signals:
+      - order: "synapse4"
+
+
