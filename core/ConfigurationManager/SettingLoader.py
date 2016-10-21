@@ -253,7 +253,7 @@ class SettingLoader(object):
                     raise SettingInvalidException("port must be in range 1024-65535")
 
             except KeyError, e:
-                print e
+                # print e
                 raise SettingNotFound("%s settings not found" % e)
 
             # config ok, we can return the rest api object

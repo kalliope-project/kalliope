@@ -50,7 +50,7 @@ class ConfigurationChecker:
 
         # check that the name is conform
         # Regex for [a - zA - Z0 - 9\-] with dashes allowed in between but not at the start or end
-        pattern = r'(?=[a-zA-Z0-9\-]{4,25}$)^[a-zA-Z0-9]+(\-[a-zA-Z0-9]+)*$'
+        pattern = r'(?=[a-zA-Z0-9\-]{4,100}$)^[a-zA-Z0-9]+(\-[a-zA-Z0-9]+)*$'
         prog = re.compile(pattern)
         result = prog.match(synape_dict["name"])
         if result is None:

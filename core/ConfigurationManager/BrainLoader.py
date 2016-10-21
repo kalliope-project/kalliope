@@ -41,14 +41,14 @@ class BrainLoader(object):
         # create list of Synapse
         synapses = list()
         for synapses_dict in dict_brain:
-            print synapses_dict
-            if ConfigurationChecker().check_synape_dict(synapses_dict):
-                # print "synapses_dict ok"
-                name = synapses_dict["name"]
-                neurons = cls._get_neurons(synapses_dict["neurons"])
-                signals = cls._get_signals(synapses_dict["signals"])
-                new_synapse = Synapse(name=name, neurons=neurons, signals=signals)
-                synapses.append(new_synapse)
+            if "includes" not in synapses_dict: # we don't need to check includes as it's not a synapse
+                if ConfigurationChecker().check_synape_dict(synapses_dict):
+                    # print "synapses_dict ok"
+                    name = synapses_dict["name"]
+                    neurons = cls._get_neurons(synapses_dict["neurons"])
+                    signals = cls._get_signals(synapses_dict["signals"])
+                    new_synapse = Synapse(name=name, neurons=neurons, signals=signals)
+                    synapses.append(new_synapse)
         brain.synapses = synapses
         if file_path is None:
             brain.brain_file = cls._get_root_brain_path()
