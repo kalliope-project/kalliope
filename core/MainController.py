@@ -5,6 +5,7 @@ import random
 from core import AudioPlayer
 from core import Utils
 from core.ConfigurationManager import SettingLoader
+from core.ConfigurationManager.BrainLoader import BrainLoader
 from core.OrderAnalyser import OrderAnalyser
 from core.OrderListener import OrderListener
 from core.TriggerLauncher import TriggerLauncher
@@ -21,6 +22,12 @@ class MainController:
         self.brain_file = brain_file
         # get global configuration
         self.settings = SettingLoader.get_settings()
+
+        # load the brain
+        if brain_file is None:
+            self.brain = BrainLoader.get_brain()
+        else:
+            self.brain = BrainLoader.get_brain(file_path=brain_file)
 
         # run the api if the user want it
         if self.settings.rest_api.active:
@@ -60,7 +67,7 @@ class MainController:
         Receive an order, try to retreive it in the brain.yml to launch to attached plugins
         :return:
         """
-        order_analyser = OrderAnalyser(order, main_controller=self, brain_file=self.brain_file)
+        order_analyser = OrderAnalyser(order, main_controller=self, brain=self.brain)
         order_analyser.start()
         # restart the trigger when the order analyser has finish his job
         Utils.print_info("Waiting for trigger detection")
