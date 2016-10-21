@@ -23,9 +23,11 @@ logger.setLevel(logging.DEBUG)
 
 SettingLoader.get_settings()
 
+brain = BrainLoader.get_brain()
+
 order = "pose moi une question"
 # order = "synapse2"
-oa = OrderAnalyser(order=order)
+oa = OrderAnalyser(order=order, brain=brain)
 
 oa.start()
 

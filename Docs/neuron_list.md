@@ -7,6 +7,7 @@ A neuron is a module you can use in your synapses. See the [complete neuron docu
 | [ansible_task](../neurons/ansible_task/)           | Run an ansible playbook                                                                 | ansible_task      |
 | [gmail_checker](../neurons/gmail_checker/)         | Get the number of unread email and their subjects from a gmail account                  | gmail_checker     |
 | [kill_switch](../neurons/kill_switch/)             | Stop Jarvis process                                                                     | kill_switch       |
+| [neurotransmitter](../neurons/neurotransmitter/)   | Link synapses together                                                                  | neurotransmitter  |
 | [push_message](../neurons/push_message/)           | Send a push message to a remote device like Android/iOS/Windows Phone or Chrome browser | push_message      |
 | [say](../neurons/say/)                             | Make Jarvis talk by using TTS                                                           | say               |
 | [script](../neurons/script/)                       | Run an executable script                                                                | script            |
