@@ -23,14 +23,6 @@ class YAMLLoader:
         Load settings file
         :return: cfg : the configuration file
         """
-        # # Load settings.
-        # __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-        # try:
-        #     with open(os.path.join(__location__, yaml_file)) as ymlfile:
-        #         cfg = yaml.load(ymlfile)
-        #     return cfg
-        # except IOError:
-        #     raise YAMLFileNotFound("The file path %s does not exist" % yaml_file)
         current_dir = os.path.dirname(os.path.abspath(__file__))
         logger.debug("Current dir: %s " % current_dir)
         root_dir = os.path.join(current_dir, "../../")
@@ -71,10 +63,12 @@ class IncludeLoader(yaml.Loader):
 class IncludeImport(object):
 
     def __init__(self, file_path):
-
+        """
+        Load yaml file, with includes statement
+        :param file_path: path to the yaml file to load
+        """
         self.data = yaml.load(open(file_path, 'r'))
-
-        print "content: %s" % self.data
+        # print "content: %s" % self.data
         if isinstance(self.data, list):
             for el in self.data:
                 if "includes" in el:
