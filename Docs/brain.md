@@ -44,8 +44,8 @@ At the top level we have a "name" tag. This is the **unique identifier** of the 
 Then we have the neurons declaration. Neurons are modules that will be executed when the input action is triggered. You can define as many neurons as you want to the same input action (for example: say somethning, then do something etc...). This declaration contains a list (because it starts with a "-") of neurons
 ```
 neurons:
-    - neuron_name
-    - neuron_2
+    - neuron_1_name
+    - neuron_2_name
     - another_neuron
 ```
 
@@ -98,10 +98,14 @@ signals:
 ```
 When you will pronounce "say hello", it will trigger both synapses. 
 
+## Manage synapses
+
+Kalliope provides also a REST API to manage your synapses (get the list, get one, run one), refer to [rest api documentation](rest_api.md) for more details.
+
 
 ## Split the brain
 
-If you want a better visibly, or simply sort your actions with different file, you can split the main brain file into multiple one.
+If you want a better visibly, or simply sort your actions in different files, you can split the main brain file into multiple ones.
 
 To do that, use the import statement in the entry brain.yml file with the following syntax:
 

@@ -1,16 +1,18 @@
 # Dev environment installation
 
-This documentation aims at explaining the step by step manual deployment of Kalliope.
+This documentation aims at explaining step by step manual deployment of Kalliope.
 
 Tested env
 - Ubuntu 16.04
 
 
 
-## Prerequisite
+## Prerequisites
 
 ### Packages installation
-On Ubuntu distribution:
+To make Kalliope work, you will have to install a certain number of libraries
+
+On Ubuntu distribution :
 ```
 sudo apt-get install python-pip python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base
 ```
