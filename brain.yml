@@ -13,3 +13,4 @@
   - brains/wake_on_lan.yml
   - brains/twitter.yml
   - brains/neurotransmitter.yml
+  - brains/wikipedia.yml
