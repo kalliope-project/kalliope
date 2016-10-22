@@ -1,8 +1,4 @@
-from core.NeuronModule import NeuronModule
-
-
-class NoMessageException(Exception):
-    pass
+from core.NeuronModule import NeuronModule, MissingParameterException
 
 
 class Say(NeuronModule):
@@ -12,6 +8,6 @@ class Say(NeuronModule):
         message = kwargs.get('message', None)
         # user must specify a message
         if message is None:
-            raise NoMessageException("You must specify a message string or a list of messages as parameter")
+            raise MissingParameterException("You must specify a message string or a list of messages as parameter")
         else:
             self.say(message)
