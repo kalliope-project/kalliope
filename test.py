@@ -25,7 +25,7 @@ logger.setLevel(logging.DEBUG)
 #
 brain = BrainLoader.get_brain()
 
-order = "cherche sur Wikipédia bot"
+order = "lance le script"
 
 oa = OrderAnalyser(order=order, brain=brain)
 
