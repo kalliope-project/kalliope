@@ -1,14 +1,15 @@
 ---
-
-  - !include brains/ansible_playbook.yml
-  - !include brains/gmail_checker.yml
-  - !include brains/kill_switch.yml
-  - !include brains/openweathermap.yml
-  - !include brains/push_message.yml
-  - !include brains/say.yml
-  - !include brains/script.yml
-  - !include brains/shell.yml
-  - !include brains/systemdate.yml
-  - !include brains/tasker_autoremote.yml
-  - !include brains/wake_on_lan.yml
-  - !include brains/twitter.yml
+- includes:
+  - brains/ansible_playbook.yml
+  - brains/gmail_checker.yml
+  - brains/kill_switch.yml
+  - brains/openweathermap.yml
+  - brains/push_message.yml
+  - brains/say.yml
+  - brains/script.yml
+  - brains/shell.yml
+  - brains/systemdate.yml
+  - brains/tasker_autoremote.yml
+  - brains/wake_on_lan.yml
+  - brains/twitter.yml
+  - brains/neurotransmitter.yml

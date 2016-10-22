@@ -3,7 +3,6 @@ import re
 from collections import Counter
 
 from core.Utils import Utils
-from core.ConfigurationManager.BrainLoader import BrainLoader
 from core.Models import Order
 from core.NeuroneLauncher import NeuroneLauncher
 
@@ -14,21 +13,18 @@ logger = logging.getLogger("kalliope")
 
 
 class OrderAnalyser:
-    def __init__(self, order, main_controller=None, brain_file=None):
+    def __init__(self, order, main_controller=None, brain=None):
         """
         Class used to load brain and run neuron attached to the received order
         :param order: spelt order
         :param main_controller
-        :param brain_file: To override the default brain.yml file
+        :param brain: loaded brain
         """
         self.main_controller = main_controller
         self.order = order
         if isinstance(self.order, str):
             self.order = order.decode('utf-8')
-        if brain_file is None:
-            self.brain = BrainLoader.get_brain()
-        else:
-            self.brain = BrainLoader.get_brain(file_path=brain_file)
+        self.brain = brain
         logger.debug("OrderAnalyser, Received order: %s" % self.order)
 
     def start(self):
@@ -77,7 +73,6 @@ class OrderAnalyser:
                                 NeuroneLauncher.start_neurone(neuron)
                             else:
                                 Utils.print_danger("A problem has been found in the Synapse.")
-
 
         if not synapses_found:
             Utils.print_info("No synapse match the captured order: %s" % self.order)

@@ -104,18 +104,21 @@ When you will pronounce "say hello", it will trigger both synapses.
 If you want a better visibly, or simply sort your actions with different file, you can split the main brain file into multiple one.
 
 To do that, use the import statement in the entry brain.yml file with the following syntax:
-
 ```
 ---
-  - !include path/to/sub_brain.yml
-  - !include path/to/another_sub_brain.yml
+  - includes:
+      - path/to/sub_brain.yml
+      - path/to/another_sub_brain.yml
 ```
 
 E.g:
 ```
 ---
-  - !include brains/rolling_shutter_commands.yml
-  - !include brains/find_my_phone.yml
+  - includes:
+      - brains/rolling_shutter_commands.yml
+      - brains/find_my_phone.yml
 ```
 
->**Note:** You can only use the `!include` statement in the main brain file. 
+>**Note:** You can only use the `include` statement in the main brain file. 
+
+>**Note:** the includes statement must start with a `-`

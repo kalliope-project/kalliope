@@ -1,0 +1,40 @@
+---
+  - name: "synapse1"
+    neurons:
+      - say:
+          message: "aimez vous les frites?"
+      - neurotransmitter:
+          links:
+            - synapse: "synapse2"
+              answers:
+                - "absolument"
+                - "peut-être"
+            - synapse: "synapse3"
+              answers:
+                - "non"
+          default: "synapse4"
+    signals:
+      - order: "pose moi une question"
+
+  - name: "synapse2"
+    neurons:
+      - say:
+          message: "Vous aimez les frites! Moi aussi!"
+    signals:
+      - order: "synapse2"
+
+  - name: "synapse3"
+    neurons:
+      - say:
+          message: "vous n'aimez pas les frites. c'est pas grave."
+    signals:
+      - order: "synapse3"
+
+  - name: "synapse4"
+    neurons:
+      - say:
+          message: "Je n'ai pas compris votre réponse"
+    signals:
+      - order: "synapse4"
+
+

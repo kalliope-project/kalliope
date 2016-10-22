@@ -23,10 +23,14 @@ logger.setLevel(logging.DEBUG)
 
 SettingLoader.get_settings()
 
+brain = BrainLoader.get_brain()
 
-# app = Flask(__name__)
-# flask_api = FlaskAPI(app)
-# flask_api.start()
+order = "pose moi une question"
+# order = "synapse2"
+oa = OrderAnalyser(order=order, brain=brain)
+
+oa.start()
+
 
 
 
