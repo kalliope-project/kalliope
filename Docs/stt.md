@@ -1,11 +1,11 @@
 # Speech To Text (STT)
 
-This chapter describes how STT are working.
+This chapter describes how STT engine works.
 
-The STT are programs or API that converts the voice to text.
-Each of them have a specific configuration and support multiple voice and/or languages.
+The STT is a programs or API that converts the speech into text.
+Each STT has a specific configuration and supports multiple voices and/or languages.
 
-The configuration for each STT must apply in the [settings.yml](settings.md) file.
+The configuration of each STT you use must appear in the [settings.yml](settings.md) file.
 
 The syntax used is YAML.
 
@@ -16,7 +16,7 @@ The setting.yml defines the STT you want to use by default
 default_speech_to_text: "type default STT here"
 ```
 
-Then, still in the settings.yml file, each STT must set up its configuration following 'speech_to_text' tag :
+Then, still in the settings.yml file, each STT must set up its configuration following the 'speech_to_text' tag :
 ```
 speech_to_text:
    - STT1:
