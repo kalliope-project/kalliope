@@ -1,22 +1,19 @@
 import time
 
-from core.NeuronModule import NeuronModule
-
-
-class NoSecondsException(Exception):
-    pass
+from core.NeuronModule import NeuronModule,  MissingParameterException
 
 
 class Sleep(NeuronModule):
-
     def __init__(self, **kwargs):
-        # get message to spell out loud
         super(Sleep, self).__init__(**kwargs)
-        seconds = kwargs.get('seconds', None)
-        # user must specify a message
-        if seconds is None:
-            raise NoSecondsException("You must set a number of seconds as parameter")
-        time.sleep(seconds)
+        self.seconds = kwargs.get('seconds', None)
 
+        # check parameters
+        if self._is_parameters_ok():
+            time.sleep(self.seconds)
+
+        def _is_parameters_ok(self):
+            if self.seconds is None:
+                raise MissingParameterException("You must set a number of seconds as parameter")
 
 

@@ -6,7 +6,6 @@ from core.NeuronModule import NeuronModule, MissingParameterException, InvalidPa
 
 class Script(NeuronModule):
     def __init__(self, **kwargs):
-        # get message to spell out loud
         super(Script, self).__init__(**kwargs)
         self.path = kwargs.get("path", None)
 
