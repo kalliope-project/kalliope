@@ -2,7 +2,7 @@
 
   - name: "check-email"
     neurons:
-      - gmail_checker:
+      - gmail:
           username: "me@gmail.com"
           password: "my_password"
           file_template: fr_gmail.j2

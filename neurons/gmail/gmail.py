@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from gmail import Gmail
+from gmail import Gmail as Gmail_lib
 from email.header import decode_header
 from core.NeuronModule import NeuronModule, MissingParameterException
 
@@ -9,9 +9,9 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class Gmail_checker(NeuronModule):
+class Gmail(NeuronModule):
     def __init__(self, **kwargs):
-        super(Gmail_checker, self).__init__(**kwargs)
+        super(Gmail, self).__init__(**kwargs)
 
         # check if parameters have been provided
         username = kwargs.get('username', None)
@@ -26,7 +26,7 @@ class Gmail_checker(NeuronModule):
         # prepare a returned dict
         returned_dict = dict()
 
-        g = Gmail()
+        g = Gmail_lib()
         g.login(username, password)
 
         # check if login succeed
