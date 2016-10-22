@@ -21,15 +21,26 @@ logger.setLevel(logging.DEBUG)
 # oa = OrderAnalyser(order=order)
 # oa.start()
 
-SettingLoader.get_settings()
-
+# SettingLoader.get_settings()
+#
 brain = BrainLoader.get_brain()
 
-order = "pose moi une question"
-# order = "synapse2"
+order = "cherche sur Wikipédia bot"
+
 oa = OrderAnalyser(order=order, brain=brain)
 
 oa.start()
+
+
+# import wikipedia
+#
+# languages = wikipedia.languages().keys()
+# languages = sorted(languages)
+# for el in languages:
+#     print "- " + el
+
+
+
 
 
 

@@ -42,7 +42,7 @@ Kalliope is easy-peasy to use, see the hello world
 | [Signals](Docs/signals.md)         | Signals are input event that can wake up kalliope (spoken order, scheduled event, REST API) |
 | [STT](Docs/stt.md)                 | Speech to text configuration                                                                |
 | [TTS](Docs/tts.md)                 | Text to speech configuration                                                                |
-| [Triggers](Docs/tts.md)            | Magic hotword engine used to make Kalliope listtening for an order                          |
+| [Triggers](Docs/trigger.md)        | Magic hotword engine used to make Kalliope listtening for an order                          |
 
 
 ## Contributing

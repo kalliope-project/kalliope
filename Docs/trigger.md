@@ -1,6 +1,31 @@
+# Triggers
+
+With Kalliope project, you can set whatever Hotword you want to wake it up. 
 
 
-With Kalliope project, you can set whatever Hotword you want to wake it up. You can create your magic word by connecting to [Snowboy](https://snowboy.kitt.ai/) 
-and then download the trained model file.
+# Snowboy
 
-Once downloaded, place the file in **trigger/snowboy/resources**.
+You can create your magic word by connecting to [Snowboy](https://snowboy.kitt.ai/) and then download the trained model file.
+
+Once downloaded:
+- place the file in **trigger/snowboy/resources**.
+- update the path in [your settings](settings.md).
+
+If you want to keep "Kalliope" as the name of your bot, we recommend you to enhance the existing Snowboy model for your language.
+
+We will update the following list with all Kalliope model created by the community. If the model doesn't exist, please create one with the following syntax:
+```
+kalliope-<language_code>
+```
+
+E.g
+```
+kalliope-en
+```
+Then, open an issue or create a pull request to add the model to the list bellow.
+
+## List of available Snowboy Kalliope model
+
+| Name                                                | language |
+|-----------------------------------------------------|----------|
+| [kalliope-fr](https://snowboy.kitt.ai/hotword/1363) | French   |

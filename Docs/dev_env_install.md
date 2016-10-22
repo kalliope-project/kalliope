@@ -21,21 +21,7 @@ sudo apt-get install python-pip python-dev libsmpeg0 libttspico-utils libsmpeg0 
 
 Install libs
 ```
-pip install SpeechRecognition
-pip install pyaudio
-pip install ansible
-pip install pygame
-pip install python2-pythondialog
-pip install jinja
-pip install python-crontab
-pip install cffi
-pip install pygmail
-pip install pushetta
-pip install wakeonlan
-pip install ipaddress
-pip install pyowm
-pip install flask
-pip install python-twitter==3.1
+sudo pip install -r install/files/python_requirements.txt
 ```
 
 ### Test your env
