@@ -1,4 +1,4 @@
-# gmail
+# gmail_checker
 
 ## Synopsis
 
@@ -25,7 +25,7 @@ Simple example :
 ```
   - name: "check-email"
     neurons:
-      - gmail:
+      - gmail_checker:
           username: "me@gmail.com"
           password: "my_password"
           say_template: 

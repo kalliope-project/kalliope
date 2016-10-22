@@ -25,7 +25,7 @@ logger.setLevel(logging.DEBUG)
 #
 brain = BrainLoader.get_brain()
 
-order = "lance le script"
+order = "est-ce que j'ai des emails"
 
 oa = OrderAnalyser(order=order, brain=brain)
 
