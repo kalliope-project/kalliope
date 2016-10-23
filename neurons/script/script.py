@@ -1,33 +1,29 @@
 import subprocess
 import os
 
-from core.NeuronModule import NeuronModule
-
-
-class ScriptNotFound(Exception):
-    pass
-
-
-class ScriptNotExecutable(Exception):
-    pass
+from core.NeuronModule import NeuronModule, MissingParameterException, InvalidParameterException
 
 
 class Script(NeuronModule):
     def __init__(self, **kwargs):
-        # get message to spell out loud
         super(Script, self).__init__(**kwargs)
-        script_path = kwargs.get('path', "")
+        self.path = kwargs.get("path", None)
 
-        # test that the file exist and is executable
-        if self.is_exe(script_path):
-            p = subprocess.Popen(script_path, stdout=subprocess.PIPE, shell=True)
+        # check parameters
+        if self._is_parameters_ok():
+            p = subprocess.Popen(self.path, stdout=subprocess.PIPE, shell=True)
             (output, err) = p.communicate()
 
-    def is_exe(self, fpath):
-        returned_value = True
-        if not os.path.isfile(fpath):
-            raise ScriptNotFound()
-        if not os.access(fpath, os.X_OK):
-            raise ScriptNotExecutable()
+    def _is_parameters_ok(self):
+        """
+        Check if received parameters are ok to perform operations in the neuron
+        :return: true if parameters are ok, raise an exception otherwise
+        """
+        if self.path is None:
+            raise MissingParameterException("You must provide a script path.")
+        if not os.path.isfile(self.path):
+            raise InvalidParameterException("Script not found or is not a file.")
+        if not os.access(self.path, os.X_OK):
+            raise InvalidParameterException("Script not Executable.")
 
-        return returned_value
+        return True
