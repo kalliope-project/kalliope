@@ -1,6 +1,10 @@
 # coding: utf8
 import logging
 
+from core import OrderAnalyser
+from core import Utils
+from core.ConfigurationManager import SettingLoader
+from core.ConfigurationManager.BrainLoader import BrainLoader
 from core.Players import Mplayer
 
 logging.basicConfig()
@@ -11,26 +15,41 @@ logger.setLevel(logging.DEBUG)
 # oa = OrderAnalyser(order=order)
 # oa.start()
 
-# SettingLoader.get_settings()
+
+
+brain = BrainLoader.get_brain()
+
+order = "bonjour"
+
+oa = OrderAnalyser(order=order, brain=brain)
+
+oa.start()
+
+
+# settings = SettingLoader.get_settings()
 #
-# brain = BrainLoader.get_brain()
+# tts_name_to_use = "pico2wave"
+# sentence_to_say = "bonjour monsieur, je m'appelle Kalliopé"
 #
-# order = "bonjour2"
 #
-# oa = OrderAnalyser(order=order, brain=brain)
+# def _get_tts_object_from_name(tts_name_to_use):
+#     """
+#     Return a Tts object from the nae of the Tss. Get parameters in settings
+#     :param tts_name_to_use:
+#     :return:
+#     """
+#     return next((x for x in settings.ttss if x.name == tts_name_to_use), None)
 #
-# oa.start()
-
-
-file_path = "/tmp/kalliope/tts/Acapela/sonid15/Manon.378f97b9ae266e30898396f4c4f7e159.tts"
-
-
-player = Mplayer()
-player.play(file_path)
-
-
-
-
+#
+# # create a tts object from the tts the user want to user
+# tts_object = _get_tts_object_from_name(tts_name_to_use)
+#
+# if tts_object is None:
+#     print "TTS module name %s not found in settings" % tts_name_to_use
+#
+# else:
+#     tts_module_instance = Utils.get_dynamic_class_instantiation("tts", tts_object.name.capitalize(), tts_object.parameters)
+#     tts_module_instance.say(sentence_to_say)
 
 
 
