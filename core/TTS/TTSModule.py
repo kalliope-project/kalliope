@@ -51,6 +51,12 @@ class TTSModule(object):
         Mplayer.play(self.file_path)
 
     def generate_and_play(self, words, generate_audio_function_from_child=None):
+        """
+        Generate an audio file from <words> if not already in cache and call the Player to play it
+        :param words: Sentence text from which we want to generate an audio file
+        :param generate_audio_function_from_child: The child function to generate a file if necessary
+        :return:
+        """
         if generate_audio_function_from_child is None:
             raise TtsGenerateAudioFunctionNotFound
 
@@ -90,6 +96,11 @@ class TTSModule(object):
 
     @staticmethod
     def generate_md5_from_words(words):
+        """
+        Generate a md5 hash from received text
+        :param words: Text to convert into md5 hash
+        :return: String md5 hash from the received words
+        """
         if isinstance(words, unicode):
             words = words.encode('utf-8')
         return hashlib.md5(words).hexdigest()
