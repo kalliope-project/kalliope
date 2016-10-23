@@ -1,17 +1,7 @@
 # coding: utf8
 import logging
-import re
-from collections import Counter
 
-from flask import Flask
-from core.RestAPI.FlaskAPI import FlaskAPI
-from core import OrderAnalyser
-from core.ConfigurationManager import SettingLoader
-from core.ConfigurationManager import YAMLLoader
-from core.ConfigurationManager.BrainLoader import BrainLoader
-
-from neurons import Systemdate
-from neurons.tasker_autoremote.tasker_autoremote import Tasker_autoremote
+from core.Players import Mplayer
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -23,27 +13,20 @@ logger.setLevel(logging.DEBUG)
 
 # SettingLoader.get_settings()
 #
-brain = BrainLoader.get_brain()
-
-order = "est-ce que j'ai des emails"
-
-oa = OrderAnalyser(order=order, brain=brain)
-
-oa.start()
-
-
-# import wikipedia
+# brain = BrainLoader.get_brain()
 #
-# languages = wikipedia.languages().keys()
-# languages = sorted(languages)
-# for el in languages:
-#     print "- " + el
+# order = "bonjour2"
+#
+# oa = OrderAnalyser(order=order, brain=brain)
+#
+# oa.start()
 
 
+file_path = "/tmp/kalliope/tts/Acapela/sonid15/Manon.378f97b9ae266e30898396f4c4f7e159.tts"
 
 
-
-
+player = Mplayer()
+player.play(file_path)
 
 
 
