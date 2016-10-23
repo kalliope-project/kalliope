@@ -11,6 +11,10 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
+class TtsGenerateAudioFunctionNotFound(Exception):
+    pass
+
+
 class TTSModule(object):
 
     def __init__(self, **kwargs):
@@ -39,22 +43,31 @@ class TTSModule(object):
                                                                                              self.language,
                                                                                              self.voice)
 
-    def set_words(self, words):
-        """
-        Give the sentence to pronounce to the TTS module so it can generate the file path
-        :param words: string that contain words to give the the TTS engine
-        :return:
-        """
-        self.words = words
-        # we can generate the file path from info we have
-        self.file_path = self._get_path_to_store_audio()
-
     def play_audio(self):
         """
         Play the audio file
         :return:
         """
         Mplayer.play(self.file_path)
+
+    def generate_and_play(self, words, generate_audio_function_from_child=None):
+        if generate_audio_function_from_child is None:
+            raise TtsGenerateAudioFunctionNotFound
+
+        self.words = words
+        # we can generate the file path from info we have
+        self.file_path = self._get_path_to_store_audio()
+
+        if not self.cache:
+            # no cache, we need to generate the file
+            generate_audio_function_from_child()
+        else:
+            # we check if the file already exist. If not we generate it with the TTS engine
+            if not self.is_file_already_in_cache():
+                generate_audio_function_from_child()
+
+        # then play the generated audio file
+        self.play_audio()
 
     def _get_path_to_store_audio(self):
         """

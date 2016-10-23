@@ -15,19 +15,8 @@ class Pico2wave(TTSModule):
         super(Pico2wave, self).__init__(**kwargs)
 
     def say(self, words):
-        # the mother class TTSModule needs to know what we will generate to check the cache et generate the file path
-        self.set_words(words)
 
-        if not self.cache:
-            # no cache, we need to generate the file
-            self._generate_audio_file()
-        else:
-            # we check if the file already exist. If not we generate it with the TTS engine
-            if not self.is_file_already_in_cache():
-                self._generate_audio_file()
-
-        # then play the generated audio file
-        self.play_audio()
+        self.generate_and_play(words, self._generate_audio_file)
 
     def _generate_audio_file(self):
         pico2wave_exec_path = ["/usr/bin/pico2wave"]
