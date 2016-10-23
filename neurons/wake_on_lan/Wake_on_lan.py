@@ -27,7 +27,7 @@ class Wake_on_lan(NeuronModule):
                          % (self.mac_address, self.broadcast_address, self.port))
 
             # send the magic packet, the mac address format will be check by the lib
-            # wol.send_magic_packet(mac_address, ip_address=broadcast_address, port=port)
+            wol.send_magic_packet(self.mac_address, ip_address=self.broadcast_address, port=self.port)
 
     def _is_parameters_ok(self):
         """
