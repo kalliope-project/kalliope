@@ -1,7 +1,7 @@
+import os
 import subprocess
 
-from core import AudioPlayer
-from tts import TTS
+from core.TTS.TTSModule import TTSModule
 import logging
 import sys
 
@@ -9,20 +9,44 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class Pico2wave(TTS):
-    TTS_LANGUAGES_DEFAULT = 'fr-FR'
+class Pico2wave(TTSModule):
 
-    def __init__(self):
-        TTS.__init__(self, AudioPlayer.PLAYER_WAV)
+    def __init__(self, **kwargs):
+        super(Pico2wave, self).__init__(**kwargs)
 
-    def say(self, words=None, language=TTS_LANGUAGES_DEFAULT, cache=False):
-        self.say_generic(cache, language, words, self.get_audio_pico2wave, AudioPlayer.PLAYER_WAV, AudioPlayer.AUDIO_MP3_FREQUENCY)
+    def say(self, words):
+        # the mother class TTSModule needs to know what we will generate to check the cache et generate the file path
+        self.set_words(words)
 
-    @staticmethod
-    def get_audio_pico2wave(**kwargs):
-        language = kwargs.get('language', None)
-        words = kwargs.get('words', None)
-        file_path = kwargs.get('file_path', None)
+        if not self.cache:
+            # no cache, we need to generate the file
+            self._generate_audio_file()
+        else:
+            # we check if the file already exist. If not we generate it with the TTS engine
+            if not self.is_file_already_in_cache():
+                self._generate_audio_file()
 
-        subprocess.check_output(["/usr/bin/pico2wave", "-l=%s" % language, "-w=%s" % file_path, words], stderr=sys.stderr)
-        return True
+        # then play the generated audio file
+        self.play_audio()
+
+    def _generate_audio_file(self):
+        pico2wave_exec_path = ["/usr/bin/pico2wave"]
+
+        # pico2wave needs that the file path ends with .wav
+        tmp_path = self.file_path+".wav"
+        pico2wave_options = ["-l=%s" % self.language, "-w=%s" % tmp_path]
+
+        final_command = list()
+        final_command.extend(pico2wave_exec_path)
+        final_command.extend(pico2wave_options)
+        final_command.append(self.words)
+
+        logger.debug("Pico2wave command: %s" % final_command)
+
+        # generate the file with pico2wav
+        subprocess.call(final_command, stderr=sys.stderr)
+
+        # remove the extension .wav
+        os.rename(tmp_path, self.file_path)
+
+
