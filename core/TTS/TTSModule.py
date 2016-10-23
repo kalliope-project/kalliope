@@ -14,6 +14,8 @@ logger = logging.getLogger("kalliope")
 class TtsGenerateAudioFunctionNotFound(Exception):
     pass
 
+class FailToLoadSoundFile(Exception):
+    pass
 
 class TTSModule(object):
 

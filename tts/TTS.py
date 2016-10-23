@@ -36,6 +36,8 @@ class TTS:
 
     @staticmethod
     def get_audio(file_path, cache, payload, url, content_type_expected=TTS_CONTENT_TYPE, timeout_expected=TTS_TIMEOUT_SEC):
+
+
         if not cache or not os.path.exists(file_path) or FileManager.file_is_empty(file_path):
 
             r = requests.get(url, params=payload, stream=True, timeout=timeout_expected)
