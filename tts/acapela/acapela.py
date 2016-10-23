@@ -32,13 +32,13 @@ class Acapela(TTSModule):
         r = requests.get(url, params=payload, stream=True, timeout=TTS_TIMEOUT_SEC)
         content_type = r.headers['Content-Type']
 
-        logger.debug("Trying to get url: %s response code: %s and content-type: %s",
+        logger.debug("Acapela : Trying to get url: %s response code: %s and content-type: %s",
                      r.url,
                      r.status_code,
                      content_type)
         # Verify the response status code and the response content type
         if r.status_code != requests.codes.ok or content_type != TTS_CONTENT_TYPE:
-            raise FailToLoadSoundFile("Fail while trying to remotely access the audio file")
+            raise FailToLoadSoundFile("Acapela : Fail while trying to remotely access the audio file")
 
         # OK we get the audio we can write the sound file
         FileManager.write_in_file(self.file_path, r.content)
