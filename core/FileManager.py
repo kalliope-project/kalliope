@@ -30,3 +30,26 @@ class FileManager:
     def remove_file(file_path):
         if os.path.exists(file_path):
             return os.remove(file_path)
+
+
+    @staticmethod
+    def is_path_creatable(pathname):
+        """
+        `True` if the current user has sufficient permissions to create the passed
+        pathname; `False` otherwise.
+        """
+        dirname = os.path.dirname(pathname) or os.getcwd()
+        return os.access(dirname, os.W_OK)
+
+    @staticmethod
+    def is_path_exists_or_creatable(pathname):
+        """
+        `True` if the passed pathname is a valid pathname for the current OS _and_
+        either currently exists or is hypothetically creatable; `False` otherwise.
+
+        This function is guaranteed to _never_ raise exceptions.
+        """
+        try:
+            return os.path.exists(pathname) or FileManager.is_path_creatable(pathname)
+        except OSError:
+            return False
