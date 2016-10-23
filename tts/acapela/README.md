@@ -1,6 +1,6 @@
 ### Acapela
 
-this TTS is based on the [Acapela engine](http://www.acapela-group.com/)
+This TTS is based on the [Acapela engine](http://www.acapela-group.com/)
 
 | Parameters | Required | Default | Choices                                                                            | Comment                                                                     |
 |------------|----------|---------|------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
