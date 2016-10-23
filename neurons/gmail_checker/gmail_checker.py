@@ -13,45 +13,42 @@ class Gmail_checker(NeuronModule):
     def __init__(self, **kwargs):
         super(Gmail_checker, self).__init__(**kwargs)
 
+        self.username = kwargs.get('username', None)
+        self.password = kwargs.get('password', None)
+
         # check if parameters have been provided
-        username = kwargs.get('username', None)
-        password = kwargs.get('password', None)
+        if self._is_parameters_ok():
 
-        if username is None:
-            raise MissingParameterException("Username parameter required")
+            # prepare a returned dict
+            returned_dict = dict()
 
-        if password is None:
-            raise MissingParameterException("Password parameter required")
+            g = Gmail()
+            g.login(self.username, self.password)
 
-        # prepare a returned dict
-        returned_dict = dict()
+            # check if login succeed
+            logging.debug("Gmail loggin ok: %s" % g.logged_in)  # Should be True, AuthenticationError if login fails
 
-        g = Gmail()
-        g.login(username, password)
+            # get unread mail
+            unread = g.inbox().mail(unread=True)
 
-        # check if login succeed
-        logging.debug("Gmail loggin ok: %s" % g.logged_in)  # Should be True, AuthenticationError if login fails
+            returned_dict["unread"] = len(unread)
 
-        # get unread mail
-        unread = g.inbox().mail(unread=True)
+            if len(unread) > 0:
+                # add a list of subject
+                subject_list = list()
+                for email in unread:
+                    email.fetch()
+                    encoded_subject = email.subject
+                    subject = self._parse_subject(encoded_subject)
+                    subject_list.append(subject)
 
-        returned_dict["unread"] = len(unread)
+                returned_dict["subjects"] = subject_list
 
-        if len(unread) > 0:
-            # add a list of subject
-            subject_list = list()
-            for email in unread:
-                email.fetch()
-                encoded_subject = email.subject
-                subject = self._parse_subject(encoded_subject)
-                subject_list.append(subject)
+            logger.debug("gmail neuron returned dict: %s" % str(returned_dict))
 
-            returned_dict["subjects"] = subject_list
-
-        logger.debug("gmail neuron returned dict: %s" % str(returned_dict))
-        # logout of gmail
-        g.logout()
-        self.say(returned_dict)
+            # logout of gmail
+            g.logout()
+            self.say(returned_dict)
 
     def _parse_subject(self, encoded_subject):
         dh = decode_header(encoded_subject)
@@ -70,3 +67,16 @@ class Gmail_checker(NeuronModule):
                 return unicode(header, 'ISO-8859-1')
             except UnicodeDecodeError:
                 return unicode(header, 'UTF-8')
+
+    def _is_parameters_ok(self):
+        """
+        Check if received parameters are ok to perform operations in the neuron
+        :return: true if parameters are ok, raise an exception otherwise
+        """
+        if self.username is None:
+            raise MissingParameterException("Username parameter required")
+
+        if self.password is None:
+            raise MissingParameterException("Password parameter required")
+
+        return True

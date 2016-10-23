@@ -28,27 +28,32 @@ class Shell(NeuronModule):
         super(Shell, self).__init__(**kwargs)
 
         # get the command
-        cmd = kwargs.get('cmd', None)
+        self.cmd = kwargs.get('cmd', None)
         # get if the user select a blocking command or not
-        async = kwargs.get('async', False)
+        self.async = kwargs.get('async', False)
 
-        if cmd is None:
+        # check parameters
+        if self._is_parameters_ok():
+            # run the command
+            if not self.async:
+                p = subprocess.Popen(self.cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+                (output, err) = p.communicate()
+                message = {
+                    "output": output,
+                    "returncode": p.returncode
+                }
+                self.say(message)
+
+            else:
+                async_shell = AsyncShell(cmd=self.cmd)
+                async_shell.start()
+
+    def _is_parameters_ok(self):
+        """
+        Check if received parameters are ok to perform operations in the neuron
+        :return: true if parameters are ok, raise an exception otherwise
+        """
+        if self.cmd is None:
             raise MissingParameterException("cmd parameter required")
 
-        # run the command
-        if not async:
-            p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-            (output, err) = p.communicate()
-            message = {
-                "output": output,
-                "returncode": p.returncode
-            }
-            self.say(message)
-
-        else:
-            async_shell = AsyncShell(cmd=cmd)
-            async_shell.start()
-
-
-
-
+        return True

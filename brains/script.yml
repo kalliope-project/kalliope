@@ -2,7 +2,7 @@
   - name: "run-simple-script"
     neurons:
       - script:
-          path: "/home/nico/test.sh"
+          path: "/var/tmp/coucou.sh"
       - say:
           message: "Script lancé, monsieur"
     signals:
