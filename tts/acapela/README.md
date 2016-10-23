@@ -2,11 +2,12 @@
 
 this TTS is based on the [Acapela engine](http://www.acapela-group.com/)
 
-| Parameters | Required | Default | Choices                                                        | Comment                                                                     |
-|------------|----------|---------|----------------------------------------------------------------|-----------------------------------------------------------------------------|
-| language   | YES      |         | 34 languages (http://www.acapela-group.com/voices/repertoire/) | Language are corresponding to an id plz check the note beside to find yours |
-| voice      | YES      |         | multiple and depending of the language                         | Check available names on the web site                                       |
-| cache      | No       | TRUE    | True / False                                                   | True if you want to use the cache with this TTS                             |
+| Parameters | Required | Default | Choices                                                                            | Comment                                                                     |
+|------------|----------|---------|------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| language   | YES      |         | 34 languages (http://www.acapela-group.com/voices/repertoire/), example: "sonid15" | Language are corresponding to an id plz check the note beside to find yours |
+| voice      | YES      |         | multiple and depending of the language                                             | Check available names on the web site                                       |
+| cache      | No       | TRUE    | True / False                                                                       | True if you want to use the cache with this TTS                             |
+
 
 #### Notes
 
