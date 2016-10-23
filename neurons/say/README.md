@@ -1,4 +1,4 @@
-# shell
+# say
 
 ## Synopsis
 
