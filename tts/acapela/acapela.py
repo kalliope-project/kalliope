@@ -20,14 +20,13 @@ class Acapela(TTSModule):
 
         self.generate_and_play(words, self._generate_audio_file)
 
-    @classmethod
-    def _generate_audio_file(cls):
+    def _generate_audio_file(self):
 
         # Prepare payload
-        payload = cls.get_payload()
+        payload = self.get_payload()
 
         # Get the mp3 URL from the page
-        url = Acapela.get_audio_link(cls.TTS_URL, payload)
+        url = Acapela.get_audio_link(TTS_URL, payload)
 
         # getting the mp3
         r = requests.get(url, params=payload, stream=True, timeout=TTS_TIMEOUT_SEC)
@@ -42,14 +41,13 @@ class Acapela(TTSModule):
             raise FailToLoadSoundFile("Fail while trying to remotely access the audio file")
 
         # OK we get the audio we can write the sound file
-        FileManager.write_in_file(cls.file_path, r.content)
+        FileManager.write_in_file(self.file_path, r.content)
 
-    @classmethod
-    def get_payload(cls):
+    def get_payload(self):
         return {
-            "MyLanguages": cls.language,
-            "MySelectedVoice": cls.voice,
-            "MyTextForTTS": cls.words,
+            "MyLanguages": self.language,
+            "MySelectedVoice": self.voice,
+            "MyTextForTTS": self.words,
             "t": "1",
             "SendToVaaS": ""
         }
