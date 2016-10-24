@@ -61,8 +61,7 @@ text_to_speech:
       language: "fr-FR"
       cache: True
   - voxygen:
-      language: "fr"
-      voice: "Fabienne"
+      voice: "Agnes"
       cache: True
   - acapela:
       language: "sonid15"
