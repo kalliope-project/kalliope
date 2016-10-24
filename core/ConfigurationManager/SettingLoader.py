@@ -1,6 +1,7 @@
 from YAMLLoader import YAMLLoader
 import logging
 
+from core.FileManager import FileManager
 from core.Models.RestAPI import RestAPI
 from core.Models.Settings import Settings
 from core.Models.Stt import Stt
@@ -52,6 +53,7 @@ class SettingLoader(object):
         random_wake_up_answers = cls._get_random_wake_up_answers(settings)
         random_wake_up_sounds = cls._get_random_wake_up_sounds(settings)
         rest_api = cls._get_rest_api(settings)
+        cache_path = cls._get_cache_path(settings)
 
         # create a setting object
         setting_object = Settings(default_stt_name=default_stt_name,
@@ -62,7 +64,8 @@ class SettingLoader(object):
                                   triggers=triggers,
                                   random_wake_up_answers=random_wake_up_answers,
                                   random_wake_up_sounds=random_wake_up_sounds,
-                                  rest_api=rest_api)
+                                  rest_api=rest_api,
+                                  cache_path=cache_path)
         return setting_object
 
     @staticmethod
@@ -261,3 +264,19 @@ class SettingLoader(object):
             return rest_api_obj
         else:
             raise NullSettingException("rest_api settings cannot be null")
+
+    @classmethod
+    def _get_cache_path(cls, settings):
+        try:
+            cache_path = settings["cache_path"]
+        except KeyError, e:
+            raise SettingNotFound("%s setting not found" % e)
+
+        if cache_path is None:
+            raise NullSettingException("cache_path setting cannot be null")
+
+        # test if that path is usable
+        if FileManager.is_path_exists_or_creatable(cache_path):
+            return cache_path
+        else:
+            raise SettingInvalidException("The cache_path seems to be invalid: %s" % cache_path)
