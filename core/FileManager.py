@@ -1,5 +1,10 @@
+import logging
 import os
 import shutil
+
+
+logging.basicConfig()
+logger = logging.getLogger("kalliope")
 
 
 class FileManager:
@@ -13,10 +18,13 @@ class FileManager:
 
     @staticmethod
     def write_in_file(file_path, content):
-        with open(file_path, "wb") as file_open:
-            file_open.write(content)
-            file_open.close()
-        return not FileManager.file_is_empty(file_path)
+        try:
+            with open(file_path, "wb") as file_open:
+                file_open.write(content)
+                file_open.close()
+            return not FileManager.file_is_empty(file_path)
+        except IOError as e:
+            logger.error("I/O error(%s): %s", e.errno, e.strerror)
 
     @staticmethod
     def wipe_cache(cache_path):

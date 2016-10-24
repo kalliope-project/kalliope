@@ -37,15 +37,10 @@ class Voxygen(TTSModule):
                      r.status_code,
                      content_type)
 
-        try:
-            if r.status_code == requests.codes.ok and content_type == TTS_CONTENT_TYPE:
-                return FileManager.write_in_file(self.file_path, r.content)
-            else:
-                return False
-        except IOError as e:
-            logger.error("I/O error(%s): %s", e.errno, e.strerror)
-        except ValueError:
-            logger.error("Could not convert data to an integer.")
+        if r.status_code == requests.codes.ok and content_type == TTS_CONTENT_TYPE:
+            FileManager.write_in_file(self.file_path, r.content)
+        else:
+            logger.debug("Unable to get a valid audio file. Returned code: %s" % r.status_code)
 
     @staticmethod
     def get_payload(voice, words):
