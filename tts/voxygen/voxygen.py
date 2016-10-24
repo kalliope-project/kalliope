@@ -2,10 +2,8 @@ import logging
 
 import requests
 
-from core import AudioPlayer
 from core import FileManager
 from core.TTS.TTSModule import TTSModule, MissingTTSParameter, FailToLoadSoundFile
-from tts import TTS
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

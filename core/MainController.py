@@ -2,12 +2,12 @@ import logging
 import os
 import random
 
-from core import AudioPlayer
 from core import Utils
 from core.ConfigurationManager import SettingLoader
 from core.ConfigurationManager.BrainLoader import BrainLoader
 from core.OrderAnalyser import OrderAnalyser
 from core.OrderListener import OrderListener
+from core.Players import Mplayer
 from core.TriggerLauncher import TriggerLauncher
 from flask import Flask
 from core.RestAPI.FlaskAPI import FlaskAPI
@@ -57,10 +57,8 @@ class MainController:
         if self.settings.random_wake_up_answers is not None:
             Say(message=self.settings.random_wake_up_answers)
         else:
-            ap = AudioPlayer()
-            ap.init_play()
             random_sound_to_play = self._get_random_sound(self.settings.random_wake_up_sounds)
-            ap.play_audio(random_sound_to_play)
+            Mplayer.play(random_sound_to_play)
 
     def analyse_order(self, order):
         """
