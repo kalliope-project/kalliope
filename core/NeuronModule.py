@@ -100,21 +100,23 @@ class NeuronModule(object):
             tts_message = self._get_message_from_dict(message)
 
         if tts_message is not None:
-            # get an instance of the target TTS
-            tts_instance = Utils.get_dynamic_class_instantiation("tts", self.tts.capitalize())
-            tts_args = None
-            for tts_object in self.settings.ttss:
-                if tts_object.name == self.tts:
-                    tts_args = tts_object.parameters
-                    logger.debug("NeuronModule: tts_args: %s" % tts_args)
-
             logger.debug("tts_message to say: %s" % tts_message)
+
+            # create a tts object from the tts the user want to user
+            tts_object = next((x for x in self.settings.ttss if x.name == self.tts), None)
+            if tts_object is None:
+                raise TTSModuleNotFound("The tts module name %s does not exist in settings file" % self.tts)
             # change the cache settings with the one precised for the current neuron
             if self.override_cache is not None:
-                tts_args = self._update_cache_var(self.override_cache, tts_args)
-            logger.debug("NeuroneModule: TTS args: %s" % tts_args)
+                tts_object.parameter = self._update_cache_var(self.override_cache, tts_object.parameter)
 
-            tts_instance.say(words=tts_message, **(tts_args if tts_args is not None else {}))
+            logger.debug("NeuroneModule: TTS args: %s" % tts_object)
+
+            # get the instance of the TTS module
+            tts_module_instance = Utils.get_dynamic_class_instantiation("tts", tts_object.name.capitalize(),
+                                                                        tts_object.parameters)
+            # generate the audio file and play it
+            tts_module_instance.say(tts_message)
 
     def _get_message_from_dict(self, message_dict):
         """

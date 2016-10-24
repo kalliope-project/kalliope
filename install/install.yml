@@ -40,6 +40,7 @@
         - libffi-dev
         - sox
         - libatlas3-base
+        - mplayer
 
     - name: Copy requirement
       copy:

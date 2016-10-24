@@ -1,37 +1,48 @@
+import requests
+from core import FileManager
+from core.TTS.TTSModule import TTSModule, FailToLoadSoundFile
 import logging
-
-from core import AudioPlayer
-from tts import TTS
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
+TTS_URL = "http://www.voicerss.org/controls/speech.ashx"
+TTS_CONTENT_TYPE = "audio/mpeg"
+TTS_TIMEOUT_SEC = 30
 
-class Voicerss(TTS):
-    TTS_LANGUAGES_DEFAULT = 'fr-fr'
-    TTS_URL = "http://www.voicerss.org/controls/speech.ashx"
-    TTS_CONTENT_TYPE = "audio/mpeg"
-    TTS_TIMEOUT_SEC = 30
 
-    def __init__(self):
-        TTS.__init__(self)
+class Voicerss(TTSModule):
+    def __init__(self, **kwargs):
+        super(Voicerss, self).__init__(**kwargs)
 
-    def say(self, words=None, language=TTS_LANGUAGES_DEFAULT, cache=True):
-        self.say_generic(cache, language, words, self.get_audio_voicerss, AudioPlayer.PLAYER_MP3, AudioPlayer.AUDIO_MP3_44100_FREQUENCY)
+    def say(self, words):
 
-    def get_audio_voicerss(self, **kwargs):
-        words = kwargs.get('words', None)
-        cache = kwargs.get('cache', None)
-        file_path = kwargs.get('file_path', None)
-        language = kwargs.get('language', None)
-        payload = Voicerss.get_payload(language, words)
+        self.generate_and_play(words, self._generate_audio_file)
 
-        return TTS.get_audio(file_path, cache, payload, self.TTS_URL)
+    def _generate_audio_file(self):
 
-    @staticmethod
-    def get_payload(language, words):
+        # Prepare payload
+        payload = self.get_payload()
+
+        # getting the audio
+        r = requests.get(TTS_URL, params=payload, stream=True, timeout=TTS_TIMEOUT_SEC)
+        content_type = r.headers['Content-Type']
+
+        logger.debug("Voicerss : Trying to get url: %s response code: %s and content-type: %s",
+                     r.url,
+                     r.status_code,
+                     content_type)
+        # Verify the response status code and the response content type
+        if r.status_code != requests.codes.ok or content_type != TTS_CONTENT_TYPE:
+            raise FailToLoadSoundFile("Voicerss : Fail while trying to remotely access the audio file")
+
+        # OK we get the audio we can write the sound file
+        FileManager.write_in_file(self.file_path, r.content)
+
+    def get_payload(self):
         return {
-            "src": words,
-            "hl": language,
+            "src": self.words,
+            "hl": self.language,
             "c": "mp3"
         }
+
