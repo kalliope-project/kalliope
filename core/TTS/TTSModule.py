@@ -11,11 +11,17 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
+class MissingTTSParameter(Exception):
+    pass
+
+
 class TtsGenerateAudioFunctionNotFound(Exception):
     pass
 
+
 class FailToLoadSoundFile(Exception):
     pass
+
 
 class TTSModule(object):
 

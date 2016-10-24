@@ -62,7 +62,7 @@ text_to_speech:
       cache: True
   - voxygen:
       language: "fr"
-      voice: "Emma"
+      voice: "Fabienne"
       cache: True
   - acapela:
       language: "sonid15"
