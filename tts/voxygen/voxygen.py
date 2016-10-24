@@ -1,31 +1,51 @@
 import logging
 
-from core import AudioPlayer
-from tts import TTS
+import requests
+
+from core import FileManager
+from core.TTS.TTSModule import TTSModule, MissingTTSParameter, FailToLoadSoundFile
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
+TTS_URL = "https://www.voxygen.fr/sites/all/modules/voxygen_voices/assets/proxy/index.php"
+TTS_TIMEOUT_SEC = 30
+TTS_CONTENT_TYPE = "audio/mpeg"
 
-class Voxygen(TTS):
-    TTS_VOICE_DEFAULT = "Michel"
-    TTS_LANGUAGES_DEFAULT = "default"
-    TTS_URL = "https://www.voxygen.fr/sites/all/modules/voxygen_voices/assets/proxy/index.php"
 
-    def __init__(self):
-        TTS.__init__(self)
+class Voxygen(TTSModule):
 
-    def say(self, words=None, voice=TTS_VOICE_DEFAULT, language=TTS_LANGUAGES_DEFAULT, cache=True):
-        self.say_generic(cache, language, words, self.get_audio_voxygen, AudioPlayer.PLAYER_MP3, AudioPlayer.AUDIO_MP3_FREQUENCY, voice)
+    def __init__(self, **kwargs):
+        super(Voxygen, self).__init__(**kwargs)
 
-    def get_audio_voxygen(self, **kwargs):
-        words = kwargs.get('words', None)
-        cache = kwargs.get('cache', None)
-        file_path = kwargs.get('file_path', None)
-        voice = kwargs.get('voice', None)
-        payload = Voxygen.get_payload(voice, words)
+        self.voice = kwargs.get('voice', None)
+        if self.voice is None:
+            raise MissingTTSParameter("voice parameter is required by the Voxygen TTS")
 
-        return TTS.get_audio(file_path, cache, payload, self.TTS_URL)
+    def say(self, words):
+        self.generate_and_play(words, self._generate_audio_file)
+
+    def _generate_audio_file(self):
+        payload = self.get_payload(self.voice, self.words)
+
+        # getting the mp3
+        r = requests.get(TTS_URL, params=payload, stream=True, timeout=TTS_TIMEOUT_SEC)
+        content_type = r.headers['Content-Type']
+
+        logger.debug("Voxygen : Trying to get url: %s response code: %s and content-type: %s",
+                     r.url,
+                     r.status_code,
+                     content_type)
+
+        try:
+            if r.status_code == requests.codes.ok and content_type == TTS_CONTENT_TYPE:
+                return FileManager.write_in_file(self.file_path, r.content)
+            else:
+                return False
+        except IOError as e:
+            logger.error("I/O error(%s): %s", e.errno, e.strerror)
+        except ValueError:
+            logger.error("Could not convert data to an integer.")
 
     @staticmethod
     def get_payload(voice, words):

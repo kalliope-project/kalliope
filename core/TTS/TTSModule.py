@@ -11,7 +11,15 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
+class MissingTTSParameter(Exception):
+    pass
+
+
 class TtsGenerateAudioFunctionNotFound(Exception):
+    pass
+
+
+class FailToLoadSoundFile(Exception):
     pass
 
 
@@ -74,6 +82,10 @@ class TTSModule(object):
 
         # then play the generated audio file
         self.play_audio()
+
+        # if the user don't want to keep the cache we remove the file
+        if not self.cache:
+            FileManager.remove_file(self.file_path)
 
     def _get_path_to_store_audio(self):
         """
