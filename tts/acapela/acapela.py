@@ -1,7 +1,7 @@
 import requests
 import re
 from core import FileManager
-from core.TTS.TTSModule import TTSModule, FailToLoadSoundFile
+from core.TTS.TTSModule import TTSModule, FailToLoadSoundFile, MissingTTSParameter
 import logging
 
 logging.basicConfig()
@@ -15,6 +15,10 @@ TTS_TIMEOUT_SEC = 30
 class Acapela(TTSModule):
     def __init__(self, **kwargs):
         super(Acapela, self).__init__(**kwargs)
+
+        self.voice = kwargs.get('voice', None)
+        if self.voice is None:
+            raise MissingTTSParameter("voice parameter is required by the Acapela TTS")
 
     def say(self, words):
 
