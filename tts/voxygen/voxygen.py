@@ -16,7 +16,8 @@ TTS_CONTENT_TYPE = "audio/mpeg"
 class Voxygen(TTSModule):
 
     def __init__(self, **kwargs):
-        super(Voxygen, self).__init__(**kwargs)
+        # voxygen does'nt need a language. The name of the voice correspond to a lang
+        super(Voxygen, self).__init__(language="any", **kwargs)
 
         self.voice = kwargs.get('voice', None)
         if self.voice is None:
