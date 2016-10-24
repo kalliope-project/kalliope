@@ -77,6 +77,10 @@ class TTSModule(object):
         # then play the generated audio file
         self.play_audio()
 
+        # if the user don't want to keep the cache we remove the file
+        if not self.cache:
+            FileManager.remove_file(self.file_path)
+
     def _get_path_to_store_audio(self):
         """
         Get a sentence (a text) an return the full path of the file
