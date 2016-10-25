@@ -30,10 +30,13 @@ class OrderAnalyser:
     def start(self):
         synapses_found = False
         problem_in_neuron_found = False
+        # create a dict of synapses that have benn launched
+        launched_synapses = list()
         for synapse in self.brain.synapses:
             for signal in synapse.signals:
                 if type(signal) == Order:
                     if self._spelt_order_match_brain_order_via_table(signal.sentence, self.order):
+                        launched_synapses.append(synapse)
                         synapses_found = True
                         logger.debug("Order found! Run neurons: %s" % synapse.neurons)
                         Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
@@ -76,6 +79,9 @@ class OrderAnalyser:
 
         if not synapses_found:
             Utils.print_info("No synapse match the captured order: %s" % self.order)
+
+        # return the list of launched synapse
+        return launched_synapses
 
     def _associate_order_params_to_values(self, order_to_check):
         """

@@ -4,3 +4,8 @@ class Order(object):
 
     def __str__(self):
         return "%s: Sentence: %s" % (self.__class__.__name__, self.sentence)
+
+    def serialize(self):
+        return {
+            'order': self.sentence
+        }

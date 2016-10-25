@@ -33,7 +33,7 @@ class MainController:
         if self.settings.rest_api.active:
             Utils.print_info("Starting REST API Listening port: %s" % self.settings.rest_api.port)
             app = Flask(__name__)
-            flask_api = FlaskAPI(app, port=self.settings.rest_api.port, brain_file=brain_file)
+            flask_api = FlaskAPI(app, port=self.settings.rest_api.port, brain=self.brain)
             flask_api.start()
 
         # create an order listener object. This last will the trigger callback before starting
