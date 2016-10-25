@@ -3,12 +3,13 @@
 This chapter describes how STT engine works.
 
 The STT is a programs or API that converts the speech into text.
-Each STT has a specific configuration and supports multiple languages.
+Each STT has a specific configuration and supports multiple voices and/or languages.
 
 The configuration of each STT you use must appear in the [settings.yml](settings.md) file.
 
+The syntax used is YAML.
 
-## Settings
+## General defaults
 
 The setting.yml defines the STT you want to use by default
 ```
@@ -24,7 +25,6 @@ speech_to_text:
    - STT2:
       STT2parameter1: "value option1"
 ```
-Sometime, an API key will be necessary to use an engine. Click on a TTS engine link in the `Current Available STT` section to know which parameter are required.
 
 ## Current Available STT
 
