@@ -25,7 +25,7 @@ Available triggers for Kalliope are:
 - snowboy
 
 #### triggers
-The hotword (also called a wake word or trigger word) detector is the engine in charging of waking up Kalliope.
+The hotword (also called a wake word or trigger word) detector is the engine in charge of waking up Kalliope.
 
 Each Trigger has it own configuration. This configuration is passed as argument following the syntax bellow
 ```
