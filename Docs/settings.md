@@ -25,7 +25,7 @@ Available triggers for Kalliope are:
 - snowboy
 
 #### triggers
-The default hotword (also called a wake word or trigger word) detector is based on [Snowboy](https://snowboy.kitt.ai/).
+The hotword (also called a wake word or trigger word) detector is the engine in charging of waking up Kalliope.
 
 Each Trigger has it own configuration. This configuration is passed as argument following the syntax bellow
 ```
@@ -40,6 +40,8 @@ triggers:
   - snowboy:
       pmdl_file: "trigger/snowboy/resources/model.pmdl"
 ```
+
+See the complete list of [available triggers here](trigger.md).
 
 ## Speech to text configuration
 
@@ -109,8 +111,7 @@ E.g
 text_to_speech:
   - pico2wave:
       language: "fr-FR"
-  - voxygen:
-      language: "fr"
+  - voxygen:      
       voice: "michel"
 ```
 
