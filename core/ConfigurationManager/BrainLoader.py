@@ -38,6 +38,7 @@ class BrainLoader(object):
         dict_brain = cls.get_yaml_config(file_path)
         # create a new brain
         brain = Brain()
+        brain.brain_yaml = dict_brain
         # create list of Synapse
         synapses = list()
         for synapses_dict in dict_brain:
