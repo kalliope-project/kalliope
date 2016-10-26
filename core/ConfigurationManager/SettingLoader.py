@@ -30,9 +30,7 @@ class SettingNotFound(Exception):
 class SettingLoader(object):
 
     def __init__(self):
-        # Todo check how to provide the file_path
-        self.settings = self._get_settings()
-        self.yaml_config = self._get_yaml_config()
+        pass
 
     @classmethod
     def _get_yaml_config(cls, file_path=None):

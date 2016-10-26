@@ -14,7 +14,7 @@ from core.Models.Synapse import Synapse
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
-
+@Singleton
 class BrainLoader(object):
 
     def __init__(self):
@@ -40,7 +40,8 @@ class BrainLoader(object):
         # create a new brain
         brain = Brain.Instance()
 
-        if not isinstance(brain, Brain):
+        if brain.is_loaded is False:
+
             brain.brain_yaml = dict_brain
             # create list of Synapse
             synapses = list()
@@ -61,6 +62,8 @@ class BrainLoader(object):
             # check that no synapse have the same name than another
             if not ConfigurationChecker().check_synapes(synapses):
                 brain = None
+
+            brain.is_loaded = True
         return brain
 
     @staticmethod
