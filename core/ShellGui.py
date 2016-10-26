@@ -1,18 +1,16 @@
 # coding: utf8
 
+import locale
 import logging
-
+import signal
 import sys
 
-import signal
 from dialog import Dialog
-import locale
 
 from core import OrderListener
-from core.ConfigurationManager.BrainLoader import BrainLoader
+from core.ConfigurationManager import SettingLoader
 from core.SynapseLauncher import SynapseLauncher
 from core.Utils import Utils
-from core.ConfigurationManager import SettingLoader
 from neurons import Say
 
 logging.basicConfig()
@@ -28,9 +26,10 @@ signal.signal(signal.SIGINT, signal_handler)
 
 
 class ShellGui:
-    def __init__(self, brain_file=None):
+    def __init__(self, brain=None):
         # override brain
-        self.brain_file = brain_file
+        self.brain = brain
+
         # get settings
         self.settings = SettingLoader.get_settings()
         locale.setlocale(locale.LC_ALL, '')
@@ -155,13 +154,11 @@ class ShellGui:
         Show a list of available synapse in the brain to run it directly
         :return:
         """
-        # get the list of synapse from the brain
-        brain = BrainLoader.get_brain(file_path=self.brain_file)
 
         # create a tuple for the list menu
         choices = list()
         x = 0
-        for el in brain.synapses:
+        for el in self.brain.synapses:
             tup = (str(el.name), str(x))
             choices.append(tup)
             x += 1
@@ -173,5 +170,5 @@ class ShellGui:
             self.show_main_menu()
         if code == self.d.OK:
             logger.debug("Run synapse from GUI: %s" % tag)
-            SynapseLauncher.start_synapse(tag, brain_file=self.brain_file)
+            SynapseLauncher.start_synapse(tag, brain=self.brain)
             self.show_synapses_test_menu()
