@@ -12,22 +12,19 @@ class SynapseLauncher(object):
         pass
 
     @classmethod
-    def start_synapse(cls, name, brain_file=None):
+    def start_synapse(cls, name, brain=None):
         """
         Start a synapse by it's name
         :param name: Name (Unique ID) of the synapse to launch
-        :param brain_file: Brain file path to load instead of the default one
+        :param brain: Brain instance
         """
         synapse_name_launch = name
         # get the brain
-        if brain_file is None:
-            brain = BrainLoader.get_brain()
-        else:
-            brain = BrainLoader.get_brain(file_path=brain_file)
+        cls.brain = brain
 
         # check if we have found and launched the synapse
         synapse_launched = False
-        for synapse in brain.synapses:
+        for synapse in cls.brain.synapses:
             if synapse.name == synapse_name_launch:
                 cls._run_synapse(synapse)
                 synapse_launched = True

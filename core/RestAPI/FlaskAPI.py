@@ -85,7 +85,7 @@ class FlaskAPI(threading.Thread):
             return jsonify(error=data), 404
 
         # run the synapse
-        SynapseLauncher.start_synapse(synapse_name, brain_file=self.brain.brain_file)
+        SynapseLauncher.start_synapse(synapse_name, brain=self.brain)
         data = jsonify(synapses=synapse_target)
         return data, 201
 
