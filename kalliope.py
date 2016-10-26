@@ -69,7 +69,7 @@ def main():
 
         if args.run_synapse is None:
             # first, load events in crontab
-            crontab_manager = CrontabManager(brain_file=brain_file)
+            crontab_manager = CrontabManager(brain=brain)
             crontab_manager.load_events_in_crontab()
             Utils.print_success("Events loaded in crontab")
             # then start kalliope
@@ -78,7 +78,7 @@ def main():
             # catch signal for killing on Ctrl+C pressed
             signal.signal(signal.SIGINT, signal_handler)
             # start the main controller
-            MainController(brain_file=brain_file)
+            MainController(brain=brain)
 
     if args.action == "gui":
         ShellGui(brain=brain)

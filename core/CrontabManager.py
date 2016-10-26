@@ -19,9 +19,9 @@ KALLIOPE_ENTRY_POINT_SCRIPT = "kalliope.py"
 
 class CrontabManager:
 
-    def __init__(self, brain_file=None):
+    def __init__(self, brain=None):
         self.my_user_cron = CronTab(user=True)
-        self.brain = BrainLoader.get_brain(file_path=brain_file)
+        self.brain = brain
         self.base_command = self._get_base_command()
 
     def load_events_in_crontab(self):
