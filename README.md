@@ -43,7 +43,7 @@ Kalliope is easy-peasy to use, see the hello world
 | [STT](Docs/stt.md)                 | Speech to text configuration                                                                |
 | [TTS](Docs/tts.md)                 | Text to speech configuration                                                                |
 | [Triggers](Docs/trigger.md)        | Magic hotword engine used to make Kalliope listtening for an order                          |
-
+| [REST API](Docs/rest_api.md)       | Integrated REST API. Can be used to send an order                                           |
 
 ## Contributing
 

@@ -18,22 +18,16 @@ logger = logging.getLogger("kalliope")
 
 
 class MainController:
-    def __init__(self, brain_file=None):
-        self.brain_file = brain_file
+    def __init__(self, brain=None):
+        self.brain = brain
         # get global configuration
         self.settings = SettingLoader.get_settings()
-
-        # load the brain
-        if brain_file is None:
-            self.brain = BrainLoader.get_brain()
-        else:
-            self.brain = BrainLoader.get_brain(file_path=brain_file)
 
         # run the api if the user want it
         if self.settings.rest_api.active:
             Utils.print_info("Starting REST API Listening port: %s" % self.settings.rest_api.port)
             app = Flask(__name__)
-            flask_api = FlaskAPI(app, port=self.settings.rest_api.port, brain_file=brain_file)
+            flask_api = FlaskAPI(app, port=self.settings.rest_api.port, brain=self.brain)
             flask_api.start()
 
         # create an order listener object. This last will the trigger callback before starting

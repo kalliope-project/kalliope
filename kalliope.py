@@ -5,6 +5,7 @@ import logging
 
 from core import ShellGui
 from core import Utils
+from core.ConfigurationManager.BrainLoader import BrainLoader
 from core.CrontabManager import CrontabManager
 from core.MainController import MainController
 import signal
@@ -49,6 +50,11 @@ def main():
 
     # by default, no brain file is set. Use the default one: brain.yml in the root path
     brain_file = None
+    # check if user set a brain.yml file
+    if args.brain_file:
+        brain_file = args.brain_file
+    # load the brain once
+    brain = BrainLoader.get_brain(file_path=brain_file)
 
     # check the user provide a valid action
     if args.action not in ACTION_LIST:
@@ -56,17 +62,14 @@ def main():
         parser.print_help()
 
     if args.action == "start":
-        # check if user set a brain.yml file
-        if args.brain_file:
-            brain_file = args.brain_file
 
         # user set a synapse to start
         if args.run_synapse is not None:
-            SynapseLauncher.start_synapse(args.run_synapse, brain_file=brain_file)
+            SynapseLauncher.start_synapse(args.run_synapse, brain=brain)
 
         if args.run_synapse is None:
             # first, load events in crontab
-            crontab_manager = CrontabManager(brain_file=brain_file)
+            crontab_manager = CrontabManager(brain=brain)
             crontab_manager.load_events_in_crontab()
             Utils.print_success("Events loaded in crontab")
             # then start kalliope
@@ -75,10 +78,10 @@ def main():
             # catch signal for killing on Ctrl+C pressed
             signal.signal(signal.SIGINT, signal_handler)
             # start the main controller
-            MainController(brain_file=brain_file)
+            MainController(brain=brain)
 
     if args.action == "gui":
-        ShellGui(args.brain_file)
+        ShellGui(brain=brain)
 
 
 def configure_logging(debug=None):
