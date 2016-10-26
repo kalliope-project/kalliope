@@ -3,8 +3,8 @@ import logging
 import os
 
 from YAMLLoader import YAMLLoader
-from core.ConfigurationManager import Singleton
 from core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
+from core.Models import Singleton
 from core.Models.Brain import Brain
 from core.Models.Event import Event
 from core.Models.Neuron import Neuron
@@ -14,13 +14,11 @@ from core.Models.Synapse import Synapse
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
-@Singleton
+
 class BrainLoader(object):
 
     def __init__(self):
-        # Todo check how to provide the file_path
-        self.brain = self._get_brain()
-        self.yaml_config = self._get_yaml_config()
+        pass
 
     @classmethod
     def _get_yaml_config(cls, file_path=None):
@@ -40,28 +38,30 @@ class BrainLoader(object):
         # get the brain with dict
         dict_brain = cls._get_yaml_config(file_path)
         # create a new brain
-        brain = Brain()
-        brain.brain_yaml = dict_brain
-        # create list of Synapse
-        synapses = list()
-        for synapses_dict in dict_brain:
-            if "includes" not in synapses_dict: # we don't need to check includes as it's not a synapse
-                if ConfigurationChecker().check_synape_dict(synapses_dict):
-                    # print "synapses_dict ok"
-                    name = synapses_dict["name"]
-                    neurons = cls._get_neurons(synapses_dict["neurons"])
-                    signals = cls._get_signals(synapses_dict["signals"])
-                    new_synapse = Synapse(name=name, neurons=neurons, signals=signals)
-                    synapses.append(new_synapse)
-        brain.synapses = synapses
-        if file_path is None:
-            brain.brain_file = cls._get_root_brain_path()
-        else:
-            brain.brain_file = file_path
-        # check that no synapse have the same name than another
-        if ConfigurationChecker().check_synapes(synapses):
-            return brain
-        return None
+        brain = Brain.Instance()
+
+        if not isinstance(brain, Brain):
+            brain.brain_yaml = dict_brain
+            # create list of Synapse
+            synapses = list()
+            for synapses_dict in dict_brain:
+                if "includes" not in synapses_dict: # we don't need to check includes as it's not a synapse
+                    if ConfigurationChecker().check_synape_dict(synapses_dict):
+                        # print "synapses_dict ok"
+                        name = synapses_dict["name"]
+                        neurons = cls._get_neurons(synapses_dict["neurons"])
+                        signals = cls._get_signals(synapses_dict["signals"])
+                        new_synapse = Synapse(name=name, neurons=neurons, signals=signals)
+                        synapses.append(new_synapse)
+            brain.synapses = synapses
+            if file_path is None:
+                brain.brain_file = cls._get_root_brain_path()
+            else:
+                brain.brain_file = file_path
+            # check that no synapse have the same name than another
+            if not ConfigurationChecker().check_synapes(synapses):
+                brain = None
+        return brain
 
     @staticmethod
     def _get_neurons(neurons_dict):

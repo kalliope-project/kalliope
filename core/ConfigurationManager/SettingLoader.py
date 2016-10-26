@@ -1,8 +1,8 @@
-from YAMLLoader import YAMLLoader
 import logging
 
-from core.ConfigurationManager import Singleton
+from YAMLLoader import YAMLLoader
 from core.FileManager import FileManager
+from core.Models import Singleton
 from core.Models.RestAPI import RestAPI
 from core.Models.Settings import Settings
 from core.Models.Stt import Stt
