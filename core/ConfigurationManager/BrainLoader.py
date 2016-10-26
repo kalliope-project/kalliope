@@ -3,6 +3,7 @@ import logging
 import os
 
 from YAMLLoader import YAMLLoader
+from core.ConfigurationManager import Singleton
 from core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
 from core.Models.Brain import Brain
 from core.Models.Event import Event
@@ -13,14 +14,16 @@ from core.Models.Synapse import Synapse
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
-
+@Singleton
 class BrainLoader(object):
 
     def __init__(self):
-        pass
+        # Todo check how to provide the file_path
+        self.brain = self._get_brain()
+        self.yaml_config = self._get_yaml_config()
 
     @classmethod
-    def get_yaml_config(cls, file_path=None):
+    def _get_yaml_config(cls, file_path=None):
         if file_path is None:
             brain_file_path = cls._get_root_brain_path()
         else:
@@ -28,14 +31,14 @@ class BrainLoader(object):
         return YAMLLoader.get_config(brain_file_path)
 
     @classmethod
-    def get_brain(cls, file_path=None):
+    def _get_brain(cls, file_path=None):
         """
         return a brain object from YAML settings
         :return: Brain object
         :rtype: Brain
         """
         # get the brain with dict
-        dict_brain = cls.get_yaml_config(file_path)
+        dict_brain = cls._get_yaml_config(file_path)
         # create a new brain
         brain = Brain()
         brain.brain_yaml = dict_brain

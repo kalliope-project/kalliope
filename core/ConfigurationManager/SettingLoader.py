@@ -1,6 +1,7 @@
 from YAMLLoader import YAMLLoader
 import logging
 
+from core.ConfigurationManager import Singleton
 from core.FileManager import FileManager
 from core.Models.RestAPI import RestAPI
 from core.Models.Settings import Settings
@@ -25,20 +26,22 @@ class NullSettingException(Exception):
 class SettingNotFound(Exception):
     pass
 
-
+@Singleton
 class SettingLoader(object):
 
     def __init__(self):
-        pass
+        # Todo check how to provide the file_path
+        self.settings = self._get_settings()
+        self.yaml_config = self._get_yaml_config()
 
     @classmethod
-    def get_yaml_config(cls, file_path=None):
+    def _get_yaml_config(cls, file_path=None):
         if file_path is None:
             file_path = FILE_NAME
         return YAMLLoader.get_config(file_path)
 
     @classmethod
-    def get_settings(cls, file_path=None):
+    def _get_settings(cls, file_path=None):
         """
         Return a Settings object from settings.yml file
         :return:
