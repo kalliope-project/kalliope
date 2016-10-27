@@ -1,7 +1,7 @@
 # Neurons
 
-A neuron is a plugin that performs an action attached to some action. You can use it in to create a synapse.
-You can add as many neurons as you want to a synapse. The neurons are executed one by one when the input action is triggered.
+A neuron is a plugin that performs a specific action. You use it to create a synapse.
+You can add as many neurons as you want to a synapse. The neurons are executed one by one when the input order is triggered.
 
 ## Usage
 Neurons are declared in the `neurons` section of a synapse in your brain file.
@@ -54,21 +54,19 @@ From the captured order:
 
 Here, the spoken value captured by the TTS engine will be passed as an argument to the neuron in the variable named `parameter3`.
 
-Example, with the synapse declaration above, if you say "this is an order with the parameter Amy Winehouse". The neuron will receive a parameter named `parameter3` with 
- "Amy Winehouse" as value inside this parameter.
+Example, with the synapse declaration above, if you say "this is an order with the parameter Amy Winehouse". The neuron will receive a parameter named `parameter3` with "Amy Winehouse" as a value of this parameter.
 
 
 ## Output values
 
 Some neurons will return variables into a dictionary of value. Those values can be used to make your own Kalliope answer through a template.
 The objective of using a template is to let the user choosing what he wants to make Kalliope saying in its own language.
-A template is simply a text file that contains **variables**, which get replaced with values when the template is evaluated by 
+A template is a text file that contains **variables**, which get replaced with values when the template is evaluated by 
 the [template engine](https://en.wikipedia.org/wiki/Jinja_(template_engine)), and **tags**, which control the logic of the template.
 
 The template engine used in Kalliope is [Jinja2](http://jinja.pocoo.org/docs/dev/).
 
-For example, if we look at the [documentation of the neuron systemedate](../neurons/systemdate), we can see that the neuron will return a dictionary of value like `minute`, `hours` and 
-all other values about the current time on the system where Kalliope is installed.
+For example, if we look at the [documentation of the neuron systemedate](../neurons/systemdate), we can see that the neuron will return a dictionary of value like `minute`, `hours` and all other values about the current time on the system where Kalliope is installed.
 
 A simple, that only use **variables**, template would be
 ```
@@ -81,16 +79,15 @@ Placed in a complete synapse, it looks like the following
     neurons:
       - systemdate:
           say_template:
-            - "It' {{ hours }} hours and {{ minutes }} minutes"
+            - "It is {{ hours }} hours and {{ minutes }} minutes"
     signals:
       - order: "what time is it"
 ```
 
-Here, we used [variables](http://jinja.pocoo.org/docs/dev/templates/#variables) from the neuron into our template file. Both variables will be interpreted by the template engine. 
+Here, we use [variables](http://jinja.pocoo.org/docs/dev/templates/#variables) from the neuron into our template file. Both variables will be interpreted by the template engine. 
 So, what the user will hear is something like `It is 9 hours and 21 minutes`.
 
-We can add some logic to a template with tags. Here a simple example with [a test tag](http://jinja.pocoo.org/docs/dev/templates/#if), that will make Kalliope change the pronounced sentence,
- depending on the current time.
+We can add some logic to a template with tags. Here a simple example with [a test tag](http://jinja.pocoo.org/docs/dev/templates/#if), that will make Kalliope change the pronounced sentence depending on the current time.
 ```
 {% if hours > 8 %}
     It is late, isn't it?
@@ -99,7 +96,7 @@ We can add some logic to a template with tags. Here a simple example with [a tes
 {% endif %}
 ```
 
-As this is multi-lines, we can the content in a file and use a `file_template` instead of a `say_template` for more clarity.
+As this is multi-lines, we can put the content in a file and use a `file_template` instead of a `say_template` for more clarity.
 ```
 - name: "time"
     neurons:
@@ -119,15 +116,14 @@ set in [settings.yml](settings.yml) file.
 ### Cache
 
 You can override the default cache configuration. By default Kalliope uses a cache to save a generated audio from a TTS engine.
-This cache is usefull to not to regenerate often used sentences that are not suppose to be changed very often. For exemple, the following sentence will not change in time, so it's more optimized to generate it once and to keep it in cash:
+This cache is usefull to manage sentences that are not suppose to be changed very often. For exemple, the following sentence will not change in time, so it's more optimized to generate it once and to keep it in cash:
 ```
 - say:
     message:
       - "Hello, sir"
 ```
 
-In some cases, especially when the neuron is based on a template, the generated audio will change at each new call of the neuron and so the usage 
-of a cache is not necessary. The best example of the case like this is the `systemdate` neuron. As the time changes every minute, the generated audio will change too and so, saving the generated audio in the cache is useless. In this case, you can override the cache usage for this neuron:
+In some cases, especially when the neuron is based on a template, the generated audio will change on each new call of the neuron and so the usage of a cache is not necessary. The best example of the case like this is the `systemdate` neuron. As the time changes every minute, the generated audio will change too and so, saving the generated audio in the cache is useless. In this case, you can override the cache usage for this neuron:
 ```
 - systemdate:
     say_template:
