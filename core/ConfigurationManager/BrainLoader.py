@@ -35,7 +35,7 @@ class BrainLoader(object):
         :rtype: Brain
         """
 
-        # create a new brain
+        # Instanciate a brain
         brain = Brain.Instance()
         logger.debug("Is brain already loaded ? %r" % brain.is_loaded)
         if brain.is_loaded is False:
@@ -63,6 +63,7 @@ class BrainLoader(object):
             if not ConfigurationChecker().check_synapes(synapses):
                 brain = None
 
+            # The Brain Singleton is loaded
             brain.is_loaded = True
         return brain
 

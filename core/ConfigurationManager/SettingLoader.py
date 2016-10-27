@@ -74,6 +74,7 @@ class SettingLoader(object):
             setting_object.random_wake_up_sounds=random_wake_up_sounds
             setting_object.rest_api=rest_api
             setting_object.cache_path=cache_path
+            # The Settings Singleton is loaded
             setting_object.is_loaded = True
 
         return setting_object
