@@ -25,7 +25,37 @@ neurons:
 To know the list of required parameters, check of documentation of the neuron.
 Full list of [available neuron here](neuron_list.md)
 
+## Input values
 
+Neurons require some **parameters** from the synapse declaration to work. Those parameters, also called arguments, can be passed to the neuron in two way:
+- from the neuron declaration
+- from the captured order
+
+From the neuron declaration:
+```
+neurons:
+    - neuron_name:
+        parameter1: "value1"
+        parameter2: "value2"
+```
+
+From the captured order:
+```
+  - name: "run-neuron-with-parameter-in-order"
+    neurons:
+      - neuron_name:
+          parameter1: "value1"
+          parameter2: "value2"
+          args:
+          - parameter3
+    signals:
+      - order: "this is an order with the parameter {{ parameter3 }}"
+```
+
+Here, the spoken value captured by the TTS engine will be passed as an argument to the neuron in the variable named `parameter3`.
+
+Example, with the synapse declaration above, if you say "this is an order with the parameter Amy Winehouse". The neuron will receive a parameter named `parameter3` with 
+ "Amy Winehouse" as value inside this parameter.
 
 
 ## Output values
@@ -36,8 +66,6 @@ A template is simply a text file that contains **variables**, which get replaced
 the [template engine](https://en.wikipedia.org/wiki/Jinja_(template_engine)), and **tags**, which control the logic of the template.
 
 The template engine used in Kalliope is [Jinja2](http://jinja.pocoo.org/docs/dev/).
-
-### Example usage
 
 For example, if we look at the [documentation of the neuron systemedate](../neurons/systemdate), we can see that the neuron will return a dictionary of value like `minute`, `hours` and 
 all other values about the current time on the system where Kalliope is installed.
