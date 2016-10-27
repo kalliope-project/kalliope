@@ -2,11 +2,9 @@
 
 ## Synopsis
 
-Run an Ansible playbook. Ansible is a free-software platform for configuring and managing computers which combines multi-node software deployment, 
-ad hoc task execution, and configuration management.
+Run an Ansible playbook. Ansible is a free-software platform for configuring and managing computers which combines multi-node software deployment, ad hoc task execution, and configuration management.
 
-Playbooks are Ansible’s configuration, deployment, and orchestration language. They can describe a policy you want your remote systems to enforce, 
-or a set of steps in a general IT process.
+Playbooks are Ansible’s configuration, deployment, and orchestration language. They can describe a policy you want your remote systems to enforce, or a set of steps in a general IT process.
 
 This neuron can be used to perform complex operation with all [modules available from Ansible](http://docs.ansible.com/ansible/modules.html).
 
