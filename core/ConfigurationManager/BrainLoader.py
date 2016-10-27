@@ -35,7 +35,7 @@ class BrainLoader(object):
         :rtype: Brain
         """
 
-        # Instanciate a brain
+        # Instantiate a brain
         brain = Brain.Instance()
         logger.debug("Is brain already loaded ? %r" % brain.is_loaded)
         if brain.is_loaded is False:
