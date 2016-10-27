@@ -1,6 +1,6 @@
 # Neurons
 
-A neuron is a plugin that performs an action attached to some action. You can use it in to create a synapse.  
+A neuron is a plugin that performs an action attached to some action. You can use it in to create a synapse.
 You can add as many neurons as you want to a synapse. The neurons are executed one by one when the input action is triggered.
 
 ## Usage
@@ -24,6 +24,64 @@ neurons:
 
 To know the list of required parameters, check of documentation of the neuron.
 Full list of [available neuron here](neuron_list.md)
+
+
+
+
+## Output values
+
+Some neurons will return variables into a dictionary of value. Those values can be used to make your own Kalliope answer through a template.
+The objective of using a template is to let the user choosing what he wants to make Kalliope saying in its own language.
+A template is simply a text file that contains **variables**, which get replaced with values when the template is evaluated by 
+the [template engine](https://en.wikipedia.org/wiki/Jinja_(template_engine)), and **tags**, which control the logic of the template.
+
+The template engine used in Kalliope is [Jinja2](http://jinja.pocoo.org/docs/dev/).
+
+### Example usage
+
+For example, if we look at the [documentation of the neuron systemedate](../neurons/systemdate), we can see that the neuron will return a dictionary of value like `minute`, `hours` and 
+all other values about the current time on the system where Kalliope is installed.
+
+A simple, that only use **variables**, template would be
+```
+It is {{ hours }} and {{ minutes }} minutes.
+```
+
+Placed in a complete synapse, it looks like the following
+```
+- name: "time"
+    neurons:
+      - systemdate:
+          say_template:
+            - "It' {{ hours }} hours and {{ minutes }} minutes"
+    signals:
+      - order: "what time is it"
+```
+
+Here, we used [variables](http://jinja.pocoo.org/docs/dev/templates/#variables) from the neuron into our template file. Both variables will be interpreted by the template engine. 
+So, what the user will hear is something like `It is 9 hours and 21 minutes`.
+
+We can add some logic to a template with tags. Here a simple example with [a test tag](http://jinja.pocoo.org/docs/dev/templates/#if), that will make Kalliope change the pronounced sentence,
+ depending on the current time.
+```
+{% if hours > 8 %}
+    It is late, isn't it?
+{% else %}
+    We still have time
+{% endif %}
+```
+
+As this is multi-lines, we can the content in a file and use a `file_template` instead of a `say_template` for more clarity.
+```
+- name: "time"
+    neurons:
+      - systemdate:
+          file_template: /path/to/file/template.j2
+    signals:
+      - order: "what time is it"
+```
+
+
 
 ## Overridable parameters
 
