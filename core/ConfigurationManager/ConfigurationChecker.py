@@ -1,5 +1,7 @@
 import re
 
+from core.Utils import Utils, ModuleNotFoundError
+
 
 class InvalidSynapeName(Exception):
     pass
@@ -67,7 +69,26 @@ class ConfigurationChecker:
 
     @staticmethod
     def check_neuron_dict(neuron_dict):
-        # TODO check that the Neuron plugin exist
+        """
+        Check received neuron dict is valid:
+        - neuron exist
+        :param neuron_dict:
+        :return:
+        """
+        def check_neuron_exist(neuron_name):
+            package_name = "neurons"
+            mod = __import__(package_name, fromlist=[neuron_name])
+            try:
+                getattr(mod, neuron_name)
+            except AttributeError:
+                raise ModuleNotFoundError("The module %s does not exist in package %s" % (neuron_name, package_name))
+            return True
+
+        if isinstance(neuron_dict, dict):
+            for neuron_name in neuron_dict:
+                check_neuron_exist(neuron_name)
+        else:
+            check_neuron_exist(neuron_dict)
         return True
 
     @staticmethod
