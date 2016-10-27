@@ -9,7 +9,7 @@ from jinja2 import Template
 from core import OrderListener
 from core.SynapseLauncher import SynapseLauncher
 from core.Utils import Utils
-from core.ConfigurationManager import SettingLoader
+from core.ConfigurationManager import SettingLoader, BrainLoader
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -55,6 +55,7 @@ class NeuronModule(object):
         logger.debug("NeuronModule called from class %s with parameters: %s" % (child_name, str(kwargs)))
 
         self.settings = SettingLoader.get_settings()
+        self.brain = BrainLoader.get_brain()
 
         # check if the user has overrider the TTS
         tts = kwargs.get('tts', None)
@@ -156,6 +157,9 @@ class NeuronModule(object):
         # else:
         #     raise NoTemplateException("You must specify a say_template or a file_template")
 
+    def run_synapse_ny_name(self, name):
+        SynapseLauncher.start_synapse(name=name, brain=self.brain)
+
     @staticmethod
     def _get_content_of_file(real_file_template_path):
         with open(real_file_template_path, 'r') as content_file:
@@ -179,7 +183,4 @@ class NeuronModule(object):
         oa = OrderListener(callback=callback)
         oa.start()
 
-    @staticmethod
-    def run_synapse_ny_name(name):
-        # TODO find a way to get the current brain file. NeuronModule doesn't have any ref about it
-        SynapseLauncher.start_synapse(name=name)
+

@@ -1,7 +1,8 @@
-from YAMLLoader import YAMLLoader
 import logging
 
+from YAMLLoader import YAMLLoader
 from core.FileManager import FileManager
+from core.Models import Singleton
 from core.Models.RestAPI import RestAPI
 from core.Models.Settings import Settings
 from core.Models.Stt import Stt
@@ -43,29 +44,39 @@ class SettingLoader(object):
         Return a Settings object from settings.yml file
         :return:
         """
-        settings = cls.get_yaml_config(file_path)
-        default_stt_name = cls._get_default_speech_to_text(settings)
-        default_tts_name = cls._get_default_text_to_speech(settings)
-        default_trigger_name = cls._get_default_trigger(settings)
-        stts = cls._get_stts(settings)
-        ttss = cls._get_ttss(settings)
-        triggers = cls._get_triggers(settings)
-        random_wake_up_answers = cls._get_random_wake_up_answers(settings)
-        random_wake_up_sounds = cls._get_random_wake_up_sounds(settings)
-        rest_api = cls._get_rest_api(settings)
-        cache_path = cls._get_cache_path(settings)
 
-        # create a setting object
-        setting_object = Settings(default_stt_name=default_stt_name,
-                                  default_tts_name=default_tts_name,
-                                  default_trigger_name=default_trigger_name,
-                                  stts=stts,
-                                  ttss=ttss,
-                                  triggers=triggers,
-                                  random_wake_up_answers=random_wake_up_answers,
-                                  random_wake_up_sounds=random_wake_up_sounds,
-                                  rest_api=rest_api,
-                                  cache_path=cache_path)
+        # create a new setting
+        setting_object = Settings.Instance()
+        logger.debug("Is Settings already loaded ? %r" % setting_object.is_loaded)
+        if setting_object.is_loaded is False:
+
+            # Get the setting parameters
+            settings = cls.get_yaml_config(file_path)
+            default_stt_name = cls._get_default_speech_to_text(settings)
+            default_tts_name = cls._get_default_text_to_speech(settings)
+            default_trigger_name = cls._get_default_trigger(settings)
+            stts = cls._get_stts(settings)
+            ttss = cls._get_ttss(settings)
+            triggers = cls._get_triggers(settings)
+            random_wake_up_answers = cls._get_random_wake_up_answers(settings)
+            random_wake_up_sounds = cls._get_random_wake_up_sounds(settings)
+            rest_api = cls._get_rest_api(settings)
+            cache_path = cls._get_cache_path(settings)
+
+            # Load the setting singleton with the parameters
+            setting_object.default_tts_name=default_tts_name
+            setting_object.default_stt_name=default_stt_name
+            setting_object.default_trigger_name=default_trigger_name
+            setting_object.stts=stts
+            setting_object.ttss=ttss
+            setting_object.triggers=triggers
+            setting_object.random_wake_up_answers=random_wake_up_answers
+            setting_object.random_wake_up_sounds=random_wake_up_sounds
+            setting_object.rest_api=rest_api
+            setting_object.cache_path=cache_path
+            # The Settings Singleton is loaded
+            setting_object.is_loaded = True
+
         return setting_object
 
     @staticmethod
