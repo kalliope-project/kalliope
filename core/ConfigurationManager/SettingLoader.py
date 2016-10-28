@@ -28,12 +28,31 @@ class SettingNotFound(Exception):
 
 
 class SettingLoader(object):
+    """
+        This Class is used to get the Settings YAML and the Settings as an object
+
+    """
 
     def __init__(self):
         pass
 
     @classmethod
     def get_yaml_config(cls, file_path=None):
+        """
+
+        Class Methods which loads default or the provided YAML file and return it as a String
+
+        :param file_path: the setting file path to load if None takes default
+        :type file_path: String
+        :return: The loaded settings YAML
+        :rtype: String
+
+        :Example:
+            settings_yaml = SettingLoader.get_yaml_config(/var/tmp/settings.yml)
+
+        .. warnings:: Class Method
+        """
+
         if file_path is None:
             file_path = FILE_NAME
         return YAMLLoader.get_config(file_path)
@@ -41,8 +60,20 @@ class SettingLoader(object):
     @classmethod
     def get_settings(cls, file_path=None):
         """
-        Return a Settings object from settings.yml file
-        :return:
+
+        Class Methods which loads default or the provided YAML file and return a Settings Object
+
+        :param file_path: the setting file path to load
+        :type file_path: String
+        :return: The loaded Settings
+        :rtype: Settings
+
+        :Example:
+
+            settings = SettingLoader.get_settings(file_path="/var/tmp/settings.yml")
+
+        .. seealso:: Settings
+        .. warnings:: Class Method
         """
 
         # create a new setting
@@ -81,6 +112,23 @@ class SettingLoader(object):
 
     @staticmethod
     def _get_default_speech_to_text(settings):
+        """
+
+        Get the default speech to text defined in the settings.yml file
+
+        :param settings: The YAML settings file
+        :type settings: String
+        :return: the default speech to text
+        :rtype: String
+
+        :Example:
+
+            default_stt_name = cls._get_default_speech_to_text(settings)
+
+        .. seealso:: Stt
+        .. raises:: NullSettingException, SettingNotFound
+        .. warnings:: Static and Private
+        """
 
         try:
             default_speech_to_text = settings["default_speech_to_text"]
@@ -93,6 +141,24 @@ class SettingLoader(object):
 
     @staticmethod
     def _get_default_text_to_speech(settings):
+        """
+
+        Get the default text to speech defined in the settings.yml file
+
+        :param settings: The YAML settings file
+        :type settings: String
+        :return: the default text to speech
+        :rtype: String
+
+        :Example:
+
+            default_tts_name = cls._get_default_text_to_speech(settings)
+
+        .. seealso:: Tts
+        .. raises:: NullSettingException, SettingNotFound
+        .. warnings:: Static and Private
+        """
+
         try:
             default_text_to_speech = settings["default_text_to_speech"]
             if default_text_to_speech is None:
@@ -104,6 +170,24 @@ class SettingLoader(object):
 
     @staticmethod
     def _get_default_trigger(settings):
+        """
+
+        Get the default trigger defined in the settings.yml file
+
+        :param settings: The YAML settings file
+        :type settings: String
+        :return: the default trigger
+        :rtype: String
+
+        :Example:
+
+            default_trigger_name = cls._get_default_trigger(settings)
+
+        .. seealso:: Trigger
+        .. raises:: NullSettingException, SettingNotFound
+        .. warnings:: Static and Private
+        """
+
         try:
             default_trigger = settings["default_trigger"]
             if default_trigger is None:
@@ -116,14 +200,27 @@ class SettingLoader(object):
     @classmethod
     def _get_stts(cls, settings):
         """
+
         Return a list of stt object
-        :param settings: loaded settings file
+
+        :param settings: The YAML settings file
+        :type settings: String
         :return: List of Stt
+        :rtype: List
+
+        :Example:
+
+            stts = cls._get_stts(settings)
+
+        .. seealso:: Stt
+        .. raises:: SettingNotFound
+        .. warnings:: Class Method and Private
         """
+
         try:
             speechs_to_text_list = settings["speech_to_text"]
         except KeyError:
-            raise NullSettingException("speech_to_text settings not found")
+            raise SettingNotFound("speech_to_text settings not found")
 
         stts = list()
         for speechs_to_text_el in speechs_to_text_list:
@@ -143,10 +240,23 @@ class SettingLoader(object):
     @classmethod
     def _get_ttss(cls, settings):
         """
-        Return a list of Tts object
-        :param settings: loaded settings file
-        :return: List of Tts
+
+        Return a list of stt object
+
+        :param settings: The YAML settings file
+        :type settings: String
+        :return: List of Ttss
+        :rtype: List
+
+        :Example:
+
+            ttss = cls._get_ttss(settings)
+
+        .. seealso:: Tts
+        .. raises:: SettingNotFound
+        .. warnings:: Class Method and Private
         """
+
         try:
             text_to_speech_list = settings["text_to_speech"]
         except KeyError, e:
@@ -170,10 +280,23 @@ class SettingLoader(object):
     @classmethod
     def _get_triggers(cls, settings):
         """
+
         Return a list of Trigger object
-        :param settings: loaded settings file
+
+        :param settings: The YAML settings file
+        :type settings: String
         :return: List of Trigger
+        :rtype: List
+
+        :Example:
+
+            triggers = cls._get_triggers(settings)
+
+        .. seealso:: Trigger
+        .. raises:: SettingNotFound
+        .. warnings:: Class Method and Private
         """
+
         try:
             triggers_list = settings["triggers"]
         except KeyError, e:
@@ -197,10 +320,23 @@ class SettingLoader(object):
     @classmethod
     def _get_random_wake_up_answers(cls, settings):
         """
-        return a list of string
-        :param settings:
-        :return:
+
+        Return a list of the wake up answers set up on the settings.yml file
+
+        :param settings: The YAML settings file
+        :type settings: String
+        :return: List of wake up answers
+        :rtype: List of Strings
+
+        :Example:
+
+            wakeup = cls._get_random_wake_up_answers(settings)
+
+        .. seealso::
+        .. raises:: NullSettingException
+        .. warnings:: Class Method and Private
         """
+
         try:
             random_wake_up_answers_list = settings["random_wake_up_answers"]
         except KeyError:
@@ -216,10 +352,23 @@ class SettingLoader(object):
     @classmethod
     def _get_random_wake_up_sounds(cls, settings):
         """
-        return a list of string
-        :param settings:
-        :return: List of string
+
+        Return a list of the wake up sounds set up on the settings.yml file
+
+        :param settings: The YAML settings file
+        :type settings: String
+        :return: List of wake up sounds
+        :rtype: List of Strings (paths)
+
+        :Example:
+
+            wakeup_sounds = cls._get_random_wake_up_sounds(settings)
+
+        .. seealso::
+        .. raises:: NullSettingException
+        .. warnings:: Class Method and Private
         """
+
         try:
             random_wake_up_sounds_list = settings["random_wake_up_sounds"]
         except KeyError:
@@ -234,6 +383,24 @@ class SettingLoader(object):
 
     @classmethod
     def _get_rest_api(cls, settings):
+        """
+
+        Return the settings of the RestApi
+
+        :param settings: The YAML settings file
+        :type settings: String
+        :return: the RestApi object
+        :rtype: RestApi
+
+        :Example:
+
+            rest_api = cls._get_rest_api(settings)
+
+        .. seealso:: RestApi
+        .. raises:: SettingNotFound, NullSettingException, SettingInvalidException
+        .. warnings:: Class Method and Private
+        """
+
         try:
             rest_api = settings["rest_api"]
         except KeyError, e:
@@ -278,6 +445,24 @@ class SettingLoader(object):
 
     @classmethod
     def _get_cache_path(cls, settings):
+        """
+
+        Return the path where to store the cache
+
+        :param settings: The YAML settings file
+        :type settings: String
+        :return: the path to store the cache
+        :rtype: String
+
+        :Example:
+
+            cache_path = cls._get_cache_path(settings)
+
+        .. seealso::
+        .. raises:: SettingNotFound, NullSettingException, SettingInvalidException
+        .. warnings:: Class Method and Private
+        """
+
         try:
             cache_path = settings["cache_path"]
         except KeyError, e:

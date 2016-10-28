@@ -41,11 +41,33 @@ class NotValidSynapseName(Exception):
 
 class ConfigurationChecker:
 
+    """
+
+        This Class provides all method to Check the configuration files are properly set up.
+    """
+
     def __init__(self):
         pass
 
     @staticmethod
     def check_synape_dict(synape_dict):
+        """
+
+        Return True if the provided dict is corresponding to a Synapse
+
+        :param settings: The YAML settings file
+        :type settings: String
+        :return: the path to store the cache
+        :rtype: String
+
+        :Example:
+
+            ConfigurationChecker().check_synape_dict(synapses_dict):
+
+        .. seealso:: Synapse
+        .. raises:: NoSynapeName, InvalidSynapeName, NoSynapeNeurons, NoSynapeSignals
+        .. warnings:: Static and Public
+        """
 
         if 'name' not in synape_dict:
             raise NoSynapeName("The Synapse does not have a name: %s" % synape_dict)
