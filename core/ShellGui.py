@@ -18,6 +18,12 @@ logger = logging.getLogger("kalliope")
 
 
 def signal_handler(signal, frame):
+    """
+    Used to catch a keyboard signal like Ctrl+C in order to kill the kalliope program
+    :param signal: signal handler
+    :param frame: execution frame
+    :return:
+    """
     print "\n"
     Utils.print_info("Ctrl+C pressed. Killing Kalliope")
     sys.exit(0)
@@ -27,6 +33,10 @@ signal.signal(signal.SIGINT, signal_handler)
 
 class ShellGui:
     def __init__(self, brain=None):
+        """
+        Load a GUI in a shell console for testing TTS, STT and brain configuration
+        :param brain:
+        """
         # override brain
         self.brain = brain
 
@@ -61,6 +71,11 @@ class ShellGui:
                 self.show_synapses_test_menu()
 
     def show_stt_test_menu(self):
+        """
+        Show the list of available STT.
+        Clicking on a STT will load the engine to catch the user audio and return a text
+        :return:
+        """
         # we get STT from settings
         stt_list = self.settings.stts
         logger.debug("Loaded stt list: %s" % str(stt_list))
@@ -69,17 +84,23 @@ class ShellGui:
         code, tag = self.d.menu("Select the STT to test:",
                                 choices=choices)
 
+        # go back to the main menu if we choose "cancel"
         if code == self.d.CANCEL:
             self.show_main_menu()
 
+        # if ok, call the target TTS engine and catch audio
         if code == self.d.OK:
             self.d.infobox("Please talk now")
+            # the callback funtion will print the translated audio into text on the screen
             order_listener = OrderListener(callback=self.callback_stt, stt=str(tag))
             order_listener.load_stt_plugin()
 
     def show_tts_test_menu(self, sentence_to_test=None):
         """
-         A menu for testing text to speech
+        A menu for testing text to speech
+        - select a TTS engine to test
+        - type a sentence
+        - press ok and listen the generated audio from the typed text
         :return:
         """
         continue_bool = True
@@ -109,6 +130,7 @@ class ShellGui:
             if code == self.d.OK:
                 self._run_tts_test(tag, sentence_to_test)
                 # then go back to this menu with the same sentence
+                # if the user want to test the same text with another TTS
                 self.show_tts_test_menu(sentence_to_test=sentence_to_test)
 
     @staticmethod
@@ -116,7 +138,7 @@ class ShellGui:
         """
         Call the TTS
         :param tts_name: Name of the TTS module to launch
-        :param sentence_to_test:
+        :param sentence_to_test: String text to send to the TTS engine
         :return:
         """
         sentence_to_test = sentence_to_test.encode('utf-8')
@@ -142,6 +164,7 @@ class ShellGui:
     def callback_stt(self, audio):
         """
         Callback function called after the STT has finish his job
+        Print the text of what the STT engine think we said on the screen
         :param audio: Text from the translated audio
         """
         code = self.d.msgbox("The STT engine think you said:\n %s" % audio, width=50)

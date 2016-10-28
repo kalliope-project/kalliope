@@ -6,3 +6,4 @@
             - "Bonjour monsieur"
     signals:
       - order: "bonjour"
+      - order: "Bonjour"
