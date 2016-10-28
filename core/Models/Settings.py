@@ -1,9 +1,20 @@
+from core.Models import Singleton
 
 
+@Singleton
 class Settings(object):
-    def __init__(self, default_tts_name=None, default_stt_name=None,
-                 default_trigger_name=None, ttss=None, stts=None,
-                 random_wake_up_answers=None, random_wake_up_sounds=None, triggers=None, rest_api=None, cache_path=None):
+    def __init__(self,
+                 default_tts_name=None,
+                 default_stt_name=None,
+                 default_trigger_name=None,
+                 ttss=None,
+                 stts=None,
+                 random_wake_up_answers=None,
+                 random_wake_up_sounds=None,
+                 triggers=None,
+                 rest_api=None,
+                 cache_path=None):
+
         self.default_tts_name = default_tts_name
         self.default_stt_name = default_stt_name
         self.default_trigger_name = default_trigger_name
@@ -14,3 +25,4 @@ class Settings(object):
         self.triggers = triggers
         self.rest_api = rest_api
         self.cache_path = cache_path
+        self.is_loaded = False
