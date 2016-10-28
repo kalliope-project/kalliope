@@ -11,11 +11,34 @@ MPLAYER_EXEC_PATH = "/usr/bin/mplayer"
 
 class Mplayer(object):
 
+    """
+
+        This Class is representing the MPlayer Object used to play the all sound of the system.
+
+    """
+
     def __init__(self):
         pass
 
     @classmethod
     def play(cls, filepath):
+        """
+
+        Play the sound located in the provided filepath
+
+        :param filepath: The file path of the sound to play
+        :type synapses_list: String
+
+        :Example:
+
+            Mplayer.play(self.file_path)
+
+        .. seealso::  TTS
+        .. raises::
+        .. warnings:: Class Method and Public
+        """
+
+
         mplayer_exec_path = [MPLAYER_EXEC_PATH]
         mplayer_options = ['-slave', '-quiet']
         mplayer_command = list()
