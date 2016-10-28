@@ -58,6 +58,15 @@ class Gmail_checker(NeuronModule):
     @staticmethod
     def try_parse(header, encoding):
 
+        """
+            Verifying the Encoding and return unicode
+
+            :param header: the header to decode
+            :param encoding: the targeted encoding
+            :return: either 'ASCII' or 'ISO-8859-1' or 'UTF-8'
+
+            .. raises:: UnicodeDecodeError
+        """
         if encoding is None:
             encoding = 'ASCII'
         try:
@@ -70,8 +79,10 @@ class Gmail_checker(NeuronModule):
 
     def _is_parameters_ok(self):
         """
-        Check if received parameters are ok to perform operations in the neuron
-        :return: true if parameters are ok, raise an exception otherwise
+            Check if received parameters are ok to perform operations in the neuron
+            :return: true if parameters are ok, raise an exception otherwise
+
+            .. raises:: MissingParameterException
         """
         if self.username is None:
             raise MissingParameterException("Username parameter required")

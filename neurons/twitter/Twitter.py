@@ -30,8 +30,10 @@ class Twitter(NeuronModule):
 
     def _is_parameters_ok(self):
         """
-        Check if received parameters are ok to perform operations in the neuron
-        :return: true if parameters are ok, raise an exception otherwise
+            Check if received parameters are ok to perform operations in the neuron
+            :return: true if parameters are ok, raise an exception otherwise
+
+            .. raises:: InvalidParameterException
         """
         if self.consumer_key is None:
             raise InvalidParameterException("Twitter needs a consumer_key")

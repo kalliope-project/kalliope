@@ -12,8 +12,10 @@ class Say(NeuronModule):
 
     def _is_parameters_ok(self):
         """
-        Check if received parameters are ok to perform operations in the neuron
-        :return: true if parameters are ok, raise an exception otherwise
+            Check if received parameters are ok to perform operations in the neuron
+            :return: true if parameters are ok, raise an exception otherwise
+
+            .. raises:: MissingParameterException
         """
         if self.message is None:
             raise MissingParameterException("You must specify a message string or a list of messages as parameter")

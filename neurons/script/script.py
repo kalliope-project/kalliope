@@ -16,8 +16,10 @@ class Script(NeuronModule):
 
     def _is_parameters_ok(self):
         """
-        Check if received parameters are ok to perform operations in the neuron
-        :return: true if parameters are ok, raise an exception otherwise
+            Check if received parameters are ok to perform operations in the neuron
+            :return: true if parameters are ok, raise an exception otherwise
+
+            .. raises:: MissingParameterException, InvalidParameterException
         """
         if self.path is None:
             raise MissingParameterException("You must provide a script path.")

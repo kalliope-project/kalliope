@@ -57,9 +57,12 @@ class Wikipedia(NeuronModule):
 
     def _is_parameters_ok(self):
         """
-        Check if received parameters are ok to perform operations in the neuron
-        :return:
+            Check if received parameters are ok to perform operations in the neuron
+            :return: true if parameters are ok, raise an exception otherwise
+
+            .. raises:: InvalidParameterException
         """
+
         if self.query is None:
             raise InvalidParameterException("Wikipedia needs a query")
         if self.language is None:

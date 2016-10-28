@@ -1,4 +1,3 @@
-#!/usr/bin/python
 import time
 
 from core.NeuronModule import NeuronModule

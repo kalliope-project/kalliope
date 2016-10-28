@@ -14,8 +14,10 @@ class Sleep(NeuronModule):
 
         def _is_parameters_ok(self):
             """
-            Check if received parameters are ok to perform operations in the neuron
-            :return: true if parameters are ok, raise an exception otherwise
+                Check if received parameters are ok to perform operations in the neuron
+                :return: true if parameters are ok, raise an exception otherwise
+
+                .. raises:: MissingParameterException
             """
             if self.seconds is None:
                 raise MissingParameterException("You must set a number of seconds as parameter")

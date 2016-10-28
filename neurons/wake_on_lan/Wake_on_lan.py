@@ -31,8 +31,10 @@ class Wake_on_lan(NeuronModule):
 
     def _is_parameters_ok(self):
         """
-        Check if received parameters are ok to perform operations in the neuron
-        :return: true if parameters are ok, raise an exception otherwise
+            Check if received parameters are ok to perform operations in the neuron
+            :return: true if parameters are ok, raise an exception otherwise
+
+            .. raises:: InvalidParameterException, MissingParameterException
         """
         # check we provide a mac address
         if self.mac_address is None:
