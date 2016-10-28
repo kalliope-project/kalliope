@@ -26,9 +26,9 @@ class CrontabManager:
 
     def load_events_in_crontab(self):
         """
-        Remove all line in crontab with the CRONTAB_COMMENT
-        Then add back line from event in the brain.yml
-        :return:
+            Remove all line in crontab with the CRONTAB_COMMENT
+            Then add back line from event in the brain.yml
+
         """
         # clean the current crontab from all Kalliope event
         self._remove_all_job()
@@ -58,8 +58,8 @@ class CrontabManager:
 
     def _remove_all_job(self):
         """
-        Remove all line in crontab that are attached to Kalliope
-        :return:
+            Remove all line in crontab that are attached to Kalliope
+
         """
         iter = self.my_user_cron.find_comment(CRONTAB_COMMENT)
         for job in iter:
@@ -77,9 +77,9 @@ class CrontabManager:
 
     def _get_base_command(self):
         """
-        Return the path of the entry point of Kalliope
-        Example: /home/user/kalliope/kalliope.py
-        :return: The path of the entry point script kalliope.py
+            Return the path of the entry point of Kalliope
+            Example: /home/user/kalliope/kalliope.py
+            :return: The path of the entry point script kalliope.py
         """
         import inspect
         import os

@@ -44,11 +44,17 @@ class TTSNotInstantiable(Exception):
 
 
 class NeuronModule(object):
+
+    """
+
+        This Abstract Class is representing main Class for Neuron.
+        Each Neuron must implement this Class.
+    """
     def __init__(self, **kwargs):
         """
-        Class used by neuron for talking
-        :param kwargs: Same parameter as the Child. Can contain info about the tts to use instead of the
-        default one
+            Class used by neuron for talking
+            :param kwargs: Same parameter as the Child. Can contain info about the tts to use instead of the
+            default one
         """
         # get the child who called the class
         child_name = self.__class__.__name__
@@ -76,13 +82,14 @@ class NeuronModule(object):
 
     def say(self, message):
         """
-        USe TTS to speak out loud the Message.
-        A message can be a string, a list or a dict
-        If it's a string, simply use the TTS with the message
-        If it's a list, we select randomly a string in the list and give it to the TTS
-        If it's a dict, we use the template given in parameter to create a string that we give to the TTS
-        :param message: Can be a String or a dict
-        :return:
+            USe TTS to speak out loud the Message.
+            A message can be a string, a list or a dict
+            If it's a string, simply use the TTS with the message
+            If it's a list, we select randomly a string in the list and give it to the TTS
+            If it's a dict, we use the template given in parameter to create a string that we give to the TTS
+            :param message: Can be a String or a dict
+
+            .. raises:: TTSModuleNotFound
         """
         logger.debug("NeuronModule Say() called with message: %s" % message)
 
@@ -121,9 +128,11 @@ class NeuronModule(object):
 
     def _get_message_from_dict(self, message_dict):
         """
-        Generate a message taht can be played by a TTS engine from a dict of variable and the jinja template
-        :param message_dict:
-        :return:
+            Generate a message that can be played by a TTS engine from a dict of variable and the jinja template
+            :param message_dict: the dict of message
+            :return: The message to say
+
+            .. raises:: TemplateFileNotFoundException
         """
         returned_message = None
 
@@ -175,9 +184,8 @@ class NeuronModule(object):
     @staticmethod
     def get_audio_from_stt(callback):
         """
-        Call the default STT to get an audio sample and return it into the callback method
-        :param callback:
-        :return:
+            Call the default STT to get an audio sample and return it into the callback method
+            :param callback: A callback function
         """
         # call the order listener
         oa = OrderListener(callback=callback)

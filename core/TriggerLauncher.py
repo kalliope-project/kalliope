@@ -13,12 +13,12 @@ class TriggerLauncher(object):
     @classmethod
     def get_trigger(cls, trigger, callback):
         """
-        Start a trigger module
-        :param trigger: trigger object to instantiate
-        :type trigger: Trigger
-        :param callback: Callback function to call when the trigger
-        catch the magic word
-        :return:
+            Start a trigger module
+            :param trigger: trigger object to instantiate
+            :type trigger: Trigger
+            :param callback: Callback function to call when the trigger
+            catch the magic word
+            :return:
         """
         # add the callback method to parameters
         trigger.parameters["callback"] = callback
