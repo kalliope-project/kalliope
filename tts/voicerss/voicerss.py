@@ -16,10 +16,21 @@ class Voicerss(TTSModule):
         super(Voicerss, self).__init__(**kwargs)
 
     def say(self, words):
+        """
+
+            :param words: The sentence to say
+        """
 
         self.generate_and_play(words, self._generate_audio_file)
 
     def _generate_audio_file(self):
+        """
+
+            Generic method used as a Callback in TTSModule
+                - must provided the audio file and write it on the disk
+
+            .. raises:: FailToLoadSoundFile
+        """
 
         # Prepare payload
         payload = self.get_payload()
@@ -40,6 +51,13 @@ class Voicerss(TTSModule):
         FileManager.write_in_file(self.file_path, r.content)
 
     def get_payload(self):
+        """
+
+            Generic method used load the payload used to acces the remote api
+
+            :return: Payload to use to access the remote api
+        """
+
         return {
             "src": self.words,
             "hl": self.language,
