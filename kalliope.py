@@ -18,10 +18,17 @@ logger = logging.getLogger("kalliope")
 
 
 def signal_handler(signal, frame):
+    """
+    Used to catch a keyboard signal like Ctrl+C in order to kill the kalliope program
+    :param signal: signal handler
+    :param frame: execution frame
+    :return:
+    """
     print "\n"
     Utils.print_info("Ctrl+C pressed. Killing Kalliope")
     sys.exit(0)
 
+# actions available
 ACTION_LIST = ["start", "gui"]
 
 
@@ -39,6 +46,7 @@ def main():
     # parse arguments from script parameters
     args = parser.parse_args()
 
+    # require at least one parameter, the action
     if len(sys.argv[1:]) == 0:
         parser.print_usage()
         sys.exit(1)
@@ -62,7 +70,6 @@ def main():
         parser.print_help()
 
     if args.action == "start":
-
         # user set a synapse to start
         if args.run_synapse is not None:
             SynapseLauncher.start_synapse(args.run_synapse, brain=brain)
