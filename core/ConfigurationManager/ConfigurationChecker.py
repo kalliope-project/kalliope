@@ -1,6 +1,6 @@
 import re
 
-from core.Utils import Utils, ModuleNotFoundError
+from core.Utils import ModuleNotFoundError
 
 
 class InvalidSynapeName(Exception):
