@@ -1,5 +1,7 @@
 class Singleton:
     """
+    (From Stackoverflow : http://stackoverflow.com/questions/31875/is-there-a-simple-elegant-way-to-define-singletons-in-python)
+
     A non-thread-safe helper class to ease implementing singletons.
     This should be used as a decorator -- not a metaclass -- to the
     class that should be a singleton.

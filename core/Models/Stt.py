@@ -1,6 +1,12 @@
-
-
 class Stt(object):
+
+    """
+
+        This Class is representing a Speech To Text (STT) element with name and parameters
+
+        .. note:: must be defined in the settings.yml
+    """
+
     def __init__(self, name=None, parameters=None):
         self.name = name
         self.parameters = parameters
