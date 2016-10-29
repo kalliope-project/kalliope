@@ -1,11 +1,9 @@
 class Neuron(object):
     """
+    This Class is representing a Neuron which is corresponding to an action to perform.
 
-        This Class is representing a Neuron which is corresponding to an action to perform.
-
-        .. note:: Neurons are defined in the brain file
+    .. note:: Neurons are defined in the brain file
     """
-
 
     def __init__(self, name=None, parameters=None):
         self.name = name
@@ -13,7 +11,6 @@ class Neuron(object):
 
     def serialize(self):
         """
-
         This method allows to serialize in a proper way this object
 
         :return: A dict of name and parameters

@@ -1,11 +1,9 @@
 class Order(object):
     """
+    This Class is representing an Order which is raised by when an entry (Vocal/REST/ anything ...) is matching it.
 
-        This Class is representing an Order which is raised by when an entry (Vocal/REST/ anything ...) is matching it.
-
-        .. note:: Order are defined in the brain file for each synapse.
+    .. note:: Order are defined in the brain file for each synapse.
     """
-
 
     def __init__(self, sentence):
         self.sentence = sentence
@@ -15,7 +13,6 @@ class Order(object):
 
     def serialize(self):
         """
-
         This method allows to serialize in a proper way this object
 
         :return: A dict of order

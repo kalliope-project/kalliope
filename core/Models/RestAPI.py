@@ -1,10 +1,7 @@
 class RestAPI(object):
     """
-
-        This Class is representing the rest API with all its configuration.
-
+    This Class is representing the rest API with all its configuration.
     """
-
 
     def __init__(self, password_protected=None, login=None, password=None, active=None, port=None):
         """
