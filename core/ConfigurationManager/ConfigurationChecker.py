@@ -79,20 +79,20 @@ class ConfigurationChecker:
     def check_synape_dict(synape_dict):
         """
 
-        Return True if the provided dict is well corresponding to a Synapse
+            Return True if the provided dict is well corresponding to a Synapse
 
-        :param synape_dict: The synapse Dictionary
-        :type synape_dict: Dict
-        :return: True if synapse are ok
-        :rtype: Boolean
+            :param synape_dict: The synapse Dictionary
+            :type synape_dict: Dict
+            :return: True if synapse are ok
+            :rtype: Boolean
 
-        :Example:
+            :Example:
 
-            ConfigurationChecker().check_synape_dict(synapses_dict):
+                ConfigurationChecker().check_synape_dict(synapses_dict):
 
-        .. seealso:: Synapse
-        .. raises:: NoSynapeName, InvalidSynapeName, NoSynapeNeurons, NoSynapeSignals
-        .. warnings:: Static and Public
+            .. seealso:: Synapse
+            .. raises:: NoSynapeName, InvalidSynapeName, NoSynapeNeurons, NoSynapeSignals
+            .. warnings:: Static and Public
         """
 
         if 'name' not in synape_dict:
@@ -119,20 +119,20 @@ class ConfigurationChecker:
     def check_neuron_dict(neuron_dict):
         """
 
-        Check received neuron dict is valid:
+            Check received neuron dict is valid:
 
-        :param neuron_dict: The neuron Dictionary
-        :type neuron_dict: Dict
-        :return: True if neuron is ok
-        :rtype: Boolean
+            :param neuron_dict: The neuron Dictionary
+            :type neuron_dict: Dict
+            :return: True if neuron is ok
+            :rtype: Boolean
 
-        :Example:
+            :Example:
 
-            ConfigurationChecker().check_neuron_dict(neurons_dict):
+                ConfigurationChecker().check_neuron_dict(neurons_dict):
 
-        .. seealso:: Synapse
-        .. raises:: ModuleNotFoundError
-        .. warnings:: Static and Public
+            .. seealso:: Synapse
+            .. raises:: ModuleNotFoundError
+            .. warnings:: Static and Public
         """
 
 
@@ -156,20 +156,20 @@ class ConfigurationChecker:
     def check_signal_dict(signal_dict):
         """
 
-        Check received signal dictionary is valid:
+            Check received signal dictionary is valid:
 
-        :param signal_dict: The signal Dictionary
-        :type signal_dict: Dict
-        :return: True if signal are ok
-        :rtype: Boolean
+            :param signal_dict: The signal Dictionary
+            :type signal_dict: Dict
+            :return: True if signal are ok
+            :rtype: Boolean
 
-        :Example:
+            :Example:
 
-            ConfigurationChecker().check_signal_dict(signal_dict):
+                ConfigurationChecker().check_signal_dict(signal_dict):
 
-        .. seealso:: Order, Event
-        .. raises:: NoValidSignal
-        .. warnings:: Static and Public
+            .. seealso:: Order, Event
+            .. raises:: NoValidSignal
+            .. warnings:: Static and Public
         """
 
         if ('event' not in signal_dict) and ('order' not in signal_dict):
@@ -180,20 +180,20 @@ class ConfigurationChecker:
     def check_event_dict(event_dict):
         """
 
-        Check received event dictionary is valid:
+            Check received event dictionary is valid:
 
-        :param event_dict: The event Dictionary
-        :type event_dict: Dict
-        :return: True if event are ok
-        :rtype: Boolean
+            :param event_dict: The event Dictionary
+            :type event_dict: Dict
+            :return: True if event are ok
+            :rtype: Boolean
 
-        :Example:
+            :Example:
 
-            ConfigurationChecker().check_event_dict(event_dict):
+                ConfigurationChecker().check_event_dict(event_dict):
 
-        .. seealso::  Event
-        .. raises:: NoEventPeriod
-        .. warnings:: Static and Public
+            .. seealso::  Event
+            .. raises:: NoEventPeriod
+            .. warnings:: Static and Public
         """
 
         if event_dict is None:
@@ -205,20 +205,20 @@ class ConfigurationChecker:
     def check_order_dict(order_dict):
         """
 
-        Check received order dictionary is valid:
+            Check received order dictionary is valid:
 
-        :param order_dict: The Order Dict
-        :type order_dict: Dict
-        :return: True if event are ok
-        :rtype: Boolean
+            :param order_dict: The Order Dict
+            :type order_dict: Dict
+            :return: True if event are ok
+            :rtype: Boolean
 
-        :Example:
+            :Example:
 
-            ConfigurationChecker().check_order_dict(order_dict):
+                ConfigurationChecker().check_order_dict(order_dict):
 
-        .. seealso::  Order
-        .. raises:: NoEventPeriod
-        .. warnings:: Static and Public
+            .. seealso::  Order
+            .. raises:: NoEventPeriod
+            .. warnings:: Static and Public
         """
 
         if order_dict is not None:
@@ -230,20 +230,20 @@ class ConfigurationChecker:
         """
 
         Check the synapse list is ok:
-            - No double same name
+                - No double same name
 
-        :param synapses_list: The Synapse List
-        :type synapses_list: List
-        :return: list of Synapse
-        :rtype: List
+            :param synapses_list: The Synapse List
+            :type synapses_list: List
+            :return: list of Synapse
+            :rtype: List
 
-        :Example:
+            :Example:
 
-            ConfigurationChecker().check_synapes(order_dict):
+                ConfigurationChecker().check_synapes(order_dict):
 
-        .. seealso::  Synapse
-        .. raises:: MultipleSameSynapseName
-        .. warnings:: Static and Public
+            .. seealso::  Synapse
+            .. raises:: MultipleSameSynapseName
+            .. warnings:: Static and Public
         """
 
 

@@ -28,20 +28,20 @@ class YAMLLoader:
     def get_config(cls, yaml_file):
         """
 
-        Return the provided YAML configuration file
+            Return the provided YAML configuration file
 
-        :param yaml_file: The path of the configuration file
-        :type yaml_file: String
-        :return: the configuration file
-        :rtype: String
+            :param yaml_file: The path of the configuration file
+            :type yaml_file: String
+            :return: the configuration file
+            :rtype: String
 
-        :Example:
+            :Example:
 
-            YAMLLoader.get_config(brain_file_path)
+                YAMLLoader.get_config(brain_file_path)
 
-        .. seealso::  SettingLoader, BrainLoader
-        .. raises:: YAMLFileNotFound
-        .. warnings:: Class Method and Public
+            .. seealso::  SettingLoader, BrainLoader
+            .. raises:: YAMLFileNotFound
+            .. warnings:: Class Method and Public
         """
 
         current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -94,7 +94,7 @@ class IncludeImport(object):
     def get_data(self):
         """
 
-        :return: the data for the IncludeImport
+            :return: the data for the IncludeImport
         """
         return self.data
 
@@ -103,7 +103,7 @@ class IncludeImport(object):
         """
             Method to Add an other Include statement to the original brain.yml file
 
-        :param data_to_add: the data to add to the current brain.yml, provided by an Include Statement
+            :param data_to_add: the data to add to the current brain.yml, provided by an Include Statement
 
         """
 
