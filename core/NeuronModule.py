@@ -16,31 +16,41 @@ logger = logging.getLogger("kalliope")
 
 
 class InvalidParameterException(Exception):
+    """
+       Some Neuron parameters are invalid.
+    """
     pass
 
 
 class MissingParameterException(Exception):
+    """
+       Some Neuron parameters are missing.
+    """
     pass
 
 
 class NoTemplateException(Exception):
+    """
+        You must specify a say_template or a file_template
+    """
     pass
 
-
-class MultipleTemplateException(Exception):
-    pass
 
 
 class TemplateFileNotFoundException(Exception):
+    """
+        Template file can not be found. Check the provided path.
+    """
     pass
 
 
 class TTSModuleNotFound(Exception):
+    """
+        TTS module can not be find. It must be configured in the settings file.
+    """
     pass
 
 
-class TTSNotInstantiable(Exception):
-    pass
 
 
 class NeuronModule(object):

@@ -4,39 +4,65 @@ from core.Utils import ModuleNotFoundError
 
 
 class InvalidSynapeName(Exception):
+    """
+        The name of the synapse is not correct. It should only contains alphanumerics at the beginning and the end of
+        its name. It can also contains dash in beetween alphanumerics.
+    """
     pass
 
 
 class NoSynapeName(Exception):
+    """
+        A synapse needs a name
+    """
     pass
 
 
 class NoSynapeNeurons(Exception):
+    """
+        A synapse must contains at least one neuron
+
+        .. seealso:: Synapse, Neuron
+    """
     pass
 
 
 class NoSynapeSignals(Exception):
+    """
+        A synapse must contains at least an Event or an Order
+
+        .. seealso:: Event, Order
+    """
     pass
 
 
 class NoValidSignal(Exception):
+    """
+        A synapse must contains at least a valid Event or an Order
+
+        .. seealso:: Event, Order
+    """
+
     pass
 
-
-class NoEventID(Exception):
-    pass
 
 
 class NoEventPeriod(Exception):
+    """
+        An Event must contains a period corresponding to its execution
+
+        .. seealso:: Event
+    """
     pass
 
 
 class MultipleSameSynapseName(Exception):
+    """
+
+        A synapse name must be unique
+    """
     pass
 
-
-class NotValidSynapseName(Exception):
-    pass
 
 
 class ConfigurationChecker:

@@ -12,14 +12,25 @@ logger = logging.getLogger("kalliope")
 
 
 class MissingTTSParameter(Exception):
+    """
+        Some TTS Parameters are missing in the settings.yml file.
+
+        .. seealose:: Settings
+    """
     pass
 
 
 class TtsGenerateAudioFunctionNotFound(Exception):
+    """
+        You must provide a callBack to the TTS
+    """
     pass
 
 
 class FailToLoadSoundFile(Exception):
+    """
+        Fail while truing to load the sound file.
+    """
     pass
 
 

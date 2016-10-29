@@ -8,6 +8,10 @@ logger = logging.getLogger("kalliope")
 
 
 class YAMLFileNotFound(Exception):
+    """
+
+        YAML file has not been found
+    """
     pass
 
 

@@ -11,6 +11,12 @@ logger = logging.getLogger("kalliope")
 
 
 class InvalidCrontabPeriod(Exception):
+    """
+
+        Event are based on the Crontab. The Period must be corresponding to the Crontab format
+
+        .. seealso:: Event
+    """
     pass
 
 CRONTAB_COMMENT = "KALLIOPE"

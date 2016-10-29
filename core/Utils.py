@@ -5,6 +5,11 @@ logger = logging.getLogger("kalliope")
 
 
 class ModuleNotFoundError(Exception):
+    """
+       The module can not been found
+
+       .. notes: Check the case: must be in lower case.
+    """
     pass
 
 

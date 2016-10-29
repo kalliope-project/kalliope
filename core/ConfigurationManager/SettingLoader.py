@@ -16,14 +16,32 @@ logger = logging.getLogger("kalliope")
 
 
 class SettingInvalidException(Exception):
+    """
+
+        Some data must match the expected value/type
+
+        .. seealso:: Settings
+    """
     pass
 
 
 class NullSettingException(Exception):
+    """
+
+        Some Attributes can not be Null
+
+        .. seealso:: Settings
+    """
     pass
 
 
 class SettingNotFound(Exception):
+    """
+
+        Some Attributes are missing
+
+        .. seealso:: Settings
+    """
     pass
 
 

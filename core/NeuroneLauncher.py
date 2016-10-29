@@ -6,10 +6,6 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class NeuroneNotFoundError(Exception):
-    pass
-
-
 class NeuroneLauncher:
 
     def __init__(self):

@@ -3,6 +3,11 @@ from core.NeuroneLauncher import NeuroneLauncher
 
 
 class SynapseNameNotFound(Exception):
+    """
+        The Synapse has not been found
+
+        .. seealso: Synapse
+    """
     pass
 
 
