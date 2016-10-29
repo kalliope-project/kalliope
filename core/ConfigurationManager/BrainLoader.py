@@ -15,12 +15,27 @@ logger = logging.getLogger("kalliope")
 
 
 class BrainLoader(object):
+    """
+    This Class is used to get the brain YAML and the Brain as an object
+    """
 
     def __init__(self):
         pass
 
     @classmethod
     def get_yaml_config(cls, file_path=None):
+        """
+        Class Methods which loads default or the provided YAML file and return it as a String
+        :param file_path: the brain file path to load
+        :type file_path: String
+        :return: The loaded brain YAML
+        :rtype: String
+
+        :Example:
+            brain_yaml = BrainLoader.get_yaml_config(/var/tmp/brain.yml)
+
+        .. warnings:: Class Method
+        """
         if file_path is None:
             brain_file_path = cls._get_root_brain_path()
         else:
@@ -30,9 +45,19 @@ class BrainLoader(object):
     @classmethod
     def get_brain(cls, file_path=None):
         """
-        return a brain object from YAML settings
-        :return: Brain object
+        Class Methods which loads default or the provided YAML file and return a Brain
+
+        :param file_path: the brain file path to load
+        :type file_path: String
+        :return: The loaded Brain
         :rtype: Brain
+
+        :Example:
+
+            brain = BrainLoader.get_brain(file_path="/var/tmp/brain.yml")
+
+        .. seealso:: Brain
+        .. warnings:: Class Method
         """
 
         # Instantiate a brain
@@ -46,7 +71,7 @@ class BrainLoader(object):
             # create list of Synapse
             synapses = list()
             for synapses_dict in dict_brain:
-                if "includes" not in synapses_dict: # we don't need to check includes as it's not a synapse
+                if "includes" not in synapses_dict:     # we don't need to check includes as it's not a synapse
                     if ConfigurationChecker().check_synape_dict(synapses_dict):
                         # print "synapses_dict ok"
                         name = synapses_dict["name"]
@@ -71,9 +96,20 @@ class BrainLoader(object):
     def _get_neurons(neurons_dict):
         """
         Get a list of Neuron object from a neuron dict
-        :param neurons_dict:
-        :return:
+
+        :param neurons_dict: Neuron name or dictionary of Neuron_name/Neuron_parameters
+        :type neurons_dict: String or dict
+        :return: A list of Neurons
+        :rtype: List
+
+        :Example:
+
+            neurons = cls._get_neurons(synapses_dict["neurons"])
+
+        .. seealso:: Neuron
+        .. warnings:: Static and Private
         """
+
         neurons = list()
         for neuron_dict in neurons_dict:
             if isinstance(neuron_dict, dict):
@@ -96,6 +132,21 @@ class BrainLoader(object):
 
     @classmethod
     def _get_signals(cls, signals_dict):
+        """
+        Get a list of Signal object from a signals dict
+
+        :param signals_dict: Signal name or dictionary of Signal_name/Signal_parameters
+        :type signals_dict: String or dict
+        :return: A list of Event and/or Order
+        :rtype: List
+
+        :Example:
+
+            signals = cls._get_signals(synapses_dict["signals"])
+
+        .. seealso:: Event, Order
+        .. warnings:: Class method and Private
+        """
         # print signals_dict
         signals = list()
         for signal_dict in signals_dict:
@@ -108,7 +159,21 @@ class BrainLoader(object):
 
     @staticmethod
     def _get_event_or_order_from_dict(signal_or_event_dict):
+        """
+        The signal is either an Event or an Order
 
+        :param signal_or_event_dict: A dict of event or signal
+        :type signal_or_event_dict: dict
+        :return: The object corresponding to An Order or an Event
+        :rtype: An Order or an Event
+
+        :Example:
+
+            event_or_order = cls._get_event_or_order_from_dict(signal_dict)
+
+        .. seealso:: Event, Order
+        .. warnings:: Static method and Private
+        """
         if 'event' in signal_or_event_dict:
             # print "is event"
             event = signal_or_event_dict["event"]
@@ -124,8 +189,15 @@ class BrainLoader(object):
     def _get_root_brain_path():
         """
         Return the full path of the default brain file
-        :return:
+
+        :Example:
+
+            brain.brain_file = cls._get_root_brain_path()
+
+        .. raises:: IOError
+        .. warnings:: Static method and Private
         """
+
         # get current script directory path. We are in /an/unknown/path/kalliope/core/ConfigurationManager
         cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         # get parent dir. Now we are in /an/unknown/path/kalliope
@@ -135,6 +207,3 @@ class BrainLoader(object):
         if os.path.isfile(brain_path):
             return brain_path
         raise IOError("Default brain.yml file not found")
-
-
-

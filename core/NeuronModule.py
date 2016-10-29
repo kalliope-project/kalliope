@@ -16,34 +16,45 @@ logger = logging.getLogger("kalliope")
 
 
 class InvalidParameterException(Exception):
+    """
+   Some Neuron parameters are invalid.
+    """
     pass
 
 
 class MissingParameterException(Exception):
+    """
+    Some Neuron parameters are missing.
+    """
     pass
 
 
 class NoTemplateException(Exception):
-    pass
-
-
-class MultipleTemplateException(Exception):
+    """
+    You must specify a say_template or a file_template
+    """
     pass
 
 
 class TemplateFileNotFoundException(Exception):
+    """
+    Template file can not be found. Check the provided path.
+    """
     pass
 
 
 class TTSModuleNotFound(Exception):
-    pass
-
-
-class TTSNotInstantiable(Exception):
+    """
+    TTS module can not be find. It must be configured in the settings file.
+    """
     pass
 
 
 class NeuronModule(object):
+    """
+    This Abstract Class is representing main Class for Neuron.
+    Each Neuron must implement this Class.
+    """
     def __init__(self, **kwargs):
         """
         Class used by neuron for talking
@@ -81,8 +92,9 @@ class NeuronModule(object):
         If it's a string, simply use the TTS with the message
         If it's a list, we select randomly a string in the list and give it to the TTS
         If it's a dict, we use the template given in parameter to create a string that we give to the TTS
-        :param message: Can be a String or a dict
-        :return:
+        :param message: Can be a String or a dict or a list
+
+        .. raises:: TTSModuleNotFound
         """
         logger.debug("NeuronModule Say() called with message: %s" % message)
 
@@ -109,7 +121,7 @@ class NeuronModule(object):
                 raise TTSModuleNotFound("The tts module name %s does not exist in settings file" % self.tts)
             # change the cache settings with the one precised for the current neuron
             if self.override_cache is not None:
-                tts_object.parameter = self._update_cache_var(self.override_cache, tts_object.parameter)
+                tts_object.parameters = self._update_cache_var(self.override_cache, tts_object.parameters)
 
             logger.debug("NeuroneModule: TTS args: %s" % tts_object)
 
@@ -121,9 +133,11 @@ class NeuronModule(object):
 
     def _get_message_from_dict(self, message_dict):
         """
-        Generate a message taht can be played by a TTS engine from a dict of variable and the jinja template
-        :param message_dict:
-        :return:
+        Generate a message that can be played by a TTS engine from a dict of variable and the jinja template
+        :param message_dict: the dict of message
+        :return: The message to say
+
+        .. raises:: TemplateFileNotFoundException
         """
         returned_message = None
 
@@ -162,11 +176,22 @@ class NeuronModule(object):
 
     @staticmethod
     def _get_content_of_file(real_file_template_path):
+        """
+        Return the content of a file in path <real_file_template_path>
+        :param real_file_template_path: path of the file to return the content
+        :return: file content str
+        """
         with open(real_file_template_path, 'r') as content_file:
             return content_file.read()
 
     @staticmethod
     def _update_cache_var(new_override_cache, args_list):
+        """
+        update the value for the key "cache" in the dict args_list
+        :param new_override_cache: cache bolean to set in place of the current one in args_list
+        :param args_list: arg list that contain "cache" to update
+        :return:
+        """
         logger.debug("args for TTS plugin before update: %s" % str(args_list))
         args_list["cache"] = new_override_cache
         logger.debug("args for TTS plugin after update: %s" % str(args_list))
@@ -176,8 +201,7 @@ class NeuronModule(object):
     def get_audio_from_stt(callback):
         """
         Call the default STT to get an audio sample and return it into the callback method
-        :param callback:
-        :return:
+        :param callback: A callback function
         """
         # call the order listener
         oa = OrderListener(callback=callback)

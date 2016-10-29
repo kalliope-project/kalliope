@@ -1,4 +1,10 @@
 class Event(object):
+    """
+    This Class is representing an Event which is raised by when the System at some defined time.
+
+    .. note:: Events are based on the system crontab
+    """
+
     def __init__(self, period):
         self.period = period
 
@@ -7,6 +13,13 @@ class Event(object):
                                    self.period)
 
     def serialize(self):
+        """
+        This method allows to serialize in a proper way this object
+
+        :return: A dict of name / period
+        :rtype: Dict
+        """
+
         return {
             'event': self.period
         }

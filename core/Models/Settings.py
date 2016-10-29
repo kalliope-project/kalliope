@@ -3,6 +3,12 @@ from core.Models import Singleton
 
 @Singleton
 class Settings(object):
+    # TODO review the Singleton, should be Instantiate at the BrainLoader level
+    """
+    This Class is a Singleton Representing the settings.yml file with synapse
+
+    .. note:: the is_loaded Boolean is True when the Settings has been properly loaded.
+    """
     def __init__(self,
                  default_tts_name=None,
                  default_stt_name=None,

@@ -13,6 +13,9 @@ logger = logging.getLogger("kalliope")
 
 
 class OrderAnalyser:
+    """
+    This Class is used to compare the incoming message to the Signal/Order sentences.
+    """
     def __init__(self, order, main_controller=None, brain=None):
         """
         Class used to load brain and run neuron attached to the received order
@@ -28,6 +31,10 @@ class OrderAnalyser:
         logger.debug("OrderAnalyser, Received order: %s" % self.order)
 
     def start(self):
+        # TODO : refactor this method !!
+        """
+        This method matches the incoming messages to the signals/order sentences provided in the Brain
+        """
         synapses_found = False
         problem_in_neuron_found = False
         # create a dict of synapses that have benn launched
@@ -124,6 +131,11 @@ class OrderAnalyser:
 
     @staticmethod
     def _is_containing_bracket(sentence):
+        """
+        Return True if the text in <sentence> contains brackets
+        :param sentence:
+        :return:
+        """
         # print "sentence to test %s" % sentence
         pattern = r"{{|}}"
         # prog = re.compile(pattern)

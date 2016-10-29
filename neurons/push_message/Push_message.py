@@ -14,7 +14,6 @@ class Push_message(NeuronModule):
         :param message: Message to send
         :param api_key: The Pushetta service secret token
         :param channel_name: Pushetta channel name
-        :return:
         """
         super(Push_message, self).__init__(**kwargs)
 
@@ -24,13 +23,15 @@ class Push_message(NeuronModule):
 
         # check if parameters have been provided
         if self._is_parameters_ok():
-            p = Pushetta( self.api_key)
+            p = Pushetta(self.api_key)
             p.pushMessage(self.channel_name, self.message)
 
     def _is_parameters_ok(self):
         """
         Check if received parameters are ok to perform operations in the neuron
         :return: true if parameters are ok, raise an exception otherwise
+
+        .. raises:: NotImplementedError
         """
         if self.message is None:
             raise NotImplementedError("Pushetta neuron needs message to send")

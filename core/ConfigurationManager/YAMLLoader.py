@@ -8,10 +8,16 @@ logger = logging.getLogger("kalliope")
 
 
 class YAMLFileNotFound(Exception):
+    """
+    YAML file has not been found
+    """
     pass
 
 
 class YAMLLoader:
+    """
+    Simple Class to Verify / Load a YAML file.
+    """
 
     def __init__(self):
         pass
@@ -19,9 +25,22 @@ class YAMLLoader:
     @classmethod
     def get_config(cls, yaml_file):
         """
-        Load settings file
-        :return: cfg : the configuration file
+        Return the provided YAML configuration file
+
+        :param yaml_file: The path of the configuration file
+        :type yaml_file: String
+        :return: the configuration file
+        :rtype: String
+
+        :Example:
+
+            YAMLLoader.get_config(brain_file_path)
+
+        .. seealso::  SettingLoader, BrainLoader
+        .. raises:: YAMLFileNotFound
+        .. warnings:: Class Method and Public
         """
+
         current_dir = os.path.dirname(os.path.abspath(__file__))
         logger.debug("Current dir: %s " % current_dir)
         root_dir = os.path.join(current_dir, "../../")
@@ -38,6 +57,9 @@ class YAMLLoader:
 
 
 class IncludeImport(object):
+    """
+    This class manages the Include Import statement in the brain.yml file
+    """
 
     def __init__(self, file_path):
         """
@@ -63,14 +85,19 @@ class IncludeImport(object):
                         self.update(yaml.load(open(inc)))
 
     def get_data(self):
+        """
+        :return: the data for the IncludeImport
+        """
         return self.data
 
     def update(self, data_to_add):
-        # print "cur_data: %s" % self.data
-        # print "data to add %s" % data_to_add
+        """
+        Method to Add an other Include statement to the original brain.yml file
+        :param data_to_add: the data to add to the current brain.yml, provided by an Include Statement
+        """
+
         # we add each synapse inside the extended brain into the main brain data
         if data_to_add is not None:
             for el in data_to_add:
                 self.data.append(el)
-        # print "final data: %s" % self.data
 

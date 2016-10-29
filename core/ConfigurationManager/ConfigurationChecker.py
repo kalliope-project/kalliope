@@ -4,48 +4,90 @@ from core.Utils import ModuleNotFoundError
 
 
 class InvalidSynapeName(Exception):
+    """
+    The name of the synapse is not correct. It should only contains alphanumerics at the beginning and the end of
+    its name. It can also contains dash in beetween alphanumerics.
+    """
     pass
 
 
 class NoSynapeName(Exception):
+    """
+    A synapse needs a name
+    """
     pass
 
 
 class NoSynapeNeurons(Exception):
+    """
+    A synapse must contains at least one neuron
+
+    .. seealso:: Synapse, Neuron
+    """
     pass
 
 
 class NoSynapeSignals(Exception):
+    """
+    A synapse must contains at least an Event or an Order
+
+    .. seealso:: Event, Order
+    """
     pass
 
 
 class NoValidSignal(Exception):
-    pass
+    """
+    A synapse must contains at least a valid Event or an Order
 
+    .. seealso:: Event, Order
+    """
 
-class NoEventID(Exception):
     pass
 
 
 class NoEventPeriod(Exception):
+    """
+    An Event must contains a period corresponding to its execution
+
+    .. seealso:: Event
+    """
     pass
 
 
 class MultipleSameSynapseName(Exception):
-    pass
-
-
-class NotValidSynapseName(Exception):
+    """
+    A synapse name must be unique
+    """
     pass
 
 
 class ConfigurationChecker:
+    """
+    This Class provides all method to Check the configuration files are properly set up.
+    """
 
     def __init__(self):
         pass
 
     @staticmethod
     def check_synape_dict(synape_dict):
+        """
+        Return True if the provided dict is well corresponding to a Synapse
+
+        :param synape_dict: The synapse Dictionary
+        :type synape_dict: Dict
+        :return: True if synapse are ok
+        :rtype: Boolean
+
+        :Example:
+
+            ConfigurationChecker().check_synape_dict(synapses_dict):
+
+        .. seealso:: Synapse
+        .. raises:: NoSynapeName, InvalidSynapeName, NoSynapeNeurons, NoSynapeSignals
+        .. warnings:: Static and Public
+        """
 
         if 'name' not in synape_dict:
             raise NoSynapeName("The Synapse does not have a name: %s" % synape_dict)
@@ -71,17 +113,35 @@ class ConfigurationChecker:
     def check_neuron_dict(neuron_dict):
         """
         Check received neuron dict is valid:
-        - neuron exist
-        :param neuron_dict:
-        :return:
+
+        :param neuron_dict: The neuron Dictionary
+        :type neuron_dict: Dict
+        :return: True if neuron is ok
+        :rtype: Boolean
+
+        :Example:
+
+            ConfigurationChecker().check_neuron_dict(neurons_dict):
+
+        .. seealso:: Synapse
+        .. raises:: ModuleNotFoundError
+        .. warnings:: Static and Public
         """
-        def check_neuron_exist(neuron_name):
+
+        def check_neuron_exist(neuron_module_name):
+            """
+            Return True if the neuron_name python Class exist in neurons package
+            :param neuron_module_name: Name of the neuron module to check
+            :type neuron_module_name: str
+            :return:
+            """
             package_name = "neurons"
-            mod = __import__(package_name, fromlist=[neuron_name])
+            mod = __import__(package_name, fromlist=[neuron_module_name])
             try:
-                getattr(mod, neuron_name)
+                getattr(mod, neuron_module_name)
             except AttributeError:
-                raise ModuleNotFoundError("The module %s does not exist in package %s" % (neuron_name, package_name))
+                raise ModuleNotFoundError("The module %s does not exist in package %s" % (neuron_module_name,
+                                                                                          package_name))
             return True
 
         if isinstance(neuron_dict, dict):
@@ -93,12 +153,46 @@ class ConfigurationChecker:
 
     @staticmethod
     def check_signal_dict(signal_dict):
+        """
+        Check received signal dictionary is valid:
+
+        :param signal_dict: The signal Dictionary
+        :type signal_dict: Dict
+        :return: True if signal are ok
+        :rtype: Boolean
+
+        :Example:
+
+            ConfigurationChecker().check_signal_dict(signal_dict):
+
+        .. seealso:: Order, Event
+        .. raises:: NoValidSignal
+        .. warnings:: Static and Public
+        """
+
         if ('event' not in signal_dict) and ('order' not in signal_dict):
             raise NoValidSignal("The signal is not an event or an order %s" % signal_dict)
         return True
 
     @staticmethod
     def check_event_dict(event_dict):
+        """
+        Check received event dictionary is valid:
+
+        :param event_dict: The event Dictionary
+        :type event_dict: Dict
+        :return: True if event are ok
+        :rtype: Boolean
+
+        :Example:
+
+            ConfigurationChecker().check_event_dict(event_dict):
+
+        .. seealso::  Event
+        .. raises:: NoEventPeriod
+        .. warnings:: Static and Public
+        """
+
         if event_dict is None:
             raise NoEventPeriod("Event must contain a period: %s" % event_dict)
 
@@ -106,6 +200,22 @@ class ConfigurationChecker:
 
     @staticmethod
     def check_order_dict(order_dict):
+        """
+        Check received order dictionary is valid:
+
+        :param order_dict: The Order Dict
+        :type order_dict: Dict
+        :return: True if event are ok
+        :rtype: Boolean
+
+        :Example:
+
+            ConfigurationChecker().check_order_dict(order_dict):
+
+        .. seealso::  Order
+        .. warnings:: Static and Public
+        """
+
         if order_dict is not None:
             return True
         return False
@@ -114,11 +224,22 @@ class ConfigurationChecker:
     def check_synapes(synapses_list):
         """
         Check the synapse list is ok:
-         - No double same name
-        :param synapses_list:
-        :type synapses_list: list of Synapse
-        :return:
+                - No double same name
+
+        :param synapses_list: The Synapse List
+        :type synapses_list: List
+        :return: list of Synapse
+        :rtype: List
+
+        :Example:
+
+            ConfigurationChecker().check_synapes(order_dict):
+
+        .. seealso::  Synapse
+        .. raises:: MultipleSameSynapseName
+        .. warnings:: Static and Public
         """
+
         seen = set()
         for synapse in synapses_list:
             # convert ascii to UTF-8

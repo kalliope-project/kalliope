@@ -14,10 +14,6 @@ class Houndify(OrderListener):
         """
         OrderListener.__init__(self)
 
-        """
-        Start recording the microphone
-        :return:
-        """
         # callback function to call after the translation speech/tex
         self.callback = callback
         # obtain audio from the microphone
@@ -30,14 +26,13 @@ class Houndify(OrderListener):
 
         # recognize speech using Houndify Speech Recognition
         try:
-
-
-            id = kwargs.get('client_id', None)
+            client_id = kwargs.get('client_id', None)
             key = kwargs.get('key', None)
             language = kwargs.get('language', "en-US")
             show_all = kwargs.get('show_all', False)
 
-            captured_audio = r.recognize_houndify(audio, client_id=id, client_key=key, language=language, show_all=show_all)
+            captured_audio = r.recognize_houndify(audio, client_id=client_id, client_key=key,
+                                                  language=language, show_all=show_all)
             Utils.print_success("Houndify Speech Recognition thinks you said %s" % captured_audio)
             self._analyse_audio(captured_audio)
 
@@ -47,12 +42,12 @@ class Houndify(OrderListener):
             Utils.print_danger("Could not request results from Houndify Speech Recognition service; {0}".format(e))
 
     def _analyse_audio(self, audio):
+        """
+            Confirm the audio exists annd run it in a Callback
+            :param audio: the captured audio
+        """
+
         # if self.main_controller is not None:
         #     self.main_controller.analyse_order(audio)
         if self.callback is not None:
             self.callback(audio)
-
-
-
-
-

@@ -30,6 +30,8 @@ class Tasker_autoremote(NeuronModule):
         """
         Check if received parameters are ok to perform operations in the neuron
         :return: true if parameters are ok, raise an exception otherwise
+
+        .. raises:: MissingParameterException
         """
         if self.key is None:
             raise MissingParameterException("key parameter required")

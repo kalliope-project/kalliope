@@ -15,10 +15,20 @@ class Pico2wave(TTSModule):
         super(Pico2wave, self).__init__(**kwargs)
 
     def say(self, words):
+        """
+        :param words: The sentence to say
+        """
 
         self.generate_and_play(words, self._generate_audio_file)
 
     def _generate_audio_file(self):
+        """
+        Generic method used as a Callback in TTSModule
+            - must provided the audio file and write it on the disk
+
+        .. raises:: FailToLoadSoundFile
+        """
+
         pico2wave_exec_path = ["/usr/bin/pico2wave"]
 
         # pico2wave needs that the file path ends with .wav
@@ -37,5 +47,3 @@ class Pico2wave(TTSModule):
 
         # remove the extension .wav
         os.rename(tmp_path, self.file_path)
-
-

@@ -12,25 +12,37 @@ logger = logging.getLogger("kalliope")
 
 
 class MissingTTSParameter(Exception):
+    """
+    Some TTS Parameters are missing in the settings.yml file.
+
+    .. seealose:: Settings
+    """
     pass
 
 
 class TtsGenerateAudioFunctionNotFound(Exception):
+    """
+    You must provide a callBack to the TTS
+    """
     pass
 
 
 class FailToLoadSoundFile(Exception):
+    """
+    Fail while truing to load the sound file.
+    """
     pass
 
 
 class TTSModule(object):
+    """
+    Mother class of TTS module. Handle:
+    - Cache: call cache object to create file, delete file, check if file exist
+    - Player: call the default player to play the generated file
+    """
 
     def __init__(self, **kwargs):
-        """
-        Mother class of TTS module. Handle:
-        - Cache: call cache object to create file, delete file, check if file exist
-        - Player: call the default player to play the generated file
-        """
+
         # set parameter from what we receive from the settings
         self.cache = kwargs.get('cache', False)
         self.language = kwargs.get('language', None)
@@ -54,7 +66,6 @@ class TTSModule(object):
     def play_audio(self):
         """
         Play the audio file
-        :return:
         """
         Mplayer.play(self.file_path)
 
@@ -62,8 +73,11 @@ class TTSModule(object):
         """
         Generate an audio file from <words> if not already in cache and call the Player to play it
         :param words: Sentence text from which we want to generate an audio file
+        :type words: String
         :param generate_audio_function_from_child: The child function to generate a file if necessary
-        :return:
+        :type generate_audio_function_from_child; Callback function
+
+        .. raises:: TtsGenerateAudioFunctionNotFound
         """
         if generate_audio_function_from_child is None:
             raise TtsGenerateAudioFunctionNotFound
@@ -120,7 +134,6 @@ class TTSModule(object):
     def is_file_already_in_cache(self):
         """
         Return true if the file to generate has already been generated before
-        :return:
         """
         # generate sub folder
         FileManager.create_directory(self.base_cache_path)

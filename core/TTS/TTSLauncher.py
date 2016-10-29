@@ -17,6 +17,9 @@ class TTSLauncher(object):
         :param tts: TTS model
         :type tts: Tts
         :return: TTS module instance
+
+        .. seealso::  TTS
+        .. warnings:: Class Method and Public
         """
         logger.debug("get TTS module \"%s\" with parameters %s" % (tts.name, tts.parameters))
         return Utils.get_dynamic_class_instantiation("tts", tts.name.capitalize(), tts.parameters)
