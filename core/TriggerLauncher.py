@@ -24,5 +24,4 @@ class TriggerLauncher(object):
         trigger.parameters["callback"] = callback
         logger.debug("TriggerLauncher: Start trigger %s with parameters: %s" % (trigger.name, trigger.parameters))
         return Utils.get_dynamic_class_instantiation("trigger", trigger.name.capitalize(),
-                                                                 trigger.parameters)
-
+                                                     trigger.parameters)

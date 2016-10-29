@@ -22,7 +22,6 @@ def signal_handler(signal, frame):
     Used to catch a keyboard signal like Ctrl+C in order to kill the kalliope program
     :param signal: signal handler
     :param frame: execution frame
-    :return:
     """
     print "\n"
     Utils.print_info("Ctrl+C pressed. Killing Kalliope")
@@ -35,7 +34,10 @@ class ShellGui:
     def __init__(self, brain=None):
         """
         Load a GUI in a shell console for testing TTS, STT and brain configuration
-        :param brain:
+        :param brain: The Brain object provided by the brain.yml
+        :type brain: Brain
+
+        .. seealso:: Brain
         """
         # override brain
         self.brain = brain
@@ -54,7 +56,6 @@ class ShellGui:
         """
         Main menu of the shell UI.
         Provide a list of action the user can select to test his settings
-        :return:
         """
 
         code, tag = self.d.menu("Test your Kalliope settings from this menu",
@@ -74,7 +75,6 @@ class ShellGui:
         """
         Show the list of available STT.
         Clicking on a STT will load the engine to catch the user audio and return a text
-        :return:
         """
         # we get STT from settings
         stt_list = self.settings.stts
@@ -101,7 +101,7 @@ class ShellGui:
         - select a TTS engine to test
         - type a sentence
         - press ok and listen the generated audio from the typed text
-        :return:
+        :param sentence_to_test: the screen written sentence to test
         """
         continue_bool = True
         # if we don't have yet a sentence to test, we ask the user to type one
@@ -139,7 +139,6 @@ class ShellGui:
         Call the TTS
         :param tts_name: Name of the TTS module to launch
         :param sentence_to_test: String text to send to the TTS engine
-        :return:
         """
         sentence_to_test = sentence_to_test.encode('utf-8')
         tts_name = tts_name.encode('utf-8')
@@ -149,9 +148,10 @@ class ShellGui:
     @staticmethod
     def _get_choices_tuple_from_list(list_to_convert):
         """
-        Return a list of tup that can be used in Dialog menu
-        :param list_to_convert: List of object to convert into tuple
-        :return:
+            Return a list of tup that can be used in Dialog menu
+            :param list_to_convert: List of object to convert into tuple
+            :return: List of choices
+            :rtype: List
         """
         # create a list of tuple that can be used by the dialog menu
         choices = list()
@@ -175,7 +175,6 @@ class ShellGui:
     def show_synapses_test_menu(self):
         """
         Show a list of available synapse in the brain to run it directly
-        :return:
         """
 
         # create a tuple for the list menu

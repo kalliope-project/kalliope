@@ -116,6 +116,8 @@ class Openweathermap(NeuronModule):
         """
         Check if received parameters are ok to perform operations in the neuron
         :return: true if parameters are ok, raise an exception otherwise
+
+        .. raises:: NotImplementedError
         """
         if self.api_key is None:
             raise NotImplementedError("OpenWeatherMap neuron needs an api_key")

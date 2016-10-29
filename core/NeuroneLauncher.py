@@ -6,10 +6,6 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class NeuroneNotFoundError(Exception):
-    pass
-
-
 class NeuroneLauncher:
 
     def __init__(self):
@@ -20,9 +16,8 @@ class NeuroneLauncher:
         """
         Start a neuron plugin
         :param neuron: neuron object
-        :type neuron: Neurone
+        :type neuron: Neuron
         :return:
         """
         logger.debug("Run plugin \"%s\" with parameters %s" % (neuron.name, neuron.parameters))
         return Utils.get_dynamic_class_instantiation("neurons", neuron.name.capitalize(), neuron.parameters)
-

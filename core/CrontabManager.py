@@ -1,16 +1,20 @@
-from crontab import CronTab
+import logging
+
 from crontab import CronSlices
+from crontab import CronTab
 
 from core import Utils
-from core.ConfigurationManager.BrainLoader import BrainLoader
 from core.Models import Event
-import logging
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
 class InvalidCrontabPeriod(Exception):
+    """
+    Event are based on the Crontab. The Period must be corresponding to the Crontab format
+    .. seealso:: Event
+    """
     pass
 
 CRONTAB_COMMENT = "KALLIOPE"
@@ -28,7 +32,6 @@ class CrontabManager:
         """
         Remove all line in crontab with the CRONTAB_COMMENT
         Then add back line from event in the brain.yml
-        :return:
         """
         # clean the current crontab from all Kalliope event
         self._remove_all_job()
@@ -42,6 +45,19 @@ class CrontabManager:
                     self._add_event(period_string=signal.period, event_id=synapse.name)
 
     def _add_event(self, period_string, event_id):
+        """
+        Add a single event in the crontab.
+        Will add a line like:
+        <period_string> python /path/to/kalliope.py start --brain-file /path/to/brain.yml --run-synapse "<event_id>"
+
+        E.g:
+        30 7 * * * python /home/me/kalliope/kalliope.py start --brain-file /home/me/brain.yml --run-synapse  "Say-hello"
+        :param period_string: crontab period
+        :type period_string: str
+        :param event_id:
+        :type event_id: str
+        :return:
+        """
         my_user_cron = CronTab(user=True)
         job = my_user_cron.new(command=self.base_command+" "+str("\"" + event_id + "\""), comment=CRONTAB_COMMENT)
         if CronSlices.is_valid(period_string):
@@ -54,15 +70,18 @@ class CrontabManager:
         Utils.print_info("Synapse \"%s\" added to the crontab" % event_id)
 
     def get_jobs(self):
+        """
+        Return all current jobs in the crontab
+        :return:
+        """
         return self.my_user_cron.find_comment(CRONTAB_COMMENT)
 
     def _remove_all_job(self):
         """
         Remove all line in crontab that are attached to Kalliope
-        :return:
         """
-        iter = self.my_user_cron.find_comment(CRONTAB_COMMENT)
-        for job in iter:
+        iter_item = self.my_user_cron.find_comment(CRONTAB_COMMENT)
+        for job in iter_item:
             logger.debug("remove job %s from crontab" % job)
             self.my_user_cron.remove(job)
         # write the file
@@ -80,6 +99,7 @@ class CrontabManager:
         Return the path of the entry point of Kalliope
         Example: /home/user/kalliope/kalliope.py
         :return: The path of the entry point script kalliope.py
+        :rtype: str
         """
         import inspect
         import os

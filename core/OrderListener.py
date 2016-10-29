@@ -12,6 +12,12 @@ logger = logging.getLogger("kalliope")
 
 
 class OrderListener(Thread):
+    """
+    This Class allows to Listen to an Incoming voice order.
+
+    .. notes:: Thread are used to calibrate the sound of the microphone input with the noise while
+        starting to listen the incoming order. Basically it avoids delays.
+    """
 
     def __init__(self, callback=None, stt=None):
         """
@@ -19,8 +25,12 @@ class OrderListener(Thread):
         We now wait for an order spoken out loud by the user, translate the order into a text and run the action
          attached to this order from settings
         :param callback: callback function to call
+        :type callback: Callback function
         :param stt: Speech to text plugin name to load. If not provided,
+        :type stt: STT instance
         we will load the default one set in settings
+
+        .. seealso::  STT
         """
         # this is a trick to ignore ALSA output error
         # see http://stackoverflow.com/questions/7088672/pyaudio-working-but-spits-out-error-messages-each-time
@@ -32,6 +42,9 @@ class OrderListener(Thread):
         self.settings = SettingLoader.get_settings()
 
     def run(self):
+        """
+        Start thread
+        """
         self.load_stt_plugin()
 
     def load_stt_plugin(self):
@@ -47,7 +60,9 @@ class OrderListener(Thread):
 
     @staticmethod
     def _ignore_stderr():
-        """Try to forward PortAudio messages from stderr to /dev/null."""
+        """
+        Try to forward PortAudio messages from stderr to /dev/null.
+        """
         ffi = _FFI()
         ffi.cdef("""
         /* from stdio.h */
@@ -65,5 +80,3 @@ class OrderListener(Thread):
                 stdio.__stderrp = devnull
             except KeyError:
                 stdio.fclose(devnull)
-
-

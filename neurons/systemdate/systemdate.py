@@ -1,4 +1,3 @@
-#!/usr/bin/python
 import time
 
 from core.NeuronModule import NeuronModule
@@ -11,8 +10,6 @@ class Systemdate(NeuronModule):
         if cache is None:
             cache = False
         super(Systemdate, self).__init__(cache=cache, **kwargs)
-
-
 
         # local time and date
         hour = time.strftime("%H")          # Hour (24-hour clock) as a decimal number [00,23].

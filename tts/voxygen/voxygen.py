@@ -3,7 +3,7 @@ import logging
 import requests
 
 from core import FileManager
-from core.TTS.TTSModule import TTSModule, MissingTTSParameter, FailToLoadSoundFile
+from core.TTS.TTSModule import TTSModule, MissingTTSParameter
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -24,9 +24,20 @@ class Voxygen(TTSModule):
             raise MissingTTSParameter("voice parameter is required by the Voxygen TTS")
 
     def say(self, words):
+        """
+        :param words: The sentence to say
+        """
+
         self.generate_and_play(words, self._generate_audio_file)
 
     def _generate_audio_file(self):
+        """
+        Generic method used as a Callback in TTSModule
+            - must provided the audio file and write it on the disk
+
+        .. raises:: FailToLoadSoundFile
+        """
+
         payload = self.get_payload(self.voice, self.words)
 
         # getting the mp3
@@ -45,6 +56,12 @@ class Voxygen(TTSModule):
 
     @staticmethod
     def get_payload(voice, words):
+        """
+        Generic method used load the payload used to access the remote api
+
+        :return: Payload to use to access the remote api
+        """
+
         return {
             "method": "redirect",
             "text": words,

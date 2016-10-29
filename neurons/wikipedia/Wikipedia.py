@@ -41,7 +41,7 @@ class Wikipedia(NeuronModule):
                 self.may_refer = list(set(self.may_refer))
                 self.returncode = "DisambiguationError"
                 summary = ""
-            except wikipedia.exceptions.PageError, e:
+            except wikipedia.exceptions.PageError:
                 # Exception raised when no Wikipedia matched a query.
                 self.returncode = "PageError"
                 summary = ""
@@ -58,8 +58,11 @@ class Wikipedia(NeuronModule):
     def _is_parameters_ok(self):
         """
         Check if received parameters are ok to perform operations in the neuron
-        :return:
+        :return: true if parameters are ok, raise an exception otherwise
+
+        .. raises:: InvalidParameterException
         """
+
         if self.query is None:
             raise InvalidParameterException("Wikipedia needs a query")
         if self.language is None:

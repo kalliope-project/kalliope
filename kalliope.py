@@ -22,7 +22,6 @@ def signal_handler(signal, frame):
     Used to catch a keyboard signal like Ctrl+C in order to kill the kalliope program
     :param signal: signal handler
     :param frame: execution frame
-    :return:
     """
     print "\n"
     Utils.print_info("Ctrl+C pressed. Killing Kalliope")
@@ -95,7 +94,6 @@ def configure_logging(debug=None):
     """
     Prepare log folder in current home directory
     :param debug: If true, set the lof level to debug
-    :return:
     """
     logger = logging.getLogger("kalliope")
     logger.propagate = False

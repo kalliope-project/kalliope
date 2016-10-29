@@ -114,7 +114,6 @@ class HotwordDetector(object):
             frames_per_buffer=2048,
             stream_callback=audio_callback)
 
-
     def start(self, detected_callback=play_audio_file,
               interrupt_check=lambda: False,
               sleep_time=0.03):

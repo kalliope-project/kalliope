@@ -14,10 +14,6 @@ class Apiai(OrderListener):
         """
         OrderListener.__init__(self)
 
-        """
-        Start recording the microphone
-        :return:
-        """
         # callback function to call after the translation speech/tex
         self.callback = callback
         # obtain audio from the microphone
@@ -46,6 +42,10 @@ class Apiai(OrderListener):
             Utils.print_danger("Could not request results from Apiai Speech Recognition service; {0}".format(e))
 
     def _analyse_audio(self, audio):
+        """
+        Confirm the audio exists annd run it in a Callback
+        :param audio: the captured audio
+        """
         # if self.main_controller is not None:
         #     self.main_controller.analyse_order(audio)
         if self.callback is not None:

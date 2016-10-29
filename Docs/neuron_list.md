@@ -4,7 +4,7 @@ A neuron is a module that will perform some actions attached to an order. You ca
 
 | Name                                               | Description                                                                             | Used to sort      |
 |----------------------------------------------------|-----------------------------------------------------------------------------------------|-------------------|
-| [ansible_task](../neurons/ansible_task/)           | Run an ansible playbook                                                                 | ansible_task      |
+| [ansible_playbook](../neurons/ansible_playbook/)   | Run an ansible playbook                                                                 | ansible_task      |
 | [gmail_checker](../neurons/gmail_checker/)         | Get the number of unread email and their subjects from a gmail account                  | gmail_checker     |
 | [kill_switch](../neurons/kill_switch/)             | Stop Kalliope process                                                                   | kill_switch       |
 | [neurotransmitter](../neurons/neurotransmitter/)   | Link synapse together                                                                   | neurotransmitter  |
@@ -16,5 +16,6 @@ A neuron is a module that will perform some actions attached to an order. You ca
 | [systemdate](../neurons/systemdate/)               | Give the local system date and time                                                     | systemdate        |
 | [tasker_autoremote](../neurons/tasker_autoremote/) | Send a message to Android tasker app                                                    | tasker_autoremote |
 | [twitter](../neurons/twitter/)                     | Send a Twit from kalliope                                                               | twitter           |
+| [wake_on_lan](../neurons/wake_on_lan/)             | Wake on lan a computer                                                                  | Wake on lan       |
 | [wikipedia](../neurons/wikipedia/)                 | Search for a page on Wikipedia                                                          | wikipedia         |
 
