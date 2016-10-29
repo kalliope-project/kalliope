@@ -121,7 +121,7 @@ class NeuronModule(object):
                 raise TTSModuleNotFound("The tts module name %s does not exist in settings file" % self.tts)
             # change the cache settings with the one precised for the current neuron
             if self.override_cache is not None:
-                tts_object.parameter = self._update_cache_var(self.override_cache, tts_object.parameter)
+                tts_object.parameters = self._update_cache_var(self.override_cache, tts_object.parameters)
 
             logger.debug("NeuroneModule: TTS args: %s" % tts_object)
 
