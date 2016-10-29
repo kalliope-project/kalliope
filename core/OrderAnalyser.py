@@ -13,17 +13,15 @@ logger = logging.getLogger("kalliope")
 
 
 class OrderAnalyser:
-
     """
-
-        This Class is used to compate the incoming message to the Signal/Order sentences.
+    This Class is used to compare the incoming message to the Signal/Order sentences.
     """
     def __init__(self, order, main_controller=None, brain=None):
         """
-            Class used to load brain and run neuron attached to the received order
-            :param order: spelt order
-            :param main_controller
-            :param brain: loaded brain
+        Class used to load brain and run neuron attached to the received order
+        :param order: spelt order
+        :param main_controller
+        :param brain: loaded brain
         """
         self.main_controller = main_controller
         self.order = order
@@ -35,8 +33,7 @@ class OrderAnalyser:
     def start(self):
         # TODO : refactor this method !!
         """
-            This method matchs the incoming messages to the signals/order sentences provided in the Brain
-
+        This method matches the incoming messages to the signals/order sentences provided in the Brain
         """
         synapses_found = False
         problem_in_neuron_found = False
@@ -95,9 +92,9 @@ class OrderAnalyser:
 
     def _associate_order_params_to_values(self, order_to_check):
         """
-            Associate the variables from the order to the incoming user order
-            :param order_to_check: the order to check
-            :return: the dict corresponding to the key / value of the params
+        Associate the variables from the order to the incoming user order
+        :param order_to_check: the order to check
+        :return: the dict corresponding to the key / value of the params
         """
         pattern = '\s+(?=[^\{\{\}\}]*\}\})'
         # Remove white spaces (if any) between the variable and the double brace then split
@@ -134,6 +131,11 @@ class OrderAnalyser:
 
     @staticmethod
     def _is_containing_bracket(sentence):
+        """
+        Return True if the text in <sentence> contains brackets
+        :param sentence:
+        :return:
+        """
         # print "sentence to test %s" % sentence
         pattern = r"{{|}}"
         # prog = re.compile(pattern)
@@ -150,10 +152,10 @@ class OrderAnalyser:
 
     def _spelt_order_match_brain_order_via_table(self, order_to_analyse, user_said):
         """
-            return true if all string that are in the sentence are present in the order to test
-            :param order_to_analyse: String order to test
-            :param user_said: String to compare to the order
-            :return: True if all string are present in the order
+        return true if all string that are in the sentence are present in the order to test
+        :param order_to_analyse: String order to test
+        :param user_said: String to compare to the order
+        :return: True if all string are present in the order
         """
         list_word_user_said = user_said.split()
         split_order_without_bracket = self._get_split_order_without_bracket(order_to_analyse)
@@ -164,10 +166,10 @@ class OrderAnalyser:
     @staticmethod
     def _get_split_order_without_bracket(order):
         """
-            Get an order with bracket inside like: "hello my name is {{ name }}.
-            return a list of string without bracket like ["hello", "my", "name", "is"]
-            :param order: sentence to split
-            :return: list of string without bracket
+        Get an order with bracket inside like: "hello my name is {{ name }}.
+        return a list of string without bracket like ["hello", "my", "name", "is"]
+        :param order: sentence to split
+        :return: list of string without bracket
         """
         pattern = r"((?:{{\s*)[\w\.]+(?:\s*}}))"
         # find everything like {{ word }}
@@ -181,10 +183,10 @@ class OrderAnalyser:
     @staticmethod
     def _counter_subset(list1, list2):
         """
-            check if the number of occurrences matches
-            :param list1:
-            :param list2:
-            :return:
+        check if the number of occurrences matches
+        :param list1:
+        :param list2:
+        :return:
         """
         c1, c2 = Counter(list1), Counter(list2)
         for k, n in c1.items():

@@ -6,9 +6,9 @@ logger = logging.getLogger("kalliope")
 
 class ModuleNotFoundError(Exception):
     """
-       The module can not been found
+    The module can not been found
 
-       .. notes: Check the case: must be in lower case.
+    .. notes: Check the case: must be in lower case.
     """
     pass
 
@@ -60,7 +60,13 @@ class Utils(object):
 
     @classmethod
     def get_dynamic_class_instantiation(cls, package_name, module_name, parameters=None):
-
+        """
+        Load a python class dynamically
+        :param package_name: name of the package where we will find the module to load (neurons, tts, stt, trigger)
+        :param module_name: name of the module from the package_name to load
+        :param parameters:  dict parameters to send as argument to the module
+        :return:
+        """
         logger.debug("Run plugin %s with parameter %s" % (module_name, parameters))
         mod = __import__(package_name, fromlist=[module_name])
         try:

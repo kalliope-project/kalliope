@@ -13,32 +13,32 @@ logger = logging.getLogger("kalliope")
 
 class MissingTTSParameter(Exception):
     """
-        Some TTS Parameters are missing in the settings.yml file.
+    Some TTS Parameters are missing in the settings.yml file.
 
-        .. seealose:: Settings
+    .. seealose:: Settings
     """
     pass
 
 
 class TtsGenerateAudioFunctionNotFound(Exception):
     """
-        You must provide a callBack to the TTS
+    You must provide a callBack to the TTS
     """
     pass
 
 
 class FailToLoadSoundFile(Exception):
     """
-        Fail while truing to load the sound file.
+    Fail while truing to load the sound file.
     """
     pass
 
 
 class TTSModule(object):
     """
-        Mother class of TTS module. Handle:
-        - Cache: call cache object to create file, delete file, check if file exist
-        - Player: call the default player to play the generated file
+    Mother class of TTS module. Handle:
+    - Cache: call cache object to create file, delete file, check if file exist
+    - Player: call the default player to play the generated file
     """
 
     def __init__(self, **kwargs):
@@ -65,19 +65,19 @@ class TTSModule(object):
 
     def play_audio(self):
         """
-            Play the audio file
+        Play the audio file
         """
         Mplayer.play(self.file_path)
 
     def generate_and_play(self, words, generate_audio_function_from_child=None):
         """
-            Generate an audio file from <words> if not already in cache and call the Player to play it
-            :param words: Sentence text from which we want to generate an audio file
-            :type words: String
-            :param generate_audio_function_from_child: The child function to generate a file if necessary
-            :type generate_audio_function_from_child; Callback function
+        Generate an audio file from <words> if not already in cache and call the Player to play it
+        :param words: Sentence text from which we want to generate an audio file
+        :type words: String
+        :param generate_audio_function_from_child: The child function to generate a file if necessary
+        :type generate_audio_function_from_child; Callback function
 
-            .. raises:: TtsGenerateAudioFunctionNotFound
+        .. raises:: TtsGenerateAudioFunctionNotFound
         """
         if generate_audio_function_from_child is None:
             raise TtsGenerateAudioFunctionNotFound
@@ -103,15 +103,15 @@ class TTSModule(object):
 
     def _get_path_to_store_audio(self):
         """
-            Get a sentence (a text) an return the full path of the file
+        Get a sentence (a text) an return the full path of the file
 
-            Path syntax:
-            </path/in/settings>/<tts.name>/tts.parameter["language"]/tts.parameter["voice"]/<md5_of_sentence.tts
+        Path syntax:
+        </path/in/settings>/<tts.name>/tts.parameter["language"]/tts.parameter["voice"]/<md5_of_sentence.tts
 
-            E.g:
-            /tmp/kalliope/voxygene/fr/abcd12345.tts
+        E.g:
+        /tmp/kalliope/voxygene/fr/abcd12345.tts
 
-            :return: path String
+        :return: path String
         """
         md5 = self.generate_md5_from_words(self.words)+".tts"
         self.base_cache_path = os.path.join(self.settings.cache_path, self.tts_caller_name, self.language, self.voice)
@@ -123,9 +123,9 @@ class TTSModule(object):
     @staticmethod
     def generate_md5_from_words(words):
         """
-            Generate a md5 hash from received text
-            :param words: Text to convert into md5 hash
-            :return: String md5 hash from the received words
+        Generate a md5 hash from received text
+        :param words: Text to convert into md5 hash
+        :return: String md5 hash from the received words
         """
         if isinstance(words, unicode):
             words = words.encode('utf-8')
@@ -133,7 +133,7 @@ class TTSModule(object):
 
     def is_file_already_in_cache(self):
         """
-            Return true if the file to generate has already been generated before
+        Return true if the file to generate has already been generated before
         """
         # generate sub folder
         FileManager.create_directory(self.base_cache_path)

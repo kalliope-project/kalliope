@@ -1,12 +1,11 @@
-from core.ConfigurationManager.BrainLoader import BrainLoader
 from core.NeuroneLauncher import NeuroneLauncher
 
 
 class SynapseNameNotFound(Exception):
     """
-        The Synapse has not been found
+    The Synapse has not been found
 
-        .. seealso: Synapse
+    .. seealso: Synapse
     """
     pass
 
@@ -19,9 +18,9 @@ class SynapseLauncher(object):
     @classmethod
     def start_synapse(cls, name, brain=None):
         """
-            Start a synapse by it's name
-            :param name: Name (Unique ID) of the synapse to launch
-            :param brain: Brain instance
+        Start a synapse by it's name
+        :param name: Name (Unique ID) of the synapse to launch
+        :param brain: Brain instance
         """
         synapse_name_launch = name
         # get the brain
@@ -42,9 +41,9 @@ class SynapseLauncher(object):
     @classmethod
     def _run_synapse(cls, synapse):
         """
-            Start all neurons in the synapse
-            :param synapse: Synapse for which we run neurons
-            :return:
+        Start all neurons in the synapse
+        :param synapse: Synapse for which we run neurons
+        :return:
         """
         for neuron in synapse.neurons:
             NeuroneLauncher.start_neurone(neuron)
