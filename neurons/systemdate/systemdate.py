@@ -11,8 +11,6 @@ class Systemdate(NeuronModule):
             cache = False
         super(Systemdate, self).__init__(cache=cache, **kwargs)
 
-
-
         # local time and date
         hour = time.strftime("%H")          # Hour (24-hour clock) as a decimal number [00,23].
         minute = time.strftime("%M")        # Minute as a decimal number [00,59].

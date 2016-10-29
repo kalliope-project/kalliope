@@ -20,7 +20,7 @@ class Neurotransmitter(NeuronModule):
 
     def callback(self, audio):
         """
-            The callback used by the STT module to get the linked synapse
+        The callback used by the STT module to get the linked synapse
 
         :param audio: the audio to play by STT
         """
@@ -40,10 +40,10 @@ class Neurotransmitter(NeuronModule):
 
     def _links_content_ok(self):
         """
-            Check if received links are ok to perform operations
-            :return: true if links are ok, raise an exception otherwise
+        Check if received links are ok to perform operations
+        :return: true if links are ok, raise an exception otherwise
 
-            .. raises:: MissingParameterException
+        .. raises:: MissingParameterException
         """
 
         if self.links is None:

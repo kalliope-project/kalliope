@@ -8,12 +8,10 @@ logger = logging.getLogger("kalliope")
 
 
 class AsyncShell(threading.Thread):
-
     """
+    Class used to run an asynchrone Shell command
 
-        Class used to run an asynchrone Shell command
-
-        .. notes:: Impossible to get the success code of the command
+    .. notes:: Impossible to get the success code of the command
     """
     def __init__(self, cmd):
         self.stdout = None
@@ -31,9 +29,8 @@ class AsyncShell(threading.Thread):
 
 
 class Shell(NeuronModule):
-
     """
-        Run a shell command in a synchron mode
+    Run a shell command in a synchron mode
     """
     def __init__(self, **kwargs):
         super(Shell, self).__init__(**kwargs)
@@ -61,10 +58,10 @@ class Shell(NeuronModule):
 
     def _is_parameters_ok(self):
         """
-            Check if received parameters are ok to perform operations in the neuron
-            :return: true if parameters are ok, raise an exception otherwise
+        Check if received parameters are ok to perform operations in the neuron
+        :return: true if parameters are ok, raise an exception otherwise
 
-            .. raises:: MissingParameterException
+        .. raises:: MissingParameterException
         """
         if self.cmd is None:
             raise MissingParameterException("cmd parameter required")

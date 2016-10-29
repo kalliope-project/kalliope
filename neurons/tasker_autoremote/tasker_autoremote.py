@@ -28,10 +28,10 @@ class Tasker_autoremote(NeuronModule):
 
     def _is_parameters_ok(self):
         """
-            Check if received parameters are ok to perform operations in the neuron
-            :return: true if parameters are ok, raise an exception otherwise
+        Check if received parameters are ok to perform operations in the neuron
+        :return: true if parameters are ok, raise an exception otherwise
 
-            .. raises:: MissingParameterException
+        .. raises:: MissingParameterException
         """
         if self.key is None:
             raise MissingParameterException("key parameter required")
