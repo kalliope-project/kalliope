@@ -48,10 +48,10 @@ class CrontabManager:
         """
         Add a single event in the crontab.
         Will add a line like:
-        <period_string> python /home/nico/Documents/kalliope/kalliope.py start --brain-file /home/nico/Documents/kalliope/brain.yml --run-synapse  "<event_id>" # KALLIOPE
+        <period_string> python /path/to/kalliope.py start --brain-file /path/to/brain.yml --run-synapse "<event_id>"
 
         E.g:
-        30 7 * * * python /home/nico/Documents/kalliope/kalliope.py start --brain-file /home/nico/Documents/kalliope/brain.yml --run-synapse  "Say-hello" # KALLIOPE
+        30 7 * * * python /home/me/kalliope/kalliope.py start --brain-file /home/me/brain.yml --run-synapse  "Say-hello"
         :param period_string: crontab period
         :type period_string: str
         :param event_id:
