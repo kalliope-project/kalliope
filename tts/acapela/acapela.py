@@ -22,22 +22,18 @@ class Acapela(TTSModule):
 
     def say(self, words):
         """
-
-            :param words: The sentence to say
+        :param words: The sentence to say
         """
 
         self.generate_and_play(words, self._generate_audio_file)
 
     def _generate_audio_file(self):
         """
+        Generic method used as a Callback in TTSModule
+            - must provided the audio file and write it on the disk
 
-            Generic method used as a Callback in TTSModule
-                - must provided the audio file and write it on the disk
-
-            .. raises:: FailToLoadSoundFile
+        .. raises:: FailToLoadSoundFile
         """
-
-
         # Prepare payload
         payload = self.get_payload()
 
@@ -61,10 +57,9 @@ class Acapela(TTSModule):
 
     def get_payload(self):
         """
+        Generic method used load the payload used to acces the remote api
 
-            Generic method used load the payload used to acces the remote api
-
-            :return: Payload to use to access the remote api
+        :return: Payload to use to access the remote api
         """
 
         return {
@@ -77,15 +72,14 @@ class Acapela(TTSModule):
 
     @staticmethod
     def get_audio_link(url, payload, timeout_expected=TTS_TIMEOUT_SEC):
-
         """
-            Return the audio link
+        Return the audio link
 
-            :param url: the url to access
-            :param payload: the payload to use to acces the remote api
-            :param timeout_expected: timeout before the post request is cancel
-            :return: the audio link
-            :rtype: String
+        :param url: the url to access
+        :param payload: the payload to use to acces the remote api
+        :param timeout_expected: timeout before the post request is cancel
+        :return: the audio link
+        :rtype: String
         """
 
         r = requests.post(url, payload, timeout=timeout_expected)

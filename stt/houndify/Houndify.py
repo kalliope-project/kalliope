@@ -8,9 +8,9 @@ class Houndify(OrderListener):
 
     def __init__(self, callback=None, **kwargs):
         """
-            Start recording the microphone and analyse audio with Houndify api
-            :param callback: The callback function to call to send the text
-            :param kwargs:
+        Start recording the microphone and analyse audio with Houndify api
+        :param callback: The callback function to call to send the text
+        :param kwargs:
         """
         OrderListener.__init__(self)
 
@@ -26,14 +26,13 @@ class Houndify(OrderListener):
 
         # recognize speech using Houndify Speech Recognition
         try:
-
-
-            id = kwargs.get('client_id', None)
+            client_id = kwargs.get('client_id', None)
             key = kwargs.get('key', None)
             language = kwargs.get('language', "en-US")
             show_all = kwargs.get('show_all', False)
 
-            captured_audio = r.recognize_houndify(audio, client_id=id, client_key=key, language=language, show_all=show_all)
+            captured_audio = r.recognize_houndify(audio, client_id=client_id, client_key=key,
+                                                  language=language, show_all=show_all)
             Utils.print_success("Houndify Speech Recognition thinks you said %s" % captured_audio)
             self._analyse_audio(captured_audio)
 
@@ -52,8 +51,3 @@ class Houndify(OrderListener):
         #     self.main_controller.analyse_order(audio)
         if self.callback is not None:
             self.callback(audio)
-
-
-
-
-

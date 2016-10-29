@@ -8,12 +8,11 @@ class Bing(OrderListener):
 
     def __init__(self, callback=None, **kwargs):
         """
-            Start recording the microphone and analyse audio with Bing api
-            :param callback: The callback function to call to send the text
-            :param kwargs:
+        Start recording the microphone and analyse audio with Bing api
+        :param callback: The callback function to call to send the text
+        :param kwargs:
         """
         OrderListener.__init__(self)
-
 
         # callback function to call after the translation speech/tex
         self.callback = callback
@@ -43,8 +42,8 @@ class Bing(OrderListener):
 
     def _analyse_audio(self, audio):
         """
-            Confirm the audio exists annd run it in a Callback
-            :param audio: the captured audio
+        Confirm the audio exists annd run it in a Callback
+        :param audio: the captured audio
         """
 
         # if self.main_controller is not None:

@@ -19,9 +19,9 @@ logger = logging.getLogger("kalliope")
 
 def signal_handler(signal, frame):
     """
-        Used to catch a keyboard signal like Ctrl+C in order to kill the kalliope program
-        :param signal: signal handler
-        :param frame: execution frame
+    Used to catch a keyboard signal like Ctrl+C in order to kill the kalliope program
+    :param signal: signal handler
+    :param frame: execution frame
     """
     print "\n"
     Utils.print_info("Ctrl+C pressed. Killing Kalliope")
@@ -33,7 +33,7 @@ ACTION_LIST = ["start", "gui"]
 
 def main():
     """
-        Entry point of Kalliope program
+    Entry point of Kalliope program
     """
     # create arguments
     parser = argparse.ArgumentParser(description='Kalliope')
@@ -92,8 +92,8 @@ def main():
 
 def configure_logging(debug=None):
     """
-        Prepare log folder in current home directory
-        :param debug: If true, set the lof level to debug
+    Prepare log folder in current home directory
+    :param debug: If true, set the lof level to debug
     """
     logger = logging.getLogger("kalliope")
     logger.propagate = False
