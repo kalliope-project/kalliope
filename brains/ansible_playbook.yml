@@ -1,9 +1,9 @@
 ---
 
   - name: "Ansible-test"
+    signals:
+      - order: "playbook"
     neurons:
       - ansible_playbook: "tasks.yml"
       - say:
           message: "Tache terminée"
-    signals:
-      - order: "playbook"

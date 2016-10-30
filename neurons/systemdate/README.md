@@ -29,23 +29,23 @@ Give the current time from the system where Kalliope is installed. Return a dict
 
 Simple synapse that give the current time with only hours and minutes
 ```
- - name: "time"
-    neurons:
-      - systemdate:
-          say_template:
-            - "It' {{ hours }} hours and {{ minutes }} minutes"
-    signals:
-      - order: "what time is it"
+- name: "time"
+  signals:
+    - order: "what time is it"
+  neurons:
+    - systemdate:
+        say_template:
+          - "It' {{ hours }} hours and {{ minutes }} minutes"   
 ```
 
 Synapse that give complete date and time with a template file.
 ```
- - name: "time"
-    neurons:
-      - systemdate:
-          file_template: en_systemdate_template_example.j2            
-    signals:
-      - order: "what time is it"
+- name: "time"
+  signals:
+    - order: "what time is it"
+  neurons:
+    - systemdate:
+        file_template: en_systemdate_template_example.j2
 ```
 
 

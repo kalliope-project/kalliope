@@ -18,10 +18,10 @@ Simple example :
 
 ```
   - name: "stop-kalliope"
-    neurons:
-      - kill_switch
     signals:
       - order: "goodbye"
+    neurons:
+      - kill_switch    
 ```
 
 

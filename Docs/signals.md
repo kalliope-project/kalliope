@@ -72,6 +72,8 @@ Let's make a complete example. We want Kalliope to wake us up each morning of wo
 The synapse in the brain would be
 ```
   - name: "wake-up"
+    signals:
+      - event: "0 7 * * 1,2,3,4,5"
     neurons:
       - say:
           message:
@@ -80,8 +82,6 @@ The synapse in the brain would be
           say_template:
             - "It is {{ hours }} hours and {{ minutes }} minutes"
       - command: "mplayer http://192.99.17.12:6410/"
-    signals:
-      - event: "0 7 * * 1,2,3,4,5"
 ```
 
 After setting up an event, you must restart Kalliope

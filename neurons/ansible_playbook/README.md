@@ -21,13 +21,13 @@ This neuron can be used to perform complex operation with all [modules available
 
 Call the playbook named playbook.yml
 ```
-   - name: "Ansible-test"
+  - name: "Ansible-test"
+    signals:
+      - order: "playbook"
     neurons:
       - ansible_playbook: "playbook.yml"
       - say:
-          message: "Tache terminée"
-    signals:
-      - order: "playbook"
+          message: "Tache terminée"    
 ```
 
 Content of the playbook. This playbook will use the [URI module](http://docs.ansible.com/ansible/uri_module.html) to interact with a webservice on a remote server.
@@ -67,9 +67,9 @@ Shell neuron or script neuron can perform same actions. Ansible is just a way to
 Here is the example of synapse you would use to perform a call to a web service without Ansible:
 ```
 - name: "start-music"
+    signals:
+      - order: "start music rock"
     neurons:
       - shell:
           cmd: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"start\"}' http://192.168.0.17:8000/app"      
-    signals:
-      - order: "start music rock"
 ```

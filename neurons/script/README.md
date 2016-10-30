@@ -20,11 +20,11 @@ Simple example :
 
 ```
   - name: "run-simple-script"
-    neurons:
-      - script:
-          path: "/path/to/script.sh"
     signals:
       - order: "Run the script"
+    neurons:
+      - script:
+          path: "/path/to/script.sh"    
 ```
 
 

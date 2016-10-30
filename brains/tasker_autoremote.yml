@@ -1,11 +1,11 @@
 ---
 
   - name: "find-my-phone"
+    signals:
+      - order: "où est mon téléphone"
     neurons:
       - say:
           message: "Je fais sonner le téléphone, monsieur"
       - tasker_autoremote:
           key: "APA91bqmY"
           message: "lost"
-    signals:
-      - order: "où est mon téléphone"

@@ -42,14 +42,14 @@ neurons:
 From the captured order:
 ```
   - name: "run-neuron-with-parameter-in-order"
+    signals:
+      - order: "this is an order with the parameter {{ parameter3 }}"
     neurons:
       - neuron_name:
           parameter1: "value1"
           parameter2: "value2"
           args:
           - parameter3
-    signals:
-      - order: "this is an order with the parameter {{ parameter3 }}"
 ```
 
 Here, the spoken value captured by the TTS engine will be passed as an argument to the neuron in the variable named `parameter3`.
@@ -76,12 +76,12 @@ It is {{ hours }} and {{ minutes }} minutes.
 Placed in a complete synapse, it looks like the following
 ```
 - name: "time"
+    signals:
+      - order: "what time is it"
     neurons:
       - systemdate:
           say_template:
             - "It is {{ hours }} hours and {{ minutes }} minutes"
-    signals:
-      - order: "what time is it"
 ```
 
 Here, we use [variables](http://jinja.pocoo.org/docs/dev/templates/#variables) from the neuron into our template file. Both variables will be interpreted by the template engine. 
@@ -99,13 +99,12 @@ We can add some logic to a template with tags. Here a simple example with [a tes
 As this is multi-lines, we can put the content in a file and use a `file_template` instead of a `say_template` for more clarity.
 ```
 - name: "time"
+    signals:
+      - order: "what time is it"
     neurons:
       - systemdate:
           file_template: /path/to/file/template.j2
-    signals:
-      - order: "what time is it"
 ```
-
 
 
 ## Overridable parameters

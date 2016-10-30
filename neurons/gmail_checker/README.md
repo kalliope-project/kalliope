@@ -24,26 +24,26 @@ Simple example :
 
 ```
   - name: "check-email"
+    signals:
+      - order: "Do I have emails"
     neurons:
       - gmail_checker:
           username: "me@gmail.com"
           password: "my_password"
           say_template: 
-            -  "You have {{ unread }} new emails"
-    signals:
-      - order: "Do I have emails"
+            -  "You have {{ unread }} new emails"    
 ```
 
 A complex example that read subject emails. This is based on a file_template
 ```
   - name: "check-email"
+    signals:
+      - order: "Do I have emails"
     neurons:
       - gmail_checker:
           username: "me@gmail.com"
           password: "my_password"
-          file_template: /templates/my_email_template.j2            
-    signals:
-      - order: "Do I have emails"
+          file_template: /templates/my_email_template.j2
 ```
 
 Here the content of the `my_email_template.j2`
