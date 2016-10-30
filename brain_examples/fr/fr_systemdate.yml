@@ -1,15 +1,15 @@
-- name: "Say local date"
+- name: "say-local-date"
   signals:
-      - order: "test"
+    - order: "test"
   neurons:
     - systemdate:
         say_template:
           - "Il est {{ hours }} heures et {{ minutes }} minutes"
         tts: "voxygen"
 
-- name: "Say local date"
+- name: "say-local-date2"
   signals:
-      - order: "tempate"
+    - order: "tempate"
   neurons:
     - systemdate:
         file_template: fr_systemdate_template_example.j2

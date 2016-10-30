@@ -1,6 +1,5 @@
 ---
-
-  - name: "Ansible-test"
+  - name: "snsible-test"
     signals:
       - order: "playbook"
     neurons:

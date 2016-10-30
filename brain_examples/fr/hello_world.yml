@@ -1,7 +1,7 @@
 ---
-  - name: "Say hello"
+  - name: "say-hello"
     signals:
-        - order: "dit bonjour"
+      - order: "dit bonjour"
     neurons:
       - say:
           message:

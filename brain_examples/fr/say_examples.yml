@@ -1,5 +1,5 @@
 ---
-  - name: "Meaning of life"
+  - name: "meaning-of-life"
     signals:
       - order: "quel est le sens de la vie"
     neurons:

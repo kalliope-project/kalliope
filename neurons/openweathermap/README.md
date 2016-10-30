@@ -51,7 +51,7 @@ Give the today and tomorrow weather with the related data (humidity, temperature
 ## Synapses example
 
 ```
-  - name: "get the weather"
+  - name: "getthe-weather"
     signals:
       - order: "what is the weather in {{ location }}"
     neurons:
@@ -67,7 +67,7 @@ Give the today and tomorrow weather with the related data (humidity, temperature
 
 You also can define the "location" args directly in neuron argument list. 
 ```
-  - name: "get the weather"
+  - name: "get-the-weather"
     signals:
       - order: "quel temps fait-il"
     neurons:

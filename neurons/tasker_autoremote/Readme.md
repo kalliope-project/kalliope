@@ -34,7 +34,7 @@ None
 
 Description of what the synapse will do
 ```
-- name: "find my phone"
+- name: "find-my-phone"
   signals:
     - order: "where is my phone"
   neurons:

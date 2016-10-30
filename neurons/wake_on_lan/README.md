@@ -22,7 +22,7 @@ None
 
 Kalliope will send a magic packet to the mac address `00-00-00-00-00-00`
 ```
-- name: "wake my PC"
+- name: "wake-my-PC"
   signals:
     - order: "wake my PC"
   neurons:

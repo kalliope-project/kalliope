@@ -1,5 +1,5 @@
 ---
-  - name: "wake up"
+  - name: "wake-up"
     signals:
         - event: "30 7 * * 1,2,3,4,5" # each morning of working day at 7:30
     neurons:

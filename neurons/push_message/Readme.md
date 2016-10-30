@@ -32,7 +32,7 @@ No returned value
 
 The following synapse will send a push message to device that have subscribed to the channel name "my_chanel_name" when you say "push message".
 ```
- - name: "Send push message"
+ - name: "send-push-message"
    signals:
       - order: "push message"
    neurons:
