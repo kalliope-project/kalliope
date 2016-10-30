@@ -19,11 +19,11 @@ Let's take a look on a basic synapse in our brain:
 ```
 ---
   - name: "Say-hello"
-    neurons:      
-      - say:
-          message: "Hello, sir"
     signals:
       - order: "say hello"
+    neurons:      
+      - say:
+          message: "Hello, sir"    
 ```
 
 Let's break this down in sections so we can understand how the file is built and what each part means.
@@ -40,6 +40,40 @@ At the top level we have a "name" tag. This is the **unique identifier** of the 
 ```
 - name: "Say-hello"
 ```
+
+
+The first part, called **signals** is a list of input actions. This works exactly the same way as neurons. You must place here at least one action.
+In the following example, we use just one signal, an order. See the complete list of [available signals](signals.md) here.
+```
+signals:
+  - order: "say-hello"
+```
+
+You can add as many orders as you want for the signals. Even if literally they do not mean the same thing (For example order "say hello" and order "adventure" or whatever) as long they are in the same synaps, they will trigger the same action defined in neurons. 
+
+Note that you are not limited by the exact sentence you put in your order. Kalliope uses the matching, it means that you can pronounce the sentence which contains your order (so, can be much longer) and it will lauch an attached task anyway. In this example, the task attached to order "say hello" will be launched even if you say
+- "say hello Kalliope"
+- "Kalliope, say hello"
+- "I want you to say hello"
+- "i say goodbye you say hello"
+- "whatever I say as long it contains say hello"
+
+To know if your order will be triggered by Kalliope, we recommend you to [use the GUI](kalliope_cli.md) for testing your STT engine.
+
+>**Note:**
+You must pay attention to define the orders as precise as possible. As Kalliope is based on matching, if you define your orders in different synapses too similiary, Kalliope risks to trigger more actions that you were expecting. For exemple, if you define two different synapses as shown below:
+```
+- name: "Say-hello"
+  signals:
+    - order: "say hello"
+```
+and 
+```
+- name: "Say-something"
+  signals:
+    - order: "say"
+```
+When you will pronounce "say hello", it will trigger both synapses. 
 
 Then we have the neurons declaration. Neurons are modules that will be executed when the input action is triggered. You can define as many neurons as you want to the same input action (for example: say somethning, then do something etc...). This declaration contains a list (because it starts with a "-") of neurons
 ```
@@ -62,41 +96,6 @@ Note here that parameters are indented with one tabulation bellow the neuron's n
 
 In this example, the neuron called "say" will make Kalliope speak out loud the sentence in parameter **message**.
 See the complete list of [available neurons](neurons.md) here.
-
-The last part, called **signals** is a list of input actions. This works exactly the same way as neurons. You must place here at least one action.
-In the following example, we use just one signal, an order. See the complete list of [available signals](signals.md) here.
-```
-signals:
-  - order: "say-hello"
-```
-
-You can add as many orders as you want for the signals. Even if literally they do not mean the same thing (For example order "say hello" and order "adventure" or whatever) as long they are in the same synaps, they will trigger the same action defined in neurons. 
-
-Note that you are not limited by the exact sentence you put in your order. Kalliope uses the matching, it means that you can pronounce the sentence which contains your order (so, can be much longer) and it will lauch an attached task anyway. In this example, the task attached to order "say hello" will be launched even if you say
-- "say hello Kalliope"
-- "Kalliope, say hello"
-- "I want you to say hello"
-- "i say goodbye you say hello"
-- "whatever I say as long it contains say hello"
-
-To know if your order will be triggered by Kalliope, we recommend you to [use the GUI](kalliope_cli.md) for testing your STT engine.
-
->**Note:**
-You must pay attention to define the orders as precise as possible. As Kalliope is based on matching, if you define your orders in different synapses too similiary, Kalliope risks to trigger more actions that you were expecting. For exemple, if you define two different synapses as shown below:
-```
-- name: "Say-hello"
-...
-signals:
-  - order: "say hello"
-```
-and 
-```
-- name: "Say-something"
-...
-signals:
-  - order: "say"
-```
-When you will pronounce "say hello", it will trigger both synapses. 
 
 ## Manage synapses
 

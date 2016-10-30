@@ -25,6 +25,8 @@ If the user say something that is not present in `answers`, he will be redirecte
 
 ```
  - name: "synapse1"
+    signals:
+      - order: "ask me a question"
     neurons:
       - say:
           message: "do you like french fries?"
@@ -38,29 +40,27 @@ If the user say something that is not present in `answers`, he will be redirecte
               answers:
                 - "no at all"
           default: "synapse4"
-    signals:
-      - order: "ask me a question"
 
   - name: "synapse2"
+    signals:
+      - order: "synapse2"
     neurons:
       - say:
           message: "You like french fries!! Me too! I suppose..."
-    signals:
-      - order: "synapse2"
 
   - name: "synapse3"
+    signals:
+      - order: "synapse3"
     neurons:
       - say:
           message: "You don't like french fries. It's ok."
-    signals:
-      - order: "synapse3"
       
   - name: "synapse4"
+    signals:
+      - order: "synapse4"
     neurons:
       - say:
           message: "I havn't understood your answer"
-    signals:
-      - order: "synapse4"
 ```
 
 

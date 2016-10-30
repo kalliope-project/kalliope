@@ -32,14 +32,14 @@ No returned value
 
 The following synapse will send a push message to device that have subscribed to the channel name "my_chanel_name" when you say "push message".
 ```
- - name: "Send push message"
-    neurons:
-      - android_pushetta:
-           message: "Message to send"
-           api_key: "TOEKENEXAMPLE1234"
-           channel_name: "my_chanel_name"
-    signals:
+ - name: "send-push-message"
+   signals:
       - order: "push message"
+   neurons:
+     - android_pushetta:
+         message: "Message to send"
+         api_key: "TOEKENEXAMPLE1234"
+         channel_name: "my_chanel_name"    
 ```
 
 ## Notes

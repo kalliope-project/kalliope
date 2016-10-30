@@ -22,25 +22,25 @@ None
 
 Kalliope will send a magic packet to the mac address `00-00-00-00-00-00`
 ```
-- name: "wake my PC"
-    neurons:
-      - wake_on_lan:
-          mac_address: "00-00-00-00-00-00"
-    signals:
-      - order: "wake my PC"
+- name: "wake-my-PC"
+  signals:
+    - order: "wake my PC"
+  neurons:
+    - wake_on_lan:
+        mac_address: "00-00-00-00-00-00"
 ```
 
 If your broadcast address is not 255.255.255.255, or if your ethernet card does not listen on the standard 9 port, you can override default parameters.
 In the following example, we suppose that kalliope is on a local areal network 172.16.0.0/16. The broadcast address would be 172.16.255.255.
 ```
-- name: "wake my PC"
-    neurons:
-      - wake_on_lan:
-          mac_address: "00-00-00-00-00-00"
-          broadcast_address: "172.16.255.255"
-          port: 7
-    signals:
-      - order: "wake my PC"
+- name: "wake-my-PC"
+  signals:
+    - order: "wake my PC"
+  neurons:
+    - wake_on_lan:
+        mac_address: "00-00-00-00-00-00"
+        broadcast_address: "172.16.255.255"
+        port: 7
 ```
 
 ## Notes

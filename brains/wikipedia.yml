@@ -1,11 +1,11 @@
 ---
 
   - name: "wikipedia-search"
+    signals:
+      - order: "cherche sur Wikipédia {{ query }}"
     neurons:
       - wikipedia:
           language: "fr"
           args:
             - query
           file_template: "wikipedia_returned_value.j2"
-    signals:
-      - order: "cherche sur Wikipédia {{ query }}"

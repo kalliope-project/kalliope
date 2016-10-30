@@ -24,16 +24,16 @@ This neuron allows you to send a tweet on your timeline.
 
 ```
 - name: "post-tweet"
-    neurons:
-      - twitter:
-          consumer_key: ""
-          consumer_secret: ""
-          access_token_key: ""
-          access_token_secret: ""
-          args:
-            - tweet
-    signals:
-      - order: "post on Twitter {{ tweet }}"
+  neurons:
+    - twitter:
+        consumer_key: ""
+        consumer_secret: ""
+        access_token_key: ""
+        access_token_secret: ""
+        args:
+          - tweet
+  signals:
+    - order: "post on Twitter {{ tweet }}"
 ```
 
 ## Notes
