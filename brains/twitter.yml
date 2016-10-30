@@ -1,6 +1,8 @@
 ---
 
   - name: "post-tweet"
+    signals:
+      - order: "envoie sur Twitter {{ tweet }}"
     neurons:
       - twitter:
           consumer_key: ""
@@ -11,5 +13,3 @@
           - "voici le tweet {{ tweet }}"
           args:
             - tweet
-    signals:
-      - order: "envoie sur Twitter {{ tweet }}"

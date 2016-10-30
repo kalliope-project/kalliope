@@ -33,14 +33,15 @@ Get the summary of a Wikipedia page.
 This synapse will look for the {{ query }} spelt by the user on Wikipedia
 ```
 - name: "wikipedia-search"
-    neurons:
-      - wikipedia:
-          language: "en"
-          args:
-            - query
-          file_template: "wikipedia_returned_value.j2"
-    signals:
-      - order: "look on wikipedia {{ query }}"
+  signals:
+    - order: "look on wikipedia {{ query }}"
+  neurons:
+    - wikipedia:
+        language: "en"
+        args:
+          - query
+        file_template: "wikipedia_returned_value.j2"
+
 ```
 
 ## Templates example 

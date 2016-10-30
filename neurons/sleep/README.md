@@ -20,11 +20,11 @@ Simple example :
 
 ```
   - name: "run-simple-sleep"
+    signals:
+      - order: "Wait for me "
     neurons:
       - sleep:
           seconds: 60
-    signals:
-      - order: "Wait for me "
 ```
 
 

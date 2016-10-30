@@ -10,14 +10,13 @@ Kalliope can run on all Linux distribution including a Raspberry Pi and it's mul
 
 Kalliope is easy-peasy to use, see the hello world
 ```
-  - name: "Hello world"
-    neurons:      
-      - say:
-          message: "Hello world!"
+  - name: "Hello-world"
     signals:
       - order: "say hello"
+    neurons:      
+      - say:
+          message: "Hello world!"    
 ```
-
 
 ## Installation
 

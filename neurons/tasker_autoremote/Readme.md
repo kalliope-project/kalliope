@@ -34,15 +34,15 @@ None
 
 Description of what the synapse will do
 ```
- - name: "find my phone"
-    neurons:
-      - say:
-          message: "I'll make your phone ringing, sir"
-      - tasker_autoremote:
-          key: "MY_VERY_LONG_KEY"
-          message: "lost"
-    signals:
-      - order: "where is my phone"
+- name: "find-my-phone"
+  signals:
+    - order: "where is my phone"
+  neurons:
+    - say:
+        message: "I'll make your phone ringing, sir"
+    - tasker_autoremote:
+        key: "MY_VERY_LONG_KEY"
+        message: "lost"
 ```
 
 

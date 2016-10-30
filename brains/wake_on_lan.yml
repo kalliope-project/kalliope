@@ -1,8 +1,9 @@
 ---
 
   - name: "wake-my-PC"
+    signals:
+      - order: "wake my PC"
     neurons:
       - wake_on_lan:
           mac_address: "00-00-00-00-00-00"
-    signals:
-      - order: "wake my PC"
+

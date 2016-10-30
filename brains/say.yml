@@ -1,9 +1,9 @@
 ---
   - name: "Say-hello"
+    signals:
+      - order: "bonjour"
+      - order: "Bonjour"
     neurons:
       - say:
           message:
             - "Bonjour monsieur"
-    signals:
-      - order: "bonjour"
-      - order: "Bonjour"

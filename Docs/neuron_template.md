@@ -31,13 +31,14 @@ Only necessary when the neuron use a template to say something
 Description of what the synapse will do
 ```
  - name: "type here your name"
-    neurons:      
-      - neuron_name:
-          parameter: "value"
-          parameter: "value"
-          file_template: template_name.j2
-    signals:
-      - order: "this is what I have to say to run this synapse"
+   signals:
+     - order: "this is what I have to say to run this synapse"
+   neurons:      
+     - neuron_name:
+        parameter: "value"
+        parameter: "value"
+        file_template: template_name.j2
+    
 ```
 
 ## Templates example 

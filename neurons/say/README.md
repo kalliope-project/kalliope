@@ -19,27 +19,27 @@ No returned values
 Simple example : 
 
 ```
-   - name: "Say-hello"
-    neurons:
-      - say:
-          message:
-            - "Hello Sir"
-    signals:
-      - order: "hello"
+- name: "Say-hello"
+  signals:
+    - order: "hello"
+  neurons:
+    - say:
+        message:
+          - "Hello Sir"     
 ```
 
 With a multiple choice list, Kalliope will pick one randomly:
 
 ```
-   - name: "Say-hello"
-    neurons:
-      - say:
-          message:
-            - "Hello Sir"
-            - "Welcome Sir"
-            - "Good morning Sir"
-    signals:
-      - order: "hello"
+- name: "Say-hello"
+  signals:
+    - order: "hello"
+  neurons:
+    - say:
+        message:
+          - "Hello Sir"
+          - "Welcome Sir"
+          - "Good morning Sir"
 ```
 
 
