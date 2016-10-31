@@ -1,17 +1,17 @@
 ---
-- hosts: localhost
-  gather_facts: no
-  connection: local
-  vars:
-    - git_url: "git@github.com:kalliope-project/kalliope.git"
-    - temp_local_repo: "/tmp/kalliope_repo"
-
-  tasks:
-    - name: clone project in /tmp as standart user
-      git:
-        repo: "{{ git_url }}"
-        dest: /tmp/kalliope_repo
-        accept_hostkey: yes
+#- hosts: localhost
+#  gather_facts: no
+#  connection: local
+#  vars:
+#    - git_url: "git@github.com:kalliope-project/kalliope.git"
+#    - temp_local_repo: "/tmp/kalliope_repo"
+#
+#  tasks:
+#    - name: clone project in /tmp as standart user
+#      git:
+#        repo: "{{ git_url }}"
+#        dest: /tmp/kalliope_repo
+#        accept_hostkey: yes
 
 
 - hosts: localhost
