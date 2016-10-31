@@ -40,8 +40,12 @@ class Google(OrderListener):
 
         except sr.UnknownValueError:
             Utils.print_warning("Google Speech Recognition could not understand audio")
+            # callback anyway, we need to listen again for a new order
+            self._analyse_audio(audio=None)
         except sr.RequestError as e:
             Utils.print_danger("Could not request results from Google Speech Recognition service; {0}".format(e))
+            # callback anyway, we need to listen again for a new order
+            self._analyse_audio(audio=None)
 
     def _analyse_audio(self, audio):
         """
