@@ -58,10 +58,10 @@ class TTSModule(object):
         # load settings
         self.settings = SettingLoader.get_settings()
 
-        print "Class TTSModule called from module %s, cache: %s, language: %s, voice: %s" % (self.tts_caller_name,
+        logger.debug("Class TTSModule called from module %s, cache: %s, language: %s, voice: %s" % (self.tts_caller_name,
                                                                                              self.cache,
                                                                                              self.language,
-                                                                                             self.voice)
+                                                                                             self.voice))
 
     def play_audio(self):
         """
