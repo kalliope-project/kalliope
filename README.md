@@ -59,6 +59,10 @@ In Greek mythology she was a goddess of epic poetry and eloquence, one of the ni
 PRONOUNCED: kə-LIE-ə-pee (English) 
 PRONOUNCED: Ka-li-o-pé (French)
 
+## Links
+
+Demo French : [video](https://www.youtube.com/watch?v=t4J42yO2rkM)
+
 ## License
 
 Copyright (c) 2016. All rights reserved.
