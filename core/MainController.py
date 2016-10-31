@@ -58,12 +58,14 @@ class MainController:
 
     def analyse_order(self, order):
         """
-        Receive an order, try to retreive it in the brain.yml to launch to attached plugins
+        Receive an order, try to retrieve it in the brain.yml to launch to attached plugins
         :param order: the sentence received
         :type order: str
         """
-        order_analyser = OrderAnalyser(order, main_controller=self, brain=self.brain)
-        order_analyser.start()
+        if order is not None:   # maybe we have received a null audio from STT engine
+            order_analyser = OrderAnalyser(order, main_controller=self, brain=self.brain)
+            order_analyser.start()
+
         # restart the trigger when the order analyser has finish his job
         Utils.print_info("Waiting for trigger detection")
         self.trigger_instance.unpause()

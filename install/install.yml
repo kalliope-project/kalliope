@@ -1,17 +1,17 @@
 ---
-- hosts: localhost
-  gather_facts: no
-  connection: local
-  vars:
-    - git_url: "git@github.com:kalliope-project/kalliope.git"
-    - temp_local_repo: "/tmp/kalliope_repo"
-
-  tasks:
-    - name: clone project in /tmp as standart user
-      git:
-        repo: "{{ git_url }}"
-        dest: /tmp/kalliope_repo
-        accept_hostkey: yes
+#- hosts: localhost
+#  gather_facts: no
+#  connection: local
+#  vars:
+#    - git_url: "git@github.com:kalliope-project/kalliope.git"
+#    - temp_local_repo: "/tmp/kalliope_repo"
+#
+#  tasks:
+#    - name: clone project in /tmp as standart user
+#      git:
+#        repo: "{{ git_url }}"
+#        dest: /tmp/kalliope_repo
+#        accept_hostkey: yes
 
 
 - hosts: localhost
@@ -56,24 +56,24 @@
       pip:
         requirements=/tmp/requirements.txt
 
-    - name: Check that the repo has been cloned
-      stat:
-        path: "{{ temp_local_repo }}"
-      register: git_repo_stat
-
-    - name: Remove old version if exist
-      file:
-        path: "{{ install_path }}"
-        state: absent
-
-    - name: Move repo in /usr/lib
-      command: mv "{{ temp_local_repo }}" "{{ install_path }}"
-      when: git_repo_stat.stat.exists
-
-    - name: Add entry in /usr/bin
-      file:
-        src: "{{ install_path }}/kalliope.py"
-        dest: /usr/bin/kalliope
-        state: link
-        force: True
+#    - name: Check that the repo has been cloned
+#      stat:
+#        path: "{{ temp_local_repo }}"
+#      register: git_repo_stat
+#
+#    - name: Remove old version if exist
+#      file:
+#        path: "{{ install_path }}"
+#        state: absent
+#
+#    - name: Move repo in /usr/lib
+#      command: mv "{{ temp_local_repo }}" "{{ install_path }}"
+#      when: git_repo_stat.stat.exists
+#
+#    - name: Add entry in /usr/bin
+#      file:
+#        src: "{{ install_path }}/kalliope.py"
+#        dest: /usr/bin/kalliope
+#        state: link
+#        force: True
 

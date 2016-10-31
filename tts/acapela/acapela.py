@@ -12,6 +12,15 @@ TTS_CONTENT_TYPE = "audio/mpeg"
 TTS_TIMEOUT_SEC = 30
 
 
+class TCPTimeOutError(Exception):
+    """
+    This error is raised when the TCP connection has been lost. Probably due to a low internet
+    connection while trying to access the remote API.
+    """
+
+    pass
+
+
 class Acapela(TTSModule):
     def __init__(self, **kwargs):
         super(Acapela, self).__init__(**kwargs)
@@ -32,28 +41,32 @@ class Acapela(TTSModule):
         Generic method used as a Callback in TTSModule
             - must provided the audio file and write it on the disk
 
-        .. raises:: FailToLoadSoundFile
+        .. raises:: FailToLoadSoundFile, TCPTimeOutError
         """
         # Prepare payload
         payload = self.get_payload()
 
-        # Get the mp3 URL from the page
-        url = Acapela.get_audio_link(TTS_URL, payload)
+        try:
+            # Get the mp3 URL from the page
+            url = Acapela.get_audio_link(TTS_URL, payload)
 
-        # getting the mp3
-        r = requests.get(url, params=payload, stream=True, timeout=TTS_TIMEOUT_SEC)
-        content_type = r.headers['Content-Type']
+            # getting the mp3
+            r = requests.get(url, params=payload, stream=True, timeout=TTS_TIMEOUT_SEC)
+            content_type = r.headers['Content-Type']
 
-        logger.debug("Acapela : Trying to get url: %s response code: %s and content-type: %s",
-                     r.url,
-                     r.status_code,
-                     content_type)
-        # Verify the response status code and the response content type
-        if r.status_code != requests.codes.ok or content_type != TTS_CONTENT_TYPE:
-            raise FailToLoadSoundFile("Acapela : Fail while trying to remotely access the audio file")
+            logger.debug("Acapela : Trying to get url: %s response code: %s and content-type: %s",
+                         r.url,
+                         r.status_code,
+                         content_type)
+            # Verify the response status code and the response content type
+            if r.status_code != requests.codes.ok or content_type != TTS_CONTENT_TYPE:
+                raise FailToLoadSoundFile("Acapela : Fail while trying to remotely access the audio file")
 
-        # OK we get the audio we can write the sound file
-        FileManager.write_in_file(self.file_path, r.content)
+            # OK we get the audio we can write the sound file
+            FileManager.write_in_file(self.file_path, r.content)
+
+        except:
+            raise TCPTimeOutError("TCP timeout, the connection to the remote API has been lost")
 
     def get_payload(self):
         """
