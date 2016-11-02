@@ -7,9 +7,11 @@ class Systemdate(NeuronModule):
     def __init__(self, **kwargs):
         # get the cache if set by the user, if not, set it to false as it is not necessary
         cache = kwargs.get('cache', None)
-        if cache is None:
-            cache = False
-        super(Systemdate, self).__init__(cache=cache, **kwargs)
+        if cache is not None:
+            kwargs["cache"] = cache
+        else:
+            kwargs["cache"] = False
+        super(Systemdate, self).__init__(**kwargs)
 
         # local time and date
         hour = time.strftime("%H")          # Hour (24-hour clock) as a decimal number [00,23].
