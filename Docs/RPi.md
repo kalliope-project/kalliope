@@ -99,3 +99,13 @@ Then play the recorded audio file
 ```
 mplayer test.wav
 ```
+
+
+## HDMI / Analog audio
+
+By default the audio stream will get out by HDMI if something is plugged to this port.
+Check the [official documentation](https://www.raspberrypi.org/documentation/configuration/audio-config.md) to switch from HDMI to analog.
+
+```
+sudo raspi-config
+```
