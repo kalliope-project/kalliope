@@ -17,13 +17,6 @@ On Ubuntu distribution :
 sudo apt-get install python-pip python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer
 ```
 
-### Python lib
-
-Install libs
-```
-sudo pip install -r install/files/python_requirements.txt
-```
-
 ### Test your env
 Run the following command to capture audio from your microphone
 ```
@@ -37,8 +30,15 @@ play test.wav
 
 ## Installation
 
+### Get the sources
 Clone the project
 ```
 git clone https://github.com/kalliope-project/kalliope.git
 ```
 
+### Python lib
+
+Install libs
+```
+sudo pip install -r install/files/python_requirements.txt
+```
