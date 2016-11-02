@@ -84,7 +84,7 @@ Some arguments are required, some others are optional, please refer to the [STT 
 
 #### default_text_to_speech
 A Text To Speech is an engine used to translate written text into a speech, into an audio stream.
-By default, Kalliope use Pico2wave TTS engine.
+By default, Kalliope use Acapela TTS engine.
 
 The following syntax is used to provide the TTS engine name
 ```
@@ -93,7 +93,7 @@ default_text_to_speech: "tts_name"
 
 Eg
 ```
-default_text_to_speech: "pico2wave"
+default_text_to_speech: "acapela"
 ```
 
 Get the full list of [TTS engine here](tts.md).
