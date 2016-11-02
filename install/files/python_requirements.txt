@@ -1,4 +1,5 @@
 SpeechRecognition==3.4.6
+markupsafe==0.23
 pyaudio==0.2.9
 ansible==2.1.1.0
 python2-pythondialog==3.4.0
