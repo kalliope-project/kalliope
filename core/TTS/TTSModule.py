@@ -60,7 +60,6 @@ class TTSModule(object):
 
         # create the path in the tmp folder
         base_path = os.path.join(self.settings.cache_path, self.tts_caller_name, self.language, self.voice)
-        print base_path
         FileManager.create_directory(base_path)
 
         logger.debug("Class TTSModule called from module %s, cache: %s, language: %s, voice: %s" % (self.tts_caller_name,
