@@ -3,19 +3,20 @@
 #
 # Do not make changes to this file unless you know what you are doing--modify
 # the SWIG interface file instead.
-
-
-
-
-
+from core.ConfigurationManager import SettingLoader
 from sys import version_info
+
+settings = SettingLoader.get_settings()
+module_file_path = "%s/_snowboydetect" % settings.machine
+
+
 if version_info >= (2, 6, 0):
     def swig_import_helper():
         from os.path import dirname
         import imp
         fp = None
         try:
-            fp, pathname, description = imp.find_module('_snowboydetect', [dirname(__file__)])
+            fp, pathname, description = imp.find_module(module_file_path, [dirname(__file__)])
         except ImportError:
             import _snowboydetect
             return _snowboydetect
