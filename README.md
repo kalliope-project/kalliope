@@ -22,6 +22,7 @@ Kalliope is easy-peasy to use, see the hello world
 
 - [Automated installation](Docs/automated_install.md)
 - [Manual installation for developement](Docs/dev_env_install.md)
+- [Raspberry Pi configuration](Docs/RPi.md)
 
 ## Usage
 
