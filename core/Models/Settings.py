@@ -1,4 +1,5 @@
 from core.Models import Singleton
+import platform
 
 
 @Singleton
@@ -19,7 +20,8 @@ class Settings(object):
                  random_wake_up_sounds=None,
                  triggers=None,
                  rest_api=None,
-                 cache_path=None):
+                 cache_path=None,
+                 machine=None):
 
         self.default_tts_name = default_tts_name
         self.default_stt_name = default_stt_name
@@ -32,3 +34,4 @@ class Settings(object):
         self.rest_api = rest_api
         self.cache_path = cache_path
         self.is_loaded = False
+        self.machine = platform.machine()   # can be x86_64 or armv7l

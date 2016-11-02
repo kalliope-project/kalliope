@@ -4,6 +4,7 @@ This documentation aims at explaining step by step manual deployment of Kalliope
 
 Tested env
 - Ubuntu 16.04
+- Raspbian Jessie 
 
 
 
@@ -42,3 +43,5 @@ Install libs
 ```
 sudo pip install -r install/files/python_requirements.txt
 ```
+
+If you are running kalliope on a Raspberry Pi, you must perform some other step by [following the dedicated documentation](RPi.md).
