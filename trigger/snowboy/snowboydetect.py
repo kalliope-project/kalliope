@@ -17,7 +17,6 @@ if version_info >= (2, 6, 0):
         fp = None
         try:
             fp, pathname, description = imp.find_module(module_file_path, [dirname(__file__)])
-            print pathname
         except ImportError:
             import _snowboydetect
             return _snowboydetect
