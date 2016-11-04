@@ -1,5 +1,7 @@
 # Kalliope
 
+![logo](images/Kalliope_logo_large.png)
+
 Kalliope is a modular always-on voice controlled personal assistant designed for home automation.
 Kalliope is based on audio input recognition, so it recognize an order pronounced by the user and then execute actions attached to the order.
 
