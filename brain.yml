@@ -1,6 +1,7 @@
 ---
   - includes:
     - brains/ansible_playbook.yml
+    - brains/calculator.yml
     - brains/gmail_checker.yml
     - brains/kill_switch.yml
     - brains/openweathermap.yml

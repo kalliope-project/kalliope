@@ -1,5 +1,13 @@
 #!/usr/bin/env python
 # coding: utf8
+
+import sys  
+
+reload(sys)  
+# forces UTF-8 encoding cf: http://stackoverflow.com/a/34591774
+sys.setdefaultencoding('utf8')
+
+
 import argparse
 import logging
 

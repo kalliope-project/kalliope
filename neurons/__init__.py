@@ -1,5 +1,6 @@
 from ansible_playbook import Ansible_playbook
 from shell import Shell
+from calculator import Calculator
 from kill_switch import Kill_switch
 from say import Say
 from script import Script

@@ -1,0 +1,13 @@
+---
+
+  - name: "calculate"
+    signals:
+      - order: "calcul {{ operation }}"
+      - order: "calcule {{ operation }}"
+      - order: "quel est le résultat de {{ operation }}"
+    neurons:
+      - calculator:
+          say_template:
+          - "le résultat de {{ first_arg }} {{ operand }} {{ second_arg }} est {{ result }}"
+          args:
+            - operation
