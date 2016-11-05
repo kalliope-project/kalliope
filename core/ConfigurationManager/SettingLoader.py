@@ -311,15 +311,15 @@ class SettingLoader(object):
         for trigger_el in triggers_list:
             if isinstance(trigger_el, dict):
                 # print "Neurons dict ok"
-                for tts_name in trigger_el:
-                    name = tts_name
+                for trigger_name in trigger_el:
+                    name = trigger_name
                     parameters = trigger_el[name]
-                    new_tts = Trigger(name=name, parameters=parameters)
-                    triggers.append(new_tts)
+                    new_trigger = Trigger(name=name, parameters=parameters)
+                    triggers.append(new_trigger)
             else:
                 # the neuron does not have parameter
-                new_tts = Trigger(name=trigger_el)
-                triggers.append(new_tts)
+                new_trigger = Trigger(name=trigger_el)
+                triggers.append(new_trigger)
         return triggers
 
     @classmethod
