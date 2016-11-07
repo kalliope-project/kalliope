@@ -1,3 +1,5 @@
+# encoding=utf8  
+
 import logging
 
 logging.basicConfig()
@@ -94,3 +96,37 @@ class Utils(object):
         """
         import json
         print json.dumps(to_print, indent=2)
+
+"""
+Used for re-typing variables
+"""
+
+# cast string to num
+def string_to_num(s):
+    if s == "de":  # Google STT tends to detect "deux" as "de", we expect a num
+        return 2
+    try:
+        return int(s)
+    except ValueError:
+        return float(s.replace(",", ".")) # floats use "." as delimiter
+
+def num_to_string(n):
+    if isinstance(n, int) or int(n) == n:
+        return str(int(n)) # if an integer we don't need decimals
+    else:
+        return str(round(n, 3)).replace(".", " virgule ") # trim num and back to french
+
+def string_to_ope(s):
+    return s
+
+def ope_to_string(ope):
+    if ope == '-':
+        return ' moins ' # otherwise TTS returns "trait d'union"
+    if ope == '/':
+        return str(' divisé par ')  # otherwise TTS returns "slash"
+    if ope == '%':
+        return str(' % de ') # otherwise TTS returns "pourcent" (not "pourcent de")
+    else:
+        return ope
+
+
