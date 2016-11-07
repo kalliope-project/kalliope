@@ -11,7 +11,7 @@ from core.OrderListener import OrderListener
 from core.Players import Mplayer
 from core.RestAPI.FlaskAPI import FlaskAPI
 from core.TriggerLauncher import TriggerLauncher
-from neurons import Say
+from neurons.say.say import Say
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

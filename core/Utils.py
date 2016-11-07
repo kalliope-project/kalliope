@@ -62,13 +62,19 @@ class Utils(object):
     def get_dynamic_class_instantiation(cls, package_name, module_name, parameters=None):
         """
         Load a python class dynamically
+
+        from my_package.my_module import my_class
+        mod = __import__('my_package.my_module', fromlist=['my_class'])
+        klass = getattr(mod, 'my_class')
+
         :param package_name: name of the package where we will find the module to load (neurons, tts, stt, trigger)
-        :param module_name: name of the module from the package_name to load
+        :param module_name: name of the module from the package_name to load. This one is capitalized. Eg: Snowboy
         :param parameters:  dict parameters to send as argument to the module
         :return:
         """
         logger.debug("Run plugin %s with parameter %s" % (module_name, parameters))
-        mod = __import__(package_name, fromlist=[module_name])
+        module_name_with_path = package_name + "." + module_name.lower() + "." + module_name.lower()
+        mod = __import__(module_name_with_path, fromlist=[module_name])
         try:
             klass = getattr(mod, module_name)
         except AttributeError:

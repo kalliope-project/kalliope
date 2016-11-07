@@ -1,1 +1,1 @@
-from Houndify import Houndify
+from houndify import Houndify
