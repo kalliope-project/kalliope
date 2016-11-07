@@ -1,1 +1,1 @@
-from OrderAnalyserTest import OrderAnalyserTest
+from test_order_analyser import TestOrderAnalyser

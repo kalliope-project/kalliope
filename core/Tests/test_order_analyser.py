@@ -3,7 +3,7 @@ import unittest
 from core.OrderAnalyser import OrderAnalyser
 
 
-class OrderAnalyserTest(unittest.TestCase):
+class TestOrderAnalyser(unittest.TestCase):
 
     """Test case for the OrderAnalyser Class"""
 
