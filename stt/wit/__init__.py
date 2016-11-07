@@ -1,1 +1,1 @@
-from Wit import Wit
+from wit import Wit
