@@ -150,7 +150,8 @@ class OrderAnalyser:
         next(ite, None)
         return next(ite, None)
 
-    def _spelt_order_match_brain_order_via_table(self, order_to_analyse, user_said):
+    @classmethod
+    def _spelt_order_match_brain_order_via_table(cls, order_to_analyse, user_said):
         """
         return true if all string that are in the sentence are present in the order to test
         :param order_to_analyse: String order to test
@@ -158,10 +159,10 @@ class OrderAnalyser:
         :return: True if all string are present in the order
         """
         list_word_user_said = user_said.split()
-        split_order_without_bracket = self._get_split_order_without_bracket(order_to_analyse)
+        split_order_without_bracket = cls._get_split_order_without_bracket(order_to_analyse)
 
         # if all words in the list of what the user said in in the list of word in the order
-        return self._counter_subset(split_order_without_bracket, list_word_user_said)
+        return cls._counter_subset(split_order_without_bracket, list_word_user_said)
 
     @staticmethod
     def _get_split_order_without_bracket(order):
