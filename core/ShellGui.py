@@ -11,7 +11,7 @@ from core import OrderListener
 from core.ConfigurationManager import SettingLoader
 from core.SynapseLauncher import SynapseLauncher
 from core.Utils import Utils
-from neurons import Say
+from neurons.say.say import Say
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
