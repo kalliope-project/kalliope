@@ -1,7 +1,13 @@
 #!/usr/bin/env python
 
 import collections
+from threading import Thread
+
 import pyaudio
+import sys
+
+import signal
+
 import snowboydetect
 import time
 import wave
@@ -9,8 +15,7 @@ import os
 import logging
 
 logging.basicConfig()
-logger = logging.getLogger("snowboy")
-logger.setLevel(logging.INFO)
+logger = logging.getLogger("kalliope")
 TOP_DIR = os.path.dirname(os.path.abspath(__file__))
 
 RESOURCE_FILE = os.path.join(TOP_DIR, "resources/common.res")
@@ -34,29 +39,7 @@ class RingBuffer(object):
         return tmp
 
 
-def play_audio_file(fname=DETECT_DING):
-    """Simple callback function to play a wave file. By default it plays
-    a Ding sound.
-
-    :param str fname: wave file name
-    :return: None
-    """
-    ding_wav = wave.open(fname, 'rb')
-    ding_data = ding_wav.readframes(ding_wav.getnframes())
-    audio = pyaudio.PyAudio()
-    stream_out = audio.open(
-        format=audio.get_format_from_width(ding_wav.getsampwidth()),
-        channels=ding_wav.getnchannels(),
-        rate=ding_wav.getframerate(), input=False, output=True)
-    stream_out.start_stream()
-    stream_out.write(ding_data)
-    time.sleep(0.2)
-    stream_out.stop_stream()
-    stream_out.close()
-    audio.terminate()
-
-
-class HotwordDetector(object):
+class HotwordDetector(Thread):
     """
     Snowboy decoder to detect whether a keyword specified by `decoder_model`
     exists in a microphone input stream.
@@ -69,10 +52,15 @@ class HotwordDetector(object):
                               default sensitivity in the model will be used.
     :param audio_gain: multiply input volume by this factor.
     """
-    def __init__(self, decoder_model,
-                 resource=RESOURCE_FILE,
-                 sensitivity=[],
-                 audio_gain=1):
+    def __init__(self, decoder_model, resource=RESOURCE_FILE, sensitivity=[], audio_gain=1, detected_callback=None,
+                 interrupt_check=lambda: False, sleep_time=0.03):
+
+        super(HotwordDetector, self).__init__()
+        self.detected_callback = detected_callback
+        self.interrupt_check = interrupt_check
+        self.sleep_time = sleep_time
+        self.kill_received = False
+        self.paused = False
 
         def audio_callback(in_data, frame_count, time_info, status):
             self.ring_buffer.extend(in_data)
@@ -114,9 +102,7 @@ class HotwordDetector(object):
             frames_per_buffer=2048,
             stream_callback=audio_callback)
 
-    def start(self, detected_callback=play_audio_file,
-              interrupt_check=lambda: False,
-              sleep_time=0.03):
+    def run(self):
         """
         Start the voice detector. For every `sleep_time` second it checks the
         audio buffer for triggering keywords. If detected, then call
@@ -133,42 +119,43 @@ class HotwordDetector(object):
         :param float sleep_time: how much time in second every loop waits.
         :return: None
         """
-        if interrupt_check():
+        if self.interrupt_check():
             logger.debug("detect voice return")
             return
 
-        tc = type(detected_callback)
+        tc = type(self.detected_callback)
         if tc is not list:
-            detected_callback = [detected_callback]
-        if len(detected_callback) == 1 and self.num_hotwords > 1:
-            detected_callback *= self.num_hotwords
+            self.detected_callback = [self.detected_callback]
+        if len(self.detected_callback) == 1 and self.num_hotwords > 1:
+            self.detected_callback *= self.num_hotwords
 
-        assert self.num_hotwords == len(detected_callback), \
+        assert self.num_hotwords == len(self.detected_callback), \
             "Error: hotwords in your models (%d) do not match the number of " \
-            "callbacks (%d)" % (self.num_hotwords, len(detected_callback))
+            "callbacks (%d)" % (self.num_hotwords, len(self.detected_callback))
 
         logger.debug("detecting...")
 
-        while True:
-            if interrupt_check():
-                logger.debug("detect voice break")
-                break
-            data = self.ring_buffer.get()
-            if len(data) == 0:
-                time.sleep(sleep_time)
-                continue
+        while not self.kill_received:
+            if not self.paused:
+                if self.interrupt_check():
+                    logger.debug("detect voice break")
+                    break
+                data = self.ring_buffer.get()
+                if len(data) == 0:
+                    time.sleep(self.sleep_time)
+                    continue
 
-            ans = self.detector.RunDetection(data)
-            if ans == -1:
-                logger.warning("Error initializing streams or reading audio data")
-            elif ans > 0:
-                message = "Keyword " + str(ans) + " detected at time: "
-                message += time.strftime("%Y-%m-%d %H:%M:%S",
-                                         time.localtime(time.time()))
-                logger.info(message)
-                callback = detected_callback[ans-1]
-                if callback is not None:
-                    callback()
+                ans = self.detector.RunDetection(data)
+                if ans == -1:
+                    logger.warning("Error initializing streams or reading audio data")
+                elif ans > 0:
+                    message = "Keyword " + str(ans) + " detected at time: "
+                    message += time.strftime("%Y-%m-%d %H:%M:%S",
+                                             time.localtime(time.time()))
+                    logger.info(message)
+                    callback = self.detected_callback[ans-1]
+                    if callback is not None:
+                        callback()
 
         logger.debug("finished.")
 

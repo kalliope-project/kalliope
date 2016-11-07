@@ -173,7 +173,7 @@ A Rest API can be activated in order to:
 - Get synapse's detail
 - Run a synapse
 
-For the complete API ref see the [signals documentation](signals.md)
+For the complete API ref see the [REST API documentation](rest_api.md)
 
 Settings examples:
 ```
