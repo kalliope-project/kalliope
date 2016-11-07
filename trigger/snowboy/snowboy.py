@@ -1,8 +1,14 @@
+import logging
+import time
+
 from trigger.snowboy import snowboydecoder
 
 
 class MissingParameterException(Exception):
     pass
+
+logging.basicConfig()
+logger = logging.getLogger("kalliope")
 
 
 class Snowboy(object):
@@ -10,6 +16,7 @@ class Snowboy(object):
     def __init__(self, **kwargs):
         # pause listening boolean
         self.interrupted = False
+        self.kill_received = False
 
         # callback function to call when hotword caught
         self.callback = kwargs.get('callback', None)
@@ -21,6 +28,10 @@ class Snowboy(object):
 
         if self.pmdl is None:
             raise MissingParameterException("Pmdl file is required with snowboy")
+
+        self.detector = snowboydecoder.HotwordDetector(self.pmdl, sensitivity=0.5, detected_callback=self.callback,
+                                                       interrupt_check=self.interrupt_callback,
+                                                       sleep_time=0.03)
 
     def interrupt_callback(self):
         """
@@ -34,22 +45,30 @@ class Snowboy(object):
         Start the snowboy thread and wait for a Kalliope trigger word
         :return:
         """
-        detector = snowboydecoder.HotwordDetector(self.pmdl, sensitivity=0.5)
-
         # start snowboy loop
-        detector.start(detected_callback=self.callback,
-                       interrupt_check=self.interrupt_callback,
-                       sleep_time=0.03)
-
+        self.detector.daemon = True
+        try:
+            self.detector.start()
+            while not self.kill_received:
+                #  once the main thread has started child thread, there's nothing else for it to do.
+                # So it exits, and the threads are destroyed instantly. So let's keep the main thread alive
+                time.sleep(1)
+        except KeyboardInterrupt:
+            self.kill_received = True
+            self.detector.kill_received = True
         # we wait that a callback
-        detector.terminate()
+        self.detector.terminate()
 
     def pause(self):
         """
-        Stop the Snowboy main thread
-        :return:
+        pause the Snowboy main thread
         """
-        self.interrupted = True
+        logger.debug("Pausing snowboy process")
+        self.detector.paused = True
 
     def unpause(self):
-        self.interrupted = False
+        """
+        unpause the Snowboy main thread
+        """
+        logger.debug("Unpausing snowboy process")
+        self.detector.paused = False

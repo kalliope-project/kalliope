@@ -141,7 +141,7 @@ Error response codes: unauthorized(401), itemNotFound(404)
 
 Curl command:
 ```
-curl -i --user admin:secret -H "Content-Type: application/json" -X POST -d '{"order":"my order"}' http://localhost:5000/order
+curl -i --user admin:secret -H "Content-Type: application/json" -X POST -d '{"order":"my order"}' http://localhost:5000/order/
 ```
 
 If the order contains accent or quotes, use a file for testing with curl

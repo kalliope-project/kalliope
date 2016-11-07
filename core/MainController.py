@@ -31,6 +31,7 @@ class MainController:
             Utils.print_info("Starting REST API Listening port: %s" % self.settings.rest_api.port)
             app = Flask(__name__)
             flask_api = FlaskAPI(app, port=self.settings.rest_api.port, brain=self.brain)
+            flask_api.daemon = True
             flask_api.start()
 
         # create an order listener object. This last will the trigger callback before starting
@@ -71,8 +72,6 @@ class MainController:
         self.trigger_instance.unpause()
         # create a new order listener that will wait for start
         self.order_listener = OrderListener(self.analyse_order)
-        # restart the trigger to catch the hotword
-        self.trigger_instance.start()
 
     def _get_default_trigger(self):
         """
