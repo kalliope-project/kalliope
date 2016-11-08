@@ -34,7 +34,6 @@
         - flac
         - dialog
         - libffi-dev
-        - libffi-dev
         - libssl-dev
         - portaudio19-dev
         - build-essential
