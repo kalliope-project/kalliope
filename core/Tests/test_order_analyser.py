@@ -1,4 +1,6 @@
 import unittest
+from mock import patch, Mock, MagicMock
+
 
 from core.OrderAnalyser import OrderAnalyser
 
@@ -91,6 +93,103 @@ class TestOrderAnalyser(unittest.TestCase):
         expected_result = ["this", "is", "the"]
         self.assertEqual(OrderAnalyser._get_split_order_without_bracket(order_to_test), expected_result,
                          "No space brackets Fails to return the expected list")
+
+    def test_associate_order_params_to_values(self):
+       ##
+       # Testing the brackets position behaviour
+       ##
+
+       # Success
+       order_brain = "This is the {{ variable }}"
+       order_user = "This is the value"
+       expected_result = {'variable': 'value'}
+       self.assertEqual(OrderAnalyser._associate_order_params_to_values(order_user,order_brain), expected_result,
+                        "Fail to match the order_brain {{ variable }} to the 'value'")
+
+       # Success
+       order_brain = "This is the {{variable }}"
+       order_user = "This is the value"
+       expected_result = {'variable': 'value'}
+       self.assertEqual(OrderAnalyser._associate_order_params_to_values(order_user, order_brain), expected_result,
+                        "Fail to match the order_brain {{variable }} to the 'value'")
+
+       # Success
+       order_brain = "This is the {{ variable}}"
+       order_user = "This is the value"
+       expected_result = {'variable': 'value'}
+       self.assertEqual(OrderAnalyser._associate_order_params_to_values(order_user, order_brain), expected_result,
+                        "Fail to match the order_brain {{ variable}} to the 'value'")
+
+       # Success
+       order_brain = "This is the {{variable}}"
+       order_user = "This is the value"
+       expected_result = {'variable': 'value'}
+       self.assertEqual(OrderAnalyser._associate_order_params_to_values(order_user, order_brain), expected_result,
+                        "Fail to match the order_brain {{variable}} to the 'value'")
+
+       # Fail
+       order_brain = "This is the {variable}"
+       order_user = "This is the value"
+       expected_result = {'variable': 'value'}
+       self.assertNotEquals(OrderAnalyser._associate_order_params_to_values(order_user, order_brain), expected_result,
+                        "Should not match the order_brain {variable} to the 'value'")
+
+       # Fail
+       order_brain = "This is the { variable}}"
+       order_user = "This is the value"
+       expected_result = {'variable': 'value'}
+       self.assertNotEquals(OrderAnalyser._associate_order_params_to_values(order_user, order_brain), expected_result,
+                        "Should not match the order_brain { variable}} to the 'value'")
+
+       ##
+       # Testing the brackets position in the sentence
+       ##
+
+       # Success
+       order_brain = "{{ variable }} This is the"
+       order_user = "value This is the"
+       expected_result = {'variable': 'value'}
+       self.assertEqual(OrderAnalyser._associate_order_params_to_values(order_user, order_brain), expected_result,
+                         "Fail to match the order_brain {{ variable }} in first position ins the sentence to the 'value'")
+
+       # Success
+       order_brain = "This is {{ variable }} the"
+       order_user = " This is value the"
+       expected_result = {'variable': 'value'}
+       self.assertEqual(OrderAnalyser._associate_order_params_to_values(order_user, order_brain), expected_result,
+                         "Fail to match the order_brain {{ variable }} in middle position ins the sentence to the 'value'")
+
+
+       ##
+       # Testing multi variables
+       ##
+
+       # Success
+       order_brain = "This is {{ variable }} the {{ variable2 }}"
+       order_user = "This is value the value2"
+       expected_result = {'variable': 'value',
+                          'variable2': 'value2'}
+       self.assertEqual(OrderAnalyser._associate_order_params_to_values(order_user, order_brain), expected_result,
+                        "Fail to match the order_brain multi variable to the multi values")
+
+       ##
+       # Testing multi words in variable
+       ##
+
+       # Success
+       order_brain = "This is the {{ variable }}"
+       order_user = "This is the value with multiple words"
+       expected_result = {'variable': 'value with multiple words'}
+       self.assertEqual(OrderAnalyser._associate_order_params_to_values(order_user,order_brain), expected_result,
+                        "Fail to match the order_brain {{ variable }} to the 'value with multiple words'")
+
+       # Success
+       order_brain = "This is the {{ variable }} and  {{ variable2 }}"
+       order_user = "This is the value with multiple words and second value multiple"
+       expected_result = {'variable': 'value with multiple words',
+                          'variable2': 'second value multiple'}
+       self.assertEqual(OrderAnalyser._associate_order_params_to_values(order_user,order_brain), expected_result,
+                        "Fail to match the order_brain multiple variables with multiple words as values'")
 
 if __name__ == '__main__':
     unittest.main()
