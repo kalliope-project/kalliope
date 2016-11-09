@@ -50,7 +50,7 @@ class OrderAnalyser:
                         # if the order contains bracket, we get parameters said by the user
                         params = None
                         if self._is_containing_bracket(signal.sentence):
-                            params = self._associate_order_params_to_values(signal.sentence)
+                            params = self._associate_order_params_to_values(self.order, signal.sentence)
                             logger.debug("Parameters for order: %s" % params)
 
                         for neuron in synapse.neurons:
@@ -90,10 +90,14 @@ class OrderAnalyser:
         # return the list of launched synapse
         return launched_synapses
 
-    def _associate_order_params_to_values(self, order_to_check):
+    @classmethod
+    def _associate_order_params_to_values(cls, order, order_to_check):
         """
         Associate the variables from the order to the incoming user order
-        :param order_to_check: the order to check
+        :param order_to_check: the order to check incoming from the brain
+        :type order_to_check: str
+        :param order: the order from user
+        :type order: str
         :return: the dict corresponding to the key / value of the params
         """
         pattern = '\s+(?=[^\{\{\}\}]*\}\})'
@@ -105,16 +109,16 @@ class OrderAnalyser:
         the_order = order_to_check[:order_to_check.find('{{')]
 
         # remove sentence before order which are sentences not matching anyway
-        truncate_user_sentence = self.order[self.order.find(the_order):]
+        truncate_user_sentence = order[order.find(the_order):]
         truncate_list_word_said = truncate_user_sentence.split()
 
         # make dict var:value
         dict_var = {}
         for idx, ow in enumerate(list_word_in_order):
-            if self._is_containing_bracket(ow):
+            if cls._is_containing_bracket(ow):
                 # remove bracket and grab the next value / stop value
                 var_name = ow.replace("{{", "").replace("}}", "")
-                stop_value = self._get_next_value_list(list_word_in_order[idx:])
+                stop_value = cls._get_next_value_list(list_word_in_order[idx:])
                 if stop_value is None:
                     dict_var[var_name] = " ".join(truncate_list_word_said)
                     break
