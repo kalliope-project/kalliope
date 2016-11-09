@@ -50,7 +50,7 @@ class OrderAnalyser:
                         # if the order contains bracket, we get parameters said by the user
                         params = None
                         if self._is_containing_bracket(signal.sentence):
-                            params = self._associate_order_params_to_values(signal.sentence)
+                            params = self._associate_order_params_to_values(self.order, signal.sentence)
                             logger.debug("Parameters for order: %s" % params)
 
                         for neuron in synapse.neurons:
@@ -90,10 +90,14 @@ class OrderAnalyser:
         # return the list of launched synapse
         return launched_synapses
 
-    def _associate_order_params_to_values(self, order_to_check):
+    @classmethod
+    def _associate_order_params_to_values(cls, order, order_to_check):
         """
         Associate the variables from the order to the incoming user order
-        :param order_to_check: the order to check
+        :param order_to_check: the order to check incoming from the brain
+        :type order_to_check: str
+        :param order: the order from user
+        :type order: str
         :return: the dict corresponding to the key / value of the params
         """
         pattern = '\s+(?=[^\{\{\}\}]*\}\})'
@@ -105,16 +109,16 @@ class OrderAnalyser:
         the_order = order_to_check[:order_to_check.find('{{')]
 
         # remove sentence before order which are sentences not matching anyway
-        truncate_user_sentence = self.order[self.order.find(the_order):]
+        truncate_user_sentence = order[order.find(the_order):]
         truncate_list_word_said = truncate_user_sentence.split()
 
         # make dict var:value
         dict_var = {}
         for idx, ow in enumerate(list_word_in_order):
-            if self._is_containing_bracket(ow):
+            if cls._is_containing_bracket(ow):
                 # remove bracket and grab the next value / stop value
                 var_name = ow.replace("{{", "").replace("}}", "")
-                stop_value = self._get_next_value_list(list_word_in_order[idx:])
+                stop_value = cls._get_next_value_list(list_word_in_order[idx:])
                 if stop_value is None:
                     dict_var[var_name] = " ".join(truncate_list_word_said)
                     break
@@ -150,7 +154,8 @@ class OrderAnalyser:
         next(ite, None)
         return next(ite, None)
 
-    def _spelt_order_match_brain_order_via_table(self, order_to_analyse, user_said):
+    @classmethod
+    def _spelt_order_match_brain_order_via_table(cls, order_to_analyse, user_said):
         """
         return true if all string that are in the sentence are present in the order to test
         :param order_to_analyse: String order to test
@@ -158,10 +163,10 @@ class OrderAnalyser:
         :return: True if all string are present in the order
         """
         list_word_user_said = user_said.split()
-        split_order_without_bracket = self._get_split_order_without_bracket(order_to_analyse)
+        split_order_without_bracket = cls._get_split_order_without_bracket(order_to_analyse)
 
         # if all words in the list of what the user said in in the list of word in the order
-        return self._counter_subset(split_order_without_bracket, list_word_user_said)
+        return cls._counter_subset(split_order_without_bracket, list_word_user_said)
 
     @staticmethod
     def _get_split_order_without_bracket(order):
