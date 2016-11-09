@@ -12,3 +12,16 @@
             - location
           say_template:
           - "Aujourd'hui a {{ location }} le temps est {{ weather_today }} avec une température de {{ temp_today_temp }} degrés et demain le temps sera {{ weather_tomorrow }} avec une température de {{ temp_tomorrow_temp }} degrés"
+
+  - name: "get-the-weather-2"
+    signals:
+      - order: "quel temps fait-il"
+    neurons:
+      - openweathermap:
+          api_key: "your-api"
+          lang: "fr"
+          temp_unit: "celsius"
+          country: "FR"
+          location: "grenoble"          
+          say_template:
+          - "Aujourd'hui a {{ location }} le temps est {{ weather_today }} avec une température de {{ temp_today_temp }} degrés et demain le temps sera {{ weather_tomorrow }} avec une température de {{ temp_tomorrow_temp }} degrés"
