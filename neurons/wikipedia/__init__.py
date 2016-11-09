@@ -1,1 +1,1 @@
-from Wikipedia import Wikipedia
+from wikipedia import Wikipedia
