@@ -121,6 +121,13 @@ Restart alsa to apply changes
 sudo /etc/init.d/alsa-utils restart
 ```
 
+You can adjust the microphone sensibility by running alsamixer:
+```
+alsamixer
+```
+And then select your microphone device by pressing F6 and finally move up the `mic` sensibility level
+![logo](../../images/alsamixer_mic_level.png)
+
 To ensure that you can record your voice, run the following command to capture audio input from your microphone
 ```
 rec test.wav
