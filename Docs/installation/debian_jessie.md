@@ -48,7 +48,7 @@ Press CTRL-C after capturing a sample of your voice.
 
 Then play the recorded audio file
 ```
-play test.wav
+mplayer test.wav
 ```
 
 If everything is ok, you can start playing with Kalliope. First, take a look to the [default settings](settings.md).

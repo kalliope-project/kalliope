@@ -121,12 +121,12 @@ Restart alsa to apply changes
 sudo /etc/init.d/alsa-utils restart
 ```
 
-Do not forget to test recording your voice:
-
-Capture audio from your microphone
+To ensure that you can record your voice, run the following command to capture audio input from your microphone
 ```
 rec test.wav
 ```
+
+Press CTRL-C after capturing a sample of your voice.
 
 Then play the recorded audio file
 ```
