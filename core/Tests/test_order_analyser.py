@@ -1,5 +1,4 @@
 import unittest
-from mock import patch, Mock, MagicMock
 
 
 from core.OrderAnalyser import OrderAnalyser

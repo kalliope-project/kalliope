@@ -35,60 +35,95 @@ class OrderAnalyser:
         """
         This method matches the incoming messages to the signals/order sentences provided in the Brain
         """
-        synapses_found = False
-        problem_in_neuron_found = False
+
         # create a dict of synapses that have benn launched
-        launched_synapses = list()
-        for synapse in self.brain.synapses:
-            for signal in synapse.signals:
-                if type(signal) == Order:
-                    if self._spelt_order_match_brain_order_via_table(signal.sentence, self.order):
-                        launched_synapses.append(synapse)
-                        synapses_found = True
-                        logger.debug("Order found! Run neurons: %s" % synapse.neurons)
-                        Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
-                        # if the order contains bracket, we get parameters said by the user
-                        params = None
-                        if self._is_containing_bracket(signal.sentence):
-                            params = self._associate_order_params_to_values(self.order, signal.sentence)
-                            logger.debug("Parameters for order: %s" % params)
+        launched_synapses = self._get_matching_synapse_list(self.brain.synapses, self.order)
 
-                        for neuron in synapse.neurons:
-                            if isinstance(neuron.parameters, dict):
-                                # print neuron.parameters
-                                if "args" in neuron.parameters:
-                                    logger.debug("The neuron wait for parameter")
-                                    # check that the user added parameters to his order
-                                    if params is None:
-                                        # we don't raise an error and break the program but we don't run the neuron
-                                        problem_in_neuron_found = True
-                                        Utils.print_danger("Error: The neuron %s is waiting for argument. "
-                                                           "Argument found in bracket in the given order" % neuron.name)
-                                    else:
-                                        # we add wanted arguments the existing neuron parameter dict
-                                        for arg in neuron.parameters["args"]:
-                                            if arg in params:
-                                                logger.debug("Parameter %s added to the current parameter "
-                                                             "of the neuron: %s" % (arg, neuron.name))
-                                                neuron.parameters[arg] = params[arg]
-                                            else:
-                                                # we don't raise an error and break the program but
-                                                # we don't run the neuron
-                                                problem_in_neuron_found = True
-                                                Utils.print_danger("Error: Argument \"%s\" not found in the"
-                                                                   " order" % arg)
-
-                            # if no error detected, we run the neuron
-                            if not problem_in_neuron_found:
-                                NeuroneLauncher.start_neurone(neuron)
-                            else:
-                                Utils.print_danger("A problem has been found in the Synapse.")
-
-        if not synapses_found:
+        if not launched_synapses:
             Utils.print_info("No synapse match the captured order: %s" % self.order)
+        else:
+            for synapse in launched_synapses:
+                params = self._get_synapse_params(synapse, self.order)
+                for neuron in synapse.neurons:
+                    self._start_neuron(neuron, params)
 
         # return the list of launched synapse
         return launched_synapses
+
+    @classmethod
+    def _get_matching_synapse_list(cls, all_synapses_list, order_to_match):
+        """
+            Class method to return all the matching synapses with the order from the complete of synapses.
+
+        :param all_synapses_list: the complete list of all synapses
+        :param order_to_match: the order to match
+        :return: the list of matching synapses
+        """
+        matching_synapses_list = list()
+        for synapse in all_synapses_list:
+            for signal in synapse.signals:
+                if type(signal) == Order:
+                    if cls._spelt_order_match_brain_order_via_table(signal.sentence, order_to_match):
+                        matching_synapses_list.append(synapse)
+                        logger.debug("Order found! Run neurons: %s" % synapse.neurons)
+                        Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
+        return matching_synapses_list
+
+    @classmethod
+    def _get_synapse_params(cls, synapse, order_to_check):
+        """
+            Class method to get all params comming from a synapse. Returns a dict of key/value.
+
+        :param synapse: the synapse to check
+        :param order_to_check: the order to match
+        :return: the dict key/value
+        """
+        params = dict()
+        for signal in synapse.signals:
+            if cls._is_containing_bracket(signal.sentence):
+                params = cls._associate_order_params_to_values(order_to_check, signal.sentence)
+                logger.debug("Parameters for order: %s" % params)
+        return params
+
+    @classmethod
+    def _start_neuron(cls, neuron, params):
+        """
+            Associate params and Starts a neuron.
+        :param neuron: the neuron to start
+        :param params: the params to check and associate to the neuron args.
+        """
+
+        problem_in_neuron_found = False
+        if isinstance(neuron.parameters, dict):
+            # print neuron.parameters
+            if "args" in neuron.parameters:
+                logger.debug("The neuron waits for parameter")
+                # check that the user added parameters to his order
+                if params is None:
+                    # we don't raise an error and break the program but we don't run the neuron
+                    problem_in_neuron_found = True
+                    Utils.print_danger("Error: The neuron %s is waiting for argument. "
+                                       "Argument found in bracket in the given order" % neuron.name)
+                else:
+                    # we add wanted arguments the existing neuron parameter dict
+                    for arg in neuron.parameters["args"]:
+                        if arg in params:
+                            logger.debug("Parameter %s added to the current parameter "
+                                         "of the neuron: %s" % (arg, neuron.name))
+                            neuron.parameters[arg] = params[arg]
+                        else:
+                            # we don't raise an error and break the program but
+                            # we don't run the neuron
+                            problem_in_neuron_found = True
+                            Utils.print_danger("Error: Argument \"%s\" not found in the"
+                                               " order" % arg)
+
+        # if no error detected, we run the neuron
+        if not problem_in_neuron_found:
+            NeuroneLauncher.start_neurone(neuron)
+        else:
+            Utils.print_danger("A problem has been found in the Synapse.")
+
 
     @classmethod
     def _associate_order_params_to_values(cls, order, order_to_check):
@@ -113,7 +148,7 @@ class OrderAnalyser:
         truncate_list_word_said = truncate_user_sentence.split()
 
         # make dict var:value
-        dict_var = {}
+        dict_var = dict()
         for idx, ow in enumerate(list_word_in_order):
             if cls._is_containing_bracket(ow):
                 # remove bracket and grab the next value / stop value
