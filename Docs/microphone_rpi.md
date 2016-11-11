@@ -1,1 +1,0 @@
-# Tested microphone on Rpi

@@ -1,3 +1,36 @@
+# Kalliope installation on Raspbian
+
+## Automated install
+
+Clone the project
+```
+cd
+git clone https://github.com/kalliope-project/kalliope.git
+```
+
+Run the install script.
+```
+./kalliope/install/install_kalliope.sh
+```
+
+## Manual install
+
+To make Kalliope work, you will have to install a certain number of libraries:
+```
+sudo apt-get update
+sudo apt-get install git python-pip python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer
+```
+
+Clone the project
+```
+git clone https://github.com/kalliope-project/kalliope.git
+```
+
+Install libs
+```
+sudo pip install -r install/files/python_requirements.txt
+```
+
 # Raspberry Pi configuration
 
 This documentation deals with the special configuration needed for get kalliope working on a RPi.

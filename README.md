@@ -22,9 +22,9 @@ Kalliope is easy-peasy to use, see the hello world
 
 ## Installation
 
-- [Automated installation](Docs/automated_install.md)
-- [Manual installation for developement](Docs/dev_env_install.md)
-- [Raspberry Pi configuration](Docs/RPi.md)
+- [Raspbian Jessie(Raspberry pi)](Docs/installation/raspbian_jessie.md)
+- [Ubuntu 16.04](Docs/installation/ubuntu_16.04.md)
+- [Debian Jessie](Docs/installation/debian_jessie.md)
 
 ## Usage
 
