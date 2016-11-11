@@ -2,6 +2,9 @@ import unittest
 
 
 from core.OrderAnalyser import OrderAnalyser
+from core.Models.Neuron import Neuron
+from core.Models.Synapse import Synapse
+from core.Models.Order import Order
 
 
 class TestOrderAnalyser(unittest.TestCase):
@@ -189,6 +192,55 @@ class TestOrderAnalyser(unittest.TestCase):
                           'variable2': 'second value multiple'}
        self.assertEqual(OrderAnalyser._associate_order_params_to_values(order_user,order_brain), expected_result,
                         "Fail to match the order_brain multiple variables with multiple words as values'")
+
+
+    def test_get_matching_synapse_list(self):
+        # Init
+        neuron1 = Neuron(name='neurone1', parameters={'var1':'val1'})
+        neuron2 = Neuron(name='neurone2', parameters={'var2': 'val2'})
+        neuron3 = Neuron(name='neurone3', parameters={'var3': 'val3'})
+        neuron4 = Neuron(name='neurone4', parameters={'var4': 'val4'})
+
+        signal1 = Order(sentence="this is the sentence")
+        signal2 = Order(sentence="this is the second sentence")
+        signal3 = Order(sentence="this is the third sentence")
+
+        synapse1 = Synapse(name="Synapse1",neurons={neuron1, neuron2}, signals={signal1})
+        synapse2 = Synapse(name="Synapse2", neurons={neuron3, neuron4}, signals={signal2})
+        synapse3 = Synapse(name="Synapse3", neurons={neuron2, neuron4}, signals={signal3})
+
+        order_to_match = "this is the sentence"
+        all_synapse_list = [synapse1,
+                            synapse2,
+                            synapse3]
+
+        expected_result = [synapse1]
+
+        # Success
+        self.assertEquals(OrderAnalyser._get_matching_synapse_list(all_synapses_list=all_synapse_list, order_to_match=order_to_match),
+                          expected_result,
+                          "Fail matching the expected synapse from the complete synapse list and the order")
+
+        # TODO : to be continued
+
+    def test_get_synapse_params(self):
+        # Init
+        neuron1 = Neuron(name='neurone1', parameters={'var1': 'val1'})
+        neuron2 = Neuron(name='neurone2', parameters={'var2': 'val2'})
+
+        signal1 = Order(sentence="this is the {{ sentence }}")
+
+        synapse1 = Synapse(name="Synapse1", neurons={neuron1, neuron2}, signals={signal1})
+
+        order_to_check = "this is the value"
+        expected_resut = {'sentence':'value'}
+
+        self.assertEquals(OrderAnalyser._get_synapse_params(synapse=synapse1, order_to_check=order_to_check),
+                          expected_resut,
+                          "Fail to retrieve the params of the synapse from the order")
+
+        # TODO : to be continued
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -31,7 +31,6 @@ class OrderAnalyser:
         logger.debug("OrderAnalyser, Received order: %s" % self.order)
 
     def start(self):
-        # TODO : refactor this method !!
         """
         This method matches the incoming messages to the signals/order sentences provided in the Brain
         """
@@ -53,10 +52,11 @@ class OrderAnalyser:
     @classmethod
     def _get_matching_synapse_list(cls, all_synapses_list, order_to_match):
         """
-            Class method to return all the matching synapses with the order from the complete of synapses.
+        Class method to return all the matching synapses with the order from the complete of synapses.
 
         :param all_synapses_list: the complete list of all synapses
         :param order_to_match: the order to match
+        :type order_to_check: str
         :return: the list of matching synapses
         """
         matching_synapses_list = list()
@@ -72,10 +72,11 @@ class OrderAnalyser:
     @classmethod
     def _get_synapse_params(cls, synapse, order_to_check):
         """
-            Class method to get all params comming from a synapse. Returns a dict of key/value.
+        Class method to get all params coming from a synapse. Returns a dict of key/value.
 
         :param synapse: the synapse to check
         :param order_to_check: the order to match
+        :type order_to_check: str
         :return: the dict key/value
         """
         params = dict()
@@ -88,7 +89,8 @@ class OrderAnalyser:
     @classmethod
     def _start_neuron(cls, neuron, params):
         """
-            Associate params and Starts a neuron.
+        Associate params and Starts a neuron.
+
         :param neuron: the neuron to start
         :param params: the params to check and associate to the neuron args.
         """
