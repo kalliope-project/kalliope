@@ -35,7 +35,7 @@ class OrderAnalyser:
         This method matches the incoming messages to the signals/order sentences provided in the Brain
         """
 
-        # create a dict of synapses that have benn launched
+        # create a dict of synapses that have been launched
         launched_synapses = self._get_matching_synapse_list(self.brain.synapses, self.order)
 
         if not launched_synapses:
@@ -56,7 +56,7 @@ class OrderAnalyser:
 
         :param all_synapses_list: the complete list of all synapses
         :param order_to_match: the order to match
-        :type order_to_check: str
+        :type order_to_match: str
         :return: the list of matching synapses
         """
         matching_synapses_list = list()
@@ -125,7 +125,6 @@ class OrderAnalyser:
             NeuroneLauncher.start_neurone(neuron)
         else:
             Utils.print_danger("A problem has been found in the Synapse.")
-
 
     @classmethod
     def _associate_order_params_to_values(cls, order, order_to_check):
