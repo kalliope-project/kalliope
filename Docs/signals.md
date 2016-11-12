@@ -81,7 +81,7 @@ The synapse in the brain would be
       - systemdate:
           say_template:
             - "It is {{ hours }} hours and {{ minutes }} minutes"
-      - command: "mplayer http://192.99.17.12:6410/"
+      - shell: "mplayer http://192.99.17.12:6410/"
 ```
 
 After setting up an event, you must restart Kalliope
