@@ -6,7 +6,7 @@ Kalliope needs the community to improve its Core features and to create new Neur
 
 The community can contribute to the Core of Kalliope by providing some new features.
 
-### How to contribute
+#### How to contribute
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
@@ -73,7 +73,7 @@ Only [Synapse](brain.md) by the use of [Order](signals.md) must interact with th
 
 ##### Limitations
 
-1. The management of incoming variable from the signal order when they are numbers or float are not efficient. (Thanks to @thebao for pointing this out!)
+1. The management of incoming variable from the signal order when they are __numbers or float are not efficient__. (Thanks to @thebao for pointing this out!)
     - Because of the differences between the STTs outputs: some are returning word some numbers (two != 2). 
     - Because of the i18n, we are not able to know if a variable should be  interpreted in english, french, spanish, etc ... ("two" != "deux" != "dos")
 
