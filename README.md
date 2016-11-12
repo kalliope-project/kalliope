@@ -8,7 +8,7 @@ Kalliope is based on audio input recognition, so it recognize an order pronounce
 You can create your own Kalliope bot, by simply choosing and composing the existing modules without writing any code. But, if you need a particular module, you can
 write it by yourself and add it to your project. You can also propose it to the community.
 
-Kalliope can run on all Linux distribution including a Raspberry Pi and it's multi-lang. The only thing you need is a microphone.
+Kalliope can run on all Linux Debian based distribution including a Raspberry Pi and it's multi-lang. The only thing you need is a microphone.
 
 Kalliope is easy-peasy to use, see the hello world
 ```
