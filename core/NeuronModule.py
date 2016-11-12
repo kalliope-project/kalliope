@@ -17,7 +17,7 @@ logger = logging.getLogger("kalliope")
 
 class InvalidParameterException(Exception):
     """
-   Some Neuron parameters are invalid.
+    Some Neuron parameters are invalid.
     """
     pass
 
