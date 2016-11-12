@@ -8,18 +8,18 @@ cd
 git clone https://github.com/kalliope-project/kalliope.git
 ```
 
+Edit `/etc/apt/sources.list` and check that your mirror accept "non-free" package
+```
+deb http://ftp.fr.debian.org/debian/ jessie main contrib non-free
+deb-src http://ftp.fr.debian.org/debian/ jessie main contrib non-free
+```
+
 Run the install script.
 ```
 ./kalliope/install/install_kalliope.sh
 ```
 
 ## Manual install
-
-Edit `/etc/apt/sources.list` and check that your mirror accept "non-free" package
-```
-deb http://ftp.fr.debian.org/debian/ jessie main contrib non-free
-deb-src http://ftp.fr.debian.org/debian/ jessie main contrib non-free
-```
 
 To make Kalliope work, you will have to install a certain number of libraries:
 ```
