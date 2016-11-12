@@ -71,6 +71,8 @@ the message variable must be a Dict of variable:values where variables can be de
 1. The Neuron must (as much as possible) ensure the i18n. This means that they should __not manage a specific languages__ inside its own logic.
 Only [Synapse](brain.md) by the use of [Order](signals.md) must interact with the languages. This allow a Neuron to by reused by anyone, speaking any language.
 
+1. The Neuron must follow the [PEP8](https://www.python.org/dev/peps/pep-0008/) and the docstring [PEP257](https://www.python.org/dev/peps/pep-0257/).
+
 ##### Limitations
 
 1. The management of incoming variable from the signal order when they are __numbers or float are not efficient__. (Thanks to @thebao for pointing this out!)
