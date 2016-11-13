@@ -62,6 +62,10 @@ class MultipleSameSynapseName(Exception):
     pass
 
 
+class NoValidOrder(Exception):
+    pass
+
+
 class ConfigurationChecker:
     """
     This Class provides all method to Check the configuration files are properly set up.
@@ -192,10 +196,10 @@ class ConfigurationChecker:
         .. raises:: NoEventPeriod
         .. warnings:: Static and Public
         """
-
         if event_dict is None:
             raise NoEventPeriod("Event must contain a period: %s" % event_dict)
-
+        if event_dict["event"] is None or event_dict["event"] == "":
+            raise NoEventPeriod("Event must contain a period: %s" % event_dict)
         return True
 
     @staticmethod
@@ -215,10 +219,10 @@ class ConfigurationChecker:
         .. seealso::  Order
         .. warnings:: Static and Public
         """
+        if order_dict is None or order_dict == "":
+            raise NoValidOrder("An order cannot be null or empty")
 
-        if order_dict is not None:
-            return True
-        return False
+        return True
 
     @staticmethod
     def check_synapes(synapses_list):
