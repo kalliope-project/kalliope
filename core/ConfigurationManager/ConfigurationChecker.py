@@ -198,8 +198,6 @@ class ConfigurationChecker:
         """
         if event_dict is None:
             raise NoEventPeriod("Event must contain a period: %s" % event_dict)
-        if event_dict["event"] is None or event_dict["event"] == "":
-            raise NoEventPeriod("Event must contain a period: %s" % event_dict)
         return True
 
     @staticmethod
