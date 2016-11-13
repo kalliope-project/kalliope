@@ -91,6 +91,13 @@ class TestBrainLoader(unittest.TestCase):
         self.assertEqual(order_from_bl, order_object)
         self.assertEqual(event_from_bl, event_object)
 
+    def test_singleton(self):
+        bl1 = BrainLoader.Instance(file_path=self.brain_to_test)
+        bl2 = BrainLoader.Instance(file_path=self.brain_to_test)
+
+        self.assertTrue(bl1.brain == bl2.brain)
+
+
 
 if __name__ == '__main__':
     unittest.main()
