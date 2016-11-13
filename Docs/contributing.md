@@ -57,7 +57,7 @@ The constructor has a __**kwargs argument__ which is corresponding to the Dict o
         super(Say, self).__init__(**kwargs)
     ```
 
-1. You must run unit tests with success before send a pull request. Add new tests that cover the code you want to publish.
+1. You must run unit tests with success before sending a pull request. Add new tests that cover the code you want to publish.
 ```
 cd /path/to/kalliope
 python -m unittest discover
