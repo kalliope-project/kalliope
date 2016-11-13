@@ -66,7 +66,8 @@ class NeuronModule(object):
         logger.debug("NeuronModule called from class %s with parameters: %s" % (child_name, str(kwargs)))
 
         self.settings = SettingLoader.get_settings()
-        self.brain = BrainLoader.get_brain()
+        brain_loader = BrainLoader.Intance()
+        self.brain = brain_loader.brain
 
         # check if the user has overrider the TTS
         tts = kwargs.get('tts', None)
