@@ -2,6 +2,7 @@ import logging
 
 from YAMLLoader import YAMLLoader
 from core.FileManager import FileManager
+from core.Models import Singleton
 from core.Models.RestAPI import RestAPI
 from core.Models.Settings import Settings
 from core.Models.Stt import Stt
@@ -41,21 +42,25 @@ class SettingNotFound(Exception):
     pass
 
 
+@Singleton
 class SettingLoader(object):
     """
     This Class is used to get the Settings YAML and the Settings as an object
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, file_path=None):
+        logger.debug("Loading settings with file path: %s" % file_path)
+        self.file_path = file_path
+        if self.file_path is None:
+            # use default file if not provided
+            self.file_path = FILE_NAME
+        self.yaml_config = self._get_yaml_config
+        self.settings = self._get_settings()
 
-    @classmethod
-    def get_yaml_config(cls, file_path=None):
+    def _get_yaml_config(self):
         """
         Class Methods which loads default or the provided YAML file and return it as a String
 
-        :param file_path: the setting file path to load if None takes default
-        :type file_path: str
         :return: The loaded settings YAML
         :rtype: dict
 
@@ -64,18 +69,12 @@ class SettingLoader(object):
 
         .. warnings:: Class Method
         """
+        return YAMLLoader.get_config(self.file_path)
 
-        if file_path is None:
-            file_path = FILE_NAME
-        return YAMLLoader.get_config(file_path)
-
-    @classmethod
-    def get_settings(cls, file_path=None):
+    def _get_settings(self):
         """
         Class Methods which loads default or the provided YAML file and return a Settings Object
 
-        :param file_path: the setting file path to load
-        :type file_path: str
         :return: The loaded Settings
         :rtype: Settings
 
@@ -88,36 +87,32 @@ class SettingLoader(object):
         """
 
         # create a new setting
-        setting_object = Settings.Instance()
-        logger.debug("Is Settings already loaded ? %r" % setting_object.is_loaded)
-        if setting_object.is_loaded is False:
+        setting_object = Settings()
 
-            # Get the setting parameters
-            settings = cls.get_yaml_config(file_path)
-            default_stt_name = cls._get_default_speech_to_text(settings)
-            default_tts_name = cls._get_default_text_to_speech(settings)
-            default_trigger_name = cls._get_default_trigger(settings)
-            stts = cls._get_stts(settings)
-            ttss = cls._get_ttss(settings)
-            triggers = cls._get_triggers(settings)
-            random_wake_up_answers = cls._get_random_wake_up_answers(settings)
-            random_wake_up_sounds = cls._get_random_wake_up_sounds(settings)
-            rest_api = cls._get_rest_api(settings)
-            cache_path = cls._get_cache_path(settings)
+        # Get the setting parameters
+        settings = self._get_yaml_config()
+        default_stt_name = self._get_default_speech_to_text(settings)
+        default_tts_name = self._get_default_text_to_speech(settings)
+        default_trigger_name = self._get_default_trigger(settings)
+        stts = self._get_stts(settings)
+        ttss = self._get_ttss(settings)
+        triggers = self._get_triggers(settings)
+        random_wake_up_answers = self._get_random_wake_up_answers(settings)
+        random_wake_up_sounds = self._get_random_wake_up_sounds(settings)
+        rest_api = self._get_rest_api(settings)
+        cache_path = self._get_cache_path(settings)
 
-            # Load the setting singleton with the parameters
-            setting_object.default_tts_name = default_tts_name
-            setting_object.default_stt_name = default_stt_name
-            setting_object.default_trigger_name = default_trigger_name
-            setting_object.stts = stts
-            setting_object.ttss = ttss
-            setting_object.triggers = triggers
-            setting_object.random_wake_up_answers = random_wake_up_answers
-            setting_object.random_wake_up_sounds = random_wake_up_sounds
-            setting_object.rest_api = rest_api
-            setting_object.cache_path = cache_path
-            # The Settings Singleton is loaded
-            setting_object.is_loaded = True
+        # Load the setting singleton with the parameters
+        setting_object.default_tts_name = default_tts_name
+        setting_object.default_stt_name = default_stt_name
+        setting_object.default_trigger_name = default_trigger_name
+        setting_object.stts = stts
+        setting_object.ttss = ttss
+        setting_object.triggers = triggers
+        setting_object.random_wake_up_answers = random_wake_up_answers
+        setting_object.random_wake_up_sounds = random_wake_up_sounds
+        setting_object.rest_api = rest_api
+        setting_object.cache_path = cache_path
 
         return setting_object
 
@@ -204,8 +199,8 @@ class SettingLoader(object):
         except KeyError, e:
             raise SettingNotFound("%s setting not found" % e)
 
-    @classmethod
-    def _get_stts(cls, settings):
+    @staticmethod
+    def _get_stts(settings):
         """
         Return a list of stt object
 
@@ -243,8 +238,8 @@ class SettingLoader(object):
                 stts.append(new_stt)
         return stts
 
-    @classmethod
-    def _get_ttss(cls, settings):
+    @staticmethod
+    def _get_ttss(settings):
         """
 
         Return a list of stt object
@@ -283,8 +278,8 @@ class SettingLoader(object):
                 ttss.append(new_tts)
         return ttss
 
-    @classmethod
-    def _get_triggers(cls, settings):
+    @staticmethod
+    def _get_triggers(settings):
         """
         Return a list of Trigger object
 
@@ -322,8 +317,8 @@ class SettingLoader(object):
                 triggers.append(new_trigger)
         return triggers
 
-    @classmethod
-    def _get_random_wake_up_answers(cls, settings):
+    @staticmethod
+    def _get_random_wake_up_answers(settings):
         """
         Return a list of the wake up answers set up on the settings.yml file
 
@@ -353,8 +348,8 @@ class SettingLoader(object):
 
         return random_wake_up_answers_list
 
-    @classmethod
-    def _get_random_wake_up_sounds(cls, settings):
+    @staticmethod
+    def _get_random_wake_up_sounds(settings):
         """
         Return a list of the wake up sounds set up on the settings.yml file
 
@@ -384,8 +379,8 @@ class SettingLoader(object):
 
         return random_wake_up_sounds_list
 
-    @classmethod
-    def _get_rest_api(cls, settings):
+    @staticmethod
+    def _get_rest_api(settings):
         """
         Return the settings of the RestApi
 
@@ -446,8 +441,8 @@ class SettingLoader(object):
         else:
             raise NullSettingException("rest_api settings cannot be null")
 
-    @classmethod
-    def _get_cache_path(cls, settings):
+    @staticmethod
+    def _get_cache_path(settings):
         """
         Return the path where to store the cache
 

@@ -1,10 +1,7 @@
-from core.Models import Singleton
 import platform
 
 
-@Singleton
 class Settings(object):
-    # TODO review the Singleton, should be Instantiate at the BrainLoader level
     """
     This Class is a Singleton Representing the settings.yml file with synapse
 
@@ -33,5 +30,4 @@ class Settings(object):
         self.triggers = triggers
         self.rest_api = rest_api
         self.cache_path = cache_path
-        self.is_loaded = False
         self.machine = platform.machine()   # can be x86_64 or armv7l

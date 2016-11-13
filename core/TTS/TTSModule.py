@@ -56,7 +56,8 @@ class TTSModule(object):
         self.base_cache_path = None
 
         # load settings
-        self.settings = SettingLoader.get_settings()
+        sl = SettingLoader.Instance()
+        self.settings = sl.settings
 
         # create the path in the tmp folder
         base_path = os.path.join(self.settings.cache_path, self.tts_caller_name, self.language, self.voice)

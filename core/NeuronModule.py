@@ -65,7 +65,8 @@ class NeuronModule(object):
         child_name = self.__class__.__name__
         logger.debug("NeuronModule called from class %s with parameters: %s" % (child_name, str(kwargs)))
 
-        self.settings = SettingLoader.get_settings()
+        sl = SettingLoader.Instance()
+        self.settings = sl.settings
         brain_loader = BrainLoader.Instance()
         self.brain = brain_loader.brain
 
