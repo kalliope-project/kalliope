@@ -97,7 +97,5 @@ class TestBrainLoader(unittest.TestCase):
 
         self.assertTrue(bl1.brain == bl2.brain)
 
-
-
 if __name__ == '__main__':
     unittest.main()

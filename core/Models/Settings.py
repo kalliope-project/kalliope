@@ -31,3 +31,11 @@ class Settings(object):
         self.rest_api = rest_api
         self.cache_path = cache_path
         self.machine = platform.machine()   # can be x86_64 or armv7l
+
+    def __eq__(self, other):
+        """
+        This is used to compare 2 objects
+        :param other:
+        :return:
+        """
+        return self.__dict__ == other.__dict__

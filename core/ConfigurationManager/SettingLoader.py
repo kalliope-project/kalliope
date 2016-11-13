@@ -54,7 +54,7 @@ class SettingLoader(object):
         if self.file_path is None:
             # use default file if not provided
             self.file_path = FILE_NAME
-        self.yaml_config = self._get_yaml_config
+        self.yaml_config = self._get_yaml_config()
         self.settings = self._get_settings()
 
     def _get_yaml_config(self):
