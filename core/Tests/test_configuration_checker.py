@@ -68,9 +68,9 @@ class TestConfigurationChecker(unittest.TestCase):
             ConfigurationChecker.check_signal_dict(invalid_signal)
 
     def test_check_event_dict(self):
-        valid_event = {'event': '0 * * * *'}
-        invalid_event = {'event': None}
-        invalid_event2 = {'event': ""}
+        valid_event = '0 * * * *'
+        invalid_event = None
+        invalid_event2 = ""
 
         self.assertTrue(ConfigurationChecker.check_event_dict(valid_event))
 

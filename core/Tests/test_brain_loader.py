@@ -95,7 +95,7 @@ class TestBrainLoader(unittest.TestCase):
         bl1 = BrainLoader.Instance(file_path=self.brain_to_test)
         bl2 = BrainLoader.Instance(file_path=self.brain_to_test)
 
-        self.assertTrue(bl1.brain == bl2.brain)
+        self.assertTrue(bl1.brain is bl2.brain)
 
 if __name__ == '__main__':
     unittest.main()

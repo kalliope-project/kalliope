@@ -36,7 +36,7 @@ class TestSettingsoader(unittest.TestCase):
         s1 = SettingLoader.Instance(file_path=self.settings_file_to_test)
         s2 = SettingLoader.Instance(file_path=self.settings_file_to_test)
 
-        self.assertTrue(s1.settings == s2.settings)
+        self.assertTrue(s1.settings is s2.settings)
 
     def test_get_yaml_config(self):
 
