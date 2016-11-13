@@ -196,7 +196,7 @@ class ConfigurationChecker:
         .. raises:: NoEventPeriod
         .. warnings:: Static and Public
         """
-        if event_dict is None:
+        if event_dict is None or event_dict == "":
             raise NoEventPeriod("Event must contain a period: %s" % event_dict)
         return True
 

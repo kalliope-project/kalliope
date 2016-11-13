@@ -22,7 +22,7 @@ class BrainLoader(object):
     """
 
     def __init__(self, file_path=None):
-        logger.debug("Loading brain")
+        logger.debug("Loading brain with file path: %s" % file_path)
         self.file_path = file_path
         self.yaml_config = self.get_yaml_config()
         self.brain = self.get_brain()
@@ -84,7 +84,6 @@ class BrainLoader(object):
         # check that no synapse have the same name than another
         if not ConfigurationChecker().check_synapes(synapses):
             brain = None
-
 
         return brain
 
