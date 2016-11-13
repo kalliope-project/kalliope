@@ -57,6 +57,11 @@ The constructor has a __**kwargs argument__ which is corresponding to the Dict o
         super(Say, self).__init__(**kwargs)
     ```
 
+1. You must run unit tests with success before send a pull request. Add new tests that cover the code you want to publish.
+```
+cd /path/to/kalliope
+python -m unittest discover
+```
 
 1. (*optionnal-> good practice*) The Neuron can implement a __private method _is_parameters_ok(self)__ which checks if entries are ok. *return: true if parameters are ok, raise an exception otherwise*
 1. (*optionnal-> good practice*) The Neuron can __import and raise exceptions__ coming from NeuronModule:
