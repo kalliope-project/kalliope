@@ -4,6 +4,7 @@ import os
 
 from YAMLLoader import YAMLLoader
 from core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
+from core.Models import Singleton
 from core.Models.Brain import Brain
 from core.Models.Event import Event
 from core.Models.Neuron import Neuron
@@ -14,20 +15,21 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
+@Singleton
 class BrainLoader(object):
     """
     This Class is used to get the brain YAML and the Brain as an object
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, file_path=None):
+        logger.debug("Loading brain")
+        self.file_path = file_path
+        self.yaml_config = self.get_yaml_config()
+        self.brain = self.get_brain()
 
-    @classmethod
-    def get_yaml_config(cls, file_path=None):
+    def get_yaml_config(self):
         """
         Class Methods which loads default or the provided YAML file and return it as a String
-        :param file_path: the brain file path to load
-        :type file_path: String
         :return: The loaded brain YAML
         :rtype: String
 
@@ -36,19 +38,15 @@ class BrainLoader(object):
 
         .. warnings:: Class Method
         """
-        if file_path is None:
-            brain_file_path = cls._get_root_brain_path()
+        if self.file_path is None:
+            brain_file_path = self._get_root_brain_path()
         else:
-            brain_file_path = file_path
+            brain_file_path = self.file_path
         return YAMLLoader.get_config(brain_file_path)
 
-    @classmethod
-    def get_brain(cls, file_path=None):
+    def get_brain(self):
         """
         Class Methods which loads default or the provided YAML file and return a Brain
-
-        :param file_path: the brain file path to load
-        :type file_path: String
         :return: The loaded Brain
         :rtype: Brain
 
@@ -61,35 +59,33 @@ class BrainLoader(object):
         """
 
         # Instantiate a brain
-        brain = Brain.Instance()
-        logger.debug("Is brain already loaded ? %r" % brain.is_loaded)
-        if brain.is_loaded is False:
-            # get the brain with dict
-            dict_brain = cls.get_yaml_config(file_path)
+        brain = Brain()
 
-            brain.brain_yaml = dict_brain
-            # create list of Synapse
-            synapses = list()
-            for synapses_dict in dict_brain:
-                if "includes" not in synapses_dict:     # we don't need to check includes as it's not a synapse
-                    if ConfigurationChecker().check_synape_dict(synapses_dict):
-                        # print "synapses_dict ok"
-                        name = synapses_dict["name"]
-                        neurons = cls._get_neurons(synapses_dict["neurons"])
-                        signals = cls._get_signals(synapses_dict["signals"])
-                        new_synapse = Synapse(name=name, neurons=neurons, signals=signals)
-                        synapses.append(new_synapse)
-            brain.synapses = synapses
-            if file_path is None:
-                brain.brain_file = cls._get_root_brain_path()
-            else:
-                brain.brain_file = file_path
-            # check that no synapse have the same name than another
-            if not ConfigurationChecker().check_synapes(synapses):
-                brain = None
+        # get the brain with dict
+        dict_brain = self.get_yaml_config()
 
-            # The Brain Singleton is loaded
-            brain.is_loaded = True
+        brain.brain_yaml = dict_brain
+        # create list of Synapse
+        synapses = list()
+        for synapses_dict in dict_brain:
+            if "includes" not in synapses_dict:     # we don't need to check includes as it's not a synapse
+                if ConfigurationChecker().check_synape_dict(synapses_dict):
+                    # print "synapses_dict ok"
+                    name = synapses_dict["name"]
+                    neurons = self._get_neurons(synapses_dict["neurons"])
+                    signals = self._get_signals(synapses_dict["signals"])
+                    new_synapse = Synapse(name=name, neurons=neurons, signals=signals)
+                    synapses.append(new_synapse)
+        brain.synapses = synapses
+        if self.file_path is None:
+            brain.brain_file = self._get_root_brain_path()
+        else:
+            brain.brain_file = self.file_path
+        # check that no synapse have the same name than another
+        if not ConfigurationChecker().check_synapes(synapses):
+            brain = None
+
+
         return brain
 
     @staticmethod

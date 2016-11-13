@@ -8,10 +8,18 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 logger.setLevel(logging.DEBUG)
 
+file_path = "core/Tests/brains/brain_test.yml"
 
-brain = BrainLoader.get_brain()
-print brain.brain_yaml
-for synapse in brain.synapses:
-    print "test"
-    print synapse.name
+brainloader1 = BrainLoader.Instance(file_path=file_path)
+
+brainloader2 = BrainLoader.Instance(file_path=file_path)
+
+if id(brainloader1) == id(brainloader2):
+    print "Same"
+else:
+    print "Different"
+
+
+print brainloader1.yaml_config
+
 
