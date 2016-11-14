@@ -12,6 +12,7 @@ from core.Models.Tts import Tts
 class TestSettingLoader(unittest.TestCase):
 
     def setUp(self):
+
         self.settings_file_to_test = "core/Tests/settings/settings_test.yml"
 
         self.settings_dict = {

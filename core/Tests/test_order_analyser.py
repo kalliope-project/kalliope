@@ -11,6 +11,9 @@ class TestOrderAnalyser(unittest.TestCase):
 
     """Test case for the OrderAnalyser Class"""
 
+    def setUp(self):
+        pass
+
     def test_is_containing_bracket(self):
         #  Success
         order_to_test = "This test contains {{ bracket }}"

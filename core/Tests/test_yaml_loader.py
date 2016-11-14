@@ -8,6 +8,9 @@ class TestYAMLLoader(unittest.TestCase):
     Class to test YAMLLoader
     """
 
+    def setUp(self):
+        pass
+
     def test_get_config(self):
 
         valid_file_path_to_test = "core/Tests/brains/brain_test.yml"
