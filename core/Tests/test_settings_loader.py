@@ -16,8 +16,11 @@ class TestSettingsoader(unittest.TestCase):
 
         self.settings_dict = {
             'rest_api':
-                {'active': True, 'login': 'admin', 'password': 'secret',
-                 'password_protected': True, 'port': 5000},
+                {'active': True,
+                 'login': 'admin',
+                 'password': 'secret',
+                 'password_protected': True,
+                 'port': 5000},
             'default_trigger': 'snowboy',
             'triggers': [{'snowboy': {'pmdl_file': 'trigger/snowboy/resources/kalliope-FR-6samples.pmdl'}}],
             'speech_to_text': [{'google': {'language': 'fr-FR'}}],
