@@ -1,0 +1,73 @@
+---
+# ---------------------------
+# Kalliope default settings
+# Use YAML syntax
+# ---------------------------
+
+# ---------------------------
+# Trigger
+# ---------------------------
+# This is the trigger that will catch your magic work to wake up Kalliope
+default_trigger: "snowboy"
+
+# Trigger engine configuration
+# Available engine are:
+# - snowboy
+triggers:
+  - snowboy:
+      pmdl_file: "trigger/snowboy/resources/kalliope-FR-6samples.pmdl"
+
+
+# ---------------------------
+# Speech to text
+# ---------------------------
+
+# This is the STT that will be used by default
+default_speech_to_text: "google"
+
+speech_to_text:
+  - google:
+      language: "fr-FR"
+
+
+# ---------------------------
+# Text to speech
+# ---------------------------
+# This is the default TTS that will be used by Kalliope to talk.
+default_text_to_speech: "pico2wave"
+# where we store generated audio files from TTS engine to reuse them
+cache_path: "/tmp/kalliope_tts_cache"
+
+text_to_speech:
+  - pico2wave:
+      language: "fr-FR"
+      cache: True
+  - voxygen:
+      voice: "Agnes"
+      cache: True
+
+# ---------------------------
+# Wake up answers
+# ---------------------------
+# When Kalliope detect the hotword/trigger, he will select randomly a phrase in the following list
+# to notify the user that he's listening for orders
+random_wake_up_answers:
+  - "Oui monsieur?"
+
+# You can play a sound when Kalliope detect the hotword/trigger instead of saying something from
+# the `random_wake_up_answers`.
+# Place here the full path of the sound file or just the name of the file in /usr/lib/kalliope/sounds
+# The file must be .wav or .mp3 format. By default two file are provided: ding.wav and dong.wav
+random_wake_up_sounds:
+  - "ding.wav"
+  - "dong.wav"
+
+# ---------------------------
+# Rest API
+# ---------------------------
+rest_api:
+  active: True
+  port: 5000
+  password_protected: True
+  login: admin
+  password: secret

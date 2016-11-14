@@ -54,7 +54,7 @@ class TestDynamicLoading(unittest.TestCase):
 
     def test_03_can_import_stt(self):
         """
-        Try to import each neurons that are present in the neurons package
+        Try to import each stt that are present in the stt package
         :return:
         """
         stts = self.get_package_in_folder(self.stt_dir)
@@ -65,7 +65,7 @@ class TestDynamicLoading(unittest.TestCase):
 
     def test_04_can_import_tts(self):
         """
-        Try to import each neurons that are present in the neurons package
+        Try to import each tts that are present in the tts package
         :return:
         """
         ttss = self.get_package_in_folder(self.tts_dir)
@@ -76,7 +76,7 @@ class TestDynamicLoading(unittest.TestCase):
 
     def test_05_can_import_trigger(self):
         """
-        Try to import each neurons that are present in the neurons package
+        Try to import each trigger that are present in the trigger package
         :return:
         """
         triggers = self.get_package_in_folder(self.trigger_dir)

@@ -43,7 +43,8 @@ class ShellGui:
         self.brain = brain
 
         # get settings
-        self.settings = SettingLoader.get_settings()
+        sl = SettingLoader.Instance()
+        self.settings = sl.settings
         locale.setlocale(locale.LC_ALL, '')
 
         self.d = Dialog(dialog="dialog")

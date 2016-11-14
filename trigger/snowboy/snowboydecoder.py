@@ -4,13 +4,8 @@ import collections
 from threading import Thread
 
 import pyaudio
-import sys
-
-import signal
-
 import snowboydetect
 import time
-import wave
 import os
 import logging
 
