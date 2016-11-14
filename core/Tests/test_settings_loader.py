@@ -9,7 +9,7 @@ from core.Models.Trigger import Trigger
 from core.Models.Tts import Tts
 
 
-class TestSettingsoader(unittest.TestCase):
+class TestSettingLoader(unittest.TestCase):
 
     def setUp(self):
         self.settings_file_to_test = "core/Tests/settings/settings_test.yml"
