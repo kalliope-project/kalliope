@@ -31,6 +31,7 @@ class TestBrainLoader(unittest.TestCase):
         """
         brain_loader = BrainLoader.Instance(file_path=self.brain_to_test)
         self.assertEqual(brain_loader.yaml_config, self.expected_result)
+        del brain_loader
 
     def test_get_brain(self):
         """
@@ -55,6 +56,7 @@ class TestBrainLoader(unittest.TestCase):
 
         brain_loader = BrainLoader.Instance(file_path=self.brain_to_test)
         self.assertEqual(brain, brain_loader.brain)
+        del brain_loader
 
     def test_get_neurons(self):
         neuron_list = [{'say': {'message': ['test message']}}]
@@ -65,6 +67,7 @@ class TestBrainLoader(unittest.TestCase):
         neurons_from_brain_loader = bl._get_neurons(neuron_list)
 
         self.assertEqual([neuron], neurons_from_brain_loader)
+        del bl
 
     def test_get_signals(self):
         signals = [{'order': 'test_order'}]
@@ -75,6 +78,7 @@ class TestBrainLoader(unittest.TestCase):
         signals_from_brain_loader = bl._get_signals(signals)
 
         self.assertEqual([signal], signals_from_brain_loader)
+        del bl
 
     def test_get_event_or_order_from_dict(self):
 
@@ -90,12 +94,15 @@ class TestBrainLoader(unittest.TestCase):
 
         self.assertEqual(order_from_bl, order_object)
         self.assertEqual(event_from_bl, event_object)
+        del bl
 
     def test_singleton(self):
         bl1 = BrainLoader.Instance(file_path=self.brain_to_test)
         bl2 = BrainLoader.Instance(file_path=self.brain_to_test)
 
         self.assertTrue(bl1.brain is bl2.brain)
+        del bl1
+        del bl2
 
 if __name__ == '__main__':
     unittest.main()
