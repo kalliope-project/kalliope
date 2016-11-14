@@ -41,11 +41,14 @@ class TestSettingLoader(unittest.TestCase):
 
         self.assertTrue(s1.settings is s2.settings)
 
+        del s1
+        del s2
+
     def test_get_yaml_config(self):
 
         sl = SettingLoader.Instance(file_path=self.settings_file_to_test)
-
         self.assertEqual(sl.yaml_config, self.settings_dict)
+        del sl
 
     def test_get_settings(self):
         settings_object = Settings()
@@ -70,46 +73,52 @@ class TestSettingLoader(unittest.TestCase):
         sl = SettingLoader.Instance(file_path=self.settings_file_to_test)
 
         self.assertEqual(settings_object, sl.settings)
+        del sl
 
     def test_get_default_speech_to_text(self):
         expected_default_speech_to_text = "google"
         sl = SettingLoader.Instance(file_path=self.settings_file_to_test)
 
         self.assertEqual(expected_default_speech_to_text, sl._get_default_speech_to_text(self.settings_dict))
+        del sl
 
     def test_get_default_text_to_speech(self):
         expected_default_text_to_speech = "pico2wave"
         sl = SettingLoader.Instance(file_path=self.settings_file_to_test)
-
         self.assertEqual(expected_default_text_to_speech, sl._get_default_text_to_speech(self.settings_dict))
+        del sl
 
     def test_get_default_trigger(self):
         expected_default_trigger = "snowboy"
         sl = SettingLoader.Instance(file_path=self.settings_file_to_test)
-
         self.assertEqual(expected_default_trigger, sl._get_default_trigger(self.settings_dict))
+        del sl
 
     def test_get_stts(self):
         stt = Stt(name="google", parameters={'language': 'fr-FR'})
         sl = SettingLoader.Instance(file_path=self.settings_file_to_test)
         self.assertEqual([stt], sl._get_stts(self.settings_dict))
+        del sl
 
     def test_get_ttss(self):
         tts1 = Tts(name="pico2wave", parameters={'cache': True, 'language': 'fr-FR'})
         tts2 = Tts(name="voxygen", parameters={'voice': 'Agnes', 'cache': True})
         sl = SettingLoader.Instance(file_path=self.settings_file_to_test)
         self.assertEqual([tts1, tts2], sl._get_ttss(self.settings_dict))
+        del sl
 
     def test_get_triggers(self):
         trigger1 = Trigger(name="snowboy",
                            parameters={'pmdl_file': 'trigger/snowboy/resources/kalliope-FR-6samples.pmdl'})
         sl = SettingLoader.Instance(file_path=self.settings_file_to_test)
         self.assertEqual([trigger1], sl._get_triggers(self.settings_dict))
+        del sl
 
     def test_get_random_wake_up_answers(self):
         expected_random_wake_up_answers = ['Oui monsieur?']
         sl = SettingLoader.Instance(file_path=self.settings_file_to_test)
         self.assertEqual(expected_random_wake_up_answers, sl._get_random_wake_up_answers(self.settings_dict))
+        del sl
 
     def test_get_rest_api(self):
         expected_rest_api = RestAPI(password_protected=True, active=True,
@@ -117,11 +126,13 @@ class TestSettingLoader(unittest.TestCase):
 
         sl = SettingLoader.Instance(file_path=self.settings_file_to_test)
         self.assertEqual(expected_rest_api, sl._get_rest_api(self.settings_dict))
+        del sl
 
     def test_get_cache_path(self):
         expected_cache_path = '/tmp/kalliope_tts_cache'
         sl = SettingLoader.Instance(file_path=self.settings_file_to_test)
         self.assertEqual(expected_cache_path, sl._get_cache_path(self.settings_dict))
+        del sl
 
 if __name__ == '__main__':
     unittest.main()
