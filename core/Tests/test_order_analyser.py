@@ -11,6 +11,9 @@ class TestOrderAnalyser(unittest.TestCase):
 
     """Test case for the OrderAnalyser Class"""
 
+    def setUp(self):
+        pass
+
     def test_is_containing_bracket(self):
         #  Success
         order_to_test = "This test contains {{ bracket }}"
@@ -205,9 +208,9 @@ class TestOrderAnalyser(unittest.TestCase):
         signal2 = Order(sentence="this is the second sentence")
         signal3 = Order(sentence="this is the third sentence")
 
-        synapse1 = Synapse(name="Synapse1", neurons={neuron1, neuron2}, signals={signal1})
-        synapse2 = Synapse(name="Synapse2", neurons={neuron3, neuron4}, signals={signal2})
-        synapse3 = Synapse(name="Synapse3", neurons={neuron2, neuron4}, signals={signal3})
+        synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
+        synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
+        synapse3 = Synapse(name="Synapse3", neurons=[neuron2, neuron4], signals=[signal3])
 
         order_to_match = "this is the sentence"
         all_synapse_list = [synapse1,
@@ -231,7 +234,7 @@ class TestOrderAnalyser(unittest.TestCase):
 
         signal1 = Order(sentence="this is the {{ sentence }}")
 
-        synapse1 = Synapse(name="Synapse1", neurons={neuron1, neuron2}, signals={signal1})
+        synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
 
         order_to_check = "this is the value"
         expected_result = {'sentence': 'value'}

@@ -6,7 +6,8 @@
 from core.ConfigurationManager import SettingLoader
 from sys import version_info
 
-settings = SettingLoader.get_settings()
+sl = SettingLoader.Instance()
+settings = sl.settings
 module_file_path = "%s/_snowboydetect" % settings.machine
 
 

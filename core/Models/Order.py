@@ -22,3 +22,11 @@ class Order(object):
         return {
             'order': self.sentence
         }
+
+    def __eq__(self, other):
+        """
+        This is used to compare 2 objects
+        :param other:
+        :return:
+        """
+        return self.__dict__ == other.__dict__

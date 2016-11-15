@@ -24,7 +24,8 @@ class MainController:
     def __init__(self, brain=None):
         self.brain = brain
         # get global configuration
-        self.settings = SettingLoader.get_settings()
+        sl = SettingLoader.Instance()
+        self.settings = sl.settings
 
         # run the api if the user want it
         if self.settings.rest_api.active:

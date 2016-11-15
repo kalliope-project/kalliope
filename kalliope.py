@@ -61,7 +61,8 @@ def main():
     if args.brain_file:
         brain_file = args.brain_file
     # load the brain once
-    brain = BrainLoader.get_brain(file_path=brain_file)
+    brain_loader = BrainLoader.Instance(file_path=brain_file)
+    brain = brain_loader.brain
 
     # check the user provide a valid action
     if args.action not in ACTION_LIST:

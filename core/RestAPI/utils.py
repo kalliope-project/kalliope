@@ -8,7 +8,8 @@ def check_auth(username, password):
     """This function is called to check if a username /
     password combination is valid.
     """
-    settings = SettingLoader.get_settings()
+    sl = SettingLoader.Instance()
+    settings = sl.settings
     return username == settings.rest_api.login and password == settings.rest_api.password
 
 
@@ -23,7 +24,8 @@ def authenticate():
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        settings = SettingLoader.get_settings()
+        sl = SettingLoader.Instance()
+        settings = sl.settings
         if settings.rest_api.password_protected:
             auth = request.authorization
             if not auth or not check_auth(auth.username, auth.password):

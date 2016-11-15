@@ -23,3 +23,21 @@ class Synapse(object):
             'neurons': [e.serialize() for e in self.neurons],
             'signals': [e.serialize() for e in self.signals]
         }
+
+    def __str__(self):
+        return_val = "Synapse name: %s" % self.name
+        return_val += "\nneurons:"
+        for el in self.neurons:
+            return_val += str(el)
+        return_val += "\nsignals:"
+        for el in self.signals:
+            return_val += str(el)
+        return return_val
+
+    def __eq__(self, other):
+        """
+        This is used to compare 2 objects
+        :param other:
+        :return:
+        """
+        return self.__dict__ == other.__dict__

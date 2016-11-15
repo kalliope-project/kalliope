@@ -11,3 +11,11 @@ class Stt(object):
 
     def __str__(self):
         return "Stt name: %s, parameters: %s" % (str(self.name), str(self.parameters))
+
+    def __eq__(self, other):
+        """
+        This is used to compare 2 objects
+        :param other:
+        :return:
+        """
+        return self.__dict__ == other.__dict__
