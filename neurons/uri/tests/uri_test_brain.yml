@@ -1,0 +1,52 @@
+---
+  # post
+  - name: "test-get-url"
+    signals:
+      - order: "test-get-url"
+    neurons:
+      - uri:
+          url: "http://jsonplaceholder.typicode.com/posts/1"
+
+  # post
+  - name: "test-post-url"
+    signals:
+      - order: "test-post-url"
+    neurons:
+      - uri:
+          url: "http://jsonplaceholder.typicode.com/posts"
+          headers:
+            user-agent: 'my-app/0.0.1'
+          timeout: 12
+          method: POST
+          data: "{\"title\": \"foo\", \"body\": \"bar\", \"userId\": 1}"
+
+  # put
+  - name: "test-put-url"
+    signals:
+      - order: "test-put-url"
+    neurons:
+      - uri:
+          url: "http://jsonplaceholder.typicode.com/posts/1"
+          method: PUT
+          data: "{\"id\": 1,\"title\": \"foo\", \"body\": \"bar\", \"userId\": 1}"
+
+  # patch
+  - name: "test-patch-url"
+    signals:
+      - order: "test-patch-url"
+    neurons:
+      - uri:
+          url: "http://jsonplaceholder.typicode.com/posts/1"
+          method: PATCH
+          data: "{\"title\": \"foo\"}"
+
+  # delete
+  - name: "test-delete-url"
+    signals:
+      - order: "test-delete-url"
+    neurons:
+      - uri:
+          url: "http://jsonplaceholder.typicode.com/posts/1"
+          method: DELETE
+          say_template:
+            - "{% if status_code==200 %}delete complete{% else %}fail to delete{% endif %}"
