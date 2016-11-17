@@ -17,6 +17,7 @@
           url: "http://jsonplaceholder.typicode.com/posts"
           headers:
             user-agent: 'my-app/0.0.1'
+            Content-Type: 'application/json'
           timeout: 12
           method: POST
           data_from_file: "neurons/uri/tests/data_post_test.json"

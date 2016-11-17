@@ -31,6 +31,7 @@ class Uri(NeuronModule):
         # output variable
         self.status_code = None
         self.content = None
+        self.text = None
         self.response_header = None
 
         # this is a switch case option
@@ -118,7 +119,12 @@ class Uri(NeuronModule):
         self.status_code = r.status_code
         self.content = r.content
         # we try to load into a json object the content. So Kalliope can use it to talk
-        self.content = json.loads(self.content)
+        try:
+            self.content = json.loads(self.content)
+        except ValueError:
+            logger.debug(self.neuron_name + "cannot get a valid json from returned content")
+            pass
+        self.text = r.text
         self.response_header = r.headers
 
         logger.debug(self.neuron_name + " status_code: %s" % self.status_code)
@@ -137,7 +143,7 @@ class Uri(NeuronModule):
         # headers can be null, but if provided it must be a list
         if self.headers is not None:
             if not isinstance(self.headers, dict):
-                raise InvalidParameterException("headers must be a list of string")
+                raise InvalidParameterException("headers must be a list of key: value")
 
         # timeout in second must be an integer
         if self.timeout is not None:
@@ -161,6 +167,10 @@ class Uri(NeuronModule):
                 self.data_from_file = json.loads(self.readfile(self.data_from_file))
             except ValueError, e:
                 raise InvalidParameterException("error in \"data\" parameter: %s" % e)
+
+        # we cannot provide both data and data from file
+        if self.data is not None and self.data_from_file is not None:
+            raise InvalidParameterException("URI can be used with data or data_from_file, not both in same time")
 
         # the provided method must exist
         allowed_method = ["GET", "POST", "DELETE", "PUT", "HEAD", "PATCH", "OPTIONS"]
