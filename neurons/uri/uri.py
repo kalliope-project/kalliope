@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 
 import requests
 
@@ -18,6 +19,7 @@ class Uri(NeuronModule):
         self.url = kwargs.get('url', None)
         self.headers = kwargs.get('headers', None)
         self.data = kwargs.get('data', None)
+        self.data_from_file = kwargs.get('data_from_file', None)
         self.method = kwargs.get('method', "GET")
         self.user = kwargs.get('user', None)
         self.password = kwargs.get('password', None)
@@ -57,40 +59,38 @@ class Uri(NeuronModule):
 
             self.say(message)
 
-
-
     def do_get(self):
-        logger.debug("do_get method called")
+        logger.debug(self.neuron_name + " do_get method called")
         r = requests.get(url=self.url, **self.parameters)
         self.post_processing_request(r)
 
     def do_post(self):
-        logger.debug("do_post method called")
+        logger.debug(self.neuron_name + " do_post method called")
         r = requests.post(url=self.url, **self.parameters)
         self.post_processing_request(r)
 
     def do_delete(self):
-        logger.debug("do_delete method called")
+        logger.debug(self.neuron_name + " do_delete method called")
         r = requests.delete(url=self.url, **self.parameters)
         self.post_processing_request(r)
 
     def do_put(self):
-        logger.debug("do_put method called")
+        logger.debug(self.neuron_name + " do_put method called")
         r = requests.put(url=self.url, **self.parameters)
         self.post_processing_request(r)
 
     def do_head(self):
-        logger.debug("do_head method called")
+        logger.debug(self.neuron_name + " do_head method called")
         r = requests.head(url=self.url, **self.parameters)
         self.post_processing_request(r)
 
     def do_patch(self):
-        logger.debug("do_patch method called")
+        logger.debug(self.neuron_name + " do_patch method called")
         r = requests.patch(url=self.url, **self.parameters)
         self.post_processing_request(r)
 
     def do_options(self):
-        logger.debug("do_options method called")
+        logger.debug(self.neuron_name + " do_options method called")
         r = requests.options(url=self.url, **self.parameters)
         self.post_processing_request(r)
 
@@ -99,7 +99,6 @@ class Uri(NeuronModule):
 
         :return: Dict of parameters usable by the "requests" lib
         """
-        logger.debug("get_parameters method called")
         returned_parameters = dict()
 
         if self.headers is not None:
@@ -111,41 +110,71 @@ class Uri(NeuronModule):
         if self.data is not None:
             returned_parameters["data"] = self.data
 
-        print returned_parameters
+        logger.debug(self.neuron_name + " parameters: %s" % returned_parameters)
 
         return returned_parameters
 
     def post_processing_request(self, r):
         self.status_code = r.status_code
         self.content = r.content
+        # we try to load into a json object the content. So Kalliope can use it to talk
+        self.content = json.loads(self.content)
         self.response_header = r.headers
 
-        logger.debug("status_code: %s" % self.status_code)
-        logger.debug("content: %s" % self.content)
-        logger.debug("response_header: %s" % self.response_header)
-
-        return
+        logger.debug(self.neuron_name + " status_code: %s" % self.status_code)
+        logger.debug(self.neuron_name + " content: %s" % self.content)
+        logger.debug(self.neuron_name + " response_header: %s" % self.response_header)
 
     def _is_parameters_ok(self):
+        """
+        Check that all provided parameters in the neurons are valid
+        :return: True if all check passed
+        """
+        # URL is mandatory
         if self.url is None:
             raise InvalidParameterException("Uri needs an url")
 
+        # headers can be null, but if provided it must be a list
         if self.headers is not None:
             if not isinstance(self.headers, dict):
                 raise InvalidParameterException("headers must be a list of string")
 
+        # timeout in second must be an integer
         if self.timeout is not None:
             if not isinstance(self.timeout, int):
                 raise InvalidParameterException("timeout must be an integer")
 
+        # data must be loadable with json
         if self.data is not None:
             try:
                 self.data = json.loads(self.data)
             except ValueError, e:
                 raise InvalidParameterException("error in \"data\" parameter: %s" % e)
 
+        # data_from_file path must exist and data inside must be loadable by json
+        if self.data_from_file is not None:
+            # check that the file exist
+            if not os.path.exists(self.data_from_file):
+                raise InvalidParameterException("error in \"data_file\". File does not exist: %s" % self.data_from_file)
+            # then try to load the json from the file
+            try:
+                self.data_from_file = json.loads(self.readfile(self.data_from_file))
+            except ValueError, e:
+                raise InvalidParameterException("error in \"data\" parameter: %s" % e)
+
+        # the provided method must exist
         allowed_method = ["GET", "POST", "DELETE", "PUT", "HEAD", "PATCH", "OPTIONS"]
         if self.method not in allowed_method:
             raise InvalidParameterException("method %s not in: %s" % (self.method, allowed_method))
 
         return True
+
+    @staticmethod
+    def readfile(file_path):
+        """
+        return the content of the file <file_path>
+        :param file_path: File path to read
+        :return: Str content of the file
+        """
+        file_to_read = open(file_path, 'r')
+        return file_to_read.read()

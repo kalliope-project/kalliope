@@ -1,13 +1,14 @@
 ---
-  # post
+  # GET
   - name: "test-get-url"
     signals:
       - order: "test-get-url"
     neurons:
       - uri:
           url: "http://jsonplaceholder.typicode.com/posts/1"
+          file_template: "neurons/uri/tests/test_get_template.j2"
 
-  # post
+  # POST
   - name: "test-post-url"
     signals:
       - order: "test-post-url"
@@ -18,9 +19,11 @@
             user-agent: 'my-app/0.0.1'
           timeout: 12
           method: POST
-          data: "{\"title\": \"foo\", \"body\": \"bar\", \"userId\": 1}"
+          data_from_file: "neurons/uri/tests/data_post_test.json"
+          say_template:
+            - "{{ content.id }}"
 
-  # put
+  # PUT
   - name: "test-put-url"
     signals:
       - order: "test-put-url"
@@ -30,7 +33,7 @@
           method: PUT
           data: "{\"id\": 1,\"title\": \"foo\", \"body\": \"bar\", \"userId\": 1}"
 
-  # patch
+  # PATCH
   - name: "test-patch-url"
     signals:
       - order: "test-patch-url"
@@ -40,7 +43,7 @@
           method: PATCH
           data: "{\"title\": \"foo\"}"
 
-  # delete
+  # DELETE
   - name: "test-delete-url"
     signals:
       - order: "test-delete-url"
