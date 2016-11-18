@@ -1,6 +1,6 @@
 import re
 
-from core.Utils import ModuleNotFoundError
+from kalliope.core.Utils import ModuleNotFoundError
 
 
 class InvalidSynapeName(Exception):
@@ -139,7 +139,7 @@ class ConfigurationChecker:
             :type neuron_module_name: str
             :return:
             """
-            package_name = "neurons"
+            package_name = "kalliope.neurons"
             mod = __import__(package_name, fromlist=[neuron_module_name])
             try:
                 getattr(mod, neuron_module_name)

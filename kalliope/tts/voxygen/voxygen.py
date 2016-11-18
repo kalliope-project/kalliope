@@ -2,8 +2,8 @@ import logging
 
 import requests
 
-from core import FileManager
-from core.TTS.TTSModule import TTSModule, MissingTTSParameter
+from kalliope.core import FileManager
+from kalliope.core.TTS.TTSModule import TTSModule, MissingTTSParameter
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

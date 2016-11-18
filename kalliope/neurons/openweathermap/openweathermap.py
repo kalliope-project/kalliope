@@ -1,6 +1,6 @@
 import pyowm
 
-from core.NeuronModule import NeuronModule
+from kalliope.core.NeuronModule import NeuronModule
 
 
 class Openweathermap(NeuronModule):

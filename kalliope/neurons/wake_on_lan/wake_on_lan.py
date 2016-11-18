@@ -1,7 +1,7 @@
 import ipaddress
 import logging
 
-from core.NeuronModule import NeuronModule, MissingParameterException, InvalidParameterException
+from kalliope.core.NeuronModule import NeuronModule, MissingParameterException, InvalidParameterException
 from wakeonlan import wol
 
 logging.basicConfig()

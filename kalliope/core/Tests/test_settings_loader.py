@@ -1,12 +1,12 @@
 import platform
 import unittest
 
-from core.ConfigurationManager import SettingLoader
-from core.Models.RestAPI import RestAPI
-from core.Models.Settings import Settings
-from core.Models.Stt import Stt
-from core.Models.Trigger import Trigger
-from core.Models.Tts import Tts
+from kalliope.core.ConfigurationManager import SettingLoader
+from kalliope.core.Models.RestAPI import RestAPI
+from kalliope.core.Models.Settings import Settings
+from kalliope.core.Models.Stt import Stt
+from kalliope.core.Models.Trigger import Trigger
+from kalliope.core.Models.Tts import Tts
 
 
 class TestSettingLoader(unittest.TestCase):

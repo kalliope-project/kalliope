@@ -4,14 +4,14 @@ import random
 
 from flask import Flask
 
-from core import Utils
-from core.ConfigurationManager import SettingLoader
-from core.OrderAnalyser import OrderAnalyser
-from core.OrderListener import OrderListener
-from core.Players import Mplayer
-from core.RestAPI.FlaskAPI import FlaskAPI
-from core.TriggerLauncher import TriggerLauncher
-from neurons.say.say import Say
+from kalliope.core import Utils
+from kalliope.core.ConfigurationManager import SettingLoader
+from kalliope.core.OrderAnalyser import OrderAnalyser
+from kalliope.core.OrderListener import OrderListener
+from kalliope.core.Players import Mplayer
+from kalliope.core.RestAPI.FlaskAPI import FlaskAPI
+from kalliope.core.TriggerLauncher import TriggerLauncher
+from kalliope.neurons.say.say import Say
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

@@ -3,13 +3,13 @@ import logging
 import os
 
 from YAMLLoader import YAMLLoader
-from core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
-from core.Models import Singleton
-from core.Models.Brain import Brain
-from core.Models.Event import Event
-from core.Models.Neuron import Neuron
-from core.Models.Order import Order
-from core.Models.Synapse import Synapse
+from kalliope.core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
+from kalliope.core.Models import Singleton
+from kalliope.core.Models.Brain import Brain
+from kalliope.core.Models.Event import Event
+from kalliope.core.Models.Neuron import Neuron
+from kalliope.core.Models.Order import Order
+from kalliope.core.Models.Synapse import Synapse
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

@@ -73,7 +73,7 @@ class Utils(object):
         :return:
         """
         logger.debug("Run plugin %s with parameter %s" % (module_name, parameters))
-        module_name_with_path = package_name + "." + module_name.lower() + "." + module_name.lower()
+        module_name_with_path = "kalliope." + package_name + "." + module_name.lower() + "." + module_name.lower()
         mod = __import__(module_name_with_path, fromlist=[module_name])
         try:
             klass = getattr(mod, module_name)

@@ -1,8 +1,8 @@
 # coding: utf8
 import logging
 
-from core.ConfigurationManager.BrainLoader import BrainLoader
-from core.ConfigurationManager.SettingLoader import SettingLoader
+from kalliope.core.ConfigurationManager.BrainLoader import BrainLoader
+from kalliope.core.ConfigurationManager.SettingLoader import SettingLoader
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

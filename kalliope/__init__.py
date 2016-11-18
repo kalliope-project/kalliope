@@ -3,15 +3,15 @@
 import argparse
 import logging
 
-from core import ShellGui
-from core import Utils
-from core.ConfigurationManager.BrainLoader import BrainLoader
-from core.CrontabManager import CrontabManager
-from core.MainController import MainController
+from kalliope.core import ShellGui
+from kalliope.core import Utils
+from kalliope.core.ConfigurationManager.BrainLoader import BrainLoader
+from kalliope.core.CrontabManager import CrontabManager
+from kalliope.core.MainController import MainController
 import signal
 import sys
 
-from core.SynapseLauncher import SynapseLauncher
+from kalliope.core.SynapseLauncher import SynapseLauncher
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

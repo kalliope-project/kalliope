@@ -1,7 +1,7 @@
 import logging
 import time
 
-from trigger.snowboy import snowboydecoder
+from kalliope.trigger.snowboy import snowboydecoder
 
 
 class MissingParameterException(Exception):

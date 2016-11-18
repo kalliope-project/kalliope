@@ -4,7 +4,7 @@ from ansible.vars import VariableManager
 from ansible.inventory import Inventory
 from ansible.executor.playbook_executor import PlaybookExecutor
 
-from core.NeuronModule import NeuronModule, MissingParameterException
+from kalliope.core.NeuronModule import NeuronModule, MissingParameterException
 
 
 class Ansible_playbook(NeuronModule):

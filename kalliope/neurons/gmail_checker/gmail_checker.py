@@ -3,7 +3,7 @@ import logging
 
 from gmail import Gmail
 from email.header import decode_header
-from core.NeuronModule import NeuronModule, MissingParameterException
+from kalliope.core.NeuronModule import NeuronModule, MissingParameterException
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

@@ -1,7 +1,7 @@
 import subprocess
 import os
 
-from core.NeuronModule import NeuronModule, MissingParameterException, InvalidParameterException
+from kalliope.core.NeuronModule import NeuronModule, MissingParameterException, InvalidParameterException
 
 
 class Script(NeuronModule):

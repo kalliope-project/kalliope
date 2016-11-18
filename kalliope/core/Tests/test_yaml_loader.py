@@ -1,6 +1,6 @@
 import unittest
 
-from core.ConfigurationManager.YAMLLoader import YAMLFileNotFound, YAMLLoader
+from kalliope.core.ConfigurationManager.YAMLLoader import YAMLFileNotFound, YAMLLoader
 
 
 class TestYAMLLoader(unittest.TestCase):
