@@ -1,12 +1,6 @@
 # Kalliope installation on Debian Jessie
 
-## Automated install
-
-Clone the project
-```
-cd
-git clone https://github.com/kalliope-project/kalliope.git
-```
+## Install system dependencies
 
 Edit `/etc/apt/sources.list` and check that your mirror accept "non-free" package
 ```
@@ -14,27 +8,36 @@ deb http://ftp.fr.debian.org/debian/ jessie main contrib non-free
 deb-src http://ftp.fr.debian.org/debian/ jessie main contrib non-free
 ```
 
-Run the install script.
-```
-./kalliope/install/install_kalliope.sh
-```
-
-## Manual install
-
 To make Kalliope work, you will have to install a certain number of libraries:
 ```
 sudo apt-get update
-sudo apt-get install git python-pip python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer
+sudo apt-get install git python-pip python-dev python-virtualenv libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer
 ```
+
+## User install
+
+WIP: The step above will be replace by a simple `pip install kalliope` soon.
 
 Clone the project
 ```
 git clone https://github.com/kalliope-project/kalliope.git
 ```
 
-Install libs
+Install kalliope
 ```
-sudo pip install -r install/files/python_requirements.txt
+sudo python setup.py build
+sudo python setup.py install
+```
+
+## Developer install
+
+Clone the project
+```
+git clone https://github.com/kalliope-project/kalliope.git
+cd kalliope/
+virtualenv venv
+venv/bin/pip install --editable .
+venv/bin/kalliope start
 ```
 
 ## Test your env
