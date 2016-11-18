@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from core.TTS.TTSModule import TTSModule
+from kalliope.core.TTS.TTSModule import TTSModule
 import logging
 import sys
 

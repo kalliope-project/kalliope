@@ -1,7 +1,7 @@
 import requests
 import re
-from core import FileManager
-from core.TTS.TTSModule import TTSModule, FailToLoadSoundFile, MissingTTSParameter
+from kalliope.core import FileManager
+from kalliope.core.TTS.TTSModule import TTSModule, FailToLoadSoundFile, MissingTTSParameter
 import logging
 
 logging.basicConfig()

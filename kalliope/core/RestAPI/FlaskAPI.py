@@ -4,9 +4,9 @@ from flask import jsonify
 from flask import request
 from flask_restful import abort
 
-from core import OrderAnalyser
-from core.RestAPI.utils import requires_auth
-from core.SynapseLauncher import SynapseLauncher
+from kalliope.core import OrderAnalyser
+from kalliope.core.RestAPI.utils import requires_auth
+from kalliope.core.SynapseLauncher import SynapseLauncher
 
 
 class FlaskAPI(threading.Thread):

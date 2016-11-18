@@ -1,6 +1,6 @@
 import sys
 
-from core.NeuronModule import NeuronModule
+from kalliope.core.NeuronModule import NeuronModule
 
 
 class Kill_switch(NeuronModule):

@@ -7,11 +7,11 @@ import sys
 
 from dialog import Dialog
 
-from core import OrderListener
-from core.ConfigurationManager import SettingLoader
-from core.SynapseLauncher import SynapseLauncher
-from core.Utils import Utils
-from neurons.say.say import Say
+from kalliope.core import OrderListener
+from kalliope.core.ConfigurationManager import SettingLoader
+from kalliope.core.SynapseLauncher import SynapseLauncher
+from kalliope.core.Utils import Utils
+from kalliope.neurons.say.say import Say
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

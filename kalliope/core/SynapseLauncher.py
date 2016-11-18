@@ -1,4 +1,4 @@
-from core.NeuroneLauncher import NeuroneLauncher
+from kalliope.core.NeuroneLauncher import NeuroneLauncher
 
 
 class SynapseNameNotFound(Exception):

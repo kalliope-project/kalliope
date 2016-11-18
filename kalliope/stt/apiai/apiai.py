@@ -1,7 +1,7 @@
 import speech_recognition as sr
 
-from core import Utils
-from core.OrderListener import OrderListener
+from kalliope.core import Utils
+from kalliope.core.OrderListener import OrderListener
 
 
 class Apiai(OrderListener):

@@ -1,10 +1,10 @@
 import unittest
 
 
-from core.OrderAnalyser import OrderAnalyser
-from core.Models.Neuron import Neuron
-from core.Models.Synapse import Synapse
-from core.Models.Order import Order
+from kalliope.core.OrderAnalyser import OrderAnalyser
+from kalliope.core.Models.Neuron import Neuron
+from kalliope.core.Models.Synapse import Synapse
+from kalliope.core.Models.Order import Order
 
 
 class TestOrderAnalyser(unittest.TestCase):

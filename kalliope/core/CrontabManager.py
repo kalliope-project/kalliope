@@ -3,8 +3,8 @@ import logging
 from crontab import CronSlices
 from crontab import CronTab
 
-from core import Utils
-from core.Models import Event
+from kalliope.core import Utils
+from kalliope.core.Models import Event
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -18,7 +18,7 @@ class InvalidCrontabPeriod(Exception):
     pass
 
 CRONTAB_COMMENT = "KALLIOPE"
-KALLIOPE_ENTRY_POINT_SCRIPT = "kalliope.py"
+KALLIOPE_ENTRY_POINT_SCRIPT = "__init__.py"
 
 
 class CrontabManager:

@@ -1,6 +1,6 @@
 import logging
 
-from core import Utils
+from kalliope.core import Utils
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
