@@ -1,6 +1,6 @@
 import logging
 
-from core.NeuronModule import NeuronModule, InvalidParameterException
+from kalliope.core.NeuronModule import NeuronModule, InvalidParameterException
 import wikipedia
 
 logging.basicConfig()

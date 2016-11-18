@@ -1,6 +1,6 @@
-from core.OrderAnalyser import OrderAnalyser
-from core.OrderListener import OrderListener
-from core.ShellGui import ShellGui
-from core.FileManager import FileManager
-from core.Utils import Utils
+from kalliope.core.OrderAnalyser import OrderAnalyser
+from kalliope.core.OrderListener import OrderListener
+from kalliope.core.ShellGui import ShellGui
+from kalliope.core.FileManager import FileManager
+from kalliope.core.Utils import Utils
 

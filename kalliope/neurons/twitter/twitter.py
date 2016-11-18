@@ -1,6 +1,6 @@
 import twitter
 
-from core.NeuronModule import NeuronModule, InvalidParameterException, MissingParameterException
+from kalliope.core.NeuronModule import NeuronModule, InvalidParameterException, MissingParameterException
 
 
 class Twitter(NeuronModule):

@@ -1,11 +1,11 @@
 import unittest
 
-from core.ConfigurationManager import BrainLoader
-from core.Models import Event
-from core.Models import Neuron
-from core.Models import Synapse
-from core.Models import Order
-from core.Models.Brain import Brain
+from kalliope.core.ConfigurationManager import BrainLoader
+from kalliope.core.Models import Event
+from kalliope.core.Models import Neuron
+from kalliope.core.Models import Synapse
+from kalliope.core.Models import Order
+from kalliope.core.Models.Brain import Brain
 
 
 class TestBrainLoader(unittest.TestCase):

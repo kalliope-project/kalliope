@@ -2,9 +2,9 @@
 import re
 from collections import Counter
 
-from core.Utils import Utils
-from core.Models import Order
-from core.NeuroneLauncher import NeuroneLauncher
+from kalliope.core.Utils import Utils
+from kalliope.core.Models import Order
+from kalliope.core.NeuroneLauncher import NeuroneLauncher
 
 import logging
 

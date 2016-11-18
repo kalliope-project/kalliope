@@ -2,7 +2,7 @@ import logging
 
 import requests
 
-from core.NeuronModule import NeuronModule, MissingParameterException
+from kalliope.core.NeuronModule import NeuronModule, MissingParameterException
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

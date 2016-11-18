@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 from pushetta import Pushetta
 
-from core.NeuronModule import NeuronModule, MissingParameterException
+from kalliope.core.NeuronModule import NeuronModule, MissingParameterException
 
 
 class Push_message(NeuronModule):

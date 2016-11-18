@@ -6,10 +6,10 @@ import random
 import sys
 from jinja2 import Template
 
-from core import OrderListener
-from core.SynapseLauncher import SynapseLauncher
-from core.Utils import Utils
-from core.ConfigurationManager import SettingLoader, BrainLoader
+from kalliope.core import OrderListener
+from kalliope.core.SynapseLauncher import SynapseLauncher
+from kalliope.core.Utils import Utils
+from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
