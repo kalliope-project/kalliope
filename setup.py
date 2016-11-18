@@ -111,9 +111,17 @@ setup(
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
-    #package_data={
-    #    'sample': ['package_data.dat'],
-    #},
+    package_data={
+        'kalliope': [
+            'brains/*.yml',
+            'brain.yml',
+            'settings.yml',
+            'tasks.yml',
+            'trigger/snowboy/armv7l/_snowboydetect.so',
+            'trigger/snowboy/x86_64/_snowboydetect.so',
+            'trigger/snowboy/resources/*',
+         ],
+    },
 
     # Although 'package_data' is the preferred approach, in some case you may
     # need to place data files outside of your packages. See:
