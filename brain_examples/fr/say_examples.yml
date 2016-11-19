@@ -1,8 +1,0 @@
----
-  - name: "meaning-of-life"
-    signals:
-      - order: "quel est le sens de la vie"
-    neurons:
-      - say:
-          message:
-            - "42"
