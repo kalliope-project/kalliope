@@ -52,7 +52,7 @@ A simple call with authentication
 
 A simple post with data inside the url 
 ```
-- name: "test-get-url-with-auth"
+- name: "test-post-url-with-auth"
     signals:
       - order: "test-post-url-with-data"
     neurons:
@@ -112,7 +112,7 @@ Call to an URL to get a resource and make kalliope speaking out loud a value of 
 Here, we ask the server to return us the user with ID number 42. We know that the server will return a dict like the following
 ```
 {
-  "id": 1,
+  "id": 42,
   "name": "Leanne Graham",
   "username": "Bret",
   "email": "Sincere@april.biz",
@@ -133,9 +133,9 @@ Here is the synapse we would use to make Kalliope speak out loud the name of the
       - order: "test-get-url-with-template"
     neurons:
       - uri:
-          url: "http://host.domain/users/1"                
+          url: "http://host.domain/users/42"                
           say_template:
-            - "The user name is {{ content.name }}, the company name is {{ content.company.name }}"
+            - "The user name is {{ content.name }} and his company's name is {{ content.company.name }}"
 ```
 
 
@@ -150,3 +150,6 @@ The following template will make Kalliope say if the request has been made with 
 ```
 {% if status_code==200 %}request complete{% else %}request failled{% endif %}
 ```
+
+## Notes
+> When the parameter `data` is used, you need to escape character that could be interpreted by the YAML syntax.
