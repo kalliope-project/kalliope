@@ -114,6 +114,10 @@ class Uri(NeuronModule):
         if self.data_from_file is not None:
             returned_parameters["data"] = self.data_from_file
 
+        if self.user is not None:
+            # this implicitly means that the password is set too, the check has been done in _is_parameters_ok
+            returned_parameters["auth"] = self.user, self.password
+
         logger.debug(self.neuron_name + " parameters: %s" % returned_parameters)
 
         return returned_parameters

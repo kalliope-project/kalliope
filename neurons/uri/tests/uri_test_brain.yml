@@ -24,6 +24,20 @@
           say_template:
             - "{{ content.id }}"
 
+  # POST with auth
+  - name: "test-post-url-with-auth"
+    signals:
+      - order: "test-post-url-with-auth"
+    neurons:
+      - uri:
+          url: "http://192.168.0.17:8000/app"
+          headers:
+            Content-Type: 'application/json'
+          method: POST
+          user: "admin"
+          password: "secret"
+          data_from_file: "neurons/uri/tests/data_post_test.json"
+
   # PUT
   - name: "test-put-url"
     signals:
