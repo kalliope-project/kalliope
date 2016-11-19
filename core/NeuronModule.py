@@ -181,7 +181,7 @@ class NeuronModule(object):
         # else:
         #     raise NoTemplateException("You must specify a say_template or a file_template")
 
-    def run_synapse_ny_name(self, name):
+    def run_synapse_by_name(self, name):
         SynapseLauncher.start_synapse(name=name, brain=self.brain)
 
     @staticmethod
