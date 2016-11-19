@@ -1,3 +1,4 @@
+import json
 import unittest
 
 from httpretty import httpretty
@@ -112,9 +113,9 @@ class TestUri(unittest.TestCase):
         self.assertEqual(uri_neuron.text, expected_content)
 
     def testParameters(self):
-        def run_test(parameters):
+        def run_test(parameters_to_test):
             with self.assertRaises(InvalidParameterException):
-                Uri(**parameters)
+                Uri(**parameters_to_test)
 
         parameters = dict()
         run_test(parameters)
@@ -143,6 +144,60 @@ class TestUri(unittest.TestCase):
             "method": "NONEXIST"
         }
         run_test(parameters)
+
+    def testPostJsonFromFile(self):
+        """
+        Tet that we are able to send json data through a file
+        :return:
+        """
+        def request_callback(request, url, headers):
+            data = json.loads(request.body)
+            if "title" in data and "body" in data and "userId" in data:
+                return 200, headers, "all key received from URL %s" % url
+
+            return 400, headers, "server did not receive all keys from URL %s" % url
+
+        httpretty.enable()
+        httpretty.register_uri(httpretty.POST, self.test_url, body=request_callback)
+
+        parameters = {
+            "url": self.test_url,
+            "method": "POST",
+            "data_from_file": "data_post_test.json",
+            "headers": {
+                "Content-Type": 'application/json'
+            }
+        }
+
+        uri_neuron = Uri(**parameters)
+        self.assertEqual(uri_neuron.status_code, 200)
+
+    def testPostJson(self):
+        """
+        Tet that we are able to send json data directly from the data variable
+        :return:
+        """
+        def request_callback(request, url, headers):
+            data = json.loads(request.body)
+            if "title" in data and "body" in data and "userId" in data:
+                return 200, headers, "all key received from URL %s" % url
+
+            return 400, headers, "server did not receive all keys from URL %s" % url
+
+        httpretty.enable()
+        httpretty.register_uri(httpretty.POST, self.test_url, body=request_callback)
+
+        parameters = {
+            "url": self.test_url,
+            "method": "POST",
+            "data": "{\"id\": 1,\"title\": \"foo\", \"body\": \"bar\", \"userId\": 1}",
+            "headers": {
+                "Content-Type": 'application/json'
+            }
+        }
+
+        uri_neuron = Uri(**parameters)
+        self.assertEqual(uri_neuron.status_code, 200)
 
 if __name__ == '__main__':
     unittest.main()

@@ -111,6 +111,9 @@ class Uri(NeuronModule):
         if self.data is not None:
             returned_parameters["data"] = self.data
 
+        if self.data_from_file is not None:
+            returned_parameters["data"] = self.data_from_file
+
         logger.debug(self.neuron_name + " parameters: %s" % returned_parameters)
 
         return returned_parameters
@@ -153,7 +156,7 @@ class Uri(NeuronModule):
         # data must be loadable with json
         if self.data is not None:
             try:
-                self.data = json.loads(self.data)
+                json.loads(self.data)
             except ValueError, e:
                 raise InvalidParameterException("error in \"data\" parameter: %s" % e)
 
@@ -164,7 +167,7 @@ class Uri(NeuronModule):
                 raise InvalidParameterException("error in \"data_file\". File does not exist: %s" % self.data_from_file)
             # then try to load the json from the file
             try:
-                self.data_from_file = json.loads(self.readfile(self.data_from_file))
+                self.data_from_file = self.readfile(self.data_from_file)
             except ValueError, e:
                 raise InvalidParameterException("error in \"data\" parameter: %s" % e)
 

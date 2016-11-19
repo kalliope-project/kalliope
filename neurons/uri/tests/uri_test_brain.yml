@@ -52,5 +52,6 @@
       - uri:
           url: "http://jsonplaceholder.typicode.com/posts/1"
           method: DELETE
+          timeout: 2
           say_template:
             - "{% if status_code==200 %}delete complete{% else %}fail to delete{% endif %}"

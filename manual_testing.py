@@ -12,7 +12,7 @@ logger.setLevel(logging.DEBUG)
 brain_to_test = "neurons/uri/tests/uri_test_brain.yml"
 bl = BrainLoader.Instance(file_path=brain_to_test)
 
-order = "test-post-url"
+order = "test-delete-url"
 
 oa = OrderAnalyser(order, brain=bl.brain)
 
