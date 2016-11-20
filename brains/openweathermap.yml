@@ -1,7 +1,7 @@
 ---
   - name: "get-the-weather"
     signals:
-      - order: "quel temps fait-il {{ location }}"
+      - order: "quel temps fait-il à {{ location }}"
     neurons:
       - openweathermap:
           api_key: "your-api"
@@ -11,7 +11,7 @@
           args:
             - location
           say_template:
-          - "Aujourd'hui a {{ location }} le temps est {{ weather_today }} avec une température de {{ temp_today_temp }} degrés et demain le temps sera {{ weather_tomorrow }} avec une température de {{ temp_tomorrow_temp }} degrés"
+          - "Aujourd'hui à {{ location }} le temps est {{ weather_today }} avec une température de {{ temp_today_temp }} degrés et demain le temps sera {{ weather_tomorrow }} avec une température de {{ temp_tomorrow_temp }} degrés"
 
   - name: "get-the-weather-2"
     signals:
@@ -22,6 +22,6 @@
           lang: "fr"
           temp_unit: "celsius"
           country: "FR"
-          location: "grenoble"          
+          location: "grenoble"
           say_template:
-          - "Aujourd'hui a {{ location }} le temps est {{ weather_today }} avec une température de {{ temp_today_temp }} degrés et demain le temps sera {{ weather_tomorrow }} avec une température de {{ temp_tomorrow_temp }} degrés"
+          - "Aujourd'hui à {{ location }} le temps est {{ weather_today }} avec une température de {{ temp_today_temp }} degrés et demain le temps sera {{ weather_tomorrow }} avec une température de {{ temp_tomorrow_temp }} degrés"

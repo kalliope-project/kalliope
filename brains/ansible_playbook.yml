@@ -5,4 +5,4 @@
     neurons:
       - ansible_playbook: "tasks.yml"
       - say:
-          message: "Tache terminée"
+          message: "Tâche terminée"

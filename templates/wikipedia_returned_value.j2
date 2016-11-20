@@ -1,12 +1,12 @@
 {% if returncode == "DisambiguationError" %}
-    Veuillez etre plus précis. La recherche que vous venez d'éffectuez peut correspondre au page Wikipédia suivante:
+    Veuillez être plus précis. La recherche que vous venez d'effectuer peut correspondre aux pages Wikipédia suivantes :
     {% if may_refer is not none %}
         {% for el in may_refer %}
             {{ el }}
         {% endfor %}
     {% endif %}
 {% elif returncode == "PageError" %}
-    Je n'ai rien trouvé la dessus
+    Je n'ai rien trouvé à ce sujet
 {% else %}
     {{ summary }}
 {% endif %}
