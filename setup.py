@@ -4,6 +4,7 @@ import re
 from setuptools import setup, find_packages
 from codecs import open
 from os import path
+import sys
 
 basedir = path.abspath(path.dirname(__file__))
 
@@ -26,6 +27,10 @@ def read_version_py(file_name):
 
 VERSION_PY_FILENAME = 'kalliope/_version.py'
 version = read_version_py(VERSION_PY_FILENAME)
+
+py2_prefix = ''
+if sys.version_info[0] == 2:
+    py2_prefix = 'python2-'
 
 setup(
     name='kalliope',
@@ -61,14 +66,14 @@ setup(
         'markupsafe==0.23',
         'pyaudio==0.2.9',
         'ansible==2.1.1.0',
-        'python2-pythondialog==3.4.0',
-        'jinja==1.2',
+        py2_prefix + 'pythondialog==3.4.0',
+        'jinja2==2.8',
         'python-crontab==2.1.1',
         'cffi==1.8.3',
         'pygmail==0.0.5.4',
         'pushetta==1.0.15',
         'wakeonlan==0.2.2',
-        'ipaddress==1.0.16',
+        'ipaddress==1.0.17',
         'pyowm==2.5.0',
         'python-twitter==3.1',
         'flask==0.11.1',
