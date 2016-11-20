@@ -23,8 +23,8 @@ Kalliope is easy-peasy to use, see the hello world
 ## Installation
 
 - [Raspbian Jessie(Raspberry pi)](Docs/installation/raspbian_jessie.md)
-- [Ubuntu 16.04](Docs/installation/ubuntu_16.04.md)
-- [Debian Jessie](Docs/installation/debian_jessie.md)
+- [Ubuntu 16.04](Docs/installation/debian_and_ubuntu.md)
+- [Debian Jessie/Stretch](Docs/installation/debian_and_ubuntu.md)
 
 ## Usage
 
