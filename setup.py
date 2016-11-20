@@ -62,7 +62,7 @@ setup(
         'pyaudio==0.2.9',
         'ansible==2.1.1.0',
         'python2-pythondialog==3.4.0',
-        'jinja==1.2',
+        'jinja',
         'python-crontab==2.1.1',
         'cffi==1.8.3',
         'pygmail==0.0.5.4',
