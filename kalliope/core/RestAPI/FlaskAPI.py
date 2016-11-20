@@ -39,7 +39,7 @@ class FlaskAPI(threading.Thread):
         """
         all_synapse = self.brain.brain_yaml
         for el in all_synapse:
-            print el
+            print(el)
             if el[0]["name"] in synapse_name:
                 return el[0]
         return None

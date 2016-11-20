@@ -17,7 +17,7 @@ logger.setLevel(logging.DEBUG)
 # brainloader2 = BrainLoader.Instance(file_path=file_path)
 
 # sl = SettingLoader.Instance(file_path="core/Tests/settings/settings_test.yml")
-# print sl.yaml_config
+# print(sl.yaml_config)
 
 
 
@@ -36,4 +36,4 @@ def read_version_py(file_name):
 VERSION_PY_FILENAME = 'kalliope/_version.py'
 version = read_version_py(VERSION_PY_FILENAME)
 
-print version
+print(version)
