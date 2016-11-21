@@ -2,22 +2,43 @@
 
 ## Synopsis
 
-Link synapses together. Call a synapse from another one depending on the captured speech from the user.
+Link synapses together. Call a synapse directly or depending on the captured speech from the user.
 
 ## Options
 
-| parameter | required | default | choices | comment                                                                                        |
-|-----------|----------|---------|---------|------------------------------------------------------------------------------------------------|
-| links     | yes      |         |         | List of tuple synapse/answer object                                                            |
-| synapse   | yes      |         |         | Name of the synapse to launch if the captured audio from the STT is present in the answer list |
-| answers   | yes      |         |         | List of sentences that are valid for running the attached synapse                              |
-| default   | yes      |         |         | Name of the synapse to launch if the captured audio doesn't match any answers                  |
+| parameter        | required | default | choices | comment                                                                                           |
+|------------------|----------|---------|---------|---------------------------------------------------------------------------------------------------|
+| from_answer_link | NO       |         |         | Link a synapse depending on the answer of the user. Contain a list of tuple synapse/answer object |
+| direct_link      | NO       |         |         | Direct call to a synapse by the name of this one                                                  |
+| synapse          | NO       |         |         | Name of the synapse to launch if the captured audio from the STT is present in the answer list    |
+| answers          | NO       |         |         | List of sentences that are valid for running the attached synapse                                 |
+| default          | NO       |         |         | Name of the synapse to launch if the captured audio doesn't match any answers                     |
 
 ## Return Values
 
 None
 
 ## Synapses example
+
+We call another synapse directly at the end of the first synapse
+```
+- name: "direct-link"
+    signals:
+      - order: "direct link"
+    neurons:
+      - say:
+          message: "I launch directly the synapse number 1"
+      - neurotransmitter:
+          direct_link: "synapse-1"
+
+  - name: "synapse-1"
+    signals:
+      - order: "synapse-direct-link-1"
+    neurons:
+      - say:
+          message: "Synapse 1 launched"
+```
+
 
 Here the synapse will ask the user if he likes french fries. If the user answer "yes" or "maybe", he will be redirected to the synapse2 that say something.
 If the user answer no, he will be redirected to another synapse that say something else.
@@ -31,7 +52,7 @@ If the user say something that is not present in `answers`, he will be redirecte
       - say:
           message: "do you like french fries?"
       - neurotransmitter:
-          links:
+          from_answer_link:
             - synapse: "synapse2"
               answers:
                 - "absolutely"
@@ -60,8 +81,9 @@ If the user say something that is not present in `answers`, he will be redirecte
       - order: "synapse4"
     neurons:
       - say:
-          message: "I havn't understood your answer"
+          message: "I haven't understood your answer"
 ```
 
-
+## Notes
+> When using the neuron neurotransmitter, you must set a `direct_link` or a `from_answer_link`, no both at the same time.
 

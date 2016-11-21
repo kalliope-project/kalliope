@@ -1,9 +1,0 @@
----
-  - name: "say-hello"
-    signals:
-      - order: "dit bonjour"
-    neurons:
-      - say:
-          message:
-            - "Bonjour monsieur"
-            - "Bonjour maitre"
