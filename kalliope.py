@@ -13,6 +13,9 @@ import sys
 
 from core.SynapseLauncher import SynapseLauncher
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
