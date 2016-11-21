@@ -20,7 +20,7 @@ None
 
 ## Synapses example
 
-We call another synapse directly at the end of the fist synapse
+We call another synapse directly at the end of the first synapse
 ```
 - name: "direct-link"
     signals:
@@ -81,7 +81,7 @@ If the user say something that is not present in `answers`, he will be redirecte
       - order: "synapse4"
     neurons:
       - say:
-          message: "I havn't understood your answer"
+          message: "I haven't understood your answer"
 ```
 
 ## Notes

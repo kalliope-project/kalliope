@@ -18,7 +18,7 @@ class Neurotransmitter(NeuronModule):
         # do some check
         if self._is_parameters_ok():
             if self.direct_link is not None:
-                logger.debug("Neurotransmitter direct call to the synapse name: %s" % self.direct_link)
+                logger.debug("Neurotransmitter directly call to the synapse name: %s" % self.direct_link)
                 self.run_synapse_by_name(self.direct_link)
             else:
                 # the user is using a from_answer_link, we call the stt to get an audio
