@@ -1,7 +1,7 @@
 ---
   - name: "direct-link"
     signals:
-      - order: "lien direct"
+      - order: "direct link"
     neurons:
       - say:
           message: "je lance directement le synapse 1"
@@ -18,7 +18,6 @@
   - name: "synapse1"
     signals:
       - order: "pose moi une question"
-      - order: "pose-moi une question"
     neurons:
       - say:
           message: "aimez vous les frites?"

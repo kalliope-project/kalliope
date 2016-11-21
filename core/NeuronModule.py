@@ -63,6 +63,7 @@ class NeuronModule(object):
         """
         # get the child who called the class
         child_name = self.__class__.__name__
+        self.neuron_name = child_name
         logger.debug("NeuronModule called from class %s with parameters: %s" % (child_name, str(kwargs)))
 
         sl = SettingLoader.Instance()
@@ -181,7 +182,7 @@ class NeuronModule(object):
         # else:
         #     raise NoTemplateException("You must specify a say_template or a file_template")
 
-    def run_synapse_ny_name(self, name):
+    def run_synapse_by_name(self, name):
         SynapseLauncher.start_synapse(name=name, brain=self.brain)
 
     @staticmethod
@@ -217,4 +218,9 @@ class NeuronModule(object):
         oa = OrderListener(callback=callback)
         oa.start()
 
-
+    def get_neuron_name(self):
+        """
+        Return the name of the neuron who call the mother class
+        :return:
+        """
+        return self.neuron_name

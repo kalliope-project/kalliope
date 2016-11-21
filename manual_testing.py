@@ -1,22 +1,22 @@
 # coding: utf8
 import logging
 
-from core.ConfigurationManager.BrainLoader import BrainLoader
+from core import OrderAnalyser
+from core.ConfigurationManager import BrainLoader
 from core.ConfigurationManager.SettingLoader import SettingLoader
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 logger.setLevel(logging.DEBUG)
 
-# file_path = "core/Tests/brains/brain_test.yml"
-#
-# brainloader1 = BrainLoader.Instance(file_path=file_path)
-#
-# brainloader2 = BrainLoader.Instance(file_path=file_path)
+brain_to_test = "neurons/uri/tests/uri_test_brain.yml"
+bl = BrainLoader.Instance(file_path=brain_to_test)
 
-sl = SettingLoader.Instance(file_path="core/Tests/settings/settings_test.yml")
-print sl.yaml_config
+order = "test-delete-url"
 
+oa = OrderAnalyser(order, brain=bl.brain)
+
+oa.start()
 
 
 

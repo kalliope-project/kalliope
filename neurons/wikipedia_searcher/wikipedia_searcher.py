@@ -7,14 +7,14 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class Wikipedia(NeuronModule):
+class Wikipedia_searcher(NeuronModule):
     def __init__(self, **kwargs):
         # we don't need the TTS cache for this neuron
         cache = kwargs.get('cache', None)
         if cache is None:
             cache = False
             kwargs["cache"] = cache
-        super(Wikipedia, self).__init__(**kwargs)
+        super(Wikipedia_searcher, self).__init__(**kwargs)
 
         # get parameters form the neuron
         self.query = kwargs.get('query', None)
@@ -23,6 +23,7 @@ class Wikipedia(NeuronModule):
 
         self.may_refer = None
         self.returncode = None
+        self.message = None
 
         # check parameters
         if self._is_parameters_ok():
@@ -46,14 +47,14 @@ class Wikipedia(NeuronModule):
                 self.returncode = "PageError"
                 summary = ""
 
-            message = {
+            self.message = {
                 "summary": summary,
                 "may_refer": self.may_refer,
                 "returncode": self.returncode
             }
-            logger.debug("Wikipedia returned message: %s" % str(message))
+            logger.debug("Wikipedia returned message: %s" % str(self.message))
 
-            self.say(message)
+            self.say(self.message)
 
     def _is_parameters_ok(self):
         """
@@ -71,5 +72,9 @@ class Wikipedia(NeuronModule):
         valid_language = wikipedia.languages().keys()
         if self.language not in valid_language:
             raise InvalidParameterException("Wikipedia needs a valid language: %s" % valid_language)
+
+        if self.sentences is not None:
+            if not isinstance(self.sentences, int):
+                raise InvalidParameterException("Number of sentences must be an integer")
 
         return True
