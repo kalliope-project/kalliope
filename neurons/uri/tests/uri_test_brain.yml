@@ -1,0 +1,71 @@
+---
+  # GET
+  - name: "test-get-url"
+    signals:
+      - order: "test-get-url"
+    neurons:
+      - uri:
+          url: "http://jsonplaceholder.typicode.com/posts/1"
+          file_template: "neurons/uri/tests/test_get_template.j2"
+
+  # POST
+  - name: "test-post-url"
+    signals:
+      - order: "test-post-url"
+    neurons:
+      - uri:
+          url: "http://jsonplaceholder.typicode.com/posts"
+          headers:
+            user-agent: 'my-app/0.0.1'
+            Content-Type: 'application/json'
+          timeout: 12
+          method: POST
+          data_from_file: "neurons/uri/tests/data_post_test.json"
+          say_template:
+            - "{{ content.id }}"
+
+  # POST with auth
+  - name: "test-post-url-with-auth"
+    signals:
+      - order: "test-post-url-with-auth"
+    neurons:
+      - uri:
+          url: "http://192.168.0.17:8000/app"
+          headers:
+            Content-Type: 'application/json'
+          method: POST
+          user: "admin"
+          password: "secret"
+          data_from_file: "neurons/uri/tests/data_post_test.json"
+
+  # PUT
+  - name: "test-put-url"
+    signals:
+      - order: "test-put-url"
+    neurons:
+      - uri:
+          url: "http://jsonplaceholder.typicode.com/posts/1"
+          method: PUT
+          data: "{\"id\": 1,\"title\": \"foo\", \"body\": \"bar\", \"userId\": 1}"
+
+  # PATCH
+  - name: "test-patch-url"
+    signals:
+      - order: "test-patch-url"
+    neurons:
+      - uri:
+          url: "http://jsonplaceholder.typicode.com/posts/1"
+          method: PATCH
+          data: "{\"title\": \"foo\"}"
+
+  # DELETE
+  - name: "test-delete-url"
+    signals:
+      - order: "test-delete-url"
+    neurons:
+      - uri:
+          url: "http://jsonplaceholder.typicode.com/posts/1"
+          method: DELETE
+          timeout: 2
+          say_template:
+            - "{% if status_code==200 %}delete complete{% else %}fail to delete{% endif %}"
