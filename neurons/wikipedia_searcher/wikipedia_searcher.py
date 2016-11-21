@@ -7,14 +7,14 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class Wikipedia(NeuronModule):
+class Wikipedia_searcher(NeuronModule):
     def __init__(self, **kwargs):
         # we don't need the TTS cache for this neuron
         cache = kwargs.get('cache', None)
         if cache is None:
             cache = False
             kwargs["cache"] = cache
-        super(Wikipedia, self).__init__(**kwargs)
+        super(Wikipedia_searcher, self).__init__(**kwargs)
 
         # get parameters form the neuron
         self.query = kwargs.get('query', None)

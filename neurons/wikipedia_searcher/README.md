@@ -1,4 +1,4 @@
-# wikipedia
+# wikipedia_searcher
 
 ## Synopsis
 
@@ -36,7 +36,7 @@ This synapse will look for the {{ query }} spelt by the user on Wikipedia
   signals:
     - order: "look on wikipedia {{ query }}"
   neurons:
-    - wikipedia:
+    - wikipedia_searcher:
         language: "en"
         args:
           - query

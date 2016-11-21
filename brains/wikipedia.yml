@@ -4,8 +4,8 @@
     signals:
       - order: "cherche sur Wikipédia {{ query }}"
     neurons:
-      - wikipedia:
+      - wikipedia_searcher:
           language: "fr"
           args:
             - query
-          file_template: "wikipedia_returned_value.j2"
+          file_template: "templates/wikipedia_returned_value.j2"
