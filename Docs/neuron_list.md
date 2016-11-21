@@ -18,5 +18,5 @@ A neuron is a module that will perform some actions attached to an order. You ca
 | [twitter](../neurons/twitter/)                     | Send a Twit from kalliope                                                               |
 | [uri](../neurons/uri/)                             | Interacts with HTTP and HTTPS web services.                                             |
 | [wake_on_lan](../neurons/wake_on_lan/)             | Wake on lan a computer                                                                  |
-| [wikipedia](../neurons/wikipedia/)                 | Search for a page on Wikipedia                                                          |
+| [wikipedia_searcher](../neurons/wikipedia/)        | Search for a page on Wikipedia                                                          |
 
