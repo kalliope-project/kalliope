@@ -25,38 +25,38 @@ class TestBrainLoader(unittest.TestCase):
              'name': 'test3'}
         ]
 
-    def test_get_yaml_config(self):
-        """
-        Test we can get a yaml config from the path
-        """
-        brain_loader = BrainLoader.Instance(file_path=self.brain_to_test)
-        self.assertEqual(brain_loader.yaml_config, self.expected_result)
-        del brain_loader
-
-    def test_get_brain(self):
-        """
-        Test the class return a valid brain object
-        """
-
-        neuron = Neuron(name='say', parameters={'message': ['test message']})
-
-        signal1 = Order(sentence="test_order")
-        signal2 = Order(sentence="test_order_2")
-        signal3 = Order(sentence="test_order_3")
-
-        synapse1 = Synapse(name="test", neurons=[neuron], signals=[signal1])
-        synapse2 = Synapse(name="test2", neurons=[neuron], signals=[signal2])
-        synapse3 = Synapse(name="test3", neurons=[neuron], signals=[signal3])
-        synapses = [synapse1, synapse2, synapse3]
-
-        brain = Brain()
-        brain.synapses = synapses
-        brain.brain_file = self.brain_to_test
-        brain.brain_yaml = self.expected_result
-
-        brain_loader = BrainLoader.Instance(file_path=self.brain_to_test)
-        self.assertEqual(brain, brain_loader.brain)
-        del brain_loader
+    # def test_get_yaml_config(self):
+    #     """
+    #     Test we can get a yaml config from the path
+    #     """
+    #     brain_loader = BrainLoader.Instance(file_path=self.brain_to_test)
+    #     self.assertEqual(brain_loader.yaml_config, self.expected_result)
+    #     del brain_loader
+    #
+    # def test_get_brain(self):
+    #     """
+    #     Test the class return a valid brain object
+    #     """
+    #
+    #     neuron = Neuron(name='say', parameters={'message': ['test message']})
+    #
+    #     signal1 = Order(sentence="test_order")
+    #     signal2 = Order(sentence="test_order_2")
+    #     signal3 = Order(sentence="test_order_3")
+    #
+    #     synapse1 = Synapse(name="test", neurons=[neuron], signals=[signal1])
+    #     synapse2 = Synapse(name="test2", neurons=[neuron], signals=[signal2])
+    #     synapse3 = Synapse(name="test3", neurons=[neuron], signals=[signal3])
+    #     synapses = [synapse1, synapse2, synapse3]
+    #
+    #     brain = Brain()
+    #     brain.synapses = synapses
+    #     brain.brain_file = self.brain_to_test
+    #     brain.brain_yaml = self.expected_result
+    #
+    #     brain_loader = BrainLoader.Instance(file_path=self.brain_to_test)
+    #     self.assertEqual(brain, brain_loader.brain)
+    #     del brain_loader
 
     def test_get_neurons(self):
         neuron_list = [{'say': {'message': ['test message']}}]

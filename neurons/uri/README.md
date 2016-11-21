@@ -141,12 +141,12 @@ Here is the synapse we would use to make Kalliope speak out loud the name of the
 
 ## Templates example 
 
-The following the template will make kalliope read the content of the received json variable "title" from the remote server
+The following template will make kalliope read the content of the received json variable "title" from the remote server.
 ```
 The title is {{ content.title }}
 ```
 
-The following template will make Kalliope say if the request has been made with success or not depending on the returned status code
+The following template will make Kalliope say if the request has been made with success or not depending on the returned status code.
 ```
 {% if status_code==200 %}request complete{% else %}request failled{% endif %}
 ```

@@ -147,7 +147,7 @@ class TestUri(unittest.TestCase):
 
     def testPostJsonFromFile(self):
         """
-        Tet that we are able to send json data through a file
+        Test that we are able to send json data through a file
         :return:
         """
         def request_callback(request, url, headers):
@@ -174,7 +174,7 @@ class TestUri(unittest.TestCase):
 
     def testPostJson(self):
         """
-        Tet that we are able to send json data directly from the data variable
+        Test that we are able to send json data directly from the data variable
         :return:
         """
         def request_callback(request, url, headers):
