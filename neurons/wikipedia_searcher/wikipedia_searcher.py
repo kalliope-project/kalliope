@@ -23,6 +23,7 @@ class Wikipedia_searcher(NeuronModule):
 
         self.may_refer = None
         self.returncode = None
+        self.message = None
 
         # check parameters
         if self._is_parameters_ok():
@@ -46,14 +47,14 @@ class Wikipedia_searcher(NeuronModule):
                 self.returncode = "PageError"
                 summary = ""
 
-            message = {
+            self.message = {
                 "summary": summary,
                 "may_refer": self.may_refer,
                 "returncode": self.returncode
             }
-            logger.debug("Wikipedia returned message: %s" % str(message))
+            logger.debug("Wikipedia returned message: %s" % str(self.message))
 
-            self.say(message)
+            self.say(self.message)
 
     def _is_parameters_ok(self):
         """
@@ -71,5 +72,9 @@ class Wikipedia_searcher(NeuronModule):
         valid_language = wikipedia.languages().keys()
         if self.language not in valid_language:
             raise InvalidParameterException("Wikipedia needs a valid language: %s" % valid_language)
+
+        if self.sentences is not None:
+            if not isinstance(self.sentences, int):
+                raise InvalidParameterException("Number of sentences must be an integer")
 
         return True
