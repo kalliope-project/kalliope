@@ -241,10 +241,69 @@ class TestOrderAnalyser(unittest.TestCase):
 
         self.assertEquals(OrderAnalyser._get_synapse_params(synapse=synapse1, order_to_check=order_to_check),
                           expected_result,
-                          "Fail to retrieve the params of the synapse from the order")
+                          "Fail to retrieve 'the params' of the synapse from the order")
 
-        # TODO : to be continued
+        # Multiple match
+        signal1 = Order(sentence="this is the {{ sentence }}")
 
+        synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
+
+        order_to_check = "this is the value with multiple words"
+        expected_result = {'sentence': 'value with multiple words'}
+
+        self.assertEqual(OrderAnalyser._get_synapse_params(synapse=synapse1, order_to_check=order_to_check),
+                         expected_result,
+                         "Fail to retrieve the 'multiple words params' of the synapse from the order")
+
+        # Multiple params
+        signal1 = Order(sentence="this is the {{ sentence }} with multiple {{ params }}")
+
+        synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
+
+        order_to_check = "this is the value with multiple words"
+        expected_result = {'sentence': 'value',
+                            'params':'words'}
+
+        self.assertEqual(OrderAnalyser._get_synapse_params(synapse=synapse1, order_to_check=order_to_check),
+                         expected_result,
+                         "Fail to retrieve the 'multiple params' of the synapse from the order")
+
+        # Multiple params with multiple words
+        signal1 = Order(sentence="this is the {{ sentence }} with multiple {{ params }}")
+
+        synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
+
+        order_to_check = "this is the multiple values with multiple values as words"
+        expected_result = {'sentence': 'multiple values',
+                           'params': 'values as words'}
+
+        self.assertEqual(OrderAnalyser._get_synapse_params(synapse=synapse1, order_to_check=order_to_check),
+                         expected_result,
+                         "Fail to retrieve the 'multiple params with multiple words' of the synapse from the order")
+
+        # params at the begining of the sentence
+        signal1 = Order(sentence="{{ sentence }} this is the sentence")
+
+        synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
+
+        order_to_check = "hello world this is the multiple values with multiple values as words"
+        expected_result = {'sentence': 'hello world'}
+
+        self.assertEqual(OrderAnalyser._get_synapse_params(synapse=synapse1, order_to_check=order_to_check),
+                         expected_result,
+                         "Fail to retrieve the 'params at the begining of the sentence' of the synapse from the order")
+
+        # all of the sentence is a variable
+        signal1 = Order(sentence="{{ sentence }}")
+
+        synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
+
+        order_to_check = "this is the all sentence is a variable"
+        expected_result = {'sentence': 'this is the all sentence is a variable'}
+
+        self.assertEqual(OrderAnalyser._get_synapse_params(synapse=synapse1, order_to_check=order_to_check),
+                         expected_result,
+                         "Fail to retrieve the 'all of the sentence is a variable' of the synapse from the order")
 
 if __name__ == '__main__':
     unittest.main()
