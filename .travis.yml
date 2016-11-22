@@ -1,0 +1,11 @@
+language: python
+python:
+  - "2.7"
+# command to install dependencies
+before_install:
+- sudo add-apt-repository $(cat install/files/travis_repo_trusty_requirements.txt)
+- sudo apt-get update
+- sudo apt-get install $(cat install/files/deb-packages_requirements.txt)
+install: "pip install -r install/files/python_requirements.txt"
+# command to run tests
+script: pytest
