@@ -1,11 +1,9 @@
 import unittest
 
 from core.ConfigurationManager import BrainLoader
-from core.Models import Brain
 from core.Models import Event
 from core.Models import Neuron
 from core.Models import Order
-from core.Models import Synapse
 
 
 class TestBrainLoader(unittest.TestCase):

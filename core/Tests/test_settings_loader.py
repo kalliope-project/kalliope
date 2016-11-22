@@ -1,9 +1,7 @@
-import platform
 import unittest
 
 from core.ConfigurationManager import SettingLoader
 from core.Models.RestAPI import RestAPI
-from core.Models.Settings import Settings
 from core.Models.Stt import Stt
 from core.Models.Trigger import Trigger
 from core.Models.Tts import Tts
