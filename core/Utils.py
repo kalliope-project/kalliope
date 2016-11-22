@@ -28,35 +28,35 @@ class Utils(object):
 
     @classmethod
     def print_info(cls, text_to_print):
-        print cls.color_list["BLUE"] + text_to_print + cls.color_list["ENDLINE"]
+        print(cls.color_list["BLUE"] + text_to_print + cls.color_list["ENDLINE"])
 
     @classmethod
     def print_success(cls, text_to_print):
-        print cls.color_list["GREEN"] + text_to_print + cls.color_list["ENDLINE"]
+        print(cls.color_list["GREEN"] + text_to_print + cls.color_list["ENDLINE"])
 
     @classmethod
     def print_warning(cls, text_to_print):
-        print cls.color_list["YELLOW"] + text_to_print + cls.color_list["ENDLINE"]
+        print(cls.color_list["YELLOW"] + text_to_print + cls.color_list["ENDLINE"])
 
     @classmethod
     def print_danger(cls, text_to_print):
-        print cls.color_list["RED"] + text_to_print + cls.color_list["ENDLINE"]
+        print(cls.color_list["RED"] + text_to_print + cls.color_list["ENDLINE"])
 
     @classmethod
     def print_header(cls, text_to_print):
-        print cls.color_list["HEADER"] + text_to_print + cls.color_list["ENDLINE"]
+        print(cls.color_list["HEADER"] + text_to_print + cls.color_list["ENDLINE"])
 
     @classmethod
     def print_header(cls, text_to_print):
-        print cls.color_list["PURPLE"] + text_to_print + cls.color_list["ENDLINE"]
+        print(cls.color_list["PURPLE"] + text_to_print + cls.color_list["ENDLINE"])
 
     @classmethod
     def print_bold(cls, text_to_print):
-        print cls.color_list["BOLD"] + text_to_print + cls.color_list["ENDLINE"]
+        print(cls.color_list["BOLD"] + text_to_print + cls.color_list["ENDLINE"])
 
     @classmethod
     def print_underline(cls, text_to_print):
-        print cls.color_list["UNDERLINE"] + text_to_print + cls.color_list["ENDLINE"]
+        print(cls.color_list["UNDERLINE"] + text_to_print + cls.color_list["ENDLINE"])
 
     @classmethod
     def get_dynamic_class_instantiation(cls, package_name, module_name, parameters=None):
@@ -99,4 +99,4 @@ class Utils(object):
         :return:
         """
         import json
-        print json.dumps(to_print, indent=2)
+        print(json.dumps(to_print, indent=2))

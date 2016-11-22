@@ -3,13 +3,13 @@ markupsafe==0.23
 pyaudio==0.2.9
 ansible==2.1.1.0
 python2-pythondialog==3.4.0
-jinja==1.2
+jinja2==2.8
 python-crontab==2.1.1
 cffi==1.8.3
 pygmail==0.0.5.4
 pushetta==1.0.15
 wakeonlan==0.2.2
-ipaddress==1.0.16
+ipaddress==1.0.17
 pyowm==2.5.0
 python-twitter==3.1
 flask==0.11.1
