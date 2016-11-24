@@ -49,10 +49,10 @@ class TestTTSModule(unittest.TestCase):
         def play_audio():
             pass
 
-        self.TTSMod.words = "kalliope"
-        settings = Settings(cache_path="/tmp/kalliope/tests")
-        self.TTSMod.settings = settings
-        self.TTSMod.play_audio
+        # self.TTSMod.words = "kalliope"
+        # settings = Settings(cache_path="/tmp/kalliope/tests")
+        # self.TTSMod.settings = settings
+        # self.TTSMod.play_audio
 
 
     def test_is_file_already_in_cache(self):
