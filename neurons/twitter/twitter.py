@@ -1,6 +1,6 @@
 import twitter
 
-from core.NeuronModule import NeuronModule, InvalidParameterException
+from core.NeuronModule import NeuronModule, InvalidParameterException, MissingParameterException
 
 
 class Twitter(NeuronModule):
@@ -36,15 +36,15 @@ class Twitter(NeuronModule):
         .. raises:: InvalidParameterException
         """
         if self.consumer_key is None:
-            raise InvalidParameterException("Twitter needs a consumer_key")
+            raise MissingParameterException("Twitter needs a consumer_key")
         if self.consumer_secret is None:
-            raise InvalidParameterException("Twitter needs a consumer_secret")
+            raise MissingParameterException("Twitter needs a consumer_secret")
         if self.access_token_key is None:
-            raise InvalidParameterException("Twitter needs an access_token_key")
+            raise MissingParameterException("Twitter needs an access_token_key")
         if self.access_token_secret is None:
-            raise InvalidParameterException("Twitter needs and access_token_secret")
+            raise MissingParameterException("Twitter needs and access_token_secret")
         if self.tweet is None:
-            raise InvalidParameterException("You need to provide something to tweet !")
+            raise MissingParameterException("You need to provide something to tweet !")
 
         return True
 

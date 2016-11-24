@@ -1,6 +1,6 @@
 import unittest
 
-from core.NeuronModule import InvalidParameterException
+from core.NeuronModule import MissingParameterException
 from neurons.twitter.twitter import Twitter
 
 
@@ -15,7 +15,7 @@ class TestTwitter(unittest.TestCase):
 
     def testParameters(self):
         def run_test(parameters_to_test):
-            with self.assertRaises(InvalidParameterException):
+            with self.assertRaises(MissingParameterException):
                 Twitter(**parameters_to_test)
 
         # empty
