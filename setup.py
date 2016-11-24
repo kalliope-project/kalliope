@@ -93,7 +93,7 @@ setup(
     # entry point script
     entry_points={
         'console_scripts': [
-            'kalliope=kalliope:main',
+            'kalliope=kalliope.kalliope:main',
         ],
     },
 )
