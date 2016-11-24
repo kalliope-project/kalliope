@@ -110,3 +110,6 @@ class TestTTSModule(unittest.TestCase):
         # Test False
         self.assertFalse(TTSModule._is_file_already_in_cache(base_cache_path=base_cache_path, file_path=file_path),
                          "Fail asserting that the file does not exist.")
+
+if __name__ == '__main__':
+    unittest.main()
