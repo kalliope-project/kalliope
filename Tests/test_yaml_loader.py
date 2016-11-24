@@ -13,7 +13,7 @@ class TestYAMLLoader(unittest.TestCase):
 
     def test_get_config(self):
 
-        valid_file_path_to_test = "core/Tests/brains/brain_test.yml"
+        valid_file_path_to_test = "Tests/brains/brain_test.yml"
         invalid_file_path = "brains/non_existing_brain.yml"
         expected_result = [
             {'signals': [{'order': 'test_order'}],
