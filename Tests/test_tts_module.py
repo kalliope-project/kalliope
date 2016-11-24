@@ -2,7 +2,7 @@ import unittest
 import mock
 import os
 
-from core.TTS.TTSModule import TTSModule
+from core.TTS.TTSModule import TTSModule, TtsGenerateAudioFunctionNotFound
 from core.Models.Settings import Settings
 from core.FileManager import FileManager
 
@@ -47,14 +47,45 @@ class TestTTSModule(unittest.TestCase):
         """
         Test to generate and play sound
         """
-        def new_play_audio():
+        def new_play_audio(TTSModule):
             pass
 
+        words = "kalliope"
+
         with mock.patch.object(TTSModule, 'play_audio', new=new_play_audio):
-            self.TTSMod.words = "kalliope"
             settings = Settings(cache_path="/tmp/kalliope/tests")
             self.TTSMod.settings = settings
 
+            # test missing callback
+            with self.assertRaises(TtsGenerateAudioFunctionNotFound):
+                self.assertRaises(self.TTSMod.generate_and_play(words=words))
+
+            # Assert Callback is called
+            # no Cache
+            self.TTSMod.cache = False
+            generate_audio_function_from_child = mock.Mock()
+            self.TTSMod.generate_and_play(words=words,
+                                          generate_audio_function_from_child=generate_audio_function_from_child)
+            generate_audio_function_from_child.assert_called()
+
+            # with cache True but not existing on system
+            self.TTSMod.cache = True
+            generate_audio_function_from_child = mock.Mock()
+            self.TTSMod.generate_and_play(words=words,
+                                          generate_audio_function_from_child=generate_audio_function_from_child)
+            generate_audio_function_from_child.assert_called()
+
+            # with cache True and existing on system
+            # create tmp file
+            file_path = "/tmp/kalliope/tests/TTSModule/tests/default/5c186d1e123be2667fb5fd54640e4fd0.tts"
+            FileManager.write_in_file(file_path, "[kalliope-test] test_generate_and_play")
+            self.TTSMod.cache = True
+            generate_audio_function_from_child = mock.Mock()
+            self.TTSMod.generate_and_play(words=words,
+                                          generate_audio_function_from_child=generate_audio_function_from_child)
+            generate_audio_function_from_child.assert_not_called()
+            # Remove the tmp file
+            FileManager.remove_file(file_path)
 
     def test_is_file_already_in_cache(self):
         """
