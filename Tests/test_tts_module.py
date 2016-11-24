@@ -1,4 +1,5 @@
 import unittest
+import mock
 import os
 
 from core.TTS.TTSModule import TTSModule
@@ -46,13 +47,13 @@ class TestTTSModule(unittest.TestCase):
         """
         Test to generate and play sound
         """
-        def play_audio():
+        def new_play_audio():
             pass
 
-        # self.TTSMod.words = "kalliope"
-        # settings = Settings(cache_path="/tmp/kalliope/tests")
-        # self.TTSMod.settings = settings
-        # self.TTSMod.play_audio
+        with mock.patch.object(TTSModule, 'play_audio', new=new_play_audio):
+            self.TTSMod.words = "kalliope"
+            settings = Settings(cache_path="/tmp/kalliope/tests")
+            self.TTSMod.settings = settings
 
 
     def test_is_file_already_in_cache(self):
