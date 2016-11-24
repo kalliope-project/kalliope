@@ -18,7 +18,7 @@ class TestDynamicLoading(unittest.TestCase):
         # get current script directory path. We are in /an/unknown/path/kalliope/core/Tests
         cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         # get parent dir. Now we are in /an/unknown/path/kalliope
-        root_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir + os.sep + os.pardir)
+        root_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)
 
         # get the neuron dir
         self.neurons_dir = os.path.normpath(root_dir + os.sep + "neurons")
