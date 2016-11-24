@@ -64,9 +64,9 @@ class TTSModule(object):
         FileManager.create_directory(base_path)
 
         logger.debug("Class TTSModule called from module %s, cache: %s, language: %s, voice: %s" % (self.tts_caller_name,
-                                                                                             self.cache,
-                                                                                             self.language,
-                                                                                             self.voice))
+                                                                                                     self.cache,
+                                                                                                     self.language,
+                                                                                                     self.voice))
 
     def play_audio(self):
         """
@@ -96,7 +96,7 @@ class TTSModule(object):
             generate_audio_function_from_child()
         else:
             # we check if the file already exist. If not we generate it with the TTS engine
-            if not self.is_file_already_in_cache():
+            if not self._is_file_already_in_cache(self.base_cache_path, self.file_path):
                 generate_audio_function_from_child()
 
         # then play the generated audio file
@@ -136,18 +136,19 @@ class TTSModule(object):
             words = words.encode('utf-8')
         return hashlib.md5(words).hexdigest()
 
-    def is_file_already_in_cache(self):
+    @staticmethod
+    def _is_file_already_in_cache(base_cache_path, file_path):
         """
         Return true if the file to generate has already been generated before
         """
         # generate sub folder
-        FileManager.create_directory(self.base_cache_path)
+        FileManager.create_directory(base_cache_path)
 
         # check if the audio file exist
-        exist_in_cache = os.path.exists(self.file_path)
+        exist_in_cache = os.path.exists(file_path)
 
         if exist_in_cache:
-            logger.debug("TTSModule, File already in cache: %s" % self.file_path)
+            logger.debug("TTSModule, File already in cache: %s" % file_path)
         else:
-            logger.debug("TTSModule, File not yet in cache: %s" % self.file_path)
+            logger.debug("TTSModule, File not yet in cache: %s" % file_path)
         return exist_in_cache
