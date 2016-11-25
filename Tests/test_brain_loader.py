@@ -3,7 +3,9 @@ import unittest
 from core.ConfigurationManager import BrainLoader
 from core.Models import Event
 from core.Models import Neuron
+from core.Models import Synapse
 from core.Models import Order
+from core.Models.Brain import Brain
 
 
 class TestBrainLoader(unittest.TestCase):

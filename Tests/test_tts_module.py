@@ -77,7 +77,10 @@ class TestTTSModule(unittest.TestCase):
 
             # with cache True and existing on system
             # create tmp file
-            file_path = "/tmp/kalliope/tests/TTSModule/tests/default/5c186d1e123be2667fb5fd54640e4fd0.tts"
+            tmp_base_path = "/tmp/kalliope/tests/TTSModule/tests/default/"
+            file_path = os.path.join(tmp_base_path, "5c186d1e123be2667fb5fd54640e4fd0.tts")
+            if not os.path.exists(tmp_base_path):
+                os.makedirs(tmp_base_path)
             FileManager.write_in_file(file_path, "[kalliope-test] test_generate_and_play")
             self.TTSMod.cache = True
             generate_audio_function_from_child = mock.Mock()
@@ -97,6 +100,8 @@ class TestTTSModule(unittest.TestCase):
         file_path = "/tmp/kalliope/tests/TTSModule/tests/default/5c186d1e123be2667fb5fd54640e4fd0.tts"
 
         # Create a tmp file
+        if not os.path.exists(base_cache_path):
+            os.makedirs(base_cache_path)
         tmp_path = os.path.join(base_cache_path, md5_word+".tts")
         FileManager.write_in_file(tmp_path, "[kalliope-test] test_is_file_already_in_cache")
 

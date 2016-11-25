@@ -40,7 +40,10 @@ class TestScript(unittest.TestCase):
 
         # Test Non executable file
         # Create the file and remove permissions to the user
-        tmp_file_path = "/tmp/kalliope/tests/neuronScript"
+        tmp_path = "/tmp/kalliope/tests/"
+        tmp_file_path = tmp_path+"neuronScript"
+        if not os.path.exists(tmp_path):
+            os.makedirs(tmp_path)
         FileManager.write_in_file(tmp_file_path, "[kalliope-test] TestScript - testParameters")
         os.chmod(tmp_file_path, 0600)
         # test the user does not have access
