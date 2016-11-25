@@ -17,6 +17,7 @@
 
   - name: "synapse1"
     signals:
+      - order: "pose-moi une question"
       - order: "pose moi une question"
       - order: "pose-moi une question"
     neurons:
@@ -46,7 +47,7 @@
       - order: "synapse3"
     neurons:
       - say:
-          message: "vous n'aimez pas les frites. c'est pas grave."
+          message: "Vous n'aimez pas les frites. Ce n'est pas grave."
 
   - name: "synapse4"
     signals:

@@ -44,21 +44,21 @@
 
   - name: "start-music"
     signals:
-      - order: "mais nous de la musique"
+      - order: "mets nous de la musique"
       - order: "musique rock"
     neurons:
       - shell:
           cmd: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"start\"}' http://192.168.0.17:8000/app"
       - say:
-          message: "Musique lance, monsieur"
+          message: "Musique lancée, monsieur"
 
   - name: "stop-music"
     signals:
       - order: "arrête la musique"
-      - order: "stop la musique"
+      - order: "stoppe la musique"
       - order: "éteins la musique"
     neurons:
       - shell:
           cmd: "curl -i --user admin:secret -H \"Content-Type: application/json\" -X POST -d '{\"app_name\":\"music\",\"state\":\"stop\"}' http://192.168.0.17:8000/app"
       - say:
-          message: "musique stoppé, monsieur"
+          message: "musique stoppée, monsieur"

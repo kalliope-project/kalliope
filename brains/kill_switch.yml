@@ -2,8 +2,8 @@
 
   - name: "stop-kalliope"
     signals:
-      - order: "ferme-toi"
+      - order: "ferme toi"
     neurons:
       - say:
-          message: "Aurevoir"
+          message: "Au revoir"
       - kill_switch
