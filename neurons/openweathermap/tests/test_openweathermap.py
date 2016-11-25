@@ -31,3 +31,6 @@ class TestOpenWeatherMap(unittest.TestCase):
         }
         run_test(parameters)
 
+
+if __name__ == '__main__':
+    unittest.main()

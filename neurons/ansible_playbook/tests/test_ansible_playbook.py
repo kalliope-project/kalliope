@@ -25,3 +25,7 @@ class TestAnsible_Playbook(unittest.TestCase):
         }
         run_test(parameters)
 
+
+if __name__ == '__main__':
+    unittest.main()
+
