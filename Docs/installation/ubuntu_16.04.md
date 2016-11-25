@@ -45,4 +45,4 @@ Then play the recorded audio file
 mplayer test.wav
 ```
 
-If everything is ok, you can start playing with Kalliope. First, take a look to the [default settings](settings.md).
+If everything is ok, you can start playing with Kalliope. First, take a look to the [default settings](../settings.md).
