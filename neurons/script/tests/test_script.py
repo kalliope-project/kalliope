@@ -9,7 +9,7 @@ from core.FileManager import FileManager
 class TestScript(unittest.TestCase):
 
     def setUp(self):
-        self.path="path"
+        self.path = "path"
         self.random = "random"
 
     def testParameters(self):
@@ -31,8 +31,8 @@ class TestScript(unittest.TestCase):
         }
         run_test_missing_param(parameters)
 
-        # ramdom path
-        self.path="/tmp/iamarandompath/anotherrandompath/kalliope"
+        # random path
+        self.path = "/tmp/iamarandompath/anotherrandompath/kalliope"
         parameters = {
             "path": self.path
         }
