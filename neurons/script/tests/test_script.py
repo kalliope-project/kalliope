@@ -50,6 +50,7 @@ class TestScript(unittest.TestCase):
         }
         run_test_invalid_param(parameters)
         # Remove the tmp file
+        os.chmod(tmp_file_path, 0700)
         FileManager.remove_file(tmp_file_path)
 
 
