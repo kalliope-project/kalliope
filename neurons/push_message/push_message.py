@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 from pushetta import Pushetta
 
-from core.NeuronModule import NeuronModule
+from core.NeuronModule import NeuronModule, MissingParameterException
 
 
 class Push_message(NeuronModule):
@@ -34,10 +34,10 @@ class Push_message(NeuronModule):
         .. raises:: NotImplementedError
         """
         if self.message is None:
-            raise NotImplementedError("Pushetta neuron needs message to send")
+            raise MissingParameterException("Pushetta neuron needs message to send")
         if self.api_key is None:
-            raise NotImplementedError("Pushetta neuron needs api_key")
+            raise MissingParameterException("Pushetta neuron needs api_key")
         if self.channel_name is None:
-            raise NotImplementedError("Pushetta neuron needs channel_name")
+            raise MissingParameterException("Pushetta neuron needs channel_name")
 
         return True
