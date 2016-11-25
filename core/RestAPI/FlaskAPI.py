@@ -27,6 +27,7 @@ class FlaskAPI(threading.Thread):
         self.app.add_url_rule('/synapses/<synapse_name>', view_func=self.get_synapse, methods=['GET'])
         self.app.add_url_rule('/synapses/<synapse_name>', view_func=self.run_synapse, methods=['POST'])
         self.app.add_url_rule('/order/', view_func=self.run_order, methods=['POST'])
+        self.app.add_url_rule('/shutdown/', view_func=self.shutdown_server, methods=['POST'])
 
     def run(self):
         self.app.run(host='0.0.0.0', port="%s" % int(self.port), debug=True, threaded=True, use_reloader=False)
@@ -39,9 +40,11 @@ class FlaskAPI(threading.Thread):
         """
         all_synapse = self.brain.brain_yaml
         for el in all_synapse:
-            print el
-            if el[0]["name"] in synapse_name:
-                return el[0]
+            try:
+                if el["name"] == synapse_name:
+                    return el
+            except KeyError:
+                pass
         return None
 
     @requires_auth
@@ -126,3 +129,11 @@ class FlaskAPI(threading.Thread):
                 "error": "order cannot be null"
             }
             return jsonify(error=data), 400
+
+    @requires_auth
+    def shutdown_server(self):
+        func = request.environ.get('werkzeug.server.shutdown')
+        if func is None:
+            raise RuntimeError('Not running with the Werkzeug Server')
+        func()
+        return "Shutting down..."

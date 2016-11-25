@@ -1,5 +1,7 @@
 # Kalliope
 
+[![Build Status](https://travis-ci.org/kalliope-project/kalliope.svg?branch=tests_monf)](https://travis-ci.org/kalliope-project/kalliope)
+
 ![logo](images/Kalliope_logo_large.png)
 
 Kalliope is a modular always-on voice controlled personal assistant designed for home automation.

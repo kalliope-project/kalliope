@@ -1,17 +1,17 @@
 import unittest
 
 from core.ConfigurationManager import BrainLoader
-from core.Models import Brain
 from core.Models import Event
 from core.Models import Neuron
-from core.Models import Order
 from core.Models import Synapse
+from core.Models import Order
+from core.Models.Brain import Brain
 
 
 class TestBrainLoader(unittest.TestCase):
 
     def setUp(self):
-        self.brain_to_test = "core/Tests/brains/brain_test.yml"
+        self.brain_to_test = "Tests/brains/brain_test.yml"
         self.expected_result = [
             {'signals': [{'order': 'test_order'}],
              'neurons': [{'say': {'message': ['test message']}}],

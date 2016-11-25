@@ -1,6 +1,6 @@
 import pyowm
 
-from core.NeuronModule import NeuronModule
+from core.NeuronModule import NeuronModule, MissingParameterException
 
 
 class Openweathermap(NeuronModule):
@@ -120,8 +120,8 @@ class Openweathermap(NeuronModule):
         .. raises:: NotImplementedError
         """
         if self.api_key is None:
-            raise NotImplementedError("OpenWeatherMap neuron needs an api_key")
+            raise MissingParameterException("OpenWeatherMap neuron needs an api_key")
         if self.location is None:
-            raise NotImplementedError("OpenWeatherMap neuron needs a location")
+            raise MissingParameterException("OpenWeatherMap neuron needs a location")
 
         return True

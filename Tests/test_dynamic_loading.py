@@ -18,7 +18,7 @@ class TestDynamicLoading(unittest.TestCase):
         # get current script directory path. We are in /an/unknown/path/kalliope/core/Tests
         cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         # get parent dir. Now we are in /an/unknown/path/kalliope
-        root_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir + os.sep + os.pardir)
+        root_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)
 
         # get the neuron dir
         self.neurons_dir = os.path.normpath(root_dir + os.sep + "neurons")
@@ -32,7 +32,7 @@ class TestDynamicLoading(unittest.TestCase):
         # get trigger dir
         self.trigger_dir = os.path.normpath(root_dir + os.sep + "trigger")
 
-    def test_01_packages_present(self):
+    def test_packages_present(self):
         """
         Check that the neurons folder exist in the root of the project
         """
@@ -41,7 +41,7 @@ class TestDynamicLoading(unittest.TestCase):
         self.assertTrue(os.path.isdir(self.tts_dir))
         self.assertTrue(os.path.isdir(self.trigger_dir))
 
-    def test_02_can_import_neurons(self):
+    def test_can_import_neurons(self):
         """
         Try to import each neurons that are present in the neurons package
         :return:
@@ -52,7 +52,7 @@ class TestDynamicLoading(unittest.TestCase):
             module_name = neuron_name.capitalize()
             self.dynamic_import(package_name, module_name)
 
-    def test_03_can_import_stt(self):
+    def test_can_import_stt(self):
         """
         Try to import each stt that are present in the stt package
         :return:
@@ -63,7 +63,7 @@ class TestDynamicLoading(unittest.TestCase):
             module_name = stt_name.capitalize()
             self.dynamic_import(package_name, module_name)
 
-    def test_04_can_import_tts(self):
+    def test_can_import_tts(self):
         """
         Try to import each tts that are present in the tts package
         :return:
@@ -74,7 +74,7 @@ class TestDynamicLoading(unittest.TestCase):
             module_name = tts_name.capitalize()
             self.dynamic_import(package_name, module_name)
 
-    def test_05_can_import_trigger(self):
+    def test_can_import_trigger(self):
         """
         Try to import each trigger that are present in the trigger package
         :return:

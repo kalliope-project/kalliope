@@ -1,0 +1,13 @@
+language: python
+python:
+  - "2.7"
+# command to install dependencies
+before_install:
+- sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse"
+- sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse"
+- sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
+- sudo apt-get update
+- sudo apt-get install $(cat install/files/deb-packages_requirements.txt)
+install: "pip install -r install/files/python_requirements.txt"
+# command to run tests
+script: pytest

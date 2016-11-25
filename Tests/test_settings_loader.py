@@ -1,9 +1,7 @@
-import platform
 import unittest
 
 from core.ConfigurationManager import SettingLoader
 from core.Models.RestAPI import RestAPI
-from core.Models.Settings import Settings
 from core.Models.Stt import Stt
 from core.Models.Trigger import Trigger
 from core.Models.Tts import Tts
@@ -13,7 +11,7 @@ class TestSettingLoader(unittest.TestCase):
 
     def setUp(self):
 
-        self.settings_file_to_test = "core/Tests/settings/settings_test.yml"
+        self.settings_file_to_test = "Tests/settings/settings_test.yml"
 
         self.settings_dict = {
             'rest_api':
