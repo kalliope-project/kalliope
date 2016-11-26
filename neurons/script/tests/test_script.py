@@ -44,7 +44,9 @@ class TestScript(unittest.TestCase):
         tmp_file_path = tmp_path+"neuronScript"
         if not os.path.exists(tmp_path):
             os.makedirs(tmp_path)
-        FileManager.write_in_file(tmp_file_path, "[kalliope-test] TestScript - testParameters")
+        text_to_write = "[kalliope-test] TestScript - testParameters"
+        with open(tmp_file_path, 'w') as myFile:
+            myFile.write(text_to_write)
         os.chmod(tmp_file_path, 0600)
         # test the user does not have access
         self.path = tmp_file_path
@@ -54,7 +56,7 @@ class TestScript(unittest.TestCase):
         run_test_invalid_param(parameters)
         # Remove the tmp file
         os.chmod(tmp_file_path, 0700)
-        FileManager.remove_file(tmp_file_path)
+        os.remove(tmp_file_path)
 
 
 if __name__ == '__main__':
