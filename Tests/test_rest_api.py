@@ -32,13 +32,13 @@ class TestRestAPI(unittest.TestCase):
         cls.flask_api.start()
         time.sleep(1)
 
-    @classmethod
-    def tearDownClass(cls):
-        """
-        executed once at the end of the test
-        """
-        url = "http://127.0.0.1:5000/shutdown/"
-        requests.post(url=url)
+    # @classmethod
+    # def tearDownClass(cls):
+    #     """
+    #     executed once at the end of the test
+    #     """
+    #     url = "http://127.0.0.1:5000/shutdown/"
+    #     requests.post(url=url)
 
     def setUp(self):
         self.base_url = "http://127.0.0.1:5000"
@@ -136,7 +136,7 @@ class TestRestAPI(unittest.TestCase):
 
         self.assertEqual(expected_content, json.loads(result.content))
 
-    def test_synapse_not_found(self):
+    def test_get_synapse_not_found(self):
         url = self.base_url + "/synapses/test-none"
         result = requests.get(url=url)
 
@@ -147,6 +147,86 @@ class TestRestAPI(unittest.TestCase):
         }
 
         self.assertEqual(expected_content, json.loads(result.content))
+        self.assertEqual(result.status_code, 404)
+
+    def test_run_synapse_by_name(self):
+        url = self.base_url + "/synapses/test"
+        result = requests.post(url=url)
+
+        expected_content = {
+            "synapses": {
+                "name": "test",
+                "neurons": [
+                    {
+                        "say": {
+                            "message": [
+                                "test message"
+                            ]
+                        }
+                    }
+                ],
+                "signals": [
+                    {
+                        "order": "test_order"
+                    }
+                ]
+            }
+        }
+
+        self.assertEqual(expected_content, json.loads(result.content))
+        self.assertEqual(result.status_code, 201)
+
+    def test_post_synapse_not_found(self):
+        url = self.base_url + "/synapses/test-none"
+        result = requests.post(url=url)
+
+        expected_content = {
+            "error": {
+                "synapse name not found": "test-none"
+            }
+        }
+
+        self.assertEqual(expected_content, json.loads(result.content))
+        self.assertEqual(result.status_code, 404)
+
+    def test_run_synapse_with_order(self):
+        url = self.base_url + "/order/"
+        headers = {"Content-Type": "application/json"}
+        data = {"order": "test_order"}
+        result = requests.post(url=url, headers=headers, json=data)
+
+        expected_content = {
+            "synapses": [
+                {
+                    "name": "test",
+                    "neurons": [
+                        {
+                            "name": "say",
+                            "parameters": "{'message': ['test message']}"
+                        }
+                    ],
+                    "signals": [
+                        {
+                            "order": "test_order"
+                        }
+                    ]
+                }
+            ]
+        }
+
+        self.assertEqual(expected_content, json.loads(result.content))
+        self.assertEqual(result.status_code, 201)
+
+    def test_post_synapse_by_order_not_found(self):
+        url = self.base_url + "/order/"
+        data = {"order": "non existing order"}
+        headers = {"Content-Type": "application/json"}
+        result = requests.post(url=url, headers=headers, json=data)
+
+        expected_content = {'error': {'error': "The given order doesn't match any synapses"}}
+
+        self.assertEqual(expected_content, json.loads(result.content))
+        self.assertEqual(result.status_code, 400)
 
 if __name__ == '__main__':
     unittest.main()
