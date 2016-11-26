@@ -79,6 +79,9 @@ class TestTTSModule(unittest.TestCase):
             # create tmp file
             tmp_base_path = "/tmp/kalliope/tests/TTSModule/tests/default/"
             file_path = os.path.join(tmp_base_path, "5c186d1e123be2667fb5fd54640e4fd0.tts")
+            if os.path.isfile(file_path):
+                # Remove the file
+                FileManager.remove_file(file_path)
             if not os.path.exists(tmp_base_path):
                 os.makedirs(tmp_base_path)
             FileManager.write_in_file(file_path, "[kalliope-test] test_generate_and_play")
@@ -97,8 +100,11 @@ class TestTTSModule(unittest.TestCase):
 
         base_cache_path = "/tmp/kalliope/tests/TTSModule/tests/default/"
         md5_word = "5c186d1e123be2667fb5fd54640e4fd0"
-        file_path = "/tmp/kalliope/tests/TTSModule/tests/default/5c186d1e123be2667fb5fd54640e4fd0.tts"
+        file_path = os.path.join(base_cache_path, "5c186d1e123be2667fb5fd54640e4fd0.tts")
 
+        if os.path.isfile(file_path):
+            # Remove the file
+            FileManager.remove_file(file_path)
         # Create a tmp file
         if not os.path.exists(base_cache_path):
             os.makedirs(base_cache_path)
