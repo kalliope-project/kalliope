@@ -1,7 +1,7 @@
 import unittest
 
-from core.NeuronModule import InvalidParameterException
-from neurons.wikipedia_searcher import Wikipedia_searcher
+from kalliope.core.NeuronModule import InvalidParameterException
+from kalliope.neurons.wikipedia_searcher import Wikipedia_searcher
 
 
 class TestWikipediaSearcher(unittest.TestCase):

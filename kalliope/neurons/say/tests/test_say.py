@@ -1,7 +1,7 @@
 import unittest
 
-from core.NeuronModule import MissingParameterException
-from neurons.say.say import Say
+from kalliope.core.NeuronModule import MissingParameterException
+from kalliope.neurons.say.say import Say
 
 
 class TestSay(unittest.TestCase):

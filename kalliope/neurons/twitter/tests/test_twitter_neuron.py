@@ -1,7 +1,7 @@
 import unittest
 
-from core.NeuronModule import MissingParameterException
-from neurons.twitter.twitter import Twitter
+from kalliope.core.NeuronModule import MissingParameterException
+from kalliope.neurons.twitter.twitter import Twitter
 
 
 class TestTwitter(unittest.TestCase):

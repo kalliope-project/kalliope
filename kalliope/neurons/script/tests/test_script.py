@@ -3,11 +3,11 @@ import os
 
 import time
 
-from core import OrderAnalyser
-from core.ConfigurationManager import BrainLoader
-from core.NeuronModule import MissingParameterException, InvalidParameterException
-from neurons.script.script import Script
-from core.FileManager import FileManager
+from kalliope.core import OrderAnalyser
+from kalliope.core.ConfigurationManager import BrainLoader
+from kalliope.core.NeuronModule import MissingParameterException, InvalidParameterException
+from kalliope.neurons.script.script import Script
+from kalliope.core.FileManager import FileManager
 
 
 class TestScript(unittest.TestCase):

@@ -1,7 +1,7 @@
 import unittest
 
-from core.NeuronModule import MissingParameterException
-from neurons.gmail_checker.gmail_checker import Gmail_checker
+from kalliope.core.NeuronModule import MissingParameterException
+from kalliope.neurons.gmail_checker.gmail_checker import Gmail_checker
 
 
 class TestGmail_Checker(unittest.TestCase):

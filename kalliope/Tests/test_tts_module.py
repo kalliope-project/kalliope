@@ -2,9 +2,9 @@ import unittest
 import mock
 import os
 
-from core.TTS.TTSModule import TTSModule, TtsGenerateAudioFunctionNotFound
-from core.Models.Settings import Settings
-from core.FileManager import FileManager
+from kalliope.core.TTS.TTSModule import TTSModule, TtsGenerateAudioFunctionNotFound
+from kalliope.core.Models.Settings import Settings
+from kalliope.core.FileManager import FileManager
 
 
 class TestTTSModule(unittest.TestCase):

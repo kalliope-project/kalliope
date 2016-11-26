@@ -5,9 +5,9 @@ import requests
 import time
 from flask import Flask
 
-from core.ConfigurationManager import BrainLoader
-from core.ConfigurationManager import SettingLoader
-from core.RestAPI.FlaskAPI import FlaskAPI
+from kalliope.core.ConfigurationManager import BrainLoader
+from kalliope.core.ConfigurationManager import SettingLoader
+from kalliope.core.RestAPI.FlaskAPI import FlaskAPI
 
 
 class TestRestAPI(unittest.TestCase):

@@ -3,8 +3,8 @@ import unittest
 
 from httpretty import httpretty
 
-from core.NeuronModule import InvalidParameterException
-from neurons.uri.uri import Uri
+from kalliope.core.NeuronModule import InvalidParameterException
+from kalliope.neurons.uri.uri import Uri
 
 
 class TestUri(unittest.TestCase):

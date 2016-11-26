@@ -3,8 +3,8 @@ import unittest
 
 import time
 
-from core.NeuronModule import MissingParameterException
-from neurons.shell.shell import Shell
+from kalliope.core.NeuronModule import MissingParameterException
+from kalliope.neurons.shell.shell import Shell
 
 
 class TestShell(unittest.TestCase):

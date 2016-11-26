@@ -1,7 +1,7 @@
 import unittest
 
-from core.NeuronModule import MissingParameterException
-from neurons.push_message.push_message import Push_message
+from kalliope.core.NeuronModule import MissingParameterException
+from kalliope.neurons.push_message.push_message import Push_message
 
 
 class TestPush_Message(unittest.TestCase):

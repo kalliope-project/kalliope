@@ -1,7 +1,7 @@
 import unittest
 
-from core.NeuronModule import MissingParameterException
-from neurons.sleep.sleep import Sleep
+from kalliope.core.NeuronModule import MissingParameterException
+from kalliope.neurons.sleep.sleep import Sleep
 
 
 class TestSleep(unittest.TestCase):

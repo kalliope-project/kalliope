@@ -1,8 +1,8 @@
 import unittest
 import ipaddress
 
-from core.NeuronModule import InvalidParameterException, MissingParameterException
-from neurons.wake_on_lan.wake_on_lan import Wake_on_lan
+from kalliope.core.NeuronModule import InvalidParameterException, MissingParameterException
+from kalliope.neurons.wake_on_lan.wake_on_lan import Wake_on_lan
 
 
 class TestWakeOnLan(unittest.TestCase):

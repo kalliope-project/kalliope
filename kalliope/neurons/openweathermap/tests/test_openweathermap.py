@@ -1,7 +1,7 @@
 import unittest
 
-from core.NeuronModule import MissingParameterException
-from neurons.openweathermap.openweathermap import Openweathermap
+from kalliope.core.NeuronModule import MissingParameterException
+from kalliope.neurons.openweathermap.openweathermap import Openweathermap
 
 
 class TestOpenWeatherMap(unittest.TestCase):

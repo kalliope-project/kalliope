@@ -4,7 +4,7 @@ import os
 
 import requests
 
-from core.NeuronModule import NeuronModule, InvalidParameterException
+from kalliope.core.NeuronModule import NeuronModule, InvalidParameterException
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

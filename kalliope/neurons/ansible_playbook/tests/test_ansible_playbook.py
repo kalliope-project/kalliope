@@ -1,7 +1,7 @@
 import unittest
 
-from core.NeuronModule import MissingParameterException
-from neurons.ansible_playbook.ansible_playbook import Ansible_playbook
+from kalliope.core.NeuronModule import MissingParameterException
+from kalliope.neurons.ansible_playbook.ansible_playbook import Ansible_playbook
 
 
 class TestAnsible_Playbook(unittest.TestCase):
