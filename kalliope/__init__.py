@@ -112,6 +112,3 @@ def configure_logging(debug=None):
         logger.setLevel(logging.INFO)
 
     logger.debug("Logger ready")
-
-if __name__ == '__main__':
-    main()
