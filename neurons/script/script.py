@@ -41,8 +41,7 @@ class Script(NeuronModule):
                 (output, err) = p.communicate()
                 self.output = output
                 self.returncode = p.returncode
-                print self.output
-                print self.returncode
+
                 message = {
                     "output": self.output,
                     "returncode": self.returncode

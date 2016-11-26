@@ -45,6 +45,17 @@ Keep in mind that you cannot get any returned value with this mode.
           async: True
 ```
 
+Make Kalliope speak out loud the result of the script.
+```
+  - name: "run-script-an-give-output"
+    signals:
+      - order: "run the script"
+    neurons:
+      - script:
+          path: "/path/to/script.sh"   
+          say_template: "{{ output }}"
+```
+
 
 ## Notes
 
