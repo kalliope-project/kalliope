@@ -130,10 +130,10 @@ class TestFileManager(unittest.TestCase):
         """
         Test the _is_path_exists_or_creatable
         4 scenarii :
-            - the file exist and creatable : return True
-            - the file not exist but creatable : return True
-            - the file exists but not allowed : return True --> need a review !
-            - the file not exist and not allowed : return False
+            - the file exists and is creatable : return True
+            - the file does not exist but is creatable : return True
+            - the file exists but is not allowed : return True --> need a review !
+            - the file does not exist and is not allowed : return False
         """
 
         # set up the context
