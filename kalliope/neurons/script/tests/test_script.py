@@ -1,13 +1,9 @@
-import unittest
 import os
-
 import time
+import unittest
 
-from kalliope.core import OrderAnalyser
-from kalliope.core.ConfigurationManager import BrainLoader
 from kalliope.core.NeuronModule import MissingParameterException, InvalidParameterException
 from kalliope.neurons.script.script import Script
-from kalliope.core.FileManager import FileManager
 
 
 class TestScript(unittest.TestCase):
