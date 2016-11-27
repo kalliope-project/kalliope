@@ -31,7 +31,7 @@ class TestShell(unittest.TestCase):
 
     def test_shell_returned_code(self):
         """
-        To test that the shell neuron work, we ask it to create a file
+        To test that the shell neuron works, we ask it to create a file
         """
         parameters = {
             "cmd": "touch %s" % self.test_file
@@ -40,7 +40,7 @@ class TestShell(unittest.TestCase):
         shell = Shell(**parameters)
         self.assertTrue(os.path.isfile(self.test_file))
         self.assertEqual(shell.returncode, 0)
-        # remove the tet file
+        # remove the test file
         os.remove(self.test_file)
 
     def test_shell_content(self):
@@ -60,7 +60,7 @@ class TestShell(unittest.TestCase):
         shell = Shell(**parameters)
         self.assertEqual(shell.output, text_to_write)
         self.assertEqual(shell.returncode, 0)
-        # remove the tet file
+        # remove the test file
         os.remove(self.test_file)
 
     def test_async_shell(self):
@@ -76,7 +76,7 @@ class TestShell(unittest.TestCase):
         # let the time the the thread to perform the action
         time.sleep(0.5)
         self.assertTrue(os.path.isfile(self.test_file))
-        # remove the tet file
+        # remove the test file
         os.remove(self.test_file)
 
 
