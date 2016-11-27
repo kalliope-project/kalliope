@@ -91,7 +91,7 @@ class TestScript(unittest.TestCase):
         time.sleep(0.5)
         self.assertTrue(os.path.isfile(self.test_file))
 
-        # remove the tet file
+        # remove the test file
         os.remove(self.test_file)
 
     def test_script_content(self):
