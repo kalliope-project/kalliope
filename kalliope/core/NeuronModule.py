@@ -8,7 +8,7 @@ from jinja2 import Template
 
 from kalliope.core import OrderListener
 from kalliope.core.SynapseLauncher import SynapseLauncher
-from kalliope.core.Utils import Utils
+from kalliope.core.Utils.Utils import Utils
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 
 logging.basicConfig()

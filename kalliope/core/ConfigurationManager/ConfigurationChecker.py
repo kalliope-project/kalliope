@@ -1,6 +1,6 @@
 import re
 
-from kalliope.core.Utils import ModuleNotFoundError
+from kalliope.core.Utils.Utils import ModuleNotFoundError
 
 
 class InvalidSynapeName(Exception):

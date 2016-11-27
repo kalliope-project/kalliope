@@ -4,7 +4,7 @@ from threading import Thread
 
 from cffi import FFI as _FFI
 
-from kalliope.core.Utils import Utils
+from kalliope.core.Utils.Utils import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
 
 logging.basicConfig()

@@ -3,9 +3,9 @@ import hashlib
 import logging
 import os
 
-from kalliope.core.FileManager import FileManager
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.Players import Mplayer
+from kalliope.core.Utils.FileManager import FileManager
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

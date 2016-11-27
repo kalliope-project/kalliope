@@ -3,7 +3,7 @@ import unittest
 from kalliope.core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker, NoSynapeName, NoSynapeNeurons, \
     NoSynapeSignals, NoValidSignal, NoEventPeriod, NoValidOrder, MultipleSameSynapseName
 from kalliope.core.Models import Synapse
-from kalliope.core.Utils import ModuleNotFoundError
+from kalliope.core.Utils.Utils import ModuleNotFoundError
 
 
 class TestConfigurationChecker(unittest.TestCase):
