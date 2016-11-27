@@ -134,7 +134,7 @@ Output example:
 ```
 
 
-Run a synapse from an order
+### Run a synapse from an order
 
 Normal response codes: 201
 Error response codes: unauthorized(401), itemNotFound(404)
