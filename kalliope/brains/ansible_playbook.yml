@@ -3,6 +3,7 @@
     signals:
       - order: "playbook"
     neurons:
-      - ansible_playbook: "tasks.yml"
+      - ansible_playbook:
+          task_file: "tasks.yml"
       - say:
           message: "Tache terminée"
