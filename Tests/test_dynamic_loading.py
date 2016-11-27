@@ -21,16 +21,16 @@ class TestDynamicLoading(unittest.TestCase):
         root_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)
 
         # get the neuron dir
-        self.neurons_dir = os.path.normpath(root_dir + os.sep + "neurons")
+        self.neurons_dir = os.path.normpath(root_dir + os.sep + "kalliope/neurons")
 
         # get stt dir
-        self.stt_dir = os.path.normpath(root_dir + os.sep + "stt")
+        self.stt_dir = os.path.normpath(root_dir + os.sep + "kalliope/stt")
 
         # get tts dir
-        self.tts_dir = os.path.normpath(root_dir + os.sep + "tts")
+        self.tts_dir = os.path.normpath(root_dir + os.sep + "kalliope/tts")
 
         # get trigger dir
-        self.trigger_dir = os.path.normpath(root_dir + os.sep + "trigger")
+        self.trigger_dir = os.path.normpath(root_dir + os.sep + "kalliope/trigger")
 
     def test_packages_present(self):
         """
