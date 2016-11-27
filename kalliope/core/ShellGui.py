@@ -10,7 +10,7 @@ from dialog import Dialog
 from kalliope.core import OrderListener
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.SynapseLauncher import SynapseLauncher
-from kalliope.core.Utils import Utils
+from kalliope.core.Utils.Utils import Utils
 from kalliope.neurons.say.say import Say
 
 logging.basicConfig()

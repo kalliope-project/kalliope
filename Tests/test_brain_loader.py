@@ -11,7 +11,7 @@ from kalliope.core.Models.Brain import Brain
 class TestBrainLoader(unittest.TestCase):
 
     def setUp(self):
-        self.brain_to_test = "Tests/brains/brain_test.yml"
+        self.brain_to_test = "../Tests/brains/brain_test.yml"
         self.expected_result = [
             {'signals': [{'order': 'test_order'}],
              'neurons': [{'say': {'message': ['test message']}}],

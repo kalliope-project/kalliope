@@ -23,7 +23,7 @@ class TestRestAPI(unittest.TestCase):
         sl.settings.active = True
         sl.settings.port = 5000
         # prepare a test brain
-        brain_to_test = "Tests/brains/brain_test.yml"
+        brain_to_test = "../Tests/brains/brain_test.yml"
         brain_loader = BrainLoader.Instance(file_path=brain_to_test)
         brain = brain_loader.brain
 

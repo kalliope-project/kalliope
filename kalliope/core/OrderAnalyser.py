@@ -2,7 +2,7 @@
 import re
 from collections import Counter
 
-from kalliope.core.Utils import Utils
+from kalliope.core.Utils.Utils import Utils
 from kalliope.core.Models import Order
 from kalliope.core.NeuroneLauncher import NeuroneLauncher
 
