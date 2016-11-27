@@ -1,1 +1,3 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
+touch /tmp/kalliope_text_shell.txt

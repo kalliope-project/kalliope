@@ -19,7 +19,7 @@ class AsyncShell(threading.Thread):
 
     def run(self):
         p = subprocess.Popen(self.path,
-                             shell=True,
+                             shell=False,
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
 
@@ -37,11 +37,10 @@ class Script(NeuronModule):
         if self._is_parameters_ok():
             # run the command
             if not self.async:
-                p = subprocess.Popen(self.path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+                p = subprocess.Popen(self.path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
                 (output, err) = p.communicate()
                 self.output = output
                 self.returncode = p.returncode
-
                 message = {
                     "output": self.output,
                     "returncode": self.returncode
