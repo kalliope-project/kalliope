@@ -32,13 +32,13 @@ class TestRestAPI(unittest.TestCase):
         cls.flask_api.start()
         time.sleep(1)
 
-    # @classmethod
-    # def tearDownClass(cls):
-    #     """
-    #     executed once at the end of the test
-    #     """
-    #     url = "http://127.0.0.1:5000/shutdown/"
-    #     requests.post(url=url)
+    @classmethod
+    def tearDownClass(cls):
+        """
+        executed once at the end of the test
+        """
+        url = "http://127.0.0.1:5000/shutdown/"
+        requests.post(url=url)
 
     def setUp(self):
         self.base_url = "http://127.0.0.1:5000"
