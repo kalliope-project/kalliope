@@ -201,10 +201,9 @@ Login used by the basic HTTP authentication. Must be provided if `password_prote
 Password used by the basic HTTP authentication. Must be provided if `password_protected` is `True`
 
 
-## Default response
+## Default synapse
 
-Ask Kalliope to run a defined synapse in case no order is found
-
+Run a default synapse when Kalliope can't find the order in any synapse.
 
 ```
 default_synapse: "synapse-name"
