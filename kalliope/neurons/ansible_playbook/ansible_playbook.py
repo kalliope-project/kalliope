@@ -43,3 +43,4 @@ class Ansible_playbook(NeuronModule):
     def _is_parameters_ok(self):
         if self.task_file is None:
             raise MissingParameterException("task_file parameter required")
+        return True

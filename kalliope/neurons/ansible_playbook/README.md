@@ -25,7 +25,8 @@ Call the playbook named playbook.yml
     signals:
       - order: "playbook"
     neurons:
-      - ansible_playbook: "playbook.yml"
+      - ansible_playbook: 
+          task_file: "playbook.yml"
       - say:
           message: "Tache terminée"    
 ```
