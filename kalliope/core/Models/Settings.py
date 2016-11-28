@@ -18,6 +18,7 @@ class Settings(object):
                  triggers=None,
                  rest_api=None,
                  cache_path=None,
+                 default_synapse=None,
                  machine=None):
 
         self.default_tts_name = default_tts_name
@@ -30,6 +31,7 @@ class Settings(object):
         self.triggers = triggers
         self.rest_api = rest_api
         self.cache_path = cache_path
+        self.default_synapse = default_synapse
         self.machine = platform.machine()   # can be x86_64 or armv7l
 
     def __eq__(self, other):
