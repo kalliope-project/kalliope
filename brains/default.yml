@@ -1,0 +1,8 @@
+---
+  - name: "No-neuron-found"
+    signals:
+      - order: "No-neuron-found"
+    neurons:
+      - say:
+          message:
+            - "I didn't understand, Sir"
