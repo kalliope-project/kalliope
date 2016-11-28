@@ -38,9 +38,6 @@ class OrderAnalyser:
         # create a dict of synapses that have been launched
         launched_synapses = self._get_matching_synapse_list(self.brain.synapses, self.order)
 
-        if not launched_synapses:
-            Utils.print_info("No synapse match the captured order: %s" % self.order)
-
         if not launched_synapses and self.main_controller.settings.default_synapse is not None:
             default_synapse = self._get_default_synapse(self.brain.synapses, self.main_controller.settings.default_synapse)
 
@@ -49,10 +46,13 @@ class OrderAnalyser:
                 Utils.print_info("Default synapse found: %s, running it" % default_synapse.name)
                 launched_synapses.append(default_synapse)
 
-        for synapse in launched_synapses:
-            params = self._get_synapse_params(synapse, self.order)
-            for neuron in synapse.neurons:
-                self._start_neuron(neuron, params)
+        if not launched_synapses:
+            Utils.print_info("No synapse match the captured order: %s" % self.order)
+        else:
+            for synapse in launched_synapses:
+                params = self._get_synapse_params(synapse, self.order)
+                for neuron in synapse.neurons:
+                    self._start_neuron(neuron, params)
 
         # return the list of launched synapse
         return launched_synapses
