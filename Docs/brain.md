@@ -125,3 +125,12 @@ E.g:
 >**Note:** You can only use the `include` statement in the main brain file. 
 
 >**Note:** the includes statement must start with a `-`
+
+
+## The default Synapse
+
+You can provide a default synapse in case none of them are matching when an order is given.
+>**Note:** This default synapse is optional.
+>**Note:** You need to define it in the settings.yml cf :[Setting](settings.md).
+
+

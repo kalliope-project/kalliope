@@ -1,0 +1,8 @@
+---
+  - name: "Default-synapse"
+    signals:
+      - order: "Default-synapse"
+    neurons:
+      - say:
+          message:
+            - "I didn't understand, Sir"
