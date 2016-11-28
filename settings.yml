@@ -16,7 +16,7 @@ default_trigger: "snowboy"
 triggers:
   - snowboy:
       pmdl_file: "trigger/snowboy/resources/kalliope-FR-6samples.pmdl"
-      
+
 
 # ---------------------------
 # Speech to text
@@ -107,3 +107,6 @@ rest_api:
   password_protected: True
   login: admin
   password: secret
+
+# Specify an optional default synapse response in case your order is not found.
+default_synapse: "Default-response"

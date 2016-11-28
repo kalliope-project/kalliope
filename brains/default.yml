@@ -1,0 +1,8 @@
+---
+  - name: "Default-response"
+    signals:
+      - order: "Default-response"
+    neurons:
+      - say:
+          message:
+            - "I didn't understand, Sir"

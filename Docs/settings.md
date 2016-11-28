@@ -111,7 +111,7 @@ E.g
 text_to_speech:
   - pico2wave:
       language: "fr-FR"
-  - voxygen:      
+  - voxygen:
       voice: "michel"
 ```
 
@@ -199,3 +199,18 @@ Login used by the basic HTTP authentication. Must be provided if `password_prote
 
 #### Password
 Password used by the basic HTTP authentication. Must be provided if `password_protected` is `True`
+
+
+## Default response
+
+Ask Kalliope to run a defined synapse in case no order is found
+
+
+```
+default_synapse: "synapse-name"
+```
+
+E.g
+```
+default_synapse: "Default-response"
+```

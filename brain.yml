@@ -1,5 +1,6 @@
 ---
   - includes:
+    - brains/default.yml
     - brains/ansible_playbook.yml
     - brains/gmail_checker.yml
     - brains/kill_switch.yml
