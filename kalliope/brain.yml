@@ -5,6 +5,7 @@
     - brains/kill_switch.yml
     - brains/openweathermap.yml
     - brains/push_message.yml
+    - brains/rss_reader.yml
     - brains/say.yml
     - brains/script.yml
     - brains/shell.yml
