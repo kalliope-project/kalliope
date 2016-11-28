@@ -108,6 +108,8 @@ rest_api:
   login: admin
   password: secret
 
-
+# ---------------------------
+# Default Synapse
+# ---------------------------
 # Specify an optional default synapse response in case your order is not found.
-default_synapse: "Default-response"
+default_synapse: "Default-synapse"

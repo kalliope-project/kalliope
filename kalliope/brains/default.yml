@@ -1,7 +1,7 @@
 ---
-  - name: "Default-response"
+  - name: "Default-synapse"
     signals:
-      - order: "Default-response"
+      - order: "Default-synapse"
     neurons:
       - say:
           message:
