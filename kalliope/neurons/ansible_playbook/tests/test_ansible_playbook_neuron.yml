@@ -1,0 +1,11 @@
+---
+  - name: Playbook
+    hosts: localhost
+    gather_facts: no
+    connection: local
+
+    tasks:
+      - name: "create a local file"
+        file:
+          path: "/tmp/kalliope_text_ansible_playbook.txt"
+          state: "touch"

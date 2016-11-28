@@ -21,7 +21,7 @@ class Systemdate(NeuronModule):
         month = time.strftime("%m")         # Month as a decimal number [01,12].
         year = time.strftime("%Y")          # Year with century as a decimal number. E.g: 2016
 
-        message = {
+        self.message = {
             "hours": hour,
             "minutes": minute,
             "weekday": weekday,
@@ -30,4 +30,4 @@ class Systemdate(NeuronModule):
             "year": year
         }
         
-        self.say(message)
+        self.say(self.message)
