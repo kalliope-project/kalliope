@@ -39,7 +39,7 @@ class OrderListener(Thread):
         self._ignore_stderr()
         self.stt_module_name = stt
         self.callback = callback
-        sl = SettingLoader.Instance()
+        sl = SettingLoader()
         self.settings = sl.settings
 
     def run(self):

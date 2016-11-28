@@ -163,7 +163,7 @@ class TestUri(unittest.TestCase):
         parameters = {
             "url": self.test_url,
             "method": "POST",
-            "data_from_file": "data_post_test.json",
+            "data_from_file": "kalliope/neurons/uri/tests/data_post_test.json",
             "headers": {
                 "Content-Type": 'application/json'
             }

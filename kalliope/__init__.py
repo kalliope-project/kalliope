@@ -61,7 +61,7 @@ def main():
     if args.brain_file:
         brain_file = args.brain_file
     # load the brain once
-    brain_loader = BrainLoader.Instance(file_path=brain_file)
+    brain_loader = BrainLoader(file_path=brain_file)
     brain = brain_loader.brain
 
     # check the user provide a valid action

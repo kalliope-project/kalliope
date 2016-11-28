@@ -15,11 +15,11 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-@Singleton
 class BrainLoader(object):
     """
     This Class is used to get the brain YAML and the Brain as an object
     """
+    __metaclass__ = Singleton
 
     def __init__(self, file_path=None):
         logger.debug("Loading brain with file path: %s" % file_path)

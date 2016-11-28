@@ -64,7 +64,7 @@ class TestScript(unittest.TestCase):
         Test we can run a script
         """
         param = {
-            "path": "./test_script.sh"
+            "path": "kalliope/neurons/script/tests/test_script.sh"
         }
 
         Script(**param)
@@ -78,7 +78,7 @@ class TestScript(unittest.TestCase):
         Test we can run a script asynchronously
         """
         param = {
-            "path": "./test_script.sh",
+            "path": "kalliope/neurons/script/tests/test_script.sh",
             "async": True
         }
 
@@ -101,7 +101,7 @@ class TestScript(unittest.TestCase):
 
         # get the output with the neuron
         parameters = {
-            "path": "./test_script_cat.sh",
+            "path": "kalliope/neurons/script/tests/test_script_cat.sh",
         }
 
         script = Script(**parameters)
