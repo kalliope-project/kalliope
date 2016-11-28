@@ -6,7 +6,7 @@
 from kalliope.core.ConfigurationManager import SettingLoader
 from sys import version_info
 
-sl = SettingLoader.Instance()
+sl = SettingLoader()
 settings = sl.settings
 module_file_path = "%s/_snowboydetect" % settings.machine
 
