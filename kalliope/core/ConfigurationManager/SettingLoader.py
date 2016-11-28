@@ -101,6 +101,7 @@ class SettingLoader(object):
         random_wake_up_sounds = self._get_random_wake_up_sounds(settings)
         rest_api = self._get_rest_api(settings)
         cache_path = self._get_cache_path(settings)
+        default_synapse = self._get_default_synapse(settings)
 
         # Load the setting singleton with the parameters
         setting_object.default_tts_name = default_tts_name
@@ -113,6 +114,7 @@ class SettingLoader(object):
         setting_object.random_wake_up_sounds = random_wake_up_sounds
         setting_object.rest_api = rest_api
         setting_object.cache_path = cache_path
+        setting_object.default_synapse = default_synapse
 
         return setting_object
 
@@ -473,3 +475,32 @@ class SettingLoader(object):
             return cache_path
         else:
             raise SettingInvalidException("The cache_path seems to be invalid: %s" % cache_path)
+
+
+    @staticmethod
+    def _get_default_synapse(settings):
+        """
+        Return the name of the default synapse
+
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return: the default synapse name
+        :rtype: String
+
+        :Example:
+
+            default_synapse = cls._get_default_synapse(settings)
+
+        .. seealso::
+        .. raises:: SettingNotFound, NullSettingException, SettingInvalidException
+        .. warnings:: Class Method and Private
+        """
+
+        try:
+            default_synapse = settings["default_synapse"]
+            logger.debug("Default synapse: %s" % default_synapse)
+        except KeyError, e:
+            default_synapse = None
+
+        return default_synapse
+

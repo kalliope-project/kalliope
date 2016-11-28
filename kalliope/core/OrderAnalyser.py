@@ -38,6 +38,15 @@ class OrderAnalyser:
         # create a dict of synapses that have been launched
         launched_synapses = self._get_matching_synapse_list(self.brain.synapses, self.order)
 
+        if not launched_synapses and self.main_controller.settings.default_synapse is not None:
+            default_synapse = self._get_default_synapse(self.brain.synapses, self.main_controller.settings.default_synapse)
+
+            if default_synapse is not None:
+                logger.debug("Default synapse found %s" % default_synapse)
+                Utils.print_info("Default synapse found: %s, running it" % default_synapse.name)
+                launched_synapses.append(default_synapse)
+
+
         if not launched_synapses:
             Utils.print_info("No synapse match the captured order: %s" % self.order)
         else:
@@ -234,3 +243,23 @@ class OrderAnalyser:
             if n > c2[k]:
                 return False
         return True
+
+
+    @classmethod
+    def _get_default_synapse(cls, all_synapses_list, default_synapse_name):
+        """
+        Class method to get the default synapse if it exists.
+
+        :param all_synapses_list: the complete list of all synapses
+        :param default_synapse_name: the synapse to find
+        :return: the dict key/value
+        """
+        for synapse in all_synapses_list:
+            if synapse.name == default_synapse_name:
+                logger.debug("Default synapse found: %s" % synapse.name)
+                return synapse
+
+        logger.debug("Default synapse not found")
+        Utils.print_danger("Default synapse not found")
+        return None
+
