@@ -1,7 +1,7 @@
 ---
-  - name: "No-neuron-found"
+  - name: "Default-response"
     signals:
-      - order: "No-neuron-found"
+      - order: "Default-response"
     neurons:
       - say:
           message:
