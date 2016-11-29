@@ -3,8 +3,9 @@ import re
 from collections import Counter
 
 from kalliope.core.Utils.Utils import Utils
+from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.Models import Order
-from kalliope.core.NeuroneLauncher import NeuroneLauncher
+from kalliope.core.NeuronLauncher import NeuronLauncher
 
 import logging
 
@@ -16,14 +17,15 @@ class OrderAnalyser:
     """
     This Class is used to compare the incoming message to the Signal/Order sentences.
     """
-    def __init__(self, order, main_controller=None, brain=None):
+    def __init__(self, order, brain=None):
         """
         Class used to load brain and run neuron attached to the received order
         :param order: spelt order
         :param main_controller
         :param brain: loaded brain
         """
-        self.main_controller = main_controller
+        sl = SettingLoader()
+        self.settings = sl.settings
         self.order = order
         if isinstance(self.order, str):
             self.order = order.decode('utf-8')
@@ -41,9 +43,9 @@ class OrderAnalyser:
         if not launched_synapses:
             Utils.print_info("No synapse match the captured order: %s" % self.order)
 
-            if self.main_controller.settings.default_synapse is not None:
+            if self.settings.default_synapse is not None:
                 default_synapse = self._get_default_synapse_from_sysnapses_list(self.brain.synapses,
-                                                                        self.main_controller.settings.default_synapse)
+                                                                                self.settings.default_synapse)
 
                 if default_synapse is not None:
                     logger.debug("Default synapse found %s" % default_synapse)
@@ -131,7 +133,7 @@ class OrderAnalyser:
 
         # if no error detected, we run the neuron
         if not problem_in_neuron_found:
-            NeuroneLauncher.start_neurone(neuron)
+            NeuronLauncher.start_neuron(neuron)
         else:
             Utils.print_danger("A problem has been found in the Synapse.")
 
@@ -251,7 +253,7 @@ class OrderAnalyser:
 
         :param all_synapses_list: the complete list of all synapses
         :param default_synapse_name: the synapse to find
-        :return: the dict key/value
+        :return: the Synapse
         """
         default_synapse = None
         for synapse in all_synapses_list:

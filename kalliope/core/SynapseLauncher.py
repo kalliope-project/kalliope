@@ -1,4 +1,4 @@
-from kalliope.core.NeuroneLauncher import NeuroneLauncher
+from kalliope.core.NeuronLauncher import NeuronLauncher
 
 
 class SynapseNameNotFound(Exception):
@@ -46,5 +46,5 @@ class SynapseLauncher(object):
         :return:
         """
         for neuron in synapse.neurons:
-            NeuroneLauncher.start_neurone(neuron)
+            NeuronLauncher.start_neuron(neuron)
         return True

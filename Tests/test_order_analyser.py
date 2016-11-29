@@ -1,9 +1,10 @@
 import unittest
-
+import mock
 
 from kalliope.core.OrderAnalyser import OrderAnalyser
 from kalliope.core.Models.Neuron import Neuron
 from kalliope.core.Models.Synapse import Synapse
+from kalliope.core.Models.Brain import Brain
 from kalliope.core.Models.Order import Order
 
 
@@ -13,6 +14,123 @@ class TestOrderAnalyser(unittest.TestCase):
 
     def setUp(self):
         pass
+
+    def test_start(self):
+        """
+        Testing if the matches from the incoming messages and the signals/order sentences.
+        Scenarii :
+            - Order matchs a synapse and the synapse has been launched.
+            - Order does not match but have a default synapse.
+            - Order does not match and does not ahve default synapse.
+        """
+        # Init
+        neuron1 = Neuron(name='neurone1', parameters={'var1': 'val1'})
+        neuron2 = Neuron(name='neurone2', parameters={'var2': 'val2'})
+        neuron3 = Neuron(name='neurone3', parameters={'var3': 'val3'})
+        neuron4 = Neuron(name='neurone4', parameters={'var4': 'val4'})
+
+        signal1 = Order(sentence="this is the sentence")
+        signal2 = Order(sentence="this is the second sentence")
+        signal3 = Order(sentence="that is part of the third sentence")
+
+        synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
+        synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
+        synapse3 = Synapse(name="Synapse3", neurons=[neuron2, neuron4], signals=[signal3])
+
+        all_synapse_list = [synapse1,
+                            synapse2,
+                            synapse3]
+
+        br = Brain(synapses=all_synapse_list)
+
+        def _start_neuron_mock(cls, neuron, params):
+            pass
+
+        with mock.patch("kalliope.core.OrderAnalyser._start_neuron") as mock_start_neuron_method:
+            # assert synapses have been launched
+            order_to_match = "this is the sentence"
+            oa = OrderAnalyser(order=order_to_match,
+                               brain=br)
+            expected_result = [synapse1]
+
+            self.assertEquals(oa.start(),
+                              expected_result,
+                              "Fail to run the expected Synapse matching the order")
+
+            calls = [mock.call(neuron1, {}), mock.call(neuron2, {})]
+            mock_start_neuron_method.assert_has_calls(calls=calls)
+            mock_start_neuron_method.reset_mock()
+
+            # No order matching Default Synapse to run
+            order_to_match = "random sentence"
+            oa = OrderAnalyser(order=order_to_match,
+                               brain=br)
+            oa.settings = mock.MagicMock(default_synapse="Synapse3")
+            expected_result = [synapse3]
+            self.assertEquals(oa.start(),
+                              expected_result,
+                              "Fail to run the default Synapse because no other synapses match the order")
+
+            # No order matching no Default Synapse
+            order_to_match = "random sentence"
+            oa = OrderAnalyser(order=order_to_match,
+                               brain=br)
+            oa.settings = mock.MagicMock()
+            expected_result = []
+            self.assertEquals(oa.start(),
+                              expected_result,
+                              "Fail to no synapse because no synapse matchs and no default defined")
+
+    def test_start_neuron(self):
+        """
+        Testing params association and starting a Neuron
+        """
+
+        neuron4 = Neuron(name='neurone4', parameters={'var4': 'val4'})
+
+        with mock.patch("kalliope.core.NeuronLauncher.NeuronLauncher.start_neuron") as mock_start_neuron_method:
+            # Assert to the neuron is launched
+            neuron1 = Neuron(name='neurone1', parameters={'var1': 'val1'})
+            params = {
+                'param1':'parval1'
+            }
+            OrderAnalyser._start_neuron(neuron=neuron1,params=params)
+            mock_start_neuron_method.assert_called_with(neuron1)
+            mock_start_neuron_method.reset_mock()
+
+            # Assert the params are well passed to the neuron
+            neuron2 = Neuron(name='neurone2', parameters={'var2': 'val2', 'args': ['arg1', 'arg2']})
+            params = {
+                'arg1':'argval1',
+                'arg2':'argval2'
+            }
+            OrderAnalyser._start_neuron(neuron=neuron2, params=params)
+            neuron2_params = Neuron(name='neurone2',
+                                    parameters={'var2': 'val2',
+                                                'args': ['arg1', 'arg2'],
+                                                'arg1':'argval1',
+                                                'arg2':'argval2'}
+                                    )
+            mock_start_neuron_method.assert_called_with(neuron2_params)
+            mock_start_neuron_method.reset_mock()
+
+            # Assert the Neuron is not started when missing args
+            neuron3 = Neuron(name='neurone3', parameters={'var3': 'val3', 'args': ['arg3', 'arg4']})
+            params = {
+                'arg1': 'argval1',
+                'arg2': 'argval2'
+            }
+            OrderAnalyser._start_neuron(neuron=neuron3, params=params)
+            mock_start_neuron_method.assert_not_called()
+            mock_start_neuron_method.reset_mock()
+
+            # Assert no neuron is launched when waiting for args and none are given
+            neuron4 = Neuron(name='neurone4', parameters={'var4': 'val4', 'args': ['arg5', 'arg6']})
+            params = {}
+            OrderAnalyser._start_neuron(neuron=neuron4, params=params)
+            mock_start_neuron_method.assert_not_called()
+            mock_start_neuron_method.reset_mock()
+
 
     def test_is_containing_bracket(self):
         #  Success
@@ -348,6 +466,34 @@ class TestOrderAnalyser(unittest.TestCase):
         self.assertEqual(OrderAnalyser._get_synapse_params(synapse=synapse1, order_to_check=order_to_check),
                          expected_result,
                          "Fail to retrieve the 'all of the sentence is a variable' of the synapse from the order")
+
+    def test_get_default_synapse_from_sysnapses_list(self):
+        # Init
+        neuron1 = Neuron(name='neurone1', parameters={'var1': 'val1'})
+        neuron2 = Neuron(name='neurone2', parameters={'var2': 'val2'})
+        neuron3 = Neuron(name='neurone3', parameters={'var3': 'val3'})
+        neuron4 = Neuron(name='neurone4', parameters={'var4': 'val4'})
+
+        signal1 = Order(sentence="this is the sentence")
+        signal2 = Order(sentence="this is the second sentence")
+        signal3 = Order(sentence="that is part of the third sentence")
+
+        synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
+        synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
+        synapse3 = Synapse(name="Synapse3", neurons=[neuron2, neuron4], signals=[signal3])
+
+        default_synapse_name = "Synapse2"
+        all_synapse_list = [synapse1,
+                            synapse2,
+                            synapse3]
+        expected_result = synapse2
+
+        # Assert equals
+        self.assertEquals(OrderAnalyser._get_default_synapse_from_sysnapses_list(all_synapses_list=all_synapse_list,
+                                                                                 default_synapse_name=default_synapse_name),
+                          expected_result,
+                          "Fail to match the expected default Synapse")
+
 
 if __name__ == '__main__':
     unittest.main()
