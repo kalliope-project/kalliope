@@ -56,7 +56,7 @@ class TTSModule(object):
         self.base_cache_path = None
 
         # load settings
-        sl = SettingLoader.Instance()
+        sl = SettingLoader()
         self.settings = sl.settings
 
         # create the path in the tmp folder

@@ -31,7 +31,7 @@ class TestAnsible_Playbook(unittest.TestCase):
         This test will use an ansible playbook the create a file. We check that the file has been created
         """
         param = {
-            "task_file": "./test_ansible_playbook_neuron.yml"
+            "task_file": "kalliope/neurons/ansible_playbook/tests/test_ansible_playbook_neuron.yml"
         }
 
         Ansible_playbook(**param)

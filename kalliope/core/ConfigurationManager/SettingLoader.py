@@ -42,11 +42,11 @@ class SettingNotFound(Exception):
     pass
 
 
-@Singleton
 class SettingLoader(object):
     """
     This Class is used to get the Settings YAML and the Settings as an object
     """
+    __metaclass__ = Singleton
 
     def __init__(self, file_path=None):
         logger.debug("Loading settings with file path: %s" % file_path)
