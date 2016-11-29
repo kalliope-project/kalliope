@@ -12,7 +12,7 @@ class NeuroneLauncher:
         pass
 
     @classmethod
-    def start_neurone(cls, neuron):
+    def start_neuron(cls, neuron):
         """
         Start a neuron plugin
         :param neuron: neuron object

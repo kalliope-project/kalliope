@@ -46,5 +46,5 @@ class SynapseLauncher(object):
         :return:
         """
         for neuron in synapse.neurons:
-            NeuroneLauncher.start_neurone(neuron)
+            NeuroneLauncher.start_neuron(neuron)
         return True

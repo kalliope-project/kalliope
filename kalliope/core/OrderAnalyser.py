@@ -133,7 +133,7 @@ class OrderAnalyser:
 
         # if no error detected, we run the neuron
         if not problem_in_neuron_found:
-            NeuroneLauncher.start_neurone(neuron)
+            NeuroneLauncher.start_neuron(neuron)
         else:
             Utils.print_danger("A problem has been found in the Synapse.")
 
