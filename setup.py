@@ -78,6 +78,7 @@ setup(
         'httpretty==0.8.14',
         'mock==2.0.0',
         'feedparser==5.2.1',
+        'Flask-Testing==0.6.1'
     ],
 
 
