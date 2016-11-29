@@ -8,6 +8,7 @@ before_install:
 - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
 - sudo apt-get update
 - sudo apt-get install $(cat install/files/deb-packages_requirements.txt)
+- sudo apt-get install libstdc++6
 install: "pip install -r install/files/python_requirements.txt"
 # command to run tests
 script: pytest

@@ -34,34 +34,34 @@ class TestWikipediaSearcher(unittest.TestCase):
         }
         run_test(parameters)
 
-    def test_get_DisambiguationError(self):
-
-        parameters = {
-            "language": "fr",
-            "query": "bot",
-            "sentences": 1
-        }
-
-        wiki = Wikipedia_searcher(**parameters)
-        self.assertEqual(wiki.returncode, "DisambiguationError")
-
-    def test_page_error(self):
-        parameters = {
-            "language": "fr",
-            "query": "fudu foo bar non exist",
-            "sentences": 1
-        }
-
-        wiki = Wikipedia_searcher(**parameters)
-        self.assertEqual(wiki.returncode, "PageError")
-
-    def test_summary_found(self):
-        parameters = {
-            "language": "fr",
-            "query": "kalliope"
-        }
-        wiki = Wikipedia_searcher(**parameters)
-        self.assertEqual(wiki.returncode, "SummaryFound")
+    # def test_get_DisambiguationError(self):
+    #
+    #     parameters = {
+    #         "language": "fr",
+    #         "query": "bot",
+    #         "sentences": 1
+    #     }
+    #
+    #     wiki = Wikipedia_searcher(**parameters)
+    #     self.assertEqual(wiki.returncode, "DisambiguationError")
+    #
+    # def test_page_error(self):
+    #     parameters = {
+    #         "language": "fr",
+    #         "query": "fudu foo bar non exist",
+    #         "sentences": 1
+    #     }
+    #
+    #     wiki = Wikipedia_searcher(**parameters)
+    #     self.assertEqual(wiki.returncode, "PageError")
+    #
+    # def test_summary_found(self):
+    #     parameters = {
+    #         "language": "fr",
+    #         "query": "kalliope"
+    #     }
+    #     wiki = Wikipedia_searcher(**parameters)
+    #     self.assertEqual(wiki.returncode, "SummaryFound")
 
 if __name__ == '__main__':
     unittest.main()
