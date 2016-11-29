@@ -21,7 +21,6 @@ class OrderAnalyser:
         """
         Class used to load brain and run neuron attached to the received order
         :param order: spelt order
-        :param main_controller
         :param brain: loaded brain
         """
         sl = SettingLoader()
@@ -265,4 +264,3 @@ class OrderAnalyser:
             logger.debug("Default synapse not found")
             Utils.print_warning("Default synapse not found")
         return default_synapse
-
