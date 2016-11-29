@@ -9,6 +9,7 @@ A neuron is a module that will perform some actions attached to an order. You ca
 | [kill_switch](../neurons/kill_switch/)             | Stop Kalliope process                                                                   |
 | [neurotransmitter](../neurons/neurotransmitter/)   | Link synapse together                                                                   |
 | [push_message](../neurons/push_message/)           | Send a push message to a remote device like Android/iOS/Windows Phone or Chrome browser |
+| [rss_reader](../neurons/rss_reader/)               | Get items from a RSS feed                                                               |
 | [say](../neurons/say/)                             | Make Kalliope talk by using TTS                                                         |
 | [script](../neurons/script/)                       | Run an executable script                                                                |
 | [shell](../neurons/shell/)                         | Run a shell command                                                                     |

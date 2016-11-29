@@ -1,0 +1,19 @@
+---
+
+  - name: "news-theVerge"
+    signals:
+      - order: "What are the news from the verge ?"
+    neurons:
+      - rss_reader:
+          feed_url: "http://www.theverge.com/rss/index.xml"
+          file_template: templates/en_rss.j2
+          
+  - name: "news-sport"
+    signals:
+      - order: "What are the sport news ?"
+    neurons:
+      - rss_reader:
+          feed_url: "https://sports.yahoo.com/top/rss.xml"
+          max_items: 10
+          file_template: templates/en_rss.j2
+
