@@ -349,5 +349,33 @@ class TestOrderAnalyser(unittest.TestCase):
                          expected_result,
                          "Fail to retrieve the 'all of the sentence is a variable' of the synapse from the order")
 
+    def test_get_default_synapse_from_sysnapses_list(self):
+        # Init
+        neuron1 = Neuron(name='neurone1', parameters={'var1': 'val1'})
+        neuron2 = Neuron(name='neurone2', parameters={'var2': 'val2'})
+        neuron3 = Neuron(name='neurone3', parameters={'var3': 'val3'})
+        neuron4 = Neuron(name='neurone4', parameters={'var4': 'val4'})
+
+        signal1 = Order(sentence="this is the sentence")
+        signal2 = Order(sentence="this is the second sentence")
+        signal3 = Order(sentence="that is part of the third sentence")
+
+        synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
+        synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
+        synapse3 = Synapse(name="Synapse3", neurons=[neuron2, neuron4], signals=[signal3])
+
+        default_synapse_name = "Synapse2"
+        all_synapse_list = [synapse1,
+                            synapse2,
+                            synapse3]
+        expected_result = synapse2
+
+        # Assert equals
+        self.assertEquals(OrderAnalyser._get_default_synapse_from_sysnapses_list(all_synapses_list=all_synapse_list,
+                                                                                 default_synapse_name=default_synapse_name),
+                          expected_result,
+                          "Fail to match the expected default Synapse")
+
+
 if __name__ == '__main__':
     unittest.main()
