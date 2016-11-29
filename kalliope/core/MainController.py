@@ -65,7 +65,7 @@ class MainController:
         :type order: str
         """
         if order is not None:   # maybe we have received a null audio from STT engine
-            order_analyser = OrderAnalyser(order, main_controller=self, brain=self.brain)
+            order_analyser = OrderAnalyser(order, brain=self.brain)
             order_analyser.start()
 
         # restart the trigger when the order analyser has finish his job
