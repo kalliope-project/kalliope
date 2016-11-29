@@ -5,7 +5,6 @@ from kalliope.core.OrderAnalyser import OrderAnalyser
 from kalliope.core.Models.Neuron import Neuron
 from kalliope.core.Models.Synapse import Synapse
 from kalliope.core.Models.Brain import Brain
-from kalliope.core.NeuroneLauncher import NeuroneLauncher
 from kalliope.core.Models.Order import Order
 
 
@@ -47,7 +46,7 @@ class TestOrderAnalyser(unittest.TestCase):
         def _start_neuron_mock(cls, neuron, params):
             pass
 
-        with mock.patch.object(OrderAnalyser, '_start_neuron', new=_start_neuron_mock) as mock_start_neuron_method:
+        with mock.patch("kalliope.core.OrderAnalyser._start_neuron") as mock_start_neuron_method:
             # assert synapses have been launched
             order_to_match = "this is the sentence"
             oa = OrderAnalyser(order=order_to_match,
@@ -58,9 +57,9 @@ class TestOrderAnalyser(unittest.TestCase):
                               expected_result,
                               "Fail to run the expected Synapse matching the order")
 
-            # TODO investigate why this one fails
-            # calls = [mock.call(neuron1, {'var1':'val1'}), mock.call(neuron2, {'var2':'val2'})]
-            # mock_start_neuron_method.assert_has_calls(calls=calls)
+            calls = [mock.call(neuron1, {}), mock.call(neuron2, {})]
+            mock_start_neuron_method.assert_has_calls(calls=calls)
+            mock_start_neuron_method.reset_mock()
 
             # No order matching Default Synapse to run
             order_to_match = "random sentence"
@@ -86,11 +85,51 @@ class TestOrderAnalyser(unittest.TestCase):
         """
         Testing params association and starting a Neuron
         """
-        def start_neuron_mock(cls, neuron):
-            pass
 
-        with mock.patch.object(NeuroneLauncher, 'start_neuron', new=start_neuron_mock) as mock_start_neuron_method:
-            pass
+        neuron4 = Neuron(name='neurone4', parameters={'var4': 'val4'})
+
+        with mock.patch("kalliope.core.NeuronLauncher.NeuronLauncher.start_neuron") as mock_start_neuron_method:
+            # Assert to the neuron is launched
+            neuron1 = Neuron(name='neurone1', parameters={'var1': 'val1'})
+            params = {
+                'param1':'parval1'
+            }
+            OrderAnalyser._start_neuron(neuron=neuron1,params=params)
+            mock_start_neuron_method.assert_called_with(neuron1)
+            mock_start_neuron_method.reset_mock()
+
+            # Assert the params are well passed to the neuron
+            neuron2 = Neuron(name='neurone2', parameters={'var2': 'val2', 'args': ['arg1', 'arg2']})
+            params = {
+                'arg1':'argval1',
+                'arg2':'argval2'
+            }
+            OrderAnalyser._start_neuron(neuron=neuron2, params=params)
+            neuron2_params = Neuron(name='neurone2',
+                                    parameters={'var2': 'val2',
+                                                'args': ['arg1', 'arg2'],
+                                                'arg1':'argval1',
+                                                'arg2':'argval2'}
+                                    )
+            mock_start_neuron_method.assert_called_with(neuron2_params)
+            mock_start_neuron_method.reset_mock()
+
+            # Assert the Neuron is not started when missing args
+            neuron3 = Neuron(name='neurone3', parameters={'var3': 'val3', 'args': ['arg3', 'arg4']})
+            params = {
+                'arg1': 'argval1',
+                'arg2': 'argval2'
+            }
+            OrderAnalyser._start_neuron(neuron=neuron3, params=params)
+            mock_start_neuron_method.assert_not_called()
+            mock_start_neuron_method.reset_mock()
+
+            # Assert no neuron is launched when waiting for args and none are given
+            neuron4 = Neuron(name='neurone4', parameters={'var4': 'val4', 'args': ['arg5', 'arg6']})
+            params = {}
+            OrderAnalyser._start_neuron(neuron=neuron4, params=params)
+            mock_start_neuron_method.assert_not_called()
+            mock_start_neuron_method.reset_mock()
 
 
     def test_is_containing_bracket(self):
