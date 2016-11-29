@@ -34,7 +34,8 @@ class TestSettingLoader(unittest.TestCase):
             'text_to_speech': [
                 {'pico2wave': {'cache': True, 'language': 'fr-FR'}},
                 {'voxygen': {'voice': 'Agnes', 'cache': True}}
-            ]
+            ],
+            'default_synapse': 'Default-synapse'
         }
 
     def tearDown(self):
@@ -45,7 +46,6 @@ class TestSettingLoader(unittest.TestCase):
         s2 = SettingLoader(file_path=self.settings_file_to_test)
 
         self.assertTrue(s1.settings is s2.settings)
-
 
     def test_get_yaml_config(self):
 
@@ -70,6 +70,7 @@ class TestSettingLoader(unittest.TestCase):
         settings_object.rest_api = RestAPI(password_protected=True, active=True,
                                            login="admin", password="secret", port=5000)
         settings_object.cache_path = '/tmp/kalliope_tts_cache'
+        settings_object.default_synapse = 'Default-synapse'
         settings_object.machine = platform.machine()
 
         sl = SettingLoader(file_path=self.settings_file_to_test)
@@ -125,6 +126,11 @@ class TestSettingLoader(unittest.TestCase):
         expected_cache_path = '/tmp/kalliope_tts_cache'
         sl = SettingLoader(file_path=self.settings_file_to_test)
         self.assertEqual(expected_cache_path, sl._get_cache_path(self.settings_dict))
+
+    def test_get_default_synapse(self):
+        expected_default_synapse = 'Default-synapse'
+        sl = SettingLoader(file_path=self.settings_file_to_test)
+        self.assertEqual(expected_default_synapse, sl._get_default_synapse(self.settings_dict))
 
 if __name__ == '__main__':
     unittest.main()
