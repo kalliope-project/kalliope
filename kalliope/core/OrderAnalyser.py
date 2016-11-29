@@ -5,7 +5,7 @@ from collections import Counter
 from kalliope.core.Utils.Utils import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.Models import Order
-from kalliope.core.NeuroneLauncher import NeuroneLauncher
+from kalliope.core.NeuronLauncher import NeuronLauncher
 
 import logging
 
@@ -133,7 +133,7 @@ class OrderAnalyser:
 
         # if no error detected, we run the neuron
         if not problem_in_neuron_found:
-            NeuroneLauncher.start_neuron(neuron)
+            NeuronLauncher.start_neuron(neuron)
         else:
             Utils.print_danger("A problem has been found in the Synapse.")
 

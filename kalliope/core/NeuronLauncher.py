@@ -6,7 +6,7 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class NeuroneLauncher:
+class NeuronLauncher:
 
     def __init__(self):
         pass
