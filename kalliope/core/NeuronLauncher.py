@@ -6,13 +6,13 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class NeuroneLauncher:
+class NeuronLauncher:
 
     def __init__(self):
         pass
 
     @classmethod
-    def start_neurone(cls, neuron):
+    def start_neuron(cls, neuron):
         """
         Start a neuron plugin
         :param neuron: neuron object
