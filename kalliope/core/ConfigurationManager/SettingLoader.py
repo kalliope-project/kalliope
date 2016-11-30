@@ -505,7 +505,8 @@ class SettingLoader(object):
 
         return default_synapse
 
-    def _get_settings_file_path(self):
+    @staticmethod
+    def _get_settings_file_path():
         """
         used to load the settings.yml file
         This function will try to load the file in this order:

@@ -207,7 +207,8 @@ class BrainLoader(object):
             return brain_path
         raise IOError("Default brain.yml file not found")
 
-    def _get_brain_file_path(self):
+    @staticmethod
+    def _get_brain_file_path():
         """
         used to load the brain.yml file
         This function will try to load the file in this order:

@@ -3,7 +3,12 @@ import logging
 import os
 import time
 
+from kalliope.core.TriggerModule import TriggerModule
 from kalliope.trigger.snowboy import snowboydecoder
+
+
+class SnowboyModelNotFounfd(Exception):
+    pass
 
 
 class MissingParameterException(Exception):
@@ -13,9 +18,10 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class Snowboy(object):
+class Snowboy(TriggerModule):
 
     def __init__(self, **kwargs):
+        super(Snowboy, self).__init__()
         # pause listening boolean
         self.interrupted = False
         self.kill_received = False
@@ -27,12 +33,12 @@ class Snowboy(object):
 
         # get the pmdl file to load
         self.pmdl = kwargs.get('pmdl_file', None)
-
         if self.pmdl is None:
             raise MissingParameterException("Pmdl file is required with snowboy")
 
-        # get the pmdl path from root of kalliope module
-        self.pmdl_path = self._get_root_pmdl_path(self.pmdl)
+        self.pmdl_path = self.get_file_from_path(self.pmdl)
+        if not os.path.isfile(self.pmdl_path):
+            raise SnowboyModelNotFounfd("The snowboy model file %s does not exist" % self.pmdl_path)
 
         self.detector = snowboydecoder.HotwordDetector(self.pmdl_path, sensitivity=0.5, detected_callback=self.callback,
                                                        interrupt_check=self.interrupt_callback,
@@ -78,22 +84,3 @@ class Snowboy(object):
         logger.debug("Unpausing snowboy process")
         self.detector.paused = False
 
-    @staticmethod
-    def _get_root_pmdl_path(pmdl_file):
-        """
-        Return the full path of the pmdl file
-        :Example:
-            pmdl_path = cls._get_root_pmdl_path(pmdl_file)
-        .. raises:: IOError
-        .. warnings:: Static method and Private
-        """
-
-        # get current script directory path. We are in /an/unknown/path/kalliope/trigger/snowboy
-        cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-        # get parent dir. Now we are in /an/unknown/path/kalliope
-        parent_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir + os.sep + os.pardir)
-        pmdl_path = parent_dir + os.sep + pmdl_file
-        logger.debug("Real pmdl_file path: %s" % pmdl_path)
-        if os.path.isfile(pmdl_path):
-            return pmdl_path
-        raise IOError("Pmdl file not found: %s" % pmdl_path)
