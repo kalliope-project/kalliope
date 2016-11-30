@@ -1,0 +1,9 @@
+---
+  - name: "All-orders"
+    signals:
+      - order: "what can I ask"
+    neurons:
+      - list_available_orders:
+          query_replace_text: "and the argument"
+          ignore_machine_name: 1
+          file_template: "templates/en_all_available_orders.j2"
