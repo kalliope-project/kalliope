@@ -1,4 +1,3 @@
-import inspect
 import logging
 import os
 
@@ -51,9 +50,10 @@ class SettingLoader(object):
     """
     __metaclass__ = Singleton
 
-    def __init__(self):
-
-        self.file_path = self._get_settings_file_path()
+    def __init__(self, file_path=None):
+        self.file_path = file_path
+        if self.file_path is None:
+            self.file_path = self._get_settings_file_path()
         if self.file_path is None:
             raise SettingNotFound("Settings.yml file not found")
         self.yaml_config = self._get_yaml_config()
