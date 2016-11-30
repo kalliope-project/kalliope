@@ -1,4 +1,6 @@
+import inspect
 import logging
+import os
 
 from YAMLLoader import YAMLLoader
 from kalliope.core.Models import Singleton
@@ -48,12 +50,11 @@ class SettingLoader(object):
     """
     __metaclass__ = Singleton
 
-    def __init__(self, file_path=None):
-        logger.debug("Loading settings with file path: %s" % file_path)
-        self.file_path = file_path
+    def __init__(self):
+
+        self.file_path = self._get_settings_file_path()
         if self.file_path is None:
-            # use default file if not provided
-            self.file_path = FILE_NAME
+            raise SettingNotFound("Settings.yml file not found")
         self.yaml_config = self._get_yaml_config()
         self.settings = self._get_settings()
 
@@ -476,7 +477,6 @@ class SettingLoader(object):
         else:
             raise SettingInvalidException("The cache_path seems to be invalid: %s" % cache_path)
 
-
     @staticmethod
     def _get_default_synapse(settings):
         """
@@ -499,8 +499,40 @@ class SettingLoader(object):
         try:
             default_synapse = settings["default_synapse"]
             logger.debug("Default synapse: %s" % default_synapse)
-        except KeyError, e:
+        except KeyError:
             default_synapse = None
 
         return default_synapse
 
+    def _get_settings_file_path(self):
+        """
+        used to load the settings.yml file
+        This function will try to load the file in this order:
+        - from the current directory where kalliope has been called. Eg: /home/me/Documents/kalliope_config
+        - from /etc/kalliope
+        - from the default settings.yml at the root of the project
+
+        :return: path to the settings.yml file
+        """
+        path_order = {
+            1: os.getcwd()+os.sep+FILE_NAME,
+            2: "/etc/kalliope"+os.sep+FILE_NAME,
+            3: self.get_root_kalliope_path()+os.sep+FILE_NAME
+        }
+
+        for key in sorted(path_order):
+            file_path_to_test = path_order[key]
+            logger.debug("Try to load settings file from %s: %s" % (key, file_path_to_test))
+            if os.path.isfile(file_path_to_test):
+                logger.debug("Settings.yml file found in %s" % file_path_to_test)
+                return file_path_to_test
+
+        return None
+
+    @staticmethod
+    def get_root_kalliope_path():
+        # here we are in /an/unknown/path/kalliope/core/ConfigurationManager
+        current_script_path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+        # get parent dir. Now we are in /an/unknown/path/kalliope
+        kalliope_root_path = os.path.normpath(current_script_path + os.sep + os.pardir + os.sep + os.pardir)
+        return kalliope_root_path
