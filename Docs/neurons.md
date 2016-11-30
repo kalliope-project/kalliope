@@ -115,7 +115,7 @@ set in [settings.yml](settings.yml) file.
 ### Cache
 
 You can override the default cache configuration. By default Kalliope uses a cache to save a generated audio from a TTS engine.
-This cache is usefull to manage sentences that are not suppose to be changed very often. For exemple, the following sentence will not change in time, so it's more optimized to generate it once and to keep it in cash:
+This cache is useful to manage sentences that are not suppose to be changed very often. For example, the following sentence will not change in time, so it's more optimized to generate it once and to keep it in cash:
 ```
 - say:
     message:
