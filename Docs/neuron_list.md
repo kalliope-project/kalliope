@@ -4,20 +4,20 @@ A neuron is a module that will perform some actions attached to an order. You ca
 
 | Name                                               | Description                                                                             |
 |----------------------------------------------------|-----------------------------------------------------------------------------------------|
-| [ansible_playbook](../neurons/ansible_playbook/)   | Run an ansible playbook                                                                 |
-| [gmail_checker](../neurons/gmail_checker/)         | Get the number of unread email and their subjects from a gmail account                  |
-| [kill_switch](../neurons/kill_switch/)             | Stop Kalliope process                                                                   |
-| [neurotransmitter](../neurons/neurotransmitter/)   | Link synapse together                                                                   |
-| [push_message](../neurons/push_message/)           | Send a push message to a remote device like Android/iOS/Windows Phone or Chrome browser |
-| [rss_reader](../neurons/rss_reader/)               | Get items from a RSS feed                                                               |
-| [say](../neurons/say/)                             | Make Kalliope talk by using TTS                                                         |
-| [script](../neurons/script/)                       | Run an executable script                                                                |
-| [shell](../neurons/shell/)                         | Run a shell command                                                                     |
-| [sleep](../neurons/sleep/)                         | Make Kalliope sleep for a while before continuing                                       |
-| [systemdate](../neurons/systemdate/)               | Give the local system date and time                                                     |
-| [tasker_autoremote](../neurons/tasker_autoremote/) | Send a message to Android tasker app                                                    |
-| [twitter](../neurons/twitter/)                     | Send a Twit from kalliope                                                               |
-| [uri](../neurons/uri/)                             | Interacts with HTTP and HTTPS web services.                                             |
-| [wake_on_lan](../neurons/wake_on_lan/)             | Wake on lan a computer                                                                  |
-| [wikipedia_searcher](../neurons/wikipedia/)        | Search for a page on Wikipedia                                                          |
+| [ansible_playbook](../kalliope/neurons/ansible_playbook/)   | Run an ansible playbook                                                                 |
+| [gmail_checker](../kalliope/neurons/gmail_checker/)         | Get the number of unread email and their subjects from a gmail account                  |
+| [kill_switch](../kalliope/neurons/kill_switch/)             | Stop Kalliope process                                                                   |
+| [neurotransmitter](../kalliope/neurons/neurotransmitter/)   | Link synapse together                                                                   |
+| [push_message](../kalliope/neurons/push_message/)           | Send a push message to a remote device like Android/iOS/Windows Phone or Chrome browser |
+| [rss_reader](../kalliope/neurons/rss_reader/)               | Get items from a RSS feed                                                               |
+| [say](../kalliope/neurons/say/)                             | Make Kalliope talk by using TTS                                                         |
+| [script](../kalliope/neurons/script/)                       | Run an executable script                                                                |
+| [shell](../kalliope/neurons/shell/)                         | Run a shell command                                                                     |
+| [sleep](../kalliope/neurons/sleep/)                         | Make Kalliope sleep for a while before continuing                                       |
+| [systemdate](../kalliope/neurons/systemdate/)               | Give the local system date and time                                                     |
+| [tasker_autoremote](../kalliope/neurons/tasker_autoremote/) | Send a message to Android tasker app                                                    |
+| [twitter](../kalliope/neurons/twitter/)                     | Send a Twit from kalliope                                                               |
+| [uri](../kalliope/neurons/uri/)                             | Interacts with HTTP and HTTPS web services.                                             |
+| [wake_on_lan](../kalliope/neurons/wake_on_lan/)             | Wake on lan a computer                                                                  |
+| [wikipedia_searcher](../kalliope/neurons/wikipedia/)        | Search for a page on Wikipedia                                                          |
 

@@ -1,6 +1,6 @@
 # Brain
 
-The brain is a main component of Kalliope. It's a module that gives a confuguration of your own personal assistant and, so, determines it's behavior and fonctionnalities.
+The brain is a main component of Kalliope. It's a module that gives a configuration of your own personal assistant and, so, determines it's behavior and fonctionnalities.
 
 Brain is composed by synapses: a synapse is the link between input and output actions.
 

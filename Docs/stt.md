@@ -28,11 +28,11 @@ Sometime, an API key will be necessary to use an engine. Click on a TTS engine l
 
 ## Current Available STT
 
-- [apiai](../stt/apiai/README.md)
-- [bing](../stt/bing/README.md)
-- [google](../stt/google/README.md)
-- [houndify](../stt/houndify/README.md)
-- [witai](../stt/wit/README.md)
+- [apiai](../kalliope/stt/apiai/README.md)
+- [bing](../kalliope/stt/bing/README.md)
+- [google](../kalliope/stt/google/README.md)
+- [houndify](../kalliope/stt/houndify/README.md)
+- [witai](../kalliope/stt/wit/README.md)
 
 ## Full Example
 
