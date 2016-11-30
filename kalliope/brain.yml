@@ -16,3 +16,4 @@
     - brains/neurotransmitter.yml
     - brains/wikipedia.yml
     - brains/default.yml
+    - brains/all.yml

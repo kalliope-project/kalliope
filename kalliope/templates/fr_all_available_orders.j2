@@ -1,0 +1,8 @@
+{% if nb_orders > 0 %}
+    Vous avez {{ nb_orders }} ordres disponibles:
+    {% for order in orders %}
+        {{ order }}
+    {% endfor %}
+{% else %}
+    Aucun ordre disponible.
+{% endif %}
