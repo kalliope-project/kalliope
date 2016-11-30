@@ -3,6 +3,7 @@ import logging
 import os
 
 from YAMLLoader import YAMLLoader
+from kalliope.core.ConfigurationManager import utils
 from kalliope.core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.Brain import Brain
@@ -14,6 +15,8 @@ from kalliope.core.Models.Synapse import Synapse
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
+FILE_NAME = "brain.yml"
+
 
 class BrainLoader(object):
     """
@@ -22,8 +25,9 @@ class BrainLoader(object):
     __metaclass__ = Singleton
 
     def __init__(self, file_path=None):
-        logger.debug("Loading brain with file path: %s" % file_path)
         self.file_path = file_path
+        if self.file_path is None:
+            self.file_path = self._get_brain_file_path()
         self.yaml_config = self.get_yaml_config()
         self.brain = self.get_brain()
 
@@ -202,3 +206,30 @@ class BrainLoader(object):
         if os.path.isfile(brain_path):
             return brain_path
         raise IOError("Default brain.yml file not found")
+
+    def _get_brain_file_path(self):
+        """
+        used to load the brain.yml file
+        This function will try to load the file in this order:
+        - from the file given by the user to the function
+        - from the current directory where kalliope has been called. Eg: /home/me/Documents/kalliope_config
+        - from /etc/kalliope
+        - from the default brain.yml at the root of the project
+
+        :return: path to the settings.yml file
+        """
+        path_order = {
+            1: os.getcwd() + os.sep + FILE_NAME,
+            2: "/etc/kalliope" + os.sep + FILE_NAME,
+            3: utils.get_root_kalliope_path() + os.sep + FILE_NAME
+        }
+
+        for key in sorted(path_order):
+            file_path_to_test = path_order[key]
+            logger.debug("Try to load brain.yml file from %s: %s" % (key, file_path_to_test))
+            if os.path.isfile(file_path_to_test):
+                logger.debug("brain.yml file found in %s" % file_path_to_test)
+                return file_path_to_test
+
+        return None
+

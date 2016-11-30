@@ -3,6 +3,7 @@ import logging
 import os
 
 from YAMLLoader import YAMLLoader
+from kalliope.core.ConfigurationManager import utils
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.RestAPI import RestAPI
 from kalliope.core.Models.Settings import Settings
@@ -517,22 +518,15 @@ class SettingLoader(object):
         path_order = {
             1: os.getcwd()+os.sep+FILE_NAME,
             2: "/etc/kalliope"+os.sep+FILE_NAME,
-            3: self.get_root_kalliope_path()+os.sep+FILE_NAME
+            3: utils.get_root_kalliope_path() + os.sep + FILE_NAME
         }
 
         for key in sorted(path_order):
             file_path_to_test = path_order[key]
-            logger.debug("Try to load settings file from %s: %s" % (key, file_path_to_test))
+            logger.debug("Try to load settings.yml file from %s: %s" % (key, file_path_to_test))
             if os.path.isfile(file_path_to_test):
-                logger.debug("Settings.yml file found in %s" % file_path_to_test)
+                logger.debug("settings.yml file found in %s" % file_path_to_test)
                 return file_path_to_test
 
         return None
 
-    @staticmethod
-    def get_root_kalliope_path():
-        # here we are in /an/unknown/path/kalliope/core/ConfigurationManager
-        current_script_path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-        # get parent dir. Now we are in /an/unknown/path/kalliope
-        kalliope_root_path = os.path.normpath(current_script_path + os.sep + os.pardir + os.sep + os.pardir)
-        return kalliope_root_path
