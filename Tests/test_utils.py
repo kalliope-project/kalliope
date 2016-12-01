@@ -108,8 +108,6 @@ class TestUtils(unittest.TestCase):
         # touch the file
         open(path_to_test, 'a').close()
 
-        pp = Utils.get_real_file_path(file_name)
-
         self.assertEquals(Utils.get_real_file_path(file_name),
                           expected_result,
                           "Fail to match the /an/unknown/path/kalliope path")

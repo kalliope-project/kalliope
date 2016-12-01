@@ -151,7 +151,7 @@ class Utils(object):
                 1: os.getcwd() + os.sep + file_path_to_test,
                 2: "/etc/kalliope" + os.sep + file_path_to_test,
                 # In this case 'get_current_file_parent_parent_path' is corresponding to kalliope root path
-                # from /an/unknown/path/kalliope/core/Utils to /an/unknown/path/kalliope
+                # from /an/unknown/path/kalliope/kalliope/core/Utils to /an/unknown/path/kalliope/kalliope
                 3: cls.get_current_file_parent_parent_path(current_script_path) + os.sep + file_path_to_test
             }
 
