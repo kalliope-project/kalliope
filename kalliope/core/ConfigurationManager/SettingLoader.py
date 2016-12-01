@@ -1,7 +1,7 @@
 import logging
 
 from YAMLLoader import YAMLLoader
-from kalliope.core.ConfigurationManager import utils
+from kalliope.core.Utils import Utils
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.RestAPI import RestAPI
 from kalliope.core.Models.Settings import Settings
@@ -52,9 +52,9 @@ class SettingLoader(object):
     def __init__(self, file_path=None):
         self.file_path = file_path
         if self.file_path is None:
-            self.file_path = utils.get_real_file_path(FILE_NAME)
+            self.file_path = Utils.get_real_file_path(FILE_NAME)
         else:
-            self.file_path = utils.get_real_file_path(file_path)
+            self.file_path = Utils.get_real_file_path(file_path)
         # if the returned file path is none, the file doesn't exist
         if self.file_path is None:
             raise SettingNotFound("Settings.yml file not found")

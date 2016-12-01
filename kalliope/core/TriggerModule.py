@@ -1,8 +1,6 @@
-import os
-
 import logging
 
-from kalliope.core.ConfigurationManager import utils
+from kalliope.core.Utils import Utils
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -29,4 +27,4 @@ class TriggerModule(object):
 
         :return: absolute path
         """
-        return utils.get_real_file_path(file_path)
+        return Utils.get_real_file_path(file_path)
