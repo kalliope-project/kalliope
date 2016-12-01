@@ -15,4 +15,4 @@ script: pytest
 # CodeCLimate for test coveragek
 addons:
     code_climate:
-        repo_token: d885ae74b4a0d071454ca6791b28aa3684d21a1003ac6011ddb65160529e9309
+        repo_token: 8d4355b7655d8a91daa72132c587a03cee644e78dfcdd86562551b4ea992b61e
