@@ -29,19 +29,4 @@ class TriggerModule(object):
 
         :return: absolute path
         """
-        if not os.path.isabs(file_path):
-            path_order = {
-                1: os.getcwd() + os.sep + file_path,
-                2: "/etc/kalliope" + os.sep + file_path,
-                3: utils.get_root_kalliope_path() + os.sep + file_path
-            }
-
-            for key in sorted(path_order):
-                file_path_to_test = path_order[key]
-                logger.debug("Trigger: Try to load given file from %s: %s" % (key, file_path_to_test))
-                if os.path.isfile(file_path_to_test):
-                    logger.debug("Trigger: given path found in %s" % file_path_to_test)
-                    return file_path_to_test
-
-        logger.debug("Trigger file to load will be %s" % file_path)
-        return file_path
+        return utils.get_real_file_path(file_path)

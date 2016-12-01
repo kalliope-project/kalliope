@@ -53,7 +53,7 @@ class SettingLoader(object):
     def __init__(self, file_path=None):
         self.file_path = file_path
         if self.file_path is None:
-            self.file_path = self._get_settings_file_path()
+            self.file_path = utils.get_real_file_path(FILE_NAME)
         if self.file_path is None:
             raise SettingNotFound("Settings.yml file not found")
         self.yaml_config = self._get_yaml_config()
@@ -505,29 +505,4 @@ class SettingLoader(object):
 
         return default_synapse
 
-    @staticmethod
-    def _get_settings_file_path():
-        """
-        used to load the settings.yml file
-        This function will try to load the file in this order:
-        - from the current directory where kalliope has been called. Eg: /home/me/Documents/kalliope_config
-        - from /etc/kalliope
-        - from the default settings.yml at the root of the project
-
-        :return: path to the settings.yml file
-        """
-        path_order = {
-            1: os.getcwd()+os.sep+FILE_NAME,
-            2: "/etc/kalliope"+os.sep+FILE_NAME,
-            3: utils.get_root_kalliope_path() + os.sep + FILE_NAME
-        }
-
-        for key in sorted(path_order):
-            file_path_to_test = path_order[key]
-            logger.debug("Try to load settings.yml file from %s: %s" % (key, file_path_to_test))
-            if os.path.isfile(file_path_to_test):
-                logger.debug("settings.yml file found in %s" % file_path_to_test)
-                return file_path_to_test
-
-        return None
 

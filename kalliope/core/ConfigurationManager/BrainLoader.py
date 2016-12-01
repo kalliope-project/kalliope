@@ -26,8 +26,8 @@ class BrainLoader(object):
 
     def __init__(self, file_path=None):
         self.file_path = file_path
-        if self.file_path is None:
-            self.file_path = self._get_brain_file_path()
+        if self.file_path is None:  # we don't provide a file path, so search for the default one
+            self.file_path = utils.get_real_file_path(FILE_NAME)
         self.yaml_config = self.get_yaml_config()
         self.brain = self.get_brain()
 
@@ -206,31 +206,3 @@ class BrainLoader(object):
         if os.path.isfile(brain_path):
             return brain_path
         raise IOError("Default brain.yml file not found")
-
-    @staticmethod
-    def _get_brain_file_path():
-        """
-        used to load the brain.yml file
-        This function will try to load the file in this order:
-        - from the file given by the user to the function
-        - from the current directory where kalliope has been called. Eg: /home/me/Documents/kalliope_config
-        - from /etc/kalliope
-        - from the default brain.yml at the root of the project
-
-        :return: path to the settings.yml file
-        """
-        path_order = {
-            1: os.getcwd() + os.sep + FILE_NAME,
-            2: "/etc/kalliope" + os.sep + FILE_NAME,
-            3: utils.get_root_kalliope_path() + os.sep + FILE_NAME
-        }
-
-        for key in sorted(path_order):
-            file_path_to_test = path_order[key]
-            logger.debug("Try to load brain.yml file from %s: %s" % (key, file_path_to_test))
-            if os.path.isfile(file_path_to_test):
-                logger.debug("brain.yml file found in %s" % file_path_to_test)
-                return file_path_to_test
-
-        return None
-
