@@ -12,7 +12,7 @@ class TestUtils(unittest.TestCase):
     def setUp(self):
         pass
 
-    def test_get_current_file_parent_parent_path(self):
+    def test_get_current_file_parent_path(self):
         """
         Expect to get back the parent path file
         """
