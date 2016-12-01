@@ -1,5 +1,4 @@
 import logging
-import os
 
 from YAMLLoader import YAMLLoader
 from kalliope.core.ConfigurationManager import utils
@@ -54,6 +53,9 @@ class SettingLoader(object):
         self.file_path = file_path
         if self.file_path is None:
             self.file_path = utils.get_real_file_path(FILE_NAME)
+        else:
+            self.file_path = utils.get_real_file_path(file_path)
+        # if the returned file path is none, the file doesn't exist
         if self.file_path is None:
             raise SettingNotFound("Settings.yml file not found")
         self.yaml_config = self._get_yaml_config()

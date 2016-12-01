@@ -18,6 +18,10 @@ logger = logging.getLogger("kalliope")
 FILE_NAME = "brain.yml"
 
 
+class BrainNotFound(Exception):
+    pass
+
+
 class BrainLoader(object):
     """
     This Class is used to get the brain YAML and the Brain as an object
@@ -28,6 +32,11 @@ class BrainLoader(object):
         self.file_path = file_path
         if self.file_path is None:  # we don't provide a file path, so search for the default one
             self.file_path = utils.get_real_file_path(FILE_NAME)
+        else:
+            self.file_path = utils.get_real_file_path(file_path)
+        # if the returned file path is none, the file doesn't exist
+        if self.file_path is None:
+            raise BrainNotFound("brain file not found")
         self.yaml_config = self.get_yaml_config()
         self.brain = self.get_brain()
 

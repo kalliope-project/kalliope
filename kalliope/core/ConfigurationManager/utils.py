@@ -27,7 +27,7 @@ def get_real_file_path(file_path_to_test):
 
     :param file_path_to_test file path to test
     :type file_path_to_test: str
-    :return: absolute path to the file file_path_to_test
+    :return: absolute path to the file file_path_to_test or None if is doen't exist
     """
 
     if not os.path.isabs(file_path_to_test):
@@ -44,4 +44,8 @@ def get_real_file_path(file_path_to_test):
                 logger.debug("File found in %s" % new_file_path_to_test)
                 return new_file_path_to_test
 
-    return file_path_to_test
+    else:
+        if os.path.isfile(file_path_to_test):
+            return file_path_to_test
+        else:
+            return None
