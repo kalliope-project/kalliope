@@ -1,6 +1,7 @@
 import logging
 
 from YAMLLoader import YAMLLoader
+from kalliope.core.ConfigurationManager import utils
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.RestAPI import RestAPI
 from kalliope.core.Models.Settings import Settings
@@ -49,11 +50,14 @@ class SettingLoader(object):
     __metaclass__ = Singleton
 
     def __init__(self, file_path=None):
-        logger.debug("Loading settings with file path: %s" % file_path)
         self.file_path = file_path
         if self.file_path is None:
-            # use default file if not provided
-            self.file_path = FILE_NAME
+            self.file_path = utils.get_real_file_path(FILE_NAME)
+        else:
+            self.file_path = utils.get_real_file_path(file_path)
+        # if the returned file path is none, the file doesn't exist
+        if self.file_path is None:
+            raise SettingNotFound("Settings.yml file not found")
         self.yaml_config = self._get_yaml_config()
         self.settings = self._get_settings()
 
@@ -476,7 +480,6 @@ class SettingLoader(object):
         else:
             raise SettingInvalidException("The cache_path seems to be invalid: %s" % cache_path)
 
-
     @staticmethod
     def _get_default_synapse(settings):
         """
@@ -499,8 +502,9 @@ class SettingLoader(object):
         try:
             default_synapse = settings["default_synapse"]
             logger.debug("Default synapse: %s" % default_synapse)
-        except KeyError, e:
+        except KeyError:
             default_synapse = None
 
         return default_synapse
+
 

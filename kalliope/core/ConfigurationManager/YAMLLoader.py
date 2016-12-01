@@ -41,12 +41,7 @@ class YAMLLoader:
         .. warnings:: Class Method and Public
         """
 
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        logger.debug("Current dir: %s " % current_dir)
-        root_dir = os.path.join(current_dir, "../../")
-        root_dir = os.path.normpath(root_dir)
-        logger.debug("Root dir: %s " % root_dir)
-        cls.file_path_to_load = os.path.join(root_dir, yaml_file)
+        cls.file_path_to_load = yaml_file
         logger.debug("File path to load: %s " % cls.file_path_to_load)
         if os.path.isfile(cls.file_path_to_load):
             inc_import = IncludeImport(cls.file_path_to_load)

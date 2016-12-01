@@ -1,3 +1,4 @@
+import os
 import platform
 import unittest
 
@@ -14,7 +15,7 @@ class TestSettingLoader(unittest.TestCase):
 
     def setUp(self):
 
-        self.settings_file_to_test = "../Tests/settings/settings_test.yml"
+        self.settings_file_to_test = os.getcwd() + os.sep + "/Tests/settings/settings_test.yml"
 
         self.settings_dict = {
             'rest_api':

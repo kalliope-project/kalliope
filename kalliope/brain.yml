@@ -1,18 +1,18 @@
 ---
-  - includes:
-    - brains/ansible_playbook.yml
-    - brains/gmail_checker.yml
-    - brains/kill_switch.yml
-    - brains/openweathermap.yml
-    - brains/push_message.yml
-    - brains/rss_reader.yml
-    - brains/say.yml
-    - brains/script.yml
-    - brains/shell.yml
-    - brains/systemdate.yml
-    - brains/tasker_autoremote.yml
-    - brains/wake_on_lan.yml
-    - brains/twitter.yml
-    - brains/neurotransmitter.yml
-    - brains/wikipedia.yml
-    - brains/default.yml
+  - name: "say-hello-fr"
+    signals:
+      - order: "bonjour"
+      - order: "Bonjour"
+    neurons:
+      - say:
+          message:
+            - "Bonjour monsieur"
+
+  - name: "say-hello-en"
+    signals:
+      - order: "hello"
+      - order: "Hello"
+    neurons:
+      - say:
+          message:
+            - "Hello sir"

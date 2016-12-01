@@ -1,7 +1,14 @@
+import inspect
 import logging
+import os
 import time
 
+from kalliope.core.TriggerModule import TriggerModule
 from kalliope.trigger.snowboy import snowboydecoder
+
+
+class SnowboyModelNotFounfd(Exception):
+    pass
 
 
 class MissingParameterException(Exception):
@@ -11,9 +18,10 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class Snowboy(object):
+class Snowboy(TriggerModule):
 
     def __init__(self, **kwargs):
+        super(Snowboy, self).__init__()
         # pause listening boolean
         self.interrupted = False
         self.kill_received = False
@@ -25,11 +33,14 @@ class Snowboy(object):
 
         # get the pmdl file to load
         self.pmdl = kwargs.get('pmdl_file', None)
-
         if self.pmdl is None:
             raise MissingParameterException("Pmdl file is required with snowboy")
 
-        self.detector = snowboydecoder.HotwordDetector(self.pmdl, sensitivity=0.5, detected_callback=self.callback,
+        self.pmdl_path = self.get_file_from_path(self.pmdl)
+        if not os.path.isfile(self.pmdl_path):
+            raise SnowboyModelNotFounfd("The snowboy model file %s does not exist" % self.pmdl_path)
+
+        self.detector = snowboydecoder.HotwordDetector(self.pmdl_path, sensitivity=0.5, detected_callback=self.callback,
                                                        interrupt_check=self.interrupt_callback,
                                                        sleep_time=0.03)
 
@@ -72,3 +83,4 @@ class Snowboy(object):
         """
         logger.debug("Unpausing snowboy process")
         self.detector.paused = False
+
