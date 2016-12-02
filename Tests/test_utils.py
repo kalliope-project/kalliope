@@ -127,5 +127,5 @@ class TestUtils(unittest.TestCase):
                                                                          neuron.name.capitalize(),
                                                                          neuron.parameters),
                                    Say),
-                        "Fail instanciate a class")
+                        "Fail instantiate a class")
 
