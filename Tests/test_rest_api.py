@@ -1,8 +1,6 @@
-import json
 import os
 import unittest
 
-import requests
 from flask import Flask
 from flask_testing import LiveServerTestCase
 

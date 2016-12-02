@@ -1,6 +1,8 @@
 import unittest
 import os
 
+from kalliope.core.Models.Neuron import Neuron
+from kalliope.neurons.say.say import Say
 from kalliope.core.Utils.Utils import Utils
 
 
@@ -114,3 +116,16 @@ class TestUtils(unittest.TestCase):
         # Clean up
         if os.path.exists(file_name):
             os.remove(file_name)
+
+    def test_get_dynamic_class_instantiation(self):
+        """
+        Test that an instance as been instantiate properly.
+        """
+
+        neuron = Neuron(name='Say', parameters={'message': 'test dynamic class instantiate'})
+        self.assertTrue(isinstance(Utils.get_dynamic_class_instantiation("neurons",
+                                                                         neuron.name.capitalize(),
+                                                                         neuron.parameters),
+                                   Say),
+                        "Fail instanciate a class")
+
