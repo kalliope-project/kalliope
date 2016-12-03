@@ -20,4 +20,6 @@ class NeuronLauncher:
         :return:
         """
         logger.debug("Run plugin \"%s\" with parameters %s" % (neuron.name, neuron.parameters))
-        return Utils.get_dynamic_class_instantiation("neurons", neuron.name.capitalize(), neuron.parameters)
+        return Utils.get_dynamic_class_instantiation("neurons",
+                                                     neuron.name.capitalize(),
+                                                     neuron.parameters)

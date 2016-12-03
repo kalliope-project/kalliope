@@ -59,7 +59,7 @@ class TestTTSModule(unittest.TestCase):
 
             # test missing callback
             with self.assertRaises(TtsGenerateAudioFunctionNotFound):
-                self.assertRaises(self.TTSMod.generate_and_play(words=words))
+                self.TTSMod.generate_and_play(words=words)
 
             # Assert Callback is called
             # no Cache

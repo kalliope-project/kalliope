@@ -3,7 +3,7 @@ import logging
 import os
 
 from YAMLLoader import YAMLLoader
-from kalliope.core.ConfigurationManager import utils
+from kalliope.core.Utils import Utils
 from kalliope.core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.Brain import Brain
@@ -31,9 +31,9 @@ class BrainLoader(object):
     def __init__(self, file_path=None):
         self.file_path = file_path
         if self.file_path is None:  # we don't provide a file path, so search for the default one
-            self.file_path = utils.get_real_file_path(FILE_NAME)
+            self.file_path = Utils.get_real_file_path(FILE_NAME)
         else:
-            self.file_path = utils.get_real_file_path(file_path)
+            self.file_path = Utils.get_real_file_path(file_path)
         # if the returned file path is none, the file doesn't exist
         if self.file_path is None:
             raise BrainNotFound("brain file not found")

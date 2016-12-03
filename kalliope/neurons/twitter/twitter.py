@@ -1,6 +1,6 @@
 import twitter
 
-from kalliope.core.NeuronModule import NeuronModule, InvalidParameterException, MissingParameterException
+from kalliope.core.NeuronModule import NeuronModule, MissingParameterException
 
 
 class Twitter(NeuronModule):
@@ -33,7 +33,7 @@ class Twitter(NeuronModule):
         Check if received parameters are ok to perform operations in the neuron
         :return: true if parameters are ok, raise an exception otherwise
 
-        .. raises:: InvalidParameterException
+        .. raises:: MissingParameterException
         """
         if self.consumer_key is None:
             raise MissingParameterException("Twitter needs a consumer_key")
