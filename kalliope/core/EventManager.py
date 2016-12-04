@@ -1,22 +1,20 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from kalliope import BrainLoader
-from kalliope import SynapseLauncher
-from kalliope import Utils
+from kalliope.core.ConfigurationManager import BrainLoader
+from kalliope.core.SynapseLauncher import SynapseLauncher
+from kalliope.core import Utils
 from kalliope.core.Models import Event
 
 
 class EventManager(object):
 
     def __init__(self, synapses):
+        Utils.print_info('Starting event manager')
         self.scheduler = BackgroundScheduler()
         self.synapses = synapses
-
         self.load_events()
-
         self.scheduler.start()
-        Utils.print_info('Starting event manager')
 
     def load_events(self):
         """
@@ -44,7 +42,7 @@ class EventManager(object):
         """
         This method will run the synapse
         """
-        print("EventManager, run synapse name %s" % synapse_name)
+        Utils.print_info("Event triggered, running synapse: %s" % synapse_name)
         # get a brain
         brain_loader = BrainLoader()
         brain = brain_loader.brain
