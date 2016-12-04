@@ -85,10 +85,10 @@ class TestBrainLoader(unittest.TestCase):
     def test_get_event_or_order_from_dict(self):
 
         order_object = Order(sentence="test_order")
-        event_object = Event(period="0 7 * * *")
+        event_object = Event(hour="7")
 
         dict_order = {'order': 'test_order'}
-        dict_event = {'event': '0 7 * * *'}
+        dict_event = {'event': {'hour': '7'}}
 
         bl = BrainLoader(file_path=self.brain_to_test)
         order_from_bl = bl._get_event_or_order_from_dict(dict_order)
