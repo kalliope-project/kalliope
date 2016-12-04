@@ -165,8 +165,8 @@ class BrainLoader(object):
 
         return signals
 
-    @staticmethod
-    def _get_event_or_order_from_dict(signal_or_event_dict):
+    @classmethod
+    def _get_event_or_order_from_dict(cls, signal_or_event_dict):
         """
         The signal is either an Event or an Order
 
@@ -186,7 +186,7 @@ class BrainLoader(object):
             # print "is event"
             event = signal_or_event_dict["event"]
             if ConfigurationChecker.check_event_dict(event):
-                return Event(period=event)
+                return cls._get_event_object(event)
 
         if 'order' in signal_or_event_dict:
             order = signal_or_event_dict["order"]
@@ -215,3 +215,23 @@ class BrainLoader(object):
         if os.path.isfile(brain_path):
             return brain_path
         raise IOError("Default brain.yml file not found")
+
+    @classmethod
+    def _get_event_object(cls, event_dict):
+        def get_key(key_name):
+            try:
+                return event_dict[key_name]
+            except KeyError:
+                return None
+
+        year = get_key("year")
+        month = get_key("month")
+        day = get_key("day")
+        week = get_key("week")
+        day_of_week = get_key("day_of_week")
+        hour = get_key("hour")
+        minute = get_key("minute")
+        second = get_key("second")
+
+        return Event(year=year, month=month, day=day, week=week,
+                     day_of_week=day_of_week, hour=hour, minute=minute, second=second)

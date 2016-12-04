@@ -196,8 +196,33 @@ class ConfigurationChecker:
         .. raises:: NoEventPeriod
         .. warnings:: Static and Public
         """
+        def get_key(key_name):
+            try:
+                return event_dict[key_name]
+            except KeyError:
+                return None
+
         if event_dict is None or event_dict == "":
-            raise NoEventPeriod("Event must contain a period: %s" % event_dict)
+            raise NoEventPeriod("Event must contain at least one of those elements: "
+                                "year, month, day, week, day_of_week, hour, minute, second")
+
+        # check content as at least on key
+        year = get_key("year")
+        month = get_key("month")
+        day = get_key("day")
+        week = get_key("week")
+        day_of_week = get_key("day_of_week")
+        hour = get_key("hour")
+        minute = get_key("minute")
+        second = get_key("second")
+
+        list_to_check = [year, month, day, week, day_of_week, hour, minute, second]
+        number_of_none_object = list_to_check.count(None)
+        list_size = len(list_to_check)
+        if number_of_none_object >= list_size:
+            raise NoEventPeriod("Event must contain at least one of those elements: "
+                                "year, month, day, week, day_of_week, hour, minute, second")
+
         return True
 
     @staticmethod
