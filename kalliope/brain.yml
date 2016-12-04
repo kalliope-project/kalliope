@@ -16,14 +16,3 @@
       - say:
           message:
             - "Hello sir"
-
-
-  - name: "say-hello-fr-2"
-    signals:
-      - event:
-          hour: "18"
-          minute: "16"
-    neurons:
-      - say:
-          message:
-            - "Bonjour monsieur"
