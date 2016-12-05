@@ -8,7 +8,7 @@ v0.3.0 / 2016-12-7
 - fix ansible_playbook neuron
 - add rss_reader neuron
 - review settings and brain file loading
-
+- add default neuron used if Kalliope does not match the spelt order
 
 v0.2 / 2016-11-21
 =================
