@@ -6,7 +6,7 @@ import logging
 from kalliope.core import ShellGui
 from kalliope.core import Utils
 from kalliope.core.ConfigurationManager.BrainLoader import BrainLoader
-from kalliope.core.CrontabManager import CrontabManager
+from kalliope.core.EventManager import EventManager
 from kalliope.core.MainController import MainController
 import signal
 import sys
@@ -75,10 +75,9 @@ def main():
             SynapseLauncher.start_synapse(args.run_synapse, brain=brain)
 
         if args.run_synapse is None:
-            # first, load events in crontab
-            crontab_manager = CrontabManager(brain=brain)
-            crontab_manager.load_events_in_crontab()
-            Utils.print_success("Events loaded in crontab")
+            # first, load events in event manager
+            EventManager(brain.synapses)
+            Utils.print_success("Events loaded")
             # then start kalliope
             Utils.print_success("Starting Kalliope")
             Utils.print_info("Press Ctrl+C for stopping")

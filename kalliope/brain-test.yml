@@ -1,0 +1,10 @@
+---
+  - name: "say-hello-fr"
+    signals:
+      - event:
+          hour: "18"
+          minute: "08"
+    neurons:
+      - say:
+          message:
+            - "Bonjour monsieur"

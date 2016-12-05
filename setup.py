@@ -60,15 +60,15 @@ setup(
         'SpeechRecognition==3.4.6',
         'markupsafe==0.23',
         'pyaudio==0.2.9',
-        'ansible==2.1.1.0',
+        'ansible==2.2.0.0',
         'python2-pythondialog==3.4.0',
         'jinja==1.2',
         'python-crontab==2.1.1',
-        'cffi==1.8.3',
+        'cffi==1.9.1',
         'pygmail==0.0.5.4',
         'pushetta==1.0.15',
         'wakeonlan==0.2.2',
-        'ipaddress==1.0.16',
+        'ipaddress==1.0.17',
         'pyowm==2.5.0',
         'python-twitter==3.1',
         'flask==0.11.1',
@@ -78,7 +78,8 @@ setup(
         'httpretty==0.8.14',
         'mock==2.0.0',
         'feedparser==5.2.1',
-        'Flask-Testing==0.6.1'
+        'Flask-Testing==0.6.1',
+        'apscheduler==3.3.0'
     ],
 
 
