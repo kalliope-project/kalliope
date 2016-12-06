@@ -1,1 +1,1 @@
-from voicerss import Voicerss
+from .voicerss import Voicerss

@@ -1,1 +1,1 @@
-from googletts import Googletts
+from .googletts import Googletts

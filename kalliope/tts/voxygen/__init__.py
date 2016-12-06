@@ -1,1 +1,1 @@
-from voxygen import Voxygen
+from .voxygen import Voxygen

@@ -1,1 +1,1 @@
-from openweathermap import Openweathermap
+from .openweathermap import Openweathermap

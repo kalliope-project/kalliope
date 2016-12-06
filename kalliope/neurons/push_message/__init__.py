@@ -1,2 +1,2 @@
-from push_message import Push_message
+from .push_message import Push_message
 

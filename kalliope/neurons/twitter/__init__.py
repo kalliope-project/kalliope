@@ -1,1 +1,1 @@
-from twitter import Twitter
+from .twitter import Twitter

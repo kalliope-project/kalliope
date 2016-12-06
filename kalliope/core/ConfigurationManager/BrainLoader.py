@@ -2,7 +2,7 @@ import inspect
 import logging
 import os
 
-from YAMLLoader import YAMLLoader
+from .YAMLLoader import YAMLLoader
 from kalliope.core.Utils import Utils
 from kalliope.core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
 from kalliope.core.Models import Singleton

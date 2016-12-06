@@ -1,6 +1,6 @@
 import logging
 
-from YAMLLoader import YAMLLoader
+from .YAMLLoader import YAMLLoader
 from kalliope.core.Utils import Utils
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.RestAPI import RestAPI

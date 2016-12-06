@@ -1,1 +1,1 @@
-from gmail_checker import Gmail_checker
+from .gmail_checker import Gmail_checker
