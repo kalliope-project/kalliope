@@ -98,7 +98,7 @@ class TestDynamicLoading(unittest.TestCase):
         # we keep only package. Because we have _init_.py or other stuff in what listdir returned
         packages_in_folder = list()
         for el in el_folder:
-            if os.path.isdir(folder + os.sep + el):
+            if os.path.isdir(folder + os.sep + el) and not '__pycache__' in el:
                 packages_in_folder.append(el)
         return packages_in_folder
 
