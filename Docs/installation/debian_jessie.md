@@ -14,12 +14,17 @@ Install some required system libraries and softwares:
 
 ```
 sudo apt-get update
-sudo apt-get install git python-pip python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer
+sudo apt-get install git python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer
 ```
 
-You also need some packages from the backports:
+Let's install the last release of python-pip
+```
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python get-pip.py
+```
 
+Then, with pip, the last release of setuptools
 ```
-sudo apt-get install -t jessie-backports python-setuptools
-sudo apt-get install -t jessie-backports python-pyasn1
+sudo pip install -U pip setuptools
 ```
+

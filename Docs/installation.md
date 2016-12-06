@@ -21,6 +21,7 @@ sudo pip install kalliope
 Clone the project:
 ```
 git clone https://github.com/kalliope-project/kalliope.git
+cd kalliope
 ```
 
 Install the project:
@@ -107,6 +108,14 @@ Google Speech Recognition thinks you said Bonjour
 Order matched in the brain. Running synapse "say-hello-fr"
 Waiting for trigger detection
 ```
+
+## Get a starter configuration
+We create some starter configuration that only need to be downloaded and then started. 
+Those repositories provides you a basic structure to start playing with kalliope. We recommend you to clone one of them and then go to the next section.
+
+- [French starter config](https://github.com/kalliope-project/kalliope_starter_fr)
+- [English starter config](https://github.com/kalliope-project/kalliope_starter_en)
+
 
 ## Next: Create you own bot
 If everything is ok, you can start playing with Kalliope. First, take a look to the [default settings](settings.md).

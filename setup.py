@@ -57,6 +57,7 @@ setup(
 
     # required libs
     install_requires=[
+        'six==1.10.0',
         'SpeechRecognition>=3.5.0',
         'markupsafe==0.23',
         'pyaudio==0.2.9',
