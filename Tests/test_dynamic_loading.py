@@ -1,7 +1,7 @@
 import inspect
 import os
 import unittest
-
+import sys
 
 class TestDynamicLoading(unittest.TestCase):
 
@@ -82,6 +82,11 @@ class TestDynamicLoading(unittest.TestCase):
         triggers = self.get_package_in_folder(self.trigger_dir)
         package_name = "trigger"
         for trigger in triggers:
+
+            # snowboy is only compiled for python2
+            if (trigger == 'snowboy') and (sys.version_info[0] >= 3):
+                continue
+
             module_name = trigger.capitalize()
             self.dynamic_import(package_name, module_name)
 
@@ -98,7 +103,7 @@ class TestDynamicLoading(unittest.TestCase):
         # we keep only package. Because we have _init_.py or other stuff in what listdir returned
         packages_in_folder = list()
         for el in el_folder:
-            if os.path.isdir(folder + os.sep + el):
+            if os.path.isdir(folder + os.sep + el) and not '__pycache__' in el:
                 packages_in_folder.append(el)
         return packages_in_folder
 

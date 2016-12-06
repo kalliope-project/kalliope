@@ -1,8 +1,9 @@
 import inspect
 import logging
 import os
+from six import with_metaclass
 
-from YAMLLoader import YAMLLoader
+from .YAMLLoader import YAMLLoader
 from kalliope.core.Utils import Utils
 from kalliope.core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
 from kalliope.core.Models import Singleton
@@ -22,11 +23,10 @@ class BrainNotFound(Exception):
     pass
 
 
-class BrainLoader(object):
+class BrainLoader(with_metaclass(Singleton, object)):
     """
     This Class is used to get the brain YAML and the Brain as an object
     """
-    __metaclass__ = Singleton
 
     def __init__(self, file_path=None):
         self.file_path = file_path

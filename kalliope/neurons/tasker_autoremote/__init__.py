@@ -1,1 +1,1 @@
-from tasker_autoremote import Tasker_autoremote
+from .tasker_autoremote import Tasker_autoremote

@@ -1,1 +1,1 @@
-from Mplayer import Mplayer
+from .Mplayer import Mplayer

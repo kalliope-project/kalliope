@@ -11,7 +11,15 @@ before_install:
 - sudo apt-get install libstdc++6
 install: "pip install -r install/files/python_requirements.txt"
 # command to run tests
-script: pytest
+script:
+  - pytest
+  - # python3
+  - sudo apt-get install python3-dev python3-yaml python3-markupsafe python3-setuptools
+  - git clone https://github.com/charlierguo/gmail.git && pushd gmail && wget -c https://github.com/charlierguo/gmail/pull/48.patch && patch -p1 -i 48.patch && python3 setup.py install --user && popd
+  - python3 setup.py install --user
+  - pip3 install pytest --user
+  - ~/.local/bin/pytest
+
 # CodeCLimate for test coveragek
 addons:
     code_climate:

@@ -1,6 +1,7 @@
 # coding: utf8
 import re
 from collections import Counter
+import sys
 
 from kalliope.core.Utils.Utils import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
@@ -26,8 +27,12 @@ class OrderAnalyser:
         sl = SettingLoader()
         self.settings = sl.settings
         self.order = order
-        if isinstance(self.order, str):
-            self.order = order.decode('utf-8')
+        if sys.version_info[0] >= 3:
+            if isinstance(self.order, bytes):
+                self.order = order.decode('utf-8')
+        else:
+            if isinstance(self.order, str):
+                self.order = order.decode('utf-8')
         self.brain = brain
         logger.debug("OrderAnalyser, Received order: %s" % self.order)
 

@@ -13,7 +13,7 @@ class Wake_on_lan(NeuronModule):
         super(Wake_on_lan, self).__init__(**kwargs)
 
         self.mac_address = kwargs.get('mac_address', None)
-        self.broadcast_address = kwargs.get('broadcast_address', '255.255.255.255')
+        self.broadcast_address = kwargs.get('broadcast_address', b'255.255.255.255')
         self.port = kwargs.get('port', 9)
 
         # check parameters

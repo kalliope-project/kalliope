@@ -1,1 +1,1 @@
-from wikipedia_searcher import Wikipedia_searcher
+from .wikipedia_searcher import Wikipedia_searcher
