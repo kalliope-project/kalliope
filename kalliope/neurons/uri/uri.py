@@ -127,7 +127,7 @@ class Uri(NeuronModule):
         self.content = r.content
         # we try to load into a json object the content. So Kalliope can use it to talk
         try:
-            self.content = json.loads(self.content)
+            self.content = json.loads(self.content.decode())
         except ValueError:
             logger.debug(self.neuron_name + "cannot get a valid json from returned content")
             pass

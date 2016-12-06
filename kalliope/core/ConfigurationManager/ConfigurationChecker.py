@@ -288,6 +288,6 @@ class ConfigurationChecker:
             synapse_name = synapse.name.encode('utf-8')
             if synapse_name in seen:
                 raise MultipleSameSynapseName("Multiple synapse found with the same name: %s" % synapse_name)
-            seen.add(synapse.name)
+            seen.add(synapse_name)
 
         return True

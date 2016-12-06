@@ -1,6 +1,7 @@
 # coding: utf8
 import collections
 from collections import Counter
+import sys
 
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.Utils.Utils import Utils
