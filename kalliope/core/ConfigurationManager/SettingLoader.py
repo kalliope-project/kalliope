@@ -147,7 +147,7 @@ class SettingLoader(object):
                 raise NullSettingException("Attribute default_speech_to_text is null")
             logger.debug("Default STT: %s" % default_speech_to_text)
             return default_speech_to_text
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
     @staticmethod
@@ -175,7 +175,7 @@ class SettingLoader(object):
                 raise NullSettingException("Attribute default_text_to_speech is null")
             logger.debug("Default TTS: %s" % default_text_to_speech)
             return default_text_to_speech
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
     @staticmethod
@@ -202,7 +202,7 @@ class SettingLoader(object):
                 raise NullSettingException("Attribute default_trigger is null")
             logger.debug("Default Trigger name: %s" % default_trigger)
             return default_trigger
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
     @staticmethod
@@ -266,7 +266,7 @@ class SettingLoader(object):
 
         try:
             text_to_speech_list = settings["text_to_speech"]
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
         ttss = list()
@@ -305,7 +305,7 @@ class SettingLoader(object):
 
         try:
             triggers_list = settings["triggers"]
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
         triggers = list()
@@ -406,7 +406,7 @@ class SettingLoader(object):
 
         try:
             rest_api = settings["rest_api"]
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
         if rest_api is not None:
@@ -436,7 +436,7 @@ class SettingLoader(object):
                 if not 1024 <= port <= 65535:
                     raise SettingInvalidException("port must be in range 1024-65535")
 
-            except KeyError, e:
+            except KeyError as e:
                 # print e
                 raise SettingNotFound("%s settings not found" % e)
 
@@ -468,7 +468,7 @@ class SettingLoader(object):
 
         try:
             cache_path = settings["cache_path"]
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
         if cache_path is None:
