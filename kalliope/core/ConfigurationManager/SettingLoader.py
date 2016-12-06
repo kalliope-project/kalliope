@@ -159,7 +159,7 @@ class SettingLoader(object):
                 raise NullSettingException("Attribute default_speech_to_text is null")
             logger.debug("Default STT: %s" % default_speech_to_text)
             return default_speech_to_text
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
     @staticmethod
@@ -187,7 +187,7 @@ class SettingLoader(object):
                 raise NullSettingException("Attribute default_text_to_speech is null")
             logger.debug("Default TTS: %s" % default_text_to_speech)
             return default_text_to_speech
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
     @staticmethod
@@ -214,7 +214,7 @@ class SettingLoader(object):
                 raise NullSettingException("Attribute default_trigger is null")
             logger.debug("Default Trigger name: %s" % default_trigger)
             return default_trigger
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
     @staticmethod
@@ -277,7 +277,7 @@ class SettingLoader(object):
 
         try:
             text_to_speech_list = settings["text_to_speech"]
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
         ttss = list()
@@ -315,7 +315,7 @@ class SettingLoader(object):
 
         try:
             triggers_list = settings["triggers"]
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
         triggers = list()
@@ -419,7 +419,7 @@ class SettingLoader(object):
 
         try:
             rest_api = settings["rest_api"]
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
         if rest_api is not None:
@@ -454,7 +454,7 @@ class SettingLoader(object):
                 if "allowed_cors_origin" in rest_api:
                      allowed_cors_origin = rest_api["allowed_cors_origin"]
 
-            except KeyError, e:
+            except KeyError as e:
                 raise SettingNotFound("%s settings not found" % e)
 
             # config ok, we can return the rest api object
@@ -485,7 +485,7 @@ class SettingLoader(object):
 
         try:
             cache_path = settings["cache_path"]
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
         if cache_path is None:

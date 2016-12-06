@@ -161,7 +161,7 @@ class Uri(NeuronModule):
         if self.data is not None:
             try:
                 json.loads(self.data)
-            except ValueError, e:
+            except ValueError as e:
                 raise InvalidParameterException("error in \"data\" parameter: %s" % e)
 
         # data_from_file path must exist and data inside must be loadable by json
@@ -172,7 +172,7 @@ class Uri(NeuronModule):
             # then try to load the json from the file
             try:
                 self.data_from_file = self.readfile(self.data_from_file)
-            except ValueError, e:
+            except ValueError as e:
                 raise InvalidParameterException("error in \"data\" parameter: %s" % e)
 
         # we cannot provide both data and data from file
