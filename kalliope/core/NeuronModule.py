@@ -103,9 +103,15 @@ class NeuronModule(object):
 
         tts_message = None
 
-        if isinstance(message, str) or isinstance(message, unicode):
-            logger.debug("message is string")
-            tts_message = message
+        if sys.version_info[0] >= 3:
+            if isinstance(message, bytes) or isinstance(message, str):
+                logger.debug("message is string")
+                tts_message = message
+        else:
+            if isinstance(message, str) or isinstance(message, unicode):
+                logger.debug("message is string")
+                tts_message = message
+
 
         if isinstance(message, list):
             logger.debug("message is list")

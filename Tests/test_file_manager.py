@@ -71,7 +71,7 @@ class TestFileManager(unittest.TestCase):
 
         # Test FileManager.file_is_empty
         with open(file_path, "wb") as file_open:
-            file_open.write("")
+            file_open.write(b"")
             file_open.close()
         self.assertTrue(FileManager.file_is_empty(file_path=file_path),
                         "Fail matching to verify that file is empty ")
@@ -97,7 +97,7 @@ class TestFileManager(unittest.TestCase):
         # Test to remove the file
         # FileManager.remove_file
         with open(file_path, "wb") as file_open:
-            file_open.write("")
+            file_open.write(b"")
             file_open.close()
         FileManager.remove_file(file_path=file_path)
         self.assertFalse(os.path.exists(file_path),
@@ -147,7 +147,7 @@ class TestFileManager(unittest.TestCase):
 
         # Test the file exist and creatable : return True
         with open(file_path, "wb") as file_open:
-            file_open.write("[Kalliope] Test Running the test_is_path_exists_or_creatable method")
+            file_open.write(b"[Kalliope] Test Running the test_is_path_exists_or_creatable method")
             file_open.close()
         self.assertTrue(FileManager.is_path_exists_or_creatable(file_path),
                         "Fail to assert the file exist ")

@@ -39,7 +39,7 @@ class Script(NeuronModule):
             if not self.async:
                 p = subprocess.Popen(self.path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
                 (output, err) = p.communicate()
-                self.output = output
+                self.output = output.decode()
                 self.returncode = p.returncode
                 message = {
                     "output": self.output,

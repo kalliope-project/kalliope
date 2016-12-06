@@ -9,7 +9,7 @@ class TestWakeOnLan(unittest.TestCase):
 
     def setUp(self):
         self.mac_address="00:0a:95:9d:68:16"
-        self.broadcast_address = "255.255.255.255"
+        self.broadcast_address = b"255.255.255.255"
         self.port = 42
 
     def testParameters(self):
@@ -47,14 +47,14 @@ class TestWakeOnLan(unittest.TestCase):
         self.port = 42
 
         # is broadcast not a valid format
-        self.broadcast_address = "broadcast"
+        self.broadcast_address = b"broadcast"
         parameters = {
             "broadcast_address": self.broadcast_address,
             "mac_address": self.mac_address,
             "port": self.port
         }
         run_test_valueError(parameters)
-        self.broadcast_address = "255.255.255.255"
+        self.broadcast_address = b"255.255.255.255"
 
         # is mac_address not a valid IPv4 or IPv6 format
         self.mac_address = "mac_address"
