@@ -66,7 +66,7 @@ the [template engine](https://en.wikipedia.org/wiki/Jinja_(template_engine)), an
 
 The template engine used in Kalliope is [Jinja2](http://jinja.pocoo.org/docs/dev/).
 
-For example, if we look at the [documentation of the neuron systemedate](../neurons/systemdate), we can see that the neuron will return a dictionary of value like `minute`, `hours` and all other values about the current time on the system where Kalliope is installed.
+For example, if we look at the [documentation of the neuron systemedate](../kalliope/neurons/systemdate), we can see that the neuron will return a dictionary of value like `minute`, `hours` and all other values about the current time on the system where Kalliope is installed.
 
 A simple, that only use **variables**, template would be
 ```
