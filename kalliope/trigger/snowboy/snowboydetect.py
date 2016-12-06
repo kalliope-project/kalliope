@@ -8,7 +8,7 @@ from sys import version_info
 
 sl = SettingLoader()
 settings = sl.settings
-module_file_path = "%s/_snowboydetect" % settings.machine
+module_file_path = "%s/python%d/_snowboydetect" % (settings.machine, version_info[0])
 
 
 if version_info >= (2, 6, 0):
