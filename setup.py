@@ -84,7 +84,7 @@ setup(
         'mock==2.0.0',
         'feedparser==5.2.1',
         'Flask-Testing==0.6.1',
-        'apscheduler==3.3.0'
+        'apscheduler==3.3.0',
     ],
 
 

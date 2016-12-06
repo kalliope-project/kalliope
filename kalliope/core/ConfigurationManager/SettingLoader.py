@@ -1,4 +1,5 @@
 import logging
+from six import with_metaclass
 
 from .YAMLLoader import YAMLLoader
 from kalliope.core.Utils import Utils
@@ -43,11 +44,10 @@ class SettingNotFound(Exception):
     pass
 
 
-class SettingLoader(object):
+class SettingLoader(with_metaclass(Singleton, object)):
     """
     This Class is used to get the Settings YAML and the Settings as an object
     """
-    __metaclass__ = Singleton
 
     def __init__(self, file_path=None):
         self.file_path = file_path
