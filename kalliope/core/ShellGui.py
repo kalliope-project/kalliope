@@ -23,7 +23,7 @@ def signal_handler(signal, frame):
     :param signal: signal handler
     :param frame: execution frame
     """
-    print "\n"
+    print("\n")
     Utils.print_info("Ctrl+C pressed. Killing Kalliope")
     sys.exit(0)
 

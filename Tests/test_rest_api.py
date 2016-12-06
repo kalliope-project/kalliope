@@ -21,7 +21,7 @@ class TestRestAPI(LiveServerTestCase):
         Singleton._instances = {}
         current_path = os.getcwd()
         full_path_brain_to_test = current_path + os.sep + "Tests/brains/brain_test.yml"
-        print full_path_brain_to_test
+        print(full_path_brain_to_test)
 
         # rest api config
         sl = SettingLoader()
