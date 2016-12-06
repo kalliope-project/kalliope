@@ -1,1 +1,1 @@
-from neurotransmitter import Neurotransmitter
+from .neurotransmitter import Neurotransmitter

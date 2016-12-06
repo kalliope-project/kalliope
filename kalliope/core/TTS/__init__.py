@@ -1,1 +1,1 @@
-from TTSModule import TTSModule
+from .TTSModule import TTSModule

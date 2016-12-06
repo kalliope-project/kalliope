@@ -1,1 +1,1 @@
-from apiai import Apiai
+from .apiai import Apiai

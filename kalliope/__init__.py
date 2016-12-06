@@ -10,7 +10,7 @@ from kalliope.core.ConfigurationManager.BrainLoader import BrainLoader
 from kalliope.core.EventManager import EventManager
 from kalliope.core.MainController import MainController
 
-from _version import version_str
+from ._version import version_str
 import signal
 import sys
 
