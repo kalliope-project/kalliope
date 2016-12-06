@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 import re
+import sys
 from setuptools import setup, find_packages
 from codecs import open
 from os import path
@@ -26,6 +27,10 @@ def read_version_py(file_name):
 
 VERSION_PY_FILENAME = 'kalliope/_version.py'
 version = read_version_py(VERSION_PY_FILENAME)
+
+py2_prefix = ''
+if sys.version_info[0] < 3:
+    py2_prefix = 'python2-'
 
 setup(
     name='kalliope',
@@ -61,7 +66,7 @@ setup(
         'markupsafe==0.23',
         'pyaudio==0.2.9',
         'ansible==2.2.0.0',
-        'python2-pythondialog==3.4.0',
+        py2_prefix + 'pythondialog==3.4.0',
         'jinja2==2.8',
         'python-crontab==2.1.1',
         'cffi==1.9.1',
