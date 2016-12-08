@@ -95,9 +95,4 @@ class MainController:
         # take first randomly a path
         random_path = random.choice(random_wake_up_sounds)
         logger.debug("Selected sound: %s" % random_path)
-        if os.path.isabs(random_path):
-            logger.debug("Path of file %s is absolute" % random_path)
-            return random_path
-        else:
-            logger.debug("Path of file %s is relative" % random_path)
-            return "sounds" + os.sep + random_path
+        return Utils.get_real_file_path(random_path)

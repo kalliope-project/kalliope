@@ -160,15 +160,8 @@ class NeuronModule(object):
             sys.setdefaultencoding('utf-8')
             # the user choose a file_template option
             if self.file_template is not None:  # the user choose a file_template option
-                if not os.path.isabs(self.file_template):  # os.path.isabs returns True if the path is absolute
-                    # here we are
-                    dir_we_are = os.path.dirname(os.path.realpath(__file__))
-                    # root directory
-                    root_dir = os.path.normpath(dir_we_are + os.sep + os.pardir)
-                    # real path of the template
-                    real_file_template_path = os.path.join(root_dir, self.file_template)
-                else:
-                    real_file_template_path = self.file_template
+                real_file_template_path = Utils.get_real_file_path(self.file_template)
+
                 if os.path.isfile(real_file_template_path):
                     # load the content of the file as template
                     t = Template(self._get_content_of_file(real_file_template_path))

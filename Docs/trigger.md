@@ -8,8 +8,8 @@ With Kalliope project, you can set whatever Hotword you want to wake it up.
 You can create your magic word by connecting to [Snowboy](https://snowboy.kitt.ai/) and then download the trained model file.
 
 Once downloaded:
-- place the file in **trigger/snowboy/resources**.
-- update the path in [your settings](settings.md).
+- place the file in your personal config folder.
+- update the path of **pmdl_file** in [your settings](settings.md).
 
 If you want to keep "Kalliope" as the name of your bot, we recommend you to enhance the existing Snowboy model for your language.
 
@@ -20,7 +20,8 @@ kalliope-<language_code>
 
 E.g
 ```
-kalliope-en
+kalliope-FR
+kalliope-EN
 ```
 Then, open an issue or create a pull request to add the model to the list bellow.
 
@@ -28,4 +29,5 @@ Then, open an issue or create a pull request to add the model to the list bellow
 
 | Name                                                | language |
 |-----------------------------------------------------|----------|
-| [kalliope-fr](https://snowboy.kitt.ai/hotword/1363) | French   |
+| [kalliope-FR](https://snowboy.kitt.ai/hotword/1363) | French   |
+| [kalliope-EN](https://snowboy.kitt.ai/hotword/2540) | English  |

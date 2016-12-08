@@ -1,13 +1,24 @@
 # Kalliope settings
 
 This part of the documentation explains the main configuration of Kalliope.
-You will have to modify the configuration file called `settings.yml` which is located in the root of the project tree.
 
-The file is written on YAML syntax.
+Kalliope needs two files to works, a `settings.yml` and a `brain.yml`. Files are written on YAML syntax.
 
-## Tunable settings
+When you start kalliope using the CLI, the program will try to load your settings.yml and brain.yml in the following order:
+- From you current folder, E.g `/home/pi/my_kalliope/settings.yml`
+- From `/etc/kalliope/settings.yml`
+- From the default `settings.yml`. You can take a look into the default [`settings.yml`](../kalliope/settings.yml) file which is located in the root of the project tree.
 
-The following settings can be modified:
+This a common tree of a Kalliope configuration folder:
+```
+kalliope_config/
+├── brains
+│   └── included_brain.yml
+├── brain.yml
+├── files
+│   └── kalliope-FR-13samples.pmdl
+└── settings.yml
+```
 
 ## Triggers configuration
 
@@ -203,7 +214,7 @@ Password used by the basic HTTP authentication. Must be provided if `password_pr
 
 ## Default synapse
 
-Run a default synapse when Kalliope can't find the order in any synapse.
+Run a default [synapse](brain.md) when Kalliope can't find the order in any synapse. 
 
 ```
 default_synapse: "synapse-name"
@@ -213,3 +224,6 @@ E.g
 ```
 default_synapse: "Default-response"
 ```
+
+## Next: configure the brain of Kalliope
+Now your settings are ok, you can start creating the [brain](brain.md) of your assistant.
