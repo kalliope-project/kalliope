@@ -2,7 +2,7 @@
 
 This part of the documentation explains the main configuration of Kalliope.
 
-Kalliope need two file to works, a `settings.yml` and a `brain.yml`. Files are written on YAML syntax.
+Kalliope needs two files to works, a `settings.yml` and a `brain.yml`. Files are written on YAML syntax.
 
 When you start kalliope using the CLI, the program will try to load your settings.yml and brain.yml in the following order:
 - From you current folder, E.g `/home/pi/my_kalliope/settings.yml`

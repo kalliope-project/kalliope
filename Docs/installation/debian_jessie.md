@@ -2,12 +2,10 @@
 
 ## Debian packages requirements
 
-Edit `/etc/apt/sources.list` and check that you have `contrib` and `non-free` and backports archives enabled:
+Edit `/etc/apt/sources.list` and check that you have `contrib` and `non-free` are enabled:
 ```
 deb http://httpredir.debian.org/debian jessie main contrib non-free
 deb-src http://httpredir.debian.org/debian jessie main contrib non-free
-deb http://httpredir.debian.org/debian jessie-backports main contrib non-free
-deb-src http://httpredir.debian.org/debian jessie-backports main contrib non-free
 ```
 
 Install some required system libraries and softwares:

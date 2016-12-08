@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Please follow link bellow to install requirements depending on your target environment:
+Please follow the right link bellow to install requirements depending on your target environment:
 - [Raspbian (Raspberry Pi 2 & 3)](installation/raspbian_jessie.md)
 - [Ubuntu 14.04/16.04](installation/ubuntu_16.04.md)
 - [Debian Jessie](installation/debian_jessie.md)
@@ -79,7 +79,7 @@ Then play the recorded audio file
 mplayer test.wav
 ```
 
-You can then test your Kalliope is working by using the "bonjour" order integrated in the [default brain](../kalliope/brain.yml).
+You can then test that your Kalliope is working by using the "bonjour" order integrated in the [default brain](../kalliope/brain.yml).
 Start kalliope:
 ```
 kalliope start
@@ -111,7 +111,7 @@ Waiting for trigger detection
 
 ## Get a starter configuration
 We create some starter configuration that only need to be downloaded and then started. 
-Those repositories provides you a basic structure to start playing with kalliope. We recommend you to clone one of them and then go to the next section.
+Those repositories provide you a basic structure to start playing with kalliope. We recommend you to clone one of them and then go to the next section.
 
 - [French starter config](https://github.com/kalliope-project/kalliope_starter_fr)
 - [English starter config](https://github.com/kalliope-project/kalliope_starter_en)

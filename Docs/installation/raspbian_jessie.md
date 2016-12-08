@@ -11,7 +11,7 @@ sudo apt-get install git python-pip python-dev libsmpeg0 libttspico-utils libsmp
 
 ## Raspberry Pi configuration
 
-This part deals with the special configuration needed for get kalliope working on a RPi.
+This part deals with the special configuration needed to get kalliope working on a RPi.
 
 ### Packages
 

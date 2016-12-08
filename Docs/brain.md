@@ -13,7 +13,7 @@ An output action is
 
 Brain is expressed in YAML format (see YAML Syntax) and has a minimum of syntax, which intentionally tries to not be a programming language or script, 
 but rather a model of a configuration or a process.
-Kalliope will search her brain in the order bellow:
+Kalliope will look for the brain in the order bellow:
 - From you current folder, E.g `/home/pi/my_kalliope/brain.yml`
 - From `/etc/kalliope/brain.yml`
 - From the default `brain.yml`. You can take a look into the default [`brain.yml`](../kalliope/brain.yml) file which is located in the root of the project tree.
@@ -132,6 +132,6 @@ You can provide a default synapse in case none of them are matching when an orde
 >**Note:** You need to define it in the settings.yml cf :[Setting](settings.md).
 
 ## Next: Start Kalliope
-Now you take a look into the [CLI documentation](kalliope_cli.md) to learn how to start kalliope
+Now you take a look into the [CLI documentation](kalliope_cli.md) to learn how to start kalliope.
 
 
