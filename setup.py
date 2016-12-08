@@ -57,13 +57,12 @@ setup(
 
     # required libs
     install_requires=[
-        'SpeechRecognition==3.4.6',
+        'SpeechRecognition>=3.5.0',
         'markupsafe==0.23',
         'pyaudio==0.2.9',
         'ansible==2.2.0.0',
         'python2-pythondialog==3.4.0',
         'jinja2==2.8',
-        'python-crontab==2.1.1',
         'cffi==1.9.1',
         'pygmail==0.0.5.4',
         'pushetta==1.0.15',
@@ -86,10 +85,8 @@ setup(
     # additional files
     package_data={
         'kalliope': [
-            'brains/*.yml',
             'brain.yml',
             'settings.yml',
-            'tasks.yml',
             'trigger/snowboy/armv7l/_snowboydetect.so',
             'trigger/snowboy/x86_64/_snowboydetect.so',
             'trigger/snowboy/resources/*',
