@@ -118,7 +118,7 @@ class NeuronModule(object):
         if tts_message is not None:
             logger.debug("tts_message to say: %s" % tts_message)
 
-            # create a tts object from the tts the user want to user
+            # create a tts object from the tts the user want to use
             tts_object = next((x for x in self.settings.ttss if x.name == self.tts), None)
             if tts_object is None:
                 raise TTSModuleNotFound("The tts module name %s does not exist in settings file" % self.tts)
@@ -158,10 +158,6 @@ class NeuronModule(object):
 
         return returned_message
 
-        # we don't force the usage of a template. The user can choose to do nothing with returned value
-        # if not returned_message:
-        #     raise NoTemplateException("You must specify a say_template or a file_template")
-
     @staticmethod
     def _get_say_template(list_say_template, message_dict):
         if isinstance(list_say_template, list):
@@ -173,13 +169,14 @@ class NeuronModule(object):
     @classmethod
     def _get_file_template(cls, file_template, message_dict):
         real_file_template_path = Utils.get_real_file_path(file_template)
-        if os.path.isfile(real_file_template_path):
-            # load the content of the file as template
-            t = Template(cls._get_content_of_file(real_file_template_path))
-            returned_message = t.render(**message_dict)
-        else:
+        if real_file_template_path is None:
             raise TemplateFileNotFoundException("Template file %s not found in templates folder"
                                                 % real_file_template_path)
+
+        # load the content of the file as template
+        t = Template(cls._get_content_of_file(real_file_template_path))
+        returned_message = t.render(**message_dict)
+
         return returned_message
 
     def run_synapse_by_name(self, name):
