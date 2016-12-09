@@ -3,13 +3,12 @@
 ## SYNOPSIS
 This is the syntax used to run Kalliope from command line
 ```
-cd /path/to/kalliope
-python kalliope.py command --option <argument>
+kalliope command --option <argument>
 ```
 
 For example, to start Kalliope we simply use
 ```
-python kalliope.py start
+kalliope start
 ```
 
 ## ARGUMENTS
@@ -19,7 +18,7 @@ Start Kalliope main program
 
 Example of use
 ```
-python kalliope.py start
+kalliope start
 ```
 
 To kill Kalliope, you can press "Ctrl-C" on your keyboard.
@@ -30,7 +29,7 @@ The GUI allows you to test your [STT](stt.md) and [TTS](tts.md) that you have co
 
 Example of use
 ```
-python kalliope.py gui
+kalliope gui
 ```
 
 ## OPTIONS
@@ -43,7 +42,7 @@ Run a specific synapse from the brain file.
 
 Example of use
 ```
-python kalliope.py start --run-synapse "say hello"
+kalliope start --run-synapse "say-hello"
 ```
 
 ### --brain-file BRAIN_FILE
@@ -53,12 +52,12 @@ Replace the default brain file from the root of the project folder by a custom o
 
 Example of use
 ```
-python kalliope.py start --brain-file /home/me/my_other_brain.yml
+kalliope start --brain-file /home/me/my_other_brain.yml
 ```
 
 You can combine the options together like, for example:
 ```
-python kalliope.py start --run-synapse "say hello" --brain-file /home/me/my_other_brain.yml
+kalliope start --run-synapse "say-hello" --brain-file /home/me/my_other_brain.yml
 ```
 
 ### --debug
@@ -67,5 +66,5 @@ Show debug output in the console
 
 Example of use
 ```
-python kalliope.py start --debug
+kalliope start --debug
 ```

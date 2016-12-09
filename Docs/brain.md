@@ -9,7 +9,7 @@ An input action, called a "[signal](signals.md)" can be:
 - **an event:** A date or a frequency (E.G: repeat each morning at 8:30)
 
 An output action is
-- **a list of neurons:** A [neuron](neurons.md) is a module or plugin that will perform some actions like simply talking, run a script, run a command or a complex Ansible playbook.
+- **a list of neurons:** A [neuron](neurons.md) is a module or plugin that will perform some actions like simply talking, run a script, run a command or call a web service.
 
 Brain is expressed in YAML format (see YAML Syntax) and has a minimum of syntax, which intentionally tries to not be a programming language or script, 
 but rather a model of a configuration or a process.
@@ -134,4 +134,7 @@ You can provide a default synapse in case none of them are matching when an orde
 ## Next: Start Kalliope
 Now you take a look into the [CLI documentation](kalliope_cli.md) to learn how to start kalliope.
 
+## Notes
+- What is a [neuron](neurons.md)
+- What is a [signal](signals.md)
 
