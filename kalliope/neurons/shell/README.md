@@ -11,6 +11,7 @@ Run a shell command on the local system where Kalliope is installed.
 |-----------|----------|---------|----------|-----------------------------------------------------------------------------|
 | cmd       | yes      |         |          | The shell command to run                                                    |
 | async     | no       | False   |          | If True, Kalliope will not wait for the end of the execution of the command |
+| query     | no       | False   |          | An argument to send the script.                                             |
 
 
 ## Return Values
@@ -88,6 +89,21 @@ If you run it a second time, the command will fail as the file is not anymore pr
           cmd: "rm ~/test.txt"
           file_template: remove_file.j2
 ```
+
+If you want to add argument to your shell command, you can use the query arguments.
+```
+  - name: "Delete-a-specific-file"
+    signals:
+      - order: "remove file {{ query }}"
+    neurons:
+      - shell:
+          cmd: "rm "
+          file_template: remove_file.j2
+          args:
+              - query
+```
+In the example above, kalliope will remove the file you asked for in the query.
+eg: "remove file test", the executed command will be "rm test"
 
 ## Templates example 
 

@@ -39,6 +39,10 @@ class Shell(NeuronModule):
         self.cmd = kwargs.get('cmd', None)
         # get if the user select a blocking command or not
         self.async = kwargs.get('async', False)
+        self.query = kwargs.get('query', None)
+
+        if self.query is not None:
+            self.cmd = self.cmd + "\"" + self.query +"\""
 
         # check parameters
         if self._is_parameters_ok():
