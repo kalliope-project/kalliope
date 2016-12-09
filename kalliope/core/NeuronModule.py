@@ -189,17 +189,17 @@ class NeuronModule(object):
             return content_file.read()
 
     @staticmethod
-    def _update_cache_var(new_override_cache, args_list):
+    def _update_cache_var(new_override_cache, args_dict):
         """
         update the value for the key "cache" in the dict args_list
-        :param new_override_cache: cache bolean to set in place of the current one in args_list
-        :param args_list: arg list that contain "cache" to update
+        :param new_override_cache: cache boolean to set in place of the current one in args_list
+        :param args_dict: arg list that contain "cache" to update
         :return:
         """
-        logger.debug("args for TTS plugin before update: %s" % str(args_list))
-        args_list["cache"] = new_override_cache
-        logger.debug("args for TTS plugin after update: %s" % str(args_list))
-        return args_list
+        logger.debug("args for TTS plugin before update: %s" % str(args_dict))
+        args_dict["cache"] = new_override_cache
+        logger.debug("args for TTS plugin after update: %s" % str(args_dict))
+        return args_dict
 
     @staticmethod
     def get_audio_from_stt(callback):
