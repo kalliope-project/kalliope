@@ -144,36 +144,43 @@ class NeuronModule(object):
         """
         returned_message = None
 
-        if (self.say_template is not None and self.file_template is None) or \
-                (self.say_template is None and self.file_template is not None):
+        # the user choose a say_template option
+        if self.say_template is not None:
+            returned_message = self._get_say_template(self.say_template, message_dict)
 
-            # the user choose a say_template option
-            if self.say_template is not None:
-                if isinstance(self.say_template, list):
-                    # then we pick randomly one template
-                    self.say_template = random.choice(self.say_template)
-                t = Template(self.say_template)
-                returned_message = t.render(**message_dict)
+        # trick to remove unicode problem when loading jinja template with non ascii char
+        reload(sys)
+        sys.setdefaultencoding('utf-8')
 
-            # trick to remobe unicode problem when loading jinja template with non ascii char
-            reload(sys)
-            sys.setdefaultencoding('utf-8')
-            # the user choose a file_template option
-            if self.file_template is not None:  # the user choose a file_template option
-                real_file_template_path = Utils.get_real_file_path(self.file_template)
+        # the user choose a file_template option
+        if self.file_template is not None:  # the user choose a file_template option
+            returned_message = self._get_file_template(self.file_template, message_dict)
 
-                if os.path.isfile(real_file_template_path):
-                    # load the content of the file as template
-                    t = Template(self._get_content_of_file(real_file_template_path))
-                    returned_message = t.render(**message_dict)
-                else:
-                    raise TemplateFileNotFoundException("Template file %s not found in templates folder"
-                                                        % real_file_template_path)
-            return returned_message
+        return returned_message
 
         # we don't force the usage of a template. The user can choose to do nothing with returned value
-        # else:
+        # if not returned_message:
         #     raise NoTemplateException("You must specify a say_template or a file_template")
+
+    @staticmethod
+    def _get_say_template(list_say_template, message_dict):
+        if isinstance(list_say_template, list):
+            # then we pick randomly one template
+            list_say_template = random.choice(list_say_template)
+        t = Template(list_say_template)
+        return t.render(**message_dict)
+
+    @classmethod
+    def _get_file_template(cls, file_template, message_dict):
+        real_file_template_path = Utils.get_real_file_path(file_template)
+        if os.path.isfile(real_file_template_path):
+            # load the content of the file as template
+            t = Template(cls._get_content_of_file(real_file_template_path))
+            returned_message = t.render(**message_dict)
+        else:
+            raise TemplateFileNotFoundException("Template file %s not found in templates folder"
+                                                % real_file_template_path)
+        return returned_message
 
     def run_synapse_by_name(self, name):
         SynapseLauncher.start_synapse(name=name, brain=self.brain)
@@ -189,17 +196,17 @@ class NeuronModule(object):
             return content_file.read()
 
     @staticmethod
-    def _update_cache_var(new_override_cache, args_list):
+    def _update_cache_var(new_override_cache, args_dict):
         """
         update the value for the key "cache" in the dict args_list
-        :param new_override_cache: cache bolean to set in place of the current one in args_list
-        :param args_list: arg list that contain "cache" to update
+        :param new_override_cache: cache boolean to set in place of the current one in args_list
+        :param args_dict: arg list that contain "cache" to update
         :return:
         """
-        logger.debug("args for TTS plugin before update: %s" % str(args_list))
-        args_list["cache"] = new_override_cache
-        logger.debug("args for TTS plugin after update: %s" % str(args_list))
-        return args_list
+        logger.debug("args for TTS plugin before update: %s" % str(args_dict))
+        args_dict["cache"] = new_override_cache
+        logger.debug("args for TTS plugin after update: %s" % str(args_dict))
+        return args_dict
 
     @staticmethod
     def get_audio_from_stt(callback):
