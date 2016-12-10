@@ -87,7 +87,7 @@ the message variable must be a Dict of variable:values where variables can be de
     class Myneuron(NeuronModule):
     def __init__(self, **kwargs):
         super(Myneuron, self).__init__(**kwargs)
-        # ge args from the neuron configuration
+        # the args from the neuron configuration
         self.arg1 = kwargs.get('arg1', None)
         self.arg2 = kwargs.get('arg2', None)
 
@@ -113,7 +113,7 @@ the message variable must be a Dict of variable:values where variables can be de
 
 ##### Constraints
 
-1. The Neuron must (as much as possible) ensure the i18n. This means that they should __not manage a specific languages__ inside its own logic.
+1. The Neuron must (as much as possible) ensure the i18n. This means that they should __not manage a specific language__ inside its own logic.
 Only [Synapse](brain.md) by the use of [Order](signals.md) must interact with the languages. This allow a Neuron to by reused by anyone, speaking any language.
 
 1. Respect [PEP 257](https://www.python.org/dev/peps/pep-0257/) -- Docstring conventions. For each class or method add a description with summary, input parameter, returned parameter,  type of parameter

@@ -58,9 +58,9 @@ In this example, both word "Amy" and "Winehouse" will be passed as an unique arg
 If you want to send more than one argument, you must split your argument with a word that Kalliope will use to recognise the start and the end of each arguments.
 For example:  "give me the weather at {{ location }} for {{ date }}"
 And the order would be: "give me the weather at Paris for tomorrow"
-And so, it will word too with: "give me the weather at St-Pierre de Chartreuse for tomorrow"
+And so, it will work too with: "give me the weather at St-Pierre de Chartreuse for tomorrow"
 
-See the **input values** section of the [neuron documentation](neurons) to know how to send argument to a neuron.
+See the **input values** section of the [neuron documentation](neurons) to know how to send arguments to a neuron.
 
 >**Important note:** The following syntax cannot be used: "<sentence> {{ arg_name }} {{ arg_name2 }}" as Kalliope cannot know when a block starts and when it finishes.
 
