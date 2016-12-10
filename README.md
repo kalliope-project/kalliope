@@ -1,6 +1,8 @@
 # Kalliope
 
 [![Build Status](https://travis-ci.org/kalliope-project/kalliope.svg)](https://travis-ci.org/kalliope-project/kalliope)
+[![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/kalliope-project/Lobby)
+
 
 ![logo](images/Kalliope_logo_large.png)
 

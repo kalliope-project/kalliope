@@ -55,6 +55,7 @@ From the captured order:
 Here, the spoken value captured by the TTS engine will be passed as an argument to the neuron in the variable named `parameter3`.
 
 Example, with the synapse declaration above, if you say "this is an order with the parameter Amy Winehouse". The neuron will receive a parameter named `parameter3` with "Amy Winehouse" as a value of this parameter.
+We recommend the reading of the [signals documentation](signals.md) for a complete understanding of how arguments in a neuron work.
 
 
 ## Output values
@@ -110,7 +111,7 @@ As this is multi-lines, we can put the content in a file and use a `file_templat
 ## Overridable parameters
 
 For each neuron, you can override some parameters to use a specific configuration of TTS instead of the default one 
-set in [settings.yml](settings.yml) file.
+set in [settings.yml](settings.md) file.
 
 ### Cache
 

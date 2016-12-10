@@ -8,3 +8,4 @@ from test_settings_loader import TestSettingLoader
 from test_singleton import TestSingleton
 from test_tts_module import TestTTSModule
 from test_yaml_loader import TestYAMLLoader
+from test_neuron_module import TestNeuronModule
