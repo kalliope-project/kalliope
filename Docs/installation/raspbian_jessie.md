@@ -1,41 +1,19 @@
-# Kalliope installation on Raspbian
+# Kalliope requirements for Raspbian
 
-## Automated install
+## Debian packages requirements
 
-Clone the project
-```
-cd
-git clone https://github.com/kalliope-project/kalliope.git
-```
+Install some required system libraries and software:
 
-Run the install script.
-```
-./kalliope/install/install_kalliope.sh
-```
-
-## Manual install
-
-To make Kalliope work, you will have to install a certain number of libraries:
 ```
 sudo apt-get update
 sudo apt-get install git python-pip python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer
 ```
 
-Clone the project
-```
-git clone https://github.com/kalliope-project/kalliope.git
-```
+## Raspberry Pi configuration
 
-Install libs
-```
-sudo pip install -r install/files/python_requirements.txt
-```
+This part deals with the special configuration needed to get kalliope working on a RPi.
 
-# Raspberry Pi configuration
-
-This documentation deals with the special configuration needed for get kalliope working on a RPi.
-
-## Packages
+### Packages
 
 On a Raspberry Pi, pulseaudio is not installed by default
 ```
@@ -47,7 +25,7 @@ Start the pulseaudio server
 pulseaudio -D
 ```
 
-## Microphone configuration
+### Microphone configuration
 
 Get your output card
 ```
@@ -141,7 +119,7 @@ mplayer test.wav
 ```
 
 
-## HDMI / Analog audio
+### HDMI / Analog audio
 
 By default the audio stream will get out by HDMI if something is plugged to this port.
 Check the [official documentation](https://www.raspberrypi.org/documentation/configuration/audio-config.md) to switch from HDMI to analog.

@@ -1,54 +1,28 @@
-# Kalliope installation on Debian Jessie
+# Kalliope requirements for Debian Jessie
 
-## Automated install
+## Debian packages requirements
 
-Clone the project
+Edit `/etc/apt/sources.list` and check that you have `contrib` and `non-free` are enabled:
 ```
-cd
-git clone https://github.com/kalliope-project/kalliope.git
-```
-
-Edit `/etc/apt/sources.list` and check that your mirror accept "non-free" package
-```
-deb http://ftp.fr.debian.org/debian/ jessie main contrib non-free
-deb-src http://ftp.fr.debian.org/debian/ jessie main contrib non-free
+deb http://httpredir.debian.org/debian jessie main contrib non-free
+deb-src http://httpredir.debian.org/debian jessie main contrib non-free
 ```
 
-Run the install script.
-```
-./kalliope/install/install_kalliope.sh
-```
+Install some required system libraries and softwares:
 
-## Manual install
-
-To make Kalliope work, you will have to install a certain number of libraries:
 ```
 sudo apt-get update
-sudo apt-get install git python-pip python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer
+sudo apt-get install git python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer
 ```
 
-Clone the project
+Let's install the last release of python-pip
 ```
-git clone https://github.com/kalliope-project/kalliope.git
-```
-
-Install libs
-```
-sudo pip install -r install/files/python_requirements.txt
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python get-pip.py
 ```
 
-## Test your env
-
-To ensure that you can record your voice, run the following command to capture audio input from your microphone
+Then, with pip, the last release of setuptools
 ```
-rec test.wav
+sudo pip install -U pip setuptools
 ```
 
-Press CTRL-C after capturing a sample of your voice.
-
-Then play the recorded audio file
-```
-mplayer test.wav
-```
-
-If everything is ok, you can start playing with Kalliope. First, take a look to the [default settings](settings.md).

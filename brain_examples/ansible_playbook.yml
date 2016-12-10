@@ -1,0 +1,9 @@
+---
+  - name: "snsible-test"
+    signals:
+      - order: "playbook"
+    neurons:
+      - ansible_playbook:
+          task_file: "tasks.yml"
+      - say:
+          message: "Tache terminée"

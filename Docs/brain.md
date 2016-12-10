@@ -1,6 +1,6 @@
 # Brain
 
-The brain is a main component of Kalliope. It's a module that gives a confuguration of your own personal assistant and, so, determines it's behavior and fonctionnalities.
+The brain is a main component of Kalliope. It's a module that gives a configuration of your own personal assistant and, so, determines it's behavior and fonctionnalities.
 
 Brain is composed by synapses: a synapse is the link between input and output actions.
 
@@ -9,10 +9,14 @@ An input action, called a "[signal](signals.md)" can be:
 - **an event:** A date or a frequency (E.G: repeat each morning at 8:30)
 
 An output action is
-- **a list of neurons:** A [neuron](neurons.md) is a module or plugin that will perform some actions like simply talking, run a script, run a command or a complex Ansible playbook.
+- **a list of neurons:** A [neuron](neurons.md) is a module or plugin that will perform some actions like simply talking, run a script, run a command or call a web service.
 
 Brain is expressed in YAML format (see YAML Syntax) and has a minimum of syntax, which intentionally tries to not be a programming language or script, 
 but rather a model of a configuration or a process.
+Kalliope will look for the brain in the order bellow:
+- From you current folder, E.g `/home/pi/my_kalliope/brain.yml`
+- From `/etc/kalliope/brain.yml`
+- From the default `brain.yml`. You can take a look into the default [`brain.yml`](../kalliope/brain.yml) file which is located in the root of the project tree.
 
 Let's take a look on a basic synapse in our brain:
 
@@ -28,11 +32,7 @@ Let's take a look on a basic synapse in our brain:
 
 Let's break this down in sections so we can understand how the file is built and what each part means.
 
-The file starts with:
-```
----
-```
-This is a requirement for YAML to interpret the file as a proper document.
+The file starts with: `---`. This is a requirement for YAML to interpret the file as a proper document.
 
 Items that begin with a ```-``` are considered as list items. Items have the format of ```key: value``` where value can be a simple string or a sequence of other items.
 
@@ -95,7 +95,7 @@ neurons:
 Note here that parameters are indented with one tabulation bellow the neuron's name (YAML syntax requirement).
 
 In this example, the neuron called "say" will make Kalliope speak out loud the sentence in parameter **message**.
-See the complete list of [available neurons](neurons.md) here.
+See the complete list of [available neurons](neuron_list.md) here.
 
 ## Manage synapses
 
@@ -108,7 +108,6 @@ If you want a better visibly, or simply sort your actions in different files, yo
 
 To do that, use the import statement in the entry brain.yml file with the following syntax:
 ```
----
   - includes:
       - path/to/sub_brain.yml
       - path/to/another_sub_brain.yml
@@ -116,7 +115,6 @@ To do that, use the import statement in the entry brain.yml file with the follow
 
 E.g:
 ```
----
   - includes:
       - brains/rolling_shutter_commands.yml
       - brains/find_my_phone.yml
@@ -125,3 +123,18 @@ E.g:
 >**Note:** You can only use the `include` statement in the main brain file. 
 
 >**Note:** the includes statement must start with a `-`
+
+
+## The default Synapse
+
+You can provide a default synapse in case none of them are matching when an order is given.
+>**Note:** This default synapse is optional.
+>**Note:** You need to define it in the settings.yml cf :[Setting](settings.md).
+
+## Next: Start Kalliope
+Now you take a look into the [CLI documentation](kalliope_cli.md) to learn how to start kalliope.
+
+## Notes
+- What is a [neuron](neurons.md)
+- What is a [signal](signals.md)
+

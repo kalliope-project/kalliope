@@ -1,5 +1,9 @@
 # Kalliope
 
+[![Build Status](https://travis-ci.org/kalliope-project/kalliope.svg)](https://travis-ci.org/kalliope-project/kalliope)
+[![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/kalliope-project/Lobby)
+
+
 ![logo](images/Kalliope_logo_large.png)
 
 Kalliope is a modular always-on voice controlled personal assistant designed for home automation.
@@ -22,9 +26,8 @@ Kalliope is easy-peasy to use, see the hello world
 
 ## Installation
 
-- [Raspbian Jessie(Raspberry pi)](Docs/installation/raspbian_jessie.md)
-- [Ubuntu 16.04](Docs/installation/ubuntu_16.04.md)
-- [Debian Jessie](Docs/installation/debian_jessie.md)
+- [Kalliope installation documentation](Docs/installation.md)
+
 
 ## Usage
 

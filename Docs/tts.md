@@ -51,11 +51,11 @@ generated audio files that will not be played more than once.
 
 ## Current Available TTS
 
-- [acapela](../tts/acapela/README.md)
-- [googletts](../tts/googletts/README.md)
-- [pico2wave](../tts/pico2wave/README.md)
-- [voicerss](../tts/voicerss/README.md)
-- [voxygen](../tts/voxygen/README.md)
+- [acapela](../kalliope/tts/acapela/README.md)
+- [googletts](../kalliope/tts/googletts/README.md)
+- [pico2wave](../kalliope/tts/pico2wave/README.md)
+- [voicerss](../kalliope/tts/voicerss/README.md)
+- [voxygen](../kalliope/tts/voxygen/README.md)
 
 ## Full Example
 

@@ -55,6 +55,7 @@ From the captured order:
 Here, the spoken value captured by the TTS engine will be passed as an argument to the neuron in the variable named `parameter3`.
 
 Example, with the synapse declaration above, if you say "this is an order with the parameter Amy Winehouse". The neuron will receive a parameter named `parameter3` with "Amy Winehouse" as a value of this parameter.
+We recommend the reading of the [signals documentation](signals.md) for a complete understanding of how arguments in a neuron work.
 
 
 ## Output values
@@ -66,7 +67,7 @@ the [template engine](https://en.wikipedia.org/wiki/Jinja_(template_engine)), an
 
 The template engine used in Kalliope is [Jinja2](http://jinja.pocoo.org/docs/dev/).
 
-For example, if we look at the [documentation of the neuron systemedate](../neurons/systemdate), we can see that the neuron will return a dictionary of value like `minute`, `hours` and all other values about the current time on the system where Kalliope is installed.
+For example, if we look at the [documentation of the neuron systemedate](../kalliope/neurons/systemdate/README.md), we can see that the neuron will return a dictionary of value like `minute`, `hours` and all other values about the current time on the system where Kalliope is installed.
 
 A simple, that only use **variables**, template would be
 ```
@@ -110,12 +111,12 @@ As this is multi-lines, we can put the content in a file and use a `file_templat
 ## Overridable parameters
 
 For each neuron, you can override some parameters to use a specific configuration of TTS instead of the default one 
-set in [settings.yml](settings.yml) file.
+set in [settings.yml](settings.md) file.
 
 ### Cache
 
 You can override the default cache configuration. By default Kalliope uses a cache to save a generated audio from a TTS engine.
-This cache is usefull to manage sentences that are not suppose to be changed very often. For exemple, the following sentence will not change in time, so it's more optimized to generate it once and to keep it in cash:
+This cache is useful to manage sentences that are not suppose to be changed very often. For example, the following sentence will not change in time, so it's more optimized to generate it once and to keep it in cash:
 ```
 - say:
     message:
