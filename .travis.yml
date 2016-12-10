@@ -12,7 +12,3 @@ before_install:
 install: "pip install -r install/files/python_requirements.txt"
 # command to run tests
 script: pytest
-# CodeCLimate for test coveragek
-addons:
-    code_climate:
-        repo_token: 8d4355b7655d8a91daa72132c587a03cee644e78dfcdd86562551b4ea992b61e
