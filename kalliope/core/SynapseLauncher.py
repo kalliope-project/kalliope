@@ -22,21 +22,14 @@ class SynapseLauncher(object):
         :param name: Name (Unique ID) of the synapse to launch
         :param brain: Brain instance
         """
-        synapse_name_launch = name
-        # get the brain
-        cls.brain = brain
 
         # check if we have found and launched the synapse
-        synapse_launched = False
-        for synapse in cls.brain.synapses:
-            if synapse.name == synapse_name_launch:
-                cls._run_synapse(synapse)
-                synapse_launched = True
-                # we found the synapse, we don't need to check the rest of the list
-                break
+        synapse_launched = brain.get_synapse_by_name(synapse_name=name)
 
         if not synapse_launched:
             raise SynapseNameNotFound("The synapse name \"%s\" does not exist in the brain file" % name)
+        else:
+            cls._run_synapse(synapse=synapse_launched)
 
     @classmethod
     def _run_synapse(cls, synapse):
