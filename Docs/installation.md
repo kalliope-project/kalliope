@@ -4,7 +4,8 @@
 
 Please follow the right link bellow to install requirements depending on your target environment:
 - [Raspbian (Raspberry Pi 2 & 3)](installation/raspbian_jessie.md)
-- [Ubuntu 14.04/16.04](installation/ubuntu_16.04.md)
+- [Ubuntu 14.04](installation/ubuntu_14.04.md)
+- [Ubuntu 16.04](installation/ubuntu_16.04.md)
 - [Debian Jessie](installation/debian_jessie.md)
 
 ## Installation
