@@ -84,6 +84,39 @@ If the user say something that is not present in `answers`, he will be redirecte
           message: "I haven't understood your answer"
 ```
 
+
+Neurotransmitter also uses parameters in answers. You can provide parameters to your answers so they can be used by the synapse you are about to launch.
+/!\ The params defined in answers must match with the expected "args" params in the target synapse, otherwise an error is raised.
+
+```
+
+  - name: "synapse5"
+    signals:
+      - order: "give me the weather"
+    neurons:
+      - say:
+          message: "which town ?"
+      - neurotransmitter:
+          from_answer_link:
+            - synapse: "synapse6"
+              answers:
+                - "the weather in {{ location }}"
+
+  - name: "synapse6"
+    signals:
+      - order: "What is the weather in {{ location }}"
+    neurons:
+      - openweathermap:
+          api_key: "your-api"
+          lang: "fr"
+          temp_unit: "celsius"
+          country: "FR"
+          args:
+            - location
+          say_template:
+          - "Today in {{ location }} the weather is {{ weather_today }} with {{ temp_today_temp }} celsius"
+```
+
 ## Notes
 > When using the neuron neurotransmitter, you must set a `direct_link` or a `from_answer_link`, no both at the same time.
 
