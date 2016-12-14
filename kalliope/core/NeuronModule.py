@@ -238,6 +238,7 @@ class NeuronModule(object):
         # call the order listener
         ol = OrderListener(callback=callback)
         ol.start()
+        ol.join()
 
     def get_neuron_name(self):
         """
