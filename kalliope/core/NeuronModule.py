@@ -1,12 +1,12 @@
 # coding: utf8
 import logging
-import os
 import random
 
 import sys
 from jinja2 import Template
 
 from kalliope.core import OrderListener
+from kalliope.core import OrderAnalyser
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.Utils.Utils import Utils
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
@@ -182,6 +182,30 @@ class NeuronModule(object):
     def run_synapse_by_name(self, name):
         SynapseLauncher.start_synapse(name=name, brain=self.brain)
 
+    def is_order_matching(self, order_said, order_match):
+        oa = OrderAnalyser(order=order_said, brain=self.brain)
+        return oa.spelt_order_match_brain_order_via_table(order_to_analyse=order_match, user_said=order_said)
+
+    def run_synapse_by_name_with_order(self, order, synapse_name, order_template):
+        """
+        Run a synapse using its name, and giving an order so it can retrieve its params.
+        Useful for neurotransmitters.
+        :param order: the order to match
+        :param synapse_name: the name of the synapse
+        :param order_template: order_template coming from the neurotransmitter
+        :return: True if a synapse as been found and started using its params
+        """
+        synapse_to_run = self.brain.get_synapse_by_name(synapse_name=synapse_name)
+        if synapse_to_run:
+            # Make a list with the synapse
+            logger.debug("[run_synapse_by_name_with_order]-> a synapse has been found  %s" % synapse_to_run.name)
+            list_to_run = list()
+            list_to_run.append(synapse_to_run)
+
+            oa = OrderAnalyser(order=order, brain=self.brain)
+            oa.start(synapses_to_run=list_to_run, external_order=order_template)
+        return synapse_to_run is not None
+
     @staticmethod
     def _get_content_of_file(real_file_template_path):
         """
@@ -212,8 +236,9 @@ class NeuronModule(object):
         :param callback: A callback function
         """
         # call the order listener
-        oa = OrderListener(callback=callback)
-        oa.start()
+        ol = OrderListener(callback=callback)
+        ol.start()
+        ol.join()
 
     def get_neuron_name(self):
         """

@@ -21,7 +21,7 @@ class OrderListener(Thread):
 
     def __init__(self, callback=None, stt=None):
         """
-        This class is called after we catch the hotword that have woke up Kalliope.
+        This class is called after we catch the hotword that has woken up Kalliope.
         We now wait for an order spoken out loud by the user, translate the order into a text and run the action
          attached to this order from settings
         :param callback: callback function to call
