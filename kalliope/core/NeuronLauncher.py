@@ -1,6 +1,7 @@
 import logging
 
 from kalliope.core.Utils.Utils import Utils
+from kalliope.core.ConfigurationManager.SettingLoader import SettingLoader
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -20,6 +21,9 @@ class NeuronLauncher:
         :return:
         """
         logger.debug("Run plugin \"%s\" with parameters %s" % (neuron.name, neuron.parameters))
+        sl = SettingLoader()
+        settings = sl.settings
         return Utils.get_dynamic_class_instantiation("neurons",
                                                      neuron.name.capitalize(),
-                                                     neuron.parameters)
+                                                     neuron.parameters,
+                                                     settings.resource_dir)

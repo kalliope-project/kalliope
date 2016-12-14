@@ -1,7 +1,7 @@
 import logging
 
 from YAMLLoader import YAMLLoader
-from kalliope.core.Utils import Utils
+from kalliope.core.Utils.Utils import Utils
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.RestAPI import RestAPI
 from kalliope.core.Models.Settings import Settings
@@ -106,6 +106,7 @@ class SettingLoader(object):
         rest_api = self._get_rest_api(settings)
         cache_path = self._get_cache_path(settings)
         default_synapse = self._get_default_synapse(settings)
+        resource_dir = self._get_resource_dir(settings)
 
         # Load the setting singleton with the parameters
         setting_object.default_tts_name = default_tts_name
@@ -119,6 +120,7 @@ class SettingLoader(object):
         setting_object.rest_api = rest_api
         setting_object.cache_path = cache_path
         setting_object.default_synapse = default_synapse
+        setting_object.resource_dir = resource_dir
 
         return setting_object
 
@@ -506,5 +508,31 @@ class SettingLoader(object):
             default_synapse = None
 
         return default_synapse
+
+    @staticmethod
+    def _get_resource_dir(settings):
+        """
+        Return the name of the resource directory
+
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return: the resource directory
+        :rtype: String
+
+        :Example:
+
+            resource_directory = cls._get_resource_dir(settings)
+
+        .. seealso::
+        .. raises:: SettingNotFound, NullSettingException, SettingInvalidException
+        .. warnings:: Class Method and Private
+        """
+        try:
+            resource_dir = settings["resource_directory"]
+            logger.debug("Resource directory synapse: %s" % resource_dir)
+        except KeyError:
+            resource_dir = None
+
+        return resource_dir
 
 

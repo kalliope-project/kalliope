@@ -1,6 +1,8 @@
 import logging
 import os
 import inspect
+import sys
+import imp
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -84,8 +86,8 @@ class Utils(object):
     # Dynamic loading
     #
     #########
-    @staticmethod
-    def get_dynamic_class_instantiation(package_name, module_name, parameters=None):
+    @classmethod
+    def get_dynamic_class_instantiation(package_name, module_name, parameters=None, resource_path=None):
         """
         Load a python class dynamically
 
@@ -99,8 +101,12 @@ class Utils(object):
         :return:
         """
         logger.debug("Run plugin %s with parameter %s" % (module_name, parameters))
-        module_name_with_path = "kalliope." + package_name + "." + module_name.lower() + "." + module_name.lower()
-        mod = __import__(module_name_with_path, fromlist=[module_name])
+
+        if os.path.exists(resource_path):
+            mod = imp.load_source(module_name, resource_path+'/'+package_name+'/'+module_name.lower()+'/'+module_name.lower()+'.py')
+        else:
+            module_name_with_path = "kalliope." + package_name + "." + module_name.lower() + "." + module_name.lower()
+            mod = __import__(module_name_with_path, fromlist=[module_name])
         try:
             klass = getattr(mod, module_name)
         except AttributeError:

@@ -16,3 +16,11 @@
       - say:
           message:
             - "Hello sir"
+
+  - name: "test"
+    signals:
+      - order: "test"
+    neurons:
+      - test:
+          message:
+            - "test"

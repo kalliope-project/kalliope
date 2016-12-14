@@ -113,3 +113,8 @@ rest_api:
 # ---------------------------
 # Specify an optional default synapse response in case your order is not found.
 default_synapse: "Default-synapse"
+
+# ---------------------------
+# resource directory path
+# ---------------------------
+resource_directory: "/tmp/resources"
