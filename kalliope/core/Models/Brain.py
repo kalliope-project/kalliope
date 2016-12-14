@@ -10,6 +10,22 @@ class Brain:
         self.brain_file = brain_file
         self.brain_yaml = brain_yaml
 
+    def get_synapse_by_name(self, synapse_name):
+        """
+        Get the synapse, using its synapse name, from the synapse list
+        :param synapse_name: the name of the synapse to get
+        :type synapse_name: str
+        :return: The Synapse corresponding to the name
+        :rtype: Synapse
+        """
+        synapse_launched = None
+        for synapse in self.synapses:
+            if synapse.name == synapse_name:
+                synapse_launched = synapse
+                # we found the synapse, we don't need to check the rest of the list
+                break
+        return synapse_launched
+
     def __eq__(self, other):
         """
         This is used to compare 2 objects
