@@ -1,7 +1,9 @@
 import re
+import sys
+import os
 
 from kalliope.core.Utils.Utils import ModuleNotFoundError
-
+from kalliope.core.ConfigurationManager.SettingLoader import SettingLoader
 
 class InvalidSynapeName(Exception):
     """
@@ -139,13 +141,24 @@ class ConfigurationChecker:
             :type neuron_module_name: str
             :return:
             """
-            package_name = "kalliope.neurons"
-            mod = __import__(package_name, fromlist=[neuron_module_name])
+            sl = SettingLoader()
+            settings = sl.settings
+            neuron_resource_path = settings.resource_dir + '/' + "neurons" + '/' + neuron_module_name.lower()+"/"+ neuron_module_name.lower()+".py"
+            print neuron_resource_path
+
+            if os.path.exists(neuron_resource_path):
+                sys.path.append(neuron_resource_path)
+                print sys.path
+                package_name = neuron_module_name.lower()
+            else:
+                package_name = "kalliope.neurons"+ "." + neuron_module_name.lower() + "." + neuron_module_name.lower()
+            mod = __import__(package_name, fromlist=[neuron_module_name.capitalize()])
+
             try:
-                getattr(mod, neuron_module_name)
+                getattr(mod, neuron_module_name.capitalize())
             except AttributeError:
-                raise ModuleNotFoundError("The module %s does not exist in package %s" % (neuron_module_name,
-                                                                                          package_name))
+                raise ModuleNotFoundError("The module %s does not exist in the package %s " % (neuron_module_name.capitalize(),
+                                                                                               package_name))
             return True
 
         if isinstance(neuron_dict, dict):

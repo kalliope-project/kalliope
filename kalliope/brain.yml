@@ -17,10 +17,10 @@
           message:
             - "Hello sir"
 
-  - name: "test"
+  - name: "testest"
     signals:
-      - order: "test"
+      - order: "testest"
     neurons:
-      - test:
+      - testest:
           message:
-            - "test"
+            - "testest"
