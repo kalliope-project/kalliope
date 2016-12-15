@@ -18,7 +18,6 @@
   - name: "synapse1"
     signals:
       - order: "pose moi une question"
-      - order: "pose-moi une question"
     neurons:
       - say:
           message: "aimez vous les frites?"
@@ -51,6 +50,42 @@
   - name: "synapse4"
     signals:
       - order: "synapse4"
+    neurons:
+      - say:
+          message: "Je n'ai pas compris votre réponse"
+
+
+  - name: "synapse5"
+    signals:
+      - order: "demande-moi la météo"
+    neurons:
+      - say:
+          message: "De quelle ville voulez-vous connaitre la météo?"
+      - neurotransmitter:
+          from_answer_link:
+            - synapse: "synapse6"
+              answers:
+                - "la météo à {{ location }}"
+          default: "synapse7"
+
+  - name: "synapse6"
+    signals:
+      - order: "quel temps fait-il {{ location }}"
+    neurons:
+      - openweathermap:
+          api_key: "your-api"
+          lang: "fr"
+          temp_unit: "celsius"
+          country: "FR"
+          args:
+            - location
+          say_template:
+          - "Aujourd'hui a {{ location }} le temps est {{ weather_today }} avec une température de {{ temp_today_temp }} degrés et demain le temps sera {{ weather_tomorrow }} avec une température de {{ temp_tomorrow_temp }} degrés"
+
+
+  - name: "synapse7"
+    signals:
+      - order: "synapse7"
     neurons:
       - say:
           message: "Je n'ai pas compris votre réponse"

@@ -49,7 +49,7 @@ class Google(OrderListener):
 
     def _analyse_audio(self, audio):
         """
-        Confirm the audio exists annd run it in a Callback
+        Confirm the audio exists and run it in a Callback
         :param audio: the captured audio
         """
 
