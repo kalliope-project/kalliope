@@ -41,8 +41,8 @@ class OrderAnalyser:
             # create a dict of synapses that have been launched
             logger.debug("[orderAnalyser.start]-> No Synapse provided, let's find one")
             synapses_to_run = self._find_synapse_to_run(brain=self.brain,
-                                                       settings=self.settings,
-                                                       order=self.order)
+                                                        settings=self.settings,
+                                                        order=self.order)
 
         # retrieve params
         for synapse in synapses_to_run:
@@ -78,7 +78,7 @@ class OrderAnalyser:
 
             if settings.default_synapse is not None:
                 default_synapse = cls._get_default_synapse_from_sysnapses_list(brain.synapses,
-                                                                                settings.default_synapse)
+                                                                               settings.default_synapse)
 
                 if default_synapse is not None:
                     logger.debug("Default synapse found %s" % default_synapse)
