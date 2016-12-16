@@ -1,9 +1,15 @@
 import unittest
 import os
+import mock
 
 from kalliope.core.Models.Neuron import Neuron
+from kalliope.core.Models.Order import Order
+from kalliope.core.Models.Synapse import Synapse
 from kalliope.neurons.say.say import Say
 from kalliope.core.Utils.Utils import Utils
+
+from kalliope.core.ConfigurationManager import SettingLoader
+from kalliope.core.ConfigurationManager import BrainLoader
 
 
 class TestUtils(unittest.TestCase):
@@ -121,11 +127,14 @@ class TestUtils(unittest.TestCase):
         """
         Test that an instance as been instantiate properly.
         """
+        sl = SettingLoader()
+        sl.settings.resource_dir = '/var/tmp/test/resources'
 
         neuron = Neuron(name='Say', parameters={'message': 'test dynamic class instantiate'})
-        self.assertTrue(isinstance(Utils.get_dynamic_class_instantiation("neurons",
-                                                                         neuron.name.capitalize(),
-                                                                         neuron.parameters),
+        self.assertTrue(isinstance(Utils.get_dynamic_class_instantiation(package_name="neurons",
+                                                                         module_name=neuron.name.capitalize(),
+                                                                         parameters=neuron.parameters,
+                                                                         resources_dir='/var/tmp/test/resources'),
                                    Say),
                         "Fail instantiate a class")
 
