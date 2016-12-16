@@ -117,4 +117,4 @@ default_synapse: "Default-synapse"
 # ---------------------------
 # resource directory path
 # ---------------------------
-resource_directory: "/tmp/resources"
+resource_directory: "/var/tmp/resources"

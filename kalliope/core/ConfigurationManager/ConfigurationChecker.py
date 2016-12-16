@@ -1,6 +1,7 @@
 import re
 import sys
 import os
+import imp
 
 from kalliope.core.Utils.Utils import ModuleNotFoundError
 from kalliope.core.ConfigurationManager.SettingLoader import SettingLoader
@@ -143,13 +144,14 @@ class ConfigurationChecker:
             """
             sl = SettingLoader()
             settings = sl.settings
-            neuron_resource_path = settings.resource_dir + '/' + "neurons" + '/' + neuron_module_name.lower()+"/"+ neuron_module_name.lower()+".py"
+            neuron_resource_path = settings.resource_dir + '/' + "neurons" + '/' + neuron_module_name.lower()+"/" + neuron_module_name.lower()+".py"
             print neuron_resource_path
 
             if os.path.exists(neuron_resource_path):
-                sys.path.append(neuron_resource_path)
-                print sys.path
-                package_name = neuron_module_name.lower()
+                # sys.path.append(neuron_resource_path)
+                # print sys.path
+                imp.load_source(neuron_module_name.capitalize(), neuron_resource_path)
+                package_name = neuron_module_name.capitalize()
             else:
                 package_name = "kalliope.neurons"+ "." + neuron_module_name.lower() + "." + neuron_module_name.lower()
             mod = __import__(package_name, fromlist=[neuron_module_name.capitalize()])

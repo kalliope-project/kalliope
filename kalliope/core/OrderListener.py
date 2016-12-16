@@ -55,8 +55,8 @@ class OrderListener(Thread):
         for stt_object in self.settings.stts:
             if stt_object.name == self.stt_module_name:
                 stt_object.parameters["callback"] = self.callback
-                Utils.get_dynamic_class_instantiation('stt',
-                                                      stt_object.name.capitalize(),
+                Utils.get_dynamic_class_instantiation(package_name='stt',
+                                                      module_name=stt_object.name.capitalize(),
                                                       parameters=stt_object.parameters)
 
     @staticmethod

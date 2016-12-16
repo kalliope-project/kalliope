@@ -1,7 +1,6 @@
 import logging
 import os
 import inspect
-import sys
 import imp
 
 logging.basicConfig()
@@ -87,7 +86,7 @@ class Utils(object):
     #
     #########
     @classmethod
-    def get_dynamic_class_instantiation(package_name, module_name, parameters=None, resource_path=None):
+    def get_dynamic_class_instantiation(cls, package_name, module_name, parameters=None, resources_dir=None):
         """
         Load a python class dynamically
 
@@ -98,15 +97,21 @@ class Utils(object):
         :param package_name: name of the package where we will find the module to load (neurons, tts, stt, trigger)
         :param module_name: name of the module from the package_name to load. This one is capitalized. Eg: Snowboy
         :param parameters:  dict parameters to send as argument to the module
+        :param resources_dir: the resource directory to check for external resources
         :return:
         """
         logger.debug("Run plugin %s with parameter %s" % (module_name, parameters))
+        package_path = "kalliope." + package_name + "." + module_name.lower() + "." + module_name.lower()
+        if resources_dir is not None:
+            neuron_resource_path = resources_dir + '/' + package_name + '/' + module_name.lower() + "/" + module_name.lower() + ".py"
+            if os.path.exists(neuron_resource_path):
+                imp.load_source(module_name.capitalize(), neuron_resource_path)
+                package_path = module_name.capitalize()
+                logger.debug("[Utils]-> get_dynamic_class_instantiation : loading path : %s, as package %s" % (
+                                                                                neuron_resource_path, package_path))
 
-        if os.path.exists(resource_path):
-            mod = imp.load_source(module_name, resource_path+'/'+package_name+'/'+module_name.lower()+'/'+module_name.lower()+'.py')
-        else:
-            module_name_with_path = "kalliope." + package_name + "." + module_name.lower() + "." + module_name.lower()
-            mod = __import__(module_name_with_path, fromlist=[module_name])
+        mod = __import__(package_path, fromlist=[module_name.capitalize()])
+
         try:
             klass = getattr(mod, module_name)
         except AttributeError:

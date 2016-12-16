@@ -23,7 +23,7 @@ class NeuronLauncher:
         logger.debug("Run plugin \"%s\" with parameters %s" % (neuron.name, neuron.parameters))
         sl = SettingLoader()
         settings = sl.settings
-        return Utils.get_dynamic_class_instantiation("neurons",
-                                                     neuron.name.capitalize(),
-                                                     neuron.parameters,
-                                                     settings.resource_dir)
+        return Utils.get_dynamic_class_instantiation(package_name="neurons",
+                                                     module_name=neuron.name.capitalize(),
+                                                     parameters=neuron.parameters,
+                                                     resources_dir= settings.resource_dir)
