@@ -143,14 +143,14 @@ class ConfigurationChecker:
             """
             sl = SettingLoader()
             settings = sl.settings
-            neuron_resource_path = settings.resources.neuron_folder + \
-                                   os.sep + neuron_module_name.lower() + os.sep + \
-                                   neuron_module_name.lower()+".py"
-            if os.path.exists(neuron_resource_path):
-                imp.load_source(neuron_module_name.capitalize(), neuron_resource_path)
-                package_name = neuron_module_name.capitalize()
-            else:
-                package_name = "kalliope.neurons" + "." + neuron_module_name.lower() + "." + neuron_module_name.lower()
+            package_name = "kalliope.neurons" + "." + neuron_module_name.lower() + "." + neuron_module_name.lower()
+            if settings.resources is not None:
+                neuron_resource_path = settings.resources.neuron_folder + \
+                                       os.sep + neuron_module_name.lower() + os.sep + \
+                                       neuron_module_name.lower()+".py"
+                if os.path.exists(neuron_resource_path):
+                    imp.load_source(neuron_module_name.capitalize(), neuron_resource_path)
+                    package_name = neuron_module_name.capitalize()
 
             try:
                 mod = __import__(package_name, fromlist=[neuron_module_name.capitalize()])
