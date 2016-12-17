@@ -143,22 +143,24 @@ class ConfigurationChecker:
             """
             sl = SettingLoader()
             settings = sl.settings
-            neuron_resource_path = settings.resource_dir + '/' + "neurons" + '/' + neuron_module_name.lower()+"/" + neuron_module_name.lower()+".py"
+            neuron_resource_path = settings.resources.neuron_folder + \
+                                   os.sep + neuron_module_name.lower() + os.sep + \
+                                   neuron_module_name.lower()+".py"
             if os.path.exists(neuron_resource_path):
                 imp.load_source(neuron_module_name.capitalize(), neuron_resource_path)
                 package_name = neuron_module_name.capitalize()
             else:
-                package_name = "kalliope.neurons"+ "." + neuron_module_name.lower() + "." + neuron_module_name.lower()
+                package_name = "kalliope.neurons" + "." + neuron_module_name.lower() + "." + neuron_module_name.lower()
 
             try:
                 mod = __import__(package_name, fromlist=[neuron_module_name.capitalize()])
                 getattr(mod, neuron_module_name.capitalize())
             except AttributeError:
                 raise ModuleNotFoundError("[AttributeError] The module %s does not exist in the package %s " % (neuron_module_name.capitalize(),
-                                                                         package_name))
+                                                                                                                package_name))
             except ImportError:
                 raise ModuleNotFoundError("[ImportError] The module %s does not exist in the package %s " % (neuron_module_name.capitalize(),
-                                                                                               package_name))
+                                                                                                             package_name))
             return True
 
         if isinstance(neuron_dict, dict):

@@ -103,7 +103,8 @@ class Utils(object):
         logger.debug("Run plugin %s with parameter %s" % (module_name, parameters))
         package_path = "kalliope." + package_name + "." + module_name.lower() + "." + module_name.lower()
         if resources_dir is not None:
-            neuron_resource_path = resources_dir + '/' + package_name + '/' + module_name.lower() + "/" + module_name.lower() + ".py"
+            neuron_resource_path = resources_dir + os.sep + module_name.lower() \
+                                   + os.sep + module_name.lower() + ".py"
             if os.path.exists(neuron_resource_path):
                 imp.load_source(module_name.capitalize(), neuron_resource_path)
                 package_path = module_name.capitalize()
@@ -113,10 +114,10 @@ class Utils(object):
         mod = __import__(package_path, fromlist=[module_name.capitalize()])
 
         try:
-            klass = getattr(mod, module_name)
+            klass = getattr(mod, module_name.capitalize())
         except AttributeError:
-            logger.debug("Error: No module named %s " % module_name)
-            raise ModuleNotFoundError("The module %s does not exist in package %s" % (module_name, package_name))
+            logger.debug("Error: No module named %s " % module_name.capitalize())
+            raise ModuleNotFoundError("The module %s does not exist in package %s" % (module_name.capitalize(), package_name))
 
         if klass is not None:
             # run the plugin

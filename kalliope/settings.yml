@@ -117,4 +117,8 @@ default_synapse: "Default-synapse"
 # ---------------------------
 # resource directory path
 # ---------------------------
-resource_directory: "/var/tmp/resources"
+#resource_directory:
+#  neuron: "/home/me/kalliope_resources_dir/neurons"
+#  stt: "/home/me/kalliope_resources_dir/stt"
+#  tts: "/home/me/kalliope_resources_dir/tts"
+#  trigger: "/home/me/kalliope_resources_dir/trigger"

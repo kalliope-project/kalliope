@@ -24,6 +24,6 @@ class NeuronLauncher:
         sl = SettingLoader()
         settings = sl.settings
         return Utils.get_dynamic_class_instantiation(package_name="neurons",
-                                                     module_name=neuron.name.capitalize(),
+                                                     module_name=neuron.name,
                                                      parameters=neuron.parameters,
-                                                     resources_dir= settings.resource_dir)
+                                                     resources_dir=settings.resources.neuron_folder)

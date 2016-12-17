@@ -23,5 +23,5 @@ class TTSLauncher(object):
         """
         logger.debug("get TTS module \"%s\" with parameters %s" % (tts.name, tts.parameters))
         return Utils.get_dynamic_class_instantiation(package_name="tts",
-                                                     module_name=tts.name.capitalize(),
+                                                     module_name=tts.name,
                                                      parameters=tts.parameters)

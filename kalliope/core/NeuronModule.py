@@ -130,7 +130,7 @@ class NeuronModule(object):
 
             # get the instance of the TTS module
             tts_module_instance = Utils.get_dynamic_class_instantiation(package_name="tts",
-                                                                        module_name=tts_object.name.capitalize(),
+                                                                        module_name=tts_object.name,
                                                                         parameters=tts_object.parameters)
             # generate the audio file and play it
             tts_module_instance.say(tts_message)

@@ -93,7 +93,7 @@ class OrderAnalyser:
         for signal in synapse.signals:
             if cls._is_containing_bracket(signal.sentence):
                 params = cls._associate_order_params_to_values(order_to_check, signal.sentence)
-                logger.debug("Parameters for order: %s" % params)
+                logger.debug("[OrderAnalyser]: Parameters for order: %s" % params)
         return params
 
     @classmethod

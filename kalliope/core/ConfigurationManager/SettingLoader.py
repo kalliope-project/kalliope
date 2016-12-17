@@ -1,6 +1,8 @@
 import logging
+import os
 
 from YAMLLoader import YAMLLoader
+from kalliope.core.Models.Resources import Resources
 from kalliope.core.Utils.Utils import Utils
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.RestAPI import RestAPI
@@ -106,7 +108,7 @@ class SettingLoader(object):
         rest_api = self._get_rest_api(settings)
         cache_path = self._get_cache_path(settings)
         default_synapse = self._get_default_synapse(settings)
-        resource_dir = self._get_resource_dir(settings)
+        resources = self._get_resources(settings)
 
         # Load the setting singleton with the parameters
         setting_object.default_tts_name = default_tts_name
@@ -120,7 +122,7 @@ class SettingLoader(object):
         setting_object.rest_api = rest_api
         setting_object.cache_path = cache_path
         setting_object.default_synapse = default_synapse
-        setting_object.resource_dir = resource_dir
+        setting_object.resources = resources
 
         return setting_object
 
@@ -510,14 +512,14 @@ class SettingLoader(object):
         return default_synapse
 
     @staticmethod
-    def _get_resource_dir(settings):
+    def _get_resources(settings):
         """
-        Return the name of the resource directory
+        Return a resources object that contains path of third party modules
 
         :param settings: The YAML settings file
         :type settings: dict
-        :return: the resource directory
-        :rtype: String
+        :return: the resource object
+        :rtype: Resources
 
         :Example:
 
@@ -530,9 +532,38 @@ class SettingLoader(object):
         try:
             resource_dir = settings["resource_directory"]
             logger.debug("Resource directory synapse: %s" % resource_dir)
-        except KeyError:
-            resource_dir = None
 
-        return resource_dir
+            neuron_folder = None
+            stt_folder = None
+            tts_folder = None
+            trigger_folder = None
+            if "neuron" in resource_dir:
+                neuron_folder = resource_dir["neuron"]
+                if not os.path.exists(neuron_folder):
+                    raise SettingInvalidException("The path %s does not exist on the system" % neuron_folder)
+
+            if "stt" in resource_dir:
+                stt_folder = resource_dir["stt"]
+                if not os.path.exists(stt_folder):
+                    raise SettingInvalidException("The path %s does not exist on the system" % stt_folder)
+
+            if "tts" in resource_dir:
+                tts_folder = resource_dir["tts"]
+                if not os.path.exists(tts_folder):
+                    raise SettingInvalidException("The path %s does not exist on the system" % tts_folder)
+
+            if "trigger" in resource_dir:
+                trigger_folder = resource_dir["trigger"]
+                if not os.path.exists(trigger_folder):
+                    raise SettingInvalidException("The path %s does not exist on the system" % trigger_folder)
+
+            resource_object = Resources(neuron_folder=neuron_folder,
+                                        stt_folder=stt_folder,
+                                        tts_folder=tts_folder,
+                                        trigger_folder=trigger_folder)
+        except KeyError:
+            resource_object = None
+
+        return resource_object
 
 
