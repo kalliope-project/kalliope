@@ -1,5 +1,6 @@
 # coding: utf8
 import re
+import collections
 from collections import Counter
 
 from kalliope.core.Utils.Utils import Utils
@@ -17,6 +18,7 @@ class OrderAnalyser:
     """
     This Class is used to compare the incoming message to the Signal/Order sentences.
     """
+
     def __init__(self, order, brain=None):
         """
         Class used to load brain and run neuron attached to the received order
@@ -33,43 +35,54 @@ class OrderAnalyser:
 
     def start(self, synapses_to_run=None, external_order=None):
         """
-        This method matches the incoming messages to the signals/order sentences provided in the Brain
+        This method matches the incoming messages to the signals/order sentences provided in the Brain.
+
+        Note: we use named tuples:
+        tuple_synapse_order = collections.namedtuple('tuple_synapse_matchingOrder',['synapse', 'order'])
         """
 
+        synapse_order_tuple = collections.namedtuple('tuple_synapse_matchingOrder', ['synapse', 'order'])
+        synapses_order_tuple_list = list()
+
+        if synapses_to_run is not None and external_order is not None:
+            for synapse in synapses_to_run:
+                synapses_order_tuple_list.append(synapse_order_tuple(synapse=synapse,
+                                                                     order=external_order))
+
         # if list of synapse is not provided, let's find one
-        if synapses_to_run is None and external_order is None:
+        else:  # synapses_to_run is None or external_order is None:
             # create a dict of synapses that have been launched
             logger.debug("[orderAnalyser.start]-> No Synapse provided, let's find one")
-            synapses_to_run = self._find_synapse_to_run(brain=self.brain,
-                                                        settings=self.settings,
-                                                        order=self.order)
+            synapses_order_tuple_list = self._find_synapse_to_run(brain=self.brain,
+                                                                  settings=self.settings,
+                                                                  order=self.order)
 
         # retrieve params
-        for synapse in synapses_to_run:
-            # If no external orders has been provided then run signals sentences
-            if external_order is None:
-                logger.debug("[orderAnalyser.start]-> No external order provided, run the signals from the synapse")
-                for signal in synapse.signals:
-                    params = self._get_params_from_order(signal.sentence, self.order)
-            else:
-                logger.debug("[orderAnalyser.start]-> provided external order")
-                params = self._get_params_from_order(external_order, self.order)
+        synapses_launched = list()
+        for tuple in synapses_order_tuple_list:
+            logger.debug("[orderAnalyser.start]-> Grab the params")
+            params = self._get_params_from_order(tuple.order, self.order)
 
             # Start a neuron list with params
-            self._start_list_neurons(list_neurons=synapse.neurons,
+            self._start_list_neurons(list_neurons=tuple.synapse.neurons,
                                      params=params)
+            synapses_launched.append(tuple.synapse)
 
         # return the list of launched synapse
-        return synapses_to_run
+        return synapses_launched
 
     @classmethod
     def _find_synapse_to_run(cls, brain, settings, order):
         """
-        Find the list of the synapse matching the order
+        Find the list of the synapse matching the order.
+
+        Note: we use named tuples:
+        tuple_synapse_order = collections.namedtuple('tuple_synapse_matchingOrder',['synapse', 'order'])
+
         :param brain: the brain
         :param settings: the settings
         :param order: the provided order to match
-        :return: the list of synapses launched
+        :return: the list of synapses launched (named tuples)
         """
 
         synapse_to_run = cls._get_matching_synapse_list(brain.synapses, order)
@@ -83,7 +96,10 @@ class OrderAnalyser:
                 if default_synapse is not None:
                     logger.debug("Default synapse found %s" % default_synapse)
                     Utils.print_info("Default synapse found: %s, running it" % default_synapse.name)
-                    synapse_to_run.append(default_synapse)
+                    tuple_synapse_order = collections.namedtuple('tuple_synapse_matchingOrder',
+                                                                         ['synapse', 'order'])
+                    synapse_to_run.append(tuple_synapse_order(synapse=default_synapse,
+                                                                      order=""))
 
         return synapse_to_run
 
@@ -92,17 +108,22 @@ class OrderAnalyser:
         """
         Class method to return all the matching synapses with the order from the complete of synapses.
 
+        Note: we use named tuples:
+        tuple_synapse_matchingOrder = collections.namedtuple('tuple_synapse_matchingOrder',['synapse', 'order'])
+
         :param all_synapses_list: the complete list of all synapses
         :param order_to_match: the order to match
         :type order_to_match: str
-        :return: the list of matching synapses
+        :return: the list of matching synapses (named tuples)
         """
+        tuple_synapse_order = collections.namedtuple('tuple_synapse_matchingOrder', ['synapse', 'order'])
         matching_synapses_list = list()
         for synapse in all_synapses_list:
             for signal in synapse.signals:
                 if type(signal) == Order:
                     if cls.spelt_order_match_brain_order_via_table(signal.sentence, order_to_match):
-                        matching_synapses_list.append(synapse)
+                        matching_synapses_list.append(tuple_synapse_order(synapse=synapse,
+                                                                                  order=signal.sentence))
                         logger.debug("Order found! Run neurons: %s" % synapse.neurons)
                         Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
         return matching_synapses_list
