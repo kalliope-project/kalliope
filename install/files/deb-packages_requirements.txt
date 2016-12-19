@@ -10,7 +10,6 @@ python-pycparser
 python-paramiko
 python-markupsafe
 apt-transport-https
-python-pip
 python-dev
 libsmpeg0
 libttspico-utils
