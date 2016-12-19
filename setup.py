@@ -74,7 +74,7 @@ setup(
         'flask==0.11.1',
         'Flask-Restful==0.3.5',
         'wikipedia==1.4.0',
-        'requests==2.12.1',
+        'requests==2.12.4',
         'httpretty==0.8.14',
         'mock==2.0.0',
         'feedparser==5.2.1',
