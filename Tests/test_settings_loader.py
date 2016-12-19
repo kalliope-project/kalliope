@@ -1,9 +1,12 @@
 import os
+import inspect
 import platform
+import shutil
 import unittest
 
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.Models import Singleton
+from kalliope.core.Models import Resources
 from kalliope.core.Models.RestAPI import RestAPI
 from kalliope.core.Models.Settings import Settings
 from kalliope.core.Models.Stt import Stt
@@ -14,8 +17,12 @@ from kalliope.core.Models.Tts import Tts
 class TestSettingLoader(unittest.TestCase):
 
     def setUp(self):
+        # get current script directory path. We are in /an/unknown/path/kalliope/core/Tests
+        cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+        # get parent dir. Now we are in /an/unknown/path/kalliope
+        root_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)
 
-        self.settings_file_to_test = os.getcwd() + os.sep + "/Tests/settings/settings_test.yml"
+        self.settings_file_to_test = root_dir + os.sep + "Tests/settings/settings_test.yml"
 
         self.settings_dict = {
             'rest_api':
@@ -36,7 +43,13 @@ class TestSettingLoader(unittest.TestCase):
                 {'pico2wave': {'cache': True, 'language': 'fr-FR'}},
                 {'voxygen': {'voice': 'Agnes', 'cache': True}}
             ],
-            'default_synapse': 'Default-synapse'
+            'default_synapse': 'Default-synapse',
+            'resource_directory':{
+                'neuron': "/tmp/kalliope/tests/kalliope_resources_dir/neurons",
+                'stt': "/tmp/kalliope/tests/kalliope_resources_dir/stt",
+                'tts': "/tmp/kalliope/tests/kalliope_resources_dir/tts",
+                'trigger': "/tmp/kalliope/tests/kalliope_resources_dir/trigger"
+            }
         }
 
     def tearDown(self):
@@ -72,11 +85,26 @@ class TestSettingLoader(unittest.TestCase):
                                            login="admin", password="secret", port=5000)
         settings_object.cache_path = '/tmp/kalliope_tts_cache'
         settings_object.default_synapse = 'Default-synapse'
+        resources = Resources(neuron_folder="/tmp/kalliope/tests/kalliope_resources_dir/neurons",
+                              stt_folder="/tmp/kalliope/tests/kalliope_resources_dir/stt",
+                              tts_folder="/tmp/kalliope/tests/kalliope_resources_dir/tts",
+                              trigger_folder="/tmp/kalliope/tests/kalliope_resources_dir/trigger")
+
+        # Init the folders, otherwise it raises an exceptions
+        os.makedirs("/tmp/kalliope/tests/kalliope_resources_dir/neurons")
+        os.makedirs("/tmp/kalliope/tests/kalliope_resources_dir/stt")
+        os.makedirs("/tmp/kalliope/tests/kalliope_resources_dir/tts")
+        os.makedirs("/tmp/kalliope/tests/kalliope_resources_dir/trigger")
+
+        settings_object.resources=resources
         settings_object.machine = platform.machine()
 
         sl = SettingLoader(file_path=self.settings_file_to_test)
 
         self.assertEqual(settings_object, sl.settings)
+
+        # Cleanup
+        shutil.rmtree('/tmp/kalliope/tests/kalliope_resources_dir')
 
     def test_get_default_speech_to_text(self):
         expected_default_speech_to_text = "google"
@@ -132,6 +160,24 @@ class TestSettingLoader(unittest.TestCase):
         expected_default_synapse = 'Default-synapse'
         sl = SettingLoader(file_path=self.settings_file_to_test)
         self.assertEqual(expected_default_synapse, sl._get_default_synapse(self.settings_dict))
+
+    def test_get_resources(self):
+        # Init the folders, otherwise it raises an exceptions
+        os.makedirs("/tmp/kalliope/tests/kalliope_resources_dir/neurons")
+        os.makedirs("/tmp/kalliope/tests/kalliope_resources_dir/stt")
+        os.makedirs("/tmp/kalliope/tests/kalliope_resources_dir/tts")
+        os.makedirs("/tmp/kalliope/tests/kalliope_resources_dir/trigger")
+
+        resources = Resources(neuron_folder="/tmp/kalliope/tests/kalliope_resources_dir/neurons",
+                              stt_folder="/tmp/kalliope/tests/kalliope_resources_dir/stt",
+                              tts_folder="/tmp/kalliope/tests/kalliope_resources_dir/tts",
+                              trigger_folder="/tmp/kalliope/tests/kalliope_resources_dir/trigger")
+        expected_resource = resources
+        sl = SettingLoader(file_path=self.settings_file_to_test)
+        self.assertEquals(expected_resource, sl._get_resources(self.settings_dict))
+
+        # Cleanup
+        shutil.rmtree('/tmp/kalliope/tests/kalliope_resources_dir')
 
 if __name__ == '__main__':
     unittest.main()
