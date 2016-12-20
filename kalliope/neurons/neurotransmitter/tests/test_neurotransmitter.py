@@ -1,6 +1,8 @@
 import unittest
 
-from kalliope.core.NeuronModule import MissingParameterException, InvalidParameterException
+from mock import mock
+
+from kalliope.core.NeuronModule import NeuronModule, MissingParameterException, InvalidParameterException
 from kalliope.neurons.neurotransmitter import Neurotransmitter
 
 
@@ -10,18 +12,25 @@ class TestNeurotransmitter(unittest.TestCase):
         self.from_answer_link = [
             {
                 "synapse": "synapse2",
-                "answer": "blabla"
+                "answers": [
+                    "answer one"
+                ]
             },
             {
                 "synapse": "synapse3",
-                "answer": "blablablbla",
-                "answer": "blablblobloa",
+                "answers": [
+                    "answer two",
+                    "answer three"
+                ]
             },
         ]
         self.direct_link = "direct_link"
         self.default = "default"
 
     def testParameters(self):
+        """
+        Testing the Parameters checking
+        """
         def run_test_InvalidParameterException(parameters_to_test):
             with self.assertRaises(InvalidParameterException):
                 Neurotransmitter(**parameters_to_test)
@@ -81,6 +90,48 @@ class TestNeurotransmitter(unittest.TestCase):
         }
         run_test_MissingParameterException(parameters)
 
-
     def testCallback(self):
+        """
+        Testing the callback provided when audio has been provided by the User as an answer.
+        """
+        parameters = {
+            "default": self.default,
+            "from_answer_link": self.from_answer_link
+        }
+        with mock.patch.object(NeuronModule, 'get_audio_from_stt', create=True) as mock_get_audio_from_stt:
+            with mock.patch.object(NeuronModule, 'run_synapse_by_name', create=True) as mock_run_synapse_by_name:
+                # testing running the default when no order matching
+                nt = Neurotransmitter(**parameters)
+                mock_get_audio_from_stt.assert_called_once()
+                mock_get_audio_from_stt.reset_mock()
+                # testing running the default when audio None
+                audio_text = None
+                nt.callback(audio=audio_text)
+                mock_run_synapse_by_name.assert_called_once_with(self.default)
+                mock_run_synapse_by_name.reset_mock()
+                # testing running the default when no order matching
+                audio_text = "try test audio "
+                nt.callback(audio=audio_text)
+                mock_run_synapse_by_name.assert_called_once_with(self.default)
+                mock_run_synapse_by_name.reset_mock()
+
+                with mock.patch.object(NeuronModule,
+                                       'run_synapse_by_name_with_order',
+                                       create=True) as mock_run_synapse_by_name_with_order:
+
+                    audio_text="answer one"
+                    nt.callback(audio=audio_text)
+                    mock_run_synapse_by_name_with_order.assert_called_once_with(order=audio_text,
+                                                                                synapse_name="synapse2",
+                                                                                order_template="answer one")
+
+    def testInit(self):
+        """
+        Testing the init method
+        """
         pass
+
+
+
+
+
