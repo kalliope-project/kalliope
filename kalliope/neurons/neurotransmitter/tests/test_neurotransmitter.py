@@ -127,9 +127,26 @@ class TestNeurotransmitter(unittest.TestCase):
 
     def testInit(self):
         """
-        Testing the init method
+        Testing the init method of the neurontransmitter.
         """
-        pass
+
+        with mock.patch.object(NeuronModule, 'run_synapse_by_name', create=True) as mock_run_synapse_by_name:
+            # Test direct link
+            parameters = {
+                "default": self.default,
+                "direct_link": self.direct_link
+            }
+            nt = Neurotransmitter(**parameters)
+            mock_run_synapse_by_name.assert_called_once_with(self.direct_link)
+
+        with mock.patch.object(NeuronModule, 'get_audio_from_stt', create=True) as mock_get_audio_from_stt:
+            # Test get_audio_from_stt
+            parameters = {
+                "default": self.default,
+                "from_answer_link": self.from_answer_link,
+            }
+            nt = Neurotransmitter(**parameters)
+            mock_get_audio_from_stt.assert_called_once()
 
 
 
