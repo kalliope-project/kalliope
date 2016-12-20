@@ -4,6 +4,11 @@
 
 Little description of what the neuron does.
 
+Installation
+```
+kalliope neuron-install --git-url "https://github.com/my_user/my_neuron.git"
+```
+
 ## Options
 
 (usage of a [table generator](http://www.tablesgenerator.com/markdown_tables) is recommended)

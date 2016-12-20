@@ -42,7 +42,7 @@ def main():
     parser.add_argument("--run-synapse", help="Name of a synapse to load surrounded by quote")
     parser.add_argument("--brain-file", help="Full path of a brain file")
     parser.add_argument("--debug", action='store_true', help="Show debug output")
-    parser.add_argument("--git-url", action='store_true', help="Git URL of the neuron to install")
+    parser.add_argument("--git-url", help="Git URL of the neuron to install")
 
     # parse arguments from script parameters
     args = parser.parse_args()
@@ -95,7 +95,10 @@ def main():
         if not args.git_url:
             Utils.print_danger("You must specify the git url")
         else:
-            ResourcesManager(args.git_url)
+            parameters = {
+                "git_url": args.git_url
+            }
+            ResourcesManager("install", **parameters)
 
 
 def configure_logging(debug=None):

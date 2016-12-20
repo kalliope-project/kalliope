@@ -562,6 +562,7 @@ class SettingLoader(object):
                                         tts_folder=tts_folder,
                                         trigger_folder=trigger_folder)
         except KeyError:
+            logger.debug("Resource directory not found in settings")
             resource_object = None
 
         return resource_object
