@@ -52,21 +52,7 @@ class ResourcesManager(object):
 
             # check the content of the cloned repo
             if self.is_neuron_ok():
-                # rename the folder
-                new_neuron_path = self._rename_temp_neuron_folder()
-                install_file_path = new_neuron_path + os.sep + INSTALL_FILE_NAME
-                Utils.print_info("Starting neuron installation")
-                # ask the sudo password
-                pswd = getpass.getpass('Sudo password:')
-                ansible_neuron_parameters = {
-                    "task_file": install_file_path,
-                    "sudo": True,
-                    "sudo_user": "root",
-                    "sudo_password": pswd
-                }
-                neuron = Neuron(name="ansible_playbook", parameters=ansible_neuron_parameters)
-                NeuronLauncher.start_neuron(neuron)
-                Utils.print_success("Neuron %s installed" % self.dna_file["neuron_name"])
+                self.install_neuron()
 
     def is_settings_ok(self):
         """
@@ -142,3 +128,20 @@ class ResourcesManager(object):
             Utils.print_warning("The neuron %s already exist in the resource directory" % neuron_name)
             # remove the cloned repo
             shutil.rmtree(self.tmp_path)
+
+    def install_neuron(self):
+        # rename the folder
+        new_neuron_path = self._rename_temp_neuron_folder()
+        install_file_path = new_neuron_path + os.sep + INSTALL_FILE_NAME
+        Utils.print_info("Starting neuron installation")
+        # ask the sudo password
+        pswd = getpass.getpass('Sudo password:')
+        ansible_neuron_parameters = {
+            "task_file": install_file_path,
+            "sudo": True,
+            "sudo_user": "root",
+            "sudo_password": pswd
+        }
+        neuron = Neuron(name="ansible_playbook", parameters=ansible_neuron_parameters)
+        NeuronLauncher.start_neuron(neuron)
+        Utils.print_success("Neuron %s installed" % self.dna_file["neuron_name"])

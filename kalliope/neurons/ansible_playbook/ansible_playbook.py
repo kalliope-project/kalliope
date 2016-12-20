@@ -18,7 +18,6 @@ class Ansible_playbook(NeuronModule):
 
         self.task_file = kwargs.get('task_file', None)
         self.sudo = kwargs.get('sudo', False)
-        print self.sudo
         self.sudo_user = kwargs.get('sudo_user', False)
         self.sudo_password = kwargs.get('sudo_password', False)
 

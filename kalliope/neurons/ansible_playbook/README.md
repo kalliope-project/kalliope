@@ -13,7 +13,7 @@ This neuron can be used to perform complex operation with all [modules available
 
 | parameter     | required | default | choices      | comment                                                                                                                          |
 |---------------|----------|---------|--------------|----------------------------------------------------------------------------------------------------------------------------------|
-| task_file     | YES      |         |              | path to the Playbook file that contain tasks                                                                                     |
+| task_file     | YES      |         |              | path to the Playbook file that contains tasks                                                                                    |
 | sudo          | NO       | FALSE   | True | False | If the playbook will require root privileges (become=true) , this must be set to True and sudo_user and password set accordingly |
 | sudo_user     | NO       |         |              | The target user with admin privileges. In most of case "root"                                                                    |
 | sudo_password | NO       |         |              | The password of the sudo_user                                                                                                    |
@@ -61,7 +61,7 @@ Content of the playbook. This playbook will use the [URI module](http://docs.ans
 
 ### Playbook with admin privileges
 
-In some cases, a playbook require sudo right to perform admin operations like installing a package.
+In some cases, a playbook requires sudo right to perform admin operations like installing a package.
 In this case, you must give to the neuron the login and password of the user which has admin privileges.
 ```
   - name: "Ansible-root"
