@@ -8,6 +8,9 @@ Playbooks are Ansible’s configuration, deployment, and orchestration language.
 
 This neuron can be used to perform complex operation with all [modules available from Ansible](http://docs.ansible.com/ansible/modules.html).
 
+## Installation
+
+CORE NEURON : No installation needed.  
 
 ## Options
 

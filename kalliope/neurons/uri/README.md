@@ -4,6 +4,10 @@
 
 Interacts with HTTP and HTTPS web services.
 
+## Installation
+
+CORE NEURON : No installation needed.  
+
 ## Options
 
 | parameter      | required | default | choices                                      | comment                                                                    |

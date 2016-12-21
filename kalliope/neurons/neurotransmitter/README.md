@@ -4,6 +4,10 @@
 
 Link synapses together. Call a synapse directly or depending on the captured speech from the user.
 
+## Installation
+
+CORE NEURON : No installation needed.  
+
 ## Options
 
 | parameter        | required | default | choices | comment                                                                                           |

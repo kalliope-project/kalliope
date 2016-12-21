@@ -4,6 +4,10 @@
 
 This neuron runs a script located on the Kalliope system.
 
+## Installation
+
+CORE NEURON : No installation needed.  
+
 ## Options
 
 | parameter | required | default | choices | comment                                                                    |

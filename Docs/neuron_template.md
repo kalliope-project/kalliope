@@ -6,7 +6,7 @@ Little description of what the neuron does.
 
 ## Installation
 ```
-kalliope neuron-install --git-url "https://github.com/my_user/my_neuron.git"
+kalliope install --git-url "https://github.com/my_user/my_neuron.git"
 ```
 
 ## Options

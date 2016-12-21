@@ -15,9 +15,21 @@ from kalliope.core.NeuronLauncher import NeuronLauncher
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
+# Global values for processing:
+LOCAL_TMP_FOLDER = "/tmp/kalliope/resources/"
 TMP_GIT_FOLDER = "kalliope_new_module_temp_name"
 DNA_FILE_NAME = "dna.yml"
 INSTALL_FILE_NAME = "install.yml"
+
+# Global values for required parameters in DNA:
+DNA_NAME = "name"
+DNA_TYPE = "type"
+
+# Global_Names for 'types' to match:
+TYPE_NEURON = "neuron"
+TYPE_TTS = "tts"
+TYPE_STT = "stt"
+TYPE_TRIGGER = "trigger"
 
 
 class ResourcesManager(object):
@@ -34,7 +46,7 @@ class ResourcesManager(object):
         self.git_url = kwargs.get('git_url', None)
 
         # temp path where we install the new module
-        self.tmp_path = self.settings.resources.neuron_folder + os.sep + TMP_GIT_FOLDER
+        self.tmp_path = LOCAL_TMP_FOLDER + TMP_GIT_FOLDER
         self.dna_file_path = self.tmp_path + os.sep + DNA_FILE_NAME
         self.install_file_path = self.tmp_path + os.sep + INSTALL_FILE_NAME
         self.dna_file = None
@@ -44,8 +56,7 @@ class ResourcesManager(object):
 
     def install(self):
         """
-        Module installation method
-        :return:
+        Module installation method.
         """
         if self.is_settings_ok(resources=self.settings.resources,
                                folder_path=self.settings.resources.neuron_folder):
@@ -62,17 +73,22 @@ class ResourcesManager(object):
                 if self._check_dna(dna_file=self.dna_file,
                                    tmp_path=self.tmp_path):
 
-                    # let's move the tmp folder in the right folder and get a new path for the module
-                    module_name = self.dna_file["name"].lower()
-                    target_path = self._rename_temp_folder(name=module_name,
-                                                           target_folder=self.settings.resources.neuron_folder,
-                                                           tmp_path=self.tmp_path)
+                    # Let's find the target folder depending the type
+                    module_type = self.dna_file["type"].lower()
+                    target_folder = self._get_target_folder(resources=self.settings.resources,
+                                                            module_type=module_type)
+                    if target_folder is not None:
+                        # let's move the tmp folder in the right folder and get a new path for the module
+                        module_name = self.dna_file["name"].lower()
+                        target_path = self._rename_temp_folder(name=module_name,
+                                                               target_folder=target_folder,
+                                                               tmp_path=self.tmp_path)
 
-                    # if the target_path exists, then run the install file within the new repository
-                    if target_path is not None:
-                        self.install_file_path = target_path + os.sep + INSTALL_FILE_NAME
-                        self.run_ansible_playbook_module(install_file_path=self.install_file_path)
-                        Utils.print_success("Neuron %s installed" % module_name)
+                        # if the target_path exists, then run the install file within the new repository
+                        if target_path is not None:
+                            self.install_file_path = target_path + os.sep + INSTALL_FILE_NAME
+                            self.run_ansible_playbook_module(install_file_path=self.install_file_path)
+                            Utils.print_success("Module: %s installed" % module_name)
 
     def _set_dna_file(self):
         """
@@ -97,6 +113,12 @@ class ResourcesManager(object):
             Utils.print_danger("The DNA of does not contains a \"name\" tag")
             shutil.rmtree(tmp_path)
             success_loading = False
+
+        if "type" not in dna_file:
+            Utils.print_danger("The DNA of does not contains a \"type\" tag")
+            shutil.rmtree(tmp_path)
+            success_loading = False
+
         return success_loading
 
     @staticmethod
@@ -142,6 +164,50 @@ class ResourcesManager(object):
         return repo_ok
 
     @staticmethod
+    def _get_target_folder(resources, module_type):
+        """
+        Return the folder from the resources and given a module type
+        :param resources: Resource
+        :param module_type: type of the module
+        :return: path of the folder
+        """
+        folder_path = None
+        message = "Does this type really exists ? No %s folder set in settings, cannot install." % module_type
+
+        # Let's find the right path depending of the type
+        if module_type == TYPE_NEURON:
+            if resources.neuron_folder is not None:
+                folder_path = resources.neuron_folder
+            else:
+                message = "No %s folder set in settings, cannot install." % TYPE_NEURON
+
+        elif module_type == TYPE_STT:
+            if resources.stt_folder is not None:
+                folder_path = resources.stt_folder
+            else:
+                message = "No %s folder set in settings, cannot install." % TYPE_STT
+
+        elif module_type == TYPE_TTS:
+            if resources.tts_folder is not None:
+                folder_path = resources.stt_folder
+            else:
+                message = "No %s folder set in settings, cannot install." % TYPE_TTS
+
+        elif module_type == TYPE_TRIGGER:
+            if resources.trigger_folder is not None:
+                folder_path = resources.trigger_folder
+            else:
+                message = "No %s folder set in settings, cannot install." % TYPE_TRIGGER
+
+        # No folder_path has been found
+        if folder_path is None:
+            logger.debug(message)
+            Utils.print_danger(message)
+
+        return folder_path
+
+
+    @staticmethod
     def _clone_repo(path, git_url):
         """
         Use git to clone locally the neuron in a temp folder
@@ -153,6 +219,8 @@ class ResourcesManager(object):
         # if the folder already exist we remove it
         if os.path.exists(path):
             shutil.rmtree(path)
+        else:
+            os.makedirs(path)
         Repo.clone_from(git_url, path)
 
     @staticmethod

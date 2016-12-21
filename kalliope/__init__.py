@@ -29,7 +29,7 @@ def signal_handler(signal, frame):
     sys.exit(0)
 
 # actions available
-ACTION_LIST = ["start", "gui", "neuron-install"]
+ACTION_LIST = ["start", "gui", "install"]
 
 
 def main():
@@ -38,7 +38,7 @@ def main():
     """
     # create arguments
     parser = argparse.ArgumentParser(description='Kalliope')
-    parser.add_argument("action", help="[start|gui|neuron-install]")
+    parser.add_argument("action", help="[start|gui|install]")
     parser.add_argument("--run-synapse", help="Name of a synapse to load surrounded by quote")
     parser.add_argument("--brain-file", help="Full path of a brain file")
     parser.add_argument("--debug", action='store_true', help="Show debug output")
@@ -91,7 +91,7 @@ def main():
     if args.action == "gui":
         ShellGui(brain=brain)
 
-    if args.action == "neuron-install":
+    if args.action == "install":
         if not args.git_url:
             Utils.print_danger("You must specify the git url")
         else:
