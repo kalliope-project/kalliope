@@ -118,7 +118,7 @@ default_synapse: "Default-synapse"
 # resource directory path
 # ---------------------------
 #resource_directory:
-#  neuron: "resources/neurons"
+#  neuron: "/var/tmp/resources/neurons"
 #  stt: "resources/stt"
 #  tts: "resources/tts"
 #  trigger: "resources/trigger"
