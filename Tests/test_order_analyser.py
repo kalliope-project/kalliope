@@ -364,11 +364,13 @@ class TestOrderAnalyser(unittest.TestCase):
                             synapse2,
                             synapse3]
 
-        expected_result = [synapse1]
+
 
         # Success
-        self.assertEquals(OrderAnalyser._get_matching_synapse_list(all_synapses_list=all_synapse_list,
-                                                                   order_to_match=order_to_match),
+        expected_result = synapse1
+        oa_tuple_list = OrderAnalyser._get_matching_synapse_list(all_synapses_list=all_synapse_list,
+                                                                   order_to_match=order_to_match)
+        self.assertEquals(oa_tuple_list[0].synapse,
                           expected_result,
                           "Fail matching 'the expected synapse' from the complete synapse list and the order")
 
@@ -384,10 +386,14 @@ class TestOrderAnalyser(unittest.TestCase):
 
         expected_result = [synapse1,
                            synapse2]
-        self.assertEquals(OrderAnalyser._get_matching_synapse_list(all_synapses_list=all_synapse_list,
-                                                                   order_to_match=order_to_match),
-                          expected_result,
-                          "Fail 'Multiple Matching synapses' from the complete synapse list and the order")
+        oa_tuple_list = OrderAnalyser._get_matching_synapse_list(all_synapses_list=all_synapse_list,
+                                                                 order_to_match=order_to_match)
+        self.assertEquals(oa_tuple_list[0].synapse,
+                          expected_result[0],
+                          "Fail 'Multiple Matching synapses' from the complete synapse list and the order (first element)")
+        self.assertEquals(oa_tuple_list[1].synapse,
+                          expected_result[1],
+                          "Fail 'Multiple Matching synapses' from the complete synapse list and the order (second element)")
 
         # matching no synapses
         order_to_match = "this is not the correct word"
@@ -413,10 +419,15 @@ class TestOrderAnalyser(unittest.TestCase):
         expected_result = [synapse1,
                            synapse2]
 
-        self.assertEquals(OrderAnalyser._get_matching_synapse_list(all_synapses_list=all_synapse_list,
-                                                                   order_to_match=order_to_match),
-                          expected_result,
-                          "Fail matching 'synapse with all key worlds' from the complete synapse list and the order")
+        oa_tuple_list = OrderAnalyser._get_matching_synapse_list(all_synapses_list=all_synapse_list,
+                                                                 order_to_match=order_to_match)
+
+        self.assertEquals(oa_tuple_list[0].synapse,
+                          expected_result[0],
+                          "Fail matching 'synapse with all key worlds' from the complete synapse list and the order (first element)")
+        self.assertEquals(oa_tuple_list[1].synapse,
+                          expected_result[1],
+                          "Fail matching 'synapse with all key worlds' from the complete synapse list and the order (second element)")
 
     def test_get_params_from_order(self):
 
@@ -537,11 +548,16 @@ class TestOrderAnalyser(unittest.TestCase):
         st = Settings()
         # Find synapse
         order = "this is the sentence"
-        expected_result = [synapse1]
-        self.assertEquals(OrderAnalyser._find_synapse_to_run(brain=br,settings=st, order=order),
+        expected_result = synapse1
+        oa_tuple_list = OrderAnalyser._find_synapse_to_run(brain=br,settings=st, order=order)
+        self.assertEquals(oa_tuple_list[0].synapse,
                           expected_result,
                           "Fail to run the proper synapse matching the order")
 
+        expected_result = signal1.sentence
+        self.assertEquals(oa_tuple_list[0].order,
+                        expected_result,
+                        "Fail to run the proper synapse matching the order")
         # No Default synapse
         order = "No default synapse"
         expected_result = []
@@ -552,8 +568,9 @@ class TestOrderAnalyser(unittest.TestCase):
         # Default synapse
         st = Settings(default_synapse="Synapse2")
         order = "default synapse"
-        expected_result = [synapse2]
-        self.assertEquals(OrderAnalyser._find_synapse_to_run(brain=br, settings=st, order=order),
+        expected_result = synapse2
+        oa_tuple_list = OrderAnalyser._find_synapse_to_run(brain=br, settings=st, order=order)
+        self.assertEquals(oa_tuple_list[0].synapse,
                           expected_result,
                           "Fail to run the default synapse")
 

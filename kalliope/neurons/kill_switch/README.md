@@ -4,6 +4,10 @@
 
 This neuron exits the Kalliope process.
 
+## Installation
+
+CORE NEURON : No installation needed.  
+
 ## Options
 
 No parameters

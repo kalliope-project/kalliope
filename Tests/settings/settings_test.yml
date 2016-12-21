@@ -78,3 +78,12 @@ rest_api:
 # ---------------------------
 # Specify an optional default synapse response in case your order is not found.
 default_synapse: "Default-synapse"
+
+# ---------------------------
+# resource directory path
+# ---------------------------
+resource_directory:
+  neuron: "/tmp/kalliope/tests/kalliope_resources_dir/neurons"
+  stt: "/tmp/kalliope/tests/kalliope_resources_dir/stt"
+  tts: "/tmp/kalliope/tests/kalliope_resources_dir/tts"
+  trigger: "/tmp/kalliope/tests/kalliope_resources_dir/trigger"
