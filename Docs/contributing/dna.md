@@ -22,7 +22,7 @@ type: "neuron"
 author: "The dream team of Kalliope project"
 
 kalliope_supported_version:
-  - "0.4.0"
+  - 0.4.0
 
 tags:
   - "search engine"
