@@ -115,10 +115,16 @@ rest_api:
 default_synapse: "Default-synapse"
 
 # ---------------------------
-# resource directory path
+# Resource directory path
+#
+# Accepted types :
+#   - neuron
+#   - stt
+#   - tts
+#   - trigger  /!\ we do not manage trigger properly yet...
 # ---------------------------
 #resource_directory:
-#  neuron: "resources/neurons"
+#  neuron: "/var/tmp/resources/neurons"
 #  stt: "resources/stt"
 #  tts: "resources/tts"
 #  trigger: "resources/trigger"
