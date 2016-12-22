@@ -557,6 +557,13 @@ class SettingLoader(object):
                 if not os.path.exists(trigger_folder):
                     raise SettingInvalidException("The path %s does not exist on the system" % trigger_folder)
 
+            if neuron_folder is None \
+                and stt_folder is None \
+                and tts_folder is None \
+                and trigger_folder is None:
+                raise SettingInvalidException("No required folder has been provided in the setting resource_directory. "
+                                              "Define : \'neuron\' or/and \'stt\' or/and \'tts\' or/and \'trigger\'")
+
             resource_object = Resources(neuron_folder=neuron_folder,
                                         stt_folder=stt_folder,
                                         tts_folder=tts_folder,
