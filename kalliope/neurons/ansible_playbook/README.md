@@ -73,7 +73,7 @@ In this case, you must give to the neuron the login and password of the user whi
     neurons:
       - ansible_playbook:
           task_file: "playbook-root.yml"
-          sudo: true,
+          sudo: true
           sudo_user: "root"
           sudo_password: "secret"
 ```
