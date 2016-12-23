@@ -73,7 +73,8 @@ setup(
         'mock==2.0.0',
         'Flask-Testing==0.6.1',
         'apscheduler==3.3.0',
-        'GitPython==2.1.1'
+        'GitPython==2.1.1',
+        'packaging>=16.8'
     ],
 
 

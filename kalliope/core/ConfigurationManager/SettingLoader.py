@@ -558,9 +558,9 @@ class SettingLoader(object):
                     raise SettingInvalidException("The path %s does not exist on the system" % trigger_folder)
 
             if neuron_folder is None \
-                and stt_folder is None \
-                and tts_folder is None \
-                and trigger_folder is None:
+                    and stt_folder is None \
+                    and tts_folder is None \
+                    and trigger_folder is None:
                 raise SettingInvalidException("No required folder has been provided in the setting resource_directory. "
                                               "Define : \'neuron\' or/and \'stt\' or/and \'tts\' or/and \'trigger\'")
 
