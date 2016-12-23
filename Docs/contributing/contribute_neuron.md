@@ -6,7 +6,7 @@ Creating a new Neuron must follow some rules:
 
 ## Repository Structure
 1. The Neuron repository name is in __lowercase__.
-1. Under the Neuron repository, the Neuron has a __README.md file__ describing the Neuron following this structure. You can get a [template here](../neuron_template.md):
+1. Under the Neuron repository, the Neuron has a __README.md file__ describing the Neuron following this structure. You can get a [template here](neuron_template.md):
     - Neuron name:
     - Installation:     The CLI command used to install the neuron
     - Synopsis:         Description of the Neuron
@@ -15,7 +15,7 @@ Creating a new Neuron must follow some rules:
     - Synapses example: An example of how to use the Neuron inside a Synapse.
     - Notes:            Something which needs to be add.
 1. Under the Neuron repository, include a __Tests repository__ to manage the test of the Neuron.
-1. Under the neuron repository, a [dna.yml file](dna.md) must be added that contains information about the neuron.
+1. Under the neuron repository, a [dna.yml file](dna.md) must be added that contains information about the neuron. type = "neuron"
 1. Under the neuron repository, a [install.yml file](installation_file.md) must be added that contains the installation process.
 
 

@@ -50,12 +50,24 @@ cache_path: "/tmp/kalliope_tts_cache"
 generated audio files that will not be played more than once.
 
 ## Current Available TTS
+Core TTSs are already packaged with the installation of Kalliope an can be used out of the box.
 
 - [acapela](../kalliope/tts/acapela/README.md)
 - [googletts](../kalliope/tts/googletts/README.md)
 - [pico2wave](../kalliope/tts/pico2wave/README.md)
 - [voicerss](../kalliope/tts/voicerss/README.md)
 - [voxygen](../kalliope/tts/voxygen/README.md)
+
+## TTS Community Installation
+
+Community TTSs need to be installed manually.
+
+Use the CLI
+```
+kalliope install --git-url "<git_url>"
+```
+
+You may be prompted to type your `sudo` password during the process. You can see the list of [available TTS here](tts_list.md)
 
 ## Full Example
 
