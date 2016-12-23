@@ -59,3 +59,7 @@ This is a var {{ var }}
 ## Notes
 
 > **Note:** This is an important note concerning the neuron
+
+## Licence
+
+Here define or link the licence you want to use.
