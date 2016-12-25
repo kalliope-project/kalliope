@@ -43,8 +43,8 @@ The constructor has a __**kwargs argument__ which is corresponding to the Dict o
 1. The TTS __must__ implements a method _say(self, words) which must run call a method coming from the mother Class self.generate_and_play(words, callback).
 1. Implement a callback in a separate method to run the audio. 
 This callback is in charge to get the sound and save it on the disk. You can use our lib "FileManager.write_in_file(file_path, content)"
-1. It also must define the attribute self.file_path with the path to this audio file.
-
+1. The module must use `self.file_path` from the mother class to know the full path where to save the generated audio file. The file path is handled by the core in order to allow caching.
+1. The generated audio file must be supported by Mplayer. Try to play a generated file with `mplayer /path/to/the/generated_audio_file`
 
 ## Code example
 
@@ -77,13 +77,13 @@ def __init__(self, **kwargs):
     def _generate_audio_file(self):
     """
     Generic method used as a Callback in TTSModule
-        - must provided the audio file and write it on the disk
+        - must provided the audio file and write it on the disk in self.file_path
 
     .. raises:: FailToLoadSoundFile
     """
     # -------------------
     # - do amazing code to get the sound 
-    # - save it to the disk using
+    # - save it to the disk using self.file_path
     # - Attach the sound file path to the attribute : self.file_path = audio_file_path !
     # -------------------
     
