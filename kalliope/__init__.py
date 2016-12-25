@@ -98,7 +98,8 @@ def main():
             parameters = {
                 "git_url": args.git_url
             }
-            ResourcesManager("install", **parameters)
+            res_manager = ResourcesManager(**parameters)
+            res_manager.install()
 
 
 def configure_logging(debug=None):
