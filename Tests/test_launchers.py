@@ -65,7 +65,8 @@ class TestLaunchers(unittest.TestCase):
         br = Brain(synapses=all_synapse_list)
 
         sl = SettingLoader()
-        sl.settings.resource_dir = '/var/tmp/test/resources'
+        r = Resources(neuron_folder="/var/tmp/test/resources")
+        sl.settings.resources = r
         with mock.patch("kalliope.core.Utils.get_dynamic_class_instantiation") as mock_get_class_instantiation:
             # Success
             SynapseLauncher.start_synapse("Synapse1", brain=br)
