@@ -71,7 +71,7 @@ rest_api:
   password_protected: True
   login: admin
   password: secret
-
+  allowed_cors_origin: False
 
 # ---------------------------
 # Default Synapse

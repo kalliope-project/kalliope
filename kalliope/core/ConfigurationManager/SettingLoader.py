@@ -440,13 +440,18 @@ class SettingLoader(object):
                 if not 1024 <= port <= 65535:
                     raise SettingInvalidException("port must be in range 1024-65535")
 
+                # check the CORS request settings
+                allowed_cors_origin = False
+                if "allowed_cors_origin" in rest_api:
+                     allowed_cors_origin = rest_api["allowed_cors_origin"]
+
             except KeyError, e:
                 # print e
                 raise SettingNotFound("%s settings not found" % e)
 
             # config ok, we can return the rest api object
             rest_api_obj = RestAPI(password_protected=password_protected, login=login, password=password,
-                                   active=active, port=port)
+                                   active=active, port=port, allowed_cors_origin=allowed_cors_origin)
             return rest_api_obj
         else:
             raise NullSettingException("rest_api settings cannot be null")

@@ -194,6 +194,7 @@ rest_api:
   password_protected: True
   login: admin
   password: secret
+  allowed_cors_origin: "*"
 ```
 
 #### active
@@ -211,10 +212,32 @@ Login used by the basic HTTP authentication. Must be provided if `password_prote
 #### Password
 Password used by the basic HTTP authentication. Must be provided if `password_protected` is `True`
 
+#### Cors request
+If you want to allow request from external application, you'll need to enable the CORS requests settings by defining authorized origins.
+To do so, just indicated the origins that are allowed to leverage the API. The authorize values are:
+
+False to forbid CORS request.
+```
+allowed_cors_origin: False
+```
+
+or either a string or a list:
+```
+allowed_cors_origin: "*"
+```
+(in case of "*", all origins are accepted).
+or
+```
+allowed_cors_origin:
+  - 'http://mydomain.com/*'
+  - 'http://localhost:4200/*'
+```
+
+Remember that an origin is composed of the scheme (http(s)), the port (eg: 80, 4200,…) and the domain (mydomain.com, localhost).
 
 ## Default synapse
 
-Run a default [synapse](brain.md) when Kalliope can't find the order in any synapse. 
+Run a default [synapse](brain.md) when Kalliope can't find the order in any synapse.
 
 ```
 default_synapse: "synapse-name"
