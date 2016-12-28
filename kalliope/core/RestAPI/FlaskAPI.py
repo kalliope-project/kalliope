@@ -23,14 +23,17 @@ class FlaskAPI(threading.Thread):
         self.port = port
         self.brain = brain
 
-        self.app.add_url_rule('/synapses/', view_func=self.get_synapses, methods=['GET'])
+        # Flask configuration remove default Flask behaviour to encode to ASCII
+        self.app.url_map.strict_slashes = False
+        self.app.config['JSON_AS_ASCII'] = False
+
+        # Add routing rules
+        self.app.add_url_rule('/synapses', view_func=self.get_synapses, methods=['GET'])
         self.app.add_url_rule('/synapses/<synapse_name>', view_func=self.get_synapse, methods=['GET'])
         self.app.add_url_rule('/synapses/<synapse_name>', view_func=self.run_synapse, methods=['POST'])
         self.app.add_url_rule('/order/', view_func=self.run_order, methods=['POST'])
         self.app.add_url_rule('/shutdown/', view_func=self.shutdown_server, methods=['POST'])
 
-        # Flask configuration remove default Flask behaviour to encode to ASCII
-        self.app.config['JSON_AS_ASCII'] = False
 
     def run(self):
         self.app.run(host='0.0.0.0', port="%s" % int(self.port), debug=True, threaded=True, use_reloader=False)
