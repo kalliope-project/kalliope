@@ -69,6 +69,7 @@ Reading through this guide before writing any code is recommended.
 In Greek mythology she was a goddess of epic poetry and eloquence, one of the nine Muses.
 PRONOUNCED: kə-LIE-ə-pee (English) 
 PRONOUNCED: Ka-li-o-pé (French)
+PRONOUNCED: каллиопа (Russian)
 
 ## Links
 
