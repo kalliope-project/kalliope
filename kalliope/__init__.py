@@ -8,6 +8,8 @@ from kalliope.core import Utils
 from kalliope.core.ConfigurationManager.BrainLoader import BrainLoader
 from kalliope.core.EventManager import EventManager
 from kalliope.core.MainController import MainController
+
+from _version import version_str
 import signal
 import sys
 
@@ -43,6 +45,7 @@ def main():
     parser.add_argument("--brain-file", help="Full path of a brain file")
     parser.add_argument("--debug", action='store_true', help="Show debug output")
     parser.add_argument("--git-url", help="Git URL of the neuron to install")
+    parser.add_argument('-v', '--version', action='version', version='Kalliope ' + version_str)
 
     # parse arguments from script parameters
     args = parser.parse_args()

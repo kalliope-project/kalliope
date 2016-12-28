@@ -49,6 +49,18 @@ kalliope install --git-url https://github.com/kalliope-project/kalliope_neuron_w
 
 Commands can be completed by the following options:
 
+### -v or --version
+Display the current isntalled version of Kalliope.
+
+Example of use
+```
+kalliope --version
+```
+
+```
+kalliope -v
+```
+
 ### --run-synapse SYNAPSE_NAME
 
 Run a specific synapse from the brain file.
@@ -85,3 +97,4 @@ kalliope start --debug
 ### --git-url
 
 Used by the `install` argument to specify the URL of a git repository of the module to install.
+
