@@ -18,7 +18,7 @@ class Neuron(object):
         """
         return {
             'name': self.name,
-            'parameters': str(self.parameters)
+            'parameters': self.parameters
         }
 
     def __str__(self):

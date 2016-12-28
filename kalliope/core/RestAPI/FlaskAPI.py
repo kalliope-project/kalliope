@@ -29,6 +29,9 @@ class FlaskAPI(threading.Thread):
         self.app.add_url_rule('/order/', view_func=self.run_order, methods=['POST'])
         self.app.add_url_rule('/shutdown/', view_func=self.shutdown_server, methods=['POST'])
 
+        # Flask configuration remove default Flask behaviour to encode to ASCII
+        self.app.config['JSON_AS_ASCII'] = False
+
     def run(self):
         self.app.run(host='0.0.0.0', port="%s" % int(self.port), debug=True, threaded=True, use_reloader=False)
 
@@ -38,11 +41,11 @@ class FlaskAPI(threading.Thread):
         :param synapse_name:
         :return:
         """
-        all_synapse = self.brain.brain_yaml
-        for el in all_synapse:
+        all_synapse = self.brain.synapses
+        for synapse in all_synapse:
             try:
-                if el["name"] == synapse_name:
-                    return el
+                if synapse.name == synapse_name:
+                    return synapse
             except KeyError:
                 pass
         return None
@@ -50,9 +53,9 @@ class FlaskAPI(threading.Thread):
     @requires_auth
     def get_synapses(self):
         """
-        get all synapse
+        get all synapses.
         """
-        data = jsonify(synapses=self.brain.brain_yaml)
+        data = jsonify(synapses=[e.serialize() for e in self.brain.synapses])
         return data, 200
 
     @requires_auth
@@ -62,7 +65,7 @@ class FlaskAPI(threading.Thread):
         """
         synapse_target = self._get_synapse_by_name(synapse_name)
         if synapse_target is not None:
-            data = jsonify(synapses=synapse_target)
+            data = jsonify(synapses=synapse_target.serialize())
             return data, 200
 
         data = {
