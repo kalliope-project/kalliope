@@ -40,12 +40,7 @@ Community STTs need to be installed manually.
 
 Use the CLI
 ```
-kalliope install --git-url "<git_url>"
-```
-
-E.g:
-```
-kalliope install --git-url "https://github.com/Ultchad/kalliope-espeak"
+kalliope install --git-url <git_url>
 ```
 
 You may be prompted to type your `sudo` password during the process. You can see the list of [available STT here](stt_list.md)

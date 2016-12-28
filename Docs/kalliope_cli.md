@@ -37,12 +37,12 @@ Install a community module. You must set an install type option. Currently the o
 
 Syntax
 ```
-kalliope install --git-url "<url>"
+kalliope install --git-url <url>
 ```
 
 Example of use
 ```
-kalliope install --git-url "https://github.com/kalliope-project/kalliope_neuron_wikipedia.git"
+kalliope install --git-url https://github.com/kalliope-project/kalliope_neuron_wikipedia.git
 ```
 
 ## OPTIONS

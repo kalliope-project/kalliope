@@ -64,7 +64,7 @@ Community TTSs need to be installed manually.
 
 Use the CLI
 ```
-kalliope install --git-url "<git_url>"
+kalliope install --git-url <git_url>
 ```
 
 You may be prompted to type your `sudo` password during the process. You can see the list of [available TTS here](tts_list.md)

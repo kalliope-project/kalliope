@@ -9,12 +9,12 @@ Core neurons are already packaged with the installation of kalliope an can be us
 
 Use the CLI
 ```
-kalliope install --git-url "<git_url>"
+kalliope install --git-url <git_url>
 ```
 
 E.g:
 ```
-kalliope install --git-url "https://github.com/kalliope-project/kalliope_neuron_wikipedia.git"
+kalliope install --git-url https://github.com/kalliope-project/kalliope_neuron_wikipedia.git
 ```
 
 You may be prompted to type your `sudo` password during the process. You can see the list of [available neuron here](neuron_list.md)
