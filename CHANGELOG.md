@@ -1,3 +1,16 @@
+v0.4.0 / 2016-12-28
+===================
+- Add resources directory (neuron, stt, tts, (trigger))
+- Install community modules from git url
+- Fix API (strict slashes + included brains)
+- starter kits (FR - EN)
+- Add support Ubuntu 14.04
+- Fix neurotransmitter (multiple synapses call)
+- Neurotransmitter improvements (pass arguments to called synapse)
+- Split Core Neurons and Community Neurons
+- update some pip dependencies
+- Add Russian snowboy model for каллиопа 
+
 v0.3.0 / 2016-12-7
 =================
 - add unit tests for core & neurons
