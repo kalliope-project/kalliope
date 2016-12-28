@@ -4,6 +4,10 @@
 
 Link synapses together. Call a synapse directly or depending on the captured speech from the user.
 
+## Installation
+
+CORE NEURON : No installation needed.  
+
 ## Options
 
 | parameter        | required | default | choices | comment                                                                                           |
@@ -82,6 +86,39 @@ If the user say something that is not present in `answers`, he will be redirecte
     neurons:
       - say:
           message: "I haven't understood your answer"
+```
+
+
+Neurotransmitter also uses parameters in answers. You can provide parameters to your answers so they can be used by the synapse you are about to launch.
+/!\ The params defined in answers must match with the expected "args" params in the target synapse, otherwise an error is raised.
+
+```
+
+  - name: "synapse5"
+    signals:
+      - order: "give me the weather"
+    neurons:
+      - say:
+          message: "which town ?"
+      - neurotransmitter:
+          from_answer_link:
+            - synapse: "synapse6"
+              answers:
+                - "the weather in {{ location }}"
+
+  - name: "synapse6"
+    signals:
+      - order: "What is the weather in {{ location }}"
+    neurons:
+      - openweathermap:
+          api_key: "your-api"
+          lang: "fr"
+          temp_unit: "celsius"
+          country: "FR"
+          args:
+            - location
+          say_template:
+          - "Today in {{ location }} the weather is {{ weather_today }} with {{ temp_today_temp }} celsius"
 ```
 
 ## Notes

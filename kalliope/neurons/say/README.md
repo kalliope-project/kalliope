@@ -4,6 +4,10 @@
 
 This neuron is the mouth of Kalliope and uses the [TTS](../../Docs/tts.md) to say the given message.
 
+## Installation
+
+CORE NEURON : No installation needed.  
+
 ## Options
 
 | parameter | required | default | choices | comment                                |

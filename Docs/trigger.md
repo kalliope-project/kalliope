@@ -22,12 +22,14 @@ E.g
 ```
 kalliope-FR
 kalliope-EN
+kalliope-RU
 ```
 Then, open an issue or create a pull request to add the model to the list bellow.
 
 ## List of available Snowboy Kalliope model
 
-| Name                                                | language |
-|-----------------------------------------------------|----------|
-| [kalliope-FR](https://snowboy.kitt.ai/hotword/1363) | French   |
-| [kalliope-EN](https://snowboy.kitt.ai/hotword/2540) | English  |
+| Name                                                | language | Pronouced     |
+|-----------------------------------------------------|----------|---------------|
+| [kalliope-FR](https://snowboy.kitt.ai/hotword/1363) | French   | Ka-lio-pé     |
+| [kalliope-EN](https://snowboy.kitt.ai/hotword/2540) | English  | kə-LIE-ə-pee  |
+| [kalliope-RU](https://snowboy.kitt.ai/hotword/2964) | Russian  | каллиопа      |

@@ -28,6 +28,11 @@ Kalliope is easy-peasy to use, see the hello world
 
 - [Kalliope installation documentation](Docs/installation.md)
 
+## Quick start
+
+We made starter kits that only needs to be cloned and launched. Starter kits can help you to learn basics of Kalliope
+- [French starter kit](https://github.com/kalliope-project/kalliope_starter_fr)
+- [English starter kit](https://github.com/kalliope-project/kalliope_starter_en)
 
 ## Usage
 
@@ -55,7 +60,7 @@ Kalliope is easy-peasy to use, see the hello world
 If you'd like to contribute to Kalliope, please read our [Contributing Guide](Docs/contributing.md), which contains the philosophies to preserve, tests to run, and more. 
 Reading through this guide before writing any code is recommended.
 
-- Contribute
+- Read the [contributing guide](Docs/contributing.md)
 - Add [issues and feature requests](../../issues)
 
 ## Credits
@@ -64,6 +69,7 @@ Reading through this guide before writing any code is recommended.
 In Greek mythology she was a goddess of epic poetry and eloquence, one of the nine Muses.
 PRONOUNCED: kə-LIE-ə-pee (English) 
 PRONOUNCED: Ka-li-o-pé (French)
+PRONOUNCED: каллиопа (Russian)
 
 ## Links
 

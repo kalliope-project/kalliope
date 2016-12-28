@@ -225,5 +225,24 @@ E.g
 default_synapse: "Default-response"
 ```
 
+## Resources directory
+
+The resources directory is the path where Kalliope will try to load community modules like Neurons, STTs or TTSs.
+Set a valid path is required if you want to install community neuron. The path can be relative or absolute.
+
+```
+resource_directory:
+  resource_name: "path"
+```
+
+E.g
+```
+resource_directory:
+  neuron: "resources/neurons"
+  stt: "resources/stt"
+  tts: "resources/tts"
+  trigger: "/full/path/to/trigger"
+```
+
 ## Next: configure the brain of Kalliope
 Now your settings are ok, you can start creating the [brain](brain.md) of your assistant.

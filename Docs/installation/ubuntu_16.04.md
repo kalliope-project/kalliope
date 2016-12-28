@@ -1,4 +1,4 @@
-# Kalliope requirements for Ubuntu 14.04/16.04
+# Kalliope requirements for Ubuntu 16.04
 
 ## Debian packages requirements
 

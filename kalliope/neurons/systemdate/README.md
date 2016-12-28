@@ -4,6 +4,10 @@
 
 Give the current time from the system where Kalliope is installed. Return a dict of parameters that can be used in a template.
 
+## Installation
+
+CORE NEURON : No installation needed.  
+
 ## Options
 
 | parameter     | required | default | choices     | comment                                                               |

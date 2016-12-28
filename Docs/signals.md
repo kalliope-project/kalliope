@@ -28,6 +28,9 @@ signals:
 > **Important note:** SST engines can misunderstand what you say, or translate your sentence into text containing some spelling mistakes.
 For example, if you say "Kalliope please do this", the SST engine can return "caliope please do this". So, to be sure that your speaking order will be correctly caught and executed, we recommend you to test your STT engine by using the [Kalliope GUI](kalliope_cli.md) and check the returned text for the given order.
 
+> **Important note:** STT engines don't know the context. Sometime they will return an unexpected word.
+For example, "the operation to perform is 2 minus 2" can return "two", "too", "to" or "2" in english.
+
 > **Important note:** Kalliope will try to match the order in each synapse of its brain. So, if an order of one synapse is included in another order of another synapse, then both synapses tasks will be started by Kalliope.
 
 > For example, you have "test my umbrella" in a synapse A and "test" in a synapse B. When you'll say "test my umbrella", both synapse A and B

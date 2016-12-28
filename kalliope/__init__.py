@@ -8,9 +8,12 @@ from kalliope.core import Utils
 from kalliope.core.ConfigurationManager.BrainLoader import BrainLoader
 from kalliope.core.EventManager import EventManager
 from kalliope.core.MainController import MainController
+
+from _version import version_str
 import signal
 import sys
 
+from kalliope.core.ResourcesManager import ResourcesManager
 from kalliope.core.SynapseLauncher import SynapseLauncher
 
 logging.basicConfig()
@@ -28,7 +31,7 @@ def signal_handler(signal, frame):
     sys.exit(0)
 
 # actions available
-ACTION_LIST = ["start", "gui"]
+ACTION_LIST = ["start", "gui", "install"]
 
 
 def main():
@@ -37,10 +40,12 @@ def main():
     """
     # create arguments
     parser = argparse.ArgumentParser(description='Kalliope')
-    parser.add_argument("action", help="[start|gui]")
+    parser.add_argument("action", help="[start|gui|install]")
     parser.add_argument("--run-synapse", help="Name of a synapse to load surrounded by quote")
     parser.add_argument("--brain-file", help="Full path of a brain file")
     parser.add_argument("--debug", action='store_true', help="Show debug output")
+    parser.add_argument("--git-url", help="Git URL of the neuron to install")
+    parser.add_argument('-v', '--version', action='version', version='Kalliope ' + version_str)
 
     # parse arguments from script parameters
     args = parser.parse_args()
@@ -88,6 +93,16 @@ def main():
 
     if args.action == "gui":
         ShellGui(brain=brain)
+
+    if args.action == "install":
+        if not args.git_url:
+            Utils.print_danger("You must specify the git url")
+        else:
+            parameters = {
+                "git_url": args.git_url
+            }
+            res_manager = ResourcesManager(**parameters)
+            res_manager.install()
 
 
 def configure_logging(debug=None):

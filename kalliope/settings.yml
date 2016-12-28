@@ -113,3 +113,18 @@ rest_api:
 # ---------------------------
 # Specify an optional default synapse response in case your order is not found.
 default_synapse: "Default-synapse"
+
+# ---------------------------
+# Resource directory path
+#
+# Accepted types :
+#   - neuron
+#   - stt
+#   - tts
+#   - trigger  /!\ we do not manage trigger properly yet...
+# ---------------------------
+#resource_directory:
+#  neuron: "/var/tmp/resources/neurons"
+#  stt: "resources/stt"
+#  tts: "resources/tts"
+#  trigger: "resources/trigger"

@@ -4,6 +4,10 @@
 
 This neuron sleeps the system for a given time in seconds.
 
+## Installation
+
+CORE NEURON : No installation needed.  
+
 ## Options
 
 | parameter | required | default | choices | comment                         |

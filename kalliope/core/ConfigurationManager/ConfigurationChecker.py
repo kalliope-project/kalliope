@@ -1,7 +1,9 @@
 import re
+import os
+import imp
 
 from kalliope.core.Utils.Utils import ModuleNotFoundError
-
+from kalliope.core.ConfigurationManager.SettingLoader import SettingLoader
 
 class InvalidSynapeName(Exception):
     """
@@ -139,13 +141,26 @@ class ConfigurationChecker:
             :type neuron_module_name: str
             :return:
             """
-            package_name = "kalliope.neurons"
-            mod = __import__(package_name, fromlist=[neuron_module_name])
+            sl = SettingLoader()
+            settings = sl.settings
+            package_name = "kalliope.neurons" + "." + neuron_module_name.lower() + "." + neuron_module_name.lower()
+            if settings.resources is not None:
+                neuron_resource_path = settings.resources.neuron_folder + \
+                                       os.sep + neuron_module_name.lower() + os.sep + \
+                                       neuron_module_name.lower()+".py"
+                if os.path.exists(neuron_resource_path):
+                    imp.load_source(neuron_module_name.capitalize(), neuron_resource_path)
+                    package_name = neuron_module_name.capitalize()
+
             try:
-                getattr(mod, neuron_module_name)
+                mod = __import__(package_name, fromlist=[neuron_module_name.capitalize()])
+                getattr(mod, neuron_module_name.capitalize())
             except AttributeError:
-                raise ModuleNotFoundError("The module %s does not exist in package %s" % (neuron_module_name,
-                                                                                          package_name))
+                raise ModuleNotFoundError("[AttributeError] The module %s does not exist in the package %s " % (neuron_module_name.capitalize(),
+                                                                                                                package_name))
+            except ImportError:
+                raise ModuleNotFoundError("[ImportError] The module %s does not exist in the package %s " % (neuron_module_name.capitalize(),
+                                                                                                             package_name))
             return True
 
         if isinstance(neuron_dict, dict):

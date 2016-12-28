@@ -32,9 +32,34 @@ Example of use
 kalliope gui
 ```
 
+### install
+Install a community module. You must set an install type option. Currently the only available option is `--git-url`.
+
+Syntax
+```
+kalliope install --git-url <url>
+```
+
+Example of use
+```
+kalliope install --git-url https://github.com/kalliope-project/kalliope_neuron_wikipedia.git
+```
+
 ## OPTIONS
 
 Commands can be completed by the following options:
+
+### -v or --version
+Display the current isntalled version of Kalliope.
+
+Example of use
+```
+kalliope --version
+```
+
+```
+kalliope -v
+```
 
 ### --run-synapse SYNAPSE_NAME
 
@@ -68,3 +93,8 @@ Example of use
 ```
 kalliope start --debug
 ```
+
+### --git-url
+
+Used by the `install` argument to specify the URL of a git repository of the module to install.
+

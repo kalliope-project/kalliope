@@ -4,6 +4,9 @@
 
 Run a shell command on the local system where Kalliope is installed.
 
+## Installation
+
+CORE NEURON : No installation needed.  
 
 ## Options
 

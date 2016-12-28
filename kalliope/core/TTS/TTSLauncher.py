@@ -22,4 +22,6 @@ class TTSLauncher(object):
         .. warnings:: Class Method and Public
         """
         logger.debug("get TTS module \"%s\" with parameters %s" % (tts.name, tts.parameters))
-        return Utils.get_dynamic_class_instantiation("tts", tts.name.capitalize(), tts.parameters)
+        return Utils.get_dynamic_class_instantiation(package_name="tts",
+                                                     module_name=tts.name,
+                                                     parameters=tts.parameters)
