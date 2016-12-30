@@ -423,7 +423,7 @@ class SettingLoader(object):
                 if password_protected:
                     if login is None:
                         raise NullSettingException("login setting cannot be null if password_protected is True")
-                    if login is None:
+                    if password is None:
                         raise NullSettingException("password setting cannot be null if password_protected is True")
                 active = rest_api["active"]
                 if active is None:
