@@ -30,7 +30,8 @@ class TestSettingLoader(unittest.TestCase):
                  'login': 'admin',
                  'password': 'secret',
                  'password_protected': True,
-                 'port': 5000},
+                 'port': 5000,
+                 'allowed_cors_origin': False},
             'default_trigger': 'snowboy',
             'triggers': [{'snowboy': {'pmdl_file': 'trigger/snowboy/resources/kalliope-FR-6samples.pmdl'}}],
             'speech_to_text': [{'google': {'language': 'fr-FR'}}],
@@ -91,7 +92,8 @@ class TestSettingLoader(unittest.TestCase):
                            parameters={'pmdl_file': 'trigger/snowboy/resources/kalliope-FR-6samples.pmdl'})
         settings_object.triggers = [trigger1]
         settings_object.rest_api = RestAPI(password_protected=True, active=True,
-                                           login="admin", password="secret", port=5000)
+                                           login="admin", password="secret", port=5000,
+                                           allowed_cors_origin=False)
         settings_object.cache_path = '/tmp/kalliope_tts_cache'
         settings_object.default_synapse = 'Default-synapse'
         resources = Resources(neuron_folder="/tmp/kalliope/tests/kalliope_resources_dir/neurons",
@@ -146,7 +148,8 @@ class TestSettingLoader(unittest.TestCase):
 
     def test_get_rest_api(self):
         expected_rest_api = RestAPI(password_protected=True, active=True,
-                                    login="admin", password="secret", port=5000)
+                                    login="admin", password="secret", port=5000,
+                                    allowed_cors_origin=False)
 
         sl = SettingLoader(file_path=self.settings_file_to_test)
         self.assertEqual(expected_rest_api, sl._get_rest_api(self.settings_dict))

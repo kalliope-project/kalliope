@@ -28,6 +28,7 @@ class TestRestAPI(LiveServerTestCase):
         sl.settings.rest_api.password_protected = False
         sl.settings.active = True
         sl.settings.port = 5000
+        sl.settings.allowed_cors_origin = "*"
 
         # prepare a test brain
         brain_to_test = full_path_brain_to_test

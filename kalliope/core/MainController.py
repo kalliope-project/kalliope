@@ -31,7 +31,8 @@ class MainController:
         if self.settings.rest_api.active:
             Utils.print_info("Starting REST API Listening port: %s" % self.settings.rest_api.port)
             app = Flask(__name__)
-            flask_api = FlaskAPI(app, port=self.settings.rest_api.port, brain=self.brain)
+            flask_api = FlaskAPI(app, port=self.settings.rest_api.port, brain=self.brain,
+                                 allowed_cors_origin=self.settings.rest_api.allowed_cors_origin)
             flask_api.daemon = True
             flask_api.start()
 
