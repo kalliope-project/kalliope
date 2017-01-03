@@ -134,7 +134,7 @@ Some arguments are required, some other optional, please refer to the [TTS docum
 When Kalliope detects your trigger/hotword/magic word, it lets you know that it's operational and now waiting for order. It's done by answering randomly
 one of the sentences provided in the variable random_wake_up_answers.
 
-This variable must contain a list of strings as shownbellow
+This variable must contain a list of strings as shown bellow
 ```
 random_wake_up_answers:
   - "You sentence"
@@ -175,6 +175,50 @@ random_wake_up_sounds:
 
 >**Note: ** If you want to use a wake up sound instead of a wake up answer you must comment out the `random_wake_up_answers` section.
 E.g: `# random_wake_up_answers:`
+
+
+## On ready answers configuration
+
+#### random_on_ready_answers (optional)
+When Kalliope is ready, it lets you know that it's operational and now waiting for order. It's done by answering randomly
+one of the sentences provided in the variable random_on_ready_answers.
+
+This variable must contain a list of strings as shown bellow
+```
+random_on_ready_answers:
+  - "Your sentence"
+  - "Another sentence"
+```
+
+E.g
+```
+random_on_ready_answers:
+  - "I am ready"
+  - "Let's roll"
+```
+
+#### random_on_ready_sounds (optional)
+You can play a sound when Kalliope is ready instead of saying something from the `random_on_ready_answers`.
+Place here a list of full paths of the sound files you want to use. Otherwise, you can use some default sounds provided by Kalliope which you can find in `/usr/lib/kalliope/sounds`.
+By default two file are provided: ding.wav and dong.wav. In all cases, the file must be in `.wav` or `.mp3` format. If more than on file is present in the list,
+Kalliope will select one randomly at each wake up.
+
+```
+random_on_ready_sounds:
+  - "local_file_in_sounds_folder.wav"
+  - "/my/personal/full/path/my_file.mp3"
+```
+
+E.g
+```
+random_on_ready_sounds:
+  - "ding.wav"
+  - "dong.wav"
+  - "/my/personal/full/path/my_file.mp3"
+```
+
+>**Note: ** If you want to use a on ready sound instead of a on ready you must comment out the `random_on_ready_answers` section.
+E.g: `# random_on_ready_answers:`
 
 
 ## Rest API
