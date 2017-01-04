@@ -129,9 +129,13 @@ class NeuronModule(object):
             logger.debug("NeuroneModule: TTS args: %s" % tts_object)
 
             # get the instance of the TTS module
+            tts_folder = None
+            if self.settings.resources:
+                tts_folder = self.settings.resources.tts_folder
             tts_module_instance = Utils.get_dynamic_class_instantiation(package_name="tts",
                                                                         module_name=tts_object.name,
-                                                                        parameters=tts_object.parameters)
+                                                                        parameters=tts_object.parameters,
+                                                                        resources_dir=tts_folder)
             # generate the audio file and play it
             tts_module_instance.say(tts_message)
 
