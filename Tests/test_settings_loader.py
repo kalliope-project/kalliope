@@ -39,7 +39,9 @@ class TestSettingLoader(unittest.TestCase):
             'random_wake_up_answers': ['Oui monsieur?'],
             'default_text_to_speech': 'pico2wave',
             'default_speech_to_text': 'google',
-            'random_wake_up_sounds': ['ding.wav', 'dong.wav'],
+            'random_wake_up_sounds': ['sounds/ding.wav', 'sounds/dong.wav'],
+            'random_on_ready_answers': ['Kalliope is ready'],
+            'random_on_ready_sounds': ['sounds/ding.wav', 'sounds/dong.wav'],
             'text_to_speech': [
                 {'pico2wave': {'cache': True, 'language': 'fr-FR'}},
                 {'voxygen': {'voice': 'Agnes', 'cache': True}}
@@ -87,7 +89,9 @@ class TestSettingLoader(unittest.TestCase):
         stt = Stt(name="google", parameters={'language': 'fr-FR'})
         settings_object.stts = [stt]
         settings_object.random_wake_up_answers = ['Oui monsieur?']
-        settings_object.random_wake_up_sounds = ['ding.wav', 'dong.wav']
+        settings_object.random_wake_up_sounds = ['sounds/ding.wav', 'sounds/dong.wav']
+        settings_object.random_on_ready_answers = ['Kalliope is ready']
+        settings_object.random_on_ready_sounds = ['sounds/ding.wav', 'sounds/dong.wav']
         trigger1 = Trigger(name="snowboy",
                            parameters={'pmdl_file': 'trigger/snowboy/resources/kalliope-FR-6samples.pmdl'})
         settings_object.triggers = [trigger1]
@@ -145,6 +149,11 @@ class TestSettingLoader(unittest.TestCase):
         expected_random_wake_up_answers = ['Oui monsieur?']
         sl = SettingLoader(file_path=self.settings_file_to_test)
         self.assertEqual(expected_random_wake_up_answers, sl._get_random_wake_up_answers(self.settings_dict))
+
+    def test_get_random_on_ready_answers(self):
+        expected_random_on_ready_answers = ['Kalliope is ready']
+        sl = SettingLoader(file_path=self.settings_file_to_test)
+        self.assertEqual(expected_random_on_ready_answers, sl._get_random_on_ready_answers(self.settings_dict))
 
     def test_get_rest_api(self):
         expected_rest_api = RestAPI(password_protected=True, active=True,

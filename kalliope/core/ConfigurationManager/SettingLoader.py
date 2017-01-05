@@ -105,6 +105,8 @@ class SettingLoader(object):
         triggers = self._get_triggers(settings)
         random_wake_up_answers = self._get_random_wake_up_answers(settings)
         random_wake_up_sounds = self._get_random_wake_up_sounds(settings)
+        random_on_ready_answers = self._get_random_on_ready_answers(settings)
+        random_on_ready_sounds = self._get_random_on_ready_sounds(settings)
         rest_api = self._get_rest_api(settings)
         cache_path = self._get_cache_path(settings)
         default_synapse = self._get_default_synapse(settings)
@@ -119,6 +121,8 @@ class SettingLoader(object):
         setting_object.triggers = triggers
         setting_object.random_wake_up_answers = random_wake_up_answers
         setting_object.random_wake_up_sounds = random_wake_up_sounds
+        setting_object.random_on_ready_answers = random_on_ready_answers
+        setting_object.random_on_ready_sounds = random_on_ready_sounds
         setting_object.rest_api = rest_api
         setting_object.cache_path = cache_path
         setting_object.default_synapse = default_synapse
@@ -379,6 +383,10 @@ class SettingLoader(object):
 
         try:
             random_wake_up_sounds_list = settings["random_wake_up_sounds"]
+            # In case files are declared in settings.yml, make sure kalliope can access them.
+            for sound in random_wake_up_sounds_list:
+                if Utils.get_real_file_path(sound) is None:
+                    raise SettingInvalidException("sound file %s not found" % sound)
         except KeyError:
             # User does not provide this settings
             return None
@@ -388,6 +396,62 @@ class SettingLoader(object):
             raise NullSettingException("random_wake_up_sounds settings is empty")
 
         return random_wake_up_sounds_list
+
+    @staticmethod
+    def _get_random_on_ready_answers(settings):
+        """
+        Return a list of the wake up answers set up on the settings.yml file
+
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return: List of on ready answers
+        :rtype: list of str
+
+        :Example:
+
+            wakeup = cls._get_random_on_ready_answers(settings)
+
+        .. seealso::
+        .. warnings:: Class Method and Private
+        """
+
+        try:
+            random_on_ready_answers_list = settings["random_on_ready_answers"]
+        except KeyError:
+            # User does not provide this settings
+            return None
+
+        return random_on_ready_answers_list
+
+    @staticmethod
+    def _get_random_on_ready_sounds(settings):
+        """
+        Return a list of the on ready sounds set up on the settings.yml file
+
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return: list of wake up sounds
+        :rtype: list of str
+
+        :Example:
+
+            wakeup_sounds = cls._get_random_on_ready_sounds(settings)
+
+        .. seealso::
+        .. warnings:: Class Method and Private
+        """
+
+        try:
+            random_on_ready_sounds_list = settings["random_on_ready_sounds"]
+            # In case files are declared in settings.yml, make sure kalliope can access them.
+            for sound in random_on_ready_sounds_list:
+                if Utils.get_real_file_path(sound) is None:
+                    raise SettingInvalidException("sound file %s not found" % sound)
+        except KeyError:
+            # User does not provide this settings
+            return None
+
+        return random_on_ready_sounds_list
 
     @staticmethod
     def _get_rest_api(settings):

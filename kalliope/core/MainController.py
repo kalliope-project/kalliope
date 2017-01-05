@@ -38,6 +38,13 @@ class MainController:
 
         # create an order listener object. This last will the trigger callback before starting
         self.order_listener = OrderListener(self.analyse_order)
+
+        if self.settings.random_on_ready_answers is not None:
+            Say(message=self.settings.random_on_ready_answers)
+        elif self.settings.random_on_ready_sounds is not None:
+            random_sound_to_play = self._get_random_sound(self.settings.random_on_ready_sounds)
+            Mplayer.play(random_sound_to_play)
+
         # Wait that the kalliope trigger is pronounced by the user
         self.trigger_instance = self._get_default_trigger()
         self.trigger_instance.start()
