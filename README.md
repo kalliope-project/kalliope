@@ -73,7 +73,8 @@ PRONOUNCED: каллиопа (Russian)
 
 ## Links
 
-Demo French : [video](https://www.youtube.com/watch?v=t4J42yO2rkM)
+Demo French   : [video](https://www.youtube.com/watch?v=t4J42yO2rkM)
+Demo English  : [video](https://www.youtube.com/watch?v=PcLzo4H18S4)
 
 ## License
 
