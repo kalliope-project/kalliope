@@ -23,6 +23,6 @@ sudo python get-pip.py
 
 Then, with pip, the last release of setuptools
 ```
-sudo pip install -U pip setuptools
+sudo pip install -U setuptools
 ```
 

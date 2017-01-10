@@ -2,6 +2,7 @@ six==1.10.0
 SpeechRecognition>=3.5.0
 markupsafe==0.23
 pyaudio==0.2.9
+pyasn1>=0.1.8
 ansible==2.2.0.0
 python2-pythondialog==3.4.0
 jinja2==2.8
