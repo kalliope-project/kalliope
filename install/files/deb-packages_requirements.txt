@@ -1,4 +1,3 @@
-python-pip
 libssl-dev
 libportaudio0
 libportaudio2
