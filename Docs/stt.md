@@ -30,6 +30,7 @@ Core STTs are already packaged with the installation of Kalliope an can be used 
 
 - [apiai](../kalliope/stt/apiai/README.md)
 - [bing](../kalliope/stt/bing/README.md)
+- [CMUSphinx](../kalliope/stt/cmusphinx/README.md)
 - [google](../kalliope/stt/google/README.md)
 - [houndify](../kalliope/stt/houndify/README.md)
 - [witai](../kalliope/stt/wit/README.md)

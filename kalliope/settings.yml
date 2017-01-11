@@ -36,12 +36,13 @@ speech_to_text:
       key: "B5JI3YUSLYOYWNIDBINBVM34XUODME2K"
   - bing: # API not working : credential fails ..
       key: "9e48ddaf75904838bedc11aea6b36fb0"
-  - apiai: # Fail retriving the text from the audio file ..
+  - apiai:
       key: "e0cbff154af44944a6b9f82c0668b527"
       language: "fr"
-  - houndify: # In the online documentation but Not implemented yet in the speech recognition lib ..?
+  - houndify:
       key: "7zj90T7qAV74OYXk4X4vI2Xhk7wPsJu4aEZ0G5Ll-BMmV1JGtFpCxtSH9SmTY4G3bpEJ7a5y_GTQid-CAKI6vw=="
       client_id: "lN4JXeaSticbSo9-llczbA=="
+  #- cmusphinx
 
 
 # ---------------------------
@@ -73,7 +74,6 @@ text_to_speech:
   - voicerss:
       language: "fr-fr"
       cache: True
-
 
 # ---------------------------
 # Wake up answers
