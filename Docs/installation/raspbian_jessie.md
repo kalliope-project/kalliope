@@ -1,5 +1,13 @@
 # Kalliope requirements for Raspbian
 
+
+## Supported Version
+
+[raspbian-2016-09-28](http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-09-28/)
+[raspbian-2016-11-29](http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-11-29/)
+[raspbian-2017-01-10](http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-01-10/)
+
+
 ## Debian packages requirements
 
 Install some required system libraries and software:
