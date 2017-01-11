@@ -92,9 +92,9 @@ random_wake_up_answers:
 # the `random_wake_up_answers`.
 # Place here the full path of the sound file or just the name of the file in /usr/lib/kalliope/sounds
 # The file must be .wav or .mp3 format. By default two file are provided: ding.wav and dong.wav
-random_wake_up_sounds:
-  - "../sounds/ding.wav"
-  - "../sounds/dong.wav"
+#random_wake_up_sounds:
+#  - "sounds/ding.wav"
+#  - "sounds/dong.wav"
   # - "/my/personal/full/path/my_file.mp3"
 
 
