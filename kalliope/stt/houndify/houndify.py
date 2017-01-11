@@ -1,10 +1,10 @@
 import speech_recognition as sr
 
 from kalliope.core import Utils
-from kalliope.core.OrderListener import OrderListener
+from kalliope.stt.Utils import SpeechRecognition
 
 
-class Houndify(OrderListener):
+class Houndify(SpeechRecognition):
 
     def __init__(self, callback=None, **kwargs):
         """
@@ -12,27 +12,28 @@ class Houndify(OrderListener):
         :param callback: The callback function to call to send the text
         :param kwargs:
         """
-        OrderListener.__init__(self)
+        SpeechRecognition.__init__(self)
 
         # callback function to call after the translation speech/tex
         self.callback = callback
-        # obtain audio from the microphone
-        r = sr.Recognizer()
-        with sr.Microphone() as source:
-            # listen for 1 second to calibrate the energy threshold for ambient noise levels
-            r.adjust_for_ambient_noise(source)
-            Utils.print_info("Say something!")
-            audio = r.listen(source)
+        self.client_id = kwargs.get('client_id', None)
+        self.key = kwargs.get('key', None)
+        # only english supported
+        # self.language = kwargs.get('language', "en-US")
+        self.show_all = kwargs.get('show_all', False)
 
-        # recognize speech using Houndify Speech Recognition
+        # start listening in the background
+        self.stop_listening = self.start_listening(self.houndify_callback)
+
+    def houndify_callback(self, recognizer, audio):
+        """
+        called from the background thread
+        """
         try:
-            client_id = kwargs.get('client_id', None)
-            key = kwargs.get('key', None)
-            language = kwargs.get('language', "en-US")
-            show_all = kwargs.get('show_all', False)
-
-            captured_audio = r.recognize_houndify(audio, client_id=client_id, client_key=key,
-                                                  language=language, show_all=show_all)
+            captured_audio = recognizer.recognize_houndify(audio,
+                                                           client_id=self.client_id,
+                                                           client_key=self.key,
+                                                           show_all=self.show_all)
             Utils.print_success("Houndify Speech Recognition thinks you said %s" % captured_audio)
             self._analyse_audio(captured_audio)
 
@@ -47,11 +48,8 @@ class Houndify(OrderListener):
 
     def _analyse_audio(self, audio):
         """
-            Confirm the audio exists annd run it in a Callback
-            :param audio: the captured audio
+        Confirm the audio exists and run it in a Callback
+        :param audio: the captured audio
         """
-
-        # if self.main_controller is not None:
-        #     self.main_controller.analyse_order(audio)
         if self.callback is not None:
             self.callback(audio)

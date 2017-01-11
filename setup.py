@@ -88,6 +88,7 @@ setup(
             'trigger/snowboy/armv7l/_snowboydetect.so',
             'trigger/snowboy/x86_64/_snowboydetect.so',
             'trigger/snowboy/resources/*',
+            'sounds/*'
          ],
     },
 

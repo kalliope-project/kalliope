@@ -1,10 +1,10 @@
 import speech_recognition as sr
 
 from kalliope.core import Utils
-from kalliope.core.OrderListener import OrderListener
+from kalliope.stt.Utils import SpeechRecognition
 
 
-class Bing(OrderListener):
+class Bing(SpeechRecognition):
 
     def __init__(self, callback=None, **kwargs):
         """
@@ -12,26 +12,25 @@ class Bing(OrderListener):
         :param callback: The callback function to call to send the text
         :param kwargs:
         """
-        OrderListener.__init__(self)
+        SpeechRecognition.__init__(self)
 
         # callback function to call after the translation speech/tex
         self.callback = callback
-        # obtain audio from the microphone
-        r = sr.Recognizer()
-        with sr.Microphone() as source:
-            # listen for 1 second to calibrate the energy threshold for ambient noise levels
-            r.adjust_for_ambient_noise(source)
-            Utils.print_info("Say something!")
-            audio = r.listen(source)
+        self.key = kwargs.get('key', None)
+        self.language = kwargs.get('language', "en-US")
+        self.show_all = kwargs.get('show_all', False)
+        # start listening in the background
+        self.stop_listening = self.start_listening(self.bing_callback)
 
-        # recognize speech using Bing Speech Recognition
+    def bing_callback(self, recognizer, audio):
+        """
+        called from the background thread
+        """
         try:
-
-            key = kwargs.get('key', None)
-            language = kwargs.get('language', "en-US")
-            show_all = kwargs.get('show_all', False)
-
-            captured_audio = r.recognize_bing(audio, key=key, language=language, show_all=show_all)
+            captured_audio = recognizer.recognize_bing(audio,
+                                                       key=self.key,
+                                                       language=self.language,
+                                                       show_all=self.show_all)
             Utils.print_success("Bing Speech Recognition thinks you said %s" % captured_audio)
             self._analyse_audio(captured_audio)
 
@@ -46,7 +45,7 @@ class Bing(OrderListener):
 
     def _analyse_audio(self, audio):
         """
-        Confirm the audio exists annd run it in a Callback
+        Confirm the audio exists and run it in a Callback
         :param audio: the captured audio
         """
 
