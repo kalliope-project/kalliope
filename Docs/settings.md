@@ -28,7 +28,7 @@ The trigger is the module detecting the hotword that will wake up Kalliope.
 Common usage of hotword include Alexa on Amazon Echo, OK Google on some Android devices and Hey Siri on iPhones.
 
 Specify the name of the trigger module you want to use.
-```
+```yml
 default_trigger: "trigger_name"
 ```
 
@@ -39,14 +39,14 @@ Available triggers for Kalliope are:
 The hotword (also called a wake word or trigger word) detector is the engine in charge of waking up Kalliope.
 
 Each Trigger has it own configuration. This configuration is passed as argument following the syntax bellow
-```
+```yml
 triggers:
   - trigger_name:
       parameter_name: "value"
 ```
 
 E.g, the default Snowboy trigger configuration is
-```
+```yml
 triggers:
   - snowboy:
       pmdl_file: "trigger/snowboy/resources/model.pmdl"
@@ -62,12 +62,12 @@ A Speech To Text(STT) is an engine used to translate what you say into a text th
 By default, Kalliope uses google STT engine.
 
 The following syntax is used to provide the engine name:
-```
+```yml
 default_speech_to_text: "stt_name"
 ```
 
 E.g
-```
+```yml
 default_speech_to_text: "google"
 ```
 
@@ -75,14 +75,14 @@ Get the full list of [SST engine here](stt.md).
 
 #### speech_to_text
 Each STT has it own configuration. This configuration is passed as argument as shown bellow
-```
+```yml
 speech_to_text:
   - stt_name:
       parameter_name: "value"
 ```
 
 E.g:
-```
+```yml
 speech_to_text:
   - google:
       language: "fr-FR"
@@ -98,12 +98,12 @@ A Text To Speech is an engine used to translate written text into a speech, into
 By default, Kalliope use Pico2wave TTS engine.
 
 The following syntax is used to provide the TTS engine name
-```
+```yml
 default_text_to_speech: "tts_name"
 ```
 
 Eg
-```
+```yml
 default_text_to_speech: "pico2wave"
 ```
 
@@ -111,14 +111,14 @@ Get the full list of [TTS engine here](tts.md).
 
 #### text_to_speech
 Each TTS has it own configuration. This configuration is passed as argument following the syntax bellow
-```
+```yml
 text_to_speech:
   - tts_name:
       parameter_name: "value"
 ```
 
 E.g
-```
+```yml
 text_to_speech:
   - pico2wave:
       language: "fr-FR"
@@ -135,14 +135,14 @@ When Kalliope detects your trigger/hotword/magic word, it lets you know that it'
 one of the sentences provided in the variable random_wake_up_answers.
 
 This variable must contain a list of strings as shown bellow
-```
+```yml
 random_wake_up_answers:
   - "You sentence"
   - "Another sentence"
 ```
 
 E.g
-```
+```yml
 random_wake_up_answers:
   - "Yes sir?"
   - "I'm listening"
@@ -159,14 +159,14 @@ Place here a list of full paths of the sound files you want to use. Otherwise, y
 By default two file are provided: ding.wav and dong.wav. In all cases, the file must be in `.wav` or `.mp3` format. If more than on file is present in the list,
 Kalliope will select one randomly at each wake up.
 
-```
+```yml
 random_wake_up_sounds:
   - "local_file_in_sounds_folder.wav"
   - "/my/personal/full/path/my_file.mp3"
 ```
 
 E.g
-```
+```yml
 random_wake_up_sounds:
   - "ding.wav"
   - "dong.wav"
@@ -184,14 +184,14 @@ When Kalliope is ready, it lets you know that it's operational and now waiting f
 one of the sentences provided in the variable random_on_ready_answers.
 
 This variable must contain a list of strings as shown bellow
-```
+```yml
 random_on_ready_answers:
   - "Your sentence"
   - "Another sentence"
 ```
 
 E.g
-```
+```yml
 random_on_ready_answers:
   - "I am ready"
   - "Let's roll"
@@ -203,14 +203,14 @@ Place here a list of full paths of the sound files you want to use. Otherwise, y
 By default two file are provided: ding.wav and dong.wav. In all cases, the file must be in `.wav` or `.mp3` format. If more than on file is present in the list,
 Kalliope will select one randomly at each wake up.
 
-```
+```yml
 random_on_ready_sounds:
   - "local_file_in_sounds_folder.wav"
   - "/my/personal/full/path/my_file.mp3"
 ```
 
 E.g
-```
+```yml
 random_on_ready_sounds:
   - "ding.wav"
   - "dong.wav"
@@ -231,7 +231,7 @@ A Rest API can be activated in order to:
 For the complete API ref see the [REST API documentation](rest_api.md)
 
 Settings examples:
-```
+```yml
 rest_api:
   active: True
   port: 5000
@@ -261,17 +261,17 @@ If you want to allow request from external application, you'll need to enable th
 To do so, just indicated the origins that are allowed to leverage the API. The authorize values are:
 
 False to forbid CORS request.
-```
+```yml
 allowed_cors_origin: False
 ```
 
 or either a string or a list:
-```
+```yml
 allowed_cors_origin: "*"
 ```
 (in case of "*", all origins are accepted).
 or
-```
+```yml
 allowed_cors_origin:
   - 'http://mydomain.com/*'
   - 'http://localhost:4200/*'
@@ -283,12 +283,12 @@ Remember that an origin is composed of the scheme (http(s)), the port (eg: 80, 4
 
 Run a default [synapse](brain.md) when Kalliope can't find the order in any synapse.
 
-```
+```yml
 default_synapse: "synapse-name"
 ```
 
 E.g
-```
+```yml
 default_synapse: "Default-response"
 ```
 
@@ -297,13 +297,13 @@ default_synapse: "Default-response"
 The resources directory is the path where Kalliope will try to load community modules like Neurons, STTs or TTSs.
 Set a valid path is required if you want to install community neuron. The path can be relative or absolute.
 
-```
+```yml
 resource_directory:
   resource_name: "path"
 ```
 
 E.g
-```
+```yml
 resource_directory:
   neuron: "resources/neurons"
   stt: "resources/stt"

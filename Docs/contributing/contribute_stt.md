@@ -25,7 +25,7 @@ Creating a new STT must follow some rules:
 1. Inside the STT file, the STT Class name is in __uppercase__.
 1. The STT __inherits from the SpeechRecognition__ coming from the Utils file in the STT package.
 
-    ```
+    ```python
     from kalliope.stt.Utils import SpeechRecognition
     class Google(SpeechRecognition):
     ```
@@ -40,7 +40,7 @@ The constructor has a __**kwargs argument__ which is corresponding to the Dict o
 1. The callback methode must implement two arguments: recognizer and audio. The audio argument contains the stream caught by the microphone
 1. Once you get the text back, let give it to the callback method received in the constructor
 
-    ```
+    ```python
     def __init__(self, callback=None, **kwargs):
         OrderListener.__init__(self)
         self.callback = callback

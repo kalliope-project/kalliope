@@ -11,7 +11,7 @@ A playbook is like a recipe or an instructions manual which tells Ansible what t
 
 Let's see a basic playbook, the one used by the neuron [wikipedia_searcher](https://github.com/kalliope-project/kalliope_neuron_wikipedia)
 
-```
+```yml
 - name: Kalliope wikipedia_searcher neuron install
   hosts: localhost
   gather_facts: no
@@ -43,7 +43,7 @@ The only task we've added here is based on the [pip Ansible module](http://docs.
 Ansible comes with a lot of modules, see the [complete list here](http://docs.ansible.com/ansible/modules_by_category.html).
 
 Here is an example which use the [apt module](http://docs.ansible.com/ansible/apt_module.html) to install Debian packages
-```
+```yml
 tasks:
   - name: Install packages
     apt: name={{ item }} update_cache=yes

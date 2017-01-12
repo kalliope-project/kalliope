@@ -2,12 +2,12 @@
 
 ## SYNOPSIS
 This is the syntax used to run Kalliope from command line
-```
+```bash
 kalliope command --option <argument>
 ```
 
 For example, to start Kalliope we simply use
-```
+```bash
 kalliope start
 ```
 
@@ -17,7 +17,7 @@ kalliope start
 Start Kalliope main program
 
 Example of use
-```
+```bash
 kalliope start
 ```
 
@@ -28,7 +28,7 @@ Launch the Kalliope shell Graphical User Interface.
 The GUI allows you to test your [STT](stt.md) and [TTS](tts.md) that you have configured in [settings.yml](default_settings.md) file of Kalliope.
 
 Example of use
-```
+```bash
 kalliope gui
 ```
 
@@ -36,12 +36,12 @@ kalliope gui
 Install a community module. You must set an install type option. Currently the only available option is `--git-url`.
 
 Syntax
-```
+```bash
 kalliope install --git-url <url>
 ```
 
 Example of use
-```
+```bash
 kalliope install --git-url https://github.com/kalliope-project/kalliope_neuron_wikipedia.git
 ```
 
@@ -53,11 +53,11 @@ Commands can be completed by the following options:
 Display the current isntalled version of Kalliope.
 
 Example of use
-```
+```bash
 kalliope --version
 ```
 
-```
+```bash
 kalliope -v
 ```
 
@@ -66,7 +66,7 @@ kalliope -v
 Run a specific synapse from the brain file.
 
 Example of use
-```
+```bash
 kalliope start --run-synapse "say-hello"
 ```
 
@@ -76,12 +76,12 @@ Replace the default brain file from the root of the project folder by a custom o
 > **Important note:** The path must be absolute. The absolute path contains the root directory and all other subdirectories in which a file or folder is contained. 
 
 Example of use
-```
+```bash
 kalliope start --brain-file /home/me/my_other_brain.yml
 ```
 
 You can combine the options together like, for example:
-```
+```bash
 kalliope start --run-synapse "say-hello" --brain-file /home/me/my_other_brain.yml
 ```
 
@@ -90,7 +90,7 @@ kalliope start --run-synapse "say-hello" --brain-file /home/me/my_other_brain.ym
 Show debug output in the console
 
 Example of use
-```
+```bash
 kalliope start --debug
 ```
 

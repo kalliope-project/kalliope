@@ -8,12 +8,12 @@ You can add as many neurons as you want to a synapse. The neurons are executed o
 Core neurons are already packaged with the installation of kalliope an can be used out of the box. Community neuron need to be installed manually.
 
 Use the CLI
-```
+```bash
 kalliope install --git-url <git_url>
 ```
 
 E.g:
-```
+```bash
 kalliope install --git-url https://github.com/kalliope-project/kalliope_neuron_wikipedia.git
 ```
 
@@ -22,7 +22,7 @@ You may be prompted to type your `sudo` password during the process. You can see
 ## Usage
 Neurons are declared in the `neurons` section of a synapse in your brain file.
 The `neurons` section is a list (because it starts with a "-") which contains neuron modules names
-```
+```yml
 neurons:
     - neuron_1_name
     - neuron_2_name
@@ -30,7 +30,7 @@ neurons:
 ```
 
 Some neurons need parameters that can be passed as arguments following the syntax bellow:
-```
+```yml
 neurons:
     - neuron_name:
         parameter1: "value1"
@@ -50,7 +50,7 @@ Neurons require some **parameters** from the synapse declaration to work. Those 
 - from the captured order
 
 From the neuron declaration:
-```
+```yml
 neurons:
     - neuron_name:
         parameter1: "value1"
@@ -58,7 +58,7 @@ neurons:
 ```
 
 From the captured order:
-```
+```yml
   - name: "run-neuron-with-parameter-in-order"
     signals:
       - order: "this is an order with the parameter {{ parameter3 }}"
@@ -93,7 +93,7 @@ It is {{ hours }} and {{ minutes }} minutes.
 ```
 
 Placed in a complete synapse, it looks like the following
-```
+```yml
 - name: "time"
     signals:
       - order: "what time is it"
@@ -116,7 +116,7 @@ We can add some logic to a template with tags. Here a simple example with [a tes
 ```
 
 As this is multi-lines, we can put the content in a file and use a `file_template` instead of a `say_template` for more clarity.
-```
+```yml
 - name: "time"
     signals:
       - order: "what time is it"
@@ -135,14 +135,14 @@ set in [settings.yml](settings.md) file.
 
 You can override the default cache configuration. By default Kalliope uses a cache to save a generated audio from a TTS engine.
 This cache is useful to manage sentences that are not suppose to be changed very often. For example, the following sentence will not change in time, so it's more optimized to generate it once and to keep it in cash:
-```
+```yml
 - say:
     message:
       - "Hello, sir"
 ```
 
 In some cases, especially when the neuron is based on a template, the generated audio will change on each new call of the neuron and so the usage of a cache is not necessary. The best example of the case like this is the `systemdate` neuron. As the time changes every minute, the generated audio will change too and so, saving the generated audio in the cache is useless. In this case, you can override the cache usage for this neuron:
-```
+```yml
 - systemdate:
     say_template:
       - "It's {{ hours }} hour and {{ minutes }} minute"
@@ -152,7 +152,7 @@ In some cases, especially when the neuron is based on a template, the generated 
 ### tts
 
 You can override the default tts for each neurons. Just add the "tts" parameter to the neuron like in the example bellow
-```
+```yml
 neurons:
   - say:
     message:
