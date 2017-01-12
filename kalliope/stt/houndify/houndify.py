@@ -15,7 +15,7 @@ class Houndify(SpeechRecognition):
         SpeechRecognition.__init__(self)
 
         # callback function to call after the translation speech/tex
-        self.callback = callback
+        self.main_controller_callback = callback
         self.client_id = kwargs.get('client_id', None)
         self.key = kwargs.get('key', None)
         # only english supported
@@ -23,7 +23,8 @@ class Houndify(SpeechRecognition):
         self.show_all = kwargs.get('show_all', False)
 
         # start listening in the background
-        self.stop_listening = self.start_listening(self.houndify_callback)
+        self.set_callback(self.houndify_callback)
+        self.start_listening()
 
     def houndify_callback(self, recognizer, audio):
         """
@@ -40,16 +41,19 @@ class Houndify(SpeechRecognition):
         except sr.UnknownValueError:
             Utils.print_warning("Houndify Speech Recognition could not understand audio")
             # callback anyway, we need to listen again for a new order
-            self._analyse_audio(audio=None)
+            self._analyse_audio(audio_to_text=None)
         except sr.RequestError as e:
             Utils.print_danger("Could not request results from Houndify Speech Recognition service; {0}".format(e))
             # callback anyway, we need to listen again for a new order
-            self._analyse_audio(audio=None)
+            self._analyse_audio(audio_to_text=None)
 
-    def _analyse_audio(self, audio):
+        # stop listening for an audio
+        self.stop_listening()
+
+    def _analyse_audio(self, audio_to_text):
         """
         Confirm the audio exists and run it in a Callback
-        :param audio: the captured audio
+        :param audio_to_text: the captured audio
         """
-        if self.callback is not None:
-            self.callback(audio)
+        if self.main_controller_callback is not None:
+            self.main_controller_callback(audio_to_text)
