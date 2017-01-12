@@ -94,7 +94,7 @@ class DnaLoader(object):
                 else:
                     for supported_version in dna_file["kalliope_supported_version"]:
                         # check if major version is provided
-                        if not len(str(supported_version)) == 3:
+                        if not re.search('^[\d]*[.][\d]*$', str(supported_version)):
                             Utils.print_danger("kalliope_supported_version cannot handle this format of version %s. "
                                                "Only major version should be provided" % supported_version)
                             success_loading = False

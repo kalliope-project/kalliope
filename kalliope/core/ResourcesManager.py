@@ -259,7 +259,7 @@ class ResourcesManager(object):
 
         supported_version_found = False
         # Extract major version
-        match_current_version = re.search('^[\d][.][\d]', current_version)
+        match_current_version = re.search('^[\d]*[.][\d]*', current_version)
         if match_current_version:
             current_version = match_current_version.group(0)
 
