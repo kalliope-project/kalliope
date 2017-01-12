@@ -23,11 +23,11 @@ Creating a new STT must follow some rules:
 1. The STT must be coded in __Python 2.7__.
 1. Under the STT repository, include the __init__.py file which contains: *from stt import STT* (/!\ respect the Case)
 1. Inside the STT file, the STT Class name is in __uppercase__.
-1. The STT __inherits from the OrderListener__ coming from the Core.
+1. The STT __inherits from the SpeechRecognition__ coming from the Utils file in the STT package.
 
     ```
-    from kalliope.core.OrderListener import OrderListener
-    class Google(OrderListener):
+    from kalliope.stt.Utils import SpeechRecognition
+    class Google(SpeechRecognition):
     ```
 
 1. The STT has a constructor __init__ which is the entry point.
@@ -36,16 +36,28 @@ The constructor has a __**kwargs argument__ which is corresponding to the Dict o
 1. The STT must init itself first.
 1. Attach the incoming callback to the self.attribute.
 1. Obtain audio from the microphone in the constructor. (Note : we mostly use the [speech_recognition library](https://pypi.python.org/pypi/SpeechRecognition/))
-1. Once you get the text back, let give it to the callback
+1. Use self.start_listening(self.my_callback) from the mother class to get an audio and pass it to the callback of your choice.
+1. The callback methode must implement two arguments: recognizer and audio. The audio argument contains the stream caught by the microphone
+1. Once you get the text back, let give it to the callback method received in the constructor
 
     ```
     def __init__(self, callback=None, **kwargs):
         OrderListener.__init__(self)
         self.callback = callback
-        # -------------------
-        # do amazing code
-        # -------------------
-        self.callback(audio_to_text)
+        
+        self.argument_from_settings = kwargs.get('argument_from_settings', None)
+        
+        # start the microphone to capture an audio, give to the function a callback        
+        self.stop_listening = self.start_listening(self.my_callback)
+        
+        def my_callback((self, recognizer, audio):
+            # ---------------------------------------------
+            # do amazing code
+            # 'audio' contain stream caught by the microphone
+            # ---------------------------------------------
+            
+            # at the end of the process, send the text into the received callback method
+            self.callback(audio_to_text)
     ```
 
 
@@ -63,15 +75,4 @@ mystt/
 ```
 
 Example of STT code
-```
-class Mystt(OrderListener):
-def __init__(self, callback=None, **kwargs):
-        OrderListener.__init__(self)
-        self.callback = callback
-        # -------------------
-        # - get the microphone audio 
-        # - do amazing code to retrieve the text
-        # - call the callback giving it the result text -> self.callback(audio_to_text)
-        # -------------------
-        
-```
+- [Google STT](../../kalliope/stt/google/README.md)
