@@ -247,8 +247,8 @@ class SettingLoader(object):
                     new_stt = Stt(name=name, parameters=parameters)
                     stts.append(new_stt)
             else:
-                # the neuron does not have parameter
-                new_stt = Stt(name=speechs_to_text_el)
+                # the stt does not have parameter
+                new_stt = Stt(name=speechs_to_text_el, parameters=dict())
                 stts.append(new_stt)
         return stts
 
