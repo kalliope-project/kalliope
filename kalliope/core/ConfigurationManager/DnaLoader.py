@@ -1,3 +1,5 @@
+import re
+
 from kalliope.core import Utils
 from kalliope.core.ConfigurationManager import YAMLLoader
 from kalliope.core.Models.Dna import Dna
@@ -89,5 +91,13 @@ class DnaLoader(object):
                 if not dna_file["kalliope_supported_version"]:
                     Utils.print_danger("kalliope_supported_version cannot be empty")
                     success_loading = False
+                else:
+                    for supported_version in dna_file["kalliope_supported_version"]:
+                        # check if major version is provided
+                        if not len(str(supported_version)) == 3:
+                            Utils.print_danger("kalliope_supported_version cannot handle this format of version %s. "
+                                               "Only major version should be provided" % supported_version)
+                            success_loading = False
+
 
         return success_loading
