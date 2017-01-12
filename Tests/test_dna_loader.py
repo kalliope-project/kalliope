@@ -18,7 +18,7 @@ class TestDnaLoader(unittest.TestCase):
 
     def test_get_yaml_config(self):
 
-        expected_result = {'kalliope_supported_version': ['0.4.0'],
+        expected_result = {'kalliope_supported_version': [0.4],
                            'author': 'Kalliope project team',
                            'type': 'neuron',
                            'name': 'neuron_test',
@@ -35,7 +35,7 @@ class TestDnaLoader(unittest.TestCase):
         expected_result.module_type = "neuron"
         expected_result.tags = ['test']
         expected_result.author = 'Kalliope project team'
-        expected_result.kalliope_supported_version = ['0.4.0']
+        expected_result.kalliope_supported_version = [0.4]
 
         dna_to_test = DnaLoader(self.dna_test_file).get_dna()
 
@@ -57,7 +57,7 @@ class TestDnaLoader(unittest.TestCase):
 
     def test_check_dna(self):
         # check with valid DNA file
-        test_dna = {'kalliope_supported_version': ['0.4.0'],
+        test_dna = {'kalliope_supported_version': [0.4],
                     'author': 'Kalliope project team',
                     'type': 'neuron',
                     'name': 'neuron_test',
@@ -66,7 +66,7 @@ class TestDnaLoader(unittest.TestCase):
         self.assertTrue(DnaLoader(file_path=self.dna_test_file)._check_dna_file(test_dna))
 
         # invalid DNA file, no name
-        test_dna = {'kalliope_supported_version': ['0.4.0'],
+        test_dna = {'kalliope_supported_version': [0.4],
                     'author': 'Kalliope project team',
                     'type': 'neuron',
                     'tags': ['test']}
@@ -74,7 +74,7 @@ class TestDnaLoader(unittest.TestCase):
         self.assertFalse(DnaLoader(file_path=self.dna_test_file)._check_dna_file(test_dna))
 
         # invalid DNA file, no type
-        test_dna = {'kalliope_supported_version': ['0.4.0'],
+        test_dna = {'kalliope_supported_version': [0.4],
                     'author': 'Kalliope project team',
                     'name': 'neuron_test',
                     'tags': ['test']}
@@ -82,7 +82,7 @@ class TestDnaLoader(unittest.TestCase):
         self.assertFalse(DnaLoader(file_path=self.dna_test_file)._check_dna_file(test_dna))
 
         # invalid DNA, wrong type
-        test_dna = {'kalliope_supported_version': ['0.4.0'],
+        test_dna = {'kalliope_supported_version': [0.4],
                     'author': 'Kalliope project team',
                     'type': 'doesnotexist',
                     'name': 'neuron_test',
@@ -99,6 +99,15 @@ class TestDnaLoader(unittest.TestCase):
 
         # invalid DNA, kalliope_supported_version empty
         test_dna = {'kalliope_supported_version': [],
+                    'author': 'Kalliope project team',
+                    'type': 'neuron',
+                    'name': 'neuron_test',
+                    'tags': ['test']}
+
+        self.assertFalse(DnaLoader(file_path=self.dna_test_file)._check_dna_file(test_dna))
+
+        # invalid DNA, kalliope_supported_version wrong format
+        test_dna = {'kalliope_supported_version': ['0.4.1'],
                     'author': 'Kalliope project team',
                     'type': 'neuron',
                     'name': 'neuron_test',

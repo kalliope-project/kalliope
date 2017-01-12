@@ -134,14 +134,21 @@ class TestResourcesmanager(unittest.TestCase):
     def test_check_supported_version(self):
         # version ok
         current_version = '0.4.0'
-        supported_version = ['0.4.0', '0.3.0', '0.2.0']
+        supported_version = ['0.4', '0.3', '0.2']
 
         self.assertTrue(ResourcesManager._check_supported_version(current_version=current_version,
                                                                   supported_versions=supported_version))
 
-        # version non ok, useer does not confir
+        # version ok
+        current_version = '11.23.0'
+        supported_version = ['11.23', '12.3', '2.23']
+
+        self.assertTrue(ResourcesManager._check_supported_version(current_version=current_version,
+                                                                  supported_versions=supported_version))
+
+        # version non ok, user does not config
         current_version = '0.4.0'
-        supported_version = ['0.3.0', '0.2.0']
+        supported_version = ['0.3', '0.2']
 
         with mock.patch('kalliope.Utils.query_yes_no', return_value=True):
             self.assertTrue(ResourcesManager._check_supported_version(current_version=current_version,
