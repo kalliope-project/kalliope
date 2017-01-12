@@ -2,6 +2,7 @@ import getpass
 import logging
 import os
 import shutil
+import re
 
 from git import Repo
 from packaging import version
@@ -257,11 +258,16 @@ class ResourcesManager(object):
         logger.debug("[ResourcesManager] Module supported version: %s" % str(supported_versions))
 
         supported_version_found = False
-        for supported_version in supported_versions:
-            if version.parse(current_version) == version.parse(supported_version):
-                # we found the exact version
-                supported_version_found = True
-                break
+        # Extract major version
+        match_current_version = re.search('^[\d]*[.][\d]*', current_version)
+        if match_current_version:
+            current_version = match_current_version.group(0)
+
+            for supported_version in supported_versions:
+                if version.parse(current_version) == version.parse(supported_version):
+                    # we found the exact version
+                    supported_version_found = True
+                    break
 
         if not supported_version_found:
             # we ask the user if we want to install the module even if the version doesn't match
