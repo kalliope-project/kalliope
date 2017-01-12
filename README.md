@@ -15,7 +15,7 @@ write it by yourself and add it to your project. You can also propose it to the 
 Kalliope can run on all Linux Debian based distribution including a Raspberry Pi and it's multi-lang. The only thing you need is a microphone.
 
 Kalliope is easy-peasy to use, see the hello world
-```
+```yml
   - name: "Hello-world"
     signals:
       - order: "say hello"
