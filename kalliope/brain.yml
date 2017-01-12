@@ -1,7 +1,6 @@
 ---
   - name: "say-hello-fr"
     signals:
-      - order: "bonjour"
       - order: "Bonjour"
     neurons:
       - say:
@@ -10,7 +9,6 @@
 
   - name: "say-hello-en"
     signals:
-      - order: "hello"
       - order: "Hello"
     neurons:
       - say:
