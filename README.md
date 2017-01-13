@@ -15,7 +15,7 @@ write it by yourself and add it to your project. You can also propose it to the 
 Kalliope can run on all Linux Debian based distribution including a Raspberry Pi and it's multi-lang. The only thing you need is a microphone.
 
 Kalliope is easy-peasy to use, see the hello world
-```
+```yml
   - name: "Hello-world"
     signals:
       - order: "say hello"
@@ -67,9 +67,12 @@ Reading through this guide before writing any code is recommended.
 
 > **Meaning of Kalliope** Kalliope means "beautiful voice" from Greek καλλος (kallos) "beauty" and οψ (ops) "voice". 
 In Greek mythology she was a goddess of epic poetry and eloquence, one of the nine Muses.
-PRONOUNCED: kə-LIE-ə-pee (English) 
-PRONOUNCED: Ka-li-o-pé (French)
-PRONOUNCED: каллиопа (Russian)
+
+kə-LIE-ə-pee    (English) 
+Ka-li-o-pé      (French)
+каллиопа        (Russian)
+
+[Improve models with Snowboy](Docs/trigger.md)
 
 ## Links
 

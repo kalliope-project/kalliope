@@ -10,12 +10,12 @@ The configuration of each STT you use must appear in the [settings.yml](settings
 ## Settings
 
 The setting.yml defines the STT you want to use by default
-```
+```yml
 default_speech_to_text: "type default STT here"
 ```
 
 Then, still in the settings.yml file, each STT must set up its configuration following the 'speech_to_text' tag :
-```
+```yml
 speech_to_text:
    - STT1:
       STT1parameter1: "value option1"
@@ -40,7 +40,7 @@ Core STTs are already packaged with the installation of Kalliope an can be used 
 Community STTs need to be installed manually.
 
 Use the CLI
-```
+```bash
 kalliope install --git-url <git_url>
 ```
 
@@ -50,7 +50,7 @@ You may be prompted to type your `sudo` password during the process. You can see
 
 In the settings.yml file :
 
-```
+```yml
 default_speech_to_text: "google"
 speech_to_text:
   - google:

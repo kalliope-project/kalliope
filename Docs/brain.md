@@ -20,7 +20,7 @@ Kalliope will look for the brain in the order bellow:
 
 Let's take a look on a basic synapse in our brain:
 
-```
+```yml
 ---
   - name: "Say-hello"
     signals:
@@ -37,14 +37,14 @@ The file starts with: `---`. This is a requirement for YAML to interpret the fil
 Items that begin with a ```-``` are considered as list items. Items have the format of ```key: value``` where value can be a simple string or a sequence of other items.
 
 At the top level we have a "name" tag. This is the **unique identifier** of the synapse. It must be an unique word with the only accepted values : alphanumerics and dash. ([a - zA - Z0 - 9\-])
-```
+```yml
 - name: "Say-hello"
 ```
 
 
 The first part, called **signals** is a list of input actions. This works exactly the same way as neurons. You must place here at least one action.
 In the following example, we use just one signal, an order. See the complete list of [available signals](signals.md) here.
-```
+```yml
 signals:
   - order: "say-hello"
 ```
@@ -62,13 +62,13 @@ To know if your order will be triggered by Kalliope, we recommend you to [use th
 
 >**Note:**
 You must pay attention to define the orders as precise as possible. As Kalliope is based on matching, if you define your orders in different synapses too similiary, Kalliope risks to trigger more actions that you were expecting. For exemple, if you define two different synapses as shown below:
-```
+```yml
 - name: "Say-hello"
   signals:
     - order: "say hello"
 ```
 and 
-```
+```yml
 - name: "Say-something"
   signals:
     - order: "say"
@@ -76,7 +76,7 @@ and
 When you will pronounce "say hello", it will trigger both synapses. 
 
 Then we have the neurons declaration. Neurons are modules that will be executed when the input action is triggered. You can define as many neurons as you want to the same input action (for example: say somethning, then do something etc...). This declaration contains a list (because it starts with a "-") of neurons
-```
+```yml
 neurons:
     - neuron_1_name
     - neuron_2_name
@@ -86,7 +86,7 @@ neurons:
 The order of execution of neurons is defined by the order in which they are listed in neurons declaration.
 
 Some neurons need parameters that can be passed as arguments following the syntax bellow:
-```
+```yml
 neurons:
     - neuron_name:
         parameter1: "value1"
@@ -107,14 +107,14 @@ Kalliope provides also a REST API to manage your synapses (get the list, get one
 If you want a better visibly, or simply sort your actions in different files, you can split the main brain file into multiple ones.
 
 To do that, use the import statement in the entry brain.yml file with the following syntax:
-```
+```yml
   - includes:
       - path/to/sub_brain.yml
       - path/to/another_sub_brain.yml
 ```
 
 E.g:
-```
+```yml
   - includes:
       - brains/rolling_shutter_commands.yml
       - brains/find_my_phone.yml

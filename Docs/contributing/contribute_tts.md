@@ -25,7 +25,7 @@ Creating a new TTS must follow some rules:
 1. Inside the TTS file, the TTS Class name is in __uppercase__.
 1. The TTS __inherits from the TTSModule__ coming from the Core.
 
-    ```
+    ```python
     from kalliope.core.TTS.TTSModule import TTSModule
     class Pico2wave(TTSModule):
     ```
@@ -35,7 +35,7 @@ Creating a new TTS must follow some rules:
 The constructor has a __**kwargs argument__ which is corresponding to the Dict of incoming variables:values defined either in the settings file.
 1. The TTS must refer to its __parent structure__ in the init by calling the super of TTSModule.
 
-    ```
+    ```python
     def __init__(self, **kwargs):
         super(Pico2wave, self).__init__(**kwargs)
     ```
@@ -59,7 +59,7 @@ mytts/
 ```
 
 Example of TTS code
-```
+```python
 class Mytts(TTSModule):
 def __init__(self, **kwargs):
     super(Mytts, self).__init__(**kwargs)

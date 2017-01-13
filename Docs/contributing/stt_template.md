@@ -5,8 +5,9 @@
 Description of your STT
 
 ## Installation
-
-    kalliope install --git-url https://github.com/username/mystt.git
+```bash
+kalliope install --git-url https://github.com/username/mystt.git
+```
 
 ## Options
 

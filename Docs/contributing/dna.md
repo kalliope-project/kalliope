@@ -16,7 +16,7 @@ This file has a yaml syntax and must be present to allow Kalliope to install it 
 ## DNA file examples
 
 A dna file for a neuron
-```
+```yml
 name: "wikipedia_searcher"
 type: "neuron"
 author: "The dream team of Kalliope project"

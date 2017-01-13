@@ -11,7 +11,7 @@ Once downloaded:
 - place the file in your personal config folder.
 - update the path of **pmdl_file** in [your settings](settings.md).
 
-If you want to keep "Kalliope" as the name of your bot, we recommend you to enhance the existing Snowboy model for your language.
+If you want to keep "Kalliope" as the name of your bot, we recommend you to __enhance the existing Snowboy model for your language__.
 
 We will update the following list with all Kalliope model created by the community. If the model doesn't exist, please create one with the following syntax:
 ```

@@ -1,7 +1,6 @@
 import speech_recognition as sr
 
 from kalliope.core import Utils
-from kalliope.core.OrderListener import OrderListener
 from kalliope.stt.Utils import SpeechRecognition
 
 

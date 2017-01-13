@@ -26,7 +26,7 @@ Creating a new Neuron must follow some rules:
 1. Inside the Neuron file, the Neuron Class name is in __uppercase__.
 1. The Neuron __inherits from the NeuronModule__ coming from the Core.
 
-    ```
+    ```python
     from core.NeuronModule import NeuronModule
     class Say(NeuronModule):
     ```
@@ -36,13 +36,13 @@ Creating a new Neuron must follow some rules:
 The constructor has a __**kwargs argument__ which is corresponding to the Dict of incoming variables:values defined either in the brain file or in the signal.
 1. The Neuron must refer to its __parent structure__ in the init by calling the super of NeuronModule.
 
-    ```
+    ```Python
     def __init__(self, **kwargs):
         super(Say, self).__init__(**kwargs)
     ```
 
 1. You must run unit tests with success before sending a pull request. Add new tests that cover the code you want to publish.
-    ```
+    ```bash
     cd /path/to/kalliope
     python -m unittest discover
     ```
@@ -75,7 +75,7 @@ myneuron/
 ```
 
 Example of neuron code
-```
+```python
 class Myneuron(NeuronModule):
 def __init__(self, **kwargs):
     super(Myneuron, self).__init__(**kwargs)
