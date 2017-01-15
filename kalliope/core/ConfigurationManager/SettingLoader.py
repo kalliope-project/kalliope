@@ -104,7 +104,10 @@ class SettingLoader(object):
         ttss = self._get_ttss(settings)
         triggers = self._get_triggers(settings)
         random_wake_up_answers = self._get_random_wake_up_answers(settings)
-        random_wake_up_sounds = self._get_random_wake_up_sounds(settings)
+        random_wake_up_sound = self._get_random_wake_up_sounds(settings)
+        play_on_ready_notification = self._get_play_on_ready_notification(settings)
+        on_ready_answers = self._get_on_ready_answers(settings)
+        on_ready_sounds = self._get_on_ready_sounds(settings)
         rest_api = self._get_rest_api(settings)
         cache_path = self._get_cache_path(settings)
         default_synapse = self._get_default_synapse(settings)
@@ -118,7 +121,10 @@ class SettingLoader(object):
         setting_object.ttss = ttss
         setting_object.triggers = triggers
         setting_object.random_wake_up_answers = random_wake_up_answers
-        setting_object.random_wake_up_sounds = random_wake_up_sounds
+        setting_object.random_wake_up_sounds = random_wake_up_sound
+        setting_object.play_on_ready_notification = play_on_ready_notification
+        setting_object.on_ready_answers = on_ready_answers
+        setting_object.on_ready_sounds = on_ready_sounds
         setting_object.rest_api = rest_api
         setting_object.cache_path = cache_path
         setting_object.default_synapse = default_synapse
@@ -243,8 +249,8 @@ class SettingLoader(object):
                     new_stt = Stt(name=name, parameters=parameters)
                     stts.append(new_stt)
             else:
-                # the neuron does not have parameter
-                new_stt = Stt(name=speechs_to_text_el)
+                # the stt does not have parameter
+                new_stt = Stt(name=speechs_to_text_el, parameters=dict())
                 stts.append(new_stt)
         return stts
 
@@ -379,6 +385,10 @@ class SettingLoader(object):
 
         try:
             random_wake_up_sounds_list = settings["random_wake_up_sounds"]
+            # In case files are declared in settings.yml, make sure kalliope can access them.
+            for sound in random_wake_up_sounds_list:
+                if Utils.get_real_file_path(sound) is None:
+                    raise SettingInvalidException("sound file %s not found" % sound)
         except KeyError:
             # User does not provide this settings
             return None
@@ -423,7 +433,7 @@ class SettingLoader(object):
                 if password_protected:
                     if login is None:
                         raise NullSettingException("login setting cannot be null if password_protected is True")
-                    if login is None:
+                    if password is None:
                         raise NullSettingException("password setting cannot be null if password_protected is True")
                 active = rest_api["active"]
                 if active is None:
@@ -440,13 +450,18 @@ class SettingLoader(object):
                 if not 1024 <= port <= 65535:
                     raise SettingInvalidException("port must be in range 1024-65535")
 
+                # check the CORS request settings
+                allowed_cors_origin = False
+                if "allowed_cors_origin" in rest_api:
+                     allowed_cors_origin = rest_api["allowed_cors_origin"]
+
             except KeyError, e:
                 # print e
                 raise SettingNotFound("%s settings not found" % e)
 
             # config ok, we can return the rest api object
             rest_api_obj = RestAPI(password_protected=password_protected, login=login, password=password,
-                                   active=active, port=port)
+                                   active=active, port=port, allowed_cors_origin=allowed_cors_origin)
             return rest_api_obj
         else:
             raise NullSettingException("rest_api settings cannot be null")
@@ -573,5 +588,58 @@ class SettingLoader(object):
             resource_object = None
 
         return resource_object
+
+    @staticmethod
+    def _get_play_on_ready_notification(settings):
+        """
+        Return the on_ready_notification setting. If the user didn't provided it the default is never
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return:
+        """
+        try:
+            play_on_ready_notification = settings["play_on_ready_notification"]
+        except KeyError:
+            # User does not provide this settings, by default we set it to never
+            play_on_ready_notification = "never"
+            return play_on_ready_notification
+        return play_on_ready_notification
+
+    @staticmethod
+    def _get_on_ready_answers( settings):
+        """
+        Return the list of on_ready_answers string from the settings.
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return: String parameter on_ready_answers
+        """
+        try:
+            on_ready_answers = settings["on_ready_answers"]
+        except KeyError:
+            # User does not provide this settings
+            return None
+
+        return on_ready_answers
+
+    @staticmethod
+    def _get_on_ready_sounds(settings):
+        """
+        Return the list of on_ready_sounds string from the settings.
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return: String parameter on_ready_sounds
+        """
+        try:
+            on_ready_sounds = settings["on_ready_sounds"]
+            # In case files are declared in settings.yml, make sure kalliope can access them.
+            for sound in on_ready_sounds:
+                if Utils.get_real_file_path(sound) is None:
+                    raise SettingInvalidException("sound file %s not found" % sound)
+        except KeyError:
+            # User does not provide this settings
+            return None
+
+        return on_ready_sounds
+
 
 

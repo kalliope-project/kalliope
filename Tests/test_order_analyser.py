@@ -218,6 +218,49 @@ class TestOrderAnalyser(unittest.TestCase):
         self.assertFalse(OrderAnalyser.spelt_order_match_brain_order_via_table(order_to_test, sentence_to_test),
                          "Fail to ensure the expected sentence is not matching the order")
 
+        # Upper/lower cases
+        sentence_to_test = "THIS is THE order"
+        self.assertTrue(OrderAnalyser.spelt_order_match_brain_order_via_table(order_to_test, sentence_to_test),
+                        "Fail matching Upper/lower cases")
+
+    def test_format_sentences_to_analyse(self):
+
+        # First capital in sentence
+        order_to_test = "this is the order"
+        sentence_to_test = "This is the order"
+        expected_result = "this is the order", "this is the order"
+        self.assertEqual(OrderAnalyser._format_sentences_to_analyse(order_to_analyse=order_to_test,
+                                                                    user_said=sentence_to_test),
+                         expected_result,
+                         "Fails formatting the sentences with first capital in sentence")
+
+        # random uppercase in sentence
+        order_to_test = "this is the order"
+        sentence_to_test = "This IS the ordeR"
+        expected_result = "this is the order", "this is the order"
+        self.assertEqual(OrderAnalyser._format_sentences_to_analyse(order_to_analyse=order_to_test,
+                                                                    user_said=sentence_to_test),
+                         expected_result,
+                         "Fails formatting the sentences with random in sentence")
+
+        # random uppercase in order
+        order_to_test = "thiS is THE orDer"
+        sentence_to_test = "this is the order"
+        expected_result = "this is the order", "this is the order"
+        self.assertEqual(OrderAnalyser._format_sentences_to_analyse(order_to_analyse=order_to_test,
+                                                                    user_said=sentence_to_test),
+                         expected_result,
+                         "Fails formatting the sentences with random in order")
+
+        # random uppercase in both order and sentence
+        order_to_test = "thiS is THE orDer"
+        sentence_to_test = "THIS is the Order"
+        expected_result = "this is the order", "this is the order"
+        self.assertEqual(OrderAnalyser._format_sentences_to_analyse(order_to_analyse=order_to_test,
+                                                                    user_said=sentence_to_test),
+                         expected_result,
+                         "Fails formatting the sentences with random in both order and sentence")
+
     def test_get_split_order_without_bracket(self):
 
         # Success

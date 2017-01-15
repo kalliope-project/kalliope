@@ -61,6 +61,7 @@ setup(
         'SpeechRecognition>=3.5.0',
         'markupsafe==0.23',
         'pyaudio==0.2.9',
+        'pyasn1>=0.1.8',
         'ansible==2.2.0.0',
         'python2-pythondialog==3.4.0',
         'jinja2==2.8',
@@ -68,13 +69,15 @@ setup(
         'ipaddress==1.0.17',
         'flask==0.11.1',
         'Flask-Restful==0.3.5',
+        'flask_cors==3.0.2',
         'requests==2.12.4',
         'httpretty==0.8.14',
         'mock==2.0.0',
         'Flask-Testing==0.6.1',
         'apscheduler==3.3.0',
         'GitPython==2.1.1',
-        'packaging>=16.8'
+        'packaging>=16.8',
+        'transitions>=0.4.3'
     ],
 
 
@@ -86,6 +89,7 @@ setup(
             'trigger/snowboy/armv7l/_snowboydetect.so',
             'trigger/snowboy/x86_64/_snowboydetect.so',
             'trigger/snowboy/resources/*',
+            'sounds/*'
          ],
     },
 

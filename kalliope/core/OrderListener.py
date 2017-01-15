@@ -41,12 +41,13 @@ class OrderListener(Thread):
         self.callback = callback
         sl = SettingLoader()
         self.settings = sl.settings
+        self.stt_instance = None
 
     def run(self):
         """
         Start thread
         """
-        self.load_stt_plugin()
+        self.stt_instance = self.load_stt_plugin()
 
     def load_stt_plugin(self):
         if self.stt is None:
@@ -55,9 +56,14 @@ class OrderListener(Thread):
         for stt_object in self.settings.stts:
             if stt_object.name == self.stt_module_name:
                 stt_object.parameters["callback"] = self.callback
-                Utils.get_dynamic_class_instantiation(package_name='stt',
-                                                      module_name=stt_object.name.capitalize(),
-                                                      parameters=stt_object.parameters)
+
+                stt_folder = None
+                if self.settings.resources:
+                    stt_folder = self.settings.resources.stt_folder
+                return Utils.get_dynamic_class_instantiation(package_name='stt',
+                                                             module_name=stt_object.name.capitalize(),
+                                                             parameters=stt_object.parameters,
+                                                             resources_dir=stt_folder)
 
     @staticmethod
     def _ignore_stderr():

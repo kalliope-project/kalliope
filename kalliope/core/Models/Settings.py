@@ -16,6 +16,9 @@ class Settings(object):
                  stts=None,
                  random_wake_up_answers=None,
                  random_wake_up_sounds=None,
+                 play_on_ready_notification=None,
+                 on_ready_answers=None,
+                 on_ready_sounds=None,
                  triggers=None,
                  rest_api=None,
                  cache_path=None,
@@ -31,6 +34,9 @@ class Settings(object):
         self.stts = stts
         self.random_wake_up_answers = random_wake_up_answers
         self.random_wake_up_sounds = random_wake_up_sounds
+        self.play_on_ready_notification = play_on_ready_notification
+        self.on_ready_answers = on_ready_answers
+        self.on_ready_sounds = on_ready_sounds
         self.triggers = triggers
         self.rest_api = rest_api
         self.cache_path = cache_path

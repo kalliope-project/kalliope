@@ -88,7 +88,7 @@ def main():
             Utils.print_info("Press Ctrl+C for stopping")
             # catch signal for killing on Ctrl+C pressed
             signal.signal(signal.SIGINT, signal_handler)
-            # start the main controller
+            # start the state machine
             MainController(brain=brain)
 
     if args.action == "gui":

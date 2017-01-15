@@ -5,7 +5,7 @@
 Little description of what the neuron does.
 
 ## Installation
-```
+```bash
 kalliope install --git-url https://github.com/my_user/my_neuron.git
 ```
 
@@ -34,7 +34,7 @@ Only necessary when the neuron use a template to say something
 ## Synapses example
 
 Description of what the synapse will do
-```
+```yml
  - name: "type here your name"
    signals:
      - order: "this is what I have to say to run this synapse"

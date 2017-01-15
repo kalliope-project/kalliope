@@ -6,22 +6,22 @@ See the [complete TTS documentation](stt.md) for more information.
 ## Core TTS
 Core TTSs are already packaged with the installation of Kalliope an can be used out of the box.
 
-| Name      | Description                                      |
-|-----------|--------------------------------------------------|
-| Acapela   | [Acapela](../kalliope/tts/acapela/README.md)     |
-| GoogleTTS | [GoogleTTS](../kalliope/tts/googletts/README.md) |
-| VoiceRSS  | [VoiceRSS](../kalliope/tts/voicerss/README.md)   |
-| Pico2wave | [Pico2wave](../kalliope/tts/pico2wave/README.md) |
-| Voxygen   | [Voxygen](../kalliope/tts/voxygen/README.md)     |
+| Name      | Description                                      | Type        |
+|-----------|--------------------------------------------------|-------------|
+| Acapela   | [Acapela](../kalliope/tts/acapela/README.md)     | Cloud based |
+| GoogleTTS | [GoogleTTS](../kalliope/tts/googletts/README.md) | Cloud based |
+| VoiceRSS  | [VoiceRSS](../kalliope/tts/voicerss/README.md)   | Cloud based |
+| Pico2wave | [Pico2wave](../kalliope/tts/pico2wave/README.md) | Self hosted |
+| Voxygen   | [Voxygen](../kalliope/tts/voxygen/README.md)     | Cloud based |
 
 ## Community TTS
 Community TTSs need to be installed manually.
 
 To know how to install a community TTS, read the "Installation" section of the [TTS documentation](tts.md).
 
-| Name   | Description                                          |
-|--------|------------------------------------------------------|
-| Espeak | [Espeak](https://github.com/Ultchad/kalliope-espeak) |
+| Name   | Description                                          | Type        |
+|--------|------------------------------------------------------|-------------|
+| Espeak | [Espeak](https://github.com/Ultchad/kalliope-espeak) | Self hosted |
 
 Wanna add your TTS in the list? Open [an issue](../../issues) with the link of your TTS or send a pull request to update the list directly.
 

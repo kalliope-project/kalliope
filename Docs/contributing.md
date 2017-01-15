@@ -29,7 +29,7 @@ See the dedicated documentation depending on the type of module you want to code
 ## Constraints
 
 1. Respect [PEP 257](https://www.python.org/dev/peps/pep-0257/) -- Docstring conventions. For each class or method add a description with summary, input parameter, returned parameter,  type of parameter
-    ```
+    ```python
     def my_method(my_parameter):
         """
         Description of he method

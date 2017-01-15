@@ -1,16 +1,20 @@
+import logging
 import threading
 
 from flask import jsonify
 from flask import request
 from flask_restful import abort
+from flask_cors import CORS, cross_origin
 
 from kalliope.core import OrderAnalyser
 from kalliope.core.RestAPI.utils import requires_auth
 from kalliope.core.SynapseLauncher import SynapseLauncher
 
+logging.basicConfig()
+logger = logging.getLogger("kalliope")
 
 class FlaskAPI(threading.Thread):
-    def __init__(self, app, port=5000, brain=None):
+    def __init__(self, app, port=5000, brain=None, allowed_cors_origin=False):
         """
 
         :param app: Flask API
@@ -22,10 +26,14 @@ class FlaskAPI(threading.Thread):
         self.app = app
         self.port = port
         self.brain = brain
+        self.allowed_cors_origin = allowed_cors_origin
 
         # Flask configuration remove default Flask behaviour to encode to ASCII
         self.app.url_map.strict_slashes = False
         self.app.config['JSON_AS_ASCII'] = False
+
+        if self.allowed_cors_origin is not False:
+            cors = CORS(app, resources={r"/*": {"origins": allowed_cors_origin}}, supports_credentials=True)
 
         # Add routing rules
         self.app.add_url_rule('/synapses', view_func=self.get_synapses, methods=['GET'])

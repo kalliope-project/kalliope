@@ -20,12 +20,12 @@ Kalliope provides the REST API to manage the synapses. For configuring the API r
 Normal response codes: 200
 Error response codes: unauthorized(401), itemNotFound(404)
 Curl command:
-```
+```bash
 curl -i --user admin:secret -X GET  http://localhost:5000/synapses/
 ```
 
 Output example:
-```
+```JSON
 {
   "synapses": [
     [
@@ -74,12 +74,12 @@ Output example:
 Normal response codes: 200
 Error response codes: unauthorized(401), itemNotFound(404)
 Curl command:
-```
+```bash
 curl -i --user admin:secret -X GET  http://localhost:5000/synapses/say-hello
 ```
 
 Output example:
-```
+```JSON
 {
   "synapses": {
     "name": "say-hello",
@@ -106,12 +106,12 @@ Output example:
 Normal response codes: 201
 Error response codes: unauthorized(401), itemNotFound(404)
 Curl command:
-```
+```bash
 curl -i --user admin:secret -X POST  http://localhost:5000/synapses/say-hello
 ```
 
 Output example:
-```
+```JSON
 {
   "synapses": {
     "name": "say-hello",
@@ -140,22 +140,22 @@ Normal response codes: 201
 Error response codes: unauthorized(401), itemNotFound(404)
 
 Curl command:
-```
+```bash
 curl -i --user admin:secret -H "Content-Type: application/json" -X POST -d '{"order":"my order"}' http://localhost:5000/order/
 ```
 
 If the order contains accent or quotes, use a file for testing with curl
-```
+```bash
 cat post.json 
 {"order":"j'aime"}
 ```
 Then
-```
+```bash
 curl -i --user admin:secret -H "Content-Type: application/json" -X POST --data @post.json http://localhost:5000/order/
 ```
 
 Output example if the order have matched and so launched synapses:
-```
+```JSON
 {
   "synapses": [
     {
@@ -177,7 +177,7 @@ Output example if the order have matched and so launched synapses:
 ```
 
 If the order haven't match ny synapses:
-```
+```JSON
 {
   "error": {
     "error": "The given order doesn't match any synapses"

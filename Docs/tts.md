@@ -13,14 +13,14 @@ The configuration of each TTS you use must appear in the [settings.yml](settings
 ### default_text_to_speech
 
 The `setting.yml` defines the STT you want to use by default
-```
+```yml
 default_text_to_speech: "type default TTS engine name here"
 ```
 
 ### text_to_speech
 
 Still in the `settings.yml` file, each TTS must set up its configuration following the 'text_to_speech' tag :
-```
+```yml
 text_to_speech:
    - TTS1:
       TTS1parameter1: "value option1"
@@ -38,7 +38,7 @@ is played by the audio player. Before generating a new audio file, Kalliope will
 TSS engine if the file has been generated before.
 
 You must set a path where the cache will be saved in the tag `cache_path`. This one is placed in /tmp by default.
-```
+```yml
 cache_path: "/tmp/kalliope_tts_cache"
 ```
 
@@ -50,20 +50,15 @@ cache_path: "/tmp/kalliope_tts_cache"
 generated audio files that will not be played more than once.
 
 ## Current Available TTS
-Core TTSs are already packaged with the installation of Kalliope an can be used out of the box.
 
-- [acapela](../kalliope/tts/acapela/README.md)
-- [googletts](../kalliope/tts/googletts/README.md)
-- [pico2wave](../kalliope/tts/pico2wave/README.md)
-- [voicerss](../kalliope/tts/voicerss/README.md)
-- [voxygen](../kalliope/tts/voxygen/README.md)
+Core TTSs are already packaged with the installation of Kalliope an can be used out of the box. See the [complete list here](tts_list.md).
 
 ## TTS Community Installation
 
 Community TTSs need to be installed manually.
 
 Use the CLI
-```
+```bash
 kalliope install --git-url <git_url>
 ```
 
@@ -71,7 +66,7 @@ You may be prompted to type your `sudo` password during the process. You can see
 
 ## Full Example
 
-```
+```yml
 default_text_to_speech: "voicerss"
 
 cache_path: "/tmp/kalliope_tts_cache"

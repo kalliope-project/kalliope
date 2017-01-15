@@ -1,3 +1,14 @@
+v0.4.1 / 2017-01-15
+===================
+- add CORS support for REST API
+- fix installation of community STT and TTS
+- add feature: sound/sentence when Kalliope is ready
+- fix Raspbian install
+- add offline STT (CMUSphinx)
+- orders are not anymore case sensitive
+- add STT utils class to split the audio catching from the processing
+- fix CTRL-C to kill Kalliope
+
 v0.4.0 / 2016-12-28
 ===================
 - Add resources directory (neuron, stt, tts, (trigger))

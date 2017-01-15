@@ -1,10 +1,10 @@
 import speech_recognition as sr
 
 from kalliope.core import Utils
-from kalliope.core.OrderListener import OrderListener
+from kalliope.stt.Utils import SpeechRecognition
 
 
-class Apiai(OrderListener):
+class Apiai(SpeechRecognition):
 
     def __init__(self, callback=None, **kwargs):
         """
@@ -12,45 +12,51 @@ class Apiai(OrderListener):
         :param callback: The callback function to call to send the text
         :param kwargs:
         """
-        OrderListener.__init__(self)
+        SpeechRecognition.__init__(self)
 
         # callback function to call after the translation speech/tex
-        self.callback = callback
-        # obtain audio from the microphone
-        r = sr.Recognizer()
-        with sr.Microphone() as source:
-            # listen for 1 second to calibrate the energy threshold for ambient noise levels
-            r.adjust_for_ambient_noise(source)
-            Utils.print_info("Say something!")
-            audio = r.listen(source)
+        self.main_controller_callback = callback
+        self.key = kwargs.get('key', None)
+        self.language = kwargs.get('language', "en")
+        self.session_id = kwargs.get('session_id', None)
+        self.show_all = kwargs.get('show_all', False)
 
-        # recognize speech using Apiai Speech Recognition
+        # start listening in the background
+        self.set_callback(self.apiai_callback)
+        self.start_listening()
+
+    def apiai_callback(self, recognizer, audio):
+        """
+        called from the background thread
+        :param recognizer:
+        :param audio:
+        :return:
+        """
         try:
-
-            key = kwargs.get('key', None)
-            language = kwargs.get('language', "en")
-            session_id= kwargs.get('session_id', None)
-            show_all = kwargs.get('show_all', False)
-
-            captured_audio = r.recognize_api(audio, client_access_token=key, language=language, session_id=session_id, show_all=show_all)
+            captured_audio = recognizer.recognize_api(audio,
+                                                      client_access_token=self.key,
+                                                      language=self.language,
+                                                      session_id=self.session_id,
+                                                      show_all=self.show_all)
             Utils.print_success("Apiai Speech Recognition thinks you said %s" % captured_audio)
             self._analyse_audio(captured_audio)
 
         except sr.UnknownValueError as e:
             Utils.print_warning("Apiai Speech Recognition could not understand audio; {0}".format(e))
             # callback anyway, we need to listen again for a new order
-            self._analyse_audio(audio=None)
+            self._analyse_audio(audio_to_text=None)
         except sr.RequestError as e:
             Utils.print_danger("Could not request results from Apiai Speech Recognition service; {0}".format(e))
             # callback anyway, we need to listen again for a new order
-            self._analyse_audio(audio=None)
+            self._analyse_audio(audio_to_text=None)
 
-    def _analyse_audio(self, audio):
+        # stop listening for an audio
+        self.stop_listening()
+
+    def _analyse_audio(self, audio_to_text):
         """
-        Confirm the audio exists annd run it in a Callback
-        :param audio: the captured audio
+        Confirm the audio exists and run it in a Callback
+        :param audio_to_text: the captured audio
         """
-        # if self.main_controller is not None:
-        #     self.main_controller.analyse_order(audio)
-        if self.callback is not None:
-            self.callback(audio)
+        if self.main_controller_callback is not None:
+            self.main_controller_callback(audio_to_text)

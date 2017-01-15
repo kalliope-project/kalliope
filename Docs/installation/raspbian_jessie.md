@@ -1,12 +1,29 @@
 # Kalliope requirements for Raspbian
 
+
+## Supported Version
+
+[raspbian-2016-09-28](http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-09-28/)
+[raspbian-2016-11-29](http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-11-29/)
+[raspbian-2017-01-10](http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-01-10/)
+
+> **Note:** We recommend to use a **lite** installation of Raspbian without any graphical interface for a better experience. 
+
+> **Note:** The first Raspberry Pi is not officially supported. The installation will works but a single core with only 700Mhz may produce a some latencies.
+
 ## Debian packages requirements
 
 Install some required system libraries and software:
 
-```
+```bash
 sudo apt-get update
-sudo apt-get install git python-pip python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer
+sudo apt-get install git python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer
+```
+
+Let's install the last release of python-pip
+```bash
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python get-pip.py
 ```
 
 ## Raspberry Pi configuration
@@ -16,24 +33,24 @@ This part deals with the special configuration needed to get kalliope working on
 ### Packages
 
 On a Raspberry Pi, pulseaudio is not installed by default
-```
+```bash
 sudo apt-get install pulseaudio pulseaudio-utils
 ```
 
 Start the pulseaudio server
-```
+```bash
 pulseaudio -D
 ```
 
 ### Microphone configuration
 
 Get your output card
-```
+```bash
 aplay -l
 ```
 
 Output example with a USB headset connected
-```
+```bash
 **** List of PLAYBACK Hardware Devices ****
 card 0: ALSA [bcm2835 ALSA], device 0: bcm2835 ALSA [bcm2835 ALSA]
   Subdevices: 7/8
@@ -59,12 +76,12 @@ Here, we can see that we have
 
 
 Get your input (microphone card)
-```
+```bash
 arecord -l
 ```
 
 Output example with a USB headset connected
-```
+```bash
 **** List of CAPTURE Hardware Devices ****
 card 1: Headset [Logitech USB Headset], device 0: USB Audio [USB Audio]
   Subdevices: 0/1
@@ -95,26 +112,26 @@ pcm.!default {
 Where `playback.pcm` is the output audio and the `capture.pcm` is the input audio.
 
 Restart alsa to apply changes
-```
+```bash
 sudo /etc/init.d/alsa-utils restart
 ```
 
 You can adjust the microphone sensibility by running alsamixer:
-```
+```bash
 alsamixer
 ```
 And then select your microphone device by pressing F6 and finally move up the `mic` sensibility level
 ![logo](../../images/alsamixer_mic_level.png)
 
 To ensure that you can record your voice, run the following command to capture audio input from your microphone
-```
+```bash
 rec test.wav
 ```
 
 Press CTRL-C after capturing a sample of your voice.
 
 Then play the recorded audio file
-```
+```bash
 mplayer test.wav
 ```
 
@@ -124,6 +141,6 @@ mplayer test.wav
 By default the audio stream will get out by HDMI if something is plugged to this port.
 Check the [official documentation](https://www.raspberrypi.org/documentation/configuration/audio-config.md) to switch from HDMI to analog.
 
-```
+```bash
 sudo raspi-config
 ```

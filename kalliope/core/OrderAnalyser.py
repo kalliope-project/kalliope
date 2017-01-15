@@ -260,16 +260,42 @@ class OrderAnalyser:
     @classmethod
     def spelt_order_match_brain_order_via_table(cls, order_to_analyse, user_said):
         """
-        return true if all string that are in the sentence are present in the order to test
+        return true if all formatted(_format_sentences_to_analyse(order_to_analyse, user_said)) strings
+                that are in the sentence are present in the order to test.
         :param order_to_analyse: String order to test
         :param user_said: String to compare to the order
         :return: True if all string are present in the order
         """
+        logger.debug("[spelt_order_match_brain_order_via_table] before formatting, "
+                     "order to analyse: %s, "
+                     "user sentence: %s"
+                     % (order_to_analyse, user_said))
+        order_to_analyse, user_said = cls._format_sentences_to_analyse(order_to_analyse=order_to_analyse,
+                                                                       user_said=user_said)
         list_word_user_said = user_said.split()
         split_order_without_bracket = cls._get_split_order_without_bracket(order_to_analyse)
 
         # if all words in the list of what the user said in in the list of word in the order
         return cls._counter_subset(split_order_without_bracket, list_word_user_said)
+
+    @staticmethod
+    def _format_sentences_to_analyse(order_to_analyse, user_said):
+        """
+        return formatted tuple of the order_to_analyse, user_said
+        :param order_to_analyse: String order to test
+        :param user_said: String to compare to the order
+        :return: tuple of the order_to_analyse, user_said
+        """
+        # Lowercase all incoming
+        order_to_analyse = order_to_analyse.lower()
+        user_said = user_said.lower()
+
+        logger.debug("[_format_sentences_to_analyse] formatted, "
+                     "order to analyse: %s, "
+                     "user sentence: %s"
+                     % (order_to_analyse, user_said))
+
+        return order_to_analyse, user_said
 
     @staticmethod
     def _get_split_order_without_bracket(order):

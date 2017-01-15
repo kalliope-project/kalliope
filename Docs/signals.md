@@ -3,7 +3,7 @@
 A signal is an input event triggered by a synapse. When a signal is caught, Kalliope runs attached neurons of the synapse. The signal can be of two types: order and event.
 
 The syntax is the following
-```
+```yml
 signals:
     - signal_type: parameter
 ```
@@ -14,13 +14,13 @@ signals:
 An **order** signal is a word, or a sentence caught by the microphone and processed by the STT engine.
 
 Syntax:
-```
+```yml
 signals:
     - order: "<sentence>"
 ```
 
 Example:
-```
+```yml
 signals:
     - order: "please do this action"
 ```
@@ -40,7 +40,7 @@ will be started by Kalliope. So keep in mind that the best practice is to use re
 You can add one or more arguments to an order by adding bracket to the sentence.
 
 Syntax:
-```
+```yml
 signals:
     - order: "<sentence> {{ arg_name }}"
     - order: "<sentence> {{ arg_name }} <sentence>"
@@ -48,7 +48,7 @@ signals:
 ```
 
 Example:
-```
+```yml
 signals:
     - order: "I want to listen {{ artist_name }}"
     - order: "start the {{ episode_number }} episode"
@@ -75,7 +75,7 @@ The event system is based on [APScheduler](http://apscheduler.readthedocs.io/en/
 When you declare an event in the signal, Kalliope will schedule the launching of the target synapse.
 
 The syntax of an event declaration in a synapse is the following
-```
+```yml
 signals:
   - event:
       parameter1: "value1"
@@ -83,7 +83,7 @@ signals:
 ```
 
 For example, if we want Kalliope to run the synapse every day a 8:30, the event will be declared like this:
-```
+```yml
 - event:
     hour: "8"
     minute: "30"
@@ -132,7 +132,7 @@ Let's make a complete example. We want Kalliope to wake us up each morning of wo
 - Play our favourite web radio
 
 The synapse in the brain would be
-```
+```yml
   - name: "wake-up"
     signals:
       - event:
@@ -152,7 +152,7 @@ The synapse in the brain would be
 ```
 
 After setting up an event, you must restart Kalliope
-```
+```bash
 python kalliope.py start
 ```
 
@@ -166,7 +166,7 @@ That's it, the synapse is now scheduled and will be started automatically.
 
 
 ####  Make Kalliope say something on the third Friday of June, July, August, November and December at 00:00, 01:00, 02:00 and 03:00
-```
+```yml
 - name: "wake-up"
   signals:
     - event:
