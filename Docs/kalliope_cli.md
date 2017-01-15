@@ -11,6 +11,8 @@ For example, to start Kalliope we simply use
 kalliope start
 ```
 
+> **Note:** Do not use the CLI as root user or with sudo. Kalliope must run with standard user privileges.
+
 ## ARGUMENTS
 
 ### start

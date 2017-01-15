@@ -7,6 +7,9 @@
 [raspbian-2016-11-29](http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-11-29/)
 [raspbian-2017-01-10](http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-01-10/)
 
+> **Note:** We recommend to use a **lite** installation of Raspbian without any graphical interface for a better experience. 
+
+> **Note:** The first Raspberry Pi is not officially supported. The installation will works but a single core with only 700Mhz may produce a some latencies.
 
 ## Debian packages requirements
 
