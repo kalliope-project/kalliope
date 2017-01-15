@@ -20,7 +20,7 @@ class SpeechRecognition(Thread):
         self.recognizer = sr.Recognizer()
         self.microphone = sr.Microphone()
         self.callback = None
-        self.stop_listening = None
+        self.stop_thread = None
         self.kill_yourself = False
         with self.microphone as source:
             # we only need to calibrate once, before we start listening
@@ -31,11 +31,11 @@ class SpeechRecognition(Thread):
         Start the thread that listen the microphone and then give the audio to the callback method
         """
         Utils.print_info("Say something!")
-        self.stop_listening = self.recognizer.listen_in_background(self.microphone, self.callback)
+        self.stop_thread = self.recognizer.listen_in_background(self.microphone, self.callback)
         while not self.kill_yourself:
             sleep(0.1)
         logger.debug("kill the speech recognition process")
-        self.stop_listening()
+        self.stop_thread()
 
     def start_listening(self):
         """
