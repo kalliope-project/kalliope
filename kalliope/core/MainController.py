@@ -37,6 +37,8 @@ class MainController:
         # get global configuration
         sl = SettingLoader()
         self.settings = sl.settings
+        # keep in memory the order to process
+        self.order_to_process = None
 
         # Starting the rest API
         self._start_rest_api()
@@ -181,17 +183,17 @@ class MainController:
         :type order: str
         """
         logger.debug("order listener callback called. Order to process: %s" % order)
-        self.order_listener_callback_called = False
-        self.next_state(order)
+        self.order_to_process = order
+        self.order_listener_callback_called = True
 
-    def analysing_order_thread(self, order):
+    def analysing_order_thread(self):
         """
         Start the order analyser with the caught order to process
         :param order: the text order to analyse
         """
-        logger.debug("order in analysing_order_thread %s" % order)
-        if order is not None:   # maybe we have received a null audio from STT engine
-            order_analyser = OrderAnalyser(order, brain=self.brain)
+        logger.debug("order in analysing_order_thread %s" % self.order_to_process)
+        if self.order_to_process is not None:   # maybe we have received a null audio from STT engine
+            order_analyser = OrderAnalyser(self.order_to_process, brain=self.brain)
             order_analyser.start()
         # return to the state "unpausing_trigger"
         self.unpause_trigger()
