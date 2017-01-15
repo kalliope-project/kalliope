@@ -177,41 +177,37 @@ random_wake_up_sounds:
 E.g: `# random_wake_up_answers:`
 
 
-## On ready answers configuration
+## On ready notification
+This section is used to notify the user when Kalliope is waiting for a trigger detection by playing a sound or speak a sentence out loud
 
-#### random_on_ready_answers (optional)
-When Kalliope is ready, it lets you know that it's operational and now waiting for order. It's done by answering randomly
-one of the sentences provided in the variable random_on_ready_answers.
+#### play_on_ready_notification
+This parameter define if you play the on ready notification:
+ - `always`: every time Kalliope is ready to be awaken
+ - `never`: never play a sound or sentences when kalliope is ready
+ - `once`: at the first start of Kalliope
 
-This variable must contain a list of strings as shown bellow
+E.g:
 ```yml
-random_on_ready_answers:
-  - "Your sentence"
-  - "Another sentence"
+play_on_ready_notification: always
+```
+#### on_ready_answers
+The on ready notification can be a sentence. Place here a sentence or a list of sentence. If you set a list, one sentence will be picked up randomly
+
+E.g:
+```yml
+on_ready_answers:
+  - "I'm ready"
+  - "Waiting for order"
 ```
 
-E.g
-```yml
-random_on_ready_answers:
-  - "I am ready"
-  - "Let's roll"
-```
+#### on_ready_sounds
+You can play a sound instead of a sentence.
+Remove the `on_ready_answers` parameters by commenting it out and use this one instead.
+Place here the path of the sound file. Files must be .wav or .mp3 format.
 
-#### random_on_ready_sounds (optional)
-You can play a sound when Kalliope is ready instead of saying something from the `random_on_ready_answers`.
-Place here a list of full paths of the sound files you want to use. Otherwise, you can use some default sounds provided by Kalliope which you can find in `/usr/lib/kalliope/sounds`.
-By default two file are provided: ding.wav and dong.wav. In all cases, the file must be in `.wav` or `.mp3` format. If more than on file is present in the list,
-Kalliope will select one randomly at each wake up.
-
+E.g:
 ```yml
-random_on_ready_sounds:
-  - "local_file_in_sounds_folder.wav"
-  - "/my/personal/full/path/my_file.mp3"
-```
-
-E.g
-```yml
-random_on_ready_sounds:
+on_ready_sounds:
   - "ding.wav"
   - "dong.wav"
   - "/my/personal/full/path/my_file.mp3"

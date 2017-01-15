@@ -49,6 +49,9 @@ class MainController:
         self.order_listener = None
         self.order_listener_callback_called = False
 
+        # boolean used to know id we played the on ready notification at least one time
+        self.on_ready_notification_played_once = False
+
         # Initialize the state machine
         self.machine = Machine(model=self, states=MainController.states, initial='init')
 
@@ -100,14 +103,17 @@ class MainController:
         """
         Play a sound when Kalliope is ready to be awaken at the first start
         """
-        # TODO place a settings to play the sound every time kalliope is waiting for a wake up
         logger.debug("Entering state: %s" % self.state)
-        # here we tell the user that we are listening
-        if self.settings.random_on_ready_answers is not None:
-            Say(message=self.settings.random_on_ready_answers)
-        elif self.settings.random_on_ready_sounds is not None:
-            random_sound_to_play = self._get_random_sound(self.settings.random_on_ready_sounds)
-            Mplayer.play(random_sound_to_play)
+        if (not self.on_ready_notification_played_once and self.settings.play_on_ready_notification == "once") or \
+                self.settings.play_on_ready_notification == "always":
+            # we remember that we played the notification one time
+            self.on_ready_notification_played_once = True
+            # here we tell the user that we are listening
+            if self.settings.on_ready_answers is not None:
+                Say(message=self.settings.on_ready_answers)
+            elif self.settings.on_ready_sounds is not None:
+                random_sound_to_play = self._get_random_sound(self.settings.on_ready_sounds)
+                Mplayer.play(random_sound_to_play)
         self.next_state()
 
     def waiting_for_trigger_callback_thread(self):

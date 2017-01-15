@@ -25,35 +25,35 @@ class TestSettingLoader(unittest.TestCase):
         self.settings_file_to_test = root_dir + os.sep + "Tests/settings/settings_test.yml"
 
         self.settings_dict = {
+            'default_synapse': 'Default-synapse',
             'rest_api':
-                {'active': True,
+                {'allowed_cors_origin': False,
+                 'active': True,
                  'login': 'admin',
-                 'password': 'secret',
                  'password_protected': True,
-                 'port': 5000,
-                 'allowed_cors_origin': False},
+                 'password': 'secret', 'port': 5000},
             'default_trigger': 'snowboy',
+            'play_on_ready_notification': 'never',
             'triggers': [{'snowboy': {'pmdl_file': 'trigger/snowboy/resources/kalliope-FR-6samples.pmdl'}}],
             'speech_to_text': [{'google': {'language': 'fr-FR'}}],
+            'on_ready_answers': ['Kalliope is ready'],
             'cache_path': '/tmp/kalliope_tts_cache',
             'random_wake_up_answers': ['Oui monsieur?'],
+            'on_ready_sounds': ['sounds/ding.wav', 'sounds/dong.wav'],
+            'resource_directory': {
+                'stt': '/tmp/kalliope/tests/kalliope_resources_dir/stt',
+                'tts': '/tmp/kalliope/tests/kalliope_resources_dir/tts',
+                'neuron': '/tmp/kalliope/tests/kalliope_resources_dir/neurons',
+                'trigger': '/tmp/kalliope/tests/kalliope_resources_dir/trigger'},
             'default_text_to_speech': 'pico2wave',
             'default_speech_to_text': 'google',
             'random_wake_up_sounds': ['sounds/ding.wav', 'sounds/dong.wav'],
-            'random_on_ready_answers': ['Kalliope is ready'],
-            'random_on_ready_sounds': ['sounds/ding.wav', 'sounds/dong.wav'],
             'text_to_speech': [
                 {'pico2wave': {'cache': True, 'language': 'fr-FR'}},
                 {'voxygen': {'voice': 'Agnes', 'cache': True}}
-            ],
-            'default_synapse': 'Default-synapse',
-            'resource_directory':{
-                'neuron': "/tmp/kalliope/tests/kalliope_resources_dir/neurons",
-                'stt': "/tmp/kalliope/tests/kalliope_resources_dir/stt",
-                'tts': "/tmp/kalliope/tests/kalliope_resources_dir/tts",
-                'trigger': "/tmp/kalliope/tests/kalliope_resources_dir/trigger"
-            }
+            ]
         }
+
 
         # Init the folders, otherwise it raises an exceptions
         os.makedirs("/tmp/kalliope/tests/kalliope_resources_dir/neurons")
@@ -90,8 +90,9 @@ class TestSettingLoader(unittest.TestCase):
         settings_object.stts = [stt]
         settings_object.random_wake_up_answers = ['Oui monsieur?']
         settings_object.random_wake_up_sounds = ['sounds/ding.wav', 'sounds/dong.wav']
-        settings_object.random_on_ready_answers = ['Kalliope is ready']
-        settings_object.random_on_ready_sounds = ['sounds/ding.wav', 'sounds/dong.wav']
+        settings_object.play_on_ready_notification = "never"
+        settings_object.on_ready_answers = ['Kalliope is ready']
+        settings_object.on_ready_sounds = ['sounds/ding.wav', 'sounds/dong.wav']
         trigger1 = Trigger(name="snowboy",
                            parameters={'pmdl_file': 'trigger/snowboy/resources/kalliope-FR-6samples.pmdl'})
         settings_object.triggers = [trigger1]
@@ -105,7 +106,7 @@ class TestSettingLoader(unittest.TestCase):
                               tts_folder="/tmp/kalliope/tests/kalliope_resources_dir/tts",
                               trigger_folder="/tmp/kalliope/tests/kalliope_resources_dir/trigger")
 
-        settings_object.resources=resources
+        settings_object.resources = resources
         settings_object.machine = platform.machine()
 
         sl = SettingLoader(file_path=self.settings_file_to_test)
@@ -150,10 +151,15 @@ class TestSettingLoader(unittest.TestCase):
         sl = SettingLoader(file_path=self.settings_file_to_test)
         self.assertEqual(expected_random_wake_up_answers, sl._get_random_wake_up_answers(self.settings_dict))
 
-    def test_get_random_on_ready_answers(self):
-        expected_random_on_ready_answers = ['Kalliope is ready']
+    def test_get_on_ready_answers(self):
+        expected_on_ready_answers = ['Kalliope is ready']
         sl = SettingLoader(file_path=self.settings_file_to_test)
-        self.assertEqual(expected_random_on_ready_answers, sl._get_random_on_ready_answers(self.settings_dict))
+        self.assertEqual(expected_on_ready_answers, sl._get_on_ready_answers(self.settings_dict))
+
+    def test_get_on_ready_sounds(self):
+        expected_on_ready_sounds = ['sounds/ding.wav', 'sounds/dong.wav']
+        sl = SettingLoader(file_path=self.settings_file_to_test)
+        self.assertEqual(expected_on_ready_sounds, sl._get_on_ready_sounds(self.settings_dict))
 
     def test_get_rest_api(self):
         expected_rest_api = RestAPI(password_protected=True, active=True,
