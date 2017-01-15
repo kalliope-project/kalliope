@@ -104,9 +104,10 @@ class SettingLoader(object):
         ttss = self._get_ttss(settings)
         triggers = self._get_triggers(settings)
         random_wake_up_answers = self._get_random_wake_up_answers(settings)
-        random_wake_up_sounds = self._get_random_wake_up_sounds(settings)
-        random_on_ready_answers = self._get_random_on_ready_answers(settings)
-        random_on_ready_sounds = self._get_random_on_ready_sounds(settings)
+        random_wake_up_sound = self._get_random_wake_up_sounds(settings)
+        play_on_ready_notification = self._get_play_on_ready_notification(settings)
+        on_ready_answers = self._get_on_ready_answers(settings)
+        on_ready_sounds = self._get_on_ready_sounds(settings)
         rest_api = self._get_rest_api(settings)
         cache_path = self._get_cache_path(settings)
         default_synapse = self._get_default_synapse(settings)
@@ -120,9 +121,10 @@ class SettingLoader(object):
         setting_object.ttss = ttss
         setting_object.triggers = triggers
         setting_object.random_wake_up_answers = random_wake_up_answers
-        setting_object.random_wake_up_sounds = random_wake_up_sounds
-        setting_object.random_on_ready_answers = random_on_ready_answers
-        setting_object.random_on_ready_sounds = random_on_ready_sounds
+        setting_object.random_wake_up_sounds = random_wake_up_sound
+        setting_object.play_on_ready_notification = play_on_ready_notification
+        setting_object.on_ready_answers = on_ready_answers
+        setting_object.on_ready_sounds = on_ready_sounds
         setting_object.rest_api = rest_api
         setting_object.cache_path = cache_path
         setting_object.default_synapse = default_synapse
@@ -398,62 +400,6 @@ class SettingLoader(object):
         return random_wake_up_sounds_list
 
     @staticmethod
-    def _get_random_on_ready_answers(settings):
-        """
-        Return a list of the wake up answers set up on the settings.yml file
-
-        :param settings: The YAML settings file
-        :type settings: dict
-        :return: List of on ready answers
-        :rtype: list of str
-
-        :Example:
-
-            wakeup = cls._get_random_on_ready_answers(settings)
-
-        .. seealso::
-        .. warnings:: Class Method and Private
-        """
-
-        try:
-            random_on_ready_answers_list = settings["random_on_ready_answers"]
-        except KeyError:
-            # User does not provide this settings
-            return None
-
-        return random_on_ready_answers_list
-
-    @staticmethod
-    def _get_random_on_ready_sounds(settings):
-        """
-        Return a list of the on ready sounds set up on the settings.yml file
-
-        :param settings: The YAML settings file
-        :type settings: dict
-        :return: list of wake up sounds
-        :rtype: list of str
-
-        :Example:
-
-            wakeup_sounds = cls._get_random_on_ready_sounds(settings)
-
-        .. seealso::
-        .. warnings:: Class Method and Private
-        """
-
-        try:
-            random_on_ready_sounds_list = settings["random_on_ready_sounds"]
-            # In case files are declared in settings.yml, make sure kalliope can access them.
-            for sound in random_on_ready_sounds_list:
-                if Utils.get_real_file_path(sound) is None:
-                    raise SettingInvalidException("sound file %s not found" % sound)
-        except KeyError:
-            # User does not provide this settings
-            return None
-
-        return random_on_ready_sounds_list
-
-    @staticmethod
     def _get_rest_api(settings):
         """
         Return the settings of the RestApi
@@ -642,5 +588,58 @@ class SettingLoader(object):
             resource_object = None
 
         return resource_object
+
+    @staticmethod
+    def _get_play_on_ready_notification(settings):
+        """
+        Return the on_ready_notification setting. If the user didn't provided it the default is never
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return:
+        """
+        try:
+            play_on_ready_notification = settings["play_on_ready_notification"]
+        except KeyError:
+            # User does not provide this settings, by default we set it to never
+            play_on_ready_notification = "never"
+            return play_on_ready_notification
+        return play_on_ready_notification
+
+    @staticmethod
+    def _get_on_ready_answers( settings):
+        """
+        Return the list of on_ready_answers string from the settings.
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return: String parameter on_ready_answers
+        """
+        try:
+            on_ready_answers = settings["on_ready_answers"]
+        except KeyError:
+            # User does not provide this settings
+            return None
+
+        return on_ready_answers
+
+    @staticmethod
+    def _get_on_ready_sounds(settings):
+        """
+        Return the list of on_ready_sounds string from the settings.
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return: String parameter on_ready_sounds
+        """
+        try:
+            on_ready_sounds = settings["on_ready_sounds"]
+            # In case files are declared in settings.yml, make sure kalliope can access them.
+            for sound in on_ready_sounds:
+                if Utils.get_real_file_path(sound) is None:
+                    raise SettingInvalidException("sound file %s not found" % sound)
+        except KeyError:
+            # User does not provide this settings
+            return None
+
+        return on_ready_sounds
+
 
 

@@ -2,9 +2,11 @@ import inspect
 import logging
 import os
 import time
+from threading import Thread
 
-from kalliope.core.TriggerModule import TriggerModule
+from kalliope import Utils
 from kalliope.trigger.snowboy import snowboydecoder
+from cffi import FFI as _FFI
 
 
 class SnowboyModelNotFounfd(Exception):
@@ -18,10 +20,11 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class Snowboy(TriggerModule):
+class Snowboy(Thread):
 
     def __init__(self, **kwargs):
         super(Snowboy, self).__init__()
+        self._ignore_stderr()
         # pause listening boolean
         self.interrupted = False
         self.kill_received = False
@@ -36,7 +39,7 @@ class Snowboy(TriggerModule):
         if self.pmdl is None:
             raise MissingParameterException("Pmdl file is required with snowboy")
 
-        self.pmdl_path = self.get_file_from_path(self.pmdl)
+        self.pmdl_path = Utils.get_real_file_path(self.pmdl)
         if not os.path.isfile(self.pmdl_path):
             raise SnowboyModelNotFounfd("The snowboy model file %s does not exist" % self.pmdl_path)
 
@@ -51,24 +54,15 @@ class Snowboy(TriggerModule):
         """
         return self.interrupted
 
-    def start(self):
+    def run(self):
         """
         Start the snowboy thread and wait for a Kalliope trigger word
         :return:
         """
-        # start snowboy loop
+        # start snowboy loop forever
         self.detector.daemon = True
-        try:
-            self.detector.start()
-            while not self.kill_received:
-                #  once the main thread has started child thread, there's nothing else for it to do.
-                # So it exits, and the threads are destroyed instantly. So let's keep the main thread alive
-                time.sleep(1)
-        except KeyboardInterrupt:
-            self.kill_received = True
-            self.detector.kill_received = True
-        # we wait that a callback
-        self.detector.terminate()
+        self.detector.start()
+        self.detector.join()
 
     def pause(self):
         """
@@ -84,3 +78,25 @@ class Snowboy(TriggerModule):
         logger.debug("Unpausing snowboy process")
         self.detector.paused = False
 
+    @staticmethod
+    def _ignore_stderr():
+        """
+        Try to forward PortAudio messages from stderr to /dev/null.
+        """
+        ffi = _FFI()
+        ffi.cdef("""
+            /* from stdio.h */
+            FILE* fopen(const char* path, const char* mode);
+            int fclose(FILE* fp);
+            FILE* stderr;  /* GNU C library */
+            FILE* __stderrp;  /* Mac OS X */
+            """)
+        stdio = ffi.dlopen(None)
+        devnull = stdio.fopen(os.devnull.encode(), b'w')
+        try:
+            stdio.stderr = devnull
+        except KeyError:
+            try:
+                stdio.__stderrp = devnull
+            except KeyError:
+                stdio.fclose(devnull)

@@ -34,30 +34,35 @@ Creating a new STT must follow some rules:
 The constructor has an incoming callback to call once we get the text.
 The constructor has a __**kwargs argument__ which is corresponding to the Dict of incoming variables:values defined either in the settings file.
 1. The STT must init itself first.
-1. Attach the incoming callback to the self.attribute.
+1. Attach the incoming callback to the self.main_controller_callback attribute. This callback come from the main controller and will receive the text at the end of the process
 1. Obtain audio from the microphone in the constructor. (Note : we mostly use the [speech_recognition library](https://pypi.python.org/pypi/SpeechRecognition/))
-1. Use self.start_listening(self.my_callback) from the mother class to get an audio and pass it to the callback of your choice.
-1. The callback methode must implement two arguments: recognizer and audio. The audio argument contains the stream caught by the microphone
-1. Once you get the text back, let give it to the callback method received in the constructor
+1. Set your callback method into the mother class with `self.set_callback(self.google_callback)`. This callback is the one which will process the audio into a text.
+1. Use self.start_listening() from the mother class to get an audio. Once caught, the mother class will give the audio stream to the callback you've set before.
+1. The callback method must implement two arguments: recognizer and audio. The audio argument contains the stream caught by the microphone
+1. Do magic stuff with the audio in order to get a string that contains the translated text
+1. Once you get the text, let give it to the main_controller_callback method received in the constructor by calling it with the text string as argument `self.main_controller_callback(audio_to_text)`
 
     ```python
     def __init__(self, callback=None, **kwargs):
         OrderListener.__init__(self)
-        self.callback = callback
+        # here is the main controller callback. We will return the text at the end of the process
+        self.main_controller_callback = callback
         
         self.argument_from_settings = kwargs.get('argument_from_settings', None)
         
-        # start the microphone to capture an audio, give to the function a callback        
-        self.stop_listening = self.start_listening(self.my_callback)
+        #  give our callback   
+        self.set_callback(self.my_callback)
+        # start the microphone to capture an audio
+        self.start_listening()
         
         def my_callback((self, recognizer, audio):
             # ---------------------------------------------
-            # do amazing code
+            # do amazing code to translate the audio stream into text
             # 'audio' contain stream caught by the microphone
             # ---------------------------------------------
             
             # at the end of the process, send the text into the received callback method
-            self.callback(audio_to_text)
+            self.main_controller_callback(audio_to_text)
     ```
 
 

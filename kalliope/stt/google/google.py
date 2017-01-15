@@ -1,3 +1,5 @@
+from time import sleep
+
 import speech_recognition as sr
 
 from kalliope.core import Utils
@@ -15,13 +17,14 @@ class Google(SpeechRecognition):
         SpeechRecognition.__init__(self)
 
         # callback function to call after the translation speech/tex
-        self.callback = callback
+        self.main_controller_callback = callback
         self.key = kwargs.get('key', None)
         self.language = kwargs.get('language', "en-US")
         self.show_all = kwargs.get('show_all', False)
 
         # start listening in the background
-        self.stop_listening = self.start_listening(self.google_callback)
+        self.set_callback(self.google_callback)
+        self.start_listening()
 
     def google_callback(self, recognizer, audio):
         """
@@ -34,7 +37,6 @@ class Google(SpeechRecognition):
                                                          show_all=self.show_all)
             Utils.print_success("Google Speech Recognition thinks you said %s" % captured_audio)
             self._analyse_audio(audio_to_text=captured_audio)
-
         except sr.UnknownValueError:
             Utils.print_warning("Google Speech Recognition could not understand audio")
             # callback anyway, we need to listen again for a new order
@@ -44,11 +46,13 @@ class Google(SpeechRecognition):
             # callback anyway, we need to listen again for a new order
             self._analyse_audio(audio_to_text=None)
 
+        self.stop_listening()
+
     def _analyse_audio(self, audio_to_text):
         """
         Confirm the audio exists and run it in a Callback
         :param audio_to_text: the captured audio
         """
-        if self.callback is not None:
-            self.callback(audio_to_text)
+        if self.main_controller_callback is not None:
+            self.main_controller_callback(audio_to_text)
 

@@ -26,14 +26,8 @@ speech_to_text:
 Sometime, an API key will be necessary to use an engine. Click on a TTS engine link in the `Current Available STT` section to know which parameter are required.
 
 ## Current CORE Available STT
-Core STTs are already packaged with the installation of Kalliope an can be used out of the box.
 
-- [apiai](../kalliope/stt/apiai/README.md)
-- [bing](../kalliope/stt/bing/README.md)
-- [CMUSphinx](../kalliope/stt/cmusphinx/README.md)
-- [google](../kalliope/stt/google/README.md)
-- [houndify](../kalliope/stt/houndify/README.md)
-- [witai](../kalliope/stt/wit/README.md)
+Core STTs are already packaged with the installation of Kalliope an can be used out of the box. See the [complete list here](stt_list.md).
 
 ## STT Community Installation
 

@@ -86,6 +86,8 @@ Start kalliope:
 kalliope start
 ```
 
+> **Note:** Do not start Kalliope as root user or with sudo
+
 Kalliope will load default settings and brain, the output should looks the following
 ```bash
 Starting event manager

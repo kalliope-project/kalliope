@@ -1,4 +1,4 @@
-v0.4.1 / 2017-01-12
+v0.4.1 / 2017-01-15
 ===================
 - add CORS support for REST API
 - fix installation of community STT and TTS
@@ -7,6 +7,7 @@ v0.4.1 / 2017-01-12
 - add offline STT (CMUSphinx)
 - orders are not anymore case sensitive
 - add STT utils class to split the audio catching from the processing
+- fix CTRL-C to kill Kalliope
 
 v0.4.0 / 2016-12-28
 ===================
