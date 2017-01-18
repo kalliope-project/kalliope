@@ -1,3 +1,7 @@
+v0.4.2 / 2017-01-18
+===================
+- fix community neuron installation
+
 v0.4.1 / 2017-01-15
 ===================
 - add CORS support for REST API
