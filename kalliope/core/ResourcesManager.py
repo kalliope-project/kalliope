@@ -264,7 +264,7 @@ class ResourcesManager(object):
             current_version = match_current_version.group(0)
 
             for supported_version in supported_versions:
-                if version.parse(current_version) == version.parse(supported_version):
+                if version.parse(str(current_version)) == version.parse(str(supported_version)):
                     # we found the exact version
                     supported_version_found = True
                     break
