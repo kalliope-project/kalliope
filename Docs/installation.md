@@ -80,37 +80,7 @@ Then play the recorded audio file
 mplayer test.wav
 ```
 
-You can then test that your Kalliope is working by using the "bonjour" order integrated in the [default brain](../kalliope/brain.yml).
-Start kalliope:
-```bash
-kalliope start
-```
-
-> **Note:** Do not start Kalliope as root user or with sudo
-
-Kalliope will load default settings and brain, the output should looks the following
-```bash
-Starting event manager
-Events loaded
-Starting Kalliope
-Press Ctrl+C for stopping
-Starting REST API Listening port: 5000
-```
-
-Then speak the hotwork out loud to wake up Kalliope. By default, the hotwork is "Kalliopé" with the french pronunciation.
-If the trigger is successfully raised, you'll see "say something" into the console. 
-```bash
-2016-12-05 20:54:21,950 :: INFO :: Keyword 1 detected at time: 2016-12-05 20:54:21
-Say something!
-```
-
-Then you can say "bonjour" and listen the Kalliope response.
-```bash
-Say something!
-Google Speech Recognition thinks you said Bonjour
-Order matched in the brain. Running synapse "say-hello-fr"
-Waiting for trigger detection
-```
+Your installation is now complete, let's take a look now to the [quickstart documentation](installation/quickstart.md) to learn how to use Kalliope.
 
 ## Get a starter configuration
 We create some starter configuration that only need to be downloaded and then started. 
@@ -120,5 +90,5 @@ Those repositories provide you a basic structure to start playing with kalliope.
 - [English starter config](https://github.com/kalliope-project/kalliope_starter_en)
 
 
-## Next: Create you own bot
+## Next: 
 If everything is ok, you can start playing with Kalliope. First, take a look to the [default settings](settings.md).
