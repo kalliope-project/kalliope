@@ -1,24 +1,6 @@
 # Kalliope settings
 
-This part of the documentation explains the main configuration of Kalliope.
-
-Kalliope needs two files to works, a `settings.yml` and a `brain.yml`. Files are written on YAML syntax.
-
-When you start kalliope using the CLI, the program will try to load your settings.yml and brain.yml in the following order:
-- From you current folder, E.g `/home/pi/my_kalliope/settings.yml`
-- From `/etc/kalliope/settings.yml`
-- From the default `settings.yml`. You can take a look into the default [`settings.yml`](../kalliope/settings.yml) file which is located in the root of the project tree.
-
-This a common tree of a Kalliope configuration folder:
-```
-kalliope_config/
-├── brains
-│   └── included_brain.yml
-├── brain.yml
-├── files
-│   └── kalliope-FR-13samples.pmdl
-└── settings.yml
-```
+This part of the documentation explains the main configuration of Kalliope placed in the `settings.md` file.
 
 ## Triggers configuration
 
