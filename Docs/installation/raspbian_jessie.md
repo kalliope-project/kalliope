@@ -1,8 +1,19 @@
 # Kalliope requirements for Raspbian
 
+## Install the pre-compiled disk image
 
-## Supported Version
+Download the last image [from the release page](https://github.com/kalliope-project/kalliope/releases) of Kalliope and load it as usual into your SD card.
 
+**Login:** pi
+**Password:** raspberry
+
+Once installed, use the `raspi-config` command to expend the file system and fill the whole available space on your SD card.
+The SSH server is already active. You only need to get the ip of your Rpi via the command `ip a` and then connect via your favourite SSH client.
+We placed in `/home/pi` the two starter config we made for [French](https://github.com/kalliope-project/kalliope_starter_fr) and [English](https://github.com/kalliope-project/kalliope_starter_en). 
+
+## Manual installation
+
+Supported Raspbian images:
 [raspbian-2016-09-28](http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-09-28/)
 [raspbian-2016-11-29](http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-11-29/)
 [raspbian-2017-01-10](http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-01-10/)
@@ -11,7 +22,7 @@
 
 > **Note:** The first Raspberry Pi is not officially supported. The installation will works but a single core with only 700Mhz may produce a some latencies.
 
-## Debian packages requirements
+### Debian packages requirements
 
 Install some required system libraries and software:
 
@@ -26,12 +37,6 @@ wget https://bootstrap.pypa.io/get-pip.py
 sudo python get-pip.py
 ```
 
-## Raspberry Pi configuration
-
-This part deals with the special configuration needed to get kalliope working on a RPi.
-
-### Packages
-
 On a Raspberry Pi, pulseaudio is not installed by default
 ```bash
 sudo apt-get install pulseaudio pulseaudio-utils
@@ -41,6 +46,10 @@ Start the pulseaudio server
 ```bash
 pulseaudio -D
 ```
+
+## Raspberry Pi configuration
+
+This part deals with the special configuration needed to get kalliope working on a RPi.
 
 ### Microphone configuration
 

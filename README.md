@@ -26,13 +26,12 @@ Kalliope is easy-peasy to use, see the hello world
 
 ## Installation
 
-- [Kalliope installation documentation](Docs/installation.md)
+- [Kalliope installation documentation](Docs/installation.md) (Ubuntu/Debian/Raspbian)
+- [Pre-compiled disk image for Raspberry](Docs/installation/raspbian_jessie.md)
 
 ## Quick start
 
-We made starter kits that only needs to be cloned and launched. Starter kits can help you to learn basics of Kalliope
-- [French starter kit](https://github.com/kalliope-project/kalliope_starter_fr)
-- [English starter kit](https://github.com/kalliope-project/kalliope_starter_en)
+Once installed, you can start learning basics of Kalliope from a [quick start configuration](Docs/installation/quickstart.md)
 
 ## Usage
 
