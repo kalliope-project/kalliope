@@ -29,6 +29,7 @@ A neuron is a module that will perform some actions attached to an order. You ca
 | [twitter](https://github.com/kalliope-project/kalliope_neuron_twitter)               | Send a Twit from kalliope                                                               |
 | [wake_on_lan](https://github.com/kalliope-project/kalliope_neuron_wake_on_lan)       | Wake on lan a computer                                                                  |
 | [wikipedia](https://github.com/kalliope-project/kalliope_neuron_wikipedia)           | Search for a page on Wikipedia                                                          |
+| [slack](https://github.com/kalliope-project/kalliope_neuron_slack)                   | Post and Read message on Slack                                                          |
 
 Wanna add your neuron in the list? Open [an issue](../../issues) with the link of your neuron or send a pull request to update the list directly.
 
