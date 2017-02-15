@@ -126,7 +126,7 @@ on_ready_sounds:
 # Rest API
 # ---------------------------
 rest_api:
-  active: True
+  active: False
   port: 5000
   password_protected: True
   login: admin
