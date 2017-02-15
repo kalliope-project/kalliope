@@ -55,7 +55,7 @@ class MainController:
         self.on_ready_notification_played_once = False
 
         # Initialize the state machine
-        self.machine = Machine(model=self, states=MainController.states, initial='init')
+        self.machine = Machine(model=self, states=MainController.states, initial='init', queued=True)
 
         # define transitions
         self.machine.add_transition('start_trigger', 'init', 'starting_trigger')
