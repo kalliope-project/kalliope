@@ -147,8 +147,9 @@ class TestResourcesmanager(unittest.TestCase):
                                                                   supported_versions=supported_version))
 
         # version non ok, user does not config
+        # Testing with integer values instead of string
         current_version = '0.4.0'
-        supported_version = ['0.3', '0.2']
+        supported_version = [0.3, 0.2]
 
         with mock.patch('kalliope.Utils.query_yes_no', return_value=True):
             self.assertTrue(ResourcesManager._check_supported_version(current_version=current_version,
