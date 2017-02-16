@@ -22,6 +22,7 @@ A neuron is a module that will perform some actions attached to an order. You ca
 |--------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
 | [gmail_checker](https://github.com/kalliope-project/kalliope_neuron_gmail)           | Get the number of unread email and their subjects from a gmail account                  |
 | [google agenda](https://github.com/bacardi55/kalliope-google-calendar)               | Get your next meetings on google calendar                                               |
+| [hue](https://github.com/kalliope-project/kalliope_neuron_hue)                       | Control the Philips Hue lighting system  |
 | [list available orders](https://github.com/bacardi55/kalliope-list-available-orders) | Let kalliope tell you what she how she can help                                         |
 | [MPD](https://github.com/bacardi55/kalliope-mpd)                                     | Play music via an MPD server                                                            |
 | [openweathermap](https://github.com/kalliope-project/kalliope_neuron_openweathermap) | Get the weather of a location                                                           |
@@ -29,6 +30,7 @@ A neuron is a module that will perform some actions attached to an order. You ca
 | [pushetta](https://github.com/kalliope-project/kalliope_neuron_pushetta)             | Send a push message to a remote device like Android/iOS/Windows Phone or Chrome browser |
 | [repeat](https://github.com/bacardi55/kalliope-repeat)                               | Make kalliope say whatever you want                                                     |
 | [rss_reader](https://github.com/kalliope-project/kalliope_neuron_rss_reader)         | Get rss feed from website                                                               |
+| [system_status](https://github.com/bacardi55/kalliope-system-status)                 | Get info about the system (cpu, memory, …                                                               |
 | [tasker](https://github.com/kalliope-project/kalliope_neuron_tasker)                 | Send a message to Android tasker app                                                    |
 | [twitter](https://github.com/kalliope-project/kalliope_neuron_twitter)               | Send a Twit from kalliope                                                               |
 | [wake_on_lan](https://github.com/kalliope-project/kalliope_neuron_wake_on_lan)       | Wake on lan a computer                                                                  |
