@@ -15,6 +15,7 @@ import sys
 
 from kalliope.core.ResourcesManager import ResourcesManager
 from kalliope.core.SynapseLauncher import SynapseLauncher
+from kalliope.core.OrderAnalyser import OrderAnalyser
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -42,6 +43,7 @@ def main():
     parser = argparse.ArgumentParser(description='Kalliope')
     parser.add_argument("action", help="[start|gui|install]")
     parser.add_argument("--run-synapse", help="Name of a synapse to load surrounded by quote")
+    parser.add_argument("--run-order", help="order surrounded by a quote")    
     parser.add_argument("--brain-file", help="Full path of a brain file")
     parser.add_argument("--debug", action='store_true', help="Show debug output")
     parser.add_argument("--git-url", help="Git URL of the neuron to install")
@@ -62,24 +64,42 @@ def main():
 
     # by default, no brain file is set. Use the default one: brain.yml in the root path
     brain_file = None
+    
     # check if user set a brain.yml file
     if args.brain_file:
         brain_file = args.brain_file
-    # load the brain once
-    brain_loader = BrainLoader(file_path=brain_file)
-    brain = brain_loader.brain
-
+ 
     # check the user provide a valid action
     if args.action not in ACTION_LIST:
         Utils.print_warning("%s is not a recognised action\n" % args.action)
         parser.print_help()
 
+    # install modules
+    if args.action == "install":
+        if not args.git_url:
+            Utils.print_danger("You must specify the git url")
+        else:
+            parameters = {
+                "git_url": args.git_url
+            }
+            res_manager = ResourcesManager(**parameters)
+            res_manager.install()
+
+    # load the brain once
+    brain_loader = BrainLoader(file_path=brain_file)
+    brain = brain_loader.brain
+
     if args.action == "start":
+        
         # user set a synapse to start
         if args.run_synapse is not None:
             SynapseLauncher.start_synapse(args.run_synapse, brain=brain)
+            
+        if args.run_order is not None:
+            order_analyser = OrderAnalyser(args.run_order, brain=brain)
+            order_analyser.start()
 
-        if args.run_synapse is None:
+        if (args.run_synapse is None) and (args.run_order is None):
             # first, load events in event manager
             EventManager(brain.synapses)
             Utils.print_success("Events loaded")
@@ -94,15 +114,7 @@ def main():
     if args.action == "gui":
         ShellGui(brain=brain)
 
-    if args.action == "install":
-        if not args.git_url:
-            Utils.print_danger("You must specify the git url")
-        else:
-            parameters = {
-                "git_url": args.git_url
-            }
-            res_manager = ResourcesManager(**parameters)
-            res_manager.install()
+
 
 
 def configure_logging(debug=None):

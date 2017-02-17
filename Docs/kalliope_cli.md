@@ -72,6 +72,15 @@ Example of use
 kalliope start --run-synapse "say-hello"
 ```
 
+### --run-order "Your Order"
+
+Run a specific order from command line.
+
+Example of use
+```bash
+kalliope start --run-order "hello"
+```
+
 ### --brain-file BRAIN_FILE
 
 Replace the default brain file from the root of the project folder by a custom one.
