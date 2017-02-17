@@ -21,3 +21,4 @@ class Sleep(NeuronModule):
         """
         if self.seconds is None:
             raise MissingParameterException("You must set a number of seconds as parameter")
+        return True
