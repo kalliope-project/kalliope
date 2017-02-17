@@ -3,6 +3,7 @@ import logging
 import os
 import shutil
 import re
+import tempfile
 
 from git import Repo
 from packaging import version
@@ -17,7 +18,7 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 # Global values for processing:
-LOCAL_TMP_FOLDER = "/tmp/kalliope/resources/"
+# LOCAL_TMP_FOLDER = "/tmp/kalliope/resources/"
 TMP_GIT_FOLDER = "kalliope_new_module_temp_name"
 DNA_FILE_NAME = "dna.yml"
 INSTALL_FILE_NAME = "install.yml"
@@ -53,7 +54,8 @@ class ResourcesManager(object):
         self.git_url = kwargs.get('git_url', None)
 
         # temp path where we install the new module
-        self.tmp_path = LOCAL_TMP_FOLDER + TMP_GIT_FOLDER
+        self.tmp_path = tempfile.gettempdir() + "/kalliope/resources/" +\
+                TMP_GIT_FOLDER
         self.dna_file_path = self.tmp_path + os.sep + DNA_FILE_NAME
         self.install_file_path = self.tmp_path + os.sep + INSTALL_FILE_NAME
         self.dna = None
@@ -214,7 +216,7 @@ class ResourcesManager(object):
         logger.debug("[ResourcesManager] Rename temp folder")
         new_absolute_neuron_path = target_folder + os.sep + name
         try:
-            os.rename(tmp_path, new_absolute_neuron_path)
+            shutil.move(tmp_path, new_absolute_neuron_path)
             return new_absolute_neuron_path
         except OSError:
             # the folder already exist
