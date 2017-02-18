@@ -8,6 +8,7 @@ If you are using kalliope from a Rpi, the idea would be to configure your assist
 We made starter kits that only needs to be cloned, placed into the Rpi and launched.
 - [French starter kit](https://github.com/kalliope-project/kalliope_starter_fr)
 - [English starter kit](https://github.com/kalliope-project/kalliope_starter_en)
+- [German starter kit](https://github.com/kalliope-project/kalliope_starter_de)
 
 Those repositories provide you a structure to start playing and learning basics of Kalliope.
 Download the starter kit of your choice and open the folder with your IDE. 
@@ -17,7 +18,7 @@ When you start kalliope using the CLI (`kalliope start`), the program will try t
 - From `/etc/kalliope/settings.yml`
 - From the default `settings.yml`. You can take a look into the default [`settings.yml`](../kalliope/settings.yml) file which is located in the root of the project tree.
 
-This a common tree of a Kalliope configuration folder:
+This is a common tree of a Kalliope configuration folder:
 ```
 kalliope_config/
 ├── brains
