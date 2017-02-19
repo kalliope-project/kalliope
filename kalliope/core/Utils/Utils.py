@@ -2,8 +2,7 @@ import logging
 import os
 import inspect
 import imp
-
-import sys
+import re
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -217,3 +216,58 @@ class Utils(object):
                 return valid[choice]
             else:
                 Utils.print_warning("Please respond with 'yes' or 'no' or 'y' or 'n').\n")
+
+    ##################
+    #
+    # Brackets management
+    #
+    #########
+    @staticmethod
+    def is_containing_bracket(sentence):
+        """
+        Return True if the text in <sentence> contains brackets
+        :param sentence:
+        :return:
+        """
+        # print "sentence to test %s" % sentence
+        pattern = r"{{|}}"
+        # prog = re.compile(pattern)
+        check_bool = re.search(pattern, sentence)
+        if check_bool is not None:
+            return True
+        return False
+
+    @staticmethod
+    def find_all_matching_brackets(sentence):
+        """
+        Find all the bracket matches from a given sentence
+        :param sentence: the sentence to check
+        :return: the list with all the matches
+        """
+
+        pattern = r"((?:{{\s*)[\w\.]+(?:\s*}}))"
+        # find everything like {{ word }}
+        return re.findall(pattern, sentence)
+
+    @staticmethod
+    def remove_spaces_in_brackets(sentence):
+        """
+        If has brackets it removes spaces in brackets
+        :param sentence: the sentence to work on
+        :return: the sentence without any spaces in brackets
+        """
+
+        pattern = '\s+(?=[^\{\{\}\}]*\}\})'
+        # Remove white spaces (if any) between the variable and the double brace then split
+        return re.sub(pattern, '', sentence)
+
+    ##################
+    #
+    # Lists management
+    #
+    #########
+    @staticmethod
+    def _get_next_value_list(list_to_check):
+        ite = list_to_check.__iter__()
+        next(ite, None)
+        return next(ite, None)

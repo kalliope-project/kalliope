@@ -189,6 +189,9 @@ class TestSettingLoader(unittest.TestCase):
         sl = SettingLoader(file_path=self.settings_file_to_test)
         self.assertEquals(expected_resource, sl._get_resources(self.settings_dict))
 
+    def test_get_variables(self):
+        # TODO
+        pass
 
 if __name__ == '__main__':
     unittest.main()

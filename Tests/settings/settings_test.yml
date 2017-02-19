@@ -110,3 +110,7 @@ resource_directory:
   stt: "/tmp/kalliope/tests/kalliope_resources_dir/stt"
   tts: "/tmp/kalliope/tests/kalliope_resources_dir/tts"
   trigger: "/tmp/kalliope/tests/kalliope_resources_dir/trigger"
+
+# ---------------------------
+# Variables TODO
+# ---------------------------

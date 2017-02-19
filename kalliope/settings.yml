@@ -126,7 +126,7 @@ on_ready_sounds:
 # Rest API
 # ---------------------------
 rest_api:
-  active: False
+  active: True
   port: 5000
   password_protected: True
   login: admin
@@ -153,3 +153,12 @@ default_synapse: "default-synapse"
 #  stt: "resources/stt"
 #  tts: "resources/tts"
 #  trigger: "resources/trigger"
+
+
+# ---------------------------
+# Global files variables
+# /!\ If a variable is defined in different files, the last file defines the value.
+# ---------------------------
+var_files:
+  - variables.yml
+  - variables2.yml

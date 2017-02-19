@@ -24,6 +24,7 @@ class Settings(object):
                  cache_path=None,
                  default_synapse=None,
                  resources=None,
+                 variables= None, # dict()
                  machine=None,
                  kalliope_version=None):
 
@@ -42,6 +43,7 @@ class Settings(object):
         self.cache_path = cache_path
         self.default_synapse = default_synapse
         self.resources = resources
+        self.variables = variables
         self.machine = platform.machine()   # can be x86_64 or armv7l
         self.kalliope_version = current_kalliope_version
 
