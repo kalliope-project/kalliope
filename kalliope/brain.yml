@@ -14,3 +14,15 @@
       - say:
           message:
             - "Hello sir"
+
+  - name: "default-synapse"
+    signals:
+      - order: "default-synapse-order"
+    neurons:
+      - say:
+          message:
+            - "Je n'ai pas compris vôtre ordre"
+            - "Je ne connais pas cet ordre"
+            - "Veuillez renouveller votre ordre"
+            - "Veuillez reformuller s'il vous plait"
+            - "Je n'ai pas saisi cet ordre"
