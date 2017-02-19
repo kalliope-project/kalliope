@@ -267,7 +267,7 @@ class Utils(object):
     #
     #########
     @staticmethod
-    def _get_next_value_list(list_to_check):
+    def get_next_value_list(list_to_check):
         ite = list_to_check.__iter__()
         next(ite, None)
         return next(ite, None)

@@ -51,9 +51,9 @@ class TestSettingLoader(unittest.TestCase):
             'text_to_speech': [
                 {'pico2wave': {'cache': True, 'language': 'fr-FR'}},
                 {'voxygen': {'voice': 'Agnes', 'cache': True}}
-            ]
+            ],
+            'var_files': ["../Tests/settings/variables.yml"]
         }
-
 
         # Init the folders, otherwise it raises an exceptions
         os.makedirs("/tmp/kalliope/tests/kalliope_resources_dir/neurons")
@@ -61,9 +61,14 @@ class TestSettingLoader(unittest.TestCase):
         os.makedirs("/tmp/kalliope/tests/kalliope_resources_dir/tts")
         os.makedirs("/tmp/kalliope/tests/kalliope_resources_dir/trigger")
 
+        os.makedirs("/tmp/kalliope/tests/variables/")
+        open("/tmp/kalliope/tests/variables/variables.yml", 'a').close()
+        open("/tmp/kalliope/tests/variables/variables2.yml", 'a').close()
+
     def tearDown(self):
         # Cleanup
         shutil.rmtree('/tmp/kalliope/tests/kalliope_resources_dir')
+        shutil.rmtree('/tmp/kalliope/tests/variables/')
 
         Singleton._instances = {}
 
@@ -105,8 +110,12 @@ class TestSettingLoader(unittest.TestCase):
                               stt_folder="/tmp/kalliope/tests/kalliope_resources_dir/stt",
                               tts_folder="/tmp/kalliope/tests/kalliope_resources_dir/tts",
                               trigger_folder="/tmp/kalliope/tests/kalliope_resources_dir/trigger")
-
         settings_object.resources = resources
+        settings_object.variables = {
+            "author": "Lamonf",
+            "test_number": 60,
+            "test": "kalliope"
+        }
         settings_object.machine = platform.machine()
 
         sl = SettingLoader(file_path=self.settings_file_to_test)
@@ -190,8 +199,15 @@ class TestSettingLoader(unittest.TestCase):
         self.assertEquals(expected_resource, sl._get_resources(self.settings_dict))
 
     def test_get_variables(self):
-        # TODO
-        pass
+        expected_result = {
+            "author": "Lamonf",
+            "test_number": 60,
+            "test": "kalliope"
+        }
+        sl = SettingLoader(file_path=self.settings_file_to_test)
+        self.assertEqual(expected_result,
+                         sl._get_variables(self.settings_dict))
+
 
 if __name__ == '__main__':
     unittest.main()

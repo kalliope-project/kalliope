@@ -159,6 +159,6 @@ default_synapse: "default-synapse"
 # Global files variables
 # /!\ If a variable is defined in different files, the last file defines the value.
 # ---------------------------
-var_files:
-  - variables.yml
-  - variables2.yml
+#var_files:
+#  - variables.yml
+#  - variables2.yml

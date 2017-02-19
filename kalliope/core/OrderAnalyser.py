@@ -240,7 +240,7 @@ class OrderAnalyser:
             if Utils.is_containing_bracket(ow):
                 # remove bracket and grab the next value / stop value
                 var_name = ow.replace("{{", "").replace("}}", "")
-                stop_value = Utils._get_next_value_list(list_word_in_order[idx:])
+                stop_value = Utils.get_next_value_list(list_word_in_order[idx:])
                 if stop_value is None:
                     dict_var[var_name] = " ".join(truncate_list_word_said)
                     break
