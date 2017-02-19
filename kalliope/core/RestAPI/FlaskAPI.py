@@ -13,6 +13,7 @@ from kalliope.core.SynapseLauncher import SynapseLauncher
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
+
 class FlaskAPI(threading.Thread):
     def __init__(self, app, port=5000, brain=None, allowed_cors_origin=False):
         """
@@ -38,10 +39,9 @@ class FlaskAPI(threading.Thread):
         # Add routing rules
         self.app.add_url_rule('/synapses', view_func=self.get_synapses, methods=['GET'])
         self.app.add_url_rule('/synapses/<synapse_name>', view_func=self.get_synapse, methods=['GET'])
-        self.app.add_url_rule('/synapses/<synapse_name>', view_func=self.run_synapse, methods=['POST'])
-        self.app.add_url_rule('/order/', view_func=self.run_order, methods=['POST'])
+        self.app.add_url_rule('/synapses/start/id/<synapse_name>', view_func=self.run_synapse_by_name, methods=['POST'])
+        self.app.add_url_rule('/synapses/start/order', view_func=self.run_synapse_by_order, methods=['POST'])
         self.app.add_url_rule('/shutdown/', view_func=self.shutdown_server, methods=['POST'])
-
 
     def run(self):
         self.app.run(host='0.0.0.0', port="%s" % int(self.port), debug=True, threaded=True, use_reloader=False)
@@ -65,6 +65,8 @@ class FlaskAPI(threading.Thread):
     def get_synapses(self):
         """
         get all synapses.
+        test with curl:
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/synapses
         """
         data = jsonify(synapses=[e.serialize() for e in self.brain.synapses])
         return data, 200
@@ -73,6 +75,8 @@ class FlaskAPI(threading.Thread):
     def get_synapse(self, synapse_name):
         """
         get a synapse by its name
+        test with curl:
+        curl --user admin:secret -i -X GET  http://127.0.0.1:5000/synapses/say-hello-en
         """
         synapse_target = self._get_synapse_by_name(synapse_name)
         if synapse_target is not None:
@@ -85,11 +89,11 @@ class FlaskAPI(threading.Thread):
         return jsonify(error=data), 404
 
     @requires_auth
-    def run_synapse(self, synapse_name):
+    def run_synapse_by_name(self, synapse_name):
         """
         Run a synapse by its name
         test with curl:
-        curl -i --user admin:secret -X POST  http://localhost:5000/synapses/say-hello
+        curl -i --user admin:secret -X POST  http://127.0.0.1:5000/synapses/start/id/say-hello-fr
         :param synapse_name:
         :return:
         """
@@ -103,15 +107,15 @@ class FlaskAPI(threading.Thread):
 
         # run the synapse
         SynapseLauncher.start_synapse(synapse_name, brain=self.brain)
-        data = jsonify(synapses=synapse_target)
+        data = jsonify(synapses=synapse_target.serialize())
         return data, 201
 
     @requires_auth
-    def run_order(self):
+    def run_synapse_by_order(self):
         """
         Give an order to Kalliope via API like it was from a spoken one
         Test with curl
-        curl -i --user admin:secret -H "Content-Type: application/json" -X POST -d '{"order":"my order"}' http://localhost:5000/order
+        curl -i --user admin:secret -H "Content-Type: application/json" -X POST -d '{"order":"my order"}' http://localhost:5000/synapses/start/order
         In case of quotes in the order or accents, use a file
         cat post.json:
         {"order":"j'aime"}
