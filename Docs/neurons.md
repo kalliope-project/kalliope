@@ -47,6 +47,7 @@ Full list of [available neuron here](neuron_list.md)
 
 Neurons require some **parameters** from the synapse declaration to work. Those parameters, also called arguments, can be passed to the neuron in two way:
 - from the neuron declaration
+- from global variables
 - from the captured order
 
 From the neuron declaration:
@@ -55,6 +56,16 @@ neurons:
     - neuron_name:
         parameter1: "value1"
         parameter2: "value2"
+```
+
+From global variables: (cf: [settings.md](settings.md))
+```yml
+  - name: "run-simple-sleep"
+    signals:
+      - order: "Wait for me "
+    neurons:
+      - sleep:
+          seconds: {{variable}}
 ```
 
 From the captured order:

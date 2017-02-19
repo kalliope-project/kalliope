@@ -289,5 +289,34 @@ resource_directory:
   trigger: "/full/path/to/trigger"
 ```
 
+
+## Global Variables
+
+The Global Variables paths list where to load the global variables.
+Those variables can be reused in neuron parameters within double brackets.
+
+E.g
+```yml
+var_files:
+  - variables.yml
+  - variables2.yml
+```
+
+In the files the variables are defined by key/value:
+```yml
+variable: 60
+variable2: "http://"
+```
+
+And use variables in your neurons:
+```yml
+  - name: "run-simple-sleep"
+    signals:
+      - order: "Wait for me "
+    neurons:
+      - sleep:
+          seconds: {{variable}}
+```
+
 ## Next: configure the brain of Kalliope
 Now your settings are ok, you can start creating the [brain](brain.md) of your assistant.
