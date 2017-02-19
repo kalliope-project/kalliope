@@ -93,7 +93,7 @@ Those repositories provide you a basic structure to start playing with kalliope.
 
 - [French starter config](https://github.com/kalliope-project/kalliope_starter_fr)
 - [English starter config](https://github.com/kalliope-project/kalliope_starter_en)
-
+- [German starter config](https://github.com/kalliope-project/kalliope_starter_de)
 
 ## Next: 
 If everything is ok, you can start playing with Kalliope. First, take a look to the [default settings](settings.md).
