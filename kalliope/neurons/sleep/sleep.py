@@ -6,7 +6,7 @@ from kalliope.core.NeuronModule import NeuronModule,  MissingParameterException
 class Sleep(NeuronModule):
     def __init__(self, **kwargs):
         super(Sleep, self).__init__(**kwargs)
-        self.seconds = float(kwargs.get('seconds', None))
+        self.seconds = kwargs.get('seconds', None)
 
         # check parameters
         if self._is_parameters_ok():
