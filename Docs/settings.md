@@ -259,7 +259,7 @@ Remember that an origin is composed of the scheme (http(s)), the port (eg: 80, 4
 
 ## Default synapse
 
-Run a default [synapse](brain.md) when Kalliope can't find the order in any synapse.
+Run a default [synapse](brain.md) when Kalliope can't find the order in any synapse or if the SST engine haven't understood the order.
 
 ```yml
 default_synapse: "synapse-name"
