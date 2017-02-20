@@ -1,5 +1,10 @@
 import logging
+import os
 import threading
+
+from kalliope.core.ConfigurationManager import SettingLoader
+from kalliope.core.OrderListener import OrderListener
+from werkzeug.utils import secure_filename
 
 from flask import jsonify
 from flask import request
@@ -12,6 +17,9 @@ from kalliope.core.SynapseLauncher import SynapseLauncher
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
+
+UPLOAD_FOLDER = '/tmp/kalliope/tmp_uploaded_audio'
+ALLOWED_EXTENSIONS = {'mp3', 'wav'}
 
 
 class FlaskAPI(threading.Thread):
@@ -29,6 +37,13 @@ class FlaskAPI(threading.Thread):
         self.brain = brain
         self.allowed_cors_origin = allowed_cors_origin
 
+        # get current settings
+        sl = SettingLoader()
+        self.settings = sl.settings
+
+        # configure the upload folder
+        app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
         # Flask configuration remove default Flask behaviour to encode to ASCII
         self.app.url_map.strict_slashes = False
         self.app.config['JSON_AS_ASCII'] = False
@@ -41,10 +56,16 @@ class FlaskAPI(threading.Thread):
         self.app.add_url_rule('/synapses/<synapse_name>', view_func=self.get_synapse, methods=['GET'])
         self.app.add_url_rule('/synapses/start/id/<synapse_name>', view_func=self.run_synapse_by_name, methods=['POST'])
         self.app.add_url_rule('/synapses/start/order', view_func=self.run_synapse_by_order, methods=['POST'])
+        self.app.add_url_rule('/synapses/start/audio', view_func=self.run_synapse_by_audio, methods=['POST'])
         self.app.add_url_rule('/shutdown/', view_func=self.shutdown_server, methods=['POST'])
 
     def run(self):
         self.app.run(host='0.0.0.0', port="%s" % int(self.port), debug=True, threaded=True, use_reloader=False)
+
+    @staticmethod
+    def allowed_file(filename):
+        return '.' in filename and \
+               filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
     def _get_synapse_by_name(self, synapse_name):
         """
@@ -148,6 +169,34 @@ class FlaskAPI(threading.Thread):
             }
             return jsonify(error=data), 400
 
+    def run_synapse_by_audio(self):
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            data = {
+                "error": "No file provided"
+            }
+            return jsonify(error=data), 400
+
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            data = {
+                "error": "No file provided"
+            }
+            return jsonify(error=data), 400
+        if file and self.allowed_file(file.filename):
+            # save the file
+            filename = secure_filename(file.filename)
+            base_path = os.path.join(self.app.config['UPLOAD_FOLDER'])
+            file.save(os.path.join(base_path, filename))
+
+            # now start analyse the audio with STT engine
+            audio_path = base_path + os.sep + filename
+            ol = OrderListener(callback=self.audio_analyser_callback, audio_file_path=audio_path)
+            ol.start()
+            ol.join()
+
     @requires_auth
     def shutdown_server(self):
         func = request.environ.get('werkzeug.server.shutdown')
@@ -155,3 +204,17 @@ class FlaskAPI(threading.Thread):
             raise RuntimeError('Not running with the Werkzeug Server')
         func()
         return "Shutting down..."
+
+    def audio_analyser_callback(self, order):
+        logger.debug("order to process %s" % order)
+        if order is not None:  # maybe we have received a null audio from STT engine
+            order_analyser = OrderAnalyser(order, brain=self.brain)
+            synapses_launched = order_analyser.start()
+            # TODO fix this. RuntimeError: Working outside of request context.
+            with self.app.app_context():
+                data = jsonify(synapses=[e.serialize() for e in synapses_launched])
+                return data, 201
+
+        else:
+            if self.settings.default_synapse is not None:
+                SynapseLauncher.start_synapse(name=self.settings.default_synapse, brain=self.brain)
