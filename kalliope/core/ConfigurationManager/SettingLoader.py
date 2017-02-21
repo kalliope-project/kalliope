@@ -112,6 +112,7 @@ class SettingLoader(object):
         cache_path = self._get_cache_path(settings)
         default_synapse = self._get_default_synapse(settings)
         resources = self._get_resources(settings)
+        variables = self._get_variables(settings)
 
         # Load the setting singleton with the parameters
         setting_object.default_tts_name = default_tts_name
@@ -129,6 +130,7 @@ class SettingLoader(object):
         setting_object.cache_path = cache_path
         setting_object.default_synapse = default_synapse
         setting_object.resources = resources
+        setting_object.variables = variables
 
         return setting_object
 
@@ -641,5 +643,27 @@ class SettingLoader(object):
 
         return on_ready_sounds
 
+    @staticmethod
+    def _get_variables(settings):
+        """
+        Return the dict of variables from the settings.
+        :param settings: The YAML settings file
+        :return: dict
+        """
+
+        variables = dict()
+        try:
+            variables_files_name = settings["var_files"]
+            # In case files are declared in settings.yml, make sure kalliope can access them.
+            for files in variables_files_name:
+                var = Utils.get_real_file_path(files)
+                if var is None:
+                    raise SettingInvalidException("Variables file %s not found" % files)
+                else:
+                    variables.update(YAMLLoader.get_config(var))
+            return variables
+        except KeyError:
+            # User does not provide this settings
+            return dict()
 
 
