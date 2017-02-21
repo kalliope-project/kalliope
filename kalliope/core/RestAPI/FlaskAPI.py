@@ -2,6 +2,10 @@ import logging
 import os
 import threading
 
+import time
+
+from kalliope.core.Utils.FileManager import FileManager
+
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.OrderListener import OrderListener
 from werkzeug.utils import secure_filename
@@ -41,8 +45,15 @@ class FlaskAPI(threading.Thread):
         sl = SettingLoader()
         self.settings = sl.settings
 
+        # list of launched synapse by the Order Analyser when using the /synapses/start/audio URL
+        self.launched_synapses = None
+        # boolean used to notify the main process that we get the list of returned synapse
+        self.order_analyser_return = False
+
         # configure the upload folder
         app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+        # create the temp folder
+        FileManager.create_directory(UPLOAD_FOLDER)
 
         # Flask configuration remove default Flask behaviour to encode to ASCII
         self.app.url_map.strict_slashes = False
@@ -170,6 +181,12 @@ class FlaskAPI(threading.Thread):
             return jsonify(error=data), 400
 
     def run_synapse_by_audio(self):
+        """
+        Give an order to Kalliope with an audio file
+        Test with curl
+        curl -i --user admin:secret -X POST  http://localhost:5000/synapses/start/audio -F "file=@/path/to/input.wav"
+        :return:
+        """
         # check if the post request has the file part
         if 'file' not in request.files:
             data = {
@@ -196,6 +213,19 @@ class FlaskAPI(threading.Thread):
             ol = OrderListener(callback=self.audio_analyser_callback, audio_file_path=audio_path)
             ol.start()
             ol.join()
+            # wait the Order Analyser processing. We need to wait in this thread to keep the context
+            while not self.order_analyser_return:
+                time.sleep(0.1)
+            self.order_analyser_return = False
+            if self.launched_synapses is not None and self.launched_synapses:
+                data = jsonify(synapses=[e.serialize() for e in self.launched_synapses])
+                self.launched_synapses = None
+                return data, 201
+            else:
+                data = {
+                    "error": "The given order doesn't match any synapses"
+                }
+                return jsonify(error=data), 400
 
     @requires_auth
     def shutdown_server(self):
@@ -206,15 +236,25 @@ class FlaskAPI(threading.Thread):
         return "Shutting down..."
 
     def audio_analyser_callback(self, order):
+        """
+        Callback of the OrderListener. Called after the processing of the audio file
+        This method will
+        - call the Order Analyser to analyse the  order and launch corresponding synapse as usual.
+        - get a list of launched synapse.
+        - give the list to the main process via self.launched_synapses
+        - notify that the processing is over via order_analyser_return
+        :param order: string order to analyse
+        :return:
+        """
         logger.debug("order to process %s" % order)
         if order is not None:  # maybe we have received a null audio from STT engine
             order_analyser = OrderAnalyser(order, brain=self.brain)
             synapses_launched = order_analyser.start()
-            # TODO fix this. RuntimeError: Working outside of request context.
-            with self.app.app_context():
-                data = jsonify(synapses=[e.serialize() for e in synapses_launched])
-                return data, 201
-
+            self.launched_synapses = synapses_launched
         else:
             if self.settings.default_synapse is not None:
                 SynapseLauncher.start_synapse(name=self.settings.default_synapse, brain=self.brain)
+                self.launched_synapses = self.brain.get_synapse_by_name(synapse_name=self.settings.default_synapse)
+
+        # this boolean will notify the main process that the order have been processed
+        self.order_analyser_return = True

@@ -4,12 +4,13 @@ Kalliope provides the REST API to manage the synapses. For configuring the API r
 
 ## Synapse API
 
-| Method | URL                               | Action                          |
-|--------|-----------------------------------|---------------------------------|
-| GET    | /synapses                         | List synapses                   |
-| GET    | /synapses/<synapse_name>          | Get synapse details by name     |
-| POST   | /synapses/start/id/<synapse_name> | Run a synapse by its name       |
-| POST   | /synapses/start/order             | Run a synapse from a text order |
+| Method | URL                               | Action                             |
+|--------|-----------------------------------|------------------------------------|
+| GET    | /synapses                         | List synapses                      |
+| GET    | /synapses/<synapse_name>          | Get synapse details by name        |
+| POST   | /synapses/start/id/<synapse_name> | Run a synapse by its name          |
+| POST   | /synapses/start/order             | Run a synapse from a text order    |
+| POST   | /synapses/start/audio             | Run a synapse from an audio sample |
 
 ## Curl examples
 
@@ -176,7 +177,50 @@ Output example if the order have matched and so launched synapses:
 }
 ```
 
-If the order haven't match ny synapses:
+If the order haven't match any synapses:
+```JSON
+{
+  "error": {
+    "error": "The given order doesn't match any synapses"
+  }
+}
+```
+
+### Run a synapse from an audio file
+
+Normal response codes: 201
+Error response codes: unauthorized(401), itemNotFound(404)
+
+The audio file must use WAV or MP3 extension.
+
+Curl command:
+```bash
+curl -i --user admin:secret -X POST  http://localhost:5000/synapses/start/audio -F "file=@/home/nico/Desktop/input.wav"
+```
+
+Output example if the order inside the audio have matched and so launched synapses:
+```JSON
+{
+  "synapses": [
+    {
+      "name": "Say-hello", 
+      "neurons": [
+        {
+          "name": "say", 
+          "parameters": "{'message': ['Hello sir']}"
+        }
+      ], 
+      "signals": [
+        {
+          "order": "hello"
+        }
+      ]
+    }
+  ]
+}
+```
+
+If the order haven't match any synapses:
 ```JSON
 {
   "error": {
