@@ -1,15 +1,14 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import unittest
 import os
-import mock
 
 from kalliope.core.Models.Neuron import Neuron
-from kalliope.core.Models.Order import Order
-from kalliope.core.Models.Synapse import Synapse
 from kalliope.neurons.say.say import Say
 from kalliope.core.Utils.Utils import Utils
 
 from kalliope.core.ConfigurationManager import SettingLoader
-from kalliope.core.ConfigurationManager import BrainLoader
 
 
 class TestUtils(unittest.TestCase):
@@ -138,7 +137,6 @@ class TestUtils(unittest.TestCase):
                                    Say),
                         "Fail instantiate a class")
 
-
     def test_is_containing_bracket(self):
         #  Success
         order_to_test = "This test contains {{ bracket }}"
@@ -157,15 +155,25 @@ class TestUtils(unittest.TestCase):
         self.assertTrue(Utils.is_containing_bracket(order_to_test),
                         "Fail returning True when order contains no spaced bracket")
 
-        #  Failure
+        # Failure
         order_to_test = "This test does not contain bracket"
         self.assertFalse(Utils.is_containing_bracket(order_to_test),
                          "Fail returning False when order has no brackets")
 
-        #  Behaviour
+        # Behaviour
         order_to_test = ""
         self.assertFalse(Utils.is_containing_bracket(order_to_test),
                          "Fail returning False when no order")
+
+        # Behaviour int
+        order_to_test = 6
+        self.assertFalse(Utils.is_containing_bracket(order_to_test),
+                         "Fail returning False when an int")
+
+        # Behaviour unicode
+        order_to_test = "j'aime les goûters l'été"
+        self.assertFalse(Utils.is_containing_bracket(order_to_test),
+                         "Fail returning False when an int")
 
     def test_get_next_value_list(self):
         # Success
