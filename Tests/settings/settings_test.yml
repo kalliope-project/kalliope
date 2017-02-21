@@ -110,3 +110,10 @@ resource_directory:
   stt: "/tmp/kalliope/tests/kalliope_resources_dir/stt"
   tts: "/tmp/kalliope/tests/kalliope_resources_dir/tts"
   trigger: "/tmp/kalliope/tests/kalliope_resources_dir/trigger"
+
+# ---------------------------
+# Global files variables
+# /!\ If a variable is defined in different files, the last file defines the value.
+# ---------------------------
+var_files:
+  - "../Tests/settings/variables.yml"

@@ -138,3 +138,80 @@ class TestUtils(unittest.TestCase):
                                    Say),
                         "Fail instantiate a class")
 
+
+    def test_is_containing_bracket(self):
+        #  Success
+        order_to_test = "This test contains {{ bracket }}"
+        self.assertTrue(Utils.is_containing_bracket(order_to_test),
+                        "Fail returning True when order contains spaced brackets")
+
+        order_to_test = "This test contains {{bracket }}"
+        self.assertTrue(Utils.is_containing_bracket(order_to_test),
+                        "Fail returning True when order contains right spaced bracket")
+
+        order_to_test = "This test contains {{ bracket}}"
+        self.assertTrue(Utils.is_containing_bracket(order_to_test),
+                        "Fail returning True when order contains left spaced bracket")
+
+        order_to_test = "This test contains {{bracket}}"
+        self.assertTrue(Utils.is_containing_bracket(order_to_test),
+                        "Fail returning True when order contains no spaced bracket")
+
+        #  Failure
+        order_to_test = "This test does not contain bracket"
+        self.assertFalse(Utils.is_containing_bracket(order_to_test),
+                         "Fail returning False when order has no brackets")
+
+        #  Behaviour
+        order_to_test = ""
+        self.assertFalse(Utils.is_containing_bracket(order_to_test),
+                         "Fail returning False when no order")
+
+    def test_get_next_value_list(self):
+        # Success
+        list_to_test = {1, 2, 3}
+        self.assertEqual(Utils.get_next_value_list(list_to_test), 2,
+                         "Fail to match the expected next value from the list")
+
+        # Failure
+        list_to_test = {1}
+        self.assertEqual(Utils.get_next_value_list(list_to_test), None,
+                         "Fail to ensure there is no next value from the list")
+
+        # Behaviour
+        list_to_test = {}
+        self.assertEqual(Utils.get_next_value_list(list_to_test), None,
+                         "Fail to ensure the empty list return None value")
+
+    def test_find_all_matching_brackets(self):
+        """
+        Test the Utils find all matching brackets
+        """
+        sentence = "This is the {{bracket}}"
+        expected_result = ["{{bracket}}"]
+        self.assertEqual(Utils.find_all_matching_brackets(sentence=sentence),
+                         expected_result,
+                         "Fail to match one bracket")
+
+        sentence = "This is the {{bracket}} {{second}}"
+        expected_result = ["{{bracket}}", "{{second}}"]
+        self.assertEqual(Utils.find_all_matching_brackets(sentence=sentence),
+                         expected_result,
+                         "Fail to match two brackets")
+
+    def test_remove_spaces_in_brackets(self):
+        """
+        Test the Utils remove_spaces_in_brackets
+        """
+
+        sentence = "This is the {{ bracket   }}"
+        expected_result = "This is the {{bracket}}"
+        self.assertEqual(Utils.remove_spaces_in_brackets(sentence=sentence),
+                         expected_result,
+                         "Fail to remove spaces in one bracket")
+
+        sentence = "This is the {{ bracket   }} {{  second     }}"
+        expected_result = "This is the {{bracket}} {{second}}"
+        self.assertEqual(Utils.remove_spaces_in_brackets(sentence=sentence),
+                         expected_result,
+                         "Fail to remove spaces in two brackets")

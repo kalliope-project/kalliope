@@ -10,6 +10,10 @@ class Sleep(NeuronModule):
 
         # check parameters
         if self._is_parameters_ok():
+
+            if isinstance(self.seconds, str):
+                self.seconds = float(self.seconds)
+
             time.sleep(self.seconds)
 
     def _is_parameters_ok(self):

@@ -7,7 +7,7 @@ from kalliope.neurons.sleep.sleep import Sleep
 class TestSleep(unittest.TestCase):
 
     def setUp(self):
-        self.second="second"
+        self.seconds = 10
         self.random="random"
 
     def testParameters(self):
@@ -19,7 +19,7 @@ class TestSleep(unittest.TestCase):
         parameters = dict()
         run_test(parameters)
 
-        # missing second
+        # missing seconds
         parameters = {
             "random": self.random
         }
