@@ -571,7 +571,6 @@ class TestOrderAnalyser(unittest.TestCase):
                           expected_result,
                           "Fail to run the default synapse")
 
-
     def test_replace_global_variables(self):
         """
         Testing the _replace_global_variables function from the OrderAnalyser.
@@ -580,6 +579,7 @@ class TestOrderAnalyser(unittest.TestCase):
             - 2/ global variable with string after
             - 3/ global variable with int after
             - 4/ multiple global variables
+            - 5/ parameter value is a list
 
         """
 
@@ -650,6 +650,42 @@ class TestOrderAnalyser(unittest.TestCase):
         self.assertEquals(neuron1,
                           expected_neuron_result,
                           "Fail to assign multiple global variables to neuron")
+
+        # 5/ parameter value is a list
+        neuron1 = Neuron(name='neuron1', parameters={'var1': '[hello {{name}}, bonjour {{name}}]'})
+        variables = {
+            "name": "LaMonf",
+            "hello2": "test2",
+        }
+        st = Settings(variables=variables)
+
+        expected_neuron_result = Neuron(name='neuron1', parameters={'var1': '[hello LaMonf, bonjour LaMonf]'})
+
+        # assign global variable to neuron1
+        OrderAnalyser._replace_global_variables(neuron=neuron1,
+                                                settings=st)
+        self.assertEquals(neuron1,
+                          expected_neuron_result,
+                          "Fail to assign a single global when parameter value is a list to neuron")
+
+    def test_get_global_variable(self):
+        """
+        Test the get_global_variable of the OrderAnalyser Class
+        """
+        sentence = "i am {{name2}}"
+        variables = {
+            "name": "LaMonf",
+            "name2": "kalliope",
+        }
+        st = Settings(variables=variables)
+
+        expected_result = "i am kalliope"
+
+        self.assertEquals(OrderAnalyser._get_global_variable(sentence=sentence,
+                                                             settings=st),
+                          expected_result,
+                          "Fail to get the global variable from the sentence")
+
 
 if __name__ == '__main__':
     unittest.main()
