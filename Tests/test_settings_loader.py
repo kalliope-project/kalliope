@@ -64,7 +64,6 @@ class TestSettingLoader(unittest.TestCase):
     def tearDown(self):
         # Cleanup
         shutil.rmtree('/tmp/kalliope/tests/kalliope_resources_dir')
-        shutil.rmtree('/tmp/kalliope/tests/variables/')
 
         Singleton._instances = {}
 
