@@ -61,10 +61,6 @@ class TestSettingLoader(unittest.TestCase):
         os.makedirs("/tmp/kalliope/tests/kalliope_resources_dir/tts")
         os.makedirs("/tmp/kalliope/tests/kalliope_resources_dir/trigger")
 
-        os.makedirs("/tmp/kalliope/tests/variables/")
-        open("/tmp/kalliope/tests/variables/variables.yml", 'a').close()
-        open("/tmp/kalliope/tests/variables/variables2.yml", 'a').close()
-
     def tearDown(self):
         # Cleanup
         shutil.rmtree('/tmp/kalliope/tests/kalliope_resources_dir')

@@ -168,8 +168,9 @@ class OrderAnalyser:
                     if param_no_brackets in settings.variables:
                         logger.debug("Replacing variable %s with  %s" % (param_with_bracket,
                                                                          settings.variables[param_no_brackets]))
-                        neuron.parameters[param] = sentence_no_spaces.replace(param_with_bracket,
-                                                                                    str(settings.variables[param_no_brackets]))
+                        sentence_no_spaces = sentence_no_spaces.replace(param_with_bracket,
+                                                                        str(settings.variables[param_no_brackets]))
+                        neuron.parameters[param] = sentence_no_spaces
 
     @staticmethod
     def _start_neuron(neuron, params):

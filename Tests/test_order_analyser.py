@@ -160,7 +160,6 @@ class TestOrderAnalyser(unittest.TestCase):
             mock_start_neuron_method.assert_not_called()
             mock_start_neuron_method.reset_mock()
 
-
     def test_spelt_order_match_brain_order_via_table(self):
         order_to_test = "this is the order"
         sentence_to_test = "this is the order"
@@ -180,7 +179,6 @@ class TestOrderAnalyser(unittest.TestCase):
                         "Fail matching Upper/lower cases")
 
     def test_format_sentences_to_analyse(self):
-
         # First capital in sentence
         order_to_test = "this is the order"
         sentence_to_test = "This is the order"
@@ -218,7 +216,6 @@ class TestOrderAnalyser(unittest.TestCase):
                          "Fails formatting the sentences with random in both order and sentence")
 
     def test_get_split_order_without_bracket(self):
-
         # Success
         order_to_test = "this is the order"
         expected_result = ["this", "is", "the", "order"]
@@ -521,9 +518,9 @@ class TestOrderAnalyser(unittest.TestCase):
         """
         Test to find the good synapse to run
         Scenarii:
-            - Find the synapse
-            - No synpase found, no default synapse
-            - No synapse found, run the default synapse
+            - 1/ Find the synapse
+            - 2/ No synpase found, no default synapse
+            - 3/ No synapse found, run the default synapse
         """
         # Init
         neuron1 = Neuron(name='neurone1', parameters={'var1': 'val1'})
@@ -545,7 +542,7 @@ class TestOrderAnalyser(unittest.TestCase):
 
         br = Brain(synapses=all_synapse_list)
         st = Settings()
-        # Find synapse
+        # 1/ Find synapse
         order = "this is the sentence"
         expected_result = synapse1
         oa_tuple_list = OrderAnalyser._find_synapse_to_run(brain=br,settings=st, order=order)
@@ -555,16 +552,17 @@ class TestOrderAnalyser(unittest.TestCase):
 
         expected_result = signal1.sentence
         self.assertEquals(oa_tuple_list[0].order,
-                        expected_result,
-                        "Fail to run the proper synapse matching the order")
-        # No Default synapse
+                          expected_result,
+                          "Fail to run the proper synapse matching the order")
+
+        # 2/ No Default synapse
         order = "No default synapse"
         expected_result = []
         self.assertEquals(OrderAnalyser._find_synapse_to_run(brain=br,settings=st, order=order),
                           expected_result,
                           "Fail to run no synapse, when no default is defined")
 
-        # Default synapse
+        # 3/ Default synapse
         st = Settings(default_synapse="Synapse2")
         order = "default synapse"
         expected_result = synapse2
@@ -573,6 +571,85 @@ class TestOrderAnalyser(unittest.TestCase):
                           expected_result,
                           "Fail to run the default synapse")
 
+
+    def test_replace_global_variables(self):
+        """
+        Testing the _replace_global_variables function from the OrderAnalyser.
+        Scenarii:
+            - 1/ only one global variable
+            - 2/ global variable with string after
+            - 3/ global variable with int after
+            - 4/ multiple global variables
+
+        """
+
+        # 1/ only one global variable
+        neuron1 = Neuron(name='neuron1', parameters={'var1': '{{hello}}'})
+        variables = {
+            "hello": "test",
+            "hello2": "test2",
+        }
+        st = Settings(variables=variables)
+
+        expected_neuron_result = Neuron(name='neuron1', parameters={'var1': 'test'})
+
+        # assign global variable to neuron1
+        OrderAnalyser._replace_global_variables(neuron=neuron1,
+                                                settings=st)
+        self.assertEquals(neuron1,
+                          expected_neuron_result,
+                          "Fail to assign a single global variable to neuron")
+
+        # 2/ global variable with string after
+        neuron1 = Neuron(name='neuron1', parameters={'var1': '{{hello}} Sispheor'})
+        variables = {
+            "hello": "test",
+            "hello2": "test2",
+        }
+        st = Settings(variables=variables)
+
+        expected_neuron_result = Neuron(name='neuron1', parameters={'var1': 'test Sispheor'})
+
+        # assign global variable to neuron1
+        OrderAnalyser._replace_global_variables(neuron=neuron1,
+                                                settings=st)
+        self.assertEquals(neuron1,
+                          expected_neuron_result,
+                          "Fail to assign a global variable with string after to neuron")
+
+        # 3/ global variable with int after
+        neuron1 = Neuron(name='neuron1', parameters={'var1': '{{hello}}0'})
+        variables = {
+            "hello": 60,
+            "hello2": "test2",
+        }
+        st = Settings(variables=variables)
+
+        expected_neuron_result = Neuron(name='neuron1', parameters={'var1': '600'})
+
+        # assign global variable to neuron1
+        OrderAnalyser._replace_global_variables(neuron=neuron1,
+                                                settings=st)
+        self.assertEquals(neuron1,
+                          expected_neuron_result,
+                          "Fail to assign global variable with int after to neuron")
+
+        # 4/ multiple global variables
+        neuron1 = Neuron(name='neuron1', parameters={'var1': '{{hello}} {{me}}'})
+        variables = {
+            "hello": "hello",
+            "me": "LaMonf"
+        }
+        st = Settings(variables=variables)
+
+        expected_neuron_result = Neuron(name='neuron1', parameters={'var1': 'hello LaMonf'})
+
+        # assign global variable to neuron1
+        OrderAnalyser._replace_global_variables(neuron=neuron1,
+                                                settings=st)
+        self.assertEquals(neuron1,
+                          expected_neuron_result,
+                          "Fail to assign multiple global variables to neuron")
 
 if __name__ == '__main__':
     unittest.main()

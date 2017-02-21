@@ -295,27 +295,32 @@ resource_directory:
 The Global Variables paths list where to load the global variables.
 Those variables can be reused in neuron parameters within double brackets.
 
-E.g
+E.g 
 ```yml
 var_files:
   - variables.yml
   - variables2.yml
 ```
+/!\ If a variable is defined in different files, the last file defines the value.
 
 In the files the variables are defined by key/value:
 ```yml
 variable: 60
-variable2: "http://"
+baseURL: "http://blabla.com/"
+password: "secret"
 ```
 
 And use variables in your neurons:
+/!\ Because YAML format does no allow double braces not surrounded by quotes: you must use the variable between double quotes. 
 ```yml
   - name: "run-simple-sleep"
     signals:
       - order: "Wait for me "
     neurons:
-      - sleep:
-          seconds: {{variable}}
+      - uri:
+          url: "{{baseURL}}get/1"        
+          user: "admin"
+          password: "{{password}}"
 ```
 
 ## Next: configure the brain of Kalliope
