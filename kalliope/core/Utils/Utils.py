@@ -232,7 +232,9 @@ class Utils(object):
         # print "sentence to test %s" % sentence
         pattern = r"{{|}}"
         # prog = re.compile(pattern)
-        check_bool = re.search(pattern, str(sentence))
+        if not isinstance(sentence, unicode):
+            sentence = str(sentence)
+        check_bool = re.search(pattern, sentence)
         if check_bool is not None:
             return True
         return False
@@ -247,7 +249,9 @@ class Utils(object):
 
         pattern = r"((?:{{\s*)[\w\.]+(?:\s*}}))"
         # find everything like {{ word }}
-        return re.findall(pattern, str(sentence))
+        if not isinstance(sentence, unicode):
+            sentence = str(sentence)
+        return re.findall(pattern, sentence)
 
     @staticmethod
     def remove_spaces_in_brackets(sentence):
@@ -259,7 +263,9 @@ class Utils(object):
 
         pattern = '\s+(?=[^\{\{\}\}]*\}\})'
         # Remove white spaces (if any) between the variable and the double brace then split
-        return re.sub(pattern, '', str(sentence))
+        if not isinstance(sentence, unicode):
+            sentence = str(sentence)
+        return re.sub(pattern, '', sentence)
 
     ##################
     #
