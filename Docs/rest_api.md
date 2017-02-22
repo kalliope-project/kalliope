@@ -6,6 +6,7 @@ Kalliope provides the REST API to manage the synapses. For configuring the API r
 
 | Method | URL                               | Action                             |
 |--------|-----------------------------------|------------------------------------|
+| GET    | /                                 | Get kaliope version                |
 | GET    | /synapses                         | List synapses                      |
 | GET    | /synapses/<synapse_name>          | Get synapse details by name        |
 | POST   | /synapses/start/id/<synapse_name> | Run a synapse by its name          |
@@ -15,6 +16,21 @@ Kalliope provides the REST API to manage the synapses. For configuring the API r
 ## Curl examples
 
 >**Note:** --user is only needed if `password_protected` is True
+
+### Get Kalliope's version
+
+Normal response codes: 200
+Error response codes: unauthorized(401)
+Curl command:
+```bash
+curl -i --user admin:secret -X GET  http://localhost:5000/
+```
+Output example:
+```JSON
+{
+  "Kalliope version": "0.4.2"
+}
+```
 
 ### List synapses
 

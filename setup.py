@@ -73,11 +73,11 @@ setup(
         'requests==2.12.4',
         'httpretty==0.8.14',
         'mock==2.0.0',
-        'Flask-Testing==0.6.1',
+        'Flask-Testing>=0.6.1',
         'apscheduler==3.3.0',
         'GitPython==2.1.1',
         'packaging>=16.8',
-        'transitions>=0.4.3'
+        'transitions>=0.4.3',
     ],
 
 

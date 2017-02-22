@@ -18,6 +18,7 @@ from flask_cors import CORS, cross_origin
 from kalliope.core import OrderAnalyser
 from kalliope.core.RestAPI.utils import requires_auth
 from kalliope.core.SynapseLauncher import SynapseLauncher
+from kalliope._version import version_str
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -63,6 +64,7 @@ class FlaskAPI(threading.Thread):
             cors = CORS(app, resources={r"/*": {"origins": allowed_cors_origin}}, supports_credentials=True)
 
         # Add routing rules
+        self.app.add_url_rule('/', view_func=self.get_main_page, methods=['GET'])
         self.app.add_url_rule('/synapses', view_func=self.get_synapses, methods=['GET'])
         self.app.add_url_rule('/synapses/<synapse_name>', view_func=self.get_synapse, methods=['GET'])
         self.app.add_url_rule('/synapses/start/id/<synapse_name>', view_func=self.run_synapse_by_name, methods=['POST'])
@@ -72,6 +74,12 @@ class FlaskAPI(threading.Thread):
 
     def run(self):
         self.app.run(host='0.0.0.0', port="%s" % int(self.port), debug=True, threaded=True, use_reloader=False)
+
+    def get_main_page(self):
+        data = {
+            "Kalliope version": "%s" % version_str
+        }
+        return jsonify(data), 200
 
     @staticmethod
     def allowed_file(filename):
