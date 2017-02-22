@@ -149,48 +149,7 @@ class OrderAnalyser:
     def _start_list_neurons(cls, list_neurons, params, settings):
         # start neurons
         for neuron in list_neurons:
-            cls._replace_global_variables(neuron, settings)
             cls._start_neuron(neuron, params)
-
-    @classmethod
-    def _replace_global_variables(cls, neuron, settings):
-        """
-        Replace all the parameters with variables with the variable value.
-        :param neuron: the neuron
-        :param settings: the settings
-        """
-        for param in neuron.parameters:
-            if isinstance(neuron.parameters[param], list):
-                list_param_value = list()
-                for sentence in neuron.parameters[param]:
-                    sentence_with_global_variables = cls._get_global_variable(sentence=sentence,
-                                                                              settings=settings)
-                    list_param_value.append(sentence_with_global_variables)
-                neuron.parameters[param] = list_param_value
-
-            else:
-                if Utils.is_containing_bracket(neuron.parameters[param]):
-                    sentence_with_global_variables = cls._get_global_variable(sentence=neuron.parameters[param],
-                                                                              settings=settings)
-                    neuron.parameters[param] = sentence_with_global_variables
-
-    @staticmethod
-    def _get_global_variable(sentence, settings):
-        """
-        Get the global variable from the sentence with brackets
-        :param sentence: the sentence to check
-        :return: the global variable
-        """
-        sentence_no_spaces = Utils.remove_spaces_in_brackets(sentence=sentence)
-        list_of_bracket_params = Utils.find_all_matching_brackets(sentence=sentence_no_spaces)
-        for param_with_bracket in list_of_bracket_params:
-            param_no_brackets = param_with_bracket.replace("{{", "").replace("}}", "")
-            if param_no_brackets in settings.variables:
-                logger.debug("Replacing variable %s with  %s" % (param_with_bracket,
-                                                                 settings.variables[param_no_brackets]))
-                sentence_no_spaces = sentence_no_spaces.replace(param_with_bracket,
-                                                                str(settings.variables[param_no_brackets]))
-        return sentence_no_spaces
 
     @staticmethod
     def _start_neuron(neuron, params):
