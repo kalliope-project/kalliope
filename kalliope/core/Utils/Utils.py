@@ -101,7 +101,6 @@ class Utils(object):
         :param resources_dir: the resource directory to check for external resources
         :return:
         """
-        logger.debug("Run plugin %s with parameter %s" % (module_name, parameters))
         package_path = "kalliope." + package_name + "." + module_name.lower() + "." + module_name.lower()
         if resources_dir is not None:
             neuron_resource_path = resources_dir + os.sep + module_name.lower() \
