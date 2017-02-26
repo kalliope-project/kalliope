@@ -2,22 +2,7 @@
 
 A neuron is a plugin that performs a specific action. You use it to create a synapse.
 You can add as many neurons as you want to a synapse. The neurons are executed one by one when the input order is triggered.
-
-## Installation
-
-Core neurons are already packaged with the installation of kalliope an can be used out of the box. Community neuron need to be installed manually.
-
-Use the CLI
-```bash
-kalliope install --git-url <git_url>
-```
-
-E.g:
-```bash
-kalliope install --git-url https://github.com/kalliope-project/kalliope_neuron_wikipedia.git
-```
-
-You may be prompted to type your `sudo` password during the process. You can see the list of [available neuron here](neuron_list.md)
+If you want to install a community neuron, see the [neuron list documentation](neuron_list.md).
 
 ## Usage
 Neurons are declared in the `neurons` section of a synapse in your brain file.

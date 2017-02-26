@@ -54,8 +54,7 @@ class ResourcesManager(object):
         self.git_url = kwargs.get('git_url', None)
 
         # temp path where we install the new module
-        self.tmp_path = tempfile.gettempdir() + "/kalliope/resources/" +\
-                TMP_GIT_FOLDER
+        self.tmp_path = tempfile.gettempdir() + "/kalliope/resources/" + TMP_GIT_FOLDER
         self.dna_file_path = self.tmp_path + os.sep + DNA_FILE_NAME
         self.install_file_path = self.tmp_path + os.sep + INSTALL_FILE_NAME
         self.dna = None
@@ -103,6 +102,39 @@ class ResourcesManager(object):
                     logger.debug("[ResourcesManager] installation cancelled, deleting temp repo %s"
                                  % str(self.tmp_path))
                     shutil.rmtree(self.tmp_path)
+
+    def uninstall(self, neuron_name=None, tts_name=None, stt_name=None, trigger_name=None):
+        """
+        Uninstall a community resource
+        """
+        target_path_to_delete = None
+        module_name = ""
+        if neuron_name is not None:
+            target_path_to_delete = self._get_target_folder(resources=self.settings.resources,
+                                                            module_type="neuron")
+            module_name = neuron_name
+        if tts_name is not None:
+            target_path_to_delete = self._get_target_folder(resources=self.settings.resources,
+                                                            module_type="neuron")
+            module_name = tts_name
+        if stt_name is not None:
+            target_path_to_delete = self._get_target_folder(resources=self.settings.resources,
+                                                            module_type="neuron")
+            module_name = stt_name
+        if trigger_name is not None:
+            target_path_to_delete = self._get_target_folder(resources=self.settings.resources,
+                                                            module_type="neuron")
+            module_name = trigger_name
+
+        if target_path_to_delete is not None:
+            try:
+                shutil.rmtree(target_path_to_delete + os.sep + module_name)
+                Utils.print_success("Module %s deleted" % module_name)
+            except shutil.Error:
+                Utils.print_warning("The module %s doest not exist in the path %s" % (module_name, target_path_to_delete))
+            except OSError:
+                Utils.print_warning(
+                    "The module %s doest not exist in the path %s" % (module_name, target_path_to_delete))
 
     @staticmethod
     def is_settings_ok(resources, dna):
@@ -169,23 +201,28 @@ class ResourcesManager(object):
         Return the folder from the resources and given a module type
         :param resources: Resource object
         :type resources: Resources
-        :param module_type: type of the module
+        :param module_type: type of the module (TYPE_NEURON, TYPE_STT, TYPE_TTS, TYPE_TRIGGER)
         :return: path of the folder
         """
+        module_type_converter = dict()
         # dict to get the path behind a type of resource
-        module_type_converter = {
-            TYPE_NEURON: resources.neuron_folder,
-            TYPE_STT: resources.stt_folder,
-            TYPE_TTS: resources.tts_folder,
-            TYPE_TRIGGER: resources.trigger_folder
-        }
+        try:
+            module_type_converter = {
+                TYPE_NEURON: resources.neuron_folder,
+                TYPE_STT: resources.stt_folder,
+                TYPE_TTS: resources.tts_folder,
+                TYPE_TRIGGER: resources.trigger_folder
+            }
+        except AttributeError:
+            # will be raised if the resource folder is not set in settings
+            pass
         # Let's find the right path depending of the type
         try:
             folder_path = module_type_converter[module_type]
         except KeyError:
             folder_path = None
         # No folder_path has been found
-        message = "No %s folder set in settings, cannot install." % module_type
+        message = "No %s folder set in settings." % module_type
         if folder_path is None:
             logger.debug(message)
             Utils.print_danger(message)
