@@ -12,7 +12,8 @@ class Bing(SpeechRecognition):
         :param callback: The callback function to call to send the text
         :param kwargs:
         """
-        SpeechRecognition.__init__(self)
+        # give the audio file path to process directly to the mother class if exist
+        SpeechRecognition.__init__(self, kwargs.get('audio_file_path', None))
 
         # callback function to call after the translation speech/tex
         self.main_controller_callback = callback
@@ -22,7 +23,8 @@ class Bing(SpeechRecognition):
 
         # start listening in the background
         self.set_callback(self.bing_callback)
-        self.start_listening()
+        # start processing, record a sample from the microphone if no audio file path provided, else read the file
+        self.start_processing()
 
     def bing_callback(self, recognizer, audio):
         """
