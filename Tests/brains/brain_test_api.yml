@@ -14,3 +14,6 @@
       - say:
           message:
             - "test message"
+  
+  - includes:
+    - included_brain_test.yml
