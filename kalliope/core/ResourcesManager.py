@@ -128,13 +128,13 @@ class ResourcesManager(object):
 
         if target_path_to_delete is not None:
             try:
-                shutil.rmtree(target_path_to_delete + os.sep + module_name)
-                Utils.print_success("Module %s deleted" % module_name)
+                shutil.rmtree(target_path_to_delete + os.sep + module_name.lower())
+                Utils.print_success("Module %s deleted" % module_name.lower())
             except shutil.Error:
-                Utils.print_warning("The module %s doest not exist in the path %s" % (module_name, target_path_to_delete))
+                Utils.print_warning("The module %s doest not exist in the path %s" % (module_name.lower(), target_path_to_delete))
             except OSError:
                 Utils.print_warning(
-                    "The module %s doest not exist in the path %s" % (module_name, target_path_to_delete))
+                    "The module %s doest not exist in the path %s" % (module_name.lower(), target_path_to_delete))
 
     @staticmethod
     def is_settings_ok(resources, dna):
