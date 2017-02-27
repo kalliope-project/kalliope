@@ -95,8 +95,10 @@ class ResourcesManager(object):
                             # if the target_path exists, then run the install file within the new repository
                             if target_path is not None:
                                 self.install_file_path = target_path + os.sep + INSTALL_FILE_NAME
-                                self.run_ansible_playbook_module(install_file_path=self.install_file_path)
-                                Utils.print_success("Module: %s installed" % module_name)
+                                if self.run_ansible_playbook_module(install_file_path=self.install_file_path):
+                                    Utils.print_success("Module: %s installed" % module_name)
+                                else:
+                                    Utils.print_danger("Module: %s not installed" % module_name)
                 else:
                     logger.debug("[ResourcesManager] installation cancelled, deleting temp repo %s"
                                  % str(self.tmp_path))
@@ -218,7 +220,7 @@ class ResourcesManager(object):
         try:
             shutil.move(tmp_path, new_absolute_neuron_path)
             return new_absolute_neuron_path
-        except OSError:
+        except shutil.Error:
             # the folder already exist
             Utils.print_warning("The module %s already exist in the path %s" % (name, target_folder))
             # remove the cloned repo
@@ -237,14 +239,19 @@ class ResourcesManager(object):
         Utils.print_info("Starting neuron installation")
         # ask the sudo password
         pswd = getpass.getpass('Sudo password:')
-        ansible_neuron_parameters = {
-            "task_file": install_file_path,
-            "sudo": True,
-            "sudo_user": "root",
-            "sudo_password": pswd
-        }
-        neuron = Neuron(name="ansible_playbook", parameters=ansible_neuron_parameters)
-        NeuronLauncher.start_neuron(neuron)
+        if not pswd or pswd == "":
+            Utils.print_warning("You must enter a sudo password")
+            return False
+        else:
+            ansible_neuron_parameters = {
+                "task_file": install_file_path,
+                "sudo": True,
+                "sudo_user": "root",
+                "sudo_password": pswd
+            }
+            neuron = Neuron(name="ansible_playbook", parameters=ansible_neuron_parameters)
+            NeuronLauncher.start_neuron(neuron)
+            return True
 
     @staticmethod
     def _check_supported_version(current_version, supported_versions):
