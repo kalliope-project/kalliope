@@ -23,6 +23,7 @@ A neuron is a module that will perform some actions attached to an order. You ca
 | [facebook](https://github.com/kalliope-project/kalliope_neuron_facebook)             | Post and Read message on Facebook                                                        |
 | [gmail_checker](https://github.com/kalliope-project/kalliope_neuron_gmail)           | Get the number of unread email and their subjects from a gmail account             |
 | [google agenda](https://github.com/bacardi55/kalliope-google-calendar)               | Get your next meetings on google calendar                                               |
+| [google maps](https://github.com/bacardi55/kalliope-gmaps)                           | Get address / distance / time / directions from Google maps |
 | [hue](https://github.com/kalliope-project/kalliope_neuron_hue)                       | Control the Philips Hue lighting system  |
 | [list available orders](https://github.com/bacardi55/kalliope-list-available-orders) | Let kalliope tell you what she how she can help                                         |
 | [MPD](https://github.com/bacardi55/kalliope-mpd)                                     | Play music via an MPD server                                                            |

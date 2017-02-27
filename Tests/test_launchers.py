@@ -6,6 +6,7 @@ from kalliope.core.NeuronLauncher import NeuronLauncher
 from kalliope.core.SynapseLauncher import SynapseLauncher, SynapseNameNotFound
 from kalliope.core.TriggerLauncher import TriggerLauncher
 from kalliope.core.ConfigurationManager import SettingLoader
+from kalliope.core.Models.Settings import Settings
 
 from kalliope.core.Models.Trigger import Trigger
 from kalliope.core.Models.Neuron import Neuron
@@ -136,3 +137,117 @@ class TestLaunchers(unittest.TestCase):
                                                                  resources_dir=sl.settings.resources.neuron_folder)
             mock_get_class_instantiation.reset_mock()
 
+    def test_replace_global_variables(self):
+        """
+        Testing the _replace_global_variables function from the NeuronLauncher.
+        Scenarii:
+            - 1/ only one global variable
+            - 2/ global variable with string after
+            - 3/ global variable with int after
+            - 4/ multiple global variables
+            - 5/ parameter value is a list
+
+        """
+
+        # 1/ only one global variable
+        neuron1 = Neuron(name='neuron1', parameters={'var1': '{{hello}}'})
+        variables = {
+            "hello": "test",
+            "hello2": "test2",
+        }
+        st = Settings(variables=variables)
+
+        expected_neuron_result = Neuron(name='neuron1', parameters={'var1': 'test'})
+
+        # assign global variable to neuron1
+        NeuronLauncher._replace_global_variables(neuron=neuron1,
+                                                settings=st)
+        self.assertEquals(neuron1,
+                          expected_neuron_result,
+                          "Fail to assign a single global variable to neuron")
+
+        # 2/ global variable with string after
+        neuron1 = Neuron(name='neuron1', parameters={'var1': '{{hello}} Sispheor'})
+        variables = {
+            "hello": "test",
+            "hello2": "test2",
+        }
+        st = Settings(variables=variables)
+
+        expected_neuron_result = Neuron(name='neuron1', parameters={'var1': 'test Sispheor'})
+
+        # assign global variable to neuron1
+        NeuronLauncher._replace_global_variables(neuron=neuron1,
+                                                settings=st)
+        self.assertEquals(neuron1,
+                          expected_neuron_result,
+                          "Fail to assign a global variable with string after to neuron")
+
+        # 3/ global variable with int after
+        neuron1 = Neuron(name='neuron1', parameters={'var1': '{{hello}}0'})
+        variables = {
+            "hello": 60,
+            "hello2": "test2",
+        }
+        st = Settings(variables=variables)
+
+        expected_neuron_result = Neuron(name='neuron1', parameters={'var1': '600'})
+
+        # assign global variable to neuron1
+        NeuronLauncher._replace_global_variables(neuron=neuron1,
+                                                settings=st)
+        self.assertEquals(neuron1,
+                          expected_neuron_result,
+                          "Fail to assign global variable with int after to neuron")
+
+        # 4/ multiple global variables
+        neuron1 = Neuron(name='neuron1', parameters={'var1': '{{hello}} {{me}}'})
+        variables = {
+            "hello": "hello",
+            "me": "LaMonf"
+        }
+        st = Settings(variables=variables)
+
+        expected_neuron_result = Neuron(name='neuron1', parameters={'var1': 'hello LaMonf'})
+
+        # assign global variable to neuron1
+        NeuronLauncher._replace_global_variables(neuron=neuron1,
+                                                settings=st)
+        self.assertEquals(neuron1,
+                          expected_neuron_result,
+                          "Fail to assign multiple global variables to neuron")
+
+        # 5/ parameter value is a list
+        neuron1 = Neuron(name='neuron1', parameters={'var1': '[hello {{name}}, bonjour {{name}}]'})
+        variables = {
+            "name": "LaMonf",
+            "hello2": "test2",
+        }
+        st = Settings(variables=variables)
+
+        expected_neuron_result = Neuron(name='neuron1', parameters={'var1': '[hello LaMonf, bonjour LaMonf]'})
+
+        # assign global variable to neuron1
+        NeuronLauncher._replace_global_variables(neuron=neuron1,
+                                                settings=st)
+        self.assertEquals(neuron1,
+                          expected_neuron_result,
+                          "Fail to assign a single global when parameter value is a list to neuron")
+
+    def test_get_global_variable(self):
+        """
+        Test the get_global_variable of the OrderAnalyser Class
+        """
+        sentence = "i am {{name2}}"
+        variables = {
+            "name": "LaMonf",
+            "name2": "kalliope",
+        }
+        st = Settings(variables=variables)
+
+        expected_result = "i am kalliope"
+
+        self.assertEquals(NeuronLauncher._get_global_variable(sentence=sentence,
+                                                             settings=st),
+                          expected_result,
+                          "Fail to get the global variable from the sentence")
