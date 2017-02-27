@@ -17,7 +17,6 @@ class TestNeuronModule(unittest.TestCase):
         neuron.name = neuron_name
         neuron.parameters = neuron_parameters
 
-        print neuron.__str__()
         expected_result = "Neuron: name: test, parameters: {'password': '*****', 'parameter': 'test'}"
 
         self.assertEqual(neuron.__str__(), expected_result)
@@ -33,7 +32,6 @@ class TestNeuronModule(unittest.TestCase):
         neuron.name = neuron_name
         neuron.parameters = neuron_parameters
 
-        print neuron.__str__()
         expected_result = "Neuron: name: test, parameters: {'parameter': 'test', 'password_parameter': '*****'}"
 
         self.assertEqual(neuron.__str__(), expected_result)
