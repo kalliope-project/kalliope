@@ -12,7 +12,7 @@ logger = logging.getLogger("kalliope")
 
 class SpeechRecognition(Thread):
 
-    def __init__(self):
+    def __init__(self, audio_file=None):
         """
         Thread used to caught n audio from the microphone and pass it to a callback method
         """
@@ -22,22 +22,33 @@ class SpeechRecognition(Thread):
         self.callback = None
         self.stop_thread = None
         self.kill_yourself = False
-        with self.microphone as source:
-            # we only need to calibrate once, before we start listening
-            self.recognizer.adjust_for_ambient_noise(source)
+        self.audio_stream = None
+
+        if audio_file is None:
+            # audio file not set, we need to capture a sample from the microphone
+            with self.microphone as source:
+                # we only need to calibrate once, before we start listening
+                self.recognizer.adjust_for_ambient_noise(source)
+        else:
+            # audio file provided
+            with sr.AudioFile(audio_file) as source:
+                self.audio_stream = self.recognizer.record(source)  # read the entire audio file
 
     def run(self):
         """
         Start the thread that listen the microphone and then give the audio to the callback method
         """
-        Utils.print_info("Say something!")
-        self.stop_thread = self.recognizer.listen_in_background(self.microphone, self.callback)
-        while not self.kill_yourself:
-            sleep(0.1)
-        logger.debug("kill the speech recognition process")
-        self.stop_thread()
+        if self.audio_stream is None:
+            Utils.print_info("Say something!")
+            self.stop_thread = self.recognizer.listen_in_background(self.microphone, self.callback)
+            while not self.kill_yourself:
+                sleep(0.1)
+            logger.debug("kill the speech recognition process")
+            self.stop_thread()
+        else:
+            self.callback(self.recognizer, self.audio_stream)
 
-    def start_listening(self):
+    def start_processing(self):
         """
         A method to start the thread
         """

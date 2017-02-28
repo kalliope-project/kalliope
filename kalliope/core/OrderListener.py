@@ -19,7 +19,7 @@ class OrderListener(Thread):
         starting to listen the incoming order. Basically it avoids delays.
     """
 
-    def __init__(self, callback=None, stt=None):
+    def __init__(self, callback=None, stt=None, audio_file_path=None):
         """
         This class is called after we catch the hotword that has woken up Kalliope.
         We now wait for an order spoken out loud by the user, translate the order into a text and run the action
@@ -42,6 +42,7 @@ class OrderListener(Thread):
         sl = SettingLoader()
         self.settings = sl.settings
         self.stt_instance = None
+        self.audio_file_path = audio_file_path
 
     def run(self):
         """
@@ -56,6 +57,9 @@ class OrderListener(Thread):
         for stt_object in self.settings.stts:
             if stt_object.name == self.stt_module_name:
                 stt_object.parameters["callback"] = self.callback
+                # add the audio file path to the list of parameter if set
+                if self.audio_file_path is not None:
+                    stt_object.parameters["audio_file_path"] = self.audio_file_path
 
                 stt_folder = None
                 if self.settings.resources:

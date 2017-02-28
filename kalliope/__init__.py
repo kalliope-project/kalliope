@@ -34,7 +34,7 @@ def signal_handler(signal, frame):
     sys.exit(0)
 
 # actions available
-ACTION_LIST = ["start", "gui", "install"]
+ACTION_LIST = ["start", "gui", "install", "uninstall"]
 
 
 def main():
@@ -42,7 +42,7 @@ def main():
 
     # create arguments
     parser = argparse.ArgumentParser(description='Kalliope')
-    parser.add_argument("action", help="[start|gui|install]")
+    parser.add_argument("action", help="[start|gui|install|uninstall]")
     parser.add_argument("--run-synapse",
                         help="Name of a synapse to load surrounded by quote")
     parser.add_argument("--run-order", help="order surrounded by a quote")
@@ -50,6 +50,10 @@ def main():
     parser.add_argument("--debug", action='store_true',
                         help="Show debug output")
     parser.add_argument("--git-url", help="Git URL of the neuron to install")
+    parser.add_argument("--neuron-name", help="Neuron name to uninstall")
+    parser.add_argument("--stt-name", help="STT name to uninstall")
+    parser.add_argument("--tts-name", help="TTS name to uninstall")
+    parser.add_argument("--trigger-name", help="Trigger name to uninstall")
     parser.add_argument('-v', '--version', action='version',
                         version='Kalliope ' + version_str)
 
@@ -89,6 +93,17 @@ def main():
             }
             res_manager = ResourcesManager(**parameters)
             res_manager.install()
+        return
+
+    # uninstall modules
+    if args.action == "uninstall":
+        if not args.neuron_name and not args.stt_name and not args.tts_name and not args.trigger_name:
+            Utils.print_danger("You must specify a module name with --neuron-name or --stt-name or --tts-name "
+                               "or --trigger-name")
+        else:
+            res_manager = ResourcesManager()
+            res_manager.uninstall(neuron_name=args.neuron_name, stt_name=args.stt_name,
+                                  tts_name=args.tts_name, trigger_name=args.trigger_name)
         return
 
     # load the brain once
