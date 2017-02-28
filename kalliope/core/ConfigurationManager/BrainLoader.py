@@ -4,6 +4,7 @@ import os
 
 from YAMLLoader import YAMLLoader
 from kalliope.core.Utils import Utils
+from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.Brain import Brain
@@ -29,6 +30,9 @@ class BrainLoader(object):
     __metaclass__ = Singleton
 
     def __init__(self, file_path=None):
+        sl = SettingLoader()
+        self.settings = sl.settings
+
         self.file_path = file_path
         if self.file_path is None:  # we don't provide a file path, so search for the default one
             self.file_path = Utils.get_real_file_path(FILE_NAME)
@@ -85,7 +89,7 @@ class BrainLoader(object):
                 if ConfigurationChecker().check_synape_dict(synapses_dict):
                     # print "synapses_dict ok"
                     name = synapses_dict["name"]
-                    neurons = self._get_neurons(synapses_dict["neurons"])
+                    neurons = self._get_neurons(synapses_dict["neurons"], self.settings)
                     signals = self._get_signals(synapses_dict["signals"])
                     new_synapse = Synapse(name=name, neurons=neurons, signals=signals)
                     synapses.append(new_synapse)
@@ -100,13 +104,14 @@ class BrainLoader(object):
 
         return brain
 
-    @staticmethod
-    def _get_neurons(neurons_dict):
+    @classmethod
+    def _get_neurons(cls, neurons_dict, settings):
         """
         Get a list of Neuron object from a neuron dict
 
         :param neurons_dict: Neuron name or dictionary of Neuron_name/Neuron_parameters
         :type neurons_dict: String or dict
+        :param settings:  The Settings with the global variables
         :return: A list of Neurons
         :rtype: List
 
@@ -127,7 +132,11 @@ class BrainLoader(object):
 
                         name = neuron_name
                         parameters = neuron_dict[name]
-                        # print parameters
+
+                        # Update brackets
+                        parameters = cls._replace_global_variables(parameters=parameters,
+                                                                   settings=settings)
+
                         new_neuron = Neuron(name=name, parameters=parameters)
                         neurons.append(new_neuron)
             else:
@@ -235,3 +244,45 @@ class BrainLoader(object):
 
         return Event(year=year, month=month, day=day, week=week,
                      day_of_week=day_of_week, hour=hour, minute=minute, second=second)
+
+    @classmethod
+    def _replace_global_variables(cls, parameters, settings):
+        """
+        Replace all the parameters with variables with the variable value.
+        :param parameters: the parameters dict with brackets
+        :param settings: the settings
+        :return: the parameter dict
+        """
+        for param in parameters:
+            if isinstance(parameters[param], list):
+                list_param_value = list()
+                for sentence in parameters[param]:
+                    sentence_with_global_variables = cls._get_global_variable(sentence=sentence,
+                                                                              settings=settings)
+                    list_param_value.append(sentence_with_global_variables)
+                parameters[param] = list_param_value
+
+            else:
+                if Utils.is_containing_bracket(parameters[param]):
+                    sentence_with_global_variables = cls._get_global_variable(sentence=parameters[param],
+                                                                              settings=settings)
+                    parameters[param] = sentence_with_global_variables
+        return parameters
+
+    @staticmethod
+    def _get_global_variable(sentence, settings):
+        """
+        Get the global variable from the sentence with brackets
+        :param sentence: the sentence to check
+        :return: the global variable
+        """
+        sentence_no_spaces = Utils.remove_spaces_in_brackets(sentence=sentence)
+        list_of_bracket_params = Utils.find_all_matching_brackets(sentence=sentence_no_spaces)
+        for param_with_bracket in list_of_bracket_params:
+            param_no_brackets = param_with_bracket.replace("{{", "").replace("}}", "")
+            if param_no_brackets in settings.variables:
+                logger.debug("Replacing variable %s with  %s" % (param_with_bracket,
+                                                                 settings.variables[param_no_brackets]))
+                sentence_no_spaces = sentence_no_spaces.replace(param_with_bracket,
+                                                                str(settings.variables[param_no_brackets]))
+        return sentence_no_spaces
