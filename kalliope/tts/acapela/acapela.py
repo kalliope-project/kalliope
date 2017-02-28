@@ -7,7 +7,7 @@ import logging
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
-TTS_URL = "http://www.acapela-group.com/demo-tts/DemoHTML5Form_V2_fr.php"
+TTS_URL = "http://dmbx.acapela-group.com/DemoHTML5Form_V2_fr.php"
 TTS_CONTENT_TYPE = "audio/mpeg"
 TTS_TIMEOUT_SEC = 30
 
@@ -80,6 +80,7 @@ class Acapela(TTSModule):
             "MySelectedVoice": self.voice,
             "MyTextForTTS": self.words,
             "t": "1",
+            "agreeterms": "on",
             "SendToVaaS": ""
         }
 
