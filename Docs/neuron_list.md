@@ -35,6 +35,7 @@ A neuron is a module that will perform some actions attached to an order. You ca
 | [slack](https://github.com/kalliope-project/kalliope_neuron_slack)                   | Post and Read message on Slack                                                          |
 | [system_status](https://github.com/bacardi55/kalliope-system-status)                 | Get info about the system (cpu, memory, …                                                               |
 | [tasker](https://github.com/kalliope-project/kalliope_neuron_tasker)                 | Send a message to Android tasker app                                                    |
+| [todotxt](https://github.com/bacardi55/kalliope-todotxt)                             | Manage a todolist via Kalliope                                                    |
 | [twitter](https://github.com/kalliope-project/kalliope_neuron_twitter)               | Send a Twit from kalliope                                                               |
 | [wake_on_lan](https://github.com/kalliope-project/kalliope_neuron_wake_on_lan)       | Wake on lan a computer                                                                  |
 | [web scraper](https://github.com/bacardi55/kalliope-web-scraper)                     | Read web pages that don't provide RSS feed or APIs (by scraping html)                   |                            |
