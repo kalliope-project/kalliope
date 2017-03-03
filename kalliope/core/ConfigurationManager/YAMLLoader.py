@@ -14,6 +14,13 @@ class YAMLFileNotFound(Exception):
     pass
 
 
+class YAMLFileEmpty(Exception):
+    """
+    YAML file empty
+    """
+    pass
+
+
 class YAMLLoader:
     """
     Simple Class to Verify / Load a YAML file.
@@ -67,6 +74,8 @@ class IncludeImport(object):
         # load the yaml file
         self.data = yaml.load(open(file_path, 'r'))
 
+        if self.data is None:
+            raise YAMLFileEmpty("File %s is empty" % file_path)
         # add included brain
         if isinstance(self.data, list):
             for el in self.data:
