@@ -209,7 +209,8 @@ class NeuronModule(object):
             oa = OrderAnalyser(order=order, brain=self.brain)
             oa.start(synapses_to_run=list_to_run, external_order=order_template)
         else:
-            logger.debug("[NeuronModule]-> run_synapse_by_name_with_order, the synapse has not been found : %s" % synapse_name)
+            logger.debug("[NeuronModule]-> run_synapse_by_name_with_order, the synapse has not been found : %s"
+                         % synapse_name)
         return synapse_to_run is not None
 
     @staticmethod
@@ -245,6 +246,9 @@ class NeuronModule(object):
         ol = OrderListener(callback=callback)
         ol.start()
         ol.join()
+        # wait that the STT engine has finish his job (or the neurotransmitter neuron will be killed)
+        if ol.stt_instance is not None:
+            ol.stt_instance.join()
 
     def get_neuron_name(self):
         """

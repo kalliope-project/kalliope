@@ -133,8 +133,8 @@ class BrainLoader(object):
                         name = neuron_name
                         parameters = neuron_dict[name]
 
-                        # Update brackets
-                        parameters = cls._replace_global_variables(parameters=parameters,
+                        # Update brackets with the global parameter if exist
+                        parameters = cls._replace_global_variables(parameter=parameters,
                                                                    settings=settings)
 
                         new_neuron = Neuron(name=name, parameters=parameters)
@@ -246,28 +246,32 @@ class BrainLoader(object):
                      day_of_week=day_of_week, hour=hour, minute=minute, second=second)
 
     @classmethod
-    def _replace_global_variables(cls, parameters, settings):
+    def _replace_global_variables(cls, parameter, settings):
         """
-        Replace all the parameters with variables with the variable value.
-        :param parameters: the parameters dict with brackets
+        replace a parameter that contains bracket by the instantiated parameter from the var file
+        This function will call itself multiple time to handle different level of parameter in a neuron
+
+        :param parameter: the parameter to update. can be a dict, a list or a string
         :param settings: the settings
         :return: the parameter dict
         """
-        for param in parameters:
-            if isinstance(parameters[param], list):
-                list_param_value = list()
-                for sentence in parameters[param]:
-                    sentence_with_global_variables = cls._get_global_variable(sentence=sentence,
-                                                                              settings=settings)
-                    list_param_value.append(sentence_with_global_variables)
-                parameters[param] = list_param_value
 
-            else:
-                if Utils.is_containing_bracket(parameters[param]):
-                    sentence_with_global_variables = cls._get_global_variable(sentence=parameters[param],
-                                                                              settings=settings)
-                    parameters[param] = sentence_with_global_variables
-        return parameters
+        if isinstance(parameter, dict):
+            # print "parameter is dict %s" % str(parameter)
+            for key, value in parameter.iteritems():
+                parameter[key] = cls._replace_global_variables(value, settings=settings)
+            return parameter
+        if isinstance(parameter, list):
+            # print "parameter is list %s" % str(parameter)
+            new_parameter_list = list()
+            for el in parameter:
+                new_parameter_list.append(cls._replace_global_variables(el, settings=settings))
+            return new_parameter_list
+        if isinstance(parameter, str) or isinstance(parameter, unicode):
+            # print "parameter is string %s" % parameter
+            if Utils.is_containing_bracket(parameter):
+                return cls._get_global_variable(sentence=parameter, settings=settings)
+            return parameter
 
     @staticmethod
     def _get_global_variable(sentence, settings):
