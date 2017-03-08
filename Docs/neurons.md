@@ -156,10 +156,10 @@ neurons:
   - say:
     message:
       - "My name is Kalliope"
-    tts: "voxygen"
+    tts: "acapela"
 ```
 
-Here, the first neuron will use the default tts as set in the settings.yml file. The second neuron will use the tts "voxygen".
+Here, the first neuron will use the default tts as set in the settings.yml file. The second neuron will use the tts "acapela".
 
 >**Note:** The TTS must has been configured with its required parameters in the settings.yml file. See [TTS documentation](tts.md).
 

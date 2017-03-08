@@ -104,8 +104,8 @@ E.g
 text_to_speech:
   - pico2wave:
       language: "fr-FR"
-  - voxygen:
-      voice: "michel"
+  - googletts:
+      language: "fr"
 ```
 
 Some arguments are required, some other optional, please refer to the [TTS documentation](tts.md) to know available parameters for each supported TTS.

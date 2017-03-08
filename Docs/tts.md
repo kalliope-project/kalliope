@@ -75,9 +75,6 @@ text_to_speech:
   - pico2wave:
       language: "fr-FR"
       cache: True
-  - voxygen:
-      voice: "Agnes"
-      cache: True
   - acapela:
       language: "sonid15"
       voice: "Manon"

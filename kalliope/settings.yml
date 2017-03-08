@@ -56,13 +56,13 @@ cache_path: "/tmp/kalliope_tts_cache"
 # Text to Spreech engines configuration
 # Available engine are:
 # - pico2wave
-# - voxygen
+# - acapela
+# - pico2wave
+# - googletts
+# - voicerss
 text_to_speech:
   - pico2wave:
       language: "fr-FR"
-      cache: True
-  - voxygen:
-      voice: "Agnes"
       cache: True
   - acapela:
       language: "sonid15"
