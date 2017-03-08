@@ -1,3 +1,18 @@
+v0.4.3 / 2017-03-11
+===================
+- Update Documentation
+- Improve API + manage incoming audio
+- Fix bug maximum recursion
+- Disable REST API by default 
+- Add command line run-order to start a synapse
+- Run default synapse if STT engine do not return an order
+- Manage global variables
+- Remove password from log
+- cli command to delete a neuron
+- Fix neurotransmitter
+- Fix Acapela TTS
+- Remove Voxygen TTS (not working anymore)
+
 v0.4.2 / 2017-01-18
 ===================
 - fix community neuron installation
