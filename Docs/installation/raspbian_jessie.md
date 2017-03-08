@@ -153,3 +153,5 @@ Check the [official documentation](https://www.raspberrypi.org/documentation/con
 ```bash
 sudo raspi-config
 ```
+
+Then, follow the [main installation documentation](../installation.md).

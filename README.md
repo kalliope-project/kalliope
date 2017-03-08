@@ -46,12 +46,12 @@ Once installed, you can start learning basics of Kalliope from a [quick start co
 | [Settings](Docs/settings.md)       | The main Kalliope configuration                                                             |
 | [Brain](Docs/brain.md)             | What is the brain and how to create your own bot                                            |
 | [neuron](Docs/neurons.md)          | What is a neuron and how to use it                                                          |
-| [neuron list](Docs/neuron_list.md) | List of availlable neurons                                                                  |
+| [neuron list](Docs/neuron_list.md) | List of available neurons                                                                   |
 | [CLI](Docs/kalliope_cli.md)        | How to use Kalliope from the command line interface                                         |
 | [Signals](Docs/signals.md)         | Signals are input event that can wake up kalliope (spoken order, scheduled event, REST API) |
 | [STT](Docs/stt.md)                 | Speech to text configuration                                                                |
 | [TTS](Docs/tts.md)                 | Text to speech configuration                                                                |
-| [Triggers](Docs/trigger.md)        | Magic hotword engine used to make Kalliope listtening for an order                          |
+| [Triggers](Docs/trigger.md)        | Magic hotword engine used to make Kalliope listening for an order                           |
 | [REST API](Docs/rest_api.md)       | Integrated REST API. Can be used to send an order                                           |
 
 ## Contributing

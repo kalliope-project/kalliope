@@ -13,3 +13,5 @@ Let's install the last release of python-pip
 wget https://bootstrap.pypa.io/get-pip.py
 sudo python get-pip.py
 ```
+
+Then, follow the [main installation documentation](../installation.md).
