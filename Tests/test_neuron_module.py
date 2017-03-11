@@ -36,7 +36,8 @@ class TestNeuronModule(unittest.TestCase):
             with mock.patch("kalliope.core.OrderListener.join") as mock_orderListener_join:
                 def callback():
                     pass
-                NeuronModule.get_audio_from_stt(callback=callback())
+
+                self.neuron_module_test.get_audio_from_stt(callback=callback())
                 mock_orderListener_start.assert_called_once_with()
                 mock_orderListener_start.reset_mock()
 

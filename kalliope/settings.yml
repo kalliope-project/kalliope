@@ -56,13 +56,13 @@ cache_path: "/tmp/kalliope_tts_cache"
 # Text to Spreech engines configuration
 # Available engine are:
 # - pico2wave
-# - voxygen
+# - acapela
+# - pico2wave
+# - googletts
+# - voicerss
 text_to_speech:
   - pico2wave:
       language: "fr-FR"
-      cache: True
-  - voxygen:
-      voice: "Agnes"
       cache: True
   - acapela:
       language: "sonid15"
@@ -126,7 +126,7 @@ on_ready_sounds:
 # Rest API
 # ---------------------------
 rest_api:
-  active: True
+  active: False
   port: 5000
   password_protected: True
   login: admin
@@ -137,7 +137,7 @@ rest_api:
 # Default Synapse
 # ---------------------------
 # Specify an optional default synapse response in case your order is not found.
-default_synapse: "Default-synapse"
+default_synapse: "default-synapse"
 
 # ---------------------------
 # Resource directory path
@@ -153,3 +153,12 @@ default_synapse: "Default-synapse"
 #  stt: "resources/stt"
 #  tts: "resources/tts"
 #  trigger: "resources/trigger"
+
+
+# ---------------------------
+# Global files variables
+# /!\ If a variable is defined in different files, the last file defines the value.
+# ---------------------------
+#var_files:
+#  - variables.yml
+#  - variables2.yml

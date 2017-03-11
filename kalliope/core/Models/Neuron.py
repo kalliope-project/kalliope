@@ -22,7 +22,21 @@ class Neuron(object):
         }
 
     def __str__(self):
-        return "Neuron: name: %s, parameters: %s" % (self.name, self.parameters)
+        """
+        Return a string that describe the neuron. If a parameter contains the word "password",
+        the output of this parameter will be masked in order to not appears in clean in the console
+        :return: string description of the neuron
+        """
+        returned_string = str()
+        returned_string += "Neuron: name: %s" % self.name
+        cleaned_parameters = dict()
+        for key, value in self.parameters.iteritems():
+            if "password" in key:
+                cleaned_parameters[key] = "*****"
+            else:
+                cleaned_parameters[key] = value
+        returned_string += ", parameters: %s" % cleaned_parameters
+        return returned_string
 
     def __eq__(self, other):
         """

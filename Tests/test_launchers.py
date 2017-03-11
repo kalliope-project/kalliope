@@ -6,6 +6,7 @@ from kalliope.core.NeuronLauncher import NeuronLauncher
 from kalliope.core.SynapseLauncher import SynapseLauncher, SynapseNameNotFound
 from kalliope.core.TriggerLauncher import TriggerLauncher
 from kalliope.core.ConfigurationManager import SettingLoader
+from kalliope.core.Models.Settings import Settings
 
 from kalliope.core.Models.Trigger import Trigger
 from kalliope.core.Models.Neuron import Neuron
@@ -135,4 +136,5 @@ class TestLaunchers(unittest.TestCase):
                                                                  parameters=neuron.parameters,
                                                                  resources_dir=sl.settings.resources.neuron_folder)
             mock_get_class_instantiation.reset_mock()
+
 

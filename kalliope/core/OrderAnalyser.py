@@ -65,7 +65,8 @@ class OrderAnalyser:
 
             # Start a neuron list with params
             self._start_list_neurons(list_neurons=tuple.synapse.neurons,
-                                     params=params)
+                                     params=params,
+                                     settings=self.settings)
             synapses_launched.append(tuple.synapse)
 
         # return the list of launched synapse
@@ -139,13 +140,13 @@ class OrderAnalyser:
         :return: the dict key/value
         """
         params = dict()
-        if cls._is_containing_bracket(string_order):
+        if Utils.is_containing_bracket(string_order):
             params = cls._associate_order_params_to_values(order_to_check, string_order)
             logger.debug("Parameters for order: %s" % params)
         return params
 
     @classmethod
-    def _start_list_neurons(cls, list_neurons, params):
+    def _start_list_neurons(cls, list_neurons, params, settings):
         # start neurons
         for neuron in list_neurons:
             cls._start_neuron(neuron, params)
@@ -190,8 +191,8 @@ class OrderAnalyser:
         else:
             Utils.print_danger("A problem has been found in the Synapse.")
 
-    @classmethod
-    def _associate_order_params_to_values(cls, order, order_to_check):
+    @staticmethod
+    def _associate_order_params_to_values(order, order_to_check):
         """
         Associate the variables from the order to the incoming user order
         :param order_to_check: the order to check incoming from the brain
@@ -203,9 +204,7 @@ class OrderAnalyser:
         logger.debug("[OrderAnalyser._associate_order_params_to_values] user order: %s, "
                      "order to check: %s" % (order, order_to_check))
 
-        pattern = '\s+(?=[^\{\{\}\}]*\}\})'
-        # Remove white spaces (if any) between the variable and the double brace then split
-        list_word_in_order = re.sub(pattern, '', order_to_check).split()
+        list_word_in_order = Utils.remove_spaces_in_brackets(order_to_check).split()
 
         # get the order, defined by the first words before {{
         # /!\ Could be empty if order starts with double brace
@@ -218,10 +217,10 @@ class OrderAnalyser:
         # make dict var:value
         dict_var = dict()
         for idx, ow in enumerate(list_word_in_order):
-            if cls._is_containing_bracket(ow):
+            if Utils.is_containing_bracket(ow):
                 # remove bracket and grab the next value / stop value
                 var_name = ow.replace("{{", "").replace("}}", "")
-                stop_value = cls._get_next_value_list(list_word_in_order[idx:])
+                stop_value = Utils.get_next_value_list(list_word_in_order[idx:])
                 if stop_value is None:
                     dict_var[var_name] = " ".join(truncate_list_word_said)
                     break
@@ -236,26 +235,6 @@ class OrderAnalyser:
             truncate_list_word_said = truncate_list_word_said[1:]
         return dict_var
 
-    @staticmethod
-    def _is_containing_bracket(sentence):
-        """
-        Return True if the text in <sentence> contains brackets
-        :param sentence:
-        :return:
-        """
-        # print "sentence to test %s" % sentence
-        pattern = r"{{|}}"
-        # prog = re.compile(pattern)
-        check_bool = re.search(pattern, sentence)
-        if check_bool is not None:
-            return True
-        return False
-
-    @staticmethod
-    def _get_next_value_list(list_to_check):
-        ite = list_to_check.__iter__()
-        next(ite, None)
-        return next(ite, None)
 
     @classmethod
     def spelt_order_match_brain_order_via_table(cls, order_to_analyse, user_said):
@@ -305,9 +284,8 @@ class OrderAnalyser:
         :param order: sentence to split
         :return: list of string without bracket
         """
-        pattern = r"((?:{{\s*)[\w\.]+(?:\s*}}))"
-        # find everything like {{ word }}
-        matches = re.findall(pattern, order)
+
+        matches = Utils.find_all_matching_brackets(order)
         for match in matches:
             order = order.replace(match, "")
         # then split

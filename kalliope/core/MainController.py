@@ -3,6 +3,7 @@ import random
 from time import sleep
 
 from flask import Flask
+from kalliope.core.SynapseLauncher import SynapseLauncher
 from transitions import Machine
 
 from kalliope.core import Utils
@@ -55,7 +56,7 @@ class MainController:
         self.on_ready_notification_played_once = False
 
         # Initialize the state machine
-        self.machine = Machine(model=self, states=MainController.states, initial='init')
+        self.machine = Machine(model=self, states=MainController.states, initial='init', queued=True)
 
         # define transitions
         self.machine.add_transition('start_trigger', 'init', 'starting_trigger')
@@ -189,12 +190,14 @@ class MainController:
     def analysing_order_thread(self):
         """
         Start the order analyser with the caught order to process
-        :param order: the text order to analyse
         """
         logger.debug("order in analysing_order_thread %s" % self.order_to_process)
         if self.order_to_process is not None:   # maybe we have received a null audio from STT engine
             order_analyser = OrderAnalyser(self.order_to_process, brain=self.brain)
             order_analyser.start()
+        else:
+            if self.settings.default_synapse is not None:
+                SynapseLauncher.start_synapse(name=self.settings.default_synapse, brain=self.brain)
         # return to the state "unpausing_trigger"
         self.unpause_trigger()
 

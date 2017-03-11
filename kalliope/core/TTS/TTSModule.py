@@ -114,7 +114,7 @@ class TTSModule(object):
         </path/in/settings>/<tts.name>/tts.parameter["language"]/tts.parameter["voice"]/<md5_of_sentence.tts
 
         E.g:
-        /tmp/kalliope/voxygene/fr/abcd12345.tts
+        /tmp/kalliope/acapela/fr/abcd12345.tts
 
         :return: path String
         """

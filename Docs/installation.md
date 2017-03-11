@@ -53,6 +53,11 @@ Install the project using the local environment:
 venv/bin/pip install --editable .
 ```
 
+Activate the local environment:
+```bash
+source venv/bin/activate
+```
+
 ### Method 4 - Developer, dependencies install only
 
 Clone the project:
@@ -63,7 +68,7 @@ cd kalliope
 
 Install the python dependencies directly:
 ```bash
-sudo pip install -r install/python_requirements.txt
+sudo pip install -r install/files/python_requirements.txt
 ```
 
 ## Test your env
@@ -88,7 +93,7 @@ Those repositories provide you a basic structure to start playing with kalliope.
 
 - [French starter config](https://github.com/kalliope-project/kalliope_starter_fr)
 - [English starter config](https://github.com/kalliope-project/kalliope_starter_en)
-
+- [German starter config](https://github.com/kalliope-project/kalliope_starter_de)
 
 ## Next: 
 If everything is ok, you can start playing with Kalliope. First, take a look to the [default settings](settings.md).

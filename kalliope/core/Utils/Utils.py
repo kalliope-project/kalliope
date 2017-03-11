@@ -2,8 +2,7 @@ import logging
 import os
 import inspect
 import imp
-
-import sys
+import re
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -102,7 +101,6 @@ class Utils(object):
         :param resources_dir: the resource directory to check for external resources
         :return:
         """
-        logger.debug("Run plugin %s with parameter %s" % (module_name, parameters))
         package_path = "kalliope." + package_name + "." + module_name.lower() + "." + module_name.lower()
         if resources_dir is not None:
             neuron_resource_path = resources_dir + os.sep + module_name.lower() \
@@ -217,3 +215,64 @@ class Utils(object):
                 return valid[choice]
             else:
                 Utils.print_warning("Please respond with 'yes' or 'no' or 'y' or 'n').\n")
+
+    ##################
+    #
+    # Brackets management
+    #
+    #########
+    @staticmethod
+    def is_containing_bracket(sentence):
+        """
+        Return True if the text in <sentence> contains brackets
+        :param sentence:
+        :return:
+        """
+        # print "sentence to test %s" % sentence
+        pattern = r"{{|}}"
+        # prog = re.compile(pattern)
+        if not isinstance(sentence, unicode):
+            sentence = str(sentence)
+        check_bool = re.search(pattern, sentence)
+        if check_bool is not None:
+            return True
+        return False
+
+    @staticmethod
+    def find_all_matching_brackets(sentence):
+        """
+        Find all the bracket matches from a given sentence
+        :param sentence: the sentence to check
+        :return: the list with all the matches
+        """
+
+        pattern = r"((?:{{\s*)[\w\.]+(?:\s*}}))"
+        # find everything like {{ word }}
+        if not isinstance(sentence, unicode):
+            sentence = str(sentence)
+        return re.findall(pattern, sentence)
+
+    @staticmethod
+    def remove_spaces_in_brackets(sentence):
+        """
+        If has brackets it removes spaces in brackets
+        :param sentence: the sentence to work on
+        :return: the sentence without any spaces in brackets
+        """
+
+        pattern = '\s+(?=[^\{\{\}\}]*\}\})'
+        # Remove white spaces (if any) between the variable and the double brace then split
+        if not isinstance(sentence, unicode):
+            sentence = str(sentence)
+        return re.sub(pattern, '', sentence)
+
+    ##################
+    #
+    # Lists management
+    #
+    #########
+    @staticmethod
+    def get_next_value_list(list_to_check):
+        ite = list_to_check.__iter__()
+        next(ite, None)
+        return next(ite, None)

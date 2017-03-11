@@ -26,3 +26,5 @@ Then, with pip, the last release of setuptools
 sudo pip install -U setuptools
 ```
 
+Then, follow the [main installation documentation](../installation.md).
+

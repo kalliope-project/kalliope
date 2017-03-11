@@ -1,0 +1,19 @@
+---
+  - name: "test"
+    signals:
+      - order: "test_order"
+    neurons:
+      - say:
+          message:
+            - "test message"
+
+  - name: "test2"
+    signals:
+      - order: "bonjour"
+    neurons:
+      - say:
+          message:
+            - "test message"
+  
+  - includes:
+    - included_brain_test.yml

@@ -2,22 +2,7 @@
 
 A neuron is a plugin that performs a specific action. You use it to create a synapse.
 You can add as many neurons as you want to a synapse. The neurons are executed one by one when the input order is triggered.
-
-## Installation
-
-Core neurons are already packaged with the installation of kalliope an can be used out of the box. Community neuron need to be installed manually.
-
-Use the CLI
-```bash
-kalliope install --git-url <git_url>
-```
-
-E.g:
-```bash
-kalliope install --git-url https://github.com/kalliope-project/kalliope_neuron_wikipedia.git
-```
-
-You may be prompted to type your `sudo` password during the process. You can see the list of [available neuron here](neuron_list.md)
+If you want to install a community neuron, see the [neuron list documentation](neuron_list.md).
 
 ## Usage
 Neurons are declared in the `neurons` section of a synapse in your brain file.
@@ -47,6 +32,7 @@ Full list of [available neuron here](neuron_list.md)
 
 Neurons require some **parameters** from the synapse declaration to work. Those parameters, also called arguments, can be passed to the neuron in two way:
 - from the neuron declaration
+- from global variables
 - from the captured order
 
 From the neuron declaration:
@@ -55,6 +41,16 @@ neurons:
     - neuron_name:
         parameter1: "value1"
         parameter2: "value2"
+```
+
+From global variables: (cf: [settings.md](settings.md))
+```yml
+  - name: "run-simple-sleep"
+    signals:
+      - order: "Wait for me "
+    neurons:
+      - sleep:
+          seconds: {{variable}}
 ```
 
 From the captured order:
@@ -160,10 +156,10 @@ neurons:
   - say:
     message:
       - "My name is Kalliope"
-    tts: "voxygen"
+    tts: "acapela"
 ```
 
-Here, the first neuron will use the default tts as set in the settings.yml file. The second neuron will use the tts "voxygen".
+Here, the first neuron will use the default tts as set in the settings.yml file. The second neuron will use the tts "acapela".
 
 >**Note:** The TTS must has been configured with its required parameters in the settings.yml file. See [TTS documentation](tts.md).
 

@@ -104,8 +104,8 @@ E.g
 text_to_speech:
   - pico2wave:
       language: "fr-FR"
-  - voxygen:
-      voice: "michel"
+  - googletts:
+      language: "fr"
 ```
 
 Some arguments are required, some other optional, please refer to the [TTS documentation](tts.md) to know available parameters for each supported TTS.
@@ -259,7 +259,7 @@ Remember that an origin is composed of the scheme (http(s)), the port (eg: 80, 4
 
 ## Default synapse
 
-Run a default [synapse](brain.md) when Kalliope can't find the order in any synapse.
+Run a default [synapse](brain.md) when Kalliope can't find the order in any synapse or if the SST engine haven't understood the order.
 
 ```yml
 default_synapse: "synapse-name"
@@ -287,6 +287,40 @@ resource_directory:
   stt: "resources/stt"
   tts: "resources/tts"
   trigger: "/full/path/to/trigger"
+```
+
+
+## Global Variables
+
+The Global Variables paths list where to load the global variables.
+Those variables can be reused in neuron parameters within double brackets.
+
+E.g 
+```yml
+var_files:
+  - variables.yml
+  - variables2.yml
+```
+/!\ If a variable is defined in different files, the last file defines the value.
+
+In the files the variables are defined by key/value:
+```yml
+variable: 60
+baseURL: "http://blabla.com/"
+password: "secret"
+```
+
+And use variables in your neurons:
+/!\ Because YAML format does no allow double braces not surrounded by quotes: you must use the variable between double quotes. 
+```yml
+  - name: "run-simple-sleep"
+    signals:
+      - order: "Wait for me "
+    neurons:
+      - uri:
+          url: "{{baseURL}}get/1"        
+          user: "admin"
+          password: "{{password}}"
 ```
 
 ## Next: configure the brain of Kalliope
