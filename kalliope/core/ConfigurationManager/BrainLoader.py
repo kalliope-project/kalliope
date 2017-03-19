@@ -267,7 +267,7 @@ class BrainLoader(object):
             for el in parameter:
                 new_parameter_list.append(cls._replace_global_variables(el, settings=settings))
             return new_parameter_list
-        if isinstance(parameter, str) or isinstance(parameter, unicode):
+        if isinstance(parameter, str) or isinstance(parameter, unicode) or isinstance(parameter, int):
             # print "parameter is string %s" % parameter
             if Utils.is_containing_bracket(parameter):
                 return cls._get_global_variable(sentence=parameter, settings=settings)

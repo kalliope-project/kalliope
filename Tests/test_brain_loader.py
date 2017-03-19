@@ -27,6 +27,9 @@ class TestBrainLoader(unittest.TestCase):
             {'signals': [{'order': 'test_order_2'}],
              'neurons': [{'say': {'message': ['test message']}}],
              'name': 'test2'},
+            {'signals': [{'order': 'order_for_int'}],
+             'neurons': [{'sleep': {'seconds': 60}}],
+             'name': 'testint'},
             {'includes': ['included_brain_test.yml']},
             {'signals': [{'order': 'test_order_3'}],
              'neurons': [{'say': {'message': ['test message']}}],
@@ -73,6 +76,7 @@ class TestBrainLoader(unittest.TestCase):
         scenarii:
             - 1/ get a simple neuron from the brainloader
             - 2/ get a neuron with global variables as parameters
+            - 3/ get a neuron with int as parameters
         """
         # 1/ get a simple neuron from the brainloader
         st = Settings()
@@ -99,6 +103,18 @@ class TestBrainLoader(unittest.TestCase):
                                                     settings=st)
 
         neuron = Neuron(name='say', parameters={'message': ['bonjour kalliope']})
+
+        self.assertEqual([neuron], neurons_from_brain_loader)
+
+        # 3/ get a neuron with int as parameters
+        st = Settings()
+        neuron_list = [{'sleep': {'seconds': 60}}]
+
+        neuron = Neuron(name='sleep', parameters={'seconds': 60})
+
+        bl = BrainLoader(file_path=self.brain_to_test)
+        neurons_from_brain_loader = bl._get_neurons(neuron_list,
+                                                    settings=st)
 
         self.assertEqual([neuron], neurons_from_brain_loader)
 
