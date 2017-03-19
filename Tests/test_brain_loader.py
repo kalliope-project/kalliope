@@ -52,15 +52,18 @@ class TestBrainLoader(unittest.TestCase):
         """
 
         neuron = Neuron(name='say', parameters={'message': ['test message']})
+        neuron2 = Neuron(name='sleep', parameters={'seconds': 60})
 
         signal1 = Order(sentence="test_order")
         signal2 = Order(sentence="test_order_2")
         signal3 = Order(sentence="test_order_3")
+        signal4 = Order(sentence="order_for_int")
 
         synapse1 = Synapse(name="test", neurons=[neuron], signals=[signal1])
         synapse2 = Synapse(name="test2", neurons=[neuron], signals=[signal2])
         synapse3 = Synapse(name="test3", neurons=[neuron], signals=[signal3])
-        synapses = [synapse1, synapse2, synapse3]
+        synapse4 = Synapse(name="testint", neurons=[neuron2], signals=[signal4])
+        synapses = [synapse1, synapse2, synapse4, synapse3]
 
         brain = Brain()
         brain.synapses = synapses
