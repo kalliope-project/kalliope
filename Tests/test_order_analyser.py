@@ -340,6 +340,17 @@ class TestOrderAnalyser(unittest.TestCase):
         self.assertEqual(OrderAnalyser._associate_order_params_to_values(order_user, order_brain), expected_result,
                          "Fail to match the order_brain multiple variables with multiple words as values'")
 
+        ##
+        #  Specific Behaviour
+        ##
+
+        # Upper/Lower case
+        order_brain = "This Is The {{ variable }}"
+        order_user = "ThiS is tHe VAlue"
+        expected_result = {'variable': 'VAlue'}
+        self.assertEqual(OrderAnalyser._associate_order_params_to_values(order_user, order_brain), expected_result,
+                         "Fail to match the order_brain when using Upper/Lower cases")
+
     def test_get_matching_synapse_list(self):
         # Init
         neuron1 = Neuron(name='neurone1', parameters={'var1': 'val1'})

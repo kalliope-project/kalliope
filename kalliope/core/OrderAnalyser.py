@@ -211,7 +211,8 @@ class OrderAnalyser:
         the_order = order_to_check[:order_to_check.find('{{')]
 
         # remove sentence before order which are sentences not matching anyway
-        truncate_user_sentence = order[order.find(the_order):]
+        # Manage Upper/Lower case
+        truncate_user_sentence = order[order.lower().find(the_order.lower()):]
         truncate_list_word_said = truncate_user_sentence.split()
 
         # make dict var:value
