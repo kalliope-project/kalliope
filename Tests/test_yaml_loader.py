@@ -14,7 +14,11 @@ class TestYAMLLoader(unittest.TestCase):
 
     def test_get_config(self):
 
-        valid_file_path_to_test = os.getcwd() + os.sep + "Tests/brains/brain_test.yml"
+        if "/Tests" in os.getcwd():
+            valid_file_path_to_test = os.getcwd() + os.sep + "brains/brain_test.yml"
+        else:
+            valid_file_path_to_test = os.getcwd() + os.sep + "Tests/brains/brain_test.yml"
+
         invalid_file_path = "brains/non_existing_brain.yml"
         expected_result = [
             {'signals': [{'order': 'test_order'}],
@@ -23,6 +27,9 @@ class TestYAMLLoader(unittest.TestCase):
             {'signals': [{'order': 'test_order_2'}],
              'neurons': [{'say': {'message': ['test message']}}],
              'name': 'test2'},
+            {'signals': [{'order': 'order_for_int'}],
+             'neurons': [{'sleep': {'seconds': 60}}],
+             'name': 'testint'},
             {'includes': ['included_brain_test.yml']},
             {'signals': [{'order': 'test_order_3'}],
              'neurons': [{'say': {'message': ['test message']}}],
