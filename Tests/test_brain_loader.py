@@ -1,3 +1,4 @@
+# coding: utf8
 import os
 import unittest
 
@@ -289,6 +290,8 @@ class TestBrainLoader(unittest.TestCase):
         variables = {
             "name": "LaMonf",
             "name2": "kalliope",
+            "name3": u"kalliopé",
+            "name4": 1
         }
         st = Settings(variables=variables)
 
@@ -296,8 +299,24 @@ class TestBrainLoader(unittest.TestCase):
 
         self.assertEquals(BrainLoader._get_global_variable(sentence=sentence,
                                                            settings=st),
-                          expected_result,
-                          "Fail to get the global variable from the sentence")
+                          expected_result)
+
+        # test with accent
+        sentence = "i am {{name3}}"
+        expected_result = u"i am kalliopé"
+
+        self.assertEquals(BrainLoader._get_global_variable(sentence=sentence,
+                                                           settings=st),
+                          expected_result)
+
+        # test with int
+        sentence = "i am {{name4}}"
+        expected_result = "i am 1"
+
+        self.assertEquals(BrainLoader._get_global_variable(sentence=sentence,
+                                                           settings=st),
+                          expected_result)
+
 
 if __name__ == '__main__':
     unittest.main()

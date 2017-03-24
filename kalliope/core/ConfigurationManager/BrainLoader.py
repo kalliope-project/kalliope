@@ -287,8 +287,11 @@ class BrainLoader(object):
             if param_no_brackets in settings.variables:
                 logger.debug("Replacing variable %s with  %s" % (param_with_bracket,
                                                                  settings.variables[param_no_brackets]))
-                # need to encode utf-8 to handle special characters
-                unicode_str = settings.variables[param_no_brackets].encode('utf-8')
+
+                # need to check if the variable is an integer
+                variable = settings.variables[param_no_brackets]
+                if isinstance(variable, int):
+                    variable = str(variable)
                 sentence_no_spaces = sentence_no_spaces.replace(param_with_bracket,
-                                                                unicode_str)
+                                                                variable)
         return sentence_no_spaces
