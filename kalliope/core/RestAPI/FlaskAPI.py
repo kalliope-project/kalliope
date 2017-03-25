@@ -4,6 +4,9 @@ import threading
 
 import time
 
+from kalliope.core.NeuronLauncher import NeuronLauncher
+from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
+from kalliope.core.OrderAnalyser2 import OrderAnalyser2
 from kalliope.core.Utils.FileManager import FileManager
 
 from kalliope.core.ConfigurationManager import SettingLoader
@@ -256,8 +259,19 @@ class FlaskAPI(threading.Thread):
         """
         logger.debug("order to process %s" % order)
         if order is not None:  # maybe we have received a null audio from STT engine
-            order_analyser = OrderAnalyser(order, brain=self.brain)
-            synapses_launched = order_analyser.start()
+            synapses_launched = list()
+
+            oa2 = OrderAnalyser2.get_matching_synapse(order=order, brain=self.brain)
+
+            # oa2 contains the list Named tuple of synapse to run with the associated order that has matched
+            # for each synapse, get neurons, et for each neuron, get parameters
+            for tuple_el in oa2:
+                logger.debug("Get parameter for %s " % tuple_el.synapse.name)
+                parameters = NeuronParameterLoader.get_parameters(synapse_order=tuple_el.order,
+                                                                  user_order=order).next()
+                # start the neuron list
+                synapses_launched = NeuronLauncher.start_neuron_list(neuron_list=tuple_el.synapse.neurons,
+                                                                     parameters_dict=parameters)
             self.launched_synapses = synapses_launched
         else:
             if self.settings.default_synapse is not None:

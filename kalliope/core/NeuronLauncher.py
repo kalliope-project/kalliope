@@ -33,7 +33,7 @@ class NeuronLauncher:
                                                      resources_dir=neuron_folder)
 
     @classmethod
-    def start_neuron_list(cls, neuron_list, parameters_dict):
+    def start_neuron_list(cls, neuron_list, parameters_dict=None):
         """
         Execute each neuron from the received neuron_list.
         Replace parameter if existe in the received dict of parameters_dict
@@ -41,8 +41,10 @@ class NeuronLauncher:
         :param parameters_dict: dict of parameter to load in each neuron if expecting a parameter
         :return:
         """
-        for neuron in neuron_list:
 
+        instantiated_neuron = list()
+
+        for neuron in neuron_list:
             problem_in_neuron_found = False
             if isinstance(neuron.parameters, dict):
                 # print neuron.parameters
@@ -70,6 +72,8 @@ class NeuronLauncher:
 
             # if no error detected, we run the neuron
             if not problem_in_neuron_found:
-                cls.start_neuron(neuron)
+                instantiated_neuron.append(cls.start_neuron(neuron))
             else:
                 Utils.print_danger("A problem has been found in the Synapse.")
+
+        return instantiated_neuron

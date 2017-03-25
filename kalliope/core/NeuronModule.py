@@ -1,19 +1,18 @@
 # coding: utf8
 import logging
 import random
-
 import sys
+
 from jinja2 import Template
 
-from kalliope.OrderAnalyser2 import OrderAnalyser2
 from kalliope.core import OrderListener
-from kalliope.core import OrderAnalyser
+from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 from kalliope.core.Models import Order
 from kalliope.core.NeuronLauncher import NeuronLauncher
 from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
+from kalliope.core.OrderAnalyser2 import OrderAnalyser2
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.Utils.Utils import Utils
-from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

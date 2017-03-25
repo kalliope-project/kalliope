@@ -31,6 +31,12 @@ class OrderAnalyser2:
         if isinstance(order, str):
             order = order.decode('utf-8')
 
+        # We use a namedtuple to associate the synapse and the signal of the synapse
+        synapse_order_tuple = collections.namedtuple('tuple_synapse_matchingOrder',
+                                                     ['synapse', 'order'])
+
+        list_match_synapse = list()
+
         # test each synapse from the brain
         for synapse in cls.brain.synapses:
             # we are only concerned by synapse with a order type of signal
@@ -38,14 +44,10 @@ class OrderAnalyser2:
                 if type(signal) == Order:
                     if cls.spelt_order_match_brain_order_via_table(signal.sentence, order):
                         # the order match the synapse, we add it to the returned list
-                        logger.debug("Order found! Run neurons: %s" % neuron.name for neuron in synapse.neurons)
+                        logger.debug("Order found! Run synapse name: %s" % synapse.name)
                         Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
-                        # we need to keep the info about which order in the list of signal has match.
-                        # We use a namedtuple to associate the synapse and the signal of the synapse
-                        synapse_order_tuple = collections.namedtuple('tuple_synapse_matchingOrder',
-                                                                     ['synapse', 'order'])
-                        # we don't need to store the synapse in a list. Use a generator instead
-                        yield synapse_order_tuple(synapse=synapse, order=signal.sentence)
+                        list_match_synapse.append(synapse_order_tuple(synapse=synapse, order=signal.sentence))
+        return list_match_synapse
 
     @classmethod
     def spelt_order_match_brain_order_via_table(cls, order_to_analyse, user_said):

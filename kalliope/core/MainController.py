@@ -3,6 +3,10 @@ import random
 from time import sleep
 
 from flask import Flask
+
+from kalliope.core.NeuronLauncher import NeuronLauncher
+from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
+from kalliope.core.OrderAnalyser2 import OrderAnalyser2
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from transitions import Machine
 
@@ -108,7 +112,7 @@ class MainController:
         """
         logger.debug("Entering state: %s" % self.state)
         if (not self.on_ready_notification_played_once and self.settings.play_on_ready_notification == "once") or \
-                self.settings.play_on_ready_notification == "always":
+                        self.settings.play_on_ready_notification == "always":
             # we remember that we played the notification one time
             self.on_ready_notification_played_once = True
             # here we tell the user that we are listening
@@ -192,12 +196,30 @@ class MainController:
         Start the order analyser with the caught order to process
         """
         logger.debug("order in analysing_order_thread %s" % self.order_to_process)
+        no_synapse_match = False
         if self.order_to_process is not None:   # maybe we have received a null audio from STT engine
-            order_analyser = OrderAnalyser(self.order_to_process, brain=self.brain)
-            order_analyser.start()
+            oa2 = OrderAnalyser2.get_matching_synapse(order=self.order_to_process, brain=self.brain)
+
+            # oa2 contains the list Named tuple of synapse to run with the associated order that has matched
+            # for each synapse, get neurons, et for each neuron, get parameters
+            if not oa2:
+                no_synapse_match = True
+            else:
+                # the order match one or more synapses
+                for tuple_el in oa2:
+                    logger.debug("Get parameter for %s " % tuple_el.synapse.name)
+                    parameters = NeuronParameterLoader.get_parameters(synapse_order=tuple_el.order,
+                                                                      user_order=self.order_to_process).next()
+                    # start the neuron list
+                    NeuronLauncher.start_neuron_list(neuron_list=tuple_el.synapse.neurons,
+                                                     parameters_dict=parameters)
         else:
+            no_synapse_match = True
+
+        if no_synapse_match:  # then run the default synapse
             if self.settings.default_synapse is not None:
                 SynapseLauncher.start_synapse(name=self.settings.default_synapse, brain=self.brain)
+
         # return to the state "unpausing_trigger"
         self.unpause_trigger()
 
