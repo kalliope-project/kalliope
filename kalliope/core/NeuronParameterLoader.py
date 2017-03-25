@@ -1,4 +1,4 @@
-from kalliope import Utils
+from kalliope.core.Utils import Utils
 
 import logging
 
