@@ -64,7 +64,7 @@ setup(
         'pyasn1>=0.2.3',
         'ansible>=2.2',
         'python2-pythondialog>=3.4.0',
-        'jinja2>=2.8,<2.9',
+        'jinja2>=2.8',
         'cffi==1.9.1',
         'ipaddress>=1.0.17',
         'flask>=0.12',
