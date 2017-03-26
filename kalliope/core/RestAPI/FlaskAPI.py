@@ -258,25 +258,7 @@ class FlaskAPI(threading.Thread):
         :return:
         """
         logger.debug("order to process %s" % order)
-        if order is not None:  # maybe we have received a null audio from STT engine
-            synapses_launched = list()
-
-            oa2 = OrderAnalyser2.get_matching_synapse(order=order, brain=self.brain)
-
-            # oa2 contains the list Named tuple of synapse to run with the associated order that has matched
-            # for each synapse, get neurons, et for each neuron, get parameters
-            for tuple_el in oa2:
-                logger.debug("Get parameter for %s " % tuple_el.synapse.name)
-                parameters = NeuronParameterLoader.get_parameters(synapse_order=tuple_el.order,
-                                                                  user_order=order).next()
-                # start the neuron list
-                synapses_launched = NeuronLauncher.start_neuron_list(neuron_list=tuple_el.synapse.neurons,
-                                                                     parameters_dict=parameters)
-            self.launched_synapses = synapses_launched
-        else:
-            if self.settings.default_synapse is not None:
-                SynapseLauncher.start_synapse(name=self.settings.default_synapse, brain=self.brain)
-                self.launched_synapses = self.brain.get_synapse_by_name(synapse_name=self.settings.default_synapse)
+        SynapseLauncher.run_matching_synapse_or_default(order, self.brain, self.settings)
 
         # this boolean will notify the main process that the order have been processed
         self.order_analyser_return = True
