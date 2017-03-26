@@ -258,7 +258,8 @@ class FlaskAPI(threading.Thread):
         :return:
         """
         logger.debug("order to process %s" % order)
-        SynapseLauncher.run_matching_synapse_or_default(order, self.brain, self.settings)
+        list_launched_synapse = SynapseLauncher.run_matching_synapse_or_default(order, self.brain, self.settings)
+        self.launched_synapses = list_launched_synapse
 
         # this boolean will notify the main process that the order have been processed
         self.order_analyser_return = True

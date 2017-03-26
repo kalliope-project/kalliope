@@ -214,7 +214,7 @@ class NeuronModule(object):
             for signal in synapse_to_run.signals:
                 if isinstance(signal, Order):
                     parameters = NeuronParameterLoader.get_parameters(synapse_order=order_template,
-                                                                      user_order=order).next()
+                                                                      user_order=order)
                     logger.debug("[NeuronModule]-> parameter load from user answer: %s" % parameters)
                     if parameters is not None:
                         break

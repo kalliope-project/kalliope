@@ -17,10 +17,10 @@ class NeuronParameterLoader(object):
         if Utils.is_containing_bracket(synapse_order):
             params = cls._associate_order_params_to_values(user_order, synapse_order)
             logger.debug("Parameters for order: %s" % params)
-        yield params
+        return params
 
-    @staticmethod
-    def _associate_order_params_to_values(order, order_to_check):
+    @classmethod
+    def _associate_order_params_to_values(cls, order, order_to_check):
         """
         Associate the variables from the order to the incoming user order
         :param order_to_check: the order to check incoming from the brain

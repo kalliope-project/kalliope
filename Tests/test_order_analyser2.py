@@ -47,8 +47,15 @@ class TestOrderAnalyser2(unittest.TestCase):
         spoken_order = "this is the sentence"
         matched_synapses = OrderAnalyser2.get_matching_synapse(order=spoken_order, brain=br)
         self.assertEqual(len(matched_synapses), 1)
+        self.assertTrue(any(synapse1 in matched_synapse for matched_synapse in matched_synapses))
 
-        # TEST2: should empty
+        # TEST2: should return synapse1 and 2
+        spoken_order = "this is the second sentence"
+        matched_synapses = OrderAnalyser2.get_matching_synapse(order=spoken_order, brain=br)
+        self.assertEqual(len(matched_synapses), 2)
+        self.assertTrue(synapse1, synapse2 in matched_synapses)
+
+        # TEST3: should empty
         spoken_order = "not a valid order"
         matched_synapses = OrderAnalyser2.get_matching_synapse(order=spoken_order, brain=br)
         self.assertFalse(matched_synapses)
