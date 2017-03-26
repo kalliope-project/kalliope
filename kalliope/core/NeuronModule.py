@@ -210,6 +210,7 @@ class NeuronModule(object):
             list_to_run = list()
             list_to_run.append(synapse_to_run)
 
+            # load parameters from the answer
             parameters = None
             for signal in synapse_to_run.signals:
                 if isinstance(signal, Order):
@@ -225,7 +226,7 @@ class NeuronModule(object):
         else:
             logger.debug("[NeuronModule]-> run_synapse_by_name_with_order, the synapse has not been found : %s"
                          % synapse_name)
-        return synapse_to_run is not None
+        return synapse_to_run
 
     @staticmethod
     def _get_content_of_file(real_file_template_path):

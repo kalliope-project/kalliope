@@ -1,18 +1,11 @@
 import unittest
 
-import logging
 
 from kalliope.core.Models import Brain
 from kalliope.core.Models import Neuron
 from kalliope.core.Models import Order
 from kalliope.core.Models import Synapse
-from kalliope.core.Models.Settings import Settings
 from kalliope.core.OrderAnalyser2 import OrderAnalyser2
-
-
-logging.basicConfig()
-logger = logging.getLogger("kalliope")
-logger.setLevel(logging.DEBUG)
 
 
 class TestOrderAnalyser2(unittest.TestCase):
