@@ -2,7 +2,7 @@ import logging
 
 from kalliope.core.NeuronLauncher import NeuronLauncher
 from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
-from kalliope.core.OrderAnalyser2 import OrderAnalyser2
+from kalliope.core.OrderAnalyser import OrderAnalyser
 
 
 logging.basicConfig()
@@ -61,16 +61,16 @@ class SynapseLauncher(object):
         :return: Return a list of launched synapse
         """
         no_synapse_match = False
+        # create a list of launched synapse to return
+        launched_synapses = list()
         if order_to_process is not None:  # maybe we have received a null audio from STT engine
-            launched_synapses_tuple = OrderAnalyser2.get_matching_synapse(order=order_to_process, brain=brain)
+            launched_synapses_tuple = OrderAnalyser.get_matching_synapse(order=order_to_process, brain=brain)
 
-            # oa2 contains the list Named tuple of synapse to run with the associated order that has matched
+            # oa contains the list Named tuple of synapse to run with the associated order that has matched
             # for each synapse, get neurons, et for each neuron, get parameters
             if not launched_synapses_tuple:
                 no_synapse_match = True
             else:
-                # create a list of launched synapse to return
-                launched_synapses = list()
                 # the order match one or more synapses
                 for tuple_el in launched_synapses_tuple:
                     launched_synapses.append(tuple_el.synapse)
@@ -80,13 +80,15 @@ class SynapseLauncher(object):
                     # start the neuron list
                     NeuronLauncher.start_neuron_list(neuron_list=tuple_el.synapse.neurons,
                                                      parameters_dict=parameters)
-                # return the launched synapse list
-                return launched_synapses
         else:
             no_synapse_match = True
 
         if no_synapse_match:  # then run the default synapse
             if settings.default_synapse is not None:
-                launched_synapses = SynapseLauncher.start_synapse(name=settings.default_synapse, brain=brain)
+                logger.debug("No matching Synapse-> running default synapse ")
+                synapses = SynapseLauncher.start_synapse(name=settings.default_synapse,
+                                                         brain=brain)
+                launched_synapses.append(synapses)
 
-                return [launched_synapses]
+        # return the launched synapse list
+        return launched_synapses

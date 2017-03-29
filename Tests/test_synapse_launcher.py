@@ -38,8 +38,9 @@ class TestSynapseLauncher(unittest.TestCase):
         self.brain_test = Brain(synapses=all_synapse_list)
         self.settings_test = Settings(default_synapse="Synapse3")
 
-    def test_match_synapse1(self):
+    def test_run_matching_synapse_or_default(self):
 
+        # test_match_synapse1
         with mock.patch("kalliope.core.NeuronLauncher.start_neuron_list"):
             order_to_match = "this is the sentence"
             expected_result = [self.synapse1]
@@ -49,7 +50,7 @@ class TestSynapseLauncher(unittest.TestCase):
                                                                              brain=self.brain_test,
                                                                              settings=self.settings_test))
 
-    def test_match_synapse1_and_2(self):
+        # test_match_synapse1_and_2
         with mock.patch("kalliope.core.NeuronLauncher.start_neuron_list"):
             order_to_match = "this is the second sentence"
             expected_result = [self.synapse1, self.synapse2]
@@ -59,7 +60,7 @@ class TestSynapseLauncher(unittest.TestCase):
                                                                              brain=self.brain_test,
                                                                              settings=self.settings_test))
 
-    def test_match_default_synapse(self):
+        # test_match_default_synapse
         with mock.patch("kalliope.core.NeuronLauncher.start_neuron"):
             order_to_match = "this is an invalid order"
             expected_result = [self.synapse3]

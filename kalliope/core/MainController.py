@@ -6,7 +6,7 @@ from flask import Flask
 
 from kalliope.core.NeuronLauncher import NeuronLauncher
 from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
-from kalliope.core.OrderAnalyser2 import OrderAnalyser2
+from kalliope.core.OrderAnalyser import OrderAnalyser
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from transitions import Machine
 

@@ -2,7 +2,6 @@ from test_brain_loader import TestBrainLoader
 from test_configuration_checker import TestConfigurationChecker
 from test_dynamic_loading import TestDynamicLoading
 from test_file_manager import TestFileManager
-# from test_order_analyser import TestOrderAnalyser
 from test_rest_api import TestRestAPI
 from test_settings_loader import TestSettingLoader
 from test_singleton import TestSingleton

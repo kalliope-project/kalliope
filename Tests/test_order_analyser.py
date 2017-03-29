@@ -5,10 +5,10 @@ from kalliope.core.Models import Brain
 from kalliope.core.Models import Neuron
 from kalliope.core.Models import Order
 from kalliope.core.Models import Synapse
-from kalliope.core.OrderAnalyser2 import OrderAnalyser2
+from kalliope.core.OrderAnalyser import OrderAnalyser
 
 
-class TestOrderAnalyser2(unittest.TestCase):
+class TestOrderAnalyser(unittest.TestCase):
 
     """Test case for the OrderAnalyser Class"""
 
@@ -38,19 +38,19 @@ class TestOrderAnalyser2(unittest.TestCase):
 
         # TEST1: should return synapse1
         spoken_order = "this is the sentence"
-        matched_synapses = OrderAnalyser2.get_matching_synapse(order=spoken_order, brain=br)
+        matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
         self.assertEqual(len(matched_synapses), 1)
         self.assertTrue(any(synapse1 in matched_synapse for matched_synapse in matched_synapses))
 
         # TEST2: should return synapse1 and 2
         spoken_order = "this is the second sentence"
-        matched_synapses = OrderAnalyser2.get_matching_synapse(order=spoken_order, brain=br)
+        matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
         self.assertEqual(len(matched_synapses), 2)
         self.assertTrue(synapse1, synapse2 in matched_synapses)
 
         # TEST3: should empty
         spoken_order = "not a valid order"
-        matched_synapses = OrderAnalyser2.get_matching_synapse(order=spoken_order, brain=br)
+        matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
         self.assertFalse(matched_synapses)
 
     def test_spelt_order_match_brain_order_via_table(self):
@@ -58,41 +58,41 @@ class TestOrderAnalyser2(unittest.TestCase):
         sentence_to_test = "this is the order"
 
         # Success
-        self.assertTrue(OrderAnalyser2.spelt_order_match_brain_order_via_table(order_to_test, sentence_to_test))
+        self.assertTrue(OrderAnalyser.spelt_order_match_brain_order_via_table(order_to_test, sentence_to_test))
 
         # Failure
         sentence_to_test = "unexpected sentence"
-        self.assertFalse(OrderAnalyser2.spelt_order_match_brain_order_via_table(order_to_test, sentence_to_test))
+        self.assertFalse(OrderAnalyser.spelt_order_match_brain_order_via_table(order_to_test, sentence_to_test))
 
         # Upper/lower cases
         sentence_to_test = "THIS is THE order"
-        self.assertTrue(OrderAnalyser2.spelt_order_match_brain_order_via_table(order_to_test, sentence_to_test))
+        self.assertTrue(OrderAnalyser.spelt_order_match_brain_order_via_table(order_to_test, sentence_to_test))
 
     def test_get_split_order_without_bracket(self):
         # Success
         order_to_test = "this is the order"
         expected_result = ["this", "is", "the", "order"]
-        self.assertEqual(OrderAnalyser2._get_split_order_without_bracket(order_to_test), expected_result,
+        self.assertEqual(OrderAnalyser._get_split_order_without_bracket(order_to_test), expected_result,
                          "No brackets Fails to return the expected list")
 
         order_to_test = "this is the {{ order }}"
         expected_result = ["this", "is", "the"]
-        self.assertEqual(OrderAnalyser2._get_split_order_without_bracket(order_to_test), expected_result,
+        self.assertEqual(OrderAnalyser._get_split_order_without_bracket(order_to_test), expected_result,
                          "With spaced brackets Fails to return the expected list")
 
         order_to_test = "this is the {{order }}"    # left bracket without space
         expected_result = ["this", "is", "the"]
-        self.assertEqual(OrderAnalyser2._get_split_order_without_bracket(order_to_test), expected_result,
+        self.assertEqual(OrderAnalyser._get_split_order_without_bracket(order_to_test), expected_result,
                          "Left brackets Fails to return the expected list")
 
         order_to_test = "this is the {{ order}}"    # right bracket without space
         expected_result = ["this", "is", "the"]
-        self.assertEqual(OrderAnalyser2._get_split_order_without_bracket(order_to_test), expected_result,
+        self.assertEqual(OrderAnalyser._get_split_order_without_bracket(order_to_test), expected_result,
                          "Right brackets Fails to return the expected list")
 
         order_to_test = "this is the {{order}}"  # bracket without space
         expected_result = ["this", "is", "the"]
-        self.assertEqual(OrderAnalyser2._get_split_order_without_bracket(order_to_test), expected_result,
+        self.assertEqual(OrderAnalyser._get_split_order_without_bracket(order_to_test), expected_result,
                          "No space brackets Fails to return the expected list")
 
     def test_counter_subset(self):
@@ -100,9 +100,9 @@ class TestOrderAnalyser2(unittest.TestCase):
         list2 = ("word3", "word4")
         list3 = ("word1", "word2", "word3", "word4")
 
-        self.assertFalse(OrderAnalyser2._counter_subset(list1, list2))
-        self.assertTrue(OrderAnalyser2._counter_subset(list1, list3))
-        self.assertTrue(OrderAnalyser2._counter_subset(list2, list3))
+        self.assertFalse(OrderAnalyser._counter_subset(list1, list2))
+        self.assertTrue(OrderAnalyser._counter_subset(list1, list3))
+        self.assertTrue(OrderAnalyser._counter_subset(list2, list3))
 
 
 if __name__ == '__main__':

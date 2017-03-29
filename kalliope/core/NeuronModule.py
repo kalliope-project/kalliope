@@ -10,7 +10,7 @@ from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 from kalliope.core.Models import Order
 from kalliope.core.NeuronLauncher import NeuronLauncher
 from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
-from kalliope.core.OrderAnalyser2 import OrderAnalyser2
+from kalliope.core.OrderAnalyser import OrderAnalyser
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.Utils.Utils import Utils
 
@@ -189,10 +189,10 @@ class NeuronModule(object):
     def run_synapse_by_name(self, name):
         SynapseLauncher.start_synapse(name=name, brain=self.brain)
 
-    def is_order_matching(self, order_said, order_match):
-
-        return OrderAnalyser2().spelt_order_match_brain_order_via_table(order_to_analyse=order_match,
-                                                                        user_said=order_said)
+    @staticmethod
+    def is_order_matching(order_said, order_match):
+        return OrderAnalyser().spelt_order_match_brain_order_via_table(order_to_analyse=order_match,
+                                                                       user_said=order_said)
 
     def run_synapse_by_name_with_order(self, order, synapse_name, order_template):
         """
@@ -216,8 +216,8 @@ class NeuronModule(object):
                 if isinstance(signal, Order):
                     parameters = NeuronParameterLoader.get_parameters(synapse_order=order_template,
                                                                       user_order=order)
-                    logger.debug("[NeuronModule]-> parameter load from user answer: %s" % parameters)
                     if parameters is not None:
+                        logger.debug("[NeuronModule]-> parameter load from user answer: %s" % parameters)
                         break
 
             # start the neuron list

@@ -151,7 +151,7 @@ class TestNeuronModule(unittest.TestCase):
             neuron_mod = NeuronModule()
             neuron_mod.brain = br
 
-            # Success, run synapse 1
+            # Success, run synapse 2
             launched_synapse = neuron_mod.run_synapse_by_name_with_order(order=order,
                                                                          synapse_name=synapse_name,
                                                                          order_template=answer)

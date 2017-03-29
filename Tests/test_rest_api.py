@@ -2,8 +2,6 @@ import json
 import os
 import unittest
 
-from werkzeug.datastructures import FileStorage
-
 from flask import Flask
 from flask_testing import LiveServerTestCase
 
@@ -36,6 +34,7 @@ class TestRestAPI(LiveServerTestCase):
         sl.settings.active = True
         sl.settings.port = 5000
         sl.settings.allowed_cors_origin = "*"
+        sl.settings.default_synapse = None
 
         # prepare a test brain
         brain_to_test = full_path_brain_to_test
@@ -237,7 +236,6 @@ class TestRestAPI(LiveServerTestCase):
                 }
             ]
         }
-        print result.get_data()
         self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(result.get_data())))
         self.assertEqual(result.status_code, 201)
 
@@ -245,7 +243,9 @@ class TestRestAPI(LiveServerTestCase):
         url = self.get_server_url() + "/synapses/start/order"
         data = {"order": "non existing order"}
         headers = {"Content-Type": "application/json"}
-        result = self.client.post(url, headers=headers, data=json.dumps(data))
+        result = self.client.post(url,
+                                  headers=headers,
+                                  data=json.dumps(data))
 
         expected_content = {'error': {'error': "The given order doesn't match any synapses"}}
 

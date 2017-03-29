@@ -4,9 +4,6 @@ import threading
 
 import time
 
-from kalliope.core.NeuronLauncher import NeuronLauncher
-from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
-from kalliope.core.OrderAnalyser2 import OrderAnalyser2
 from kalliope.core.Utils.FileManager import FileManager
 
 from kalliope.core.ConfigurationManager import SettingLoader
@@ -16,9 +13,8 @@ from werkzeug.utils import secure_filename
 from flask import jsonify
 from flask import request
 from flask_restful import abort
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
-from kalliope.core import OrderAnalyser
 from kalliope.core.RestAPI.utils import requires_auth
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope._version import version_str
@@ -172,8 +168,10 @@ class FlaskAPI(threading.Thread):
         if order is not None:
             # get the order
             order_to_run = order["order"]
-            oa = OrderAnalyser(order=order_to_run, brain=self.brain)
-            launched_synapses = oa.start()
+
+            launched_synapses = SynapseLauncher.run_matching_synapse_or_default(order_to_run,
+                                                                                self.brain,
+                                                                                self.settings)
 
             if launched_synapses:
                 # if the list is not empty, we have launched one or more synapses

@@ -36,10 +36,10 @@ class NeuronLauncher:
     def start_neuron_list(cls, neuron_list, parameters_dict=None):
         """
         Execute each neuron from the received neuron_list.
-        Replace parameter if existe in the received dict of parameters_dict
+        Replace parameter if exist in the received dict of parameters_dict
         :param neuron_list: list of Neuron object to run
         :param parameters_dict: dict of parameter to load in each neuron if expecting a parameter
-        :return:
+        :return: List of the instantiated neurons (no errors detected)
         """
 
         instantiated_neuron = list()
