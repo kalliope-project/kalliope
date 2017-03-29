@@ -42,34 +42,42 @@ class Utils(object):
     @classmethod
     def print_info(cls, text_to_print):
         pipe_print(cls.color_list["BLUE"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @classmethod
     def print_success(cls, text_to_print):
         pipe_print(cls.color_list["GREEN"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @classmethod
     def print_warning(cls, text_to_print):
         pipe_print(cls.color_list["YELLOW"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @classmethod
     def print_danger(cls, text_to_print):
         pipe_print(cls.color_list["RED"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @classmethod
     def print_header(cls, text_to_print):
         pipe_print(cls.color_list["HEADER"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @classmethod
-    def print_header(cls, text_to_print):
+    def print_purple(cls, text_to_print):
         pipe_print(cls.color_list["PURPLE"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @classmethod
     def print_bold(cls, text_to_print):
         pipe_print(cls.color_list["BOLD"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @classmethod
     def print_underline(cls, text_to_print):
         pipe_print(cls.color_list["UNDERLINE"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @staticmethod
     def print_yaml_nicely(to_print):

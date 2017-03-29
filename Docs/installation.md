@@ -95,5 +95,33 @@ Those repositories provide you a basic structure to start playing with kalliope.
 - [English starter config](https://github.com/kalliope-project/kalliope_starter_en)
 - [German starter config](https://github.com/kalliope-project/kalliope_starter_de)
 
+
+## Start Kalliope automatically after a reboot
+
+If you want to start Kalliope automatically Place the script bellow in `/etc/systemd/system/kalliope.service`.
+Update the path to your folder where you've placed your `brain.yml` and `settings.yml`.
+```bash
+[Unit]
+Description=Kalliope
+
+[Service]
+WorkingDirectory=/path/to/kalliope_brain_folder
+
+Environment='STDOUT=/var/log/kalliope.log'
+Environment='STDERR=/var/log/kalliope.err.log'
+ExecStart=/bin/bash -c "/usr/local/bin/kalliope start > ${STDOUT} 2> ${STDERR}"
+User=%i
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Then, reload systemctl, start the service and enable it at startup
+```bash
+sudo systemctl daemon-reload
+sudo systemctl start kalliope
+sudo systemctl enable kalliope
+```
+
 ## Next: 
 If everything is ok, you can start playing with Kalliope. First, take a look to the [default settings](settings.md).
