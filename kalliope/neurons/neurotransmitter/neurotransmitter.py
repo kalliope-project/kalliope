@@ -40,10 +40,12 @@ class Neurotransmitter(NeuronModule):
             for el in self.from_answer_link:
                 for answer in el["answers"]:
                     if self.is_order_matching(audio, answer):
+                        logger.debug("Neurotransmitter: match answer: %s" % answer)
                         found = self.run_synapse_by_name_with_order(order=audio,
                                                                     synapse_name=el["synapse"],
                                                                     order_template=answer)
-            if not found: # the answer do not correspond to any answer. We run the default synapse
+                        break
+            if not found:  # the answer do not correspond to any answer. We run the default synapse
                 self.run_synapse_by_name(self.default)
 
     def _is_parameters_ok(self):

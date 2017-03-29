@@ -5,6 +5,7 @@ import logging
 
 from kalliope.core import ShellGui
 from kalliope.core import Utils
+from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.ConfigurationManager.BrainLoader import BrainLoader
 from kalliope.core.EventManager import EventManager
 from kalliope.core.MainController import MainController
@@ -110,15 +111,22 @@ def main():
     brain_loader = BrainLoader(file_path=brain_file)
     brain = brain_loader.brain
 
+    # load settings
+    # get global configuration once
+    settings_loader = SettingLoader()
+    settings = settings_loader.settings
+
     if args.action == "start":
 
         # user set a synapse to start
         if args.run_synapse is not None:
-            SynapseLauncher.start_synapse(args.run_synapse, brain=brain)
+            SynapseLauncher.start_synapse(args.run_synapse,
+                                          brain=brain)
 
         if args.run_order is not None:
-            order_analyser = OrderAnalyser(args.run_order, brain=brain)
-            order_analyser.start()
+            SynapseLauncher.run_matching_synapse_or_default(args.run_order,
+                                                            brain=brain,
+                                                            settings=settings)
 
         if (args.run_synapse is None) and (args.run_order is None):
             # first, load events in event manager

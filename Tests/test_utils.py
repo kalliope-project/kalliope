@@ -53,7 +53,7 @@ class TestUtils(unittest.TestCase):
         # Test the absolute path
         dir_path = "/tmp/kalliope/tests/"
         file_name = "test_real_file_path"
-        absolute_path_to_test = os.path.join(dir_path,file_name)
+        absolute_path_to_test = os.path.join(dir_path, file_name)
         expected_result = absolute_path_to_test
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
@@ -108,7 +108,7 @@ class TestUtils(unittest.TestCase):
         dir_path = "../kalliope/"
         file_name = "test_real_file_path"
         path_to_test = os.path.join(dir_path, file_name)
-        expected_result = os.path.normpath(os.getcwd() + os.sep + os.pardir + os.sep +"kalliope" + os.sep + file_name)
+        expected_result = os.path.normpath(os.getcwd() + os.sep + os.pardir + os.sep + "kalliope" + os.sep + file_name)
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
 
@@ -119,8 +119,8 @@ class TestUtils(unittest.TestCase):
                           expected_result,
                           "Fail to match the /an/unknown/path/kalliope path")
         # Clean up
-        if os.path.exists(file_name):
-            os.remove(file_name)
+        if os.path.exists(expected_result):
+            os.remove(expected_result)
 
     def test_get_dynamic_class_instantiation(self):
         """

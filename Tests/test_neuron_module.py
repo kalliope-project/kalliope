@@ -145,31 +145,30 @@ class TestNeuronModule(unittest.TestCase):
         order = "This is the order"
         synapse_name = "Synapse2"
         answer = "This is the {{ answer }}"
+        expected_parameter = {"answer": "order"}
 
-        with mock.patch("kalliope.core.OrderAnalyser.start") as mock_orderAnalyser_start:
+        with mock.patch("kalliope.core.NeuronLauncher.start_neuron_list") as mock_NeuronLauncher_start:
             neuron_mod = NeuronModule()
             neuron_mod.brain = br
 
-            # Success
-            self.assertTrue(neuron_mod.run_synapse_by_name_with_order(order=order,
-                                                                        synapse_name=synapse_name,
-                                                                        order_template=answer),
-                              "fail to find the proper synapse")
+            # Success, run synapse 2
+            launched_synapse = neuron_mod.run_synapse_by_name_with_order(order=order,
+                                                                         synapse_name=synapse_name,
+                                                                         order_template=answer)
+            self.assertEqual(synapse2, launched_synapse)
 
-            # mock_orderAnalyser_start.assert_called_once()
-            mock_orderAnalyser_start.assert_called_once_with(synapses_to_run=[synapse2],
-                                                             external_order=answer)
-            mock_orderAnalyser_start.reset_mock()
+            mock_NeuronLauncher_start.assert_called_once_with(neuron_list=[neuron3, neuron4],
+                                                              parameters_dict=expected_parameter)
+            mock_NeuronLauncher_start.reset_mock()
 
             # Fail
             synapse_name = "Synapse5"
-            self.assertFalse(neuron_mod.run_synapse_by_name_with_order(order=order,
-                                                                      synapse_name=synapse_name,
-                                                                       order_template=answer),
-                            "fail to NOT find the synapse")
+            self.assertIsNone(neuron_mod.run_synapse_by_name_with_order(order=order,
+                                                                        synapse_name=synapse_name,
+                                                                        order_template=answer))
 
-            mock_orderAnalyser_start.assert_not_called()
-            mock_orderAnalyser_start.reset_mock()
+            mock_NeuronLauncher_start.assert_not_called()
+            mock_NeuronLauncher_start.reset_mock()
 
 
 

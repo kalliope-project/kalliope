@@ -1,15 +1,18 @@
 # coding: utf8
 import logging
 import random
-
 import sys
+
 from jinja2 import Template
 
 from kalliope.core import OrderListener
-from kalliope.core import OrderAnalyser
+from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
+from kalliope.core.Models import Order
+from kalliope.core.NeuronLauncher import NeuronLauncher
+from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
+from kalliope.core.OrderAnalyser import OrderAnalyser
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.Utils.Utils import Utils
-from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -186,9 +189,10 @@ class NeuronModule(object):
     def run_synapse_by_name(self, name):
         SynapseLauncher.start_synapse(name=name, brain=self.brain)
 
-    def is_order_matching(self, order_said, order_match):
-        oa = OrderAnalyser(order=order_said, brain=self.brain)
-        return oa.spelt_order_match_brain_order_via_table(order_to_analyse=order_match, user_said=order_said)
+    @staticmethod
+    def is_order_matching(order_said, order_match):
+        return OrderAnalyser().spelt_order_match_brain_order_via_table(order_to_analyse=order_match,
+                                                                       user_said=order_said)
 
     def run_synapse_by_name_with_order(self, order, synapse_name, order_template):
         """
@@ -206,12 +210,23 @@ class NeuronModule(object):
             list_to_run = list()
             list_to_run.append(synapse_to_run)
 
-            oa = OrderAnalyser(order=order, brain=self.brain)
-            oa.start(synapses_to_run=list_to_run, external_order=order_template)
+            # load parameters from the answer
+            parameters = None
+            for signal in synapse_to_run.signals:
+                if isinstance(signal, Order):
+                    parameters = NeuronParameterLoader.get_parameters(synapse_order=order_template,
+                                                                      user_order=order)
+                    if parameters is not None:
+                        logger.debug("[NeuronModule]-> parameter load from user answer: %s" % parameters)
+                        break
+
+            # start the neuron list
+            NeuronLauncher.start_neuron_list(neuron_list=synapse_to_run.neurons, parameters_dict=parameters)
+
         else:
             logger.debug("[NeuronModule]-> run_synapse_by_name_with_order, the synapse has not been found : %s"
                          % synapse_name)
-        return synapse_to_run is not None
+        return synapse_to_run
 
     @staticmethod
     def _get_content_of_file(real_file_template_path):

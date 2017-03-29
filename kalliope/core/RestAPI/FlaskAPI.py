@@ -13,9 +13,8 @@ from werkzeug.utils import secure_filename
 from flask import jsonify
 from flask import request
 from flask_restful import abort
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
-from kalliope.core import OrderAnalyser
 from kalliope.core.RestAPI.utils import requires_auth
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope._version import version_str
@@ -169,8 +168,10 @@ class FlaskAPI(threading.Thread):
         if order is not None:
             # get the order
             order_to_run = order["order"]
-            oa = OrderAnalyser(order=order_to_run, brain=self.brain)
-            launched_synapses = oa.start()
+
+            launched_synapses = SynapseLauncher.run_matching_synapse_or_default(order_to_run,
+                                                                                self.brain,
+                                                                                self.settings)
 
             if launched_synapses:
                 # if the list is not empty, we have launched one or more synapses
@@ -255,14 +256,8 @@ class FlaskAPI(threading.Thread):
         :return:
         """
         logger.debug("order to process %s" % order)
-        if order is not None:  # maybe we have received a null audio from STT engine
-            order_analyser = OrderAnalyser(order, brain=self.brain)
-            synapses_launched = order_analyser.start()
-            self.launched_synapses = synapses_launched
-        else:
-            if self.settings.default_synapse is not None:
-                SynapseLauncher.start_synapse(name=self.settings.default_synapse, brain=self.brain)
-                self.launched_synapses = self.brain.get_synapse_by_name(synapse_name=self.settings.default_synapse)
+        list_launched_synapse = SynapseLauncher.run_matching_synapse_or_default(order, self.brain, self.settings)
+        self.launched_synapses = list_launched_synapse
 
         # this boolean will notify the main process that the order have been processed
         self.order_analyser_return = True
