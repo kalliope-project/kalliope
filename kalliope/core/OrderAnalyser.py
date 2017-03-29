@@ -12,7 +12,7 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class OrderAnalyser2:
+class OrderAnalyser:
     """
     This Class is used to get a list of synapses that match a given Spoken order
     """
