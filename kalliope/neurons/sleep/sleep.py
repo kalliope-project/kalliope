@@ -11,7 +11,8 @@ class Sleep(NeuronModule):
         # check parameters
         if self._is_parameters_ok():
 
-            if isinstance(self.seconds, str):
+            if isinstance(self.seconds, str) or \
+                    isinstance(self.seconds, unicode):
                 self.seconds = float(self.seconds)
 
             time.sleep(self.seconds)

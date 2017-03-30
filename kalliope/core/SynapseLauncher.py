@@ -74,7 +74,7 @@ class SynapseLauncher(object):
                 # the order match one or more synapses
                 for tuple_el in launched_synapses_tuple:
                     launched_synapses.append(tuple_el.synapse)
-                    logger.debug("Get parameter for %s " % tuple_el.synapse.name)
+                    logger.debug("[SynapseLauncher] Get parameter for %s " % tuple_el.synapse.name)
                     parameters = NeuronParameterLoader.get_parameters(synapse_order=tuple_el.order,
                                                                       user_order=order_to_process)
                     # start the neuron list
@@ -85,7 +85,7 @@ class SynapseLauncher(object):
 
         if no_synapse_match:  # then run the default synapse
             if settings.default_synapse is not None:
-                logger.debug("No matching Synapse-> running default synapse ")
+                logger.debug("[SynapseLauncher] No matching Synapse-> running default synapse ")
                 synapses = SynapseLauncher.start_synapse(name=settings.default_synapse,
                                                          brain=brain)
                 launched_synapses.append(synapses)
