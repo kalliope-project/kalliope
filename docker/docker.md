@@ -4,7 +4,7 @@
 
 Build the image for Ubuntu 16.04.
 ```
-docker build --force-rm=true -t kalliope-app -f ubuntu_16_04.dockerfile .
+docker build --force-rm=true -t kalliope-app -f docker/ubuntu_16_04.dockerfile .
 ```
 
 If we want a specific branch of Kalliope

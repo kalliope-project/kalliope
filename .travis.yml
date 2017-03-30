@@ -1,8 +1,14 @@
 language: python
+
+services:
+  - docker
+
 python:
   - "2.7"
+
 # command to install dependencies
 before_install:
+- docker build --force-rm=true --build-arg branch=$TRAVIS_BRANCH -t kalliope-ubuntu1604 -f docker/ubuntu_16_04.dockerfile .
 - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse"
 - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse"
 - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
@@ -11,6 +17,10 @@ before_install:
 - sudo apt-get install libstdc++6
 - wget https://bootstrap.pypa.io/get-pip.py
 - sudo python get-pip.py
+
 install: "pip install -r install/files/python_requirements.txt"
+
 # command to run tests
-script: pytest
+script:
+  - pytest
+  - docker run -it --rm kalliope-ubuntu1604
