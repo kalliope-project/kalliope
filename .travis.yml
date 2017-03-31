@@ -8,7 +8,8 @@ python:
 
 # command to install dependencies
 before_install:
-- docker build --force-rm=true --build-arg branch=$TRAVIS_BRANCH -t kalliope-ubuntu1604 -f docker/ubuntu_16_04.dockerfile .
+- docker build --force-rm=true --build-arg TRAVIS_BRANCH=${TRAVIS_BRANCH} --build-arg TRAVIS_EVENT_TYPE=${TRAVIS_EVENT_TYPE} --build-arg TRAVIS_PULL_REQUEST_SLUG=${TRAVIS_PULL_REQUEST_SLUG} --build-arg TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH} -t kalliope-ubuntu1604 -f docker/ubuntu_16_04.dockerfile .
+- docker build --force-rm=true --build-arg TRAVIS_BRANCH=${TRAVIS_BRANCH} --build-arg TRAVIS_EVENT_TYPE=${TRAVIS_EVENT_TYPE} --build-arg TRAVIS_PULL_REQUEST_SLUG=${TRAVIS_PULL_REQUEST_SLUG} --build-arg TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH} -t kalliope-debian8 -f docker/debian8.dockerfile .
 - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse"
 - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse"
 - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
@@ -24,3 +25,5 @@ install: "pip install -r install/files/python_requirements.txt"
 script:
   - pytest
   - docker run -it --rm kalliope-ubuntu1604
+  - docker run -it --rm kalliope-debian8
+

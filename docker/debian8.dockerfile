@@ -1,15 +1,15 @@
-FROM ubuntu:16.04
+FROM debian:8
 
 ENV no_proxy="127.0.0.1,localhost,kalliope.fr"
 
-# pico2wav is a multiverse package
-RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ xenial multiverse" >> /etc/apt/sources.list
+# Need some packages in non-free repo
+RUN sed -i -- 's/jessie main/jessie main contrib non-free/g' /etc/apt/sources.list
 
 # install packages
 RUN apt-get update && apt-get install -y \
-    git python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog \
-    libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
-    sox libatlas3-base mplayer wget vim sudo\
+    git python-dev libsmpeg0 libttspico-utils libsmpeg0 \
+    flac dialog portaudio19-dev build-essential libssl-dev \
+    libffi-dev sox libatlas3-base mplayer wget vim sudo\
     && rm -rf /var/lib/apt/lists/*
 
 # Install the last PIP
