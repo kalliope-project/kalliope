@@ -14,6 +14,9 @@ from kalliope.core.RestAPI.FlaskAPI import FlaskAPI
 
 class TestRestAPI(LiveServerTestCase):
 
+    def tearDown(self):
+        Singleton._instances = {}
+
     def create_app(self):
         """
         executed once at the beginning of the test

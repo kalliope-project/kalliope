@@ -16,6 +16,8 @@ from kalliope.core.Models.Settings import Settings
 class TestBrainLoader(unittest.TestCase):
 
     def setUp(self):
+        # be sure the brain haven't been instantiated before
+        Singleton._instances = {}
         if "/Tests" in os.getcwd():
             self.brain_to_test = os.getcwd() + os.sep + "brains/brain_test.yml"
         else:
