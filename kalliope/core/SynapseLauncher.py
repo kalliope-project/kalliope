@@ -37,8 +37,7 @@ class SynapseLauncher(object):
         if not synapse:
             raise SynapseNameNotFound("The synapse name \"%s\" does not exist in the brain file" % name)
         else:
-            cls._run_synapse(synapse=synapse)
-            return synapse
+            return cls._run_synapse(synapse=synapse)
 
     @classmethod
     def _run_synapse(cls, synapse):
@@ -48,8 +47,10 @@ class SynapseLauncher(object):
         :return:
         """
         for neuron in synapse.neurons:
-            NeuronLauncher.start_neuron(neuron)
-        return True
+            instantiated_neuron = NeuronLauncher.start_neuron(neuron)
+            # add the generated message to the synapse
+            synapse.answers.append(instantiated_neuron.tts_message)
+        return synapse
 
     @classmethod
     def run_matching_synapse_or_default(cls, order_to_process, brain, settings):
@@ -73,13 +74,19 @@ class SynapseLauncher(object):
             else:
                 # the order match one or more synapses
                 for tuple_el in launched_synapses_tuple:
-                    launched_synapses.append(tuple_el.synapse)
+
                     logger.debug("[SynapseLauncher] Get parameter for %s " % tuple_el.synapse.name)
                     parameters = NeuronParameterLoader.get_parameters(synapse_order=tuple_el.order,
                                                                       user_order=order_to_process)
                     # start the neuron list
-                    NeuronLauncher.start_neuron_list(neuron_list=tuple_el.synapse.neurons,
-                                                     parameters_dict=parameters)
+                    instantiated_neuron_list = NeuronLauncher.start_neuron_list(neuron_list=tuple_el.synapse.neurons,
+                                                                                parameters_dict=parameters)
+                    # add generated tts messages to the returned synapse
+                    for neuron in instantiated_neuron_list:
+                        print "add message %s" % neuron.tts_message
+                        tuple_el.synapse.answers.append(neuron.tts_message)
+
+                    launched_synapses.append(tuple_el.synapse)
         else:
             no_synapse_match = True
 

@@ -89,6 +89,8 @@ class NeuronModule(object):
         self.say_template = kwargs.get('say_template', None)
         # check if there is a template file associate to the output message
         self.file_template = kwargs.get('file_template', None)
+        # keep the generated message
+        self.tts_message = None
 
     def say(self, message):
         """
@@ -119,6 +121,7 @@ class NeuronModule(object):
 
         if tts_message is not None:
             logger.debug("tts_message to say: %s" % tts_message)
+            self.tts_message = tts_message
 
             # create a tts object from the tts the user want to use
             tts_object = next((x for x in self.settings.ttss if x.name == self.tts), None)
