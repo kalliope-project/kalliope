@@ -14,6 +14,8 @@ class Neurotransmitter(NeuronModule):
         self.from_answer_link = kwargs.get('from_answer_link', None)
         self.default = kwargs.get('default', None)
         self.direct_link = kwargs.get('direct_link', None)
+        self.is_api_call = kwargs.get('is_api_call', False)
+        self.answer = kwargs.get('answer', None)
 
         # do some check
         if self._is_parameters_ok():
@@ -21,8 +23,14 @@ class Neurotransmitter(NeuronModule):
                 logger.debug("Neurotransmitter directly call to the synapse name: %s" % self.direct_link)
                 self.run_synapse_by_name(self.direct_link)
             else:
-                # the user is using a from_answer_link, we call the stt to get an audio
-                self.get_audio_from_stt(callback=self.callback)
+                if self.is_api_call:
+                    if self.answer is not None:
+                        self.callback(self.answer)
+                    else:
+                        self.is_waiting_for_answer = True
+                else:
+                    # the user is using a from_answer_link, we call the stt to get an audio
+                    self.get_audio_from_stt(callback=self.callback)
 
     def callback(self, audio):
         """
@@ -41,9 +49,11 @@ class Neurotransmitter(NeuronModule):
                 for answer in el["answers"]:
                     if self.is_order_matching(audio, answer):
                         logger.debug("Neurotransmitter: match answer: %s" % answer)
-                        found = self.run_synapse_by_name_with_order(order=audio,
-                                                                    synapse_name=el["synapse"],
-                                                                    order_template=answer)
+                        self.run_synapse_by_name(synapse_name=el["synapse"], user_order=audio, synapse_order=answer)
+                        # found = self.run_synapse_by_name_with_order(order=audio,
+                        #                                             synapse_name=el["synapse"],
+                        #                                             order_template=answer)
+                        found = True
                         break
             if not found:  # the answer do not correspond to any answer. We run the default synapse
                 self.run_synapse_by_name(self.default)

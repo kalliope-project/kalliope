@@ -8,6 +8,7 @@ from jinja2 import Template
 from kalliope.core import OrderListener
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 from kalliope.core.Models import Order
+from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.NeuronLauncher import NeuronLauncher
 from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
 from kalliope.core.OrderAnalyser import OrderAnalyser
@@ -91,6 +92,29 @@ class NeuronModule(object):
         self.file_template = kwargs.get('file_template', None)
         # keep the generated message
         self.tts_message = None
+        # if the current call is api one
+        self.is_api_call = kwargs.get('is_api_call', False)
+        # boolean to know id the synapse is waiting for an answer
+        self.is_waiting_for_answer = False
+        # the synapse name to add the the buffer
+        self.pending_synapse = None
+
+    def __str__(self):
+        retuned_string = ""
+        retuned_string += self.tts_message
+        return retuned_string
+
+    def serialize(self):
+        """
+        This method allows to serialize in a proper way this object
+
+        :return: A dict of name and parameters
+        :rtype: Dict
+        """
+        return {
+            'neuron_name': self.neuron_name,
+            'tts_message': self.tts_message
+        }
 
     def say(self, message):
         """
@@ -122,6 +146,7 @@ class NeuronModule(object):
         if tts_message is not None:
             logger.debug("tts_message to say: %s" % tts_message)
             self.tts_message = tts_message
+            Utils.print_success(tts_message)
 
             # create a tts object from the tts the user want to use
             tts_object = next((x for x in self.settings.ttss if x.name == self.tts), None)
@@ -189,8 +214,15 @@ class NeuronModule(object):
 
         return returned_message
 
-    def run_synapse_by_name(self, name):
-        SynapseLauncher.start_synapse(name=name, brain=self.brain)
+    def run_synapse_by_name(self, synapse_name, user_order=None, synapse_order=None):
+        """
+        call the lifo for adding a synapse to execute in the list of synapse list to process
+        :param synapse_name: 
+        :return: 
+        """
+        synapse = BrainLoader().get_brain().get_synapse_by_name(synapse_name)
+        matched_synapse = MatchedSynapse(matched_synapse=synapse, matched_order=synapse_order, user_order=user_order)
+        self.pending_synapse = matched_synapse
 
     @staticmethod
     def is_order_matching(order_said, order_match):

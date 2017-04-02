@@ -9,8 +9,6 @@ class Synapse(object):
         self.name = name
         self.neurons = neurons
         self.signals = signals
-        # init a list where generated tts message will be stored after running each neuron in the synapse
-        self.answers = list()
 
     def serialize(self):
         """
@@ -23,8 +21,7 @@ class Synapse(object):
         return {
             'name': self.name,
             'neurons': [e.serialize() for e in self.neurons],
-            'signals': [e.serialize() for e in self.signals],
-            'answers':  str(self.answers)
+            'signals': [e.serialize() for e in self.signals]
         }
 
     def __str__(self):
@@ -35,7 +32,6 @@ class Synapse(object):
         return_val += "\nsignals:"
         for el in self.signals:
             return_val += str(el)
-        return_val += "\nanswers: %s" % self.answers
         return return_val
 
     def __eq__(self, other):
