@@ -1,5 +1,5 @@
 import logging
-
+import six
 import jinja2
 
 from kalliope.core.Utils.Utils import Utils
@@ -66,7 +66,7 @@ class NeuronLauncher:
         :param loaded_parameters: dict of parameters
         """
         logger.debug("[NeuronLauncher] replacing brackets from %s, using %s" % (neuron_parameters, loaded_parameters))
-        if isinstance(neuron_parameters, str) or isinstance(neuron_parameters, unicode):
+        if isinstance(neuron_parameters, str) or isinstance(neuron_parameters, six.text_type):
             # replace bracket parameter only if the str contains brackets
             if Utils.is_containing_bracket(neuron_parameters):
                 # check that the parameter to replace is available in the loaded_parameters dict

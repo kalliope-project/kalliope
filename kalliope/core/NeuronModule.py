@@ -2,6 +2,7 @@
 import logging
 import random
 import sys
+import six
 
 from jinja2 import Template
 
@@ -133,14 +134,9 @@ class NeuronModule(object):
 
         tts_message = None
 
-        if sys.version_info[0] >= 3:
-            if isinstance(message, bytes) or isinstance(message, str):
-                logger.debug("message is string")
-                tts_message = message
-        else:
-            if isinstance(message, str) or isinstance(message, unicode):
-                logger.debug("message is string")
-                tts_message = message
+        if isinstance(message, str) or isinstance(message, six.text_type):
+            logger.debug("message is string")
+            tts_message = message
 
 
         if isinstance(message, list):

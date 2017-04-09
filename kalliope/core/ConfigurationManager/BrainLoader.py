@@ -2,6 +2,7 @@ import inspect
 import logging
 import os
 from six import with_metaclass
+import six
 
 from .YAMLLoader import YAMLLoader
 from kalliope.core.Utils import Utils
@@ -260,7 +261,7 @@ class BrainLoader(with_metaclass(Singleton, object)):
             for el in parameter:
                 new_parameter_list.append(cls._replace_global_variables(el, settings=settings))
             return new_parameter_list
-        if isinstance(parameter, str) or isinstance(parameter, unicode) or isinstance(parameter, int):
+        if isinstance(parameter, str) or isinstance(parameter, six.text_type) or isinstance(parameter, int):
             if Utils.is_containing_bracket(parameter):
                 return cls._get_global_variable(sentence=parameter, settings=settings)
             return parameter
