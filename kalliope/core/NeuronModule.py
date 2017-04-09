@@ -79,7 +79,7 @@ class NeuronModule(object):
             # we get the default TTS
             self.tts = self._get_tts_object(settings=self.settings)
         else:
-            for key, value in self.override_tts_parameters.iteritems():
+            for key, value in self.override_tts_parameters.items():
                 tts_name = key
                 tts_parameters = value
                 print tts_parameters
@@ -285,7 +285,7 @@ class NeuronModule(object):
 
         if override_parameter is not None:  # the user want to override the default TTS configuration
             logger.debug("args for TTS plugin before update: %s" % str(tts_object.parameters))
-            for key, value in override_parameter.iteritems():
+            for key, value in override_parameter.items():
                 tts_object.parameters[key] = value
             logger.debug("args for TTS plugin after update: %s" % str(tts_object.parameters))
 

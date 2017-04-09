@@ -252,7 +252,7 @@ class BrainLoader(with_metaclass(Singleton, object)):
         """
 
         if isinstance(parameter, dict):
-            for key, value in parameter.iteritems():
+            for key, value in parameter.items():
                 parameter[key] = cls._replace_global_variables(value, settings=settings)
             return parameter
         if isinstance(parameter, list):
