@@ -50,9 +50,6 @@ class Neurotransmitter(NeuronModule):
                     if self.is_order_matching(audio, answer):
                         logger.debug("Neurotransmitter: match answer: %s" % answer)
                         self.run_synapse_by_name(synapse_name=el["synapse"], user_order=audio, synapse_order=answer)
-                        # found = self.run_synapse_by_name_with_order(order=audio,
-                        #                                             synapse_name=el["synapse"],
-                        #                                             order_template=answer)
                         found = True
                         break
             if not found:  # the answer do not correspond to any answer. We run the default synapse

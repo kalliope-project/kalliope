@@ -124,9 +124,10 @@ def main():
                                           brain=brain)
 
         if args.run_order is not None:
-            SynapseLauncher.run_matching_synapse_or_default(args.run_order,
+            SynapseLauncher.run_matching_synapse_from_order(args.run_order,
                                                             brain=brain,
-                                                            settings=settings)
+                                                            settings=settings,
+                                                            is_api_call=False)
 
         if (args.run_synapse is None) and (args.run_order is None):
             # first, load events in event manager

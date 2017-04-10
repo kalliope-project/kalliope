@@ -1,5 +1,7 @@
 import logging
 
+from kalliope.core.ConfigurationManager import BrainLoader
+
 from kalliope.core.Models.LIFOBuffer import LIFOBuffer
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.NeuronLauncher import NeuronLauncher
@@ -55,53 +57,6 @@ class SynapseLauncher(object):
         return synapse
 
     @classmethod
-    def run_matching_synapse_or_default(cls, order_to_process, brain, settings):
-        """
-        This method will run all synapse that match the given order "order_to_process"
-        :param order_to_process: The text order to process in the order analyser
-        :param brain: Brain instance
-        :param settings: Settings instance
-        :return: Return a list of launched synapse
-        """
-        no_synapse_match = False
-        # create a list of launched synapse to return
-        launched_synapses = list()
-        if order_to_process is not None:  # maybe we have received a null audio from STT engine
-            launched_synapses_tuple = OrderAnalyser.get_matching_synapse(order=order_to_process, brain=brain)
-
-            # oa contains the list Named tuple of synapse to run with the associated order that has matched
-            # for each synapse, get neurons, et for each neuron, get parameters
-            if not launched_synapses_tuple:
-                no_synapse_match = True
-            else:
-                # the order match one or more synapses
-                for tuple_el in launched_synapses_tuple:
-
-                    logger.debug("[SynapseLauncher] Get parameter for %s " % tuple_el.synapse.name)
-                    parameters = NeuronParameterLoader.get_parameters(synapse_order=tuple_el.order,
-                                                                      user_order=order_to_process)
-                    # start the neuron list
-                    instantiated_neuron_list = NeuronLauncher.start_neuron_list(neuron_list=tuple_el.synapse.neurons,
-                                                                                parameters_dict=parameters)
-                    # add generated tts messages to the returned synapse
-                    for neuron in instantiated_neuron_list:
-                        tuple_el.synapse.answers.append(neuron.tts_message)
-
-                    launched_synapses.append(tuple_el.synapse)
-        else:
-            no_synapse_match = True
-
-        if no_synapse_match:  # then run the default synapse
-            if settings.default_synapse is not None:
-                logger.debug("[SynapseLauncher] No matching Synapse-> running default synapse ")
-                synapses = SynapseLauncher.start_synapse(name=settings.default_synapse,
-                                                         brain=brain)
-                launched_synapses.append(synapses)
-
-        # return the launched synapse list
-        return launched_synapses
-
-    @classmethod
     def run_matching_synapse_from_order(cls, order_to_process, brain, settings, is_api_call=False):
         """
         
@@ -118,7 +73,7 @@ class SynapseLauncher(object):
         # if the LIFO is not empty, so, the current order is passed to the current processing synapse as an answer
         if len(lifo_buffer.lifo_list) > 0:
             # the LIFO is not empty, this is an answer to a previous call
-            return lifo_buffer.execute(answer=order_to_process)
+            return lifo_buffer.execute(answer=order_to_process, is_api_call=is_api_call)
 
         else:
             # the LIFO is empty, this is a new call
@@ -128,14 +83,26 @@ class SynapseLauncher(object):
 
             # we transform the tuple in a MatchedSynapse list
             list_synapse_to_process = list()
-            for tuple_el in synapses_to_launch_tuple:
-                new_matching_synapse = MatchedSynapse(matched_synapse=tuple_el.synapse,
-                                                      matched_order=tuple_el.order,
-                                                      user_order=order_to_process)
-                list_synapse_to_process.append(new_matching_synapse)
+
+            if synapses_to_launch_tuple:  # the order analyser returned us a list
+                for tuple_el in synapses_to_launch_tuple:
+                    new_matching_synapse = MatchedSynapse(matched_synapse=tuple_el.synapse,
+                                                          matched_order=tuple_el.order,
+                                                          user_order=order_to_process)
+                    list_synapse_to_process.append(new_matching_synapse)
+            else:
+                # execute the default synapse if exist
+                if settings.default_synapse:
+                    logger.debug("[SynapseLauncher] No matching Synapse-> running default synapse ")
+                    # get the default synapse
+                    default_synapse = BrainLoader().get_brain().get_synapse_by_name(settings.default_synapse)
+
+                    new_matching_synapse = MatchedSynapse(matched_synapse=default_synapse,
+                                                          matched_order=None,
+                                                          user_order=order_to_process)
+                    list_synapse_to_process.append(new_matching_synapse)
 
             lifo_buffer.add_synapse_list_to_lifo(list_synapse_to_process)
 
             lifo_buffer.api_response.user_order = order_to_process
-            return lifo_buffer.execute()
-
+            return lifo_buffer.execute(is_api_call=is_api_call)

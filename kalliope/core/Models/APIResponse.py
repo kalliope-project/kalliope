@@ -24,6 +24,6 @@ class APIResponse(object):
 
         return {
             'user_order': self.user_order,
-            'list_processed_matched_synapse': [e.serialize() for e in self.list_processed_matched_synapse],
+            'matched_synapses': [e.serialize() for e in self.list_processed_matched_synapse],
             'status': self.status
         }

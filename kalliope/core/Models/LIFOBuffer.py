@@ -35,7 +35,7 @@ class LIFOBuffer(object):
         cls.lifo_list.append(matched_synapse_list)
 
     @classmethod
-    def execute(cls, answer=None):
+    def execute(cls, answer=None, is_api_call=False):
 
         # we keep looping over the LIFO til we have synapse list to process in it
         while cls.lifo_list:
@@ -52,8 +52,10 @@ class LIFOBuffer(object):
                     break
                 # get the first matched synapse in the list
                 matched_synapse = last_synapse_fifo_list[0]
-                # add the synapse to the API response so the user will get the status
-                cls.api_response.list_processed_matched_synapse.append(matched_synapse)
+                # add the synapse to the API response so the user will get the status if the synapse was not already
+                # in the response
+                if matched_synapse not in cls.api_response.list_processed_matched_synapse:
+                    cls.api_response.list_processed_matched_synapse.append(matched_synapse)
                 # while we have synapse to process in the list of synapse
                 while matched_synapse.neuron_fifo_list:
                     if cls.synapse_list_added_to_lifo:
@@ -67,11 +69,10 @@ class LIFOBuffer(object):
                         # the next neuron should not get this answer
                         answer = None
                     # todo fix this when we have a full client/server call. The client would be the voice or api call
-                    neuron.parameters["is_api_call"] = True
+                    neuron.parameters["is_api_call"] = is_api_call
                     # execute the neuron
-                    instantiated_neuron = NeuronLauncher.start_neuron_list_refacto(
-                        neuron=neuron,
-                        parameters_dict=matched_synapse.parameters)
+                    instantiated_neuron = NeuronLauncher.start_neuron(neuron=neuron,
+                                                                      parameters_dict=matched_synapse.parameters)
 
                     # by default, the status of an execution is "complete" if no neuron are waiting for an answer
                     cls.api_response.status = "complete"
@@ -107,4 +108,8 @@ class LIFOBuffer(object):
                 # remove the synapse list from the LIFO
                 cls.lifo_list.remove(last_synapse_fifo_list)
 
-        return cls.api_response.serialize()
+        # we prepare a json response
+        will_be_returned = cls.api_response.serialize()
+        # we clean up the API response object for the next call
+        cls.api_response = APIResponse()
+        return will_be_returned

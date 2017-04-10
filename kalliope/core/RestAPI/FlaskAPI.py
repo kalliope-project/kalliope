@@ -45,8 +45,8 @@ class FlaskAPI(threading.Thread):
         sl = SettingLoader()
         self.settings = sl.settings
 
-        # list of launched synapse by the Order Analyser when using the /synapses/start/audio URL
-        self.launched_synapses = None
+        # api_response sent by the Order Analyser when using the /synapses/start/audio URL
+        self.api_response = None
         # boolean used to notify the main process that we get the list of returned synapse
         self.order_analyser_return = False
 
@@ -169,13 +169,13 @@ class FlaskAPI(threading.Thread):
             # get the order
             order_to_run = order["order"]
 
-            launched_synapses = SynapseLauncher.run_matching_synapse_or_default(order_to_run,
-                                                                                self.brain,
-                                                                                self.settings)
-
-            if launched_synapses:
+            api_response = SynapseLauncher.run_matching_synapse_from_order(order_to_run,
+                                                                           self.brain,
+                                                                           self.settings,
+                                                                           is_api_call=True)
+            if api_response:
                 # if the list is not empty, we have launched one or more synapses
-                data = jsonify(synapses=[e.serialize() for e in launched_synapses])
+                data = jsonify(api_response)
                 return data, 201
             else:
                 data = {
@@ -226,9 +226,9 @@ class FlaskAPI(threading.Thread):
             while not self.order_analyser_return:
                 time.sleep(0.1)
             self.order_analyser_return = False
-            if self.launched_synapses is not None and self.launched_synapses:
-                data = jsonify(synapses=[e.serialize() for e in self.launched_synapses])
-                self.launched_synapses = None
+            if self.api_response is not None and self.api_response:
+                data = jsonify(self.api_response)
+                self.api_response = None
                 return data, 201
             else:
                 data = {
@@ -256,8 +256,11 @@ class FlaskAPI(threading.Thread):
         :return:
         """
         logger.debug("order to process %s" % order)
-        list_launched_synapse = SynapseLauncher.run_matching_synapse_or_default(order, self.brain, self.settings)
-        self.launched_synapses = list_launched_synapse
+        api_response = SynapseLauncher.run_matching_synapse_from_order(order,
+                                                                       self.brain,
+                                                                       self.settings,
+                                                                       is_api_call=True)
+        self.api_response = api_response
 
         # this boolean will notify the main process that the order have been processed
         self.order_analyser_return = True

@@ -16,11 +16,16 @@ class MatchedSynapse(object):
         """
         # create a copy of the synapse. the received synapse come from the brain.
         self.synapse = matched_synapse
-        # create a fifo list that contains all neurons to process
-        self.neuron_fifo_list = self.synapse.neurons
+        # create a fifo list that contains all neurons to process.
+        # Create a copy to be sure when we remove a neuron from this list it will not be removed from the synapse's
+        # neuron list
+        self.neuron_fifo_list = copy.deepcopy(self.synapse.neurons)
         self.matched_order = matched_order
-        self.parameters = NeuronParameterLoader.get_parameters(synapse_order=self.matched_order,
-                                                               user_order=user_order)
+        self.parameters = dict()
+        if matched_order is not None:
+            self.parameters = NeuronParameterLoader.get_parameters(synapse_order=self.matched_order,
+                                                                   user_order=user_order)
+
         # list of Neuron Module
         self.neuron_module_list = list()
 
