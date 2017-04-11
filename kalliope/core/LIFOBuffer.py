@@ -36,6 +36,19 @@ class LIFOBuffer(object):
 
     @classmethod
     def execute(cls, answer=None, is_api_call=False):
+        """
+        Process the LIFO list.
+        
+        The LIFO list contains multiple list of matched synapses.        
+        For each list of matched synapse we process synapses inside        
+        For each synapses we process neurons.        
+        If a neuron add a Synapse list to the lifo, this synapse list is processed before executing the first list 
+        in which we were in.
+        
+        :param answer: String answer to give the the last neuron which whas waiting for an answer
+        :param is_api_call: Boolean passed to all neuron in order to let them know if the current call comes from API
+        :return: serialized APIResponse object
+        """
 
         # we keep looping over the LIFO til we have synapse list to process in it
         while cls.lifo_list:
@@ -113,3 +126,10 @@ class LIFOBuffer(object):
         # we clean up the API response object for the next call
         cls.api_response = APIResponse()
         return will_be_returned
+
+    @classmethod
+    def clean(cls):
+        """
+        Clean the LIFO by creating a new list
+        """
+        cls.lifo_list = list()

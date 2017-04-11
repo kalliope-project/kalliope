@@ -113,7 +113,7 @@ class NeuronModule(object):
         """
         return {
             'neuron_name': self.neuron_name,
-            'tts_message': self.tts_message
+            'generated_message': self.tts_message
         }
 
     def say(self, message):

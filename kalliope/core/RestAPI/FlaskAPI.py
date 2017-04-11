@@ -4,9 +4,11 @@ import threading
 
 import time
 
+from kalliope.core.LIFOBuffer import LIFOBuffer
+from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.Utils.FileManager import FileManager
 
-from kalliope.core.ConfigurationManager import SettingLoader
+from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 from kalliope.core.OrderListener import OrderListener
 from werkzeug.utils import secure_filename
 
@@ -136,18 +138,25 @@ class FlaskAPI(threading.Thread):
         :param synapse_name:
         :return:
         """
-        synapse_target = self._get_synapse_by_name(synapse_name)
+        # get a synapse object from the name
+        synapse_target = BrainLoader().get_brain().get_synapse_by_name(synapse_name=synapse_name)
 
         if synapse_target is None:
             data = {
                 "synapse name not found": "%s" % synapse_name
             }
             return jsonify(error=data), 404
-
-        # run the synapse
-        SynapseLauncher.start_synapse(synapse_name, brain=self.brain)
-        data = jsonify(synapses=synapse_target.serialize())
-        return data, 201
+        else:
+            # generate a MatchedSynapse from the synapse
+            matched_synapse = MatchedSynapse(matched_synapse=synapse_target)
+            # get the current LIFO buffer
+            lifo_buffer = LIFOBuffer()
+            # this is a new call we clean up the LIFO
+            lifo_buffer.clean()
+            lifo_buffer.add_synapse_list_to_lifo([matched_synapse])
+            response = lifo_buffer.execute(is_api_call=True)
+            data = jsonify(response)
+            return data, 201
 
     @requires_auth
     def run_synapse_by_order(self):
