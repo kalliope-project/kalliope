@@ -1,8 +1,7 @@
 import logging
 
 from kalliope.core.ConfigurationManager import BrainLoader
-
-from kalliope.core.Models.LIFOBuffer import LIFOBuffer
+from kalliope.core.LIFOBuffer import LIFOBuffer
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.NeuronLauncher import NeuronLauncher
 from kalliope.core.OrderAnalyser import OrderAnalyser
