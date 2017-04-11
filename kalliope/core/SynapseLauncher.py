@@ -65,7 +65,7 @@ class SynapseLauncher(object):
         :return: list of matched synapse
         """
 
-        # get our single ton LIFO
+        # get our singleton LIFO
         lifo_buffer = LIFOBuffer()
 
         # if the LIFO is not empty, so, the current order is passed to the current processing synapse as an answer
@@ -73,23 +73,12 @@ class SynapseLauncher(object):
             # the LIFO is not empty, this is an answer to a previous call
             return lifo_buffer.execute(answer=order_to_process, is_api_call=is_api_call)
 
-        else:
-            # the LIFO is empty, this is a new call
+        else:  # the LIFO is empty, this is a new call
+            # get a list of matched synapse from the order
+            list_synapse_to_process = OrderAnalyser.get_matching_synapse(order=order_to_process, brain=brain)
 
-            # get a tuple of (synapse, order) that match in the brain
-            synapses_to_launch_tuple = OrderAnalyser.get_matching_synapse(order=order_to_process, brain=brain)
-
-            # we transform the tuple in a MatchedSynapse list
-            list_synapse_to_process = list()
-
-            if synapses_to_launch_tuple:  # the order analyser returned us a list
-                for tuple_el in synapses_to_launch_tuple:
-                    new_matching_synapse = MatchedSynapse(matched_synapse=tuple_el.synapse,
-                                                          matched_order=tuple_el.order,
-                                                          user_order=order_to_process)
-                    list_synapse_to_process.append(new_matching_synapse)
-            else:
-                # execute the default synapse if exist
+            if not list_synapse_to_process:  # the order analyser returned us an empty list
+                # add the default synapse if exist into the lifo
                 if settings.default_synapse:
                     logger.debug("[SynapseLauncher] No matching Synapse-> running default synapse ")
                     # get the default synapse
@@ -99,8 +88,10 @@ class SynapseLauncher(object):
                                                           matched_order=None,
                                                           user_order=order_to_process)
                     list_synapse_to_process.append(new_matching_synapse)
+                else:
+                    logger.debug("[SynapseLauncher] No matching Synapse and no default synapse ")
 
             lifo_buffer.add_synapse_list_to_lifo(list_synapse_to_process)
-
             lifo_buffer.api_response.user_order = order_to_process
+
             return lifo_buffer.execute(is_api_call=is_api_call)

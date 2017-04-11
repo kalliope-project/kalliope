@@ -2,6 +2,7 @@
 import collections
 from collections import Counter
 
+from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.Utils.Utils import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.Models import Order
@@ -53,7 +54,16 @@ class OrderAnalyser:
                         logger.debug("Order found! Run synapse name: %s" % synapse.name)
                         Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
                         list_match_synapse.append(synapse_order_tuple(synapse=synapse, order=signal.sentence))
-        return list_match_synapse
+
+        # create a list of MatchedSynapse from the tuple list
+        list_synapse_to_process = list()
+        for tuple_el in list_match_synapse:
+            new_matching_synapse = MatchedSynapse(matched_synapse=tuple_el.synapse,
+                                                  matched_order=tuple_el.order,
+                                                  user_order=order)
+            list_synapse_to_process.append(new_matching_synapse)
+
+        return list_synapse_to_process
 
     @classmethod
     def spelt_order_match_brain_order_via_table(cls, order_to_analyse, user_said):
