@@ -70,7 +70,7 @@ class TestLaunchers(unittest.TestCase):
         sl.settings.resources = r
         with mock.patch("kalliope.core.Utils.get_dynamic_class_instantiation") as mock_get_class_instantiation:
             # Success
-            SynapseLauncher.start_synapse("Synapse1", brain=br)
+            SynapseLauncher.start_synapse_by_name("Synapse1", brain=br)
 
             calls = [mock.call(package_name="neurons",
                                module_name=neuron1.name,
@@ -85,7 +85,7 @@ class TestLaunchers(unittest.TestCase):
 
             # Fail
             with self.assertRaises(SynapseNameNotFound):
-                SynapseLauncher.start_synapse("Synapse4", brain=br)
+                SynapseLauncher.start_synapse_by_name("Synapse4", brain=br)
 
     def test_run_synapse(self):
         """

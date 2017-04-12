@@ -120,8 +120,8 @@ def main():
 
         # user set a synapse to start
         if args.run_synapse is not None:
-            SynapseLauncher.start_synapse(args.run_synapse,
-                                          brain=brain)
+            SynapseLauncher.start_synapse_by_name(args.run_synapse,
+                                                  brain=brain)
 
         if args.run_order is not None:
             SynapseLauncher.run_matching_synapse_from_order(args.run_order,

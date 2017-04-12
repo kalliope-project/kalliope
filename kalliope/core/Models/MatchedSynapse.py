@@ -51,3 +51,10 @@ class MatchedSynapse(object):
             'neuron_module_list': [e.serialize() for e in self.neuron_module_list]
         }
 
+    def __eq__(self, other):
+        """
+        This is used to compare 2 objects
+        :param other:
+        :return:
+        """
+        return self.__dict__ == other.__dict__
