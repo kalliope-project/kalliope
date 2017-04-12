@@ -19,11 +19,17 @@ before_install:
 - wget https://bootstrap.pypa.io/get-pip.py
 - sudo python get-pip.py
 
-install: "pip install -r install/files/python_requirements.txt"
+install:
+  - pip install -r install/files/python_requirements.txt
+  - pip install coveralls
 
 # command to run tests
 script:
-  - pytest
+#  - pytest
   - docker run -it --rm kalliope-ubuntu1604
   - docker run -it --rm kalliope-debian8
+  - coverage run --source=kalliope -m unittest discover
+
+after_success:
+  coveralls
 
