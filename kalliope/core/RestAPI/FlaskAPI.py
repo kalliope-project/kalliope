@@ -182,16 +182,9 @@ class FlaskAPI(threading.Thread):
                                                                            self.brain,
                                                                            self.settings,
                                                                            is_api_call=True)
-            if api_response:
-                # if the list is not empty, we have launched one or more synapses
-                data = jsonify(api_response)
-                return data, 201
-            else:
-                data = {
-                    "error": "The given order doesn't match any synapses"
-                }
-                return jsonify(error=data), 400
 
+            data = jsonify(api_response)
+            return data, 201
         else:
             data = {
                 "error": "order cannot be null"
