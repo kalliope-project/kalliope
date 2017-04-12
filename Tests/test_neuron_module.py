@@ -3,10 +3,6 @@ import unittest
 import mock
 
 from kalliope.core.NeuronModule import NeuronModule, TemplateFileNotFoundException
-from kalliope.core.Models.Neuron import Neuron
-from kalliope.core.Models.Synapse import Synapse
-from kalliope.core.Models.Brain import Brain
-from kalliope.core.Models.Order import Order
 
 
 class TestNeuronModule(unittest.TestCase):
@@ -113,62 +109,6 @@ class TestNeuronModule(unittest.TestCase):
     def test_get_content_of_file(self):
         expected_result = "hello, this is a {{ test }}"
         self.assertEqual(NeuronModule._get_content_of_file(self.file_template), expected_result)
-
-    def test_run_synapse_by_name_with_order(self):
-        """
-        Test to start a synapse with a specific given order
-        Scenarii :
-            - Neuron has been found and launched
-            - Neuron has not been found
-        """
-
-        # Init
-        neuron1 = Neuron(name='neurone1', parameters={'var1': 'val1'})
-        neuron2 = Neuron(name='neurone2', parameters={'var2': 'val2'})
-        neuron3 = Neuron(name='neurone3', parameters={'var3': 'val3'})
-        neuron4 = Neuron(name='neurone4', parameters={'var4': 'val4'})
-
-        signal1 = Order(sentence="the sentence")
-        signal2 = Order(sentence="the second sentence")
-        signal3 = Order(sentence="part of the third sentence")
-
-        synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
-        synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
-        synapse3 = Synapse(name="Synapse3", neurons=[neuron2, neuron4], signals=[signal3])
-
-        all_synapse_list = [synapse1,
-                            synapse2,
-                            synapse3]
-
-        br = Brain(synapses=all_synapse_list)
-
-        order = "This is the order"
-        synapse_name = "Synapse2"
-        answer = "This is the {{ answer }}"
-        expected_parameter = {"answer": "order"}
-
-        with mock.patch("kalliope.core.NeuronLauncher.start_neuron_list") as mock_NeuronLauncher_start:
-            neuron_mod = NeuronModule()
-            neuron_mod.brain = br
-
-            # Success, run synapse 2
-            launched_synapse = neuron_mod.run_synapse_by_name_with_order(order=order,
-                                                                         synapse_name=synapse_name,
-                                                                         order_template=answer)
-            self.assertEqual(synapse2, launched_synapse)
-
-            mock_NeuronLauncher_start.assert_called_once_with(neuron_list=[neuron3, neuron4],
-                                                              parameters_dict=expected_parameter)
-            mock_NeuronLauncher_start.reset_mock()
-
-            # Fail
-            synapse_name = "Synapse5"
-            self.assertIsNone(neuron_mod.run_synapse_by_name_with_order(order=order,
-                                                                        synapse_name=synapse_name,
-                                                                        order_template=answer))
-
-            mock_NeuronLauncher_start.assert_not_called()
-            mock_NeuronLauncher_start.reset_mock()
 
 
 
