@@ -110,5 +110,20 @@ class TestNeuronModule(unittest.TestCase):
         expected_result = "hello, this is a {{ test }}"
         self.assertEqual(NeuronModule._get_content_of_file(self.file_template), expected_result)
 
+    def test_serialize(self):
+        """
+        Test the serialisation of the neuron module
+        """
+        neuron_module = NeuronModule()
+        neuron_module.neuron_name = "kalliope"
+        neuron_module.tts_message = "I am french"
+
+        expected_result = {
+            'neuron_name': "kalliope",
+            'generated_message': "I am french"
+        }
+
+        self.assertEqual(expected_result, neuron_module.serialize())
+
 
 
