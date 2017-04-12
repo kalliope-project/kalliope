@@ -11,8 +11,9 @@ class MatchedSynapse(object):
     def __init__(self, matched_synapse=None, matched_order=None, user_order=None):
         """
         
-        :param matched_synapse: The synapse that has matched in the brain
-        :param matched_order: The order from the synapse that have matched
+        :param matched_synapse: The synapse that has matched in the brain.
+        :param matched_order: The order from the synapse that have matched.
+        :param user_order: The order said by the user.
         """
         # create a copy of the synapse. the received synapse come from the brain.
         self.synapse = matched_synapse

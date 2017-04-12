@@ -5,6 +5,7 @@ from kalliope.core.Models import Brain
 from kalliope.core.Models import Neuron
 from kalliope.core.Models import Order
 from kalliope.core.Models import Synapse
+from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.OrderAnalyser import OrderAnalyser
 
 
@@ -38,9 +39,15 @@ class TestOrderAnalyser(unittest.TestCase):
 
         # TEST1: should return synapse1
         spoken_order = "this is the sentence"
+
+        # Create the matched synapse
+        matched_synapse_1 = MatchedSynapse(matched_synapse=synapse1,
+                                           matched_order=spoken_order,
+                                           user_order=spoken_order)
+
         matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
         self.assertEqual(len(matched_synapses), 1)
-        self.assertTrue(any(synapse1 in matched_synapse for matched_synapse in matched_synapses))
+        self.assertTrue(matched_synapse_1 in matched_synapses)
 
         # TEST2: should return synapse1 and 2
         spoken_order = "this is the second sentence"
