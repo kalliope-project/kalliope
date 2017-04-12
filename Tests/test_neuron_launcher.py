@@ -27,7 +27,7 @@ class TestNeuronLauncher(unittest.TestCase):
         resources = Resources(neuron_folder='/var/tmp/test/resources')
         sl.settings.resources = resources
         with mock.patch("kalliope.core.Utils.get_dynamic_class_instantiation") as mock_get_class_instantiation:
-            NeuronLauncher.start_neuron(neuron=neuron)
+            NeuronLauncher.launch_neuron(neuron=neuron)
 
             mock_get_class_instantiation.assert_called_once_with(package_name="neurons",
                                                                  module_name=neuron.name,

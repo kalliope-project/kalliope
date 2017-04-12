@@ -104,26 +104,25 @@ class TestNeurotransmitter(unittest.TestCase):
                 nt = Neurotransmitter(**parameters)
                 mock_get_audio_from_stt.assert_called_once()
                 mock_get_audio_from_stt.reset_mock()
+
                 # testing running the default when audio None
                 audio_text = None
                 nt.callback(audio=audio_text)
                 mock_run_synapse_by_name.assert_called_once_with(self.default)
                 mock_run_synapse_by_name.reset_mock()
+
                 # testing running the default when no order matching
                 audio_text = "try test audio "
                 nt.callback(audio=audio_text)
                 mock_run_synapse_by_name.assert_called_once_with(self.default)
                 mock_run_synapse_by_name.reset_mock()
 
-                with mock.patch.object(NeuronModule,
-                                       'run_synapse_by_name_with_order',
-                                       create=True) as mock_run_synapse_by_name_with_order:
-
-                    audio_text="answer one"
-                    nt.callback(audio=audio_text)
-                    mock_run_synapse_by_name_with_order.assert_called_once_with(order=audio_text,
-                                                                                synapse_name="synapse2",
-                                                                                order_template="answer one")
+                # Testing calling the right synapse
+                audio_text="answer one"
+                nt.callback(audio=audio_text)
+                mock_run_synapse_by_name.assert_called_once_with(order=audio_text,
+                                                                 synapse_name="synapse2",
+                                                                 order_template="answer one")
 
     def testInit(self):
         """
