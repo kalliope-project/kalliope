@@ -5,6 +5,7 @@ import unittest
 from flask import Flask
 from flask_testing import LiveServerTestCase
 
+from kalliope.core import LIFOBuffer
 from kalliope.core.Models import Singleton
 from kalliope._version import version_str
 from kalliope.core.ConfigurationManager import BrainLoader
@@ -16,6 +17,8 @@ class TestRestAPI(LiveServerTestCase):
 
     def tearDown(self):
         Singleton._instances = {}
+        # clean the lifo
+        LIFOBuffer.lifo_list = list()
 
     def create_app(self):
         """
@@ -175,26 +178,14 @@ class TestRestAPI(LiveServerTestCase):
         url = self.get_server_url() + "/synapses/start/id/test"
         result = self.client.post(url)
 
-        expected_content = {
-            "synapses": {
-                "name": "test",
-                "neurons": [
-                    {
-                        "name": "say",
-                        "parameters": {
-                            "message": [
-                                "test message"
-                            ]
-                        }
-                    }
-                ],
-                "signals": [
-                    {
-                        "order": "test_order"
-                    }
-                ]
-            }
-        }
+        expected_content = {'status': 'complete',
+                            'matched_synapses':
+                                [{'matched_order': None,
+                                  'neuron_module_list':
+                                      [{'generated_message': 'test message', 'neuron_name': 'Say'}],
+                                  'synapse_name': 'test'}],
+                            'user_order': None
+                            }
         self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(result.get_data())))
         self.assertEqual(result.status_code, 201)
 
@@ -217,28 +208,14 @@ class TestRestAPI(LiveServerTestCase):
         data = {"order": "test_order"}
         result = self.client.post(url, headers=headers, data=json.dumps(data))
 
-        expected_content = {
-            "synapses": [
-                {
-                    "name": "test",
-                    "neurons": [
-                        {
-                            "name": "say",
-                            "parameters": {
-                                "message": [
-                                    "test message"
-                                ]
+        expected_content = {'status': 'complete',
+                            'matched_synapses':
+                                [{'matched_order': "test_order",
+                                  'neuron_module_list':
+                                      [{'generated_message': 'test message', 'neuron_name': 'Say'}],
+                                  'synapse_name': 'test'}],
+                            'user_order': "test_order"
                             }
-                        }
-                    ],
-                    "signals": [
-                        {
-                            "order": "test_order"
-                        }
-                    ]
-                }
-            ]
-        }
         self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(result.get_data())))
         self.assertEqual(result.status_code, 201)
 
@@ -250,46 +227,51 @@ class TestRestAPI(LiveServerTestCase):
                                   headers=headers,
                                   data=json.dumps(data))
 
-        expected_content = {'error': {'error': "The given order doesn't match any synapses"}}
+        expected_content = {'status': None, 'matched_synapses': [], 'user_order': u'non existing order'}
 
         self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(result.get_data())))
-        self.assertEqual(result.status_code, 400)
+        self.assertEqual(result.status_code, 201)
 
-    # TODO this doesn't work on travis but works locally with python -m unittest discover
-    # def test_post_synapse_by_audio(self):
-    #     url = self.get_server_url() + "/synapses/start/audio"
-    #     with open(os.path.join(self.audio_file), 'rb') as fp:
-    #         file = FileStorage(fp)
-    #         data = {
-    #             'file': file
-    #         }
-    #         result = self.client.post(url, data=data, content_type='multipart/form-data')
-    #
-    #         expected_content = {
-    #             "synapses": [
-    #                 {
-    #                     "name": "test2",
-    #                     "neurons": [
-    #                         {
-    #                             "name": "say",
-    #                             "parameters": {
-    #                                 "message": [
-    #                                     "test message"
-    #                                 ]
-    #                             }
-    #                         }
-    #                     ],
-    #                     "signals": [
-    #                         {
-    #                             "order": "bonjour"
-    #                         }
-    #                     ]
-    #                 }
-    #             ]
-    #         }
-    #
-    #         self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(result.get_data())))
-    #         self.assertEqual(result.status_code, 201)
+        # TODO this doesn't work on travis but works locally with python -m unittest discover
+        # def test_post_synapse_by_audio(self):
+        #     url = self.get_server_url() + "/synapses/start/audio"
+        #     with open(os.path.join(self.audio_file), 'rb') as fp:
+        #         file = FileStorage(fp)
+        #         data = {
+        #             'file': file
+        #         }
+        #         result = self.client.post(url, data=data, content_type='multipart/form-data')
+        #
+        #         expected_content = {
+        #             "synapses": [
+        #                 {
+        #                     "name": "test2",
+        #                     "neurons": [
+        #                         {
+        #                             "name": "say",
+        #                             "parameters": {
+        #                                 "message": [
+        #                                     "test message"
+        #                                 ]
+        #                             }
+        #                         }
+        #                     ],
+        #                     "signals": [
+        #                         {
+        #                             "order": "bonjour"
+        #                         }
+        #                     ]
+        #                 }
+        #             ]
+        #         }
+        #
+        #         self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(result.get_data())))
+        #         self.assertEqual(result.status_code, 201)
 
 if __name__ == '__main__':
     unittest.main()
+
+    # suite = unittest.TestSuite()
+    # suite.addTest(TestRestAPI("test_post_synapse_by_order_not_found"))
+    # runner = unittest.TextTestRunner()
+    # runner.run(suite)

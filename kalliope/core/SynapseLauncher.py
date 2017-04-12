@@ -74,8 +74,7 @@ class SynapseLauncher(object):
                 if settings.default_synapse:
                     logger.debug("[SynapseLauncher] No matching Synapse-> running default synapse ")
                     # get the default synapse
-                    default_synapse = BrainLoader().get_brain().get_synapse_by_name(settings.default_synapse)
-
+                    default_synapse = brain.get_synapse_by_name(settings.default_synapse)
                     new_matching_synapse = MatchedSynapse(matched_synapse=default_synapse,
                                                           matched_order=None,
                                                           user_order=order_to_process)
