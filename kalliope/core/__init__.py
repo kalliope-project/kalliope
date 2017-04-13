@@ -8,3 +8,4 @@ from kalliope.core.NeuronLauncher import NeuronLauncher
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.LIFOBuffer import LIFOBuffer
 from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
+from kalliope.core.NeuronModule import NeuronModule
