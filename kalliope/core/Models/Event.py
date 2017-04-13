@@ -17,9 +17,7 @@ class Event(object):
         self.second = second
 
     def __str__(self):
-        return "%s:  year: %s, month: %s, day: %s, week: %s, day_of_week: %s, hour: %s, minute: %s, second: %s" \
-               % (self.__class__.__name__, self.year, self.month, self.day, self.week,
-                  self.day_of_week, self.hour, self.minute, self.second)
+        return str(self.serialize())
 
     def serialize(self):
         """

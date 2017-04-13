@@ -10,7 +10,14 @@ class Trigger(object):
         self.parameters = parameters
 
     def __str__(self):
-        return "Trigger name: %s, parameters: %s" % (str(self.name), str(self.parameters))
+        return str(self.serialize())
+
+    def serialize(self):
+
+        return {
+            'name': self.name,
+            'parameters': self.parameters
+        }
 
     def __eq__(self, other):
         """

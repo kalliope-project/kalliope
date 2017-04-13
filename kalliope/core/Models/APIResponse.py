@@ -8,16 +8,12 @@ class APIResponse(object):
         self.status = None
 
     def __str__(self):
-        returned_string = ""
-        for el in self.list_processed_matched_synapse:
-            returned_string += str(el)
 
-        return returned_string
+        return str(self.serialize())
 
     def serialize(self):
         """
         This method allows to serialize in a proper way this object
-
         :return: A dict of name and parameters
         :rtype: Dict
         """

@@ -31,13 +31,7 @@ class MatchedSynapse(object):
         self.neuron_module_list = list()
 
     def __str__(self):
-        returned_string = str()
-        returned_string += str(self.synapse)
-        returned_string += "answers: "
-        for neuron_module in self.neuron_module_list:
-            returned_string += str(neuron_module)
-
-        return returned_string
+        return str(self.serialize())
 
     def serialize(self):
         """
