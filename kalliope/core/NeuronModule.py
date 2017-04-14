@@ -217,11 +217,14 @@ class NeuronModule(object):
     def run_synapse_by_name(self, synapse_name, user_order=None, synapse_order=None):
         """
         call the lifo for adding a synapse to execute in the list of synapse list to process
-        :param synapse_name: 
-        :return: 
+        :param synapse_name: The name of the synapse to run
+        :param user_order: The user order
+        :param synapse_order: The synapse order
         """
         synapse = BrainLoader().get_brain().get_synapse_by_name(synapse_name)
-        matched_synapse = MatchedSynapse(matched_synapse=synapse, matched_order=synapse_order, user_order=user_order)
+        matched_synapse = MatchedSynapse(matched_synapse=synapse,
+                                         matched_order=synapse_order,
+                                         user_order=user_order)
         self.pending_synapse = matched_synapse
 
     @staticmethod
