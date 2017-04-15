@@ -59,6 +59,11 @@ class LIFOBuffer(object):
 
     @classmethod
     def _return_serialized_api_response(cls):
+        """
+        Serialize Exception has been raised by the execute process somewhere, return the serialized API response
+        to the caller. Clean up the APIResponse object for the next call
+        :return: 
+        """
         # we prepare a json response
         returned_api_response = cls.api_response.serialize()
         # we clean up the API response object for the next call
@@ -89,23 +94,32 @@ class LIFOBuffer(object):
             while cls.lifo_list:
                 logger.debug("[LIFOBuffer] number of synapse list to process: %s" % len(cls.lifo_list))
                 try:
-                    cls._process_synapse_list()
+                    # get the last list of matched synapse in the LIFO
+                    last_synapse_fifo_list = cls.lifo_list[-1]
+                    cls._process_synapse_list(last_synapse_fifo_list)
                 except SynapseListAddedToLIFO:
                     continue
+                # remove the synapse list from the LIFO
+                cls.lifo_list.remove(last_synapse_fifo_list)
             raise Serialize
 
         except Serialize:
             cls._return_serialized_api_response()
 
     @classmethod
-    def _process_synapse_list(cls):
-        # if we are back here because of an synapse_list_added_to_lifo switched to true,
-        # get the last list of matched synapse in the LIFO
-        last_synapse_fifo_list = cls.lifo_list[-1]
+    def _process_synapse_list(cls, synapse_list):
+        """
+        Process a list of matched synapse.
+        Execute each neuron list for each synapse.
+        Add info in the API response object after each processed synapse
+        Remove the synapse from the synapse_list when it has been fully executed
+        :param synapse_list: List of MatchedSynapse
+        :return: 
+        """
         # we keep processing til we have synapse in the FIFO to process
-        while last_synapse_fifo_list:
+        while synapse_list:
             # get the first matched synapse in the list
-            matched_synapse = last_synapse_fifo_list[0]
+            matched_synapse = synapse_list[0]
             # add the synapse to the API response so the user will get the status if the synapse was not already
             # in the response
             if matched_synapse not in cls.api_response.list_processed_matched_synapse:
@@ -115,13 +129,23 @@ class LIFOBuffer(object):
                 cls._process_neuron_list(matched_synapse=matched_synapse)
 
             # The synapse has been processed we can remove it from the list.
-            last_synapse_fifo_list.remove(matched_synapse)
-
-        # remove the synapse list from the LIFO
-        cls.lifo_list.remove(last_synapse_fifo_list)
+            synapse_list.remove(matched_synapse)
 
     @classmethod
     def _process_neuron_list(cls, matched_synapse):
+        """
+        Process the neuron list of the matched_synapse
+        Execute the Neuron
+        Executing a Neuron creates a NeuronModule object. This one can have 3 status:
+        - waiting for an answer: The neuron wait for an answer from the caller. The api response object is returned.
+                                 The neuron is not removed from the matched synapse to be executed again
+        - want to execute a synapse: The neuron add a list of synapse to execute to the lifo. 
+                                     The LIFO restart over to process it.The neuron is removed from the matched synapse
+        - complete: The neuron has been executed and its not waiting for an answer and doesn't want to start a synapse
+                    The neuron is removed from the matched synapse
+        :param matched_synapse: MatchedSynapse object to process
+        :return: 
+        """
         logger.debug("[LIFOBuffer] number of neuron to process: %s" % len(matched_synapse.neuron_fifo_list))
         # get the first neuron in the FIFO neuron list
         neuron = matched_synapse.neuron_fifo_list[0]
@@ -151,6 +175,7 @@ class LIFOBuffer(object):
             matched_synapse.neuron_fifo_list.remove(neuron)
 
         if instantiated_neuron.pending_synapse:  # the last executed neuron want to run a synapse
+            logger.debug("[LIFOBuffer] Last executed neuron want to run a synapse. Restart the LIFO")
             # add the synapse to the lifo (inside a list as expected by the lifo)
             cls.add_synapse_list_to_lifo([instantiated_neuron.pending_synapse])
             # we have added a list of synapse to the LIFO ! this one must start over.
