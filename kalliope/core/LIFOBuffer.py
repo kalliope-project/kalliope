@@ -41,6 +41,14 @@ class LIFOBuffer(object):
     is_api_call = False
 
     @classmethod
+    def set_answer(cls, value):
+        cls.answer = value
+
+    @classmethod
+    def set_api_call(cls, value):
+        cls.is_api_call = value
+
+    @classmethod
     def add_synapse_list_to_lifo(cls, matched_synapse_list):
         """
         Add a synapse list to process to the lifo
@@ -56,6 +64,7 @@ class LIFOBuffer(object):
         Clean the LIFO by creating a new list
         """
         cls.lifo_list = list()
+        cls.api_response = APIResponse()
 
     @classmethod
     def _return_serialized_api_response(cls):
@@ -104,7 +113,7 @@ class LIFOBuffer(object):
             raise Serialize
 
         except Serialize:
-            cls._return_serialized_api_response()
+            return cls._return_serialized_api_response()
 
     @classmethod
     def _process_synapse_list(cls, synapse_list):
@@ -124,9 +133,8 @@ class LIFOBuffer(object):
             # in the response
             if matched_synapse not in cls.api_response.list_processed_matched_synapse:
                 cls.api_response.list_processed_matched_synapse.append(matched_synapse)
-            # while we have synapse to process in the list of synapse
-            while matched_synapse.neuron_fifo_list:
-                cls._process_neuron_list(matched_synapse=matched_synapse)
+
+            cls._process_neuron_list(matched_synapse=matched_synapse)
 
             # The synapse has been processed we can remove it from the list.
             synapse_list.remove(matched_synapse)
@@ -147,37 +155,40 @@ class LIFOBuffer(object):
         :return: 
         """
         logger.debug("[LIFOBuffer] number of neuron to process: %s" % len(matched_synapse.neuron_fifo_list))
-        # get the first neuron in the FIFO neuron list
-        neuron = matched_synapse.neuron_fifo_list[0]
-        # from here, we are back into the last neuron we were processing.
-        if cls.answer is not None:  # we give the answer if exist to the first neuron
-            neuron.parameters["answer"] = cls.answer
-            # the next neuron should not get this answer
-            cls.answer = None
-        # todo fix this when we have a full client/server call. The client would be the voice or api call
-        neuron.parameters["is_api_call"] = cls.is_api_call
-        # execute the neuron
-        instantiated_neuron = NeuronLauncher.start_neuron(neuron=neuron,
-                                                          parameters_dict=matched_synapse.parameters)
+        # while we have synapse to process in the list of synapse
+        while matched_synapse.neuron_fifo_list:
+            # get the first neuron in the FIFO neuron list
+            neuron = matched_synapse.neuron_fifo_list[0]
+            # from here, we are back into the last neuron we were processing.
+            if cls.answer is not None:  # we give the answer if exist to the first neuron
+                neuron.parameters["answer"] = cls.answer
+                # the next neuron should not get this answer
+                cls.answer = None
+            # todo fix this when we have a full client/server call. The client would be the voice or api call
+            neuron.parameters["is_api_call"] = cls.is_api_call
+            logger.debug("[LIFOBuffer] process_neuron_list: is_api_call: %s" % cls.is_api_call)
+            # execute the neuron
+            instantiated_neuron = NeuronLauncher.start_neuron(neuron=neuron,
+                                                              parameters_dict=matched_synapse.parameters)
 
-        # the status of an execution is "complete" if no neuron are waiting for an answer
-        cls.api_response.status = "complete"
-        if instantiated_neuron.is_waiting_for_answer:  # the neuron is waiting for an answer
-            logger.debug("[LIFOBuffer] Wait for answer mode")
-            cls.api_response.status = "waiting_for_answer"
-            raise Serialize
-        else:
-            logger.debug("[LIFOBuffer] complete mode")
-            # we add the instantiated neuron to the neuron_module_list.
-            # This one contains info about generated text
-            matched_synapse.neuron_module_list.append(instantiated_neuron)
-            # the neuron is fully processed we can remove it from the list
-            matched_synapse.neuron_fifo_list.remove(neuron)
+            # the status of an execution is "complete" if no neuron are waiting for an answer
+            cls.api_response.status = "complete"
+            if instantiated_neuron.is_waiting_for_answer:  # the neuron is waiting for an answer
+                logger.debug("[LIFOBuffer] Wait for answer mode")
+                cls.api_response.status = "waiting_for_answer"
+                raise Serialize
+            else:
+                logger.debug("[LIFOBuffer] complete mode")
+                # we add the instantiated neuron to the neuron_module_list.
+                # This one contains info about generated text
+                matched_synapse.neuron_module_list.append(instantiated_neuron)
+                # the neuron is fully processed we can remove it from the list
+                matched_synapse.neuron_fifo_list.remove(neuron)
 
-        if instantiated_neuron.pending_synapse:  # the last executed neuron want to run a synapse
-            logger.debug("[LIFOBuffer] Last executed neuron want to run a synapse. Restart the LIFO")
-            # add the synapse to the lifo (inside a list as expected by the lifo)
-            cls.add_synapse_list_to_lifo([instantiated_neuron.pending_synapse])
-            # we have added a list of synapse to the LIFO ! this one must start over.
-            # break all while loop until the execution is back to the LIFO loop
-            raise SynapseListAddedToLIFO
+            if instantiated_neuron.pending_synapse:  # the last executed neuron want to run a synapse
+                logger.debug("[LIFOBuffer] Last executed neuron want to run a synapse. Restart the LIFO")
+                # add the synapse to the lifo (inside a list as expected by the lifo)
+                cls.add_synapse_list_to_lifo([instantiated_neuron.pending_synapse])
+                # we have added a list of synapse to the LIFO ! this one must start over.
+                # break all while loop until the execution is back to the LIFO loop
+                raise SynapseListAddedToLIFO

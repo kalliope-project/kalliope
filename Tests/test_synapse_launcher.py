@@ -1,7 +1,6 @@
 import unittest
 
 import mock
-from kalliope.core.ConfigurationManager import BrainLoader
 
 from kalliope.core import LIFOBuffer
 from kalliope.core.Models import Brain
@@ -118,7 +117,7 @@ class TestSynapseLauncher(unittest.TestCase):
         LIFOBuffer.lifo_list = list()
         with mock.patch("kalliope.core.LIFOBuffer.execute"):
             order_to_match = "not existing sentence"
-            new_settings= Settings()
+            new_settings = Settings()
             expected_result = [[]]
             SynapseLauncher.run_matching_synapse_from_order(order_to_match,
                                                             brain=self.brain_test,
