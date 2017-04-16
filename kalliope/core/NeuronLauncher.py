@@ -1,10 +1,16 @@
 import logging
 
+import jinja2
+
 from kalliope.core.Utils.Utils import Utils
 from kalliope.core.ConfigurationManager.SettingLoader import SettingLoader
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
+
+
+class NeuronParameterNotAvailable(Exception):
+    pass
 
 
 class NeuronLauncher:
@@ -41,36 +47,78 @@ class NeuronLauncher:
         :param parameters_dict: dict of parameter to load in each neuron if expecting a parameter
         :return: List of the instantiated neurons (no errors detected)
         """
-        instantiated_neuron = None
-        problem_in_neuron_found = False
-        if isinstance(neuron.parameters, dict):
-            # print neuron.parameters
-            if "args" in neuron.parameters:
-                logger.debug("The neuron waits for parameter")
-                # check that the user added parameters to his order
-                if parameters_dict is None:
-                    # we don't raise an error and break the program but we don't run the neuron
-                    problem_in_neuron_found = True
-                    Utils.print_danger("Error: The neuron %s is waiting for argument. "
-                                       "Argument found in bracket in the given order" % neuron.name)
-                else:
-                    # we add wanted arguments the existing neuron parameter dict
-                    for arg in neuron.parameters["args"]:
-                        if arg in parameters_dict:
-                            logger.debug("Parameter %s added to the current parameter "
-                                         "of the neuron: %s" % (arg, neuron.name))
-                            neuron.parameters[arg] = parameters_dict[arg]
-                        else:
-                            # we don't raise an error and break the program but
-                            # we don't run the neuron
-                            problem_in_neuron_found = True
-                            Utils.print_danger("Error: Argument \"%s\" not found in the"
-                                               " order" % arg)
-
-            # if no error detected, we run the neuron
-            if not problem_in_neuron_found:
-                instantiated_neuron = cls.launch_neuron(neuron)
-            else:
-                Utils.print_danger("A problem has been found in the Synapse.")
-
+        if neuron.parameters is not None:
+            try:
+                neuron.parameters = cls._replace_brackets_by_loaded_parameter(neuron.parameters, parameters_dict)
+            except NeuronParameterNotAvailable:
+                Utils.print_danger("The neuron %s cannot be launched" % neuron.name)
+                return None
+        instantiated_neuron = NeuronLauncher.launch_neuron(neuron)
         return instantiated_neuron
+
+    @classmethod
+    def _replace_brackets_by_loaded_parameter(cls, neuron_parameters, loaded_parameters):
+        """
+        Receive a value (which can be a str or dict or list) and instantiate value in double brace bracket
+        by the value specified in the loaded_parameters dict.
+        This method will call itself until all values has been instantiated
+        :param neuron_parameters: value to instantiate. Str or dict or list
+        :param loaded_parameters: dict of 
+        :return: 
+        """
+        if isinstance(neuron_parameters, str) or isinstance(neuron_parameters, unicode):
+            # replace bracket parameter only if the str contains brackets
+            if Utils.is_containing_bracket(neuron_parameters):
+                # check that the parameter to replace is available in the loaded_parameters dict
+                if cls.neuron_parameters_are_available_in_loaded_parameters(neuron_parameters, loaded_parameters):
+                    neuron_parameters = jinja2.Template(neuron_parameters).render(loaded_parameters)
+                    return str(neuron_parameters)
+                else:
+                    raise NeuronParameterNotAvailable
+            return neuron_parameters
+
+        if isinstance(neuron_parameters, dict):
+            returned_dict = dict()
+            for key, value in neuron_parameters.items():
+                returned_dict[key] = cls._replace_brackets_by_loaded_parameter(value, loaded_parameters)
+            return returned_dict
+
+        if isinstance(neuron_parameters, list):
+            returned_list = list()
+            for el in neuron_parameters:
+                templated_value = cls._replace_brackets_by_loaded_parameter(el, loaded_parameters)
+                returned_list.append(templated_value)
+            return returned_list
+        # in all other case (boolean or int for example) we return the value as it
+        return neuron_parameters
+
+    @classmethod
+    def neuron_parameters_are_available_in_loaded_parameters(cls, string_parameters, loaded_parameters):
+        """
+        Check that all parameters in brackets are available in the loaded_parameters dict
+        
+        E.g:
+        string_parameters = "this is a {{ parameter1 }}"
+        
+        Will return true if the loaded_parameters looks like the following
+        loaded_parameters { "parameter1": "a value"}        
+        
+        :param string_parameters: The string that contains one or more parameters in brace brackets
+        :param loaded_parameters: Dict of parameter
+        :return: True if all parameters in brackets have an existing key in loaded_parameters dict
+        """
+        list_parameters_with_brackets = Utils.find_all_matching_brackets(string_parameters)
+        # remove brackets to keep only the parameter name
+        list_parameters = list()
+        for parameter_with_brackets in list_parameters_with_brackets:
+            parameter = Utils.remove_spaces_in_brackets(parameter_with_brackets)
+            parameter = parameter.replace("{{", "").replace("}}", "")
+            list_parameters.append(parameter)
+
+        # check that the parameter name is available in the loaded_parameters dict
+        for parameters in list_parameters:
+            if loaded_parameters is None or parameters not in loaded_parameters:
+                Utils.print_danger("The parameter %s is not available in the order" % str(parameters))
+                return False
+
+        return True
