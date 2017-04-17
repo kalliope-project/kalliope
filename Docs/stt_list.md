@@ -13,7 +13,7 @@ Core STTs are already packaged with the installation of Kalliope an can be used 
 | CMUSphinx | [CMUSphinx](../kalliope/stt/cmusphinx/README.md) | Self hosted |
 | Google    | [google](../kalliope/stt/google/README.md)       | Cloud based |
 | Houndify  | [houndify](../kalliope/stt/houndify/README.md)   | Cloud based |
-| wit.ai    | [wit.ai](../kalliope/stt/wit/README.md)          | Cloud based |
+| wit.ai    | [wit](../kalliope/stt/wit/README.md)             | Cloud based |
 
 
 ## Community STT
