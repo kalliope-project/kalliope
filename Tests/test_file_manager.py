@@ -12,6 +12,10 @@ class TestFileManager(unittest.TestCase):
     def setUp(self):
         pass
 
+    def create_file_manager(self):
+        file_manager = FileManager()
+        self.assertIsInstance(FileManager, file_manager)
+
     def test_create_directory(self):
         """
         Test to create a new directory.
@@ -54,6 +58,12 @@ class TestFileManager(unittest.TestCase):
         # Clean up
         if os.path.exists(file_path):
             os.remove(file_path)
+
+        # run into IOError by trying to write something in root
+        dir_path = "/root/"
+        file_name = "test_FileManager_writeInFile"
+        file_path = os.path.join(dir_path, file_name)
+        self.assertFalse(FileManager.write_in_file(file_path=file_path, content=in_file_text))
 
     def test_file_is_empty(self):
         """
