@@ -131,8 +131,6 @@ class TestRestAPI(LiveServerTestCase):
         # a lot of char ti process
         self.maxDiff = None
         self.assertEqual(response.status_code, 200)
-        # print response.get_data()
-        # print json.dumps(expected_content)
         self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(response.get_data())))
 
     def test_get_one_synapse(self):
@@ -210,10 +208,18 @@ class TestRestAPI(LiveServerTestCase):
 
         expected_content = {'status': 'complete',
                             'matched_synapses':
-                                [{'matched_order': "test_order",
-                                  'neuron_module_list':
-                                      [{'generated_message': 'test message', 'neuron_name': 'Say'}],
-                                  'synapse_name': 'test'}],
+                                [
+                                    {
+                                        'matched_order': "test_order",
+                                        'neuron_module_list':
+                                            [
+                                                {
+                                                    'generated_message': 'test message', 'neuron_name': 'Say'
+                                                }
+                                            ],
+                                  'synapse_name': 'test'
+                                    }
+                                ],
                             'user_order': "test_order"
                             }
         self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(result.get_data())))

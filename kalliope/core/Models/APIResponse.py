@@ -8,7 +8,6 @@ class APIResponse(object):
         self.status = None
 
     def __str__(self):
-
         return str(self.serialize())
 
     def serialize(self):
@@ -17,7 +16,6 @@ class APIResponse(object):
         :return: A dict of name and parameters
         :rtype: Dict
         """
-
         return {
             'user_order': self.user_order,
             'matched_synapses': [e.serialize() for e in self.list_processed_matched_synapse],

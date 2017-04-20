@@ -87,7 +87,6 @@ class BrainLoader(object):
         for synapses_dict in dict_brain:
             if "includes" not in synapses_dict:     # we don't need to check includes as it's not a synapse
                 if ConfigurationChecker().check_synape_dict(synapses_dict):
-                    # print "synapses_dict ok"
                     name = synapses_dict["name"]
                     neurons = self._get_neurons(synapses_dict["neurons"], self.settings)
                     signals = self._get_signals(synapses_dict["signals"])
@@ -127,7 +126,6 @@ class BrainLoader(object):
         for neuron_dict in neurons_dict:
             if isinstance(neuron_dict, dict):
                 if ConfigurationChecker().check_neuron_dict(neuron_dict):
-                    # print "Neurons dict ok"
                     for neuron_name in neuron_dict:
 
                         name = neuron_name
@@ -164,11 +162,9 @@ class BrainLoader(object):
         .. seealso:: Event, Order
         .. warnings:: Class method and Private
         """
-        # print signals_dict
         signals = list()
         for signal_dict in signals_dict:
             if ConfigurationChecker().check_signal_dict(signal_dict):
-                # print "Signals dict ok"
                 event_or_order = cls._get_event_or_order_from_dict(signal_dict)
                 signals.append(event_or_order)
 
@@ -192,7 +188,6 @@ class BrainLoader(object):
         .. warnings:: Static method and Private
         """
         if 'event' in signal_or_event_dict:
-            # print "is event"
             event = signal_or_event_dict["event"]
             if ConfigurationChecker.check_event_dict(event):
                 return cls._get_event_object(event)
@@ -257,18 +252,15 @@ class BrainLoader(object):
         """
 
         if isinstance(parameter, dict):
-            # print "parameter is dict %s" % str(parameter)
             for key, value in parameter.iteritems():
                 parameter[key] = cls._replace_global_variables(value, settings=settings)
             return parameter
         if isinstance(parameter, list):
-            # print "parameter is list %s" % str(parameter)
             new_parameter_list = list()
             for el in parameter:
                 new_parameter_list.append(cls._replace_global_variables(el, settings=settings))
             return new_parameter_list
         if isinstance(parameter, str) or isinstance(parameter, unicode) or isinstance(parameter, int):
-            # print "parameter is string %s" % parameter
             if Utils.is_containing_bracket(parameter):
                 return cls._get_global_variable(sentence=parameter, settings=settings)
             return parameter

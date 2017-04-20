@@ -44,7 +44,6 @@ class NeuronLauncher:
         instantiated_neuron = None
         problem_in_neuron_found = False
         if isinstance(neuron.parameters, dict):
-            # print neuron.parameters
             if "args" in neuron.parameters:
                 logger.debug("The neuron waits for parameter")
                 # check that the user added parameters to his order

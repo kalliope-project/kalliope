@@ -30,11 +30,11 @@ class TestLIFOBuffer(unittest.TestCase):
     def test_execute(self):
         """
         In this test the brain contains a neurotransmitter
-        :return: 
         """
         # --------------------------------------
         # Test 1. The user answers correctly to all neurotransmitter
         # --------------------------------------
+
         # we suppose that the first synapse has matched the first synapse
         synapse = BrainLoader().brain.get_synapse_by_name("synapse1")
         order = "enter in synapse 1"
@@ -50,10 +50,23 @@ class TestLIFOBuffer(unittest.TestCase):
 
             response = self.lifo_buffer.execute(is_api_call=True)
 
-            expected_result = {'status': 'waiting_for_answer', 'matched_synapses': [
-                {'matched_order': 'enter in synapse 1', 'neuron_module_list':
-                    [{'neuron_name': 'Say', 'generated_message': 'question in synapse 1'}],
-                 'synapse_name': 'synapse1'}], 'user_order': 'enter in synapse 1'}
+            expected_result = {
+                'status': 'waiting_for_answer',
+                'matched_synapses': [
+                    {
+                        'matched_order': 'enter in synapse 1',
+                        'neuron_module_list':
+                            [
+                                {
+                                    'neuron_name': 'Say',
+                                    'generated_message': 'question in synapse 1'
+                                }
+                            ],
+                        'synapse_name': 'synapse1'
+                    }
+                ],
+                'user_order': 'enter in synapse 1'
+            }
 
             self.assertEqual(response, expected_result)
 
@@ -61,39 +74,97 @@ class TestLIFOBuffer(unittest.TestCase):
             answer = "answer synapse1"
             response = self.lifo_buffer.execute(answer=answer,
                                                 is_api_call=True)
-            expected_result = {'status': 'waiting_for_answer', 'matched_synapses': [
-                {'matched_order': 'enter in synapse 1',
-                 'neuron_module_list': [{'neuron_name': 'Say',
-                                         'generated_message': 'question in synapse 1'},
-                                        {'neuron_name': 'Neurotransmitter', 'generated_message': None}],
-                 'synapse_name': 'synapse1'},
-                {'matched_order': 'answer synapse1', 'neuron_module_list': [
-                    {'neuron_name': 'Say', 'generated_message': 'enter synapse 2'}],
-                 'synapse_name': 'synapse2'}], 'user_order': None}
+            expected_result = {
+                'status': 'waiting_for_answer',
+                'matched_synapses': [
+                    {
+                        'matched_order': 'enter in synapse 1',
+                        'neuron_module_list': [
+                            {
+                                'neuron_name': 'Say',
+                                 'generated_message': 'question in synapse 1'
+                            },
+                            {
+                                'neuron_name': 'Neurotransmitter',
+                                'generated_message': None
+                            }
+                        ],
+                        'synapse_name': 'synapse1'
+                    },
+                    {
+                        'matched_order': 'answer synapse1',
+                        'neuron_module_list': [
+                            {
+                                'neuron_name': 'Say',
+                                'generated_message': 'enter synapse 2'
+                            }
+                        ],
+                    'synapse_name': 'synapse2'
+                    }
+                ],
+                'user_order': None
+            }
             self.assertEqual(response, expected_result)
 
             # give the last answer
             answer = "synapse5"
             response = self.lifo_buffer.execute(answer=answer,
                                                 is_api_call=True)
-            expected_result = {'status': 'complete', 'matched_synapses': [
-                {'matched_order': 'answer synapse1', 'neuron_module_list': [
-                    {'neuron_name': 'Say', 'generated_message': 'enter synapse 2'},
-                    {'neuron_name': 'Neurotransmitter', 'generated_message': None}],
-                 'synapse_name': 'synapse2'}, {'matched_order': 'synapse5', 'neuron_module_list': [
-                    {'neuron_name': 'Say', 'generated_message': 'execution of synapse 5'}],
-                                               'synapse_name': 'synapse5'},
-                {'matched_order': 'enter in synapse 1', 'neuron_module_list':
-                    [{'neuron_name': 'Say', 'generated_message': 'question in synapse 1'},
-                     {'neuron_name': 'Neurotransmitter', 'generated_message': None},
-                     {'neuron_name': 'Say', 'generated_message': 'last neuron in synapse 1'}],
-                 'synapse_name': 'synapse1'}], 'user_order': None}
+            expected_result = {
+                'status': 'complete',
+                'matched_synapses': [
+                    {
+                        'matched_order': 'answer synapse1',
+                        'neuron_module_list': [
+                            {
+                                'neuron_name': 'Say',
+                                'generated_message': 'enter synapse 2'
+                            },
+                            {
+                                'neuron_name': 'Neurotransmitter',
+                                'generated_message': None
+                            }
+                        ],
+                        'synapse_name': 'synapse2'
+                    },
+                    {
+                        'matched_order': 'synapse5',
+                        'neuron_module_list': [
+                            {
+                                'neuron_name': 'Say',
+                                'generated_message': 'execution of synapse 5'
+                            }
+                        ],
+                        'synapse_name': 'synapse5'
+                    },
+                    {
+                        'matched_order': 'enter in synapse 1',
+                        'neuron_module_list':[
+                            {
+                                'neuron_name': 'Say',
+                                'generated_message': 'question in synapse 1'
+                            },
+                            {
+                                'neuron_name': 'Neurotransmitter',
+                                'generated_message': None
+                            },
+                            {
+                                'neuron_name': 'Say',
+                                'generated_message': 'last neuron in synapse 1'
+                            }
+                        ],
+                        'synapse_name': 'synapse1'
+                    }
+                ],
+                'user_order': None
+            }
 
             self.assertEqual(response, expected_result)
 
         # --------------------------------------
         # Test 2. The user doesn't answered correctly to the first neurotransmitter
         # --------------------------------------
+
         # we suppose that the first synapse has matched the first synapse
         synapse = BrainLoader().brain.get_synapse_by_name("synapse1")
         order = "enter in synapse 1"
@@ -112,18 +183,40 @@ class TestLIFOBuffer(unittest.TestCase):
             wrong_answer = "wrong answer"
             response = self.lifo_buffer.execute(answer=wrong_answer, is_api_call=True)
 
-            expected_result = {'status': 'complete',
-                               'matched_synapses': [
-                                   {'matched_order': 'enter in synapse 1',
-                                    'neuron_module_list': [
-                                        {'neuron_name': 'Say', 'generated_message': 'question in synapse 1'},
-                                        {'neuron_name': 'Neurotransmitter', 'generated_message': None},
-                                        {'neuron_name': 'Say', 'generated_message': 'last neuron in synapse 1'}],
-                                    'synapse_name': 'synapse1'},
-                                   {'matched_order': None, 'neuron_module_list': [
-                                       {'neuron_name': 'Say',
-                                        'generated_message': 'not understood'}],
-                                    'synapse_name': 'synapse4'}], 'user_order': None}
+            expected_result = {
+                'status': 'complete',
+                'matched_synapses': [
+                    {
+                        'matched_order': 'enter in synapse 1',
+                        'neuron_module_list': [
+                            {
+                                'neuron_name': 'Say',
+                                'generated_message': 'question in synapse 1'
+                            },
+                            {
+                                'neuron_name': 'Neurotransmitter',
+                                'generated_message': None
+                            },
+                            {
+                                'neuron_name': 'Say',
+                                'generated_message': 'last neuron in synapse 1'
+                            }
+                        ],
+                        'synapse_name': 'synapse1'
+                    },
+                    {
+                        'matched_order': None,
+                        'neuron_module_list': [
+                            {
+                                'neuron_name': 'Say',
+                                'generated_message': 'not understood'
+                            }
+                        ],
+                        'synapse_name': 'synapse4'
+                    }
+                ],
+                'user_order': None
+            }
 
             self.assertEqual(response, expected_result)
 
@@ -138,11 +231,18 @@ class TestLIFOBuffer(unittest.TestCase):
             # fist call to enter in the neurotransmitter
             response = self.lifo_buffer.execute(is_api_call=True)
 
-            expected_result = {'status': None, 'matched_synapses': [], 'user_order': 'this is an order'}
+            expected_result = {
+                'status': None,
+                'matched_synapses': [],
+                'user_order': 'this is an order'
+            }
 
             self.assertEqual(response, expected_result)
 
     def test_add_synapse_list_to_lifo(self):
+        """
+        Testing to add a synapse to the lifo
+        """
         synapse = BrainLoader().brain.get_synapse_by_name("synapse1")
         order = "enter in synapse 1"
         matched_synapse = MatchedSynapse(matched_synapse=synapse,
@@ -155,6 +255,9 @@ class TestLIFOBuffer(unittest.TestCase):
         self.assertEqual(self.lifo_buffer.lifo_list, [list_matched_synapse])
 
     def test_clean(self):
+        """
+        Test the Cleaning of the matched synapses list
+        """
         synapse = BrainLoader().brain.get_synapse_by_name("synapse1")
         order = "enter in synapse 1"
         matched_synapse = MatchedSynapse(matched_synapse=synapse,
@@ -168,6 +271,9 @@ class TestLIFOBuffer(unittest.TestCase):
         self.assertEqual(0, len(self.lifo_buffer.lifo_list))
 
     def test_return_serialized_api_response(self):
+        """
+        Test the serialization
+        """
         self.lifo_buffer.clean()
         self.lifo_buffer.execute(is_api_call=True)
         expected_result = {'status': None, 'matched_synapses': [], 'user_order': None}
@@ -175,6 +281,9 @@ class TestLIFOBuffer(unittest.TestCase):
         self.assertEqual(expected_result, response)
 
     def test_process_synapse_list(self):
+        """
+        Testing the neuron list from a synapse
+        """
         synapse = BrainLoader().brain.get_synapse_by_name("synapse1")
         order = "enter in synapse 1"
         matched_synapse = MatchedSynapse(matched_synapse=synapse,
@@ -185,10 +294,17 @@ class TestLIFOBuffer(unittest.TestCase):
 
         with mock.patch("kalliope.core.LIFOBuffer._process_neuron_list"):
             self.lifo_buffer._process_synapse_list(list_matched_synapse)
-            expected_response = {'status': None, 'matched_synapses': [
-                {'matched_order': 'enter in synapse 1',
-                 'neuron_module_list': [], 'synapse_name': 'synapse1'}],
-                                 'user_order': None}
+            expected_response = {
+                'status': None,
+                'matched_synapses': [
+                    {
+                        'matched_order': 'enter in synapse 1',
+                        'neuron_module_list': [],
+                        'synapse_name': 'synapse1'
+                    }
+                ],
+                'user_order': None
+            }
             self.assertEqual(expected_response, self.lifo_buffer.api_response.serialize())
             self.assertEqual(0, len(self.lifo_buffer.lifo_list))
 
