@@ -41,7 +41,7 @@ class TestNeuronModule(unittest.TestCase):
                 mock_orderListener_start.assert_called_once_with()
                 mock_orderListener_start.reset_mock()
 
-    def test_update_cache_var(self):
+    def test_update_params(self):
         """
         Test Update the value of the cache in the provided arg list
         """
@@ -53,7 +53,7 @@ class TestNeuronModule(unittest.TestCase):
         expected_dict = {
             "cache": False
         }
-        self.assertEquals(NeuronModule._update_cache_var(False, args_dict=args_dict),
+        self.assertEquals(NeuronModule._update_params({'cache': False}, args_dict=args_dict),
                           expected_dict,
                           "Fail to update the cache value from True to False")
         self.assertFalse(args_dict["cache"])
@@ -65,11 +65,20 @@ class TestNeuronModule(unittest.TestCase):
         expected_dict = {
             "cache": True
         }
-        self.assertEquals(NeuronModule._update_cache_var(True, args_dict=args_dict),
+        self.assertEquals(NeuronModule._update_params({'cache': True}, args_dict=args_dict),
                           expected_dict,
                           "Fail to update the cache value from False to True")
 
         self.assertTrue(args_dict["cache"])
+
+        # {} -> {'language': 'en-US'}
+        args_dict = {}
+        expected_dict = {
+            "language": "en-US"
+        }
+        self.assertEquals(NeuronModule._update_params({'language': 'en-US'}, args_dict=args_dict),
+                          expected_dict,
+                          "Fail to create new parameter: language key and value")
 
     def test_get_message_from_dict(self):
 

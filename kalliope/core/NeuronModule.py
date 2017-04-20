@@ -73,16 +73,23 @@ class NeuronModule(object):
         brain_loader = BrainLoader()
         self.brain = brain_loader.brain
 
+        self.override_params = dict()
+        # get if the cache settings is present
+        override_cache = kwargs.get('cache', None)
+        if override_cache is not None:
+            self.override_params['cache'] = override_cache
+
         # check if the user has overrider the TTS
         tts = kwargs.get('tts', None)
         if tts is None:
             # No tts provided,  we load the default one
             self.tts = self.settings.default_tts_name
+        elif type(tts) is dict:
+            for key, value in tts.iteritems():
+                self.tts = key
+                self.override_params = value
         else:
             self.tts = tts
-
-        # get if the cache settings is present
-        self.override_cache = kwargs.get('cache', None)
 
         # get templates if provided
         # Check if there is a template associate to the output message
@@ -124,9 +131,9 @@ class NeuronModule(object):
             tts_object = next((x for x in self.settings.ttss if x.name == self.tts), None)
             if tts_object is None:
                 raise TTSModuleNotFound("The tts module name %s does not exist in settings file" % self.tts)
-            # change the cache settings with the one precised for the current neuron
-            if self.override_cache is not None:
-                tts_object.parameters = self._update_cache_var(self.override_cache, tts_object.parameters)
+                   
+            if self.override_params is not None:
+                tts_object.parameters = self._update_params(self.override_params, tts_object.parameters)
 
             logger.debug("NeuroneModule: TTS args: %s" % tts_object)
 
@@ -239,15 +246,16 @@ class NeuronModule(object):
             return content_file.read()
 
     @staticmethod
-    def _update_cache_var(new_override_cache, args_dict):
+    def _update_params(new_override_params, args_dict):
         """
-        update the value for the key "cache" in the dict args_list
+        update the value for the keys in the dict args_list
         :param new_override_cache: cache boolean to set in place of the current one in args_list
         :param args_dict: arg list that contain "cache" to update
-        :return:
+        :return: args_dict updated
         """
         logger.debug("args for TTS plugin before update: %s" % str(args_dict))
-        args_dict["cache"] = new_override_cache
+        for key, value in new_override_params.iteritems():
+            args_dict[key] = value
         logger.debug("args for TTS plugin after update: %s" % str(args_dict))
         return args_dict
 
