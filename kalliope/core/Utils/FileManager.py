@@ -41,6 +41,7 @@ class FileManager:
             return not FileManager.file_is_empty(file_path)
         except IOError as e:
             logger.error("I/O error(%s): %s", e.errno, e.strerror)
+            return False
 
     @staticmethod
     def file_is_empty(file_path):
@@ -82,5 +83,6 @@ class FileManager:
         """
         try:
             return os.path.exists(pathname) or FileManager.is_path_creatable(pathname)
-        except OSError:
+        except OSError as e:
+            logger.error("OSError(%s): %s", e.errno, e.strerror)
             return False

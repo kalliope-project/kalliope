@@ -1,5 +1,9 @@
 import os
 import unittest
+from collections import namedtuple
+
+import mock
+
 from kalliope.neurons.ansible_playbook import Ansible_playbook
 from kalliope.core.NeuronModule import MissingParameterException
 
@@ -26,10 +30,37 @@ class TestAnsible_Playbook(unittest.TestCase):
         }
         run_test(parameters)
 
+        # missing sudo user
+        parameters = {
+            "sudo": True,
+            "random": self.random
+        }
+        run_test(parameters)
+
+        # missing sudo password
+        parameters = {
+            "sudo": True,
+            "sudo_user": "user"
+        }
+        run_test(parameters)
+
+        # parameters ok
+        parameters = {
+            "task_file": "kalliope/neurons/ansible_playbook/tests/test_ansible_playbook_neuron.yml",
+            "sudo": True,
+            "sudo_user": "user",
+            "sudo_password": "password"
+        }
+
+        with mock.patch("ansible.executor.playbook_executor.PlaybookExecutor.run"):
+            instanciated_neuron = Ansible_playbook(**parameters)
+            self.assertTrue(instanciated_neuron._is_parameters_ok)
+
     def test_create_file_via_ansible_playbook(self):
         """
         This test will use an ansible playbook the create a file. We check that the file has been created
         """
+        # without sudo
         param = {
             "task_file": "kalliope/neurons/ansible_playbook/tests/test_ansible_playbook_neuron.yml"
         }
@@ -40,6 +71,28 @@ class TestAnsible_Playbook(unittest.TestCase):
 
         if os.path.exists(self.test_file):
             os.remove(self.test_file)
+
+        # with sudo
+        param = {
+            "task_file": "kalliope/neurons/ansible_playbook/tests/test_ansible_playbook_neuron.yml",
+            "sudo": True,
+            "sudo_user": "user",
+            "sudo_password": "password"
+        }
+
+        Options = namedtuple('Options',
+                             ['connection', 'forks', 'become', 'become_method', 'become_user', 'check', 'listhosts',
+                              'listtasks', 'listtags', 'syntax', 'module_path'])
+
+        expected_option = Options(connection='local', forks=100, become=True, become_method="sudo",
+                                  become_user="user", check=False, listhosts=False, listtasks=False, listtags=False,
+                                  syntax=False, module_path="")
+
+        with mock.patch("ansible.executor.playbook_executor.PlaybookExecutor.run") as playbookExecutor:
+            instance_neuron = Ansible_playbook(**param)
+            playbookExecutor.assert_called_once()
+
+            self.assertEqual(instance_neuron._get_options(), expected_option)
 
 
 if __name__ == '__main__':
