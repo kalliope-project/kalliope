@@ -13,7 +13,6 @@ class Stt(object):
         return str(self.serialize())
 
     def serialize(self):
-
         return {
             'name': self.name,
             'parameters': self.parameters

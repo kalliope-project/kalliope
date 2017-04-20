@@ -62,12 +62,18 @@ class TestModels(unittest.TestCase):
         api_response.user_order = user_order
         api_response.list_processed_matched_synapse = [self.matched_synapse]
 
-        expected_result_serialize = {'status': None,
-                                     'matched_synapses':
-                                         [{'matched_order': 'user order',
-                                           'neuron_module_list': [],
-                                           'synapse_name': 'Synapse1'}],
-                                     'user_order': 'user order'}
+        expected_result_serialize = {
+            'status': None,
+            'matched_synapses':
+                [
+                    {
+                        'matched_order': 'user order',
+                        'neuron_module_list': [],
+                        'synapse_name': 'Synapse1'
+                    }
+                ],
+                'user_order': 'user order'
+        }
 
         self.assertEqual(expected_result_serialize, api_response.serialize())
 
@@ -100,9 +106,13 @@ class TestModels(unittest.TestCase):
         dna3 = Dna(name="dna1", module_type="neuron", author="kalliope",
                    kalliope_supported_version="0.4.4", tags="test")
 
-
-        expected_result_serialize = {'kalliope_supported_version': '0.4.4', 'tags': 'test',
-                                     'type': 'neuron', 'name': 'dna1', 'author': 'kalliope'}
+        expected_result_serialize = {
+            'kalliope_supported_version': '0.4.4',
+            'tags': 'test',
+            'type': 'neuron',
+            'name': 'dna1',
+            'author': 'kalliope'
+        }
         expected_result_str = "{'kalliope_supported_version': '0.4.4', 'tags': 'test', 'type':" \
                               " 'neuron', 'name': 'dna1', 'author': 'kalliope'}"
 
@@ -123,8 +133,18 @@ class TestModels(unittest.TestCase):
         event3 = Event(year=2017, month=12, day=31, week=53, day_of_week=2,
                        hour=8, minute=30, second=0)
 
-        expected_result_serialize = {'event': {'week': 53, 'second': 0, 'minute': 30, 'hour': 8,
-                                               'year': 2017, 'day': 31, 'day_of_week': 2, 'month': 12}}
+        expected_result_serialize = {
+            'event': {
+                'week': 53,
+                'second': 0,
+                'minute': 30,
+                'hour': 8,
+                'year': 2017,
+                'day': 31,
+                'day_of_week': 2,
+                'month': 12
+            }
+        }
         expected_result_str = "{'event': {'week': 53, 'second': 0, 'minute': 30, 'hour': 8, " \
                               "'year': 2017, 'day': 31, 'day_of_week': 2, 'month': 12}}"
 
@@ -140,8 +160,11 @@ class TestModels(unittest.TestCase):
         matched_synapse2 = MatchedSynapse(matched_synapse=self.synapse2, matched_order=user_order)
         matched_synapse3 = MatchedSynapse(matched_synapse=self.synapse1, matched_order=user_order)
 
-        expected_result_serialize = {'matched_order': 'user order', 'neuron_module_list': [],
-                                     'synapse_name': 'Synapse1'}
+        expected_result_serialize = {
+            'matched_order': 'user order',
+            'neuron_module_list': [],
+            'synapse_name': 'Synapse1'
+        }
         expected_result_str = "{'matched_order': 'user order', 'neuron_module_list': [], 'synapse_name': 'Synapse1'}"
 
         self.assertEqual(expected_result_serialize, matched_synapse1.serialize())
@@ -226,8 +249,12 @@ class TestModels(unittest.TestCase):
         resource3 = Resources(neuron_folder="/path/neuron", stt_folder="/path/stt",
                               tts_folder="/path/tts", trigger_folder="/path/trigger")
 
-        expected_result_serialize = {'tts_folder': '/path/tts', 'neuron_folder': '/path/neuron',
-                                     'stt_folder': '/path/stt', 'trigger_folder': '/path/trigger'}
+        expected_result_serialize = {
+            'tts_folder': '/path/tts',
+            'neuron_folder': '/path/neuron',
+            'stt_folder': '/path/stt',
+            'trigger_folder': '/path/trigger'
+        }
         expected_result_str = "{'tts_folder': '/path/tts', 'neuron_folder': '/path/neuron', " \
                               "'stt_folder': '/path/stt', 'trigger_folder': '/path/trigger'}"
 
@@ -248,12 +275,14 @@ class TestModels(unittest.TestCase):
         rest_api3 = RestAPI(password_protected=True, login="admin", password="password", active=True,
                             port=5000, allowed_cors_origin="*")
 
-        expected_result_serialize = {'password_protected': True,
-                                     'port': 5000,
-                                     'active': True,
-                                     'allowed_cors_origin': '*',
-                                     'password': 'password',
-                                     'login': 'admin'}
+        expected_result_serialize = {
+            'password_protected': True,
+            'port': 5000,
+            'active': True,
+            'allowed_cors_origin': '*',
+            'password': 'password',
+            'login': 'admin'
+        }
         expected_result_str = "{'password_protected': True, 'port': 5000, 'active': True, 'allowed_cors_origin': '*', " \
                               "'password': 'password', 'login': 'admin'}"
 
@@ -319,13 +348,34 @@ class TestModels(unittest.TestCase):
                                 resources=None,
                                 variables={"key1": "val1"})
 
-            expected_result_serialize = {'default_synapse': 'default_synapse', 'default_tts_name': 'pico2wav',
-             'rest_api': {'password_protected': True, 'port': 5000, 'active': True, 'allowed_cors_origin': '*',
-                          'password': 'password', 'login': 'admin'}, 'play_on_ready_notification': False,
-             'default_stt_name': 'google', 'kalliope_version': '0.4.4b', 'random_wake_up_sounds': None,
-             'on_ready_answers': None, 'default_trigger_name': 'swoyboy', 'cache_path': '/tmp/kalliope',
-             'stts': ['stts'], 'machine': 'pumpkins', 'random_wake_up_answers': ['yes'], 'on_ready_sounds': None,
-             'ttss': ['ttts'], 'variables': {'key1': 'val1'}, 'resources': None, 'triggers': ['snowboy']}
+            expected_result_serialize = {
+                'default_synapse': 'default_synapse',
+                'default_tts_name': 'pico2wav',
+                'rest_api':
+                    {
+                        'password_protected': True,
+                        'port': 5000,
+                        'active': True,
+                        'allowed_cors_origin': '*',
+                        'password': 'password',
+                        'login': 'admin'
+                    },
+                'play_on_ready_notification': False,
+                'default_stt_name': 'google',
+                'kalliope_version': '0.4.4b',
+                'random_wake_up_sounds': None,
+                'on_ready_answers': None,
+                'default_trigger_name': 'swoyboy',
+                'cache_path': '/tmp/kalliope',
+                'stts': ['stts'],
+                'machine': 'pumpkins',
+                'random_wake_up_answers': ['yes'],
+                'on_ready_sounds': None,
+                'ttss': ['ttts'],
+                'variables': {'key1': 'val1'},
+                'resources': None,
+                'triggers': ['snowboy']
+            }
 
             expected_result_str = "{'default_synapse': 'default_synapse', 'default_tts_name': 'pico2wav', 'rest_api': " \
                                   "{'password_protected': True, 'port': 5000, 'active': True, 'allowed_cors_origin': " \
@@ -369,12 +419,29 @@ class TestModels(unittest.TestCase):
         synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
         synapse3 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
 
-        expected_result_serialize = {'signals': [{'order': 'this is the sentence'}],
-                                     'neurons': [{'name': 'neurone1',
-                                                  'parameters': {'var1': 'val1'}},
-                                                 {'name': 'neurone2', 'parameters':
-                                                     {'var2': 'val2'}}],
-                                     'name': 'Synapse1'}
+        expected_result_serialize = {
+            'signals': [
+                {
+                    'order': 'this is the sentence'
+                }
+            ],
+            'neurons': [
+                {
+                    'name': 'neurone1',
+                     'parameters': {
+                         'var1': 'val1'
+                     }
+                },
+                {
+                    'name': 'neurone2',
+                    'parameters':
+                        {
+                            'var2': 'val2'
+                        }
+                }
+            ],
+            'name': 'Synapse1'
+        }
 
         expected_result_str = "{'signals': [{'order': 'this is the sentence'}], 'neurons': [{'name': 'neurone1', " \
                               "'parameters': {'var1': 'val1'}}, {'name': 'neurone2', 'parameters': {'var2': " \
