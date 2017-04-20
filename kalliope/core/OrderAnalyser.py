@@ -44,6 +44,10 @@ class OrderAnalyser:
 
         list_match_synapse = list()
 
+        # if the received order is None we can stop the process immediately
+        if order is None:
+            return list_match_synapse
+
         # test each synapse from the brain
         for synapse in cls.brain.synapses:
             # we are only concerned by synapse with a order type of signal
