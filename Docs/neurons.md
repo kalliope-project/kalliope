@@ -55,22 +55,20 @@ From global variables: (cf: [settings.md](settings.md))
 
 From the captured order:
 ```yml
-  - name: "run-neuron-with-parameter-in-order"
+  - name: "say-hello"
     signals:
-      - order: "this is an order with the parameter {{ parameter3 }}"
+      - order: "say hello to {{ name }}"
     neurons:
-      - neuron_name:
-          parameter1: "value1"
-          parameter2: "value2"
-          args:
-          - parameter3
+      - say:
+          message:
+            - "Hello {{ name }}"
 ```
 
-Here, the spoken value captured by the TTS engine will be passed as an argument to the neuron in the variable named `parameter3`.
+Here, the spoken value captured by the TTS engine will be passed as an argument to the neuron in every parameters that want use it.
 
-Example, with the synapse declaration above, if you say "this is an order with the parameter Amy Winehouse". The neuron will receive a parameter named `parameter3` with "Amy Winehouse" as a value of this parameter.
+Example, with the synapse declaration above, if you say "say hello to Bob". The parameter parameter message is instantiated and all `{{ name }}` are replaced by "bob".
 We recommend the reading of the [signals documentation](signals.md) for a complete understanding of how arguments in a neuron work.
-
+> **Note:** If a parameter of a neuron is waiting for a variable from the order and this variable haven't been found in the spoken order, then the neuron is not launched.
 
 ## Output values
 
