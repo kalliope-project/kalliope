@@ -123,7 +123,6 @@ class LIFOBuffer(object):
         Add info in the API response object after each processed synapse
         Remove the synapse from the synapse_list when it has been fully executed
         :param synapse_list: List of MatchedSynapse
-        :return: 
         """
         # we keep processing til we have synapse in the FIFO to process
         while synapse_list:
@@ -152,8 +151,8 @@ class LIFOBuffer(object):
         - complete: The neuron has been executed and its not waiting for an answer and doesn't want to start a synapse
                     The neuron is removed from the matched synapse
         :param matched_synapse: MatchedSynapse object to process
-        :return: 
         """
+
         logger.debug("[LIFOBuffer] number of neuron to process: %s" % len(matched_synapse.neuron_fifo_list))
         # while we have synapse to process in the list of synapse
         while matched_synapse.neuron_fifo_list:

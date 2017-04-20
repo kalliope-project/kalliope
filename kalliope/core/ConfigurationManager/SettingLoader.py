@@ -244,7 +244,6 @@ class SettingLoader(object):
         stts = list()
         for speechs_to_text_el in speechs_to_text_list:
             if isinstance(speechs_to_text_el, dict):
-                # print "Neurons dict ok"
                 for stt_name in speechs_to_text_el:
                     name = stt_name
                     parameters = speechs_to_text_el[name]
@@ -284,7 +283,6 @@ class SettingLoader(object):
         ttss = list()
         for text_to_speech_el in text_to_speech_list:
             if isinstance(text_to_speech_el, dict):
-                # print "Neurons dict ok"
                 for tts_name in text_to_speech_el:
                     name = tts_name
                     parameters = text_to_speech_el[name]
@@ -323,7 +321,6 @@ class SettingLoader(object):
         triggers = list()
         for trigger_el in triggers_list:
             if isinstance(trigger_el, dict):
-                # print "Neurons dict ok"
                 for trigger_name in trigger_el:
                     name = trigger_name
                     parameters = trigger_el[name]
@@ -458,7 +455,6 @@ class SettingLoader(object):
                      allowed_cors_origin = rest_api["allowed_cors_origin"]
 
             except KeyError, e:
-                # print e
                 raise SettingNotFound("%s settings not found" % e)
 
             # config ok, we can return the rest api object

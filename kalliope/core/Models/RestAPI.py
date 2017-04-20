@@ -3,8 +3,12 @@ class RestAPI(object):
     This Class is representing the rest API with all its configuration.
     """
 
-    def __init__(self, password_protected=None, login=None, password=None, active=None,
-                 port=None, allowed_cors_origin=None):
+    def __init__(self,
+                 password_protected=None,
+                 login=None, password=None,
+                 active=None,
+                 port=None,
+                 allowed_cors_origin=None):
         """
         :param password_protected: If true, the rest api will ask for an authentication
         :param login: login used if auth is activated

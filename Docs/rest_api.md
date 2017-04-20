@@ -188,7 +188,7 @@ Output example if the order have matched and so launched synapses:
 }
 ```
 
-If the order haven't match any synapses it will try to run the default synapse if this lat exist in your settings:
+If the order haven't match any synapses it will try to run the default synapse if it exists in your settings:
 ```JSON
 {
   "matched_synapses": [
@@ -196,7 +196,7 @@ If the order haven't match any synapses it will try to run the default synapse i
       "matched_order": null,
       "neuron_module_list": [
         {
-          "generated_message": "Je n'ai pas compris vôtre ordre",
+          "generated_message": "Je n'ai pas compris votre ordre",
           "neuron_name": "Say"
         }
       ],
@@ -249,7 +249,7 @@ Output example if the order inside the audio have matched and so launched synaps
 }
 ```
 
-If the order haven't match any synapses it will try to run the default synapse if this lat exist in your settings:
+If the order haven't match any synapses it will try to run the default synapse if it exists in your settings:
 ```JSON
 {
   "matched_synapses": [
@@ -257,7 +257,7 @@ If the order haven't match any synapses it will try to run the default synapse i
       "matched_order": null,
       "neuron_module_list": [
         {
-          "generated_message": "Je n'ai pas compris vôtre ordre",
+          "generated_message": "Je n'ai pas compris votre ordre",
           "neuron_name": "Say"
         }
       ],
