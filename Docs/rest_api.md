@@ -130,23 +130,20 @@ curl -i --user admin:secret -X POST  http://localhost:5000/synapses/start/id/say
 Output example:
 ```JSON
 {
-  "synapses": {
-    "name": "say-hello",
-    "neurons": [
-      {
-        "say": {
-          "message": [
-            "Bonjour monsieur"
-          ]
+  "matched_synapses": [
+    {
+      "matched_order": null,
+      "neuron_module_list": [
+        {
+          "generated_message": "Bonjour monsieur",
+          "neuron_name": "Say"
         }
-      }
-    ],
-    "signals": [
-      {
-        "order": "bonjour"
-      }
-    ]
-  }
+      ],
+      "synapse_name": "say-hello-fr"
+    }
+  ],
+  "status": "complete",
+  "user_order": null
 }
 ```
 
@@ -174,31 +171,49 @@ curl -i --user admin:secret -H "Content-Type: application/json" -X POST --data @
 Output example if the order have matched and so launched synapses:
 ```JSON
 {
-  "synapses": [
+  "matched_synapses": [
     {
-      "name": "Say-hello", 
-      "neurons": [
+      "matched_order": "Bonjour",
+      "neuron_module_list": [
         {
-          "name": "say", 
-          "parameters": "{'message': ['Hello sir']}"
+          "generated_message": "Bonjour monsieur",
+          "neuron_name": "Say"
         }
-      ], 
-      "signals": [
-        {
-          "order": "hello"
-        }
-      ]
+      ],
+      "synapse_name": "say-hello-fr"
     }
-  ]
+  ],
+  "status": "complete",
+  "user_order": "bonjour"
 }
 ```
 
-If the order haven't match any synapses:
+If the order haven't match any synapses it will try to run the default synapse if it exists in your settings:
 ```JSON
 {
-  "error": {
-    "error": "The given order doesn't match any synapses"
-  }
+  "matched_synapses": [
+    {
+      "matched_order": null,
+      "neuron_module_list": [
+        {
+          "generated_message": "Je n'ai pas compris votre ordre",
+          "neuron_name": "Say"
+        }
+      ],
+      "synapse_name": "default-synapse"
+    }
+  ],
+  "status": "complete",
+  "user_order": "not existing order"
+}
+```
+
+Or return an empty list of matched synapse
+```
+{
+  "matched_synapses": [],
+  "status": null,
+  "user_order": "not existing order"
 }
 ```
 
@@ -217,30 +232,48 @@ curl -i --user admin:secret -X POST  http://localhost:5000/synapses/start/audio 
 Output example if the order inside the audio have matched and so launched synapses:
 ```JSON
 {
-  "synapses": [
+  "matched_synapses": [
     {
-      "name": "Say-hello", 
-      "neurons": [
+      "matched_order": "Bonjour",
+      "neuron_module_list": [
         {
-          "name": "say", 
-          "parameters": "{'message': ['Hello sir']}"
+          "generated_message": "Bonjour monsieur",
+          "neuron_name": "Say"
         }
-      ], 
-      "signals": [
-        {
-          "order": "hello"
-        }
-      ]
+      ],
+      "synapse_name": "say-hello-fr"
     }
-  ]
+  ],
+  "status": "complete",
+  "user_order": "bonjour"
 }
 ```
 
-If the order haven't match any synapses:
+If the order haven't match any synapses it will try to run the default synapse if it exists in your settings:
 ```JSON
 {
-  "error": {
-    "error": "The given order doesn't match any synapses"
-  }
+  "matched_synapses": [
+    {
+      "matched_order": null,
+      "neuron_module_list": [
+        {
+          "generated_message": "Je n'ai pas compris votre ordre",
+          "neuron_name": "Say"
+        }
+      ],
+      "synapse_name": "default-synapse"
+    }
+  ],
+  "status": "complete",
+  "user_order": "not existing order"
+}
+```
+
+Or return an empty list of matched synapse
+```
+{
+  "matched_synapses": [],
+  "status": null,
+  "user_order": "not existing order"
 }
 ```

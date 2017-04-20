@@ -2,7 +2,9 @@ import unittest
 
 import mock
 
+from kalliope.core import LIFOBuffer
 from kalliope.core.Models import Brain
+from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.Models.Settings import Settings
 from kalliope.core.SynapseLauncher import SynapseLauncher, SynapseNameNotFound
 
@@ -31,50 +33,93 @@ class TestSynapseLauncher(unittest.TestCase):
         self.synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
         self.synapse3 = Synapse(name="Synapse3", neurons=[neuron2, neuron4], signals=[signal3])
 
-        all_synapse_list = [self.synapse1,
-                            self.synapse2,
-                            self.synapse3]
+        self.all_synapse_list = [self.synapse1,
+                                 self.synapse2,
+                                 self.synapse3]
 
-        self.brain_test = Brain(synapses=all_synapse_list)
+        self.brain_test = Brain(synapses=self.all_synapse_list)
         self.settings_test = Settings(default_synapse="Synapse3")
 
-    def test_run_matching_synapse_or_default(self):
+        # clean the LiFO
+        LIFOBuffer.lifo_list = list()
 
-        # test_match_synapse1
-        with mock.patch("kalliope.core.NeuronLauncher.start_neuron_list"):
-            order_to_match = "this is the sentence"
-            expected_result = [self.synapse1]
+    def test_start_synapse_by_name(self):
+        # existing synapse in the brain
+        with mock.patch("kalliope.core.LIFOBuffer.execute"):
+            should_be_created_matched_synapse = MatchedSynapse(matched_synapse=self.synapse1)
+            SynapseLauncher.start_synapse_by_name("Synapse1", brain=self.brain_test)
+            # we expect that the lifo has been loaded with the synapse to run
+            expected_result = [[should_be_created_matched_synapse]]
+            self.assertEqual(expected_result, LIFOBuffer.lifo_list)
 
-            self.assertEqual(expected_result,
-                             SynapseLauncher.run_matching_synapse_or_default(order_to_match,
-                                                                             brain=self.brain_test,
-                                                                             settings=self.settings_test))
-
-        # test_match_synapse1_and_2
-        with mock.patch("kalliope.core.NeuronLauncher.start_neuron_list"):
-            order_to_match = "this is the second sentence"
-            expected_result = [self.synapse1, self.synapse2]
-
-            self.assertEqual(expected_result,
-                             SynapseLauncher.run_matching_synapse_or_default(order_to_match,
-                                                                             brain=self.brain_test,
-                                                                             settings=self.settings_test))
-
-        # test_match_default_synapse
-        with mock.patch("kalliope.core.NeuronLauncher.start_neuron"):
-            order_to_match = "this is an invalid order"
-            expected_result = [self.synapse3]
-
-            self.assertEqual(expected_result,
-                             SynapseLauncher.run_matching_synapse_or_default(order_to_match,
-                                                                             brain=self.brain_test,
-                                                                             settings=self.settings_test))
-
-    def test_start_synapse(self):
-        with mock.patch("kalliope.core.NeuronLauncher.start_neuron"):
-            expected_result = self.synapse1
-            self.assertEqual(expected_result,
-                             SynapseLauncher.start_synapse("Synapse1", brain=self.brain_test))
-
+        # non existing synapse in the brain
         with self.assertRaises(SynapseNameNotFound):
-            SynapseLauncher.start_synapse(name="no_do_exist", brain=self.brain_test)
+            SynapseLauncher.start_synapse_by_name("not_existing", brain=self.brain_test)
+
+    def test_run_matching_synapse_from_order(self):
+        # ------------------
+        # test_match_synapse1
+        # ------------------
+        with mock.patch("kalliope.core.LIFOBuffer.execute"):
+            order_to_match = "this is the sentence"
+
+            should_be_created_matched_synapse = MatchedSynapse(matched_synapse=self.synapse1,
+                                                               user_order=order_to_match,
+                                                               matched_order="this is the sentence")
+            expected_result = [[should_be_created_matched_synapse]]
+            SynapseLauncher.run_matching_synapse_from_order(order_to_match,
+                                                            brain=self.brain_test,
+                                                            settings=self.settings_test)
+
+            self.assertEqual(expected_result, LIFOBuffer.lifo_list)
+
+        # -------------------------
+        # test_match_synapse1_and_2
+        # -------------------------
+        # clean LIFO
+        LIFOBuffer.lifo_list = list()
+        with mock.patch("kalliope.core.LIFOBuffer.execute"):
+            order_to_match = "this is the second sentence"
+            should_be_created_matched_synapse1 = MatchedSynapse(matched_synapse=self.synapse1,
+                                                                user_order=order_to_match,
+                                                                matched_order="this is the sentence")
+            should_be_created_matched_synapse2 = MatchedSynapse(matched_synapse=self.synapse2,
+                                                                user_order=order_to_match,
+                                                                matched_order="this is the second sentence")
+
+            expected_result = [[should_be_created_matched_synapse1, should_be_created_matched_synapse2]]
+            SynapseLauncher.run_matching_synapse_from_order(order_to_match,
+                                                            brain=self.brain_test,
+                                                            settings=self.settings_test)
+            self.assertEqual(expected_result, LIFOBuffer.lifo_list)
+
+        # -------------------------
+        # test_match_default_synapse
+        # -------------------------
+        # clean LIFO
+        LIFOBuffer.lifo_list = list()
+        with mock.patch("kalliope.core.LIFOBuffer.execute"):
+            order_to_match = "not existing sentence"
+            should_be_created_matched_synapse = MatchedSynapse(matched_synapse=self.synapse3,
+                                                               user_order=order_to_match,
+                                                               matched_order=None)
+
+            expected_result = [[should_be_created_matched_synapse]]
+            SynapseLauncher.run_matching_synapse_from_order(order_to_match,
+                                                            brain=self.brain_test,
+                                                            settings=self.settings_test)
+            self.assertEqual(expected_result, LIFOBuffer.lifo_list)
+
+        # -------------------------
+        # test_no_match_and_no_default_synapse
+        # -------------------------
+        # clean LIFO
+        LIFOBuffer.lifo_list = list()
+        with mock.patch("kalliope.core.LIFOBuffer.execute"):
+            order_to_match = "not existing sentence"
+            new_settings = Settings()
+            expected_result = [[]]
+            SynapseLauncher.run_matching_synapse_from_order(order_to_match,
+                                                            brain=self.brain_test,
+                                                            settings=new_settings)
+            self.assertEqual(expected_result, LIFOBuffer.lifo_list)

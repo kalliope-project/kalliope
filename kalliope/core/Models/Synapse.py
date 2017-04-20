@@ -25,14 +25,7 @@ class Synapse(object):
         }
 
     def __str__(self):
-        return_val = "Synapse name: %s" % self.name
-        return_val += "\nneurons:"
-        for el in self.neurons:
-            return_val += str(el)
-        return_val += "\nsignals:"
-        for el in self.signals:
-            return_val += str(el)
-        return return_val
+        return str(self.serialize())
 
     def __eq__(self, other):
         """

@@ -11,11 +11,7 @@ class Resources(object):
         self.trigger_folder = trigger_folder
 
     def __str__(self):
-        return "%s: neuron_folder: %s, stt_folder: %s, tts_folder: %s, trigger_folder: %s" % (self.__class__.__name__,
-                                                                                              self.neuron_folder,
-                                                                                              self.stt_folder,
-                                                                                              self.tts_folder,
-                                                                                              self.trigger_folder)
+        return str(self.serialize())
 
     def serialize(self):
         """

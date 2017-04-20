@@ -87,7 +87,8 @@ class Utils(object):
         :return:
         """
         import json
-        pipe_print(json.dumps(to_print, indent=2))
+        line = json.dumps(to_print, indent=2)
+        return line.encode('utf-8')
 
     ##################
     #

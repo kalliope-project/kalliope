@@ -46,4 +46,4 @@ class EventManager(object):
         # get a brain
         brain_loader = BrainLoader()
         brain = brain_loader.brain
-        SynapseLauncher.start_synapse(synapse_name, brain=brain)
+        SynapseLauncher.start_synapse_by_name(synapse_name, brain=brain)

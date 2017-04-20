@@ -1,0 +1,63 @@
+- name: "synapse1"
+  signals:
+    - order: "enter in synapse 1"
+  neurons:
+    - say:
+        message: "question in synapse 1"
+    - neurotransmitter:
+        from_answer_link:
+          - synapse: "synapse2"
+            answers:
+              - "answer synapse1"
+          - synapse: "synapse3"
+            answers:
+              - "other answer synapse1"
+        default: "synapse4"
+    - say:
+        message: "last neuron in synapse 1"
+
+- name: "synapse2"
+  signals:
+    - order: "synapse2"
+  neurons:
+    - say:
+        message: "enter synapse 2"
+    - neurotransmitter:
+        from_answer_link:
+          - synapse: "synapse5"
+            answers:
+              - "synapse5"
+        default: "synapse4"
+
+- name: "synapse3"
+  signals:
+    - order: "synapse3"
+  neurons:
+    - say:
+        message: "I enter in synapse 3"
+
+- name: "synapse4"
+  signals:
+    - order: "synapse4"
+  neurons:
+    - say:
+        message: "not understood"
+
+
+- name: "synapse5"
+  signals:
+    - order: "synapse5"
+  neurons:
+    - say:
+        message: "execution of synapse 5"
+
+- name: "synapse6"
+  signals:
+    - order: "synapse6"
+  neurons:
+    - neurotransmitter:
+        from_answer_link:
+          - synapse: "synapse5"
+            answers:
+              - "synapse 6 answer"
+        default: "synapse4"

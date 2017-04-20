@@ -196,7 +196,10 @@ class MainController:
         Start the order analyser with the caught order to process
         """
         logger.debug("order in analysing_order_thread %s" % self.order_to_process)
-        SynapseLauncher.run_matching_synapse_or_default(self.order_to_process, self.brain, self.settings)
+        SynapseLauncher.run_matching_synapse_from_order(self.order_to_process,
+                                                        self.brain,
+                                                        self.settings,
+                                                        is_api_call=False)
 
         # return to the state "unpausing_trigger"
         self.unpause_trigger()

@@ -8,6 +8,7 @@ from jinja2 import Template
 from kalliope.core import OrderListener
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 from kalliope.core.Models import Order
+from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.NeuronLauncher import NeuronLauncher
 from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
 from kalliope.core.OrderAnalyser import OrderAnalyser
@@ -89,6 +90,31 @@ class NeuronModule(object):
         self.say_template = kwargs.get('say_template', None)
         # check if there is a template file associate to the output message
         self.file_template = kwargs.get('file_template', None)
+        # keep the generated message
+        self.tts_message = None
+        # if the current call is api one
+        self.is_api_call = kwargs.get('is_api_call', False)
+        # boolean to know id the synapse is waiting for an answer
+        self.is_waiting_for_answer = False
+        # the synapse name to add the the buffer
+        self.pending_synapse = None
+
+    def __str__(self):
+        retuned_string = ""
+        retuned_string += self.tts_message
+        return retuned_string
+
+    def serialize(self):
+        """
+        This method allows to serialize in a proper way this object
+
+        :return: A dict of name and parameters
+        :rtype: Dict
+        """
+        return {
+            'neuron_name': self.neuron_name,
+            'generated_message': self.tts_message
+        }
 
     def say(self, message):
         """
@@ -119,6 +145,8 @@ class NeuronModule(object):
 
         if tts_message is not None:
             logger.debug("tts_message to say: %s" % tts_message)
+            self.tts_message = tts_message
+            Utils.print_success(tts_message)
 
             # create a tts object from the tts the user want to use
             tts_object = next((x for x in self.settings.ttss if x.name == self.tts), None)
@@ -186,47 +214,23 @@ class NeuronModule(object):
 
         return returned_message
 
-    def run_synapse_by_name(self, name):
-        SynapseLauncher.start_synapse(name=name, brain=self.brain)
+    def run_synapse_by_name(self, synapse_name, user_order=None, synapse_order=None):
+        """
+        call the lifo for adding a synapse to execute in the list of synapse list to process
+        :param synapse_name: The name of the synapse to run
+        :param user_order: The user order
+        :param synapse_order: The synapse order
+        """
+        synapse = BrainLoader().get_brain().get_synapse_by_name(synapse_name)
+        matched_synapse = MatchedSynapse(matched_synapse=synapse,
+                                         matched_order=synapse_order,
+                                         user_order=user_order)
+        self.pending_synapse = matched_synapse
 
     @staticmethod
     def is_order_matching(order_said, order_match):
         return OrderAnalyser().spelt_order_match_brain_order_via_table(order_to_analyse=order_match,
                                                                        user_said=order_said)
-
-    def run_synapse_by_name_with_order(self, order, synapse_name, order_template):
-        """
-        Run a synapse using its name, and giving an order so it can retrieve its params.
-        Useful for neurotransmitters.
-        :param order: the order to match
-        :param synapse_name: the name of the synapse
-        :param order_template: order_template coming from the neurotransmitter
-        :return: True if a synapse as been found and started using its params
-        """
-        synapse_to_run = self.brain.get_synapse_by_name(synapse_name=synapse_name)
-        if synapse_to_run:
-            # Make a list with the synapse
-            logger.debug("[run_synapse_by_name_with_order]-> a synapse has been found  %s" % synapse_to_run.name)
-            list_to_run = list()
-            list_to_run.append(synapse_to_run)
-
-            # load parameters from the answer
-            parameters = None
-            for signal in synapse_to_run.signals:
-                if isinstance(signal, Order):
-                    parameters = NeuronParameterLoader.get_parameters(synapse_order=order_template,
-                                                                      user_order=order)
-                    if parameters is not None:
-                        logger.debug("[NeuronModule]-> parameter load from user answer: %s" % parameters)
-                        break
-
-            # start the neuron list
-            NeuronLauncher.start_neuron_list(neuron_list=synapse_to_run.neurons, parameters_dict=parameters)
-
-        else:
-            logger.debug("[NeuronModule]-> run_synapse_by_name_with_order, the synapse has not been found : %s"
-                         % synapse_name)
-        return synapse_to_run
 
     @staticmethod
     def _get_content_of_file(real_file_template_path):
