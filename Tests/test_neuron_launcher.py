@@ -150,35 +150,35 @@ class TestNeuronLauncher(unittest.TestCase):
         string_parameters = "this is a {{ parameter1 }}"
         loaded_parameters = {"parameter1": "value"}
 
-        self.assertTrue(NeuronLauncher.neuron_parameters_are_available_in_loaded_parameters(string_parameters,
+        self.assertTrue(NeuronLauncher._neuron_parameters_are_available_in_loaded_parameters(string_parameters,
                                                                                             loaded_parameters))
 
         # the parameter in bracket is NOT available in the dict
         string_parameters = "this is a {{ parameter1 }}"
         loaded_parameters = {"parameter2": "value"}
 
-        self.assertFalse(NeuronLauncher.neuron_parameters_are_available_in_loaded_parameters(string_parameters,
+        self.assertFalse(NeuronLauncher._neuron_parameters_are_available_in_loaded_parameters(string_parameters,
                                                                                              loaded_parameters))
 
         # the string_parameters doesn't contains bracket in bracket is available in the dict
         string_parameters = "this is a {{ parameter1 }}"
         loaded_parameters = {"parameter1": "value"}
 
-        self.assertTrue(NeuronLauncher.neuron_parameters_are_available_in_loaded_parameters(string_parameters,
+        self.assertTrue(NeuronLauncher._neuron_parameters_are_available_in_loaded_parameters(string_parameters,
                                                                                             loaded_parameters))
 
         # the string_parameters contains 2 parameters available in the dict
         string_parameters = "this is a {{ parameter1 }} and this is {{ parameter2 }}"
         loaded_parameters = {"parameter1": "value", "parameter2": "other value"}
 
-        self.assertTrue(NeuronLauncher.neuron_parameters_are_available_in_loaded_parameters(string_parameters,
+        self.assertTrue(NeuronLauncher._neuron_parameters_are_available_in_loaded_parameters(string_parameters,
                                                                                             loaded_parameters))
 
         # the string_parameters contains 2 parameters and one of them is not available in the dict
         string_parameters = "this is a {{ parameter1 }} and this is {{ parameter2 }}"
         loaded_parameters = {"parameter1": "value", "parameter3": "other value"}
 
-        self.assertFalse(NeuronLauncher.neuron_parameters_are_available_in_loaded_parameters(string_parameters,
+        self.assertFalse(NeuronLauncher._neuron_parameters_are_available_in_loaded_parameters(string_parameters,
                                                                                              loaded_parameters))
 
 

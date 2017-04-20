@@ -63,14 +63,14 @@ class NeuronLauncher:
         by the value specified in the loaded_parameters dict.
         This method will call itself until all values has been instantiated
         :param neuron_parameters: value to instantiate. Str or dict or list
-        :param loaded_parameters: dict of 
-        :return: 
+        :param loaded_parameters: dict of parameters
         """
+        logger.debug("[NeuronLauncher] replacing brackets from %s, using %s" % (str(neuron_parameters),str(loaded_parameters)))
         if isinstance(neuron_parameters, str) or isinstance(neuron_parameters, unicode):
             # replace bracket parameter only if the str contains brackets
             if Utils.is_containing_bracket(neuron_parameters):
                 # check that the parameter to replace is available in the loaded_parameters dict
-                if cls.neuron_parameters_are_available_in_loaded_parameters(neuron_parameters, loaded_parameters):
+                if cls._neuron_parameters_are_available_in_loaded_parameters(neuron_parameters, loaded_parameters):
                     neuron_parameters = jinja2.Template(neuron_parameters).render(loaded_parameters)
                     return str(neuron_parameters)
                 else:
@@ -92,8 +92,8 @@ class NeuronLauncher:
         # in all other case (boolean or int for example) we return the value as it
         return neuron_parameters
 
-    @classmethod
-    def neuron_parameters_are_available_in_loaded_parameters(cls, string_parameters, loaded_parameters):
+    @staticmethod
+    def _neuron_parameters_are_available_in_loaded_parameters(string_parameters, loaded_parameters):
         """
         Check that all parameters in brackets are available in the loaded_parameters dict
         
@@ -109,16 +109,10 @@ class NeuronLauncher:
         """
         list_parameters_with_brackets = Utils.find_all_matching_brackets(string_parameters)
         # remove brackets to keep only the parameter name
-        list_parameters = list()
         for parameter_with_brackets in list_parameters_with_brackets:
             parameter = Utils.remove_spaces_in_brackets(parameter_with_brackets)
             parameter = parameter.replace("{{", "").replace("}}", "")
-            list_parameters.append(parameter)
-
-        # check that the parameter name is available in the loaded_parameters dict
-        for parameters in list_parameters:
-            if loaded_parameters is None or parameters not in loaded_parameters:
-                Utils.print_danger("The parameter %s is not available in the order" % str(parameters))
+            if loaded_parameters is None or parameter not in loaded_parameters:
+                Utils.print_danger("The parameter %s is not available in the order" % str(parameter))
                 return False
-
         return True
