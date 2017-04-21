@@ -367,10 +367,8 @@ class TestModels(unittest.TestCase):
         stt3 = Stt(name="stt1", parameters={"key1": "val1"})
 
         expected_result_serialize = {'name': 'stt1', 'parameters': {'key1': 'val1'}}
-        expected_result_str = "{'name': 'stt1', 'parameters': {'key1': 'val1'}}"
 
-        self.assertEqual(expected_result_serialize, stt1.serialize())
-        self.assertEqual(expected_result_str, stt1.__str__())
+        self.assertDictEqual(expected_result_serialize, stt1.serialize())
 
         self.assertTrue(stt1.__eq__(stt3))
         self.assertFalse(stt1.__eq__(stt2))
@@ -423,10 +421,8 @@ class TestModels(unittest.TestCase):
         trigger3 = Trigger(name="trigger1", parameters={"key1": "val1"})
 
         expected_result_serialize = {'name': 'trigger1', 'parameters': {'key1': 'val1'}}
-        expected_result_str = "{'name': 'trigger1', 'parameters': {'key1': 'val1'}}"
 
-        self.assertEqual(expected_result_serialize, trigger1.serialize())
-        self.assertEqual(expected_result_str, trigger1.__str__())
+        self.assertDictEqual(expected_result_serialize, trigger1.serialize())
 
         self.assertTrue(trigger1.__eq__(trigger3))
         self.assertFalse(trigger1.__eq__(trigger2))
@@ -437,10 +433,8 @@ class TestModels(unittest.TestCase):
         tts3 = Tts(name="tts1", parameters={"key1": "val1"})
 
         expected_result_serialize = {'name': 'tts1', 'parameters': {'key1': 'val1'}}
-        expected_result_str = "{'name': 'tts1', 'parameters': {'key1': 'val1'}}"
 
-        self.assertEqual(expected_result_serialize, tts1.serialize())
-        self.assertEqual(expected_result_str, tts1.__str__())
+        self.assertDictEqual(expected_result_serialize, tts1.serialize())
 
         self.assertTrue(tts1.__eq__(tts3))
         self.assertFalse(tts1.__eq__(tts2))
