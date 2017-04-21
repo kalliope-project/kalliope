@@ -145,6 +145,24 @@ class TestNeuronLauncher(unittest.TestCase):
         self.assertEqual(expected_result, NeuronLauncher._replace_brackets_by_loaded_parameter(neuron_parameters,
                                                                                                loaded_parameters))
 
+        # parameters are say_template or file template. Should not be altered by the loader
+        neuron_parameters = {
+            "say_template": "{{output}}",
+            "file_template": "here is a file"
+        }
+
+        loaded_parameters = {
+            "output": "should not be used"
+        }
+
+        expected_result = {
+            "say_template": "{{output}}",
+            "file_template": "here is a file"
+        }
+
+        self.assertEqual(expected_result, NeuronLauncher._replace_brackets_by_loaded_parameter(neuron_parameters,
+                                                                                               loaded_parameters))
+
     def test_parameters_are_available_in_loaded_parameters(self):
         # the parameter in bracket is available in the dict
         string_parameters = "this is a {{ parameter1 }}"
