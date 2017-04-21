@@ -1,6 +1,7 @@
 import json
 import os
 import unittest
+import ast
 
 from flask import Flask
 from flask_testing import LiveServerTestCase
@@ -64,7 +65,7 @@ class TestRestAPI(LiveServerTestCase):
         expected_content = {
             "Kalliope version": "%s" % version_str
         }
-        self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(response.get_data())))
+        self.assertEqual(json.dumps(expected_content, sort_keys=True), json.dumps(json.loads(response.get_data()), sort_keys=True))
 
     def test_get_all_synapses(self):
         url = self.get_server_url()+"/synapses"
@@ -131,7 +132,7 @@ class TestRestAPI(LiveServerTestCase):
         # a lot of char ti process
         self.maxDiff = None
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(response.get_data())))
+        self.assertEqual(json.dumps(expected_content, sort_keys=True), json.dumps(json.loads(response.get_data()), sort_keys=True))
 
     def test_get_one_synapse(self):
         url = self.get_server_url() + "/synapses/test"
@@ -157,7 +158,7 @@ class TestRestAPI(LiveServerTestCase):
                 ]
             }
         }
-        self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(response.get_data())))
+        self.assertEqual(json.dumps(expected_content, sort_keys=True), json.dumps(json.loads(response.get_data()), sort_keys=True))
 
     def test_get_synapse_not_found(self):
         url = self.get_server_url() + "/synapses/test-none"
@@ -184,7 +185,7 @@ class TestRestAPI(LiveServerTestCase):
                                   'synapse_name': 'test'}],
                             'user_order': None
                             }
-        self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(result.get_data())))
+        self.assertEqual(json.dumps(expected_content, sort_keys=True), json.dumps(json.loads(result.get_data()), sort_keys=True))
         self.assertEqual(result.status_code, 201)
 
     def test_post_synapse_not_found(self):
@@ -197,7 +198,7 @@ class TestRestAPI(LiveServerTestCase):
             }
         }
 
-        self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(result.get_data())))
+        self.assertEqual(json.dumps(expected_content, sort_keys=True), json.dumps(json.loads(result.get_data()), sort_keys=True))
         self.assertEqual(result.status_code, 404)
 
     def test_run_synapse_with_order(self):
@@ -222,7 +223,7 @@ class TestRestAPI(LiveServerTestCase):
                                 ],
                             'user_order': "test_order"
                             }
-        self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(result.get_data())))
+        self.assertEqual(json.dumps(expected_content, sort_keys=True), json.dumps(json.loads(result.get_data()), sort_keys=True))
         self.assertEqual(result.status_code, 201)
 
     def test_post_synapse_by_order_not_found(self):
@@ -235,7 +236,7 @@ class TestRestAPI(LiveServerTestCase):
 
         expected_content = {'status': None, 'matched_synapses': [], 'user_order': u'non existing order'}
 
-        self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(result.get_data())))
+        self.assertEqual(json.dumps(expected_content, sort_keys=True), json.dumps(json.loads(result.get_data()), sort_keys=True))
         self.assertEqual(result.status_code, 201)
 
         # TODO this doesn't work on travis but works locally with python -m unittest discover
