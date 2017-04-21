@@ -5,6 +5,7 @@ services:
 
 python:
   - "2.7"
+  - "3.4"
 
 # command to install dependencies
 before_install:
@@ -15,6 +16,7 @@ before_install:
 - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
 - sudo apt-get update
 - sudo apt-get install $(cat install/files/deb-packages_requirements.txt)
+- sudo apt-get install python3-yaml python3-pycparser python3-markupsafe python3-dev
 - sudo apt-get install libstdc++6
 - wget https://bootstrap.pypa.io/get-pip.py
 - sudo python get-pip.py
