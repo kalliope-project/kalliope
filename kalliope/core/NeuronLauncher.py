@@ -80,7 +80,10 @@ class NeuronLauncher:
         if isinstance(neuron_parameters, dict):
             returned_dict = dict()
             for key, value in neuron_parameters.items():
-                returned_dict[key] = cls._replace_brackets_by_loaded_parameter(value, loaded_parameters)
+                if key in "say_template" or key in "file_template":  # those keys are reserved for the TTS.
+                    returned_dict[key] = value
+                else:
+                    returned_dict[key] = cls._replace_brackets_by_loaded_parameter(value, loaded_parameters)
             return returned_dict
 
         if isinstance(neuron_parameters, list):
