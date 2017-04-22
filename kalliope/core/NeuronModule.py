@@ -7,12 +7,8 @@ from jinja2 import Template
 
 from kalliope.core import OrderListener
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
-from kalliope.core.Models import Order
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
-from kalliope.core.NeuronLauncher import NeuronLauncher
-from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
 from kalliope.core.OrderAnalyser import OrderAnalyser
-from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.Utils.Utils import Utils
 
 logging.basicConfig()
@@ -74,23 +70,22 @@ class NeuronModule(object):
         brain_loader = BrainLoader()
         self.brain = brain_loader.brain
 
-        self.override_params = dict()
-        # get if the cache settings is present
-        override_cache = kwargs.get('cache', None)
-        if override_cache is not None:
-            self.override_params['cache'] = override_cache
+        # a dict of overridden TTS parameters if provided by the user
+        self.override_tts_parameters = kwargs.get('tts', None)
 
-        # check if the user has overrider the TTS
-        tts = kwargs.get('tts', None)
-        if tts is None:
-            # No tts provided,  we load the default one
-            self.tts = self.settings.default_tts_name
-        elif type(tts) is dict:
-            for key, value in tts.iteritems():
-                self.tts = key
-                self.override_params = value
+        # create the TTS instance
+        self.tts = None
+        if self.override_tts_parameters is None or not isinstance(self.override_tts_parameters, dict):
+            # we get the default TTS
+            self.tts = self._get_tts_object(settings=self.settings)
         else:
-            self.tts = tts
+            for key, value in self.override_tts_parameters.iteritems():
+                tts_name = key
+                tts_parameters = value
+                print tts_parameters
+                self.tts = self._get_tts_object(tts_name=tts_name,
+                                                override_parameter=tts_parameters,
+                                                settings=self.settings)
 
         # get templates if provided
         # Check if there is a template associate to the output message
@@ -155,23 +150,13 @@ class NeuronModule(object):
             self.tts_message = tts_message
             Utils.print_success(tts_message)
 
-            # create a tts object from the tts the user want to use
-            tts_object = next((x for x in self.settings.ttss if x.name == self.tts), None)
-            if tts_object is None:
-                raise TTSModuleNotFound("The tts module name %s does not exist in settings file" % self.tts)
-                   
-            if self.override_params is not None:
-                tts_object.parameters = self._update_params(self.override_params, tts_object.parameters)
-
-            logger.debug("NeuroneModule: TTS args: %s" % tts_object)
-
             # get the instance of the TTS module
             tts_folder = None
             if self.settings.resources:
                 tts_folder = self.settings.resources.tts_folder
             tts_module_instance = Utils.get_dynamic_class_instantiation(package_name="tts",
-                                                                        module_name=tts_object.name,
-                                                                        parameters=tts_object.parameters,
+                                                                        module_name=self.tts.name,
+                                                                        parameters=self.tts.parameters,
                                                                         resources_dir=tts_folder)
             # generate the audio file and play it
             tts_module_instance.say(tts_message)
@@ -250,20 +235,6 @@ class NeuronModule(object):
             return content_file.read()
 
     @staticmethod
-    def _update_params(new_override_params, args_dict):
-        """
-        update the value for the keys in the dict args_list
-        :param new_override_cache: cache boolean to set in place of the current one in args_list
-        :param args_dict: arg list that contain "cache" to update
-        :return: args_dict updated
-        """
-        logger.debug("args for TTS plugin before update: %s" % str(args_dict))
-        for key, value in new_override_params.iteritems():
-            args_dict[key] = value
-        logger.debug("args for TTS plugin after update: %s" % str(args_dict))
-        return args_dict
-
-    @staticmethod
     def get_audio_from_stt(callback):
         """
         Call the default STT to get an audio sample and return it into the callback method
@@ -283,3 +254,34 @@ class NeuronModule(object):
         :return:
         """
         return self.neuron_name
+
+    @staticmethod
+    def _get_tts_object(tts_name=None, override_parameter=None, settings=None):
+        """
+        Return a TTS model object
+        If no tts name provided, return the default TTS defined in the settings
+        If the TTS name is provided, get the default configuration for this TTS in settings and override each parameters
+        with parameters provided in override_parameter
+        :param tts_name: name of the TTS to load
+        :param override_parameter: dict of parameter to override the default configuration of the TTS
+        :param settings: current settings
+        :return: Tts model object
+        """
+
+        # if the tts_name is not provided, we get the default tts from settings
+        if tts_name is None:
+            tts_name = settings.default_tts_name
+
+        # create a tts object from the tts the user want to use
+        tts_object = next((x for x in settings.ttss if x.name == tts_name), None)
+        if tts_object is None:
+            raise TTSModuleNotFound("The tts module name %s does not exist in settings file" % tts_name)
+
+        if override_parameter is not None:  # the user want to override the default TTS configuration
+            logger.debug("args for TTS plugin before update: %s" % str(tts_object.parameters))
+            for key, value in override_parameter.iteritems():
+                tts_object.parameters[key] = value
+            logger.debug("args for TTS plugin after update: %s" % str(tts_object.parameters))
+
+        logger.debug("NeuroneModule: TTS args: %s" % tts_object)
+        return tts_object

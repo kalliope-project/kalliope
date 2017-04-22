@@ -1,8 +1,10 @@
 import os
 import unittest
 import mock
+from kalliope.core.Models.Tts import Tts
 
-from kalliope.core.NeuronModule import NeuronModule, TemplateFileNotFoundException
+from kalliope import SettingLoader
+from kalliope.core.NeuronModule import NeuronModule, TemplateFileNotFoundException, TTSModuleNotFound
 
 
 class TestNeuronModule(unittest.TestCase):
@@ -20,6 +22,8 @@ class TestNeuronModule(unittest.TestCase):
         }
         self.neuron_module_test = NeuronModule()
 
+        self.settings = SettingLoader(file_path="settings_test.yml").settings
+
     def tearDown(self):
         del self.neuron_module_test
 
@@ -29,7 +33,7 @@ class TestNeuronModule(unittest.TestCase):
         """
 
         with mock.patch("kalliope.core.OrderListener.start") as mock_orderListener_start:
-            with mock.patch("kalliope.core.OrderListener.join") as mock_orderListener_join:
+            with mock.patch("kalliope.core.OrderListener.join"):
                 def callback():
                     pass
 
@@ -37,44 +41,28 @@ class TestNeuronModule(unittest.TestCase):
                 mock_orderListener_start.assert_called_once_with()
                 mock_orderListener_start.reset_mock()
 
-    def test_update_params(self):
-        """
-        Test Update the value of the cache in the provided arg list
-        """
+    def test_get_tts_object(self):
 
-        # True -> False
-        args_dict = {
-            "cache": True
-        }
-        expected_dict = {
-            "cache": False
-        }
-        self.assertEquals(NeuronModule._update_params({'cache': False}, args_dict=args_dict),
-                          expected_dict,
-                          "Fail to update the cache value from True to False")
-        self.assertFalse(args_dict["cache"])
+        # no TTS name provided. should return the default tts
+        expected_tts = Tts(name="pico2wave", parameters={"language": "fr-FR", "cache": True})
+        self.assertEqual(NeuronModule._get_tts_object(settings=self.settings), expected_tts)
 
-        # False -> True
-        args_dict = {
-            "cache": False
-        }
-        expected_dict = {
-            "cache": True
-        }
-        self.assertEquals(NeuronModule._update_params({'cache': True}, args_dict=args_dict),
-                          expected_dict,
-                          "Fail to update the cache value from False to True")
+        # TTS provided, only cache parameter updated
+        expected_tts = Tts(name="pico2wave", parameters={"language": "fr-FR", "cache": False})
+        self.assertEqual(NeuronModule._get_tts_object(tts_name="pico2wave",
+                                                      override_parameter={"cache": False},
+                                                      settings=self.settings), expected_tts)
 
-        self.assertTrue(args_dict["cache"])
-
-        # {} -> {'language': 'en-US'}
-        args_dict = {}
-        expected_dict = {
-            "language": "en-US"
-        }
-        self.assertEquals(NeuronModule._update_params({'language': 'en-US'}, args_dict=args_dict),
-                          expected_dict,
-                          "Fail to create new parameter: language key and value")
+        # TTS provided, all parameters updated
+        expected_tts = Tts(name="pico2wave", parameters={"language": "es-ES", "cache": False})
+        self.assertEqual(NeuronModule._get_tts_object(tts_name="pico2wave",
+                                                      override_parameter={"language": "es-ES", "cache": False},
+                                                      settings=self.settings), expected_tts)
+        # TTS not existing in settings
+        with self.assertRaises(TTSModuleNotFound):
+            NeuronModule._get_tts_object(tts_name="no_existing_tts",
+                                         override_parameter={"cache": False},
+                                         settings=self.settings)
 
     def test_get_message_from_dict(self):
 
@@ -135,4 +123,5 @@ class TestNeuronModule(unittest.TestCase):
         self.assertEqual(expected_result, neuron_module.serialize())
 
 
-
+if __name__ == '__main__':
+    unittest.main()
