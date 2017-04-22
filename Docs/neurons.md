@@ -159,5 +159,20 @@ neurons:
 
 Here, the first neuron will use the default tts as set in the settings.yml file. The second neuron will use the tts "acapela".
 
+or with new parameters:
+```yml
+neurons:
+  - say:
+      message:
+        - "Me llamo kalliope"
+      tts:
+        pico2wave:
+          language: "es-ES"
+```
+
+Here,  neuron will use the tts "pico2wave" with "es-ES" language.
+
+
+
 >**Note:** The TTS must has been configured with its required parameters in the settings.yml file. See [TTS documentation](tts.md).
 
