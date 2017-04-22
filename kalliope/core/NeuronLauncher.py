@@ -65,7 +65,7 @@ class NeuronLauncher:
         :param neuron_parameters: value to instantiate. Str or dict or list
         :param loaded_parameters: dict of parameters
         """
-        logger.debug("[NeuronLauncher] replacing brackets from %s, using %s" % (str(neuron_parameters),str(loaded_parameters)))
+        logger.debug("[NeuronLauncher] replacing brackets from %s, using %s" % (neuron_parameters, loaded_parameters))
         if isinstance(neuron_parameters, str) or isinstance(neuron_parameters, unicode):
             # replace bracket parameter only if the str contains brackets
             if Utils.is_containing_bracket(neuron_parameters):
