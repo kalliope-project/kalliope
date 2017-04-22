@@ -83,7 +83,6 @@ class NeuronModule(object):
             for key, value in self.override_tts_parameters.items():
                 tts_name = key
                 tts_parameters = value
-                print tts_parameters
                 self.tts = self._get_tts_object(tts_name=tts_name,
                                                 override_parameter=tts_parameters,
                                                 settings=self.settings)
