@@ -2,6 +2,7 @@ import logging
 import os
 import inspect
 import imp
+import sys
 import re
 import six
 
@@ -10,7 +11,9 @@ logger = logging.getLogger("kalliope")
 
 
 def pipe_print(line):
-    print(line.encode('utf-8'))
+    if sys.version_info[0] < 3:
+        line = line.encode('utf-8')
+    print(line)
 
 
 class ModuleNotFoundError(Exception):
