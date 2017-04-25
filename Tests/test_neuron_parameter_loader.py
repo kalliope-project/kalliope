@@ -11,9 +11,9 @@ class TestNeuronParameterLoader(unittest.TestCase):
         user_order = "this is the value"
         expected_result = {'sentence': 'value'}
 
-        self.assertEquals(NeuronParameterLoader.get_parameters(synapse_order=synapse_order, user_order=user_order),
-                          expected_result,
-                          "Fail to retrieve 'the params' of the synapse_order from the order")
+        self.assertEqual(NeuronParameterLoader.get_parameters(synapse_order=synapse_order, user_order=user_order),
+                         expected_result,
+                         "Fail to retrieve 'the params' of the synapse_order from the order")
 
         # Multiple match
         synapse_order = "this is the {{ sentence }}"
@@ -30,7 +30,7 @@ class TestNeuronParameterLoader(unittest.TestCase):
 
         user_order = "this is the value with multiple words"
         expected_result = {'sentence': 'value',
-                            'params':'words'}
+                           'params':'words'}
 
         self.assertEqual(NeuronParameterLoader.get_parameters(synapse_order=synapse_order, user_order=user_order),
                          expected_result,
@@ -101,14 +101,14 @@ class TestNeuronParameterLoader(unittest.TestCase):
         order_brain = "This is the {variable}"
         order_user = "This is the value"
         expected_result = {'variable': 'value'}
-        self.assertNotEquals(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
+        self.assertNotEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
                              expected_result)
 
         # Fail
         order_brain = "This is the { variable}}"
         order_user = "This is the value"
         expected_result = {'variable': 'value'}
-        self.assertNotEquals(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
+        self.assertNotEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
                              expected_result)
 
         ##

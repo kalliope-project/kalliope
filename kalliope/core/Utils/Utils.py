@@ -2,14 +2,18 @@ import logging
 import os
 import inspect
 import imp
+import sys
 import re
+import six
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
 def pipe_print(line):
-    print(line.encode('utf-8'))
+    if sys.version_info[0] < 3:
+        line = line.encode('utf-8')
+    print(line)
 
 
 class ModuleNotFoundError(Exception):
@@ -240,7 +244,7 @@ class Utils(object):
         # print "sentence to test %s" % sentence
         pattern = r"{{|}}"
         # prog = re.compile(pattern)
-        if not isinstance(sentence, unicode):
+        if not isinstance(sentence, six.text_type):
             sentence = str(sentence)
         check_bool = re.search(pattern, sentence)
         if check_bool is not None:
@@ -257,7 +261,7 @@ class Utils(object):
 
         pattern = r"((?:{{\s*)[\w\.]+(?:\s*}}))"
         # find everything like {{ word }}
-        if not isinstance(sentence, unicode):
+        if not isinstance(sentence, six.text_type):
             sentence = str(sentence)
         return re.findall(pattern, sentence)
 
@@ -271,7 +275,7 @@ class Utils(object):
 
         pattern = '\s+(?=[^\{\{\}\}]*\}\})'
         # Remove white spaces (if any) between the variable and the double brace then split
-        if not isinstance(sentence, unicode):
+        if not isinstance(sentence, six.text_type):
             sentence = str(sentence)
         return re.sub(pattern, '', sentence)
 

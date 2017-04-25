@@ -2,6 +2,8 @@
 import hashlib
 import logging
 import os
+import sys
+import six
 
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.Players import Mplayer
@@ -132,7 +134,7 @@ class TTSModule(object):
         :param words: Text to convert into md5 hash
         :return: String md5 hash from the received words
         """
-        if isinstance(words, unicode):
+        if isinstance(words, six.text_type):
             words = words.encode('utf-8')
         return hashlib.md5(words).hexdigest()
 

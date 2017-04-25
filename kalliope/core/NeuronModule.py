@@ -2,6 +2,7 @@
 import logging
 import random
 import sys
+import six
 
 from jinja2 import Template
 
@@ -79,10 +80,9 @@ class NeuronModule(object):
             # we get the default TTS
             self.tts = self._get_tts_object(settings=self.settings)
         else:
-            for key, value in self.override_tts_parameters.iteritems():
+            for key, value in self.override_tts_parameters.items():
                 tts_name = key
                 tts_parameters = value
-                print tts_parameters
                 self.tts = self._get_tts_object(tts_name=tts_name,
                                                 override_parameter=tts_parameters,
                                                 settings=self.settings)
@@ -133,9 +133,10 @@ class NeuronModule(object):
 
         tts_message = None
 
-        if isinstance(message, str) or isinstance(message, unicode):
+        if isinstance(message, str) or isinstance(message, six.text_type):
             logger.debug("message is string")
             tts_message = message
+
 
         if isinstance(message, list):
             logger.debug("message is list")
@@ -176,8 +177,9 @@ class NeuronModule(object):
             returned_message = self._get_say_template(self.say_template, message_dict)
 
         # trick to remove unicode problem when loading jinja template with non ascii char
-        reload(sys)
-        sys.setdefaultencoding('utf-8')
+        if sys.version_info[0] == 2:
+            reload(sys)
+            sys.setdefaultencoding('utf-8')
 
         # the user chooses a file_template option
         if self.file_template is not None:  # the user choose a file_template option
@@ -279,7 +281,7 @@ class NeuronModule(object):
 
         if override_parameter is not None:  # the user want to override the default TTS configuration
             logger.debug("args for TTS plugin before update: %s" % str(tts_object.parameters))
-            for key, value in override_parameter.iteritems():
+            for key, value in override_parameter.items():
                 tts_object.parameters[key] = value
             logger.debug("args for TTS plugin after update: %s" % str(tts_object.parameters))
 

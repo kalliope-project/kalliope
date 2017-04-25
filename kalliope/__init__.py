@@ -10,7 +10,7 @@ from kalliope.core.ConfigurationManager.BrainLoader import BrainLoader
 from kalliope.core.EventManager import EventManager
 from kalliope.core.MainController import MainController
 
-from _version import version_str
+from ._version import version_str
 import signal
 import sys
 
@@ -30,7 +30,7 @@ def signal_handler(signal, frame):
     :param frame: execution frame
 
     """
-    print "\n"
+    print("\n")
     Utils.print_info("Ctrl+C pressed. Killing Kalliope")
     sys.exit(0)
 

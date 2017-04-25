@@ -1,8 +1,10 @@
 import inspect
 import logging
 import os
+from six import with_metaclass
+import six
 
-from YAMLLoader import YAMLLoader
+from .YAMLLoader import YAMLLoader
 from kalliope.core.Utils import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
@@ -23,11 +25,10 @@ class BrainNotFound(Exception):
     pass
 
 
-class BrainLoader(object):
+class BrainLoader(with_metaclass(Singleton, object)):
     """
     This Class is used to get the brain YAML and the Brain as an object
     """
-    __metaclass__ = Singleton
 
     def __init__(self, file_path=None):
         sl = SettingLoader()
@@ -252,7 +253,7 @@ class BrainLoader(object):
         """
 
         if isinstance(parameter, dict):
-            for key, value in parameter.iteritems():
+            for key, value in parameter.items():
                 parameter[key] = cls._replace_global_variables(value, settings=settings)
             return parameter
         if isinstance(parameter, list):
@@ -260,7 +261,7 @@ class BrainLoader(object):
             for el in parameter:
                 new_parameter_list.append(cls._replace_global_variables(el, settings=settings))
             return new_parameter_list
-        if isinstance(parameter, str) or isinstance(parameter, unicode) or isinstance(parameter, int):
+        if isinstance(parameter, str) or isinstance(parameter, six.text_type) or isinstance(parameter, int):
             if Utils.is_containing_bracket(parameter):
                 return cls._get_global_variable(sentence=parameter, settings=settings)
             return parameter

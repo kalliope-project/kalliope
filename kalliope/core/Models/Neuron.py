@@ -33,7 +33,7 @@ class Neuron(object):
         }
 
         cleaned_parameters = dict()
-        for key, value in self.parameters.iteritems():
+        for key, value in self.parameters.items():
             if "password" in key:
                 cleaned_parameters[key] = "*****"
             else:

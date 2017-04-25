@@ -1,5 +1,5 @@
 import unittest
-
+import ast
 import mock
 from kalliope.core.Models.Tts import Tts
 
@@ -75,12 +75,7 @@ class TestModels(unittest.TestCase):
                 'user_order': 'user order'
         }
 
-        self.assertEqual(expected_result_serialize, api_response.serialize())
-
-        expected_result_str = "{'status': None, 'matched_synapses': [{'matched_order': 'user order', " \
-                              "'neuron_module_list': [], 'synapse_name': 'Synapse1'}], 'user_order': 'user order'}"
-
-        self.assertEqual(expected_result_str, api_response.__str__())
+        self.assertDictEqual(expected_result_serialize, api_response.serialize())
 
     def test_Brain(self):
         # test get synapse by name
@@ -113,11 +108,8 @@ class TestModels(unittest.TestCase):
             'name': 'dna1',
             'author': 'kalliope'
         }
-        expected_result_str = "{'kalliope_supported_version': '0.4.4', 'tags': 'test', 'type':" \
-                              " 'neuron', 'name': 'dna1', 'author': 'kalliope'}"
 
-        self.assertEqual(expected_result_serialize, dna1.serialize())
-        self.assertEqual(expected_result_str, dna1.__str__())
+        self.assertDictEqual(expected_result_serialize, dna1.serialize())
 
         self.assertTrue(dna1.__eq__(dna3))
         self.assertFalse(dna1.__eq__(dna2))
@@ -145,11 +137,8 @@ class TestModels(unittest.TestCase):
                 'month': 12
             }
         }
-        expected_result_str = "{'event': {'week': 53, 'second': 0, 'minute': 30, 'hour': 8, " \
-                              "'year': 2017, 'day': 31, 'day_of_week': 2, 'month': 12}}"
 
-        self.assertEqual(expected_result_serialize, event1.serialize())
-        self.assertEqual(expected_result_str, event1.__str__())
+        self.assertDictEqual(expected_result_serialize, event1.serialize())
 
         self.assertTrue(event1.__eq__(event3))
         self.assertFalse(event1.__eq__(event2))
@@ -165,10 +154,8 @@ class TestModels(unittest.TestCase):
             'neuron_module_list': [],
             'synapse_name': 'Synapse1'
         }
-        expected_result_str = "{'matched_order': 'user order', 'neuron_module_list': [], 'synapse_name': 'Synapse1'}"
 
-        self.assertEqual(expected_result_serialize, matched_synapse1.serialize())
-        self.assertEqual(expected_result_str, matched_synapse1.__str__())
+        self.assertDictEqual(expected_result_serialize, matched_synapse1.serialize())
 
         self.assertTrue(matched_synapse1.__eq__(matched_synapse3))
         self.assertFalse(matched_synapse1.__eq__(matched_synapse2))
@@ -188,10 +175,8 @@ class TestModels(unittest.TestCase):
         neuron3 = Neuron(name="test", parameters={"key1": "val1", "key2": "val2"})
 
         expected_result_serialize = {'name': 'test', 'parameters': {'key2': 'val2', 'key1': 'val1'}}
-        expected_result_str = "{'name': 'test', 'parameters': {'key2': 'val2', 'key1': 'val1'}}"
 
-        self.assertEqual(expected_result_serialize, neuron1.serialize())
-        self.assertEqual(expected_result_str, neuron1.__str__())
+        self.assertDictEqual(expected_result_serialize, neuron1.serialize())
 
         self.assertTrue(neuron1.__eq__(neuron3))
         self.assertFalse(neuron1.__eq__(neuron2))
@@ -207,9 +192,9 @@ class TestModels(unittest.TestCase):
         neuron.name = neuron_name
         neuron.parameters = neuron_parameters
 
-        expected_result = "{'name': 'test', 'parameters': {'password': '*****', 'parameter': 'test'}}"
+        expected_result_str = "{'name': 'test', 'parameters': {'password': '*****', 'parameter': 'test'}}"
 
-        self.assertEqual(neuron.__str__(), expected_result)
+        self.assertDictEqual(ast.literal_eval(neuron.__str__()), ast.literal_eval(expected_result_str))
 
         neuron_name = "test"
         neuron_parameters = {
@@ -221,9 +206,9 @@ class TestModels(unittest.TestCase):
         neuron.name = neuron_name
         neuron.parameters = neuron_parameters
 
-        expected_result = "{'name': 'test', 'parameters': {'parameter': 'test', 'password_parameter': '*****'}}"
+        expected_result_str = "{'name': 'test', 'parameters': {'parameter': 'test', 'password_parameter': '*****'}}"
 
-        self.assertEqual(neuron.__str__(), expected_result)
+        self.assertDictEqual(ast.literal_eval(neuron.__str__()), ast.literal_eval(expected_result_str))
 
     def test_Order(self):
         order1 = Order(sentence="this is an order")
@@ -255,11 +240,8 @@ class TestModels(unittest.TestCase):
             'stt_folder': '/path/stt',
             'trigger_folder': '/path/trigger'
         }
-        expected_result_str = "{'tts_folder': '/path/tts', 'neuron_folder': '/path/neuron', " \
-                              "'stt_folder': '/path/stt', 'trigger_folder': '/path/trigger'}"
 
-        self.assertEqual(expected_result_serialize, resource1.serialize())
-        self.assertEqual(expected_result_str, resource1.__str__())
+        self.assertDictEqual(expected_result_serialize, resource1.serialize())
 
         self.assertTrue(resource1.__eq__(resource3))
         self.assertFalse(resource1.__eq__(resource2))
@@ -283,11 +265,8 @@ class TestModels(unittest.TestCase):
             'password': 'password',
             'login': 'admin'
         }
-        expected_result_str = "{'password_protected': True, 'port': 5000, 'active': True, 'allowed_cors_origin': '*', " \
-                              "'password': 'password', 'login': 'admin'}"
 
-        self.assertEqual(expected_result_serialize, rest_api1.serialize())
-        self.assertEqual(expected_result_str, rest_api1.__str__())
+        self.assertDictEqual(expected_result_serialize, rest_api1.serialize())
 
         self.assertTrue(rest_api1.__eq__(rest_api3))
         self.assertFalse(rest_api1.__eq__(rest_api2))
@@ -377,17 +356,7 @@ class TestModels(unittest.TestCase):
                 'triggers': ['snowboy']
             }
 
-            expected_result_str = "{'default_synapse': 'default_synapse', 'default_tts_name': 'pico2wav', 'rest_api': " \
-                                  "{'password_protected': True, 'port': 5000, 'active': True, 'allowed_cors_origin': " \
-                                  "'*', 'password': 'password', 'login': 'admin'}, 'play_on_ready_notification': " \
-                                  "False, 'default_stt_name': 'google', 'kalliope_version': '0.4.4b', " \
-                                  "'random_wake_up_sounds': None, 'on_ready_answers': None, 'default_trigger_name': " \
-                                  "'swoyboy', 'cache_path': '/tmp/kalliope', 'stts': ['stts'], 'machine': 'pumpkins', " \
-                                  "'random_wake_up_answers': ['yes'], 'on_ready_sounds': None, 'ttss': ['ttts'], " \
-                                  "'variables': {'key1': 'val1'}, 'resources': None, 'triggers': ['snowboy']}"
-
-            self.assertEqual(expected_result_serialize, setting1.serialize())
-            self.assertEqual(expected_result_str, setting1.__str__())
+            self.assertDictEqual(expected_result_serialize, setting1.serialize())
 
             self.assertTrue(setting1.__eq__(setting3))
             self.assertFalse(setting1.__eq__(setting2))
@@ -398,10 +367,8 @@ class TestModels(unittest.TestCase):
         stt3 = Stt(name="stt1", parameters={"key1": "val1"})
 
         expected_result_serialize = {'name': 'stt1', 'parameters': {'key1': 'val1'}}
-        expected_result_str = "{'name': 'stt1', 'parameters': {'key1': 'val1'}}"
 
-        self.assertEqual(expected_result_serialize, stt1.serialize())
-        self.assertEqual(expected_result_str, stt1.__str__())
+        self.assertDictEqual(expected_result_serialize, stt1.serialize())
 
         self.assertTrue(stt1.__eq__(stt3))
         self.assertFalse(stt1.__eq__(stt2))
@@ -443,12 +410,7 @@ class TestModels(unittest.TestCase):
             'name': 'Synapse1'
         }
 
-        expected_result_str = "{'signals': [{'order': 'this is the sentence'}], 'neurons': [{'name': 'neurone1', " \
-                              "'parameters': {'var1': 'val1'}}, {'name': 'neurone2', 'parameters': {'var2': " \
-                              "'val2'}}], 'name': 'Synapse1'}"
-
-        self.assertEqual(expected_result_serialize, synapse1.serialize())
-        self.assertEqual(expected_result_str, synapse1.__str__())
+        self.assertDictEqual(expected_result_serialize, synapse1.serialize())
 
         self.assertTrue(synapse1.__eq__(synapse3))
         self.assertFalse(synapse1.__eq__(synapse2))
@@ -459,10 +421,8 @@ class TestModels(unittest.TestCase):
         trigger3 = Trigger(name="trigger1", parameters={"key1": "val1"})
 
         expected_result_serialize = {'name': 'trigger1', 'parameters': {'key1': 'val1'}}
-        expected_result_str = "{'name': 'trigger1', 'parameters': {'key1': 'val1'}}"
 
-        self.assertEqual(expected_result_serialize, trigger1.serialize())
-        self.assertEqual(expected_result_str, trigger1.__str__())
+        self.assertDictEqual(expected_result_serialize, trigger1.serialize())
 
         self.assertTrue(trigger1.__eq__(trigger3))
         self.assertFalse(trigger1.__eq__(trigger2))
@@ -473,10 +433,8 @@ class TestModels(unittest.TestCase):
         tts3 = Tts(name="tts1", parameters={"key1": "val1"})
 
         expected_result_serialize = {'name': 'tts1', 'parameters': {'key1': 'val1'}}
-        expected_result_str = "{'name': 'tts1', 'parameters': {'key1': 'val1'}}"
 
-        self.assertEqual(expected_result_serialize, tts1.serialize())
-        self.assertEqual(expected_result_str, tts1.__str__())
+        self.assertDictEqual(expected_result_serialize, tts1.serialize())
 
         self.assertTrue(tts1.__eq__(tts3))
         self.assertFalse(tts1.__eq__(tts2))

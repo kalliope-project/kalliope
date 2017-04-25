@@ -4,7 +4,7 @@ import collections
 from threading import Thread
 
 import pyaudio
-import snowboydetect
+from . import snowboydetect
 import time
 import os
 import logging

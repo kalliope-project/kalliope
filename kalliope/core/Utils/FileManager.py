@@ -36,7 +36,7 @@ class FileManager:
         """
         try:
             with open(file_path, "wb") as file_open:
-                file_open.write(content)
+                file_open.write(content.encode())
                 file_open.close()
             return not FileManager.file_is_empty(file_path)
         except IOError as e:

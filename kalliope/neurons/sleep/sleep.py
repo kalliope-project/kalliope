@@ -1,4 +1,5 @@
 import time
+import six
 
 from kalliope.core.NeuronModule import NeuronModule,  MissingParameterException
 
@@ -12,7 +13,7 @@ class Sleep(NeuronModule):
         if self._is_parameters_ok():
 
             if isinstance(self.seconds, str) or \
-                    isinstance(self.seconds, unicode):
+                    isinstance(self.seconds, six.text_type):
                 self.seconds = float(self.seconds)
 
             time.sleep(self.seconds)

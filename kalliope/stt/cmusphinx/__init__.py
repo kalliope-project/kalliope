@@ -1,1 +1,1 @@
-from cmusphinx import Cmusphinx
+from .cmusphinx import Cmusphinx

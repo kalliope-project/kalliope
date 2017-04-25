@@ -1,6 +1,8 @@
 # coding: utf8
 import collections
 from collections import Counter
+import sys
+import six
 
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.Utils.Utils import Utils
@@ -35,7 +37,7 @@ class OrderAnalyser:
         """
         cls.brain = brain
         logger.debug("[OrderAnalyser] Received order: %s" % order)
-        if isinstance(order, str):
+        if isinstance(order, six.binary_type):
             order = order.decode('utf-8')
 
         # We use a namedtuple to associate the synapse and the signal of the synapse
