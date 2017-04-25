@@ -16,6 +16,8 @@ class APIResponse(object):
         :return: A dict of name and parameters
         :rtype: Dict
         """
+        if isinstance(self.user_order, unicode):
+            self.user_order = self.user_order.encode("utf-8")
         return {
             'user_order': self.user_order,
             'matched_synapses': [e.serialize() for e in self.list_processed_matched_synapse],

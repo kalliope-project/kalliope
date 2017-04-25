@@ -12,7 +12,8 @@ logger = logging.getLogger("kalliope")
 
 def pipe_print(line):
     if sys.version_info[0] < 3:
-        line = line.encode('utf-8')
+        if isinstance(line, unicode):
+            line = line.encode('utf-8')
     print(line)
 
 
