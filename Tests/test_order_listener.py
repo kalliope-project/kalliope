@@ -39,9 +39,9 @@ class TestOrderListener(unittest.TestCase):
 
         with mock.patch("kalliope.core.Utils.get_dynamic_class_instantiation") as mock_get_dynamic_class_instantiation:
             mock_get_dynamic_class_instantiation.return_value = 'class_instance'
-            self.assertEquals(ol.load_stt_plugin(),
-                              "class_instance",
-                              "Fail getting the proper value")
+            self.assertEqual(ol.load_stt_plugin(),
+                             "class_instance",
+                             "Fail getting the proper value")
 
             mock_get_dynamic_class_instantiation.assert_called_once_with(package_name= "stt",
                                                                          module_name= "Default-stt",

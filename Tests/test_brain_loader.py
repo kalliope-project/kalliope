@@ -183,10 +183,10 @@ class TestBrainLoader(unittest.TestCase):
             'var1': 'test'
         }
 
-        self.assertEquals(BrainLoader._replace_global_variables(parameter=parameters,
+        self.assertEqual(BrainLoader._replace_global_variables(parameter=parameters,
                                                                 settings=st),
-                          expected_parameters,
-                          "Fail to assign a single global variable to parameters")
+                         expected_parameters,
+                         "Fail to assign a single global variable to parameters")
 
         # 2/ global variable with string after
         parameters = {
@@ -202,10 +202,10 @@ class TestBrainLoader(unittest.TestCase):
             'var1': 'test Sispheor'
         }
 
-        self.assertEquals(BrainLoader._replace_global_variables(parameter=parameters,
+        self.assertEqual(BrainLoader._replace_global_variables(parameter=parameters,
                                                                 settings=st),
-                          expected_parameters,
-                          "Fail to assign a global variable with string after to parameters")
+                         expected_parameters,
+                         "Fail to assign a global variable with string after to parameters")
 
         # 3/ global variable with int after
         parameters = {
@@ -221,10 +221,10 @@ class TestBrainLoader(unittest.TestCase):
             'var1': '600'
         }
 
-        self.assertEquals(BrainLoader._replace_global_variables(parameter=parameters,
+        self.assertEqual(BrainLoader._replace_global_variables(parameter=parameters,
                                                                 settings=st),
-                          expected_parameters,
-                          "Fail to assign global variable with int after to parameters")
+                         expected_parameters,
+                         "Fail to assign global variable with int after to parameters")
 
         # 4/ multiple global variables
         parameters = {
@@ -240,10 +240,10 @@ class TestBrainLoader(unittest.TestCase):
             'var1': 'hello LaMonf'
         }
 
-        self.assertEquals(BrainLoader._replace_global_variables(parameter=parameters,
+        self.assertEqual(BrainLoader._replace_global_variables(parameter=parameters,
                                                                 settings=st),
-                          expected_parameters,
-                          "Fail to assign multiple global variables to parameters")
+                         expected_parameters,
+                         "Fail to assign multiple global variables to parameters")
 
         # 5/ parameter value is a list
         parameters = {
@@ -259,10 +259,10 @@ class TestBrainLoader(unittest.TestCase):
             'var1': '[hello LaMonf, bonjour LaMonf]'
         }
 
-        self.assertEquals(BrainLoader._replace_global_variables(parameter=parameters,
+        self.assertEqual(BrainLoader._replace_global_variables(parameter=parameters,
                                                                 settings=st),
-                          expected_parameters,
-                          "Fail to assign a single global when parameter value is a list to neuron")
+                         expected_parameters,
+                         "Fail to assign a single global when parameter value is a list to neuron")
 
         # 6/ parameter is a dict
         parameters = {'from_answer_link': [{'synapse': 'synapse2', 'answers': ['absolument', '{{ name }}']},
@@ -279,10 +279,10 @@ class TestBrainLoader(unittest.TestCase):
                 {'synapse': 'synapse3', 'answers': ['nico']}], 'default': 'synapse4'
         }
 
-        self.assertEquals(BrainLoader._replace_global_variables(parameter=parameters,
+        self.assertEqual(BrainLoader._replace_global_variables(parameter=parameters,
                                                                 settings=st),
-                          expected_parameters,
-                          "Fail to assign a single global when parameter value is a list to neuron")
+                         expected_parameters,
+                         "Fail to assign a single global when parameter value is a list to neuron")
 
     def test_get_global_variable(self):
         """
@@ -299,25 +299,25 @@ class TestBrainLoader(unittest.TestCase):
 
         expected_result = "i am kalliope"
 
-        self.assertEquals(BrainLoader._get_global_variable(sentence=sentence,
+        self.assertEqual(BrainLoader._get_global_variable(sentence=sentence,
                                                            settings=st),
-                          expected_result)
+                         expected_result)
 
         # test with accent
         sentence = "i am {{name3}}"
         expected_result = u"i am kalliopé"
 
-        self.assertEquals(BrainLoader._get_global_variable(sentence=sentence,
+        self.assertEqual(BrainLoader._get_global_variable(sentence=sentence,
                                                            settings=st),
-                          expected_result)
+                         expected_result)
 
         # test with int
         sentence = "i am {{name4}}"
         expected_result = "i am 1"
 
-        self.assertEquals(BrainLoader._get_global_variable(sentence=sentence,
+        self.assertEqual(BrainLoader._get_global_variable(sentence=sentence,
                                                            settings=st),
-                          expected_result)
+                         expected_result)
 
 
 if __name__ == '__main__':

@@ -26,9 +26,9 @@ class TestUtils(unittest.TestCase):
         path_to_test = "../kalliope/core/Utils"
         expected_result = os.path.normpath("../kalliope/core")
 
-        self.assertEquals(Utils.get_current_file_parent_path(path_to_test),
-                          expected_result,
-                          "fail getting the parent parent path from the given path")
+        self.assertEqual(Utils.get_current_file_parent_path(path_to_test),
+                         expected_result,
+                         "fail getting the parent parent path from the given path")
 
     def test_get_current_file_parent_parent_path(self):
         """
@@ -37,9 +37,9 @@ class TestUtils(unittest.TestCase):
         path_to_test = "../kalliope/core/Utils"
         expected_result = os.path.normpath("../kalliope")
 
-        self.assertEquals(Utils.get_current_file_parent_parent_path(path_to_test),
-                          expected_result,
-                          "fail getting the parent parent path from the given path")
+        self.assertEqual(Utils.get_current_file_parent_parent_path(path_to_test),
+                         expected_result,
+                         "fail getting the parent parent path from the given path")
 
     def test_get_real_file_path(self):
         """
@@ -61,9 +61,9 @@ class TestUtils(unittest.TestCase):
         # touch the file
         open(absolute_path_to_test, 'a').close()
 
-        self.assertEquals(Utils.get_real_file_path(absolute_path_to_test),
-                          expected_result,
-                          "Fail to match the given absolute path ")
+        self.assertEqual(Utils.get_real_file_path(absolute_path_to_test),
+                         expected_result,
+                         "Fail to match the given absolute path ")
         # Clean up
         if os.path.exists(absolute_path_to_test):
             os.remove(absolute_path_to_test)
@@ -76,9 +76,9 @@ class TestUtils(unittest.TestCase):
         # touch the file
         open(file_name, 'a').close()
 
-        self.assertEquals(Utils.get_real_file_path(file_name),
-                          expected_result,
-                          "Fail to match the Current path ")
+        self.assertEqual(Utils.get_real_file_path(file_name),
+                         expected_result,
+                         "Fail to match the Current path ")
         # Clean up
         if os.path.exists(file_name):
             os.remove(file_name)
@@ -115,9 +115,9 @@ class TestUtils(unittest.TestCase):
         # touch the file
         open(path_to_test, 'a').close()
 
-        self.assertEquals(Utils.get_real_file_path(file_name),
-                          expected_result,
-                          "Fail to match the /an/unknown/path/kalliope path")
+        self.assertEqual(Utils.get_real_file_path(file_name),
+                         expected_result,
+                         "Fail to match the /an/unknown/path/kalliope path")
         # Clean up
         if os.path.exists(expected_result):
             os.remove(expected_result)
