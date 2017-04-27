@@ -73,9 +73,7 @@ class NeuronLauncher:
                 # check that the parameter to replace is available in the loaded_parameters dict
                 if cls._neuron_parameters_are_available_in_loaded_parameters(neuron_parameters, loaded_parameters):
                     neuron_parameters = jinja2.Template(neuron_parameters).render(loaded_parameters)
-                    if sys.version_info[0] < 3:
-                        if isinstance(neuron_parameters, unicode):
-                            neuron_parameters = neuron_parameters.encode("utf-8")
+                    neuron_parameters = Utils.encode_text_utf8(neuron_parameters)
                     return str(neuron_parameters)
                 else:
                     raise NeuronParameterNotAvailable

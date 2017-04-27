@@ -1,4 +1,5 @@
-import sys
+from kalliope.core.Utils import Utils
+
 
 class APIResponse(object):
 
@@ -16,9 +17,8 @@ class APIResponse(object):
         :return: A dict of name and parameters
         :rtype: Dict
         """
-        if sys.version_info[0] < 3:
-            if isinstance(self.user_order, unicode):
-                self.user_order = self.user_order.encode("utf-8")
+
+        self.user_order = Utils.encode_text_utf8(self.user_order)
         return {
             'user_order': self.user_order,
             'matched_synapses': [e.serialize() for e in self.list_processed_matched_synapse],
