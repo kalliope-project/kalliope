@@ -54,7 +54,7 @@ class Acapela(TTSModule):
         # Prepare payload
         payload = self.get_payload()
 
-        cookie = Acapela.get_cookie()
+        cookie = Acapela._get_cookie()
 
         # Get the mp3 URL from the page
         mp3_url = Acapela.get_audio_link(TTS_URL, payload, cookie)
@@ -113,10 +113,10 @@ class Acapela(TTSModule):
         return data["snd_url"]
 
     @staticmethod
-    def get_cookie():
+    def _get_cookie():
         """
         Get a cookie that is used to authenticate post request
-        :return: 
+        :return: the str cookie
         """
         returned_cookie = ""
         index_url = "https://acapela-box.com/AcaBox/index.php"
