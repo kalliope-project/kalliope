@@ -47,7 +47,7 @@ class TTSModule(object):
 
         # set parameter from what we receive from the settings
         self.cache = kwargs.get('cache', False)
-        self.language = kwargs.get('language', None)
+        self.language = kwargs.get('language', "default")
         self.voice = kwargs.get('voice', "default")
         # the name of the TSS is the name of the Tss module that have instantiated TTSModule
         self.tts_caller_name = self.__class__.__name__
