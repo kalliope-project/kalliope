@@ -113,6 +113,7 @@ class NeuronModule(object):
         :return: A dict of name and parameters
         :rtype: Dict
         """
+        self.tts_message = Utils.encode_text_utf8(self.tts_message)
         return {
             'neuron_name': self.neuron_name,
             'generated_message': self.tts_message
@@ -136,7 +137,6 @@ class NeuronModule(object):
         if isinstance(message, str) or isinstance(message, six.text_type):
             logger.debug("message is string")
             tts_message = message
-
 
         if isinstance(message, list):
             logger.debug("message is list")

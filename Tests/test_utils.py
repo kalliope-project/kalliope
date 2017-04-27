@@ -4,6 +4,8 @@
 import unittest
 import os
 
+import sys
+
 from kalliope.core.Models.Neuron import Neuron
 from kalliope.neurons.say.say import Say
 from kalliope.core.Utils.Utils import Utils
@@ -223,3 +225,15 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(Utils.remove_spaces_in_brackets(sentence=sentence),
                          expected_result,
                          "Fail to remove spaces in two brackets")
+
+    def test_encode_text_utf8(self):
+        """
+        Test encoding the text in utf8
+        """
+        sentence = "kâllìöpé"
+        if sys.version_info[0] < 3:
+            sentence = sentence.decode('utf8')
+        expected_sentence = "kâllìöpé"
+
+        self.assertEqual(Utils.encode_text_utf8(text=sentence),
+                         expected_sentence)

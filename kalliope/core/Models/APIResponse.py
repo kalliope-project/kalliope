@@ -1,3 +1,4 @@
+from kalliope.core.Utils import Utils
 
 
 class APIResponse(object):
@@ -16,6 +17,8 @@ class APIResponse(object):
         :return: A dict of name and parameters
         :rtype: Dict
         """
+
+        self.user_order = Utils.encode_text_utf8(self.user_order)
         return {
             'user_order': self.user_order,
             'matched_synapses': [e.serialize() for e in self.list_processed_matched_synapse],

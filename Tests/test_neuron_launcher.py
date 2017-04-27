@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import unittest
 import mock
 
@@ -92,6 +94,22 @@ class TestNeuronLauncher(unittest.TestCase):
 
         expected_result = {
             "param1": "this is a value replaced successfully"
+        }
+
+        self.assertEqual(expected_result, NeuronLauncher._replace_brackets_by_loaded_parameter(neuron_parameters,
+                                                                                               loaded_parameters))
+
+        # the target value with unicode to replace is present in the loaded parameter dict
+        neuron_parameters = {
+            "param1": "this is a value {{ replaced }}"
+        }
+
+        loaded_parameters = {
+            "replaced": u"rêmpläcée successfülly"
+        }
+
+        expected_result = {
+            "param1": "this is a value rêmpläcée successfülly"
         }
 
         self.assertEqual(expected_result, NeuronLauncher._replace_brackets_by_loaded_parameter(neuron_parameters,

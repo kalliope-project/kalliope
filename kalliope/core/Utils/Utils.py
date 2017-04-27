@@ -11,8 +11,7 @@ logger = logging.getLogger("kalliope")
 
 
 def pipe_print(line):
-    if sys.version_info[0] < 3:
-        line = line.encode('utf-8')
+    line = Utils.encode_text_utf8(line)
     print(line)
 
 
@@ -289,3 +288,15 @@ class Utils(object):
         ite = list_to_check.__iter__()
         next(ite, None)
         return next(ite, None)
+
+    ##################
+    #
+    # Encoding
+    #
+    #########
+    @staticmethod
+    def encode_text_utf8(text):
+        if sys.version_info[0] < 3:
+            if isinstance(text, unicode):
+                text = text.encode("utf-8")
+        return text
