@@ -25,9 +25,9 @@ class TestTTSModule(unittest.TestCase):
         word = "kalliope"
         expected_result = "5c186d1e123be2667fb5fd54640e4fd0"
 
-        self.assertEquals(TTSModule.generate_md5_from_words(words=word),
-                          expected_result,
-                          "Fail md5")
+        self.assertEqual(TTSModule.generate_md5_from_words(words=word),
+                         expected_result,
+                         "Fail md5")
 
     def test_get_path_to_store_audio(self):
         """
@@ -40,9 +40,9 @@ class TestTTSModule(unittest.TestCase):
 
         expected_result = "/tmp/kalliope/tests/TTSModule/tests/default/5c186d1e123be2667fb5fd54640e4fd0.tts"
 
-        self.assertEquals(self.TTSMod._get_path_to_store_audio(),
-                          expected_result,
-                          "fail test_get_path_to_store_audio, expected path not corresponding to result")
+        self.assertEqual(self.TTSMod._get_path_to_store_audio(),
+                         expected_result,
+                         "fail test_get_path_to_store_audio, expected path not corresponding to result")
 
     def test_generate_and_play(self):
         """

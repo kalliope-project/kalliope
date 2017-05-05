@@ -1,1 +1,1 @@
-from say import Say
+from .say import Say

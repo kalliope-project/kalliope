@@ -50,7 +50,7 @@ class Shell(NeuronModule):
             if not self.async:
                 p = subprocess.Popen(self.cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
                 (output, err) = p.communicate()
-                self.output = output
+                self.output = output.decode()
                 self.returncode = p.returncode
                 message = {
                     "output": self.output,

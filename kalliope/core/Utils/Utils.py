@@ -2,14 +2,17 @@ import logging
 import os
 import inspect
 import imp
+import sys
 import re
+import six
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
 def pipe_print(line):
-    print(line.encode('utf-8'))
+    line = Utils.encode_text_utf8(line)
+    print(line)
 
 
 class ModuleNotFoundError(Exception):
@@ -42,34 +45,42 @@ class Utils(object):
     @classmethod
     def print_info(cls, text_to_print):
         pipe_print(cls.color_list["BLUE"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @classmethod
     def print_success(cls, text_to_print):
         pipe_print(cls.color_list["GREEN"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @classmethod
     def print_warning(cls, text_to_print):
         pipe_print(cls.color_list["YELLOW"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @classmethod
     def print_danger(cls, text_to_print):
         pipe_print(cls.color_list["RED"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @classmethod
     def print_header(cls, text_to_print):
         pipe_print(cls.color_list["HEADER"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @classmethod
-    def print_header(cls, text_to_print):
+    def print_purple(cls, text_to_print):
         pipe_print(cls.color_list["PURPLE"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @classmethod
     def print_bold(cls, text_to_print):
         pipe_print(cls.color_list["BOLD"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @classmethod
     def print_underline(cls, text_to_print):
         pipe_print(cls.color_list["UNDERLINE"] + text_to_print + cls.color_list["ENDLINE"])
+        logger.info(text_to_print)
 
     @staticmethod
     def print_yaml_nicely(to_print):
@@ -79,7 +90,8 @@ class Utils(object):
         :return:
         """
         import json
-        pipe_print(json.dumps(to_print, indent=2))
+        line = json.dumps(to_print, indent=2)
+        return line.encode('utf-8')
 
     ##################
     #
@@ -231,7 +243,7 @@ class Utils(object):
         # print "sentence to test %s" % sentence
         pattern = r"{{|}}"
         # prog = re.compile(pattern)
-        if not isinstance(sentence, unicode):
+        if not isinstance(sentence, six.text_type):
             sentence = str(sentence)
         check_bool = re.search(pattern, sentence)
         if check_bool is not None:
@@ -248,7 +260,7 @@ class Utils(object):
 
         pattern = r"((?:{{\s*)[\w\.]+(?:\s*}}))"
         # find everything like {{ word }}
-        if not isinstance(sentence, unicode):
+        if not isinstance(sentence, six.text_type):
             sentence = str(sentence)
         return re.findall(pattern, sentence)
 
@@ -262,7 +274,7 @@ class Utils(object):
 
         pattern = '\s+(?=[^\{\{\}\}]*\}\})'
         # Remove white spaces (if any) between the variable and the double brace then split
-        if not isinstance(sentence, unicode):
+        if not isinstance(sentence, six.text_type):
             sentence = str(sentence)
         return re.sub(pattern, '', sentence)
 
@@ -276,3 +288,15 @@ class Utils(object):
         ite = list_to_check.__iter__()
         next(ite, None)
         return next(ite, None)
+
+    ##################
+    #
+    # Encoding
+    #
+    #########
+    @staticmethod
+    def encode_text_utf8(text):
+        if sys.version_info[0] < 3:
+            if isinstance(text, unicode):
+                text = text.encode("utf-8")
+        return text

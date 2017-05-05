@@ -72,7 +72,8 @@ class IncludeImport(object):
         parent_dir = os.path.normpath(file_path + os.sep + os.pardir)
 
         # load the yaml file
-        self.data = yaml.load(open(file_path, 'r'))
+        with open(file_path, "r") as f:
+            self.data = yaml.load(f)
 
         if self.data is None:
             raise YAMLFileEmpty("File %s is empty" % file_path)
@@ -86,7 +87,8 @@ class IncludeImport(object):
                             # logger.debug("File path %s is relative, adding the root path" % inc)
                             inc = os.path.join(parent_dir, inc)
                             # logger.debug("New path: %s" % inc)
-                        self.update(yaml.load(open(inc)))
+                        with open(inc, "r") as f:
+                            self.update(yaml.load(f))
 
     def get_data(self):
         """

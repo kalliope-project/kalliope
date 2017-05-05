@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 import re
+import sys
 from setuptools import setup, find_packages
 from codecs import open
 from os import path
@@ -26,6 +27,10 @@ def read_version_py(file_name):
 
 VERSION_PY_FILENAME = 'kalliope/_version.py'
 version = read_version_py(VERSION_PY_FILENAME)
+
+py2_prefix = ''
+if sys.version_info[0] < 3:
+    py2_prefix = 'python2-'
 
 setup(
     name='kalliope',
@@ -63,9 +68,9 @@ setup(
         'pyaudio>=0.2.10',
         'pyasn1>=0.2.3',
         'ansible>=2.2',
-        'python2-pythondialog>=3.4.0',
-        'jinja2>=2.8,<2.9',
-        'cffi==1.9.1',
+        py2_prefix + 'pythondialog>=3.4.0',
+        'jinja2>=2.8,<=2.9.6',
+        'cffi>=1.9.1',
         'ipaddress>=1.0.17',
         'flask>=0.12',
         'Flask-Restful>=0.3.5',
@@ -86,8 +91,11 @@ setup(
         'kalliope': [
             'brain.yml',
             'settings.yml',
-            'trigger/snowboy/armv7l/_snowboydetect.so',
-            'trigger/snowboy/x86_64/_snowboydetect.so',
+            'trigger/snowboy/armv7l/python27/_snowboydetect.so',
+            'trigger/snowboy/x86_64/python27/_snowboydetect.so',
+            'trigger/snowboy/x86_64/python34/_snowboydetect.so',
+            'trigger/snowboy/x86_64/python35/_snowboydetect.so',
+            'trigger/snowboy/x86_64/python36/_snowboydetect.so',
             'trigger/snowboy/resources/*',
             'sounds/*'
          ],

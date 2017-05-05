@@ -2,6 +2,8 @@
 import hashlib
 import logging
 import os
+import sys
+import six
 
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.Players import Mplayer
@@ -45,7 +47,7 @@ class TTSModule(object):
 
         # set parameter from what we receive from the settings
         self.cache = kwargs.get('cache', False)
-        self.language = kwargs.get('language', None)
+        self.language = kwargs.get('language', "default")
         self.voice = kwargs.get('voice', "default")
         # the name of the TSS is the name of the Tss module that have instantiated TTSModule
         self.tts_caller_name = self.__class__.__name__
@@ -132,7 +134,7 @@ class TTSModule(object):
         :param words: Text to convert into md5 hash
         :return: String md5 hash from the received words
         """
-        if isinstance(words, unicode):
+        if isinstance(words, six.text_type):
             words = words.encode('utf-8')
         return hashlib.md5(words).hexdigest()
 

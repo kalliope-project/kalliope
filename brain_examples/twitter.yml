@@ -11,5 +11,3 @@
           access_token_secret: ""
           say_template:
           - "voici le tweet {{ tweet }}"
-          args:
-            - tweet

@@ -18,7 +18,8 @@ sudo pip install pocketsphinx
 Then, declare it as usual in your settings
 ```YAML
 default_speech_to_text: "cmusphinx"
-# no parameters for this one
+
 speech_to_text:  
   - cmusphinx
+    language: "en-US" #  [Installing other languages](https://github.com/Uberi/speech_recognition/blob/master/reference/pocketsphinx.rst#installing-other-languages)
 ```

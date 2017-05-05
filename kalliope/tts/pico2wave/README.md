@@ -12,9 +12,9 @@ This TTS is based on the SVOX picoTTS engine
 
 Supported languages : 
 
-Anglais en-US
-Anglais en-GB
-Français fr-FR
-Espagnol es-ES
-Allemand de-DE
-Italien it-IT
+- English en-US
+- English en-GB
+- French fr-FR
+- Spanish es-ES
+- German de-DE
+- Italian it-IT

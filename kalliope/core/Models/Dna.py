@@ -25,11 +25,7 @@ class Dna(object):
         }
 
     def __str__(self):
-        return "Dna: name: %s, " \
-               "type: %s, " \
-               "author: %s, " \
-               "kalliope_supported_version: %s, " \
-               "tags: %s" % (self.name, self.module_type, self.author, self.kalliope_supported_version, self.tags)
+        return str(self.serialize())
 
     def __eq__(self, other):
         """

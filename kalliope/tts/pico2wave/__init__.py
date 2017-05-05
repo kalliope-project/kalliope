@@ -1,1 +1,1 @@
-from pico2wave import Pico2wave
+from .pico2wave import Pico2wave

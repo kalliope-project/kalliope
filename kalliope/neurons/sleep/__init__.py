@@ -1,1 +1,1 @@
-from sleep import Sleep
+from .sleep import Sleep

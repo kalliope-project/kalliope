@@ -27,16 +27,20 @@ class Neuron(object):
         the output of this parameter will be masked in order to not appears in clean in the console
         :return: string description of the neuron
         """
-        returned_string = str()
-        returned_string += "Neuron: name: %s" % self.name
+        returned_dict = {
+            'name': self.name,
+            'parameters': self.parameters
+        }
+
         cleaned_parameters = dict()
-        for key, value in self.parameters.iteritems():
+        for key, value in self.parameters.items():
             if "password" in key:
                 cleaned_parameters[key] = "*****"
             else:
                 cleaned_parameters[key] = value
-        returned_string += ", parameters: %s" % cleaned_parameters
-        return returned_string
+        returned_dict["parameters"] = cleaned_parameters
+
+        return str(returned_dict)
 
     def __eq__(self, other):
         """

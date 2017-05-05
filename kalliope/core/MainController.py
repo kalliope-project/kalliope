@@ -3,6 +3,10 @@ import random
 from time import sleep
 
 from flask import Flask
+
+from kalliope.core.NeuronLauncher import NeuronLauncher
+from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
+from kalliope.core.OrderAnalyser import OrderAnalyser
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from transitions import Machine
 
@@ -108,7 +112,7 @@ class MainController:
         """
         logger.debug("Entering state: %s" % self.state)
         if (not self.on_ready_notification_played_once and self.settings.play_on_ready_notification == "once") or \
-                self.settings.play_on_ready_notification == "always":
+                        self.settings.play_on_ready_notification == "always":
             # we remember that we played the notification one time
             self.on_ready_notification_played_once = True
             # here we tell the user that we are listening
@@ -192,12 +196,11 @@ class MainController:
         Start the order analyser with the caught order to process
         """
         logger.debug("order in analysing_order_thread %s" % self.order_to_process)
-        if self.order_to_process is not None:   # maybe we have received a null audio from STT engine
-            order_analyser = OrderAnalyser(self.order_to_process, brain=self.brain)
-            order_analyser.start()
-        else:
-            if self.settings.default_synapse is not None:
-                SynapseLauncher.start_synapse(name=self.settings.default_synapse, brain=self.brain)
+        SynapseLauncher.run_matching_synapse_from_order(self.order_to_process,
+                                                        self.brain,
+                                                        self.settings,
+                                                        is_api_call=False)
+
         # return to the state "unpausing_trigger"
         self.unpause_trigger()
 

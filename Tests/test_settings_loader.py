@@ -191,7 +191,7 @@ class TestSettingLoader(unittest.TestCase):
                               trigger_folder="/tmp/kalliope/tests/kalliope_resources_dir/trigger")
         expected_resource = resources
         sl = SettingLoader(file_path=self.settings_file_to_test)
-        self.assertEquals(expected_resource, sl._get_resources(self.settings_dict))
+        self.assertEqual(expected_resource, sl._get_resources(self.settings_dict))
 
     def test_get_variables(self):
         expected_result = {

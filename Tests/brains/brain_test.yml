@@ -15,5 +15,12 @@
           message:
             - "test message"
 
+  - name: "testint"
+    signals:
+      - order: "order_for_int"
+    neurons:
+      - sleep:
+          seconds: 60
+
   - includes:
     - included_brain_test.yml

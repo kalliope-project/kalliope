@@ -1,6 +1,7 @@
 import logging
 import os
 
+import sys
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -36,11 +37,15 @@ class FileManager:
         """
         try:
             with open(file_path, "wb") as file_open:
-                file_open.write(content)
+                if sys.version_info[0] == 2:
+                    file_open.write(content)
+                else:
+                    file_open.write(content.encode())
                 file_open.close()
             return not FileManager.file_is_empty(file_path)
         except IOError as e:
             logger.error("I/O error(%s): %s", e.errno, e.strerror)
+            return False
 
     @staticmethod
     def file_is_empty(file_path):
@@ -82,5 +87,6 @@ class FileManager:
         """
         try:
             return os.path.exists(pathname) or FileManager.is_path_creatable(pathname)
-        except OSError:
+        except OSError as e:
+            logger.error("OSError(%s): %s", e.errno, e.strerror)
             return False

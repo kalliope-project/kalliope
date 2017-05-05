@@ -1,10 +1,10 @@
-# Kalliope
-
 [![Build Status](https://travis-ci.org/kalliope-project/kalliope.svg)](https://travis-ci.org/kalliope-project/kalliope)
+[![Coverage Status](https://coveralls.io/repos/github/kalliope-project/kalliope/badge.svg)](https://coveralls.io/github/kalliope-project/kalliope)
 [![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/kalliope-project/Lobby)
 
-
-![logo](images/Kalliope_logo_large.png)
+<p align="center">
+    <img src="images/Kalliope_logo_large.png">
+</p>
 
 Kalliope is a modular always-on voice controlled personal assistant designed for home automation.
 Kalliope is based on audio input recognition, so it recognize an order pronounced by the user and then execute actions attached to the order.
