@@ -9,7 +9,7 @@ logger = logging.getLogger("kalliope")
 FS = 48000
 
 
-class Pyplayer(object):
+class SoundDevicePlayer(object):
     """
     This Class is representing the Player Object used to play the all sound of the system.
     """

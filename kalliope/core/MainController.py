@@ -7,6 +7,7 @@ from flask import Flask
 from kalliope.core.NeuronLauncher import NeuronLauncher
 from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
 from kalliope.core.OrderAnalyser import OrderAnalyser
+from kalliope.core.Players.PyAlsaAudioPlayer import PyAlsaAudioPlayer
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from transitions import Machine
 
@@ -120,7 +121,7 @@ class MainController:
                 Say(message=self.settings.on_ready_answers)
             elif self.settings.on_ready_sounds is not None:
                 random_sound_to_play = self._get_random_sound(self.settings.on_ready_sounds)
-                Mplayer.play(random_sound_to_play)
+                PyAlsaAudioPlayer.play(random_sound_to_play)
         self.next_state()
 
     def waiting_for_trigger_callback_thread(self):
@@ -177,7 +178,7 @@ class MainController:
             Say(message=self.settings.random_wake_up_answers)
         else:
             random_sound_to_play = self._get_random_sound(self.settings.random_wake_up_sounds)
-            Mplayer.play(random_sound_to_play)
+            PyAlsaAudioPlayer().play(random_sound_to_play)
 
         self.next_state()
 
