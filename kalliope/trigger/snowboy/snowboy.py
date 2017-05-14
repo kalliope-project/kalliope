@@ -60,7 +60,7 @@ class Snowboy(Thread):
         :return:
         """
         # start snowboy loop forever
-        # self.detector.daemon = True
+        self.detector.daemon = True
         self.detector.start()
         self.detector.join()
 

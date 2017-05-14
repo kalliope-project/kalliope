@@ -87,6 +87,7 @@ class MainController:
         logger.debug("Entering state: %s" % self.state)
         self.trigger_instance = self._get_default_trigger()
         self.trigger_callback_called = False
+        self.trigger_instance.daemon = True
         # Wait that the kalliope trigger is pronounced by the user
         self.trigger_instance.start()
         self.next_state()
