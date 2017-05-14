@@ -148,10 +148,23 @@ def main():
             # catch signal for killing on Ctrl+C pressed
             signal.signal(signal.SIGINT, signal_handler)
             # start the state machine
-            MainController(brain=brain)
+            try:
+                MainController(brain=brain)
+            except (KeyboardInterrupt, SystemExit):
+                Utils.print_info("Ctrl+C pressed. Killing Kalliope")
+            finally:
+                # we need to switch GPIO pin to default status if we are using a Rpi
+                if settings.rpi_settings:
+                    logger.debug("Clean GPIO")
+                    import RPi.GPIO as GPIO
+                    GPIO.cleanup()
 
     if parser.action == "gui":
-        ShellGui(brain=brain)
+        try:
+            ShellGui(brain=brain)
+        except (KeyboardInterrupt, SystemExit):
+            Utils.print_info("Ctrl+C pressed. Killing Kalliope")
+            sys.exit(0)
 
 
 def configure_logging(debug=None):

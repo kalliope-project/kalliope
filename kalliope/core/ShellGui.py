@@ -17,19 +17,6 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-def signal_handler(signal, frame):
-    """
-    Used to catch a keyboard signal like Ctrl+C in order to kill the kalliope program
-    :param signal: signal handler
-    :param frame: execution frame
-    """
-    print("\n")
-    Utils.print_info("Ctrl+C pressed. Killing Kalliope")
-    sys.exit(0)
-
-signal.signal(signal.SIGINT, signal_handler)
-
-
 class ShellGui:
     def __init__(self, brain=None):
         """

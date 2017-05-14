@@ -323,5 +323,45 @@ And use variables in your neurons:
           password: "{{password}}"
 ```
 
+## Raspberry LED and mute button
+LEDs connected to GPIO port of your Raspberry can be used to know current status of Kalliope.
+A button can also be added in order to pause the trigger process. Kalliope does not listen for the hotword anymore when pressed.
+
+A Dictionary called `rpi` can be declared which contains pin number to use following the mapping bellow
+
+| Value name        | Description                                                                                                |
+|-------------------|------------------------------------------------------------------------------------------------------------|
+| pin_mute_button   | Pin connected to a mute button. When pressed the trigger process of kalliope is paused                     |
+| pin_led_started   | Pin switched to "on" when Kalliope is running                                                              |
+| pin_led_muted     | Pin switched to "on" when the mute button is pressed                                                       |
+| pin_led_talking   | Pin switched to "on" when Kalliope is talking                                                              |
+| pin_led_listening | Pin switched to "on" when Kalliope is readu to listen an order after a trigger detection ("Say something") |
+
+**Example config**
+```yml
+rpi:
+  pin_mute_button: 6
+  pin_led_started: 5
+  pin_led_muted: 17
+  pin_led_talking: 27
+  pin_led_listening: 22
+```
+
+**Example circuit**
+
+You will be using one of the ‘ground’ (GND) pins to act like the ‘negative’ or 0 volt ends of a battery. 
+The ‘positive’ end of the battery will be provided by a GPIO pin.
+
+<p align="center">
+    <img style="width: 200px;" src="../images/led_kalliope_circuit.png">
+</p>
+
+
+>**Note:** You must ALWAYS use resistors to connect LEDs up to the GPIO pins of the Raspberry Pi. 
+The Raspberry Pi can only supply a small current (about 60mA). T
+he LEDs will want to draw more, and if allowed to they will burn out the Raspberry Pi. 
+Therefore putting the resistors in the circuit will ensure that only this small current will flow and the Pi will not be damaged.
+
+
 ## Next: configure the brain of Kalliope
 Now your settings are ok, you can start creating the [brain](brain.md) of your assistant.

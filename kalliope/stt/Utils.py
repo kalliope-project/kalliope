@@ -4,7 +4,8 @@ from time import sleep
 import logging
 import speech_recognition as sr
 
-from kalliope import Utils
+from kalliope import Utils, SettingLoader
+from kalliope.core.Utils.RpiUtils import RpiUtils
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -24,6 +25,10 @@ class SpeechRecognition(Thread):
         self.kill_yourself = False
         self.audio_stream = None
 
+        # get global configuration
+        sl = SettingLoader()
+        self.settings = sl.settings
+
         if audio_file is None:
             # audio file not set, we need to capture a sample from the microphone
             with self.microphone as source:
@@ -40,6 +45,10 @@ class SpeechRecognition(Thread):
         """
         if self.audio_stream is None:
             Utils.print_info("Say something!")
+            # Turn on the listening led if we are on a Raspberry
+            if self.settings.rpi_settings:
+                if self.settings.rpi_settings.pin_led_listening:
+                    RpiUtils.switch_pin_to_on(self.settings.rpi_settings.pin_led_listening)
             self.stop_thread = self.recognizer.listen_in_background(self.microphone, self.callback)
             while not self.kill_yourself:
                 sleep(0.1)

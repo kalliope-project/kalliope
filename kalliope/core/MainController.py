@@ -12,6 +12,7 @@ from kalliope.core.Players import Mplayer
 from kalliope.core.RestAPI.FlaskAPI import FlaskAPI
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.TriggerLauncher import TriggerLauncher
+from kalliope.core.Utils.RpiUtils import RpiUtils
 from kalliope.neurons.say.say import Say
 
 logging.basicConfig()
@@ -42,6 +43,19 @@ class MainController:
 
         # Starting the rest API
         self._start_rest_api()
+
+        self.rpi_utils = None
+        if self.settings.rpi_settings:
+            if self.settings.rpi_settings.pin_mute_button:
+                # start the listening for button pressed thread only if the user set a pin
+                self.rpi_utils = RpiUtils(self.settings.rpi_settings, self.muted_button_pressed)
+                self.rpi_utils.daemon = True
+                self.rpi_utils.start()
+        # switch high the start led, as kalliope is started. Only if the setting exist
+        if self.settings.rpi_settings:
+            if self.settings.rpi_settings.pin_led_started:
+                logger.debug("[MainController] Switching pin_led_started to ON")
+                RpiUtils.switch_pin_to_on(self.settings.rpi_settings.pin_led_started)
 
         # save an instance of the trigger
         self.trigger_instance = None
@@ -84,7 +98,7 @@ class MainController:
         """
         This function will start the trigger thread that listen for the hotword
         """
-        logger.debug("Entering state: %s" % self.state)
+        logger.debug("[MainController] Entering state: %s" % self.state)
         self.trigger_instance = self._get_default_trigger()
         self.trigger_callback_called = False
         self.trigger_instance.daemon = True
@@ -96,7 +110,7 @@ class MainController:
         """
         Play a sound when Kalliope is ready to be awaken at the first start
         """
-        logger.debug("Entering state: %s" % self.state)
+        logger.debug("[MainController] Entering state: %s" % self.state)
         if (not self.on_ready_notification_played_once and self.settings.play_on_ready_notification == "once") or \
                         self.settings.play_on_ready_notification == "always":
             # we remember that we played the notification one time
@@ -113,7 +127,7 @@ class MainController:
         """
         Method to print in debug that the main process is waiting for a trigger detection
         """
-        logger.debug("Entering state: %s" % self.state)
+        logger.debug("[MainController] Entering state: %s" % self.state)
         Utils.print_info("Waiting for trigger detection")
         # this loop is used to keep the main thread alive
         while not self.trigger_callback_called:
@@ -124,10 +138,13 @@ class MainController:
         """
         Method to print in debug that the main process is waiting for an order to analyse
         """
-        logger.debug("Entering state: %s" % self.state)
+        logger.debug("[MainController] Entering state: %s" % self.state)
         # this loop is used to keep the main thread alive
         while not self.order_listener_callback_called:
             sleep(0.1)
+        if self.settings.rpi_settings:
+            if self.settings.rpi_settings.pin_led_listening:
+                RpiUtils.switch_pin_to_off(self.settings.rpi_settings.pin_led_listening)
         self.next_state()
 
     def trigger_callback(self):
@@ -135,7 +152,7 @@ class MainController:
         we have detected the hotword, we can now pause the Trigger for a while
         The user can speak out loud his order during this time.
         """
-        logger.debug("Trigger callback called, switching to the next state")
+        logger.debug("[MainController] Trigger callback called, switching to the next state")
         self.trigger_callback_called = True
 
     def stop_trigger_process(self):
@@ -143,7 +160,7 @@ class MainController:
         The trigger has been awaken, we don't needed it anymore
         :return: 
         """
-        logger.debug("Entering state: %s" % self.state)
+        logger.debug("[MainController] Entering state: %s" % self.state)
         self.trigger_instance.stop()
         self.next_state()
 
@@ -151,7 +168,7 @@ class MainController:
         """
         Start the STT engine thread
         """
-        logger.debug("Entering state: %s" % self.state)
+        logger.debug("[MainController] Entering state: %s" % self.state)
         # start listening for an order
         self.order_listener_callback_called = False
         self.order_listener = OrderListener(callback=self.order_listener_callback)
@@ -164,7 +181,7 @@ class MainController:
         Play a sound or make Kalliope say something to notify the user that she has been awaken and now
         waiting for order
         """
-        logger.debug("Entering state: %s" % self.state)
+        logger.debug("[MainController] Entering state: %s" % self.state)
         # if random wake answer sentence are present, we play this
         if self.settings.random_wake_up_answers is not None:
             Say(message=self.settings.random_wake_up_answers)
@@ -180,7 +197,7 @@ class MainController:
         :param order: the sentence received
         :type order: str
         """
-        logger.debug("order listener callback called. Order to process: %s" % order)
+        logger.debug("[MainController] Order listener callback called. Order to process: %s" % order)
         self.order_to_process = order
         self.order_listener_callback_called = True
 
@@ -188,7 +205,7 @@ class MainController:
         """
         Start the order analyser with the caught order to process
         """
-        logger.debug("order in analysing_order_thread %s" % self.order_to_process)
+        logger.debug("[MainController] order in analysing_order_thread %s" % self.order_to_process)
         SynapseLauncher.run_matching_synapse_from_order(self.order_to_process,
                                                         self.brain,
                                                         self.settings,
@@ -217,7 +234,7 @@ class MainController:
         """
         # take first randomly a path
         random_path = random.choice(random_wake_up_sounds)
-        logger.debug("Selected sound: %s" % random_path)
+        logger.debug("[MainController] Selected sound: %s" % random_path)
         return Utils.get_real_file_path(random_path)
 
     def _start_rest_api(self):
@@ -234,3 +251,12 @@ class MainController:
                                  allowed_cors_origin=self.settings.rest_api.allowed_cors_origin)
             flask_api.daemon = True
             flask_api.start()
+
+    def muted_button_pressed(self, muted=False):
+        logger.debug("[MainController] Mute button pressed. Switch trigger process to muted: %s" % muted)
+        if muted:
+            self.trigger_instance.pause()
+            Utils.print_info("Kalliope now muted")
+        else:
+            self.trigger_instance.unpause()
+            Utils.print_info("Kalliope now listening for trigger detection")

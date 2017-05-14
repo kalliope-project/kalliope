@@ -83,6 +83,7 @@ setup(
         'GitPython>=2.1.3',
         'packaging>=16.8',
         'transitions>=0.4.3',
+        'RPi.GPIO>=0.6.3'
     ],
 
 
