@@ -48,12 +48,14 @@ class OrderListener(Thread):
         """
         Start thread
         """
+        logger.debug("[OrderListener] running ...")
         self.stt_instance = self.load_stt_plugin()
 
     def load_stt_plugin(self):
         if self.stt is None:
             self.stt_module_name = self.settings.default_stt_name
 
+        logger.debug("[OrderListener] stt module name : %s" % self.stt_module_name)
         for stt_object in self.settings.stts:
             if stt_object.name == self.stt_module_name:
                 stt_object.parameters["callback"] = self.callback

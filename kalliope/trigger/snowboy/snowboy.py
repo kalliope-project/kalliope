@@ -78,6 +78,15 @@ class Snowboy(Thread):
         logger.debug("Unpausing snowboy process")
         self.detector.paused = False
 
+    def stop(self):
+        """
+        Kill the snowboy process
+        :return: 
+        """
+        logger.debug("Killing snowboy process")
+        self.interrupted = True
+        self.detector.terminate()
+
     @staticmethod
     def _ignore_stderr():
         """
