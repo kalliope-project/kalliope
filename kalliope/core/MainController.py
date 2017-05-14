@@ -136,7 +136,6 @@ class MainController:
         The user can speak out loud his order during this time.
         """
         logger.debug("Trigger callback called, switching to the next state")
-        # self.next_state()
         self.trigger_callback_called = True
 
     def stop_trigger_process(self):
