@@ -3,19 +3,14 @@ import random
 from time import sleep
 
 from flask import Flask
-
-from kalliope.core.NeuronLauncher import NeuronLauncher
-from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
-from kalliope.core.OrderAnalyser import OrderAnalyser
-from kalliope.core.SynapseLauncher import SynapseLauncher
 from transitions import Machine
 
 from kalliope.core import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
-from kalliope.core.OrderAnalyser import OrderAnalyser
 from kalliope.core.OrderListener import OrderListener
 from kalliope.core.Players import Mplayer
 from kalliope.core.RestAPI.FlaskAPI import FlaskAPI
+from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.TriggerLauncher import TriggerLauncher
 from kalliope.neurons.say.say import Say
 
@@ -29,9 +24,9 @@ class MainController:
     """
     states = ['init',
               'starting_trigger',
-              'unpausing_trigger',
               'playing_ready_sound',
               'waiting_for_trigger_callback',
+              'stopping_trigger',
               'start_order_listener',
               'playing_wake_up_answer',
               'waiting_for_order_listener_callback',
@@ -63,10 +58,10 @@ class MainController:
         self.machine = Machine(model=self, states=MainController.states, initial='init', queued=True)
 
         # define transitions
-        self.machine.add_transition('start_trigger', 'init', 'starting_trigger')
-        self.machine.add_transition('unpause_trigger', ['starting_trigger', 'analysing_order'], 'unpausing_trigger')
-        self.machine.add_transition('play_ready_sound', 'unpausing_trigger', 'playing_ready_sound')
+        self.machine.add_transition('start_trigger', ['init', 'analysing_order'], 'starting_trigger')
+        self.machine.add_transition('play_ready_sound', 'starting_trigger', 'playing_ready_sound')
         self.machine.add_transition('wait_trigger_callback', 'playing_ready_sound', 'waiting_for_trigger_callback')
+        self.machine.add_transition('stop_trigger', 'waiting_for_trigger_callback', 'stopping_trigger')
         self.machine.add_transition('play_wake_up_answer', 'waiting_for_trigger_callback', 'playing_wake_up_answer')
         self.machine.add_transition('wait_for_order', 'playing_wake_up_answer', 'waiting_for_order_listener_callback')
         self.machine.add_transition('analyse_order', 'waiting_for_order_listener_callback', 'analysing_order')
@@ -78,10 +73,10 @@ class MainController:
         self.machine.on_enter_playing_ready_sound('play_ready_sound_process')
         self.machine.on_enter_waiting_for_trigger_callback('waiting_for_trigger_callback_thread')
         self.machine.on_enter_playing_wake_up_answer('play_wake_up_answer_thread')
+        self.machine.on_enter_stopping_trigger('stop_trigger_process')
         self.machine.on_enter_start_order_listener('start_order_listener_thread')
         self.machine.on_enter_waiting_for_order_listener_callback('waiting_for_order_listener_callback_thread')
         self.machine.on_enter_analysing_order('analysing_order_thread')
-        self.machine.on_enter_unpausing_trigger('unpausing_trigger_process')
 
         self.start_trigger()
 
@@ -91,19 +86,9 @@ class MainController:
         """
         logger.debug("Entering state: %s" % self.state)
         self.trigger_instance = self._get_default_trigger()
-        self.trigger_instance.daemon = True
+        self.trigger_callback_called = False
         # Wait that the kalliope trigger is pronounced by the user
         self.trigger_instance.start()
-        self.next_state()
-
-    def unpausing_trigger_process(self):
-        """
-        If the trigger was in pause, this method will unpause it to listen again for the hotword
-        """
-        logger.debug("Entering state: %s" % self.state)
-        self.trigger_instance.unpause()
-        self.trigger_callback_called = False
-        Utils.print_info("Waiting for trigger detection")
         self.next_state()
 
     def play_ready_sound_process(self):
@@ -128,6 +113,7 @@ class MainController:
         Method to print in debug that the main process is waiting for a trigger detection
         """
         logger.debug("Entering state: %s" % self.state)
+        Utils.print_info("Waiting for trigger detection")
         # this loop is used to keep the main thread alive
         while not self.trigger_callback_called:
             sleep(0.1)
@@ -152,13 +138,20 @@ class MainController:
         # self.next_state()
         self.trigger_callback_called = True
 
+    def stop_trigger_process(self):
+        """
+        The trigger has been awaken, we don't needed it anymore
+        :return: 
+        """
+        logger.debug("Entering state: %s" % self.state)
+        self.trigger_instance.stop()
+        self.next_state()
+
     def start_order_listener_thread(self):
         """
         Start the STT engine thread
         """
         logger.debug("Entering state: %s" % self.state)
-        # pause the trigger process
-        self.trigger_instance.pause()
         # start listening for an order
         self.order_listener_callback_called = False
         self.order_listener = OrderListener(callback=self.order_listener_callback)
@@ -202,7 +195,7 @@ class MainController:
                                                         is_api_call=False)
 
         # return to the state "unpausing_trigger"
-        self.unpause_trigger()
+        self.start_trigger()
 
     def _get_default_trigger(self):
         """

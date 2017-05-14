@@ -152,7 +152,7 @@ class HotwordDetector(Thread):
                     if callback is not None:
                         callback()
 
-        logger.debug("finished.")
+        logger.debug("[Snowboy] process finished.")
 
     def terminate(self):
         """
@@ -162,3 +162,4 @@ class HotwordDetector(Thread):
         self.stream_in.stop_stream()
         self.stream_in.close()
         self.audio.terminate()
+        logger.debug("[Snowboy] Audio stream cleaned.")
