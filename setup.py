@@ -83,6 +83,8 @@ setup(
         'GitPython>=2.1.3',
         'packaging>=16.8',
         'transitions>=0.4.3',
+        'sounddevice>=0.3.7',
+        'SoundFile>=0.9.0'
         'RPi.GPIO>=0.6.3'
     ],
 

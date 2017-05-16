@@ -13,8 +13,9 @@ class Mplayer(object):
     This Class is representing the MPlayer Object used to play the all sound of the system.
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, **kwargs):
+        logger.debug("[Mplayer.__init__] instance")
+        logger.debug("[Mplayer.__init__] args : %s " % str(kwargs))
 
     @classmethod
     def play(cls, filepath):

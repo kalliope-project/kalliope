@@ -1,7 +1,5 @@
-import inspect
 import logging
 import os
-import time
 from threading import Thread
 
 from kalliope import Utils

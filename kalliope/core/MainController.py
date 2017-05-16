@@ -2,17 +2,22 @@ import logging
 import random
 from time import sleep
 
-from flask import Flask
 from transitions import Machine
-
 from kalliope.core import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.OrderListener import OrderListener
-from kalliope.core.Players import Mplayer
+
+# API
+from flask import Flask
 from kalliope.core.RestAPI.FlaskAPI import FlaskAPI
+
+# Launchers
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.TriggerLauncher import TriggerLauncher
 from kalliope.core.Utils.RpiUtils import RpiUtils
+from kalliope.core.PlayerLauncher import PlayerLauncher
+
+# Neurons
 from kalliope.neurons.say.say import Say
 
 logging.basicConfig()
@@ -44,6 +49,7 @@ class MainController:
         # Starting the rest API
         self._start_rest_api()
 
+        # rpi setting for led and mute button
         self.rpi_utils = None
         if self.settings.rpi_settings:
             # the useer set GPIO pin, we need to instantiate the RpiUtils class in order to setup GPIO
@@ -57,6 +63,9 @@ class MainController:
             if self.settings.rpi_settings.pin_led_started:
                 logger.debug("[MainController] Switching pin_led_started to ON")
                 RpiUtils.switch_pin_to_on(self.settings.rpi_settings.pin_led_started)
+
+        # get the player instance
+        self.player_instance = PlayerLauncher.get_player(settings=self.settings)
 
         # save an instance of the trigger
         self.trigger_instance = None
@@ -100,7 +109,7 @@ class MainController:
         This function will start the trigger thread that listen for the hotword
         """
         logger.debug("[MainController] Entering state: %s" % self.state)
-        self.trigger_instance = self._get_default_trigger()
+        self.trigger_instance = TriggerLauncher.get_trigger(settings=self.settings, callback=self.trigger_callback)
         self.trigger_callback_called = False
         self.trigger_instance.daemon = True
         # Wait that the kalliope trigger is pronounced by the user
@@ -121,7 +130,7 @@ class MainController:
                 Say(message=self.settings.on_ready_answers)
             elif self.settings.on_ready_sounds is not None:
                 random_sound_to_play = self._get_random_sound(self.settings.on_ready_sounds)
-                Mplayer.play(random_sound_to_play)
+                self.player_instance.play(random_sound_to_play)
         self.next_state()
 
     def waiting_for_trigger_callback_thread(self):
@@ -188,8 +197,7 @@ class MainController:
             Say(message=self.settings.random_wake_up_answers)
         else:
             random_sound_to_play = self._get_random_sound(self.settings.random_wake_up_sounds)
-            Mplayer.play(random_sound_to_play)
-
+            self.player_instance.play(random_sound_to_play)
         self.next_state()
 
     def order_listener_callback(self, order):
@@ -214,15 +222,6 @@ class MainController:
 
         # return to the state "unpausing_trigger"
         self.start_trigger()
-
-    def _get_default_trigger(self):
-        """
-        Return an instance of the default trigger
-        :return: Trigger
-        """
-        for trigger in self.settings.triggers:
-            if trigger.name == self.settings.default_trigger_name:
-                return TriggerLauncher.get_trigger(trigger, callback=self.trigger_callback)
 
     @staticmethod
     def _get_random_sound(random_wake_up_sounds):

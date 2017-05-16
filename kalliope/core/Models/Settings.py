@@ -12,6 +12,7 @@ class Settings(object):
                  default_tts_name=None,
                  default_stt_name=None,
                  default_trigger_name=None,
+                 default_player_name=None,
                  ttss=None,
                  stts=None,
                  random_wake_up_answers=None,
@@ -20,6 +21,7 @@ class Settings(object):
                  on_ready_answers=None,
                  on_ready_sounds=None,
                  triggers=None,
+                 players=None,
                  rest_api=None,
                  cache_path=None,
                  default_synapse=None,
@@ -30,6 +32,7 @@ class Settings(object):
         self.default_tts_name = default_tts_name
         self.default_stt_name = default_stt_name
         self.default_trigger_name = default_trigger_name
+        self.default_player_name = default_player_name
         self.ttss = ttss
         self.stts = stts
         self.random_wake_up_answers = random_wake_up_answers
@@ -38,6 +41,7 @@ class Settings(object):
         self.on_ready_answers = on_ready_answers
         self.on_ready_sounds = on_ready_sounds
         self.triggers = triggers
+        self.players = players
         self.rest_api = rest_api
         self.cache_path = cache_path
         self.default_synapse = default_synapse
@@ -59,6 +63,7 @@ class Settings(object):
             'default_tts_name': self.default_tts_name,
             'default_stt_name': self.default_stt_name,
             'default_trigger_name': self.default_trigger_name,
+            'default_player_name': self.default_player_name,
             'ttss': self.ttss,
             'stts': self.stts,
             'random_wake_up_answers': self.random_wake_up_answers,
@@ -67,6 +72,7 @@ class Settings(object):
             'on_ready_answers': self.on_ready_answers,
             'on_ready_sounds': self.on_ready_sounds,
             'triggers': self.triggers,
+            'players': self.players,
             'rest_api': self.rest_api.serialize(),
             'cache_path': self.cache_path,
             'default_synapse': self.default_synapse,

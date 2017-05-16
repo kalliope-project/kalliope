@@ -11,6 +11,7 @@ from kalliope.core.Models.RestAPI import RestAPI
 from kalliope.core.Models.Settings import Settings
 from kalliope.core.Models.Stt import Stt
 from kalliope.core.Models.Trigger import Trigger
+from kalliope.core.Models.Player import Player
 from kalliope.core.Models.Tts import Tts
 from kalliope.core.Utils.FileManager import FileManager
 
@@ -101,9 +102,11 @@ class SettingLoader(with_metaclass(Singleton, object)):
         default_stt_name = self._get_default_speech_to_text(settings)
         default_tts_name = self._get_default_text_to_speech(settings)
         default_trigger_name = self._get_default_trigger(settings)
+        default_player_name = self._get_default_player(settings)
         stts = self._get_stts(settings)
         ttss = self._get_ttss(settings)
         triggers = self._get_triggers(settings)
+        players = self._get_players(settings)
         random_wake_up_answers = self._get_random_wake_up_answers(settings)
         random_wake_up_sound = self._get_random_wake_up_sounds(settings)
         play_on_ready_notification = self._get_play_on_ready_notification(settings)
@@ -120,9 +123,11 @@ class SettingLoader(with_metaclass(Singleton, object)):
         setting_object.default_tts_name = default_tts_name
         setting_object.default_stt_name = default_stt_name
         setting_object.default_trigger_name = default_trigger_name
+        setting_object.default_player_name = default_player_name
         setting_object.stts = stts
         setting_object.ttss = ttss
         setting_object.triggers = triggers
+        setting_object.players = players
         setting_object.random_wake_up_answers = random_wake_up_answers
         setting_object.random_wake_up_sounds = random_wake_up_sound
         setting_object.play_on_ready_notification = play_on_ready_notification
@@ -221,6 +226,33 @@ class SettingLoader(with_metaclass(Singleton, object)):
             raise SettingNotFound("%s setting not found" % e)
 
     @staticmethod
+    def _get_default_player(settings):
+        """
+        Get the default player defined in the settings.yml file
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return: the default player
+        :rtype: str
+
+        :Example:
+
+            default_player_name = cls._get_default_player(settings)
+
+        .. seealso:: Player
+        .. raises:: NullSettingException, SettingNotFound
+        .. warnings:: Static and Private
+        """
+
+        try:
+            default_player = settings["default_player"]
+            if default_player is None:
+                raise NullSettingException("Attribute default_player is null")
+            logger.debug("Default Player name: %s" % default_player)
+            return default_player
+        except KeyError as e:
+            raise SettingNotFound("%s setting not found" % e)
+
+    @staticmethod
     def _get_stts(settings):
         """
         Return a list of stt object
@@ -236,7 +268,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
 
         .. seealso:: Stt
         .. raises:: SettingNotFound
-        .. warnings:: Class Method and Private
+        .. warnings:: Static Method and Private
         """
 
         try:
@@ -275,7 +307,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
 
         .. seealso:: Tts
         .. raises:: SettingNotFound
-        .. warnings:: Class Method and Private
+        .. warnings:: Static Method and Private
         """
 
         try:
@@ -313,7 +345,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
 
         .. seealso:: Trigger
         .. raises:: SettingNotFound
-        .. warnings:: Class Method and Private
+        .. warnings:: Static Method and Private
         """
 
         try:
@@ -334,6 +366,44 @@ class SettingLoader(with_metaclass(Singleton, object)):
                 new_trigger = Trigger(name=trigger_el)
                 triggers.append(new_trigger)
         return triggers
+
+    @staticmethod
+    def _get_players(settings):
+        """
+        Return a list of Player object
+
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return: List of Player
+        :rtype: list
+
+        :Example:
+
+            players = cls._get_players(settings)
+
+        .. seealso:: players
+        .. raises:: SettingNotFound
+        .. warnings:: Static Method and Private
+        """
+
+        try:
+            players_list = settings["players"]
+        except KeyError as e:
+            raise SettingNotFound("%s setting not found" % e)
+
+        players = list()
+        for player_el in players_list:
+            if isinstance(player_el, dict):
+                for player_name in player_el:
+                    name = player_name
+                    parameters = player_el[name]
+                    new_player = Player(name=name, parameters=parameters)
+                    players.append(new_player)
+            else:
+                # the player does not have parameters
+                new_player = Player(name=player_el)
+                players.append(new_player)
+        return players
 
     @staticmethod
     def _get_random_wake_up_answers(settings):

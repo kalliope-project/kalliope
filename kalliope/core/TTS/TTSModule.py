@@ -2,12 +2,14 @@
 import hashlib
 import logging
 import os
-import sys
+import subprocess
+
 import six
 
 from kalliope.core.ConfigurationManager import SettingLoader
-from kalliope.core.Players import Mplayer
+from kalliope.core.PlayerLauncher import PlayerLauncher
 from kalliope.core.Utils.FileManager import FileManager
+from kalliope.core import Utils
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -60,6 +62,7 @@ class TTSModule(object):
         # load settings
         sl = SettingLoader()
         self.settings = sl.settings
+        self.player = PlayerLauncher.get_player(settings=self.settings)
 
         # create the path in the tmp folder
         base_path = os.path.join(self.settings.cache_path, self.tts_caller_name, self.language, self.voice)
@@ -74,7 +77,8 @@ class TTSModule(object):
         """
         Play the audio file
         """
-        Mplayer.play(self.file_path)
+        # Mplayer.play(self.file_path)
+        self.player.play(self.file_path)
 
     def generate_and_play(self, words, generate_audio_function_from_child=None):
         """
@@ -154,3 +158,23 @@ class TTSModule(object):
         else:
             logger.debug("TTSModule, File not yet in cache: %s" % file_path)
         return exist_in_cache
+
+    @staticmethod
+    def convert_mp3_to_wav(file_path_mp3):
+        """ 
+        PyAudio does not support mp3 files 
+        MP3 files must be converted to a wave in order to be played
+        This function assumes ffmpeg is available on the system
+        :param file_path_mp3: the file path to convert from mp3 to wav
+        """
+        logger.debug("Converting mp3 file to wav file: %s" % file_path_mp3)
+        fnull = open(os.devnull, 'w')
+        # temp file
+        tmp_file_wav = file_path_mp3 + ".wav"
+        # Convert mp3 to wave
+        subprocess.call(['ffmpeg', '-y', '-i', file_path_mp3, tmp_file_wav],
+                           stdout=fnull, stderr=fnull)
+        # remove the original file
+        FileManager.remove_file(file_path_mp3)
+        # rename the temp file with the same name as the original file
+        os.rename(tmp_file_wav, file_path_mp3)

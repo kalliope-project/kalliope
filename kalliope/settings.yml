@@ -25,10 +25,14 @@ triggers:
 # This is the STT that will be used by default
 default_speech_to_text: "google"
 
-# Spreech to Text engines configuration
+# Speech to Text engines configuration
 # Available engine are:
 # - google (via SpeechRecognition)
-# -
+# - wit
+# - bing
+# - apiai
+# - houndify
+# - cmusphinx (must be installed first)
 speech_to_text:
   - google:
       language: "fr-FR"
@@ -53,7 +57,7 @@ default_text_to_speech: "pico2wave"
 # where we store generated audio files from TTS engine to reuse them
 cache_path: "/tmp/kalliope_tts_cache"
 
-# Text to Spreech engines configuration
+# Text to Speech engines configuration
 # Available engine are:
 # - pico2wave
 # - acapela
@@ -74,6 +78,25 @@ text_to_speech:
   - voicerss:
       language: "fr-fr"
       cache: True
+
+# ---------------------------
+# players
+# ---------------------------
+# This is the sound player that will be used by default
+default_player: "mplayer"
+
+# players configuration
+# Available engine are:
+# - mplayer
+# - pyalsaaudio
+# - pyaudioplayer
+# - sounddeviceplayer
+players:
+  - mplayer: {}
+  - pyalsaaudio:
+     device: "default"
+  - pyaudioplayer: {}
+  - sounddeviceplayer: {}
 
 # ---------------------------
 # Wake up answers
