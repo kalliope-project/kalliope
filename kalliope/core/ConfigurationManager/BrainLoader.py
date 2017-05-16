@@ -271,7 +271,7 @@ class BrainLoader(object):
             # print "parameter is string %s" % parameter
             if Utils.is_containing_bracket(parameter):
                 return cls._get_global_variable(sentence=parameter, settings=settings)
-            return parameter
+        return parameter
 
     @staticmethod
     def _get_global_variable(sentence, settings):
