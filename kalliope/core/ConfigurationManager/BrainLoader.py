@@ -251,20 +251,20 @@ class BrainLoader(with_metaclass(Singleton, object)):
         :param settings: the settings
         :return: the parameter dict
         """
-
-        if isinstance(parameter, dict):
-            for key, value in parameter.items():
-                parameter[key] = cls._replace_global_variables(value, settings=settings)
-            return parameter
+        if isinstance(parameter, str) \
+                or isinstance(parameter, six.text_type) \
+                or isinstance(parameter, int):
+            if Utils.is_containing_bracket(parameter):
+                return cls._get_global_variable(sentence=parameter, settings=settings)
         if isinstance(parameter, list):
             new_parameter_list = list()
             for el in parameter:
                 new_parameter_list.append(cls._replace_global_variables(el, settings=settings))
             return new_parameter_list
-        if isinstance(parameter, str) or isinstance(parameter, six.text_type) or isinstance(parameter, int):
-            if Utils.is_containing_bracket(parameter):
-                return cls._get_global_variable(sentence=parameter, settings=settings)
-            return parameter
+        if isinstance(parameter, dict):
+            for key, value in parameter.items():
+                parameter[key] = cls._replace_global_variables(value, settings=settings)
+        return parameter
 
     @staticmethod
     def _get_global_variable(sentence, settings):
