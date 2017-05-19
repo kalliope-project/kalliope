@@ -47,6 +47,23 @@ text_to_speech:
       cache: True
 
 # ---------------------------
+# players
+# ---------------------------
+# This is the sound player that will be used by default
+default_player: "mplayer"
+
+# players configuration
+# Available engine are:
+# - mplayer
+# - pyalsaaudio
+# - pyaudioplayer
+# - sounddeviceplayer
+players:
+  - mplayer: {}
+  - pyalsaaudio:
+     device: "default"
+
+# ---------------------------
 # Wake up answers
 # ---------------------------
 # When Kalliope detect the hotword/trigger, he will select randomly a phrase in the following list

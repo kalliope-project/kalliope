@@ -15,7 +15,7 @@ class TestDynamicLoading(unittest.TestCase):
     """
 
     def setUp(self):
-        # get current script directory path. We are in /an/unknown/path/kalliope/core/Tests
+        # get current script directory path. We are in /an/unknown/path/kalliope/core/tests
         cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         # get parent dir. Now we are in /an/unknown/path/kalliope
         root_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)

@@ -84,7 +84,8 @@ setup(
         'packaging>=16.8',
         'transitions>=0.4.3',
         'sounddevice>=0.3.7',
-        'SoundFile>=0.9.0'
+        'SoundFile>=0.9.0',
+        'pyalsaaudio>=0.8.4',
         'RPi.GPIO>=0.6.3'
     ],
 

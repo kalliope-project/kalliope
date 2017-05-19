@@ -11,7 +11,7 @@ class TestNeuronModule(unittest.TestCase):
 
     def setUp(self):
         self.expected_result = "hello, this is a replaced word"
-        # this allow us to run the test from an IDE and from the root with python -m unittest Tests.TestNeuronModule
+        # this allow us to run the test from an IDE and from the root with python -m unittest tests.TestNeuronModule
         if "/Tests" in os.getcwd():
             self.file_template = "templates/template_test.j2"
         else:
