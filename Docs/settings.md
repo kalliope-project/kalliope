@@ -36,6 +36,35 @@ triggers:
 
 See the complete list of [available triggers here](trigger.md).
 
+## Players configuration
+
+#### default_player
+
+The player is the module managing the sound in Kalliope.
+
+Specify the name of the player module you want to use.
+```yml
+default_player: "player_name"
+```
+
+#### players
+The player is the engine in charge of running sounds in Kalliope.
+
+Each Players has it own configuration. 
+This configuration is passed as argument following the syntax bellow
+```yml
+players:
+  - player_name:
+      parameter_name: "value"
+```
+
+See the complete list of [available players here](player.md).
+
+when no parameters are required set an empty object:
+```yml
+players:
+  - mplayer: {}
+
 ## Speech to text configuration
 
 #### default_speech_to_text
