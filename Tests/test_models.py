@@ -353,7 +353,8 @@ class TestModels(unittest.TestCase):
                 'ttss': ['ttts'],
                 'variables': {'key1': 'val1'},
                 'resources': None,
-                'triggers': ['snowboy']
+                'triggers': ['snowboy'],
+                'rpi_settings': None
             }
 
             self.assertDictEqual(expected_result_serialize, setting1.serialize())

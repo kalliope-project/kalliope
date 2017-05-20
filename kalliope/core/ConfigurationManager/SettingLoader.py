@@ -2,6 +2,7 @@ import logging
 import os
 from six import with_metaclass
 
+from kalliope.core.Models.RpiSettings import RpiSettings
 from .YAMLLoader import YAMLLoader
 from kalliope.core.Models.Resources import Resources
 from kalliope.core.Utils.Utils import Utils
@@ -113,6 +114,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         default_synapse = self._get_default_synapse(settings)
         resources = self._get_resources(settings)
         variables = self._get_variables(settings)
+        rpi_settings = self._get_rpi_settings(settings)
 
         # Load the setting singleton with the parameters
         setting_object.default_tts_name = default_tts_name
@@ -131,6 +133,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         setting_object.default_synapse = default_synapse
         setting_object.resources = resources
         setting_object.variables = variables
+        setting_object.rpi_settings = rpi_settings
 
         return setting_object
 
@@ -452,7 +455,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
                 # check the CORS request settings
                 allowed_cors_origin = False
                 if "allowed_cors_origin" in rest_api:
-                     allowed_cors_origin = rest_api["allowed_cors_origin"]
+                    allowed_cors_origin = rest_api["allowed_cors_origin"]
 
             except KeyError as e:
                 raise SettingNotFound("%s settings not found" % e)
@@ -604,7 +607,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         return play_on_ready_notification
 
     @staticmethod
-    def _get_on_ready_answers( settings):
+    def _get_on_ready_answers(settings):
         """
         Return the list of on_ready_answers string from the settings.
         :param settings: The YAML settings file
@@ -662,4 +665,30 @@ class SettingLoader(with_metaclass(Singleton, object)):
             # User does not provide this settings
             return dict()
 
+    @staticmethod
+    def _get_rpi_settings(settings):
+        """
+        return RpiSettings object
+        :param settings: The loaded YAML settings file
+        :return: 
+        """
 
+        try:
+            rpi_settings_dict = settings["rpi"]
+            rpi_settings = RpiSettings()
+            # affect pin if there are declared
+            if "pin_mute_button" in rpi_settings_dict:
+                rpi_settings.pin_mute_button = rpi_settings_dict["pin_mute_button"]
+            if "pin_led_started" in rpi_settings_dict:
+                rpi_settings.pin_led_started = rpi_settings_dict["pin_led_started"]
+            if "pin_led_muted" in rpi_settings_dict:
+                rpi_settings.pin_led_muted = rpi_settings_dict["pin_led_muted"]
+            if "pin_led_talking" in rpi_settings_dict:
+                rpi_settings.pin_led_talking = rpi_settings_dict["pin_led_talking"]
+            if "pin_led_listening" in rpi_settings_dict:
+                rpi_settings.pin_led_listening = rpi_settings_dict["pin_led_listening"]
+
+            return rpi_settings
+        except KeyError:
+            logger.debug("[SettingsLoader] No Rpi config")
+            return None

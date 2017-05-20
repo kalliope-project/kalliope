@@ -10,6 +10,7 @@ from kalliope.core import OrderListener
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.OrderAnalyser import OrderAnalyser
+from kalliope.core.Utils.RpiUtils import RpiUtils
 from kalliope.core.Utils.Utils import Utils
 
 logging.basicConfig()
@@ -159,8 +160,14 @@ class NeuronModule(object):
                                                                         module_name=self.tts.name,
                                                                         parameters=self.tts.parameters,
                                                                         resources_dir=tts_folder)
+            # Kalliope will talk, turn on the LED
+            self.switch_on_led_talking(rpi_settings=self.settings.rpi_settings, on=True)
+
             # generate the audio file and play it
             tts_module_instance.say(tts_message)
+
+            # Kalliope has finished to talk, turn off the LED
+            self.switch_on_led_talking(rpi_settings=self.settings.rpi_settings, on=False)
 
     def _get_message_from_dict(self, message_dict):
         """
@@ -287,3 +294,17 @@ class NeuronModule(object):
 
         logger.debug("NeuroneModule: TTS args: %s" % tts_object)
         return tts_object
+
+    @staticmethod
+    def switch_on_led_talking(rpi_settings, on):
+        """
+        Call the Rpi utils class to switch the led talking if the setting has been specified by the user
+        :param rpi_settings: Rpi
+        :param on: True if the led need to be switched to on
+        """
+        if rpi_settings:
+            if rpi_settings.pin_led_talking:
+                if on:
+                    RpiUtils.switch_pin_to_on(rpi_settings.pin_led_talking)
+                else:
+                    RpiUtils.switch_pin_to_off(rpi_settings.pin_led_talking)

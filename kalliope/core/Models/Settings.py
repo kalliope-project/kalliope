@@ -24,7 +24,8 @@ class Settings(object):
                  cache_path=None,
                  default_synapse=None,
                  resources=None,
-                 variables=None):
+                 variables=None,
+                 rpi_settings=None):
 
         self.default_tts_name = default_tts_name
         self.default_stt_name = default_stt_name
@@ -44,6 +45,7 @@ class Settings(object):
         self.variables = variables
         self.machine = platform.machine()   # can be x86_64 or armv7l
         self.kalliope_version = current_kalliope_version
+        self.rpi_settings = rpi_settings
 
     def serialize(self):
         """
@@ -71,7 +73,8 @@ class Settings(object):
             'resources': self.resources,
             'variables': self.variables,
             'machine': self.machine,
-            'kalliope_version': self.kalliope_version
+            'kalliope_version': self.kalliope_version,
+            'rpi_settings': self.rpi_settings.serialize() if self.rpi_settings is not None else None
         }
 
     def __str__(self):

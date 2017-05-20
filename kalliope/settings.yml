@@ -162,3 +162,13 @@ default_synapse: "default-synapse"
 #var_files:
 #  - variables.yml
 #  - variables2.yml
+
+# ---------------------------
+# Raspberry Pi GPIO settings
+# ---------------------------
+#rpi:
+#  pin_mute_button: 24
+#  pin_led_started: 23
+#  pin_led_muted: 17
+#  pin_led_talking: 27
+#  pin_led_listening: 22

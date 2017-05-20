@@ -1,3 +1,20 @@
+v0.4.4 / 2017-05-20
+===================
+- Fix: Uppercase in order/parameters/global variables are now handled correctly
+- Fix: usage of integer in neuron parameters
+- Fix: encoding with special character
+- Refactor main controller. Use a LIFO to allow full usage of kalliope via API (even with neurotransmitter)
+- Add a systemd script to start kalliope automatically
+- docker testing
+- python 3 support 3.4, 3.5, 3.6
+- Increase testing code coverage
+- Fix: Raspberry performance. CPU usage from 120% to 15%
+- Input value refactoring. "args" parameter replaced by jinja templating
+- Review TTS overriding config in neuron declaration
+- Fix: accapela TTS
+- LED and mute button support for Raspberry Pi
+- Player modularity
+
 v0.4.3 / 2017-03-11
 ===================
 - Update Documentation
