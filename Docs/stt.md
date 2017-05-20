@@ -23,7 +23,7 @@ speech_to_text:
    - STT2:
       STT2parameter1: "value option1"
 ```
-Sometime, an API key will be necessary to use an engine. Click on a TTS engine link in the `Current Available STT` section to know which parameter are required.
+Sometime, an API key will be necessary to use an engine. Click on a TTS engine link in the `Current CORE Available STT` section to know which parameter are required.
 
 ## Current CORE Available STT
 

@@ -1,6 +1,8 @@
 import unittest
 import ast
 import mock
+
+from kalliope.core.Models.Player import Player
 from kalliope.core.Models.Tts import Tts
 
 from kalliope.core.Models.Trigger import Trigger
@@ -14,7 +16,7 @@ from kalliope.core.Models.Dna import Dna
 from kalliope.core import LIFOBuffer
 from kalliope.core.Models.Settings import Settings
 
-from kalliope.core.Models import Neuron, Order, Synapse, Brain, Event, Resources
+from kalliope.core.Models import Neuron, Order, Synapse, Brain, Event, Resources, Singleton
 
 from kalliope.core.Models.APIResponse import APIResponse
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
@@ -23,6 +25,9 @@ from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 class TestModels(unittest.TestCase):
 
     def setUp(self):
+        # Kill the singleton
+        Singleton._instances = dict()
+
         # Init
         neuron1 = Neuron(name='neurone1', parameters={'var1': 'val1'})
         neuron2 = Neuron(name='neurone2', parameters={'var2': 'val2'})
@@ -273,12 +278,16 @@ class TestModels(unittest.TestCase):
 
     def test_Settings(self):
         with mock.patch('platform.machine', return_value='pumpkins'):
-            rest_api1 = RestAPI(password_protected=True, login="admin", password="password", active=True,
+            rest_api1 = RestAPI(password_protected=True,
+                                login="admin",
+                                password="password",
+                                active=True,
                                 port=5000, allowed_cors_origin="*")
 
             setting1 = Settings(default_tts_name="pico2wav",
                                 default_stt_name="google",
                                 default_trigger_name="swoyboy",
+                                default_player_name="mplayer",
                                 ttss=["ttts"],
                                 stts=["stts"],
                                 random_wake_up_answers=["yes"],
@@ -287,15 +296,18 @@ class TestModels(unittest.TestCase):
                                 on_ready_answers=None,
                                 on_ready_sounds=None,
                                 triggers=["snowboy"],
+                                players=["mplayer"],
                                 rest_api=rest_api1,
                                 cache_path="/tmp/kalliope",
                                 default_synapse="default_synapse",
                                 resources=None,
                                 variables={"key1": "val1"})
+            setting1.kalliope_version = "0.4.5"
 
             setting2 = Settings(default_tts_name="accapela",
                                 default_stt_name="bing",
                                 default_trigger_name="swoyboy",
+                                default_player_name="mplayer",
                                 ttss=["ttts"],
                                 stts=["stts"],
                                 random_wake_up_answers=["no"],
@@ -309,10 +321,12 @@ class TestModels(unittest.TestCase):
                                 default_synapse="my_default_synapse",
                                 resources=None,
                                 variables={"key1": "val1"})
+            setting2.kalliope_version = "0.4.5"
 
             setting3 = Settings(default_tts_name="pico2wav",
                                 default_stt_name="google",
                                 default_trigger_name="swoyboy",
+                                default_player_name="mplayer",
                                 ttss=["ttts"],
                                 stts=["stts"],
                                 random_wake_up_answers=["yes"],
@@ -321,11 +335,13 @@ class TestModels(unittest.TestCase):
                                 on_ready_answers=None,
                                 on_ready_sounds=None,
                                 triggers=["snowboy"],
+                                players=["mplayer"],
                                 rest_api=rest_api1,
                                 cache_path="/tmp/kalliope",
                                 default_synapse="default_synapse",
                                 resources=None,
                                 variables={"key1": "val1"})
+            setting3.kalliope_version = "0.4.5"
 
             expected_result_serialize = {
                 'default_synapse': 'default_synapse',
@@ -341,10 +357,11 @@ class TestModels(unittest.TestCase):
                     },
                 'play_on_ready_notification': False,
                 'default_stt_name': 'google',
-                'kalliope_version': '0.4.4b',
+                'kalliope_version': '0.4.5',
                 'random_wake_up_sounds': None,
                 'on_ready_answers': None,
                 'default_trigger_name': 'swoyboy',
+                'default_player_name': 'mplayer',
                 'cache_path': '/tmp/kalliope',
                 'stts': ['stts'],
                 'machine': 'pumpkins',
@@ -354,7 +371,8 @@ class TestModels(unittest.TestCase):
                 'variables': {'key1': 'val1'},
                 'resources': None,
                 'triggers': ['snowboy'],
-                'rpi_settings': None
+                'rpi_settings': None,
+                'players': ['mplayer']
             }
 
             self.assertDictEqual(expected_result_serialize, setting1.serialize())
@@ -427,6 +445,18 @@ class TestModels(unittest.TestCase):
 
         self.assertTrue(trigger1.__eq__(trigger3))
         self.assertFalse(trigger1.__eq__(trigger2))
+
+    def test_Player(self):
+        player1 = Player(name="player1", parameters={"key1": "val1"})
+        player2 = Player(name="player2", parameters={"key2": "val2"})
+        player3 = Player(name="player1", parameters={"key1": "val1"})
+
+        expected_result_serialize = {'name': 'player1', 'parameters': {'key1': 'val1'}}
+
+        self.assertDictEqual(expected_result_serialize, player1.serialize())
+
+        self.assertTrue(player1.__eq__(player3))
+        self.assertFalse(player1.__eq__(player2))
 
     def test_Tts(self):
         tts1 = Tts(name="tts1", parameters={"key1": "val1"})

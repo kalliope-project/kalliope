@@ -67,7 +67,7 @@ setup(
         'markupsafe>=1.0',
         'pyaudio>=0.2.10',
         'pyasn1>=0.2.3',
-        'ansible>=2.2',
+        'ansible>=2.3',
         py2_prefix + 'pythondialog>=3.4.0',
         'jinja2>=2.8,<=2.9.6',
         'cffi>=1.9.1',
@@ -83,6 +83,9 @@ setup(
         'GitPython>=2.1.3',
         'packaging>=16.8',
         'transitions>=0.4.3',
+        'sounddevice>=0.3.7',
+        'SoundFile>=0.9.0',
+        'pyalsaaudio>=0.8.4',
         'RPi.GPIO>=0.6.3'
     ],
 

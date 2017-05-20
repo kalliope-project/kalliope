@@ -2,12 +2,14 @@
 import hashlib
 import logging
 import os
-import sys
+import subprocess
+
 import six
 
 from kalliope.core.ConfigurationManager import SettingLoader
-from kalliope.core.Players import Mplayer
+from kalliope.core.PlayerLauncher import PlayerLauncher
 from kalliope.core.Utils.FileManager import FileManager
+from kalliope.core import Utils
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -60,6 +62,7 @@ class TTSModule(object):
         # load settings
         sl = SettingLoader()
         self.settings = sl.settings
+        self.player = PlayerLauncher.get_player(settings=self.settings)
 
         # create the path in the tmp folder
         base_path = os.path.join(self.settings.cache_path, self.tts_caller_name, self.language, self.voice)
@@ -74,7 +77,8 @@ class TTSModule(object):
         """
         Play the audio file
         """
-        Mplayer.play(self.file_path)
+        # Mplayer.play(self.file_path)
+        self.player.play(self.file_path)
 
     def generate_and_play(self, words, generate_audio_function_from_child=None):
         """

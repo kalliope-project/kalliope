@@ -13,3 +13,5 @@ This TTS is based on the [Acapela engine](http://www.acapela-group.com/)
 
 The voice name is attached to a specific language.
 To test and get the name of a voice, please refer to [this website(https://acapela-box.com/AcaBox/index.php].
+
+The generated file is mp3. 

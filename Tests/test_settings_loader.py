@@ -7,6 +7,7 @@ import unittest
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.Models import Singleton
 from kalliope.core.Models import Resources
+from kalliope.core.Models.Player import Player
 from kalliope.core.Models.RestAPI import RestAPI
 from kalliope.core.Models.Settings import Settings
 from kalliope.core.Models.Stt import Stt
@@ -17,7 +18,7 @@ from kalliope.core.Models.Tts import Tts
 class TestSettingLoader(unittest.TestCase):
 
     def setUp(self):
-        # get current script directory path. We are in /an/unknown/path/kalliope/core/Tests
+        # get current script directory path. We are in /an/unknown/path/kalliope/core/tests
         cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         # get parent dir. Now we are in /an/unknown/path/kalliope
         root_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)
@@ -33,8 +34,10 @@ class TestSettingLoader(unittest.TestCase):
                  'password_protected': True,
                  'password': 'secret', 'port': 5000},
             'default_trigger': 'snowboy',
+            'default_player': 'mplayer',
             'play_on_ready_notification': 'never',
             'triggers': [{'snowboy': {'pmdl_file': 'trigger/snowboy/resources/kalliope-FR-6samples.pmdl'}}],
+            'players': [{'mplayer': {}}, {'pyalsaaudio': {"device": "default"}}],
             'speech_to_text': [{'google': {'language': 'fr-FR'}}],
             'on_ready_answers': ['Kalliope is ready'],
             'cache_path': '/tmp/kalliope_tts_cache',
@@ -83,6 +86,7 @@ class TestSettingLoader(unittest.TestCase):
         settings_object.default_tts_name = "pico2wave"
         settings_object.default_stt_name = "google"
         settings_object.default_trigger_name = "snowboy"
+        settings_object.default_player_name = "mplayer"
         tts1 = Tts(name="pico2wave", parameters={'cache': True, 'language': 'fr-FR'})
         tts2 = Tts(name="voxygen", parameters={'voice': 'Agnes', 'cache': True})
         settings_object.ttss = [tts1, tts2]
@@ -96,6 +100,9 @@ class TestSettingLoader(unittest.TestCase):
         trigger1 = Trigger(name="snowboy",
                            parameters={'pmdl_file': 'trigger/snowboy/resources/kalliope-FR-6samples.pmdl'})
         settings_object.triggers = [trigger1]
+        player1 = Player(name="mplayer", parameters={})
+        player2 = Player(name="pyalsaaudio", parameters={"device": "default"})
+        settings_object.players = [player1, player2]
         settings_object.rest_api = RestAPI(password_protected=True, active=True,
                                            login="admin", password="secret", port=5000,
                                            allowed_cors_origin=False)
@@ -149,6 +156,14 @@ class TestSettingLoader(unittest.TestCase):
                            parameters={'pmdl_file': 'trigger/snowboy/resources/kalliope-FR-6samples.pmdl'})
         sl = SettingLoader(file_path=self.settings_file_to_test)
         self.assertEqual([trigger1], sl._get_triggers(self.settings_dict))
+
+    def test_get_players(self):
+        player1 = Player(name="mplayer",
+                         parameters={})
+        player2 = Player(name="pyalsaaudio",
+                         parameters={'device': 'default'})
+        sl = SettingLoader(file_path=self.settings_file_to_test)
+        self.assertEqual([player1, player2], sl._get_players(self.settings_dict))
 
     def test_get_random_wake_up_answers(self):
         expected_random_wake_up_answers = ['Oui monsieur?']

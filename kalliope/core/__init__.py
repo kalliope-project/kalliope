@@ -9,5 +9,6 @@ from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.LIFOBuffer import LIFOBuffer
 from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
 from kalliope.core.NeuronModule import NeuronModule
+from kalliope.core.PlayerModule import PlayerModule
 from kalliope.core.MainController import MainController
 from kalliope.core.EventManager import EventManager
