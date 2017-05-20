@@ -3,7 +3,7 @@ import alsaaudio
 import logging
 import wave
 
-from kalliope.PlayerModule import PlayerModule
+from kalliope.core.PlayerModule import PlayerModule
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

@@ -20,4 +20,4 @@ build-essential
 sox
 libatlas3-base
 mplayer
-ffmpeg
+libav-tools

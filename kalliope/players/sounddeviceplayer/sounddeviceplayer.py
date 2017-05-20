@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-import sounddevice as sd
-import soundfile as sf
 import logging
 
-from kalliope.PlayerModule import PlayerModule
+import sounddevice as sd
+import soundfile as sf
+
+from kalliope.core.PlayerModule import PlayerModule
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

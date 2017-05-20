@@ -1,6 +1,8 @@
 import os
 import unittest
 import mock
+
+from kalliope.core.Models import Singleton
 from kalliope.core.Models.Tts import Tts
 
 from kalliope import SettingLoader
@@ -10,6 +12,9 @@ from kalliope.core.NeuronModule import NeuronModule, TemplateFileNotFoundExcepti
 class TestNeuronModule(unittest.TestCase):
 
     def setUp(self):
+        # kill singleton
+        Singleton._instances = dict()
+
         self.expected_result = "hello, this is a replaced word"
         # this allow us to run the test from an IDE and from the root with python -m unittest tests.TestNeuronModule
         if "/Tests" in os.getcwd():
@@ -22,7 +27,11 @@ class TestNeuronModule(unittest.TestCase):
         }
         self.neuron_module_test = NeuronModule()
 
-        self.settings = SettingLoader(file_path="settings_test.yml").settings
+        if "/Tests" in os.getcwd():
+            self.file_settings = "settings/settings_test.yml"
+        else:
+            self.file_settings = "Tests/settings/settings_test.yml"
+        self.settings = SettingLoader(file_path=self.file_settings).settings
 
     def tearDown(self):
         del self.neuron_module_test

@@ -16,7 +16,7 @@ from kalliope.core.Models.Dna import Dna
 from kalliope.core import LIFOBuffer
 from kalliope.core.Models.Settings import Settings
 
-from kalliope.core.Models import Neuron, Order, Synapse, Brain, Event, Resources
+from kalliope.core.Models import Neuron, Order, Synapse, Brain, Event, Resources, Singleton
 
 from kalliope.core.Models.APIResponse import APIResponse
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
@@ -25,6 +25,9 @@ from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 class TestModels(unittest.TestCase):
 
     def setUp(self):
+        # Kill the singleton
+        Singleton._instances = dict()
+
         # Init
         neuron1 = Neuron(name='neurone1', parameters={'var1': 'val1'})
         neuron2 = Neuron(name='neurone2', parameters={'var2': 'val2'})
@@ -275,7 +278,10 @@ class TestModels(unittest.TestCase):
 
     def test_Settings(self):
         with mock.patch('platform.machine', return_value='pumpkins'):
-            rest_api1 = RestAPI(password_protected=True, login="admin", password="password", active=True,
+            rest_api1 = RestAPI(password_protected=True,
+                                login="admin",
+                                password="password",
+                                active=True,
                                 port=5000, allowed_cors_origin="*")
 
             setting1 = Settings(default_tts_name="pico2wav",
@@ -296,6 +302,7 @@ class TestModels(unittest.TestCase):
                                 default_synapse="default_synapse",
                                 resources=None,
                                 variables={"key1": "val1"})
+            setting1.kalliope_version = "0.4.5"
 
             setting2 = Settings(default_tts_name="accapela",
                                 default_stt_name="bing",
@@ -314,6 +321,7 @@ class TestModels(unittest.TestCase):
                                 default_synapse="my_default_synapse",
                                 resources=None,
                                 variables={"key1": "val1"})
+            setting2.kalliope_version = "0.4.5"
 
             setting3 = Settings(default_tts_name="pico2wav",
                                 default_stt_name="google",
@@ -333,6 +341,7 @@ class TestModels(unittest.TestCase):
                                 default_synapse="default_synapse",
                                 resources=None,
                                 variables={"key1": "val1"})
+            setting3.kalliope_version = "0.4.5"
 
             expected_result_serialize = {
                 'default_synapse': 'default_synapse',
@@ -348,7 +357,7 @@ class TestModels(unittest.TestCase):
                     },
                 'play_on_ready_notification': False,
                 'default_stt_name': 'google',
-                'kalliope_version': '0.4.4b',
+                'kalliope_version': '0.4.5',
                 'random_wake_up_sounds': None,
                 'on_ready_answers': None,
                 'default_trigger_name': 'swoyboy',
