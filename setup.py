@@ -67,7 +67,7 @@ setup(
         'markupsafe>=1.0',
         'pyaudio>=0.2.10',
         'pyasn1>=0.2.3',
-        'ansible>=2.2',
+        'ansible>=2.3',
         py2_prefix + 'pythondialog>=3.4.0',
         'jinja2>=2.8,<=2.9.6',
         'cffi>=1.9.1',

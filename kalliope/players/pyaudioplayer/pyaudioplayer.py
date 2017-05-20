@@ -4,28 +4,32 @@ import wave
 
 import pyaudio
 
+from kalliope.PlayerModule import PlayerModule
+
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 CHUNK = 1024
 
 
-class Pyaudioplayer(object):
+class Pyaudioplayer(PlayerModule):
     """
     This Class is representing the Player Object used to play the all sound of the system.
     """
 
     def __init__(self, **kwargs):
+        super(Pyaudioplayer, self).__init__(**kwargs)
         logger.debug("[Pyaudioplayer.__init__] instance")
         logger.debug("[Pyaudioplayer.__init__] args : %s " % str(kwargs))
 
-    @classmethod
-    def play(cls, file_path):
+    def play(self, file_path):
         """
         Play the sound located in the provided file_path
         :param file_path: The file path of the sound to play. Must be wav format
         :type file_path: str              
         """
+        if self.convert:
+            self.convert_mp3_to_wav(file_path_mp3=file_path)
         # open the wave file
         wf = wave.open(file_path, 'rb')
 

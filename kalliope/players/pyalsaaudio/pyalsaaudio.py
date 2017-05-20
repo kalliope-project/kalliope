@@ -3,6 +3,8 @@ import alsaaudio
 import logging
 import wave
 
+from kalliope.PlayerModule import PlayerModule
+
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
@@ -30,12 +32,13 @@ def bits_to_samplefmt(bits):
         raise ValueError('Unsupported format')
 
 
-class Pyalsaaudio(object):
+class Pyalsaaudio(PlayerModule):
     """
     This Class is representing the Player Object used to play the all sound of the system.
     """
 
     def __init__(self, **kwargs):
+        super(Pyalsaaudio, self).__init__(**kwargs)
         # List devices
         logger.debug("[pyalsaaudio.__init__] instance")
         logger.debug("[pyalsaaudio.__init__] devices : %s " % (str(self.get_devices(DEVICE_TYPE_OUTPUT))))
@@ -58,14 +61,13 @@ class Pyalsaaudio(object):
 
     def play(self, file_path):
 
+        if self.convert:
+            self.convert_mp3_to_wav(file_path_mp3=file_path)
         f = wave.open(file_path, 'rb')
         pcm_type = alsaaudio.PCM_PLAYBACK
         stream = alsaaudio.PCM(type=pcm_type,
                                mode=alsaaudio.PCM_NORMAL,
-                               device=self.device)  # this is just for testing
-                               # device='sysdefault:CARD=ALSA')  # this is just for testing
-                                # on RPI3 this is fine; pulse (usually also default) is not working
-                                # device should be configurable; default schould be "default"
+                               device=self.device)
         # Set attributes
         stream.setchannels(f.getnchannels())
         stream.setrate(f.getframerate())
@@ -74,7 +76,8 @@ class Pyalsaaudio(object):
         stream.setperiodsize(CHUNK)
         
         logger.debug("[PyAlsaAudioPlayer] %d channels, %d sampling rate, %d bit" % (f.getnchannels(),
-                                                                            f.getframerate(),  bits))
+                                                                                    f.getframerate(),
+                                                                                    bits))
         
         data = f.readframes(CHUNK)
         while data:

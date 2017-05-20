@@ -77,9 +77,6 @@ class Acapela(TTSModule):
         # OK we get the audio we can write the sound file
         FileManager.write_in_file(self.file_path, r.content)
 
-        # the received file use MP3 format. It must be converted to wav in order to be played by pyaudio
-        self.convert_mp3_to_wav(self.file_path)
-
     def get_payload(self):
         """
         Generic method used load the payload used to access the remote api
