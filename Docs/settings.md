@@ -347,6 +347,16 @@ rpi:
   pin_led_listening: 22
 ```
 
+You can also define a couple led instead of all if you don't use them
+```yml
+rpi:
+  pin_mute_button: 6
+  pin_led_started: 5
+#  pin_led_muted: 17
+#  pin_led_talking: 27
+#  pin_led_listening: 22
+```
+
 **Example circuit**
 
 You will be using one of the ‘ground’ (GND) pins to act like the ‘negative’ or 0 volt ends of a battery. 

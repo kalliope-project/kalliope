@@ -46,9 +46,10 @@ class MainController:
 
         self.rpi_utils = None
         if self.settings.rpi_settings:
+            # the useer set GPIO pin, we need to instantiate the RpiUtils class in order to setup GPIO
+            self.rpi_utils = RpiUtils(self.settings.rpi_settings, self.muted_button_pressed)
             if self.settings.rpi_settings.pin_mute_button:
                 # start the listening for button pressed thread only if the user set a pin
-                self.rpi_utils = RpiUtils(self.settings.rpi_settings, self.muted_button_pressed)
                 self.rpi_utils.daemon = True
                 self.rpi_utils.start()
         # switch high the start led, as kalliope is started. Only if the setting exist

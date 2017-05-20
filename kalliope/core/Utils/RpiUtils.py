@@ -91,10 +91,11 @@ class RpiUtils(Thread):
             GPIO.setup(rpi_settings.pin_led_talking, GPIO.OUT, initial=GPIO.LOW)
 
         # MUTE button
-        GPIO.setup(rpi_settings.pin_mute_button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(rpi_settings.pin_mute_button, GPIO.FALLING,
-                              callback=self.switch_kalliope_mute_led,
-                              bouncetime=500)
+        if self.rpi_settings.pin_mute_button:
+            GPIO.setup(rpi_settings.pin_mute_button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.add_event_detect(rpi_settings.pin_mute_button, GPIO.FALLING,
+                                  callback=self.switch_kalliope_mute_led,
+                                  bouncetime=500)
 
     @classmethod
     def switch_pin_to_on(cls, pin_number):
