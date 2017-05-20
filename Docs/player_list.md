@@ -1,8 +1,7 @@
 # List of available Player
 
-A player is a module that Kalliope will use when playing a sound. 
+A player is a module that Kalliope will use when playing a sound generated from a TTS engine.
 You can define them in your [settings.yml file](settings.md). 
-See the [complete player documentation](player.md) for more information.
 
 ## Core Players
 Core Players are already packaged with the installation of Kalliope an can be used out of the box.

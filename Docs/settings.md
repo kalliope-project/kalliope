@@ -46,6 +46,10 @@ Specify the name of the player module you want to use.
 ```yml
 default_player: "player_name"
 ```
+E.g
+```yml
+default_player: "mplayer"
+```
 
 #### players
 The player is the engine in charge of running sounds in Kalliope.
@@ -58,12 +62,32 @@ players:
       parameter_name: "value"
 ```
 
-See the complete list of [available players here](player.md).
-
-when no parameters are required set an empty object:
+E.g
 ```yml
 players:
   - mplayer: {}
+  - pyalsaaudio:
+     device: "default"
+     convert_to_wav: True
+  - pyaudioplayer:
+     convert_to_wav: True
+  - sounddeviceplayer:
+     convert_to_wav: True
+```
+
+See the complete list of [available players here](player_list.md).
+
+When no parameters are required set an empty object:
+```yml
+players:
+  - mplayer: {}
+```
+
+Sometime, parameters will be necessary to use an engine. See the [complete list here](player_list.md) to know which parameter are required.
+Core players are already packaged with the installation of Kalliope an can be used out of the box. 
+
+>**Note:** Most cloud based TTS generate a file in MP3 format. Some players are not able to read this format and then a conversion to wav is needed.
+
 
 ## Speech to text configuration
 
