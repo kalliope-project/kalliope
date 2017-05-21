@@ -50,12 +50,15 @@ setup(
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Topic :: Home Automation',
         'Topic :: Multimedia :: Sound/Audio :: Speech',
         'Topic :: Multimedia :: Sound/Audio :: Sound Synthesis',
         'Topic :: Scientific/Engineering :: Artificial Intelligence'
     ],
-    keywords='assistant bot TTS STT',
+    keywords='assistant bot TTS STT jarvis',
 
     # included packages
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
@@ -112,4 +115,3 @@ setup(
         ],
     },
 )
-

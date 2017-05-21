@@ -2,10 +2,23 @@
 
 This Player is based on the [pyaudio engine](https://people.csail.mit.edu/hubert/pyaudio/)
 
-| PyAudioPlayer |          |           |             |                           |
-|-----------------|----------|-----------|-------------|---------------------------|
-| Parameters      | Required | Default   | Choices     | Comment                   |
-| convert_to_wav  | No       | TRUE      | True, False | convert the file into wav |
+### Input parameters
+
+| parameter      | required  | default   | choices     | comment                                                         |
+|----------------|-----------|-----------|-------------|-----------------------------------------------------------------|
+| convert_to_wav | no        | TRUE      | True, False | Convert the generated file from the TTS into wav before reading |
+
+
+### Example settings
+
+```yml
+default_player: "pyaudioplayer"
+
+players:  
+  - pyaudioplayer:
+     convert_to_wav: True
+```
+
 
 #### Notes
 

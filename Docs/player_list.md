@@ -6,12 +6,12 @@ You can define them in your [settings.yml file](settings.md).
 ## Core Players
 Core Players are already packaged with the installation of Kalliope an can be used out of the box.
 
-|        Name       | Description                                                                    | Note                |
-|-------------------|--------------------------------------------------------------------------------|---------------------|
-| mplayer           | [mplayer](http://www.mplayerhq.hu/design7/news.html)                           |                     |
-| AlsaAudioPlayer   | [AlsaAudioPlayer](https://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html) | Does not handle mp3 |
-| PyAudioPlayer     | [PyAudioPlayer](https://people.csail.mit.edu/hubert/pyaudio/)                  | Does not handle mp3 |
-| SoundDevicePlayer | [SoundDevicePlayer](https://pypi.python.org/pypi/sounddevice)                  | Does not handle mp3 |
+| Name              | Description                                                          | Note                                                                                    |
+|-------------------|----------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| mplayer           | [mplayer](../kalliope/players/mplayer/README.md)                     | Based on [mplayer software](http://www.mplayerhq.hu/design7/news.html)                  |
+| pyalsaaudio       | [AlsaAudioPlayer](../kalliope/players/pyalsaaudio/README.md)         | Based on [pyalsaaudio](https://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html) lib |
+| pyaudioplayer     | [PyAudioPlayer](../kalliope/players/pyaudioplayer/README.md)         | Based on [pyaudio](https://people.csail.mit.edu/hubert/pyaudio/docs/) lib               |
+| sounddeviceplayer | [SoundDevicePlayer](../kalliope/players/sounddeviceplayer/README.md) | Based on [sounddevice](https://pypi.python.org/pypi/sounddevice) lib                    |
 
 ## Community Players
 Community Players need to be installed manually.

@@ -2,10 +2,22 @@
 
 This Player is based on the [sounddevice and soundfile engines](https://pypi.python.org/pypi/sounddevice)
 
-| SoundDevicePlayer |          |           |             |                           |
-|-----------------|----------|-----------|-------------|---------------------------|
-| Parameters      | Required | Default   | Choices     | Comment                   |
-| convert_to_wav  | No       | TRUE      | True, False | convert the file into wav |
+### Input parameters
+
+| parameter      | required  | default   | choices     | comment                                                         |
+|----------------|-----------|-----------|-------------|-----------------------------------------------------------------|
+| convert_to_wav | no        | TRUE      | True, False | Convert the generated file from the TTS into wav before reading |
+
+
+### Example settings
+
+```yml
+default_player: "sounddeviceplayer"
+
+players:  
+  - sounddeviceplayer:
+     convert_to_wav: True
+```
 
 #### Notes
 
