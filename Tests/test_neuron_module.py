@@ -2,18 +2,21 @@ import os
 import unittest
 import mock
 
-from kalliope.core.NeuronModule import NeuronModule, TemplateFileNotFoundException
-from kalliope.core.Models.Neuron import Neuron
-from kalliope.core.Models.Synapse import Synapse
-from kalliope.core.Models.Brain import Brain
-from kalliope.core.Models.Order import Order
+from kalliope.core.Models import Singleton
+from kalliope.core.Models.Tts import Tts
+
+from kalliope import SettingLoader
+from kalliope.core.NeuronModule import NeuronModule, TemplateFileNotFoundException, TTSModuleNotFound
 
 
 class TestNeuronModule(unittest.TestCase):
 
     def setUp(self):
+        # kill singleton
+        Singleton._instances = dict()
+
         self.expected_result = "hello, this is a replaced word"
-        # this allow us to run the test from an IDE and from the root with python -m unittest Tests.TestNeuronModule
+        # this allow us to run the test from an IDE and from the root with python -m unittest tests.TestNeuronModule
         if "/Tests" in os.getcwd():
             self.file_template = "templates/template_test.j2"
         else:
@@ -24,6 +27,12 @@ class TestNeuronModule(unittest.TestCase):
         }
         self.neuron_module_test = NeuronModule()
 
+        if "/Tests" in os.getcwd():
+            self.file_settings = "settings/settings_test.yml"
+        else:
+            self.file_settings = "Tests/settings/settings_test.yml"
+        self.settings = SettingLoader(file_path=self.file_settings).settings
+
     def tearDown(self):
         del self.neuron_module_test
 
@@ -33,7 +42,7 @@ class TestNeuronModule(unittest.TestCase):
         """
 
         with mock.patch("kalliope.core.OrderListener.start") as mock_orderListener_start:
-            with mock.patch("kalliope.core.OrderListener.join") as mock_orderListener_join:
+            with mock.patch("kalliope.core.OrderListener.join"):
                 def callback():
                     pass
 
@@ -41,35 +50,28 @@ class TestNeuronModule(unittest.TestCase):
                 mock_orderListener_start.assert_called_once_with()
                 mock_orderListener_start.reset_mock()
 
-    def test_update_cache_var(self):
-        """
-        Test Update the value of the cache in the provided arg list
-        """
+    def test_get_tts_object(self):
 
-        # True -> False
-        args_dict = {
-            "cache": True
-        }
-        expected_dict = {
-            "cache": False
-        }
-        self.assertEquals(NeuronModule._update_cache_var(False, args_dict=args_dict),
-                          expected_dict,
-                          "Fail to update the cache value from True to False")
-        self.assertFalse(args_dict["cache"])
+        # no TTS name provided. should return the default tts
+        expected_tts = Tts(name="pico2wave", parameters={"language": "fr-FR", "cache": True})
+        self.assertEqual(NeuronModule._get_tts_object(settings=self.settings), expected_tts)
 
-        # False -> True
-        args_dict = {
-            "cache": False
-        }
-        expected_dict = {
-            "cache": True
-        }
-        self.assertEquals(NeuronModule._update_cache_var(True, args_dict=args_dict),
-                          expected_dict,
-                          "Fail to update the cache value from False to True")
+        # TTS provided, only cache parameter updated
+        expected_tts = Tts(name="pico2wave", parameters={"language": "fr-FR", "cache": False})
+        self.assertEqual(NeuronModule._get_tts_object(tts_name="pico2wave",
+                                                      override_parameter={"cache": False},
+                                                      settings=self.settings), expected_tts)
 
-        self.assertTrue(args_dict["cache"])
+        # TTS provided, all parameters updated
+        expected_tts = Tts(name="pico2wave", parameters={"language": "es-ES", "cache": False})
+        self.assertEqual(NeuronModule._get_tts_object(tts_name="pico2wave",
+                                                      override_parameter={"language": "es-ES", "cache": False},
+                                                      settings=self.settings), expected_tts)
+        # TTS not existing in settings
+        with self.assertRaises(TTSModuleNotFound):
+            NeuronModule._get_tts_object(tts_name="no_existing_tts",
+                                         override_parameter={"cache": False},
+                                         settings=self.settings)
 
     def test_get_message_from_dict(self):
 
@@ -114,62 +116,21 @@ class TestNeuronModule(unittest.TestCase):
         expected_result = "hello, this is a {{ test }}"
         self.assertEqual(NeuronModule._get_content_of_file(self.file_template), expected_result)
 
-    def test_run_synapse_by_name_with_order(self):
+    def test_serialize(self):
         """
-        Test to start a synapse with a specific given order
-        Scenarii :
-            - Neuron has been found and launched
-            - Neuron has not been found
+        Test the serialisation of the neuron module
         """
+        neuron_module = NeuronModule()
+        neuron_module.neuron_name = "kalliope"
+        neuron_module.tts_message = "I am french"
 
-        # Init
-        neuron1 = Neuron(name='neurone1', parameters={'var1': 'val1'})
-        neuron2 = Neuron(name='neurone2', parameters={'var2': 'val2'})
-        neuron3 = Neuron(name='neurone3', parameters={'var3': 'val3'})
-        neuron4 = Neuron(name='neurone4', parameters={'var4': 'val4'})
+        expected_result = {
+            'neuron_name': "kalliope",
+            'generated_message': "I am french"
+        }
 
-        signal1 = Order(sentence="the sentence")
-        signal2 = Order(sentence="the second sentence")
-        signal3 = Order(sentence="part of the third sentence")
-
-        synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
-        synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
-        synapse3 = Synapse(name="Synapse3", neurons=[neuron2, neuron4], signals=[signal3])
-
-        all_synapse_list = [synapse1,
-                            synapse2,
-                            synapse3]
-
-        br = Brain(synapses=all_synapse_list)
-
-        order = "This is the order"
-        synapse_name = "Synapse2"
-        answer = "This is the {{ answer }}"
-
-        with mock.patch("kalliope.core.OrderAnalyser.start") as mock_orderAnalyser_start:
-            neuron_mod = NeuronModule()
-            neuron_mod.brain = br
-
-            # Success
-            self.assertTrue(neuron_mod.run_synapse_by_name_with_order(order=order,
-                                                                        synapse_name=synapse_name,
-                                                                        order_template=answer),
-                              "fail to find the proper synapse")
-
-            # mock_orderAnalyser_start.assert_called_once()
-            mock_orderAnalyser_start.assert_called_once_with(synapses_to_run=[synapse2],
-                                                             external_order=answer)
-            mock_orderAnalyser_start.reset_mock()
-
-            # Fail
-            synapse_name = "Synapse5"
-            self.assertFalse(neuron_mod.run_synapse_by_name_with_order(order=order,
-                                                                      synapse_name=synapse_name,
-                                                                       order_template=answer),
-                            "fail to NOT find the synapse")
-
-            mock_orderAnalyser_start.assert_not_called()
-            mock_orderAnalyser_start.reset_mock()
+        self.assertEqual(expected_result, neuron_module.serialize())
 
 
-
+if __name__ == '__main__':
+    unittest.main()

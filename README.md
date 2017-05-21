@@ -1,10 +1,14 @@
+<p align="center">
+    <img src="images/Kalliope_logo_large.png">
+</p>
+
 # Kalliope
-
 [![Build Status](https://travis-ci.org/kalliope-project/kalliope.svg)](https://travis-ci.org/kalliope-project/kalliope)
+[![Coverage Status](https://coveralls.io/repos/github/kalliope-project/kalliope/badge.svg)](https://coveralls.io/github/kalliope-project/kalliope)
 [![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/kalliope-project/Lobby)
+[![PyPI version](https://badge.fury.io/py/kalliope.svg)](https://badge.fury.io/py/kalliope)
+[![PyPI](https://img.shields.io/pypi/pyversions/kalliope.svg)](https://pypi.python.org/pypi/kalliope/)
 
-
-![logo](images/Kalliope_logo_large.png)
 
 Kalliope is a modular always-on voice controlled personal assistant designed for home automation.
 Kalliope is based on audio input recognition, so it recognize an order pronounced by the user and then execute actions attached to the order.
@@ -53,6 +57,7 @@ Once installed, you can start learning basics of Kalliope from a [quick start co
 | [TTS](Docs/tts.md)                 | Text to speech configuration                                                                |
 | [Triggers](Docs/trigger.md)        | Magic hotword engine used to make Kalliope listening for an order                           |
 | [REST API](Docs/rest_api.md)       | Integrated REST API. Can be used to send an order                                           |
+| [Players](Docs/player.md)          | Player is the software used to make kalliope talk                                           |
 
 ## Contributing
 
@@ -61,6 +66,8 @@ Reading through this guide before writing any code is recommended.
 
 - Read the [contributing guide](Docs/contributing.md)
 - Add [issues and feature requests](../../issues)
+
+You liked kalliope? **Star us!**
 
 ## Credits
 

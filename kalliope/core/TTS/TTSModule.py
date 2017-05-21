@@ -2,10 +2,14 @@
 import hashlib
 import logging
 import os
+import subprocess
+
+import six
 
 from kalliope.core.ConfigurationManager import SettingLoader
-from kalliope.core.Players import Mplayer
+from kalliope.core.PlayerLauncher import PlayerLauncher
 from kalliope.core.Utils.FileManager import FileManager
+from kalliope.core import Utils
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -45,7 +49,7 @@ class TTSModule(object):
 
         # set parameter from what we receive from the settings
         self.cache = kwargs.get('cache', False)
-        self.language = kwargs.get('language', None)
+        self.language = kwargs.get('language', "default")
         self.voice = kwargs.get('voice', "default")
         # the name of the TSS is the name of the Tss module that have instantiated TTSModule
         self.tts_caller_name = self.__class__.__name__
@@ -58,6 +62,7 @@ class TTSModule(object):
         # load settings
         sl = SettingLoader()
         self.settings = sl.settings
+        self.player = PlayerLauncher.get_player(settings=self.settings)
 
         # create the path in the tmp folder
         base_path = os.path.join(self.settings.cache_path, self.tts_caller_name, self.language, self.voice)
@@ -72,7 +77,8 @@ class TTSModule(object):
         """
         Play the audio file
         """
-        Mplayer.play(self.file_path)
+        # Mplayer.play(self.file_path)
+        self.player.play(self.file_path)
 
     def generate_and_play(self, words, generate_audio_function_from_child=None):
         """
@@ -132,7 +138,7 @@ class TTSModule(object):
         :param words: Text to convert into md5 hash
         :return: String md5 hash from the received words
         """
-        if isinstance(words, unicode):
+        if isinstance(words, six.text_type):
             words = words.encode('utf-8')
         return hashlib.md5(words).hexdigest()
 

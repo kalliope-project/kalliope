@@ -15,7 +15,7 @@ class TestDynamicLoading(unittest.TestCase):
     """
 
     def setUp(self):
-        # get current script directory path. We are in /an/unknown/path/kalliope/core/Tests
+        # get current script directory path. We are in /an/unknown/path/kalliope/core/tests
         cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         # get parent dir. Now we are in /an/unknown/path/kalliope
         root_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)
@@ -98,7 +98,7 @@ class TestDynamicLoading(unittest.TestCase):
         # we keep only package. Because we have _init_.py or other stuff in what listdir returned
         packages_in_folder = list()
         for el in el_folder:
-            if os.path.isdir(folder + os.sep + el):
+            if os.path.isdir(folder + os.sep + el) and not '__pycache__' in el:
                 packages_in_folder.append(el)
         return packages_in_folder
 

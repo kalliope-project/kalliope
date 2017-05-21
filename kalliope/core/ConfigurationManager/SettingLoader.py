@@ -1,7 +1,9 @@
 import logging
 import os
+from six import with_metaclass
 
-from YAMLLoader import YAMLLoader
+from kalliope.core.Models.RpiSettings import RpiSettings
+from .YAMLLoader import YAMLLoader
 from kalliope.core.Models.Resources import Resources
 from kalliope.core.Utils.Utils import Utils
 from kalliope.core.Models import Singleton
@@ -9,6 +11,7 @@ from kalliope.core.Models.RestAPI import RestAPI
 from kalliope.core.Models.Settings import Settings
 from kalliope.core.Models.Stt import Stt
 from kalliope.core.Models.Trigger import Trigger
+from kalliope.core.Models.Player import Player
 from kalliope.core.Models.Tts import Tts
 from kalliope.core.Utils.FileManager import FileManager
 
@@ -45,11 +48,10 @@ class SettingNotFound(Exception):
     pass
 
 
-class SettingLoader(object):
+class SettingLoader(with_metaclass(Singleton, object)):
     """
     This Class is used to get the Settings YAML and the Settings as an object
     """
-    __metaclass__ = Singleton
 
     def __init__(self, file_path=None):
         self.file_path = file_path
@@ -100,9 +102,11 @@ class SettingLoader(object):
         default_stt_name = self._get_default_speech_to_text(settings)
         default_tts_name = self._get_default_text_to_speech(settings)
         default_trigger_name = self._get_default_trigger(settings)
+        default_player_name = self._get_default_player(settings)
         stts = self._get_stts(settings)
         ttss = self._get_ttss(settings)
         triggers = self._get_triggers(settings)
+        players = self._get_players(settings)
         random_wake_up_answers = self._get_random_wake_up_answers(settings)
         random_wake_up_sound = self._get_random_wake_up_sounds(settings)
         play_on_ready_notification = self._get_play_on_ready_notification(settings)
@@ -113,14 +117,17 @@ class SettingLoader(object):
         default_synapse = self._get_default_synapse(settings)
         resources = self._get_resources(settings)
         variables = self._get_variables(settings)
+        rpi_settings = self._get_rpi_settings(settings)
 
         # Load the setting singleton with the parameters
         setting_object.default_tts_name = default_tts_name
         setting_object.default_stt_name = default_stt_name
         setting_object.default_trigger_name = default_trigger_name
+        setting_object.default_player_name = default_player_name
         setting_object.stts = stts
         setting_object.ttss = ttss
         setting_object.triggers = triggers
+        setting_object.players = players
         setting_object.random_wake_up_answers = random_wake_up_answers
         setting_object.random_wake_up_sounds = random_wake_up_sound
         setting_object.play_on_ready_notification = play_on_ready_notification
@@ -131,6 +138,7 @@ class SettingLoader(object):
         setting_object.default_synapse = default_synapse
         setting_object.resources = resources
         setting_object.variables = variables
+        setting_object.rpi_settings = rpi_settings
 
         return setting_object
 
@@ -159,7 +167,7 @@ class SettingLoader(object):
                 raise NullSettingException("Attribute default_speech_to_text is null")
             logger.debug("Default STT: %s" % default_speech_to_text)
             return default_speech_to_text
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
     @staticmethod
@@ -187,7 +195,7 @@ class SettingLoader(object):
                 raise NullSettingException("Attribute default_text_to_speech is null")
             logger.debug("Default TTS: %s" % default_text_to_speech)
             return default_text_to_speech
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
     @staticmethod
@@ -214,7 +222,34 @@ class SettingLoader(object):
                 raise NullSettingException("Attribute default_trigger is null")
             logger.debug("Default Trigger name: %s" % default_trigger)
             return default_trigger
-        except KeyError, e:
+        except KeyError as e:
+            raise SettingNotFound("%s setting not found" % e)
+
+    @staticmethod
+    def _get_default_player(settings):
+        """
+        Get the default player defined in the settings.yml file
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return: the default player
+        :rtype: str
+
+        :Example:
+
+            default_player_name = cls._get_default_player(settings)
+
+        .. seealso:: Player
+        .. raises:: NullSettingException, SettingNotFound
+        .. warnings:: Static and Private
+        """
+
+        try:
+            default_player = settings["default_player"]
+            if default_player is None:
+                raise NullSettingException("Attribute default_player is null")
+            logger.debug("Default Player name: %s" % default_player)
+            return default_player
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
     @staticmethod
@@ -233,7 +268,7 @@ class SettingLoader(object):
 
         .. seealso:: Stt
         .. raises:: SettingNotFound
-        .. warnings:: Class Method and Private
+        .. warnings:: Static Method and Private
         """
 
         try:
@@ -244,7 +279,6 @@ class SettingLoader(object):
         stts = list()
         for speechs_to_text_el in speechs_to_text_list:
             if isinstance(speechs_to_text_el, dict):
-                # print "Neurons dict ok"
                 for stt_name in speechs_to_text_el:
                     name = stt_name
                     parameters = speechs_to_text_el[name]
@@ -273,18 +307,17 @@ class SettingLoader(object):
 
         .. seealso:: Tts
         .. raises:: SettingNotFound
-        .. warnings:: Class Method and Private
+        .. warnings:: Static Method and Private
         """
 
         try:
             text_to_speech_list = settings["text_to_speech"]
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
         ttss = list()
         for text_to_speech_el in text_to_speech_list:
             if isinstance(text_to_speech_el, dict):
-                # print "Neurons dict ok"
                 for tts_name in text_to_speech_el:
                     name = tts_name
                     parameters = text_to_speech_el[name]
@@ -312,18 +345,17 @@ class SettingLoader(object):
 
         .. seealso:: Trigger
         .. raises:: SettingNotFound
-        .. warnings:: Class Method and Private
+        .. warnings:: Static Method and Private
         """
 
         try:
             triggers_list = settings["triggers"]
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
         triggers = list()
         for trigger_el in triggers_list:
             if isinstance(trigger_el, dict):
-                # print "Neurons dict ok"
                 for trigger_name in trigger_el:
                     name = trigger_name
                     parameters = trigger_el[name]
@@ -334,6 +366,44 @@ class SettingLoader(object):
                 new_trigger = Trigger(name=trigger_el)
                 triggers.append(new_trigger)
         return triggers
+
+    @staticmethod
+    def _get_players(settings):
+        """
+        Return a list of Player object
+
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return: List of Player
+        :rtype: list
+
+        :Example:
+
+            players = cls._get_players(settings)
+
+        .. seealso:: players
+        .. raises:: SettingNotFound
+        .. warnings:: Static Method and Private
+        """
+
+        try:
+            players_list = settings["players"]
+        except KeyError as e:
+            raise SettingNotFound("%s setting not found" % e)
+
+        players = list()
+        for player_el in players_list:
+            if isinstance(player_el, dict):
+                for player_name in player_el:
+                    name = player_name
+                    parameters = player_el[name]
+                    new_player = Player(name=name, parameters=parameters)
+                    players.append(new_player)
+            else:
+                # the player does not have parameters
+                new_player = Player(name=player_el)
+                players.append(new_player)
+        return players
 
     @staticmethod
     def _get_random_wake_up_answers(settings):
@@ -422,7 +492,7 @@ class SettingLoader(object):
 
         try:
             rest_api = settings["rest_api"]
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
         if rest_api is not None:
@@ -455,10 +525,9 @@ class SettingLoader(object):
                 # check the CORS request settings
                 allowed_cors_origin = False
                 if "allowed_cors_origin" in rest_api:
-                     allowed_cors_origin = rest_api["allowed_cors_origin"]
+                    allowed_cors_origin = rest_api["allowed_cors_origin"]
 
-            except KeyError, e:
-                # print e
+            except KeyError as e:
                 raise SettingNotFound("%s settings not found" % e)
 
             # config ok, we can return the rest api object
@@ -489,7 +558,7 @@ class SettingLoader(object):
 
         try:
             cache_path = settings["cache_path"]
-        except KeyError, e:
+        except KeyError as e:
             raise SettingNotFound("%s setting not found" % e)
 
         if cache_path is None:
@@ -608,7 +677,7 @@ class SettingLoader(object):
         return play_on_ready_notification
 
     @staticmethod
-    def _get_on_ready_answers( settings):
+    def _get_on_ready_answers(settings):
         """
         Return the list of on_ready_answers string from the settings.
         :param settings: The YAML settings file
@@ -666,4 +735,30 @@ class SettingLoader(object):
             # User does not provide this settings
             return dict()
 
+    @staticmethod
+    def _get_rpi_settings(settings):
+        """
+        return RpiSettings object
+        :param settings: The loaded YAML settings file
+        :return: 
+        """
 
+        try:
+            rpi_settings_dict = settings["rpi"]
+            rpi_settings = RpiSettings()
+            # affect pin if there are declared
+            if "pin_mute_button" in rpi_settings_dict:
+                rpi_settings.pin_mute_button = rpi_settings_dict["pin_mute_button"]
+            if "pin_led_started" in rpi_settings_dict:
+                rpi_settings.pin_led_started = rpi_settings_dict["pin_led_started"]
+            if "pin_led_muted" in rpi_settings_dict:
+                rpi_settings.pin_led_muted = rpi_settings_dict["pin_led_muted"]
+            if "pin_led_talking" in rpi_settings_dict:
+                rpi_settings.pin_led_talking = rpi_settings_dict["pin_led_talking"]
+            if "pin_led_listening" in rpi_settings_dict:
+                rpi_settings.pin_led_listening = rpi_settings_dict["pin_led_listening"]
+
+            return rpi_settings
+        except KeyError:
+            logger.debug("[SettingsLoader] No Rpi config")
+            return None

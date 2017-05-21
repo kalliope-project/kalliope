@@ -1,15 +1,17 @@
 # coding: utf8
 import logging
 import random
-
 import sys
+import six
+
 from jinja2 import Template
 
 from kalliope.core import OrderListener
-from kalliope.core import OrderAnalyser
-from kalliope.core.SynapseLauncher import SynapseLauncher
-from kalliope.core.Utils.Utils import Utils
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
+from kalliope.core.Models.MatchedSynapse import MatchedSynapse
+from kalliope.core.OrderAnalyser import OrderAnalyser
+from kalliope.core.Utils.RpiUtils import RpiUtils
+from kalliope.core.Utils.Utils import Utils
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -70,22 +72,53 @@ class NeuronModule(object):
         brain_loader = BrainLoader()
         self.brain = brain_loader.brain
 
-        # check if the user has overrider the TTS
-        tts = kwargs.get('tts', None)
-        if tts is None:
-            # No tts provided,  we load the default one
-            self.tts = self.settings.default_tts_name
-        else:
-            self.tts = tts
+        # a dict of overridden TTS parameters if provided by the user
+        self.override_tts_parameters = kwargs.get('tts', None)
 
-        # get if the cache settings is present
-        self.override_cache = kwargs.get('cache', None)
+        # create the TTS instance
+        self.tts = None
+        if self.override_tts_parameters is None or not isinstance(self.override_tts_parameters, dict):
+            # we get the default TTS
+            self.tts = self._get_tts_object(settings=self.settings)
+        else:
+            for key, value in self.override_tts_parameters.items():
+                tts_name = key
+                tts_parameters = value
+                self.tts = self._get_tts_object(tts_name=tts_name,
+                                                override_parameter=tts_parameters,
+                                                settings=self.settings)
 
         # get templates if provided
         # Check if there is a template associate to the output message
         self.say_template = kwargs.get('say_template', None)
         # check if there is a template file associate to the output message
         self.file_template = kwargs.get('file_template', None)
+        # keep the generated message
+        self.tts_message = None
+        # if the current call is api one
+        self.is_api_call = kwargs.get('is_api_call', False)
+        # boolean to know id the synapse is waiting for an answer
+        self.is_waiting_for_answer = False
+        # the synapse name to add the the buffer
+        self.pending_synapse = None
+
+    def __str__(self):
+        retuned_string = ""
+        retuned_string += self.tts_message
+        return retuned_string
+
+    def serialize(self):
+        """
+        This method allows to serialize in a proper way this object
+
+        :return: A dict of name and parameters
+        :rtype: Dict
+        """
+        self.tts_message = Utils.encode_text_utf8(self.tts_message)
+        return {
+            'neuron_name': self.neuron_name,
+            'generated_message': self.tts_message
+        }
 
     def say(self, message):
         """
@@ -102,7 +135,7 @@ class NeuronModule(object):
 
         tts_message = None
 
-        if isinstance(message, str) or isinstance(message, unicode):
+        if isinstance(message, str) or isinstance(message, six.text_type):
             logger.debug("message is string")
             tts_message = message
 
@@ -116,27 +149,25 @@ class NeuronModule(object):
 
         if tts_message is not None:
             logger.debug("tts_message to say: %s" % tts_message)
-
-            # create a tts object from the tts the user want to use
-            tts_object = next((x for x in self.settings.ttss if x.name == self.tts), None)
-            if tts_object is None:
-                raise TTSModuleNotFound("The tts module name %s does not exist in settings file" % self.tts)
-            # change the cache settings with the one precised for the current neuron
-            if self.override_cache is not None:
-                tts_object.parameters = self._update_cache_var(self.override_cache, tts_object.parameters)
-
-            logger.debug("NeuroneModule: TTS args: %s" % tts_object)
+            self.tts_message = tts_message
+            Utils.print_success(tts_message)
 
             # get the instance of the TTS module
             tts_folder = None
             if self.settings.resources:
                 tts_folder = self.settings.resources.tts_folder
             tts_module_instance = Utils.get_dynamic_class_instantiation(package_name="tts",
-                                                                        module_name=tts_object.name,
-                                                                        parameters=tts_object.parameters,
+                                                                        module_name=self.tts.name,
+                                                                        parameters=self.tts.parameters,
                                                                         resources_dir=tts_folder)
+            # Kalliope will talk, turn on the LED
+            self.switch_on_led_talking(rpi_settings=self.settings.rpi_settings, on=True)
+
             # generate the audio file and play it
             tts_module_instance.say(tts_message)
+
+            # Kalliope has finished to talk, turn off the LED
+            self.switch_on_led_talking(rpi_settings=self.settings.rpi_settings, on=False)
 
     def _get_message_from_dict(self, message_dict):
         """
@@ -153,8 +184,9 @@ class NeuronModule(object):
             returned_message = self._get_say_template(self.say_template, message_dict)
 
         # trick to remove unicode problem when loading jinja template with non ascii char
-        reload(sys)
-        sys.setdefaultencoding('utf-8')
+        if sys.version_info[0] == 2:
+            reload(sys)
+            sys.setdefaultencoding('utf-8')
 
         # the user chooses a file_template option
         if self.file_template is not None:  # the user choose a file_template option
@@ -183,35 +215,23 @@ class NeuronModule(object):
 
         return returned_message
 
-    def run_synapse_by_name(self, name):
-        SynapseLauncher.start_synapse(name=name, brain=self.brain)
-
-    def is_order_matching(self, order_said, order_match):
-        oa = OrderAnalyser(order=order_said, brain=self.brain)
-        return oa.spelt_order_match_brain_order_via_table(order_to_analyse=order_match, user_said=order_said)
-
-    def run_synapse_by_name_with_order(self, order, synapse_name, order_template):
+    def run_synapse_by_name(self, synapse_name, user_order=None, synapse_order=None):
         """
-        Run a synapse using its name, and giving an order so it can retrieve its params.
-        Useful for neurotransmitters.
-        :param order: the order to match
-        :param synapse_name: the name of the synapse
-        :param order_template: order_template coming from the neurotransmitter
-        :return: True if a synapse as been found and started using its params
+        call the lifo for adding a synapse to execute in the list of synapse list to process
+        :param synapse_name: The name of the synapse to run
+        :param user_order: The user order
+        :param synapse_order: The synapse order
         """
-        synapse_to_run = self.brain.get_synapse_by_name(synapse_name=synapse_name)
-        if synapse_to_run:
-            # Make a list with the synapse
-            logger.debug("[run_synapse_by_name_with_order]-> a synapse has been found  %s" % synapse_to_run.name)
-            list_to_run = list()
-            list_to_run.append(synapse_to_run)
+        synapse = BrainLoader().get_brain().get_synapse_by_name(synapse_name)
+        matched_synapse = MatchedSynapse(matched_synapse=synapse,
+                                         matched_order=synapse_order,
+                                         user_order=user_order)
+        self.pending_synapse = matched_synapse
 
-            oa = OrderAnalyser(order=order, brain=self.brain)
-            oa.start(synapses_to_run=list_to_run, external_order=order_template)
-        else:
-            logger.debug("[NeuronModule]-> run_synapse_by_name_with_order, the synapse has not been found : %s"
-                         % synapse_name)
-        return synapse_to_run is not None
+    @staticmethod
+    def is_order_matching(order_said, order_match):
+        return OrderAnalyser().spelt_order_match_brain_order_via_table(order_to_analyse=order_match,
+                                                                       user_said=order_said)
 
     @staticmethod
     def _get_content_of_file(real_file_template_path):
@@ -222,19 +242,6 @@ class NeuronModule(object):
         """
         with open(real_file_template_path, 'r') as content_file:
             return content_file.read()
-
-    @staticmethod
-    def _update_cache_var(new_override_cache, args_dict):
-        """
-        update the value for the key "cache" in the dict args_list
-        :param new_override_cache: cache boolean to set in place of the current one in args_list
-        :param args_dict: arg list that contain "cache" to update
-        :return:
-        """
-        logger.debug("args for TTS plugin before update: %s" % str(args_dict))
-        args_dict["cache"] = new_override_cache
-        logger.debug("args for TTS plugin after update: %s" % str(args_dict))
-        return args_dict
 
     @staticmethod
     def get_audio_from_stt(callback):
@@ -256,3 +263,48 @@ class NeuronModule(object):
         :return:
         """
         return self.neuron_name
+
+    @staticmethod
+    def _get_tts_object(tts_name=None, override_parameter=None, settings=None):
+        """
+        Return a TTS model object
+        If no tts name provided, return the default TTS defined in the settings
+        If the TTS name is provided, get the default configuration for this TTS in settings and override each parameters
+        with parameters provided in override_parameter
+        :param tts_name: name of the TTS to load
+        :param override_parameter: dict of parameter to override the default configuration of the TTS
+        :param settings: current settings
+        :return: Tts model object
+        """
+
+        # if the tts_name is not provided, we get the default tts from settings
+        if tts_name is None:
+            tts_name = settings.default_tts_name
+
+        # create a tts object from the tts the user want to use
+        tts_object = next((x for x in settings.ttss if x.name == tts_name), None)
+        if tts_object is None:
+            raise TTSModuleNotFound("The tts module name %s does not exist in settings file" % tts_name)
+
+        if override_parameter is not None:  # the user want to override the default TTS configuration
+            logger.debug("args for TTS plugin before update: %s" % str(tts_object.parameters))
+            for key, value in override_parameter.items():
+                tts_object.parameters[key] = value
+            logger.debug("args for TTS plugin after update: %s" % str(tts_object.parameters))
+
+        logger.debug("NeuroneModule: TTS args: %s" % tts_object)
+        return tts_object
+
+    @staticmethod
+    def switch_on_led_talking(rpi_settings, on):
+        """
+        Call the Rpi utils class to switch the led talking if the setting has been specified by the user
+        :param rpi_settings: Rpi
+        :param on: True if the led need to be switched to on
+        """
+        if rpi_settings:
+            if rpi_settings.pin_led_talking:
+                if on:
+                    RpiUtils.switch_pin_to_on(rpi_settings.pin_led_talking)
+                else:
+                    RpiUtils.switch_pin_to_off(rpi_settings.pin_led_talking)

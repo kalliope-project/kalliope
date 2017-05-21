@@ -1,1 +1,1 @@
-from snowboy import Snowboy
+from .snowboy import Snowboy

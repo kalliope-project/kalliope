@@ -4,6 +4,8 @@
 import unittest
 import os
 
+import sys
+
 from kalliope.core.Models.Neuron import Neuron
 from kalliope.neurons.say.say import Say
 from kalliope.core.Utils.Utils import Utils
@@ -26,9 +28,9 @@ class TestUtils(unittest.TestCase):
         path_to_test = "../kalliope/core/Utils"
         expected_result = os.path.normpath("../kalliope/core")
 
-        self.assertEquals(Utils.get_current_file_parent_path(path_to_test),
-                          expected_result,
-                          "fail getting the parent parent path from the given path")
+        self.assertEqual(Utils.get_current_file_parent_path(path_to_test),
+                         expected_result,
+                         "fail getting the parent parent path from the given path")
 
     def test_get_current_file_parent_parent_path(self):
         """
@@ -37,9 +39,9 @@ class TestUtils(unittest.TestCase):
         path_to_test = "../kalliope/core/Utils"
         expected_result = os.path.normpath("../kalliope")
 
-        self.assertEquals(Utils.get_current_file_parent_parent_path(path_to_test),
-                          expected_result,
-                          "fail getting the parent parent path from the given path")
+        self.assertEqual(Utils.get_current_file_parent_parent_path(path_to_test),
+                         expected_result,
+                         "fail getting the parent parent path from the given path")
 
     def test_get_real_file_path(self):
         """
@@ -53,7 +55,7 @@ class TestUtils(unittest.TestCase):
         # Test the absolute path
         dir_path = "/tmp/kalliope/tests/"
         file_name = "test_real_file_path"
-        absolute_path_to_test = os.path.join(dir_path,file_name)
+        absolute_path_to_test = os.path.join(dir_path, file_name)
         expected_result = absolute_path_to_test
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
@@ -61,9 +63,9 @@ class TestUtils(unittest.TestCase):
         # touch the file
         open(absolute_path_to_test, 'a').close()
 
-        self.assertEquals(Utils.get_real_file_path(absolute_path_to_test),
-                          expected_result,
-                          "Fail to match the given absolute path ")
+        self.assertEqual(Utils.get_real_file_path(absolute_path_to_test),
+                         expected_result,
+                         "Fail to match the given absolute path ")
         # Clean up
         if os.path.exists(absolute_path_to_test):
             os.remove(absolute_path_to_test)
@@ -76,9 +78,9 @@ class TestUtils(unittest.TestCase):
         # touch the file
         open(file_name, 'a').close()
 
-        self.assertEquals(Utils.get_real_file_path(file_name),
-                          expected_result,
-                          "Fail to match the Current path ")
+        self.assertEqual(Utils.get_real_file_path(file_name),
+                         expected_result,
+                         "Fail to match the Current path ")
         # Clean up
         if os.path.exists(file_name):
             os.remove(file_name)
@@ -108,19 +110,19 @@ class TestUtils(unittest.TestCase):
         dir_path = "../kalliope/"
         file_name = "test_real_file_path"
         path_to_test = os.path.join(dir_path, file_name)
-        expected_result = os.path.normpath(os.getcwd() + os.sep + os.pardir + os.sep +"kalliope" + os.sep + file_name)
+        expected_result = os.path.normpath(os.getcwd() + os.sep + os.pardir + os.sep + "kalliope" + os.sep + file_name)
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
 
         # touch the file
         open(path_to_test, 'a').close()
 
-        self.assertEquals(Utils.get_real_file_path(file_name),
-                          expected_result,
-                          "Fail to match the /an/unknown/path/kalliope path")
+        self.assertEqual(Utils.get_real_file_path(file_name),
+                         expected_result,
+                         "Fail to match the /an/unknown/path/kalliope path")
         # Clean up
-        if os.path.exists(file_name):
-            os.remove(file_name)
+        if os.path.exists(expected_result):
+            os.remove(expected_result)
 
     def test_get_dynamic_class_instantiation(self):
         """
@@ -223,3 +225,15 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(Utils.remove_spaces_in_brackets(sentence=sentence),
                          expected_result,
                          "Fail to remove spaces in two brackets")
+
+    def test_encode_text_utf8(self):
+        """
+        Test encoding the text in utf8
+        """
+        sentence = "kâllìöpé"
+        if sys.version_info[0] < 3:
+            sentence = sentence.decode('utf8')
+        expected_sentence = "kâllìöpé"
+
+        self.assertEqual(Utils.encode_text_utf8(text=sentence),
+                         expected_sentence)

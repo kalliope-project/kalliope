@@ -25,7 +25,7 @@ class TestUri(unittest.TestCase):
         self.assertEqual(uri_neuron.text, expected_content)
 
     def testGetRaw(self):
-        expected_content = 'raw line'
+        expected_content = b'raw line'
         httpretty.enable()
         httpretty.register_uri(httpretty.GET, self.test_url, body=expected_content)
         parameters = {
@@ -151,7 +151,7 @@ class TestUri(unittest.TestCase):
         :return:
         """
         def request_callback(request, url, headers):
-            data = json.loads(request.body)
+            data = json.loads(request.body.decode())
             if "title" in data and "body" in data and "userId" in data:
                 return 200, headers, "all key received from URL %s" % url
 
@@ -178,7 +178,7 @@ class TestUri(unittest.TestCase):
         :return:
         """
         def request_callback(request, url, headers):
-            data = json.loads(request.body)
+            data = json.loads(request.body.decode())
             if "title" in data and "body" in data and "userId" in data:
                 return 200, headers, "all key received from URL %s" % url
 

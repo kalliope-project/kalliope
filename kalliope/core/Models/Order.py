@@ -9,7 +9,7 @@ class Order(object):
         self.sentence = sentence
 
     def __str__(self):
-        return "%s: Sentence: %s" % (self.__class__.__name__, self.sentence)
+        return str(self.serialize())
 
     def serialize(self):
         """

@@ -1,1 +1,1 @@
-from bing import Bing
+from .bing import Bing

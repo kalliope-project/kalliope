@@ -48,7 +48,7 @@ class TestScript(unittest.TestCase):
         text_to_write = "[kalliope-test] TestScript - testParameters"
         with open(tmp_file_path, 'w') as myFile:
             myFile.write(text_to_write)
-        os.chmod(tmp_file_path, 0600)
+        os.chmod(tmp_file_path, 0o600)
         # test the user does not have access
         self.path = tmp_file_path
         parameters = {
@@ -56,7 +56,7 @@ class TestScript(unittest.TestCase):
         }
         run_test_invalid_param(parameters)
         # Remove the tmp file
-        os.chmod(tmp_file_path, 0700)
+        os.chmod(tmp_file_path, 0o700)
         os.remove(tmp_file_path)
 
     def test_script_execution(self):

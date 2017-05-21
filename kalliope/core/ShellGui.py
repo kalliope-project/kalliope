@@ -17,19 +17,6 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-def signal_handler(signal, frame):
-    """
-    Used to catch a keyboard signal like Ctrl+C in order to kill the kalliope program
-    :param signal: signal handler
-    :param frame: execution frame
-    """
-    print "\n"
-    Utils.print_info("Ctrl+C pressed. Killing Kalliope")
-    sys.exit(0)
-
-signal.signal(signal.SIGINT, signal_handler)
-
-
 class ShellGui:
     def __init__(self, brain=None):
         """
@@ -193,5 +180,5 @@ class ShellGui:
             self.show_main_menu()
         if code == self.d.OK:
             logger.debug("Run synapse from GUI: %s" % tag)
-            SynapseLauncher.start_synapse(tag, brain=self.brain)
+            SynapseLauncher.start_synapse_by_name(tag, brain=self.brain)
             self.show_synapses_test_menu()

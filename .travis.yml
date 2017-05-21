@@ -1,8 +1,16 @@
 language: python
+
+services:
+  - docker
+
 python:
   - "2.7"
+  - "3.4"
+
 # command to install dependencies
 before_install:
+- docker build --force-rm=true --build-arg TRAVIS_BRANCH=${TRAVIS_BRANCH} --build-arg TRAVIS_EVENT_TYPE=${TRAVIS_EVENT_TYPE} --build-arg TRAVIS_PULL_REQUEST_SLUG=${TRAVIS_PULL_REQUEST_SLUG} --build-arg TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH} -t kalliope-ubuntu1604 -f docker/ubuntu_16_04.dockerfile .
+- docker build --force-rm=true --build-arg TRAVIS_BRANCH=${TRAVIS_BRANCH} --build-arg TRAVIS_EVENT_TYPE=${TRAVIS_EVENT_TYPE} --build-arg TRAVIS_PULL_REQUEST_SLUG=${TRAVIS_PULL_REQUEST_SLUG} --build-arg TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH} -t kalliope-debian8 -f docker/debian8.dockerfile .
 - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse"
 - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse"
 - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
@@ -11,6 +19,19 @@ before_install:
 - sudo apt-get install libstdc++6
 - wget https://bootstrap.pypa.io/get-pip.py
 - sudo python get-pip.py
-install: "pip install -r install/files/python_requirements.txt"
+
+install:
+  - pip install -r install/files/python_requirements.txt
+  - pip install python2-pythondialog || pip install pythondialog
+  - pip install coveralls
+
 # command to run tests
-script: pytest
+script:
+#  - pytest
+  - docker run -it --rm kalliope-ubuntu1604
+  - docker run -it --rm kalliope-debian8
+  - coverage run --source=kalliope -m unittest discover
+
+after_success:
+  coveralls
+

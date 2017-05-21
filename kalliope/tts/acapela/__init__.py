@@ -1,1 +1,1 @@
-from acapela import Acapela
+from .acapela import Acapela
