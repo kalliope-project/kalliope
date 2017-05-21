@@ -9,6 +9,7 @@ from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.ConfigurationManager.BrainLoader import BrainLoader
 from kalliope.core.EventManager import EventManager
 from kalliope.core.MainController import MainController
+from kalliope.core.Utils.RpiUtils import RpiUtils
 
 from ._version import version_str
 import signal
@@ -126,6 +127,10 @@ def main():
     settings = settings_loader.settings
 
     if parser.action == "start":
+
+        if settings.rpi_settings:
+            # init GPIO once
+            RpiUtils(settings.rpi_settings)
 
         # user set a synapse to start
         if parser.run_synapse is not None:

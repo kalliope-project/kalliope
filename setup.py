@@ -65,6 +65,7 @@ setup(
 
     # required libs
     install_requires=[
+        'pyyaml>=3.12',
         'six==1.10.0',
         'SpeechRecognition>=3.6.0',
         'markupsafe>=1.0',
