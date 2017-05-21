@@ -9,7 +9,7 @@ Download the last image [from the release page](https://github.com/kalliope-proj
 
 Once installed, use the `raspi-config` command to expend the file system and fill the whole available space on your SD card.
 The SSH server is already active. You only need to get the ip of your Rpi via the command `ip a` and then connect via your favourite SSH client.
-We placed in `/home/pi` the two starter config we made for [French](https://github.com/kalliope-project/kalliope_starter_fr) and [English](https://github.com/kalliope-project/kalliope_starter_en). 
+We placed in `/home/pi` the two starter config we made for [French](https://github.com/kalliope-project/kalliope_starter_fr), [English](https://github.com/kalliope-project/kalliope_starter_en) and [German](https://github.com/kalliope-project/kalliope_starter_de).
 
 ## Manual installation
 
@@ -17,6 +17,7 @@ Supported Raspbian images:
 [raspbian-2016-09-28](http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-09-28/)
 [raspbian-2016-11-29](http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-11-29/)
 [raspbian-2017-01-10](http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-01-10/)
+[raspbian-2017-04-10](http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-04-10/)
 
 > **Note:** We recommend to use a **lite** installation of Raspbian without any graphical interface for a better experience. 
 
