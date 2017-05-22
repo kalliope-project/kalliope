@@ -33,7 +33,7 @@ CORE NEURON : No installation needed.
 ## Synapses example
 
 Simple call to a server. The default method is GET
-```
+```yml
   - name: "test-get-url"
     signals:
       - order: "test-get-url"
@@ -43,7 +43,7 @@ Simple call to a server. The default method is GET
 ```
 
 A simple call with authentication
-```
+```yml
 - name: "test-get-url-with-auth"
     signals:
       - order: "test-get-url-with-auth"
@@ -55,7 +55,7 @@ A simple call with authentication
 ```
 
 A simple post with data inside the url 
-```
+```yml
 - name: "test-post-url-with-auth"
     signals:
       - order: "test-post-url-with-data"
@@ -66,7 +66,7 @@ A simple post with data inside the url
 ```
 
 A post with json data. Note that we need to escape quotes from the payload.
-```
+```yml
 - name: "test-post-url"
     signals:
       - order: "test-post-url"
@@ -80,7 +80,7 @@ A post with json data. Note that we need to escape quotes from the payload.
 ```
 
 A post with json data imported from a file and a custom header.
-```
+```yml
 - name: "test-post-url"
     signals:
       - order: "test-post-url"
@@ -100,7 +100,7 @@ And the `payload.json` would be (note that we don't need to escape any character
 ```
 
 A simple call to a deletion. Here we also ask Kalliope to tell use if request was a success through a template, depending on the returned status code.
-```
+```yml
   - name: "test-delete-url"
     signals:
       - order: "test-delete-url"
@@ -131,7 +131,7 @@ Here, we ask the server to return us the user with ID number 42. We know that th
 ```
 
 Here is the synapse we would use to make Kalliope speak out loud the name of the user and the name of his company
-```
+```yml
   - name: "test-get-url-with-template"
     signals:
       - order: "test-get-url-with-template"

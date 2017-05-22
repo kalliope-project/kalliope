@@ -22,7 +22,7 @@ No returned values
 
 Simple example : 
 
-```
+```yml
   - name: "run-simple-sleep"
     signals:
       - order: "Wait for me "

@@ -25,7 +25,7 @@ None
 ## Synapses example
 
 We call another synapse directly at the end of the first synapse
-```
+```yml
 - name: "direct-link"
     signals:
       - order: "direct link"
@@ -48,7 +48,7 @@ Here the synapse will ask the user if he likes french fries. If the user answer 
 If the user answer no, he will be redirected to another synapse that say something else.
 If the user say something that is not present in `answers`, he will be redirected to the synapse4.
 
-```
+```yml
  - name: "synapse1"
     signals:
       - order: "ask me a question"
@@ -92,8 +92,7 @@ If the user say something that is not present in `answers`, he will be redirecte
 Neurotransmitter also uses parameters in answers. You can provide parameters to your answers so they can be used by the synapse you are about to launch.
 /!\ The params defined in answers must match with the expected "args" params in the target synapse, otherwise an error is raised.
 
-```
-
+```yml
   - name: "synapse5"
     signals:
       - order: "give me the weather"
@@ -115,8 +114,7 @@ Neurotransmitter also uses parameters in answers. You can provide parameters to 
           lang: "fr"
           temp_unit: "celsius"
           country: "FR"
-          args:
-            - location
+          location: "{{ location }}"
           say_template:
           - "Today in {{ location }} the weather is {{ weather_today }} with {{ temp_today_temp }} celsius"
 ```

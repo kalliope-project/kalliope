@@ -93,17 +93,15 @@ If you run it a second time, the command will fail as the file is not anymore pr
           file_template: remove_file.j2
 ```
 
-If you want to add argument to your shell command, you can use the query arguments.
+If you want to add argument to your shell command, you can use an input value from your order.
 ```
   - name: "Delete-a-specific-file"
     signals:
       - order: "remove file {{ query }}"
     neurons:
       - shell:
-          cmd: "rm "
-          file_template: remove_file.j2
-          args:
-              - query
+          cmd: "rm { query }}"
+          file_template: remove_file.j2          
 ```
 In the example above, kalliope will remove the file you asked for in the query.
 eg: "remove file test", the executed command will be "rm test"

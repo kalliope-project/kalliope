@@ -27,7 +27,7 @@ Values are only returned by the neuron if the async mode is set to `False`.
 ## Synapses example
 
 Simple example : 
-```
+```yml
   - name: "run-simple-script"
     signals:
       - order: "Run the script"
@@ -39,7 +39,7 @@ Simple example :
 If the script can take a long time and you don't want to block the Kalliope process, you can run it in asynchronous mode.
 Keep in mind that you cannot get any returned value with this mode.
 
-```
+```yml
   - name: "run-simple-script"
     signals:
       - order: "Run the script"
@@ -50,7 +50,7 @@ Keep in mind that you cannot get any returned value with this mode.
 ```
 
 Make Kalliope speak out loud the result of the script.
-```
+```yml
   - name: "run-script-an-give-output"
     signals:
       - order: "run the script"
@@ -58,6 +58,17 @@ Make Kalliope speak out loud the result of the script.
       - script:
           path: "/path/to/script.sh"   
           say_template: "{{ output }}"
+```
+
+Path an argument to the script from your order
+```yml
+  - name: "run-simple-script-with-input-value"
+    signals:
+      - order: "Run the script with {{ my_var }}"
+    neurons:
+      - script:
+          path: "/path/to/script.sh {{ my_var }}""   
+          async: True
 ```
 
 

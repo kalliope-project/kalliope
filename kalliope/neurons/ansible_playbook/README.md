@@ -28,7 +28,7 @@ CORE NEURON : No installation needed.
 ### Playbook without admin privileges
 
 Call the playbook named playbook.yml
-```
+```yml
   - name: "Ansible-test"
     signals:
       - order: "playbook"
@@ -40,8 +40,7 @@ Call the playbook named playbook.yml
 ```
 
 Content of the playbook. This playbook will use the [URI module](http://docs.ansible.com/ansible/uri_module.html) to interact with a webservice on a remote server.
-```
----
+```yml
 - name: Playbook
   hosts: localhost
   gather_facts: no
@@ -66,7 +65,7 @@ Content of the playbook. This playbook will use the [URI module](http://docs.ans
 
 In some cases, a playbook requires sudo right to perform admin operations like installing a package.
 In this case, you must give to the neuron the login and password of the user which has admin privileges.
-```
+```yml
   - name: "Ansible-root"
     signals:
       - order: "playbook"
@@ -79,7 +78,7 @@ In this case, you must give to the neuron the login and password of the user whi
 ```
 
 And the playbook would be. Notice that we use `become: True`
-```
+```yml
 - hosts: localhost
   gather_facts: no
   connection: local
