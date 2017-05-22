@@ -22,7 +22,7 @@ No returned values
 
 Simple example : 
 
-```
+```yml
 - name: "Say-hello"
   signals:
     - order: "hello"
@@ -34,7 +34,7 @@ Simple example :
 
 With a multiple choice list, Kalliope will pick one randomly:
 
-```
+```yml
 - name: "Say-hello"
   signals:
     - order: "hello"
@@ -46,6 +46,16 @@ With a multiple choice list, Kalliope will pick one randomly:
           - "Good morning Sir"
 ```
 
+With an input value
+```yml
+- name: "Say-hello-to-friend"
+  signals:
+    - order: "say hello to {{ friend_name }}"
+  neurons:
+    - say:
+        message:
+          - "Hello {{ friend_name }}"     
+```
 
 ## Notes
 

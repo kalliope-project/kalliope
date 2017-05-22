@@ -20,7 +20,7 @@ No returned values
 
 Simple example : 
 
-```
+```yml
   - name: "stop-kalliope"
     signals:
       - order: "goodbye"

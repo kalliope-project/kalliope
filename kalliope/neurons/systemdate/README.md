@@ -32,7 +32,7 @@ CORE NEURON : No installation needed.
 ## Synapses example
 
 Simple synapse that give the current time with only hours and minutes
-```
+```yml
 - name: "time"
   signals:
     - order: "what time is it"
@@ -43,7 +43,7 @@ Simple synapse that give the current time with only hours and minutes
 ```
 
 Synapse that give complete date and time with a template file.
-```
+```yml
 - name: "time"
   signals:
     - order: "what time is it"
