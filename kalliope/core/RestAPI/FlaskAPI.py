@@ -76,6 +76,7 @@ class FlaskAPI(threading.Thread):
     def run(self):
         self.app.run(host='0.0.0.0', port="%s" % int(self.port), debug=True, threaded=True, use_reloader=False)
 
+    @requires_auth
     def get_main_page(self):
         data = {
             "Kalliope version": "%s" % version_str
@@ -191,6 +192,7 @@ class FlaskAPI(threading.Thread):
             }
             return jsonify(error=data), 400
 
+    @requires_auth
     def run_synapse_by_audio(self):
         """
         Give an order to Kalliope with an audio file
