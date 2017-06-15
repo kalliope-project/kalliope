@@ -18,6 +18,7 @@ class Cmusphinx(SpeechRecognition):
         # callback function to call after the translation speech/tex
         self.main_controller_callback = callback
         self.language = kwargs.get('language', "en-US")
+        self.keyword_entries = kwargs.get('keyword_entries', None)
 
         # start listening in the background
         self.set_callback(self.sphinx_callback)
@@ -29,7 +30,8 @@ class Cmusphinx(SpeechRecognition):
         called from the background thread
         """
         try:
-            captured_audio = recognizer.recognize_sphinx(audio, language=self.language)
+            captured_audio = recognizer.recognize_sphinx(audio, language=self.language,
+                                                         keyword_entries=self.keyword_entries)
             Utils.print_success("Sphinx Speech Recognition thinks you said %s" % captured_audio)
             self._analyse_audio(captured_audio)
 
