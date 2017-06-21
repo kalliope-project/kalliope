@@ -15,7 +15,7 @@ class Pico2wave(TTSModule):
 
     def __init__(self, **kwargs):
         super(Pico2wave, self).__init__(**kwargs)
-        self.change_rate = kwargs.get('change_rate', False)
+        self.samplerate = kwargs.get('samplerate', None)
 
     def say(self, words):
         """
@@ -49,9 +49,9 @@ class Pico2wave(TTSModule):
         subprocess.call(final_command, stderr=sys.stderr)
         
         # change samplerate from 16.000 hz to 44.100 hz
-        if self.change_rate is True:
+        if self.samplerate is not None:
             tfm = sox.Transformer()
-            tfm.rate(samplerate=44100)
+            tfm.rate(samplerate=self.samplerate)
             tfm.build(str(tmp_path), str(tmp_path)+("tmp_name.wav"))
             os.rename(str(tmp_path)+("tmp_name.wav"), tmp_path)
         
