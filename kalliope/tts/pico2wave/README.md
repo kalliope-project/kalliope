@@ -6,7 +6,7 @@ This TTS is based on the SVOX picoTTS engine
 |------------|----------|---------|--------------|-------------------------------------------------|
 | language   | YES      |         | 6 languages  | List of supported languages in the Note section |
 | cache      | No       | TRUE    | True / False | True if you want to use the cache with this TTS |
-| change_rate| No|False |True / False| Pico2wave creates 16 khz files but not all USB devices support this. If True this will change the samplerate to 44.1 Khz |
+| samplerate| No|None |int| Pico2wave creates 16 khz files but not all USB devices support this. Set a value to convert to a specific samplerate. For Example: 44100 |
 
 
 #### Notes :
