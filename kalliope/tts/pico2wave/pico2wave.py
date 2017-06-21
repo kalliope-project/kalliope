@@ -15,6 +15,7 @@ class Pico2wave(TTSModule):
 
     def __init__(self, **kwargs):
         super(Pico2wave, self).__init__(**kwargs)
+        self.change_rate = kwargs.get('change_rate', False)
 
     def say(self, words):
         """
