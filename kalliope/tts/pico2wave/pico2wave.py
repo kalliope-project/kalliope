@@ -44,6 +44,13 @@ class Pico2wave(TTSModule):
 
         # generate the file with pico2wav
         subprocess.call(final_command, stderr=sys.stderr)
-
+        
+        # change samplerate from 16.000 hz to 44.100 hz
+        if self.change_rate is True:
+            tfm = sox.Transformer()
+            tfm.rate(samplerate=44100)
+            tfm.build(str(tmp_path), str(tmp_path)+("tmp_name.wav"))
+            os.rename(str(tmp_path)+("tmp_name.wav"), tmp_path)
+        
         # remove the extension .wav
         os.rename(tmp_path, self.file_path)
