@@ -2,6 +2,8 @@ import os
 import subprocess
 
 from kalliope.core.TTS.TTSModule import TTSModule
+import sox
+
 import logging
 import sys
 
