@@ -79,6 +79,7 @@ class FlaskAPI(threading.Thread):
 
     @requires_auth
     def get_main_page(self):
+        logger.debug("[FlaskAPI] get_main_page")
         data = {
             "Kalliope version": "%s" % version_str
         }
@@ -111,6 +112,7 @@ class FlaskAPI(threading.Thread):
         test with curl:
         curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/synapses
         """
+        logger.debug("[FlaskAPI] get_synapses: all")
         data = jsonify(synapses=[e.serialize() for e in self.brain.synapses])
         return data, 200
 
@@ -121,6 +123,7 @@ class FlaskAPI(threading.Thread):
         test with curl:
         curl --user admin:secret -i -X GET  http://127.0.0.1:5000/synapses/say-hello-en
         """
+        logger.debug("[FlaskAPI] get_synapse: synapse_name -> %s" % synapse_name)
         synapse_target = self._get_synapse_by_name(synapse_name)
         if synapse_target is not None:
             data = jsonify(synapses=synapse_target.serialize())
@@ -141,6 +144,7 @@ class FlaskAPI(threading.Thread):
         :return:
         """
         # get a synapse object from the name
+        logger.debug("[FlaskAPI] run_synapse_by_name: synapse name -> %s" % synapse_name)
         synapse_target = BrainLoader().get_brain().get_synapse_by_name(synapse_name=synapse_name)
 
         if synapse_target is None:
@@ -179,7 +183,7 @@ class FlaskAPI(threading.Thread):
         if order is not None:
             # get the order
             order_to_run = order["order"]
-
+            logger.debug("[FlaskAPI] run_synapse_by_order: order to run -> %s" % order_to_run)
             api_response = SynapseLauncher.run_matching_synapse_from_order(order_to_run,
                                                                            self.brain,
                                                                            self.settings,
@@ -202,6 +206,7 @@ class FlaskAPI(threading.Thread):
         :return:
         """
         # check if the post request has the file part
+
         if 'file' not in request.files:
             data = {
                 "error": "No file provided"
@@ -223,6 +228,7 @@ class FlaskAPI(threading.Thread):
 
         # now start analyse the audio with STT engine
         audio_path = base_path + os.sep + filename
+        logger.debug("[FlaskAPI] run_synapse_by_audio: with file path %s" % audio_path)
         if not self.allowed_file(audio_path):
             # Not allowed so convert into wav using ffmpeg
             base = os.path.splitext(audio_path)[0]
@@ -240,6 +246,7 @@ class FlaskAPI(threading.Thread):
         if self.api_response is not None and self.api_response:
             data = jsonify(self.api_response)
             self.api_response = None
+            logger.debug("[FlaskAPI] run_synapse_by_audio: data %s" % data)
             return data, 201
         else:
             data = {
@@ -266,7 +273,7 @@ class FlaskAPI(threading.Thread):
         :param order: string order to analyse
         :return:
         """
-        logger.debug("order to process %s" % order)
+        logger.debug("[FlaskAPI] audio_analyser_callback: order to process -> %s" % order)
         api_response = SynapseLauncher.run_matching_synapse_from_order(order,
                                                                        self.brain,
                                                                        self.settings,
