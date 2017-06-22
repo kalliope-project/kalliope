@@ -2,6 +2,7 @@ import logging
 import os
 import threading
 
+import subprocess
 import time
 
 from kalliope.core.LIFOBuffer import LIFOBuffer
@@ -215,30 +216,36 @@ class FlaskAPI(threading.Thread):
                 "error": "No file provided"
             }
             return jsonify(error=data), 400
-        if file and self.allowed_file(file.filename):
-            # save the file
-            filename = secure_filename(file.filename)
-            base_path = os.path.join(self.app.config['UPLOAD_FOLDER'])
-            file.save(os.path.join(base_path, filename))
+        # save the file
+        filename = secure_filename(file.filename)
+        base_path = os.path.join(self.app.config['UPLOAD_FOLDER'])
+        file.save(os.path.join(base_path, filename))
 
-            # now start analyse the audio with STT engine
-            audio_path = base_path + os.sep + filename
-            ol = OrderListener(callback=self.audio_analyser_callback, audio_file_path=audio_path)
-            ol.start()
-            ol.join()
-            # wait the Order Analyser processing. We need to wait in this thread to keep the context
-            while not self.order_analyser_return:
-                time.sleep(0.1)
-            self.order_analyser_return = False
-            if self.api_response is not None and self.api_response:
-                data = jsonify(self.api_response)
-                self.api_response = None
-                return data, 201
-            else:
-                data = {
-                    "error": "The given order doesn't match any synapses"
-                }
-                return jsonify(error=data), 400
+        # now start analyse the audio with STT engine
+        audio_path = base_path + os.sep + filename
+        if not self.allowed_file(audio_path):
+            # Not allowed so convert into wav using ffmpeg
+            base = os.path.splitext(audio_path)[0]
+            new_file_path = base + ".wav"
+            # os.system("ffmpeg -i " + audio_path + " " + new_file_path) --> deprecated
+            subprocess.call(["ffmpeg", "-i", str(audio_path), str(new_file_path)], shell=True)
+            audio_path = new_file_path
+        ol = OrderListener(callback=self.audio_analyser_callback, audio_file_path=audio_path)
+        ol.start()
+        ol.join()
+        # wait the Order Analyser processing. We need to wait in this thread to keep the context
+        while not self.order_analyser_return:
+            time.sleep(0.1)
+        self.order_analyser_return = False
+        if self.api_response is not None and self.api_response:
+            data = jsonify(self.api_response)
+            self.api_response = None
+            return data, 201
+        else:
+            data = {
+                "error": "The given order doesn't match any synapses"
+            }
+            return jsonify(error=data), 400
 
     @requires_auth
     def shutdown_server(self):

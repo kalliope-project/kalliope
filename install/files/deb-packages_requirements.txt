@@ -21,3 +21,4 @@ sox
 libatlas3-base
 mplayer
 libav-tools
+ffmpeg
