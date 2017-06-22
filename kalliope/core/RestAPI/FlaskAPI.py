@@ -227,8 +227,8 @@ class FlaskAPI(threading.Thread):
             # Not allowed so convert into wav using ffmpeg
             base = os.path.splitext(audio_path)[0]
             new_file_path = base + ".wav"
-            os.system("ffmpeg -i " + audio_path + " " + new_file_path) # --> deprecated
-            # subprocess.call(["ffmpeg", "-i", audio_path, new_file_path], shell=True) # Not working ...
+            os.system("ffmpeg -y -i " + audio_path + " " + new_file_path) # --> deprecated
+            # subprocess.call(['ffmpeg', '-y', '-i', audio_path, new_file_path], shell=True) # Not working ...
             audio_path = new_file_path
         ol = OrderListener(callback=self.audio_analyser_callback, audio_file_path=audio_path)
         ol.start()
