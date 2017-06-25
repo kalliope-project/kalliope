@@ -27,8 +27,7 @@ echo "Installing system packages..."
 sudo apt-get update
 sudo apt-get install -y git python-dev libsmpeg0 libttspico-utils libsmpeg0 \
 flac dialog libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
-libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython2.7-dev pulseaudio pulseaudio-utils libav-tools \
-ffmpeg
+libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython2.7-dev pulseaudio pulseaudio-utils libav-tools
 
 # this is used to help the RPI
 sudo apt-get install -y libportaudio0 libportaudio2 libportaudiocpp0 portaudio19-dev

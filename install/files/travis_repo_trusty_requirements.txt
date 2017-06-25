@@ -1,4 +1,3 @@
 "deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse"
 "deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse"
 "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
-ppa:mc3man/trusty-media

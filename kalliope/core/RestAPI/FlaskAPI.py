@@ -230,12 +230,7 @@ class FlaskAPI(threading.Thread):
         audio_path = base_path + os.sep + filename
         logger.debug("[FlaskAPI] run_synapse_by_audio: with file path %s" % audio_path)
         if not self.allowed_file(audio_path):
-            # Not allowed so convert into wav using ffmpeg
-            base = os.path.splitext(audio_path)[0]
-            new_file_path = base + ".wav"
-            os.system("ffmpeg -y -i " + audio_path + " " + new_file_path) # --> deprecated
-            # subprocess.call(['ffmpeg', '-y', '-i', audio_path, new_file_path], shell=True) # Not working ...
-            audio_path = new_file_path
+            audio_path = self._convert_to_wav(audio_file_path=audio_path)
         ol = OrderListener(callback=self.audio_analyser_callback, audio_file_path=audio_path)
         ol.start()
         ol.join()
@@ -253,6 +248,21 @@ class FlaskAPI(threading.Thread):
                 "error": "The given order doesn't match any synapses"
             }
             return jsonify(error=data), 400
+
+    @staticmethod
+    def _convert_to_wav(audio_file_path):
+        """
+        Convert an incoming audio file to wav format. Using either system avconv (raspberry)
+        :param audio_file_path: the current file path
+        :return: new Wave file path
+        """
+        # Not allowed so convert into wav using avconv (raspberry)
+        base = os.path.splitext(audio_file_path)[0]
+        new_file_path = base + ".wav"
+        os.system("avconv -y -i " + audio_file_path + " " + new_file_path)  # --> deprecated
+        # subprocess.call(['avconv', '-y', '-i', audio_path, new_file_path], shell=True) # Not working ...
+
+        return new_file_path
 
     @requires_auth
     def shutdown_server(self):
