@@ -1,10 +1,11 @@
 import json
 import os
+import tempfile
 import unittest
-import ast
 
 from flask import Flask
 from flask_testing import LiveServerTestCase
+from mock import mock
 
 from kalliope.core import LIFOBuffer
 from kalliope.core.Models import Singleton
@@ -274,6 +275,25 @@ class TestRestAPI(LiveServerTestCase):
         #
         #         self.assertEqual(json.dumps(expected_content), json.dumps(json.loads(result.get_data())))
         #         self.assertEqual(result.status_code, 201)
+
+    def test_convert_to_wav(self):
+        """
+        Test the api function to convert incoming sound file to wave.
+        """
+
+        with mock.patch("os.system") as mock_os_system:
+            # Scenario 1 : input wav file
+            temp_file = "/tmp/kalliope/tempfile.wav" # tempfile.NamedTemporaryFile(suffix=".wav")
+            result_file = FlaskAPI._convert_to_wav(temp_file)
+            self.assertEqual(temp_file, result_file)
+            mock_os_system.assert_not_called()
+
+            # Scenario 2 : input not a wav file
+            temp_file = "/tmp/kalliope/tempfile.amr"  # tempfile.NamedTemporaryFile(suffix=".wav")
+            expected_result = "/tmp/kalliope/tempfile.wav"
+            result_file = FlaskAPI._convert_to_wav(temp_file)
+            self.assertEqual(expected_result, result_file)
+            mock_os_system.assert_called_once_with("avconv -y -i " + temp_file + " " + expected_result)
 
 if __name__ == '__main__':
     unittest.main()

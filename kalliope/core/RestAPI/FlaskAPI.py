@@ -2,6 +2,7 @@ import logging
 import os
 import threading
 
+import subprocess
 import time
 
 from kalliope.core.LIFOBuffer import LIFOBuffer
@@ -78,6 +79,7 @@ class FlaskAPI(threading.Thread):
 
     @requires_auth
     def get_main_page(self):
+        logger.debug("[FlaskAPI] get_main_page")
         data = {
             "Kalliope version": "%s" % version_str
         }
@@ -110,6 +112,7 @@ class FlaskAPI(threading.Thread):
         test with curl:
         curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/synapses
         """
+        logger.debug("[FlaskAPI] get_synapses: all")
         data = jsonify(synapses=[e.serialize() for e in self.brain.synapses])
         return data, 200
 
@@ -120,6 +123,7 @@ class FlaskAPI(threading.Thread):
         test with curl:
         curl --user admin:secret -i -X GET  http://127.0.0.1:5000/synapses/say-hello-en
         """
+        logger.debug("[FlaskAPI] get_synapse: synapse_name -> %s" % synapse_name)
         synapse_target = self._get_synapse_by_name(synapse_name)
         if synapse_target is not None:
             data = jsonify(synapses=synapse_target.serialize())
@@ -140,6 +144,7 @@ class FlaskAPI(threading.Thread):
         :return:
         """
         # get a synapse object from the name
+        logger.debug("[FlaskAPI] run_synapse_by_name: synapse name -> %s" % synapse_name)
         synapse_target = BrainLoader().get_brain().get_synapse_by_name(synapse_name=synapse_name)
 
         if synapse_target is None:
@@ -178,7 +183,7 @@ class FlaskAPI(threading.Thread):
         if order is not None:
             # get the order
             order_to_run = order["order"]
-
+            logger.debug("[FlaskAPI] run_synapse_by_order: order to run -> %s" % order_to_run)
             api_response = SynapseLauncher.run_matching_synapse_from_order(order_to_run,
                                                                            self.brain,
                                                                            self.settings,
@@ -201,6 +206,7 @@ class FlaskAPI(threading.Thread):
         :return:
         """
         # check if the post request has the file part
+
         if 'file' not in request.files:
             data = {
                 "error": "No file provided"
@@ -215,30 +221,51 @@ class FlaskAPI(threading.Thread):
                 "error": "No file provided"
             }
             return jsonify(error=data), 400
-        if file and self.allowed_file(file.filename):
-            # save the file
-            filename = secure_filename(file.filename)
-            base_path = os.path.join(self.app.config['UPLOAD_FOLDER'])
-            file.save(os.path.join(base_path, filename))
+        # save the file
+        filename = secure_filename(file.filename)
+        base_path = os.path.join(self.app.config['UPLOAD_FOLDER'])
+        file.save(os.path.join(base_path, filename))
 
-            # now start analyse the audio with STT engine
-            audio_path = base_path + os.sep + filename
-            ol = OrderListener(callback=self.audio_analyser_callback, audio_file_path=audio_path)
-            ol.start()
-            ol.join()
-            # wait the Order Analyser processing. We need to wait in this thread to keep the context
-            while not self.order_analyser_return:
-                time.sleep(0.1)
-            self.order_analyser_return = False
-            if self.api_response is not None and self.api_response:
-                data = jsonify(self.api_response)
-                self.api_response = None
-                return data, 201
-            else:
-                data = {
-                    "error": "The given order doesn't match any synapses"
-                }
-                return jsonify(error=data), 400
+        # now start analyse the audio with STT engine
+        audio_path = base_path + os.sep + filename
+        logger.debug("[FlaskAPI] run_synapse_by_audio: with file path %s" % audio_path)
+        if not self.allowed_file(audio_path):
+            audio_path = self._convert_to_wav(audio_file_path=audio_path)
+        ol = OrderListener(callback=self.audio_analyser_callback, audio_file_path=audio_path)
+        ol.start()
+        ol.join()
+        # wait the Order Analyser processing. We need to wait in this thread to keep the context
+        while not self.order_analyser_return:
+            time.sleep(0.1)
+        self.order_analyser_return = False
+        if self.api_response is not None and self.api_response:
+            data = jsonify(self.api_response)
+            self.api_response = None
+            logger.debug("[FlaskAPI] run_synapse_by_audio: data %s" % data)
+            return data, 201
+        else:
+            data = {
+                "error": "The given order doesn't match any synapses"
+            }
+            return jsonify(error=data), 400
+
+    @staticmethod
+    def _convert_to_wav(audio_file_path):
+        """
+        If not already .wav, convert an incoming audio file to wav format. Using system avconv (raspberry)
+        :param audio_file_path: the current full file path
+        :return: Wave file path
+        """
+        # Not allowed so convert into wav using avconv (raspberry)
+        base = os.path.splitext(audio_file_path)[0]
+        extension = os.path.splitext(audio_file_path)[1]
+        if extension != ".wav":
+            current_file_path = audio_file_path
+            audio_file_path = base + ".wav"
+            os.system("avconv -y -i " + current_file_path + " " + audio_file_path)  # --> deprecated
+            # subprocess.call(['avconv', '-y', '-i', audio_path, new_file_path], shell=True) # Not working ...
+
+        return audio_file_path
 
     @requires_auth
     def shutdown_server(self):
@@ -259,7 +286,7 @@ class FlaskAPI(threading.Thread):
         :param order: string order to analyse
         :return:
         """
-        logger.debug("order to process %s" % order)
+        logger.debug("[FlaskAPI] audio_analyser_callback: order to process -> %s" % order)
         api_response = SynapseLauncher.run_matching_synapse_from_order(order,
                                                                        self.brain,
                                                                        self.settings,
