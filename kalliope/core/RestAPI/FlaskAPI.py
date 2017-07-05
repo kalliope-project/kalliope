@@ -252,17 +252,20 @@ class FlaskAPI(threading.Thread):
     @staticmethod
     def _convert_to_wav(audio_file_path):
         """
-        Convert an incoming audio file to wav format. Using either system avconv (raspberry)
-        :param audio_file_path: the current file path
-        :return: new Wave file path
+        If not already .wav, convert an incoming audio file to wav format. Using system avconv (raspberry)
+        :param audio_file_path: the current full file path
+        :return: Wave file path
         """
         # Not allowed so convert into wav using avconv (raspberry)
         base = os.path.splitext(audio_file_path)[0]
-        new_file_path = base + ".wav"
-        os.system("avconv -y -i " + audio_file_path + " " + new_file_path)  # --> deprecated
-        # subprocess.call(['avconv', '-y', '-i', audio_path, new_file_path], shell=True) # Not working ...
+        extension = os.path.splitext(audio_file_path)[1]
+        if extension != ".wav":
+            current_file_path = audio_file_path
+            audio_file_path = base + ".wav"
+            os.system("avconv -y -i " + current_file_path + " " + audio_file_path)  # --> deprecated
+            # subprocess.call(['avconv', '-y', '-i', audio_path, new_file_path], shell=True) # Not working ...
 
-        return new_file_path
+        return audio_file_path
 
     @requires_auth
     def shutdown_server(self):
