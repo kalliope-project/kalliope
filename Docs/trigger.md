@@ -7,9 +7,13 @@ With Kalliope project, you can set whatever Hotword you want to wake it up.
 
 You can create your magic word by connecting to [Snowboy](https://snowboy.kitt.ai/) and then download the trained model file.
 
-Once downloaded:
-- place the file in your personal config folder.
-- update the path of **pmdl_file** in [your settings](settings.md).
+Once downloaded, place the file in your personal config folder and configure snowboy in your [your settings](settings.md) following the table bellow
+
+| parameter   | required | type   | default | choices         | comment                                                                                          |
+|-------------|----------|--------|---------|-----------------|--------------------------------------------------------------------------------------------------|
+| pmdl_file   | TRUE     | string |         |                 | Path to the snowboy model file. The path can be absolute or relative to the brain file           |
+| sensitivity | FALSE    | string | 0.5     | between 0 and 1 | Increasing the sensitivity value lead to better detection rate, but also higher false alarm rate |
+
 
 If you want to keep "Kalliope" as the name of your bot, we recommend you to __enhance the existing Snowboy model for your language__.
 

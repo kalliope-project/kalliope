@@ -27,6 +27,9 @@ class Snowboy(Thread):
         self.interrupted = False
         self.kill_received = False
 
+        # get the sensitivity if set by the user
+        self.sensitivity = kwargs.get('sensitivity', 0.5)
+
         # callback function to call when hotword caught
         self.callback = kwargs.get('callback', None)
         if self.callback is None:
@@ -41,7 +44,9 @@ class Snowboy(Thread):
         if not os.path.isfile(self.pmdl_path):
             raise SnowboyModelNotFounfd("The snowboy model file %s does not exist" % self.pmdl_path)
 
-        self.detector = snowboydecoder.HotwordDetector(self.pmdl_path, sensitivity=0.5, detected_callback=self.callback,
+        self.detector = snowboydecoder.HotwordDetector(self.pmdl_path,
+                                                       sensitivity=self.sensitivity,
+                                                       detected_callback=self.callback,
                                                        interrupt_check=self.interrupt_callback,
                                                        sleep_time=0.03)
 
