@@ -66,10 +66,10 @@ setup(
     # required libs
     install_requires=[
         'pyyaml>=3.12',
-        'six==1.10.0',
-        'SpeechRecognition>=3.6.0',
+        'six>=1.10.0',
+        'SpeechRecognition>=3.7.1',
         'markupsafe>=1.0',
-        'pyaudio>=0.2.10',
+        'pyaudio>=0.2.11',
         'pyasn1>=0.2.3',
         'ansible>=2.3',
         py2_prefix + 'pythondialog>=3.4.0',
