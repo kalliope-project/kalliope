@@ -16,6 +16,12 @@ RUN apt-get update && apt-get install -y \
 RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN python get-pip.py
 
+# fix install in container
+RUN pip install --upgrade pip six
+RUN pip install --upgrade pip pyyaml
+RUN pip install --upgrade pip SpeechRecognition
+RUN pip install --upgrade pip Werkzeug
+
 # add a standart user. tests must not be ran as root
 RUN useradd -m -u 1000 tester
 RUN usermod -aG sudo tester
