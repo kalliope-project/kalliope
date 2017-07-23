@@ -97,6 +97,8 @@ class NeuronModule(object):
         self.tts_message = None
         # if the current call is api one
         self.is_api_call = kwargs.get('is_api_call', False)
+        # if the current call want to mute kalliope
+        self.no_voice = kwargs.get('no_voice', False)
         # boolean to know id the synapse is waiting for an answer
         self.is_waiting_for_answer = False
         # the synapse name to add the the buffer
@@ -131,43 +133,48 @@ class NeuronModule(object):
 
         .. raises:: TTSModuleNotFound
         """
-        logger.debug("NeuronModule Say() called with message: %s" % message)
+        logger.debug("[NeuronModule] Say() called with message: %s" % message)
 
         tts_message = None
 
         if isinstance(message, str) or isinstance(message, six.text_type):
-            logger.debug("message is string")
+            logger.debug("[NeuronModule] message is string")
             tts_message = message
 
         if isinstance(message, list):
-            logger.debug("message is list")
+            logger.debug("[NeuronModule] message is list")
             tts_message = random.choice(message)
 
         if isinstance(message, dict):
-            logger.debug("message is dict")
+            logger.debug("[NeuronModule] message is dict")
             tts_message = self._get_message_from_dict(message)
 
         if tts_message is not None:
-            logger.debug("tts_message to say: %s" % tts_message)
+            logger.debug("[NeuronModule] tts_message to say: %s" % tts_message)
             self.tts_message = tts_message
             Utils.print_success(tts_message)
 
-            # get the instance of the TTS module
-            tts_folder = None
-            if self.settings.resources:
-                tts_folder = self.settings.resources.tts_folder
-            tts_module_instance = Utils.get_dynamic_class_instantiation(package_name="tts",
-                                                                        module_name=self.tts.name,
-                                                                        parameters=self.tts.parameters,
-                                                                        resources_dir=tts_folder)
-            # Kalliope will talk, turn on the LED
-            self.switch_on_led_talking(rpi_settings=self.settings.rpi_settings, on=True)
+            # process the audio only if the no_voice flag is false
+            if self.no_voice:
+                logger.debug("[NeuronModule] no_voice is True, Kalliope is muted")
+            else:
+                logger.debug("[NeuronModule] no_voice is False, make Kalliope speaking")
+                # get the instance of the TTS module
+                tts_folder = None
+                if self.settings.resources:
+                    tts_folder = self.settings.resources.tts_folder
+                tts_module_instance = Utils.get_dynamic_class_instantiation(package_name="tts",
+                                                                            module_name=self.tts.name,
+                                                                            parameters=self.tts.parameters,
+                                                                            resources_dir=tts_folder)
+                # Kalliope will talk, turn on the LED
+                self.switch_on_led_talking(rpi_settings=self.settings.rpi_settings, on=True)
 
-            # generate the audio file and play it
-            tts_module_instance.say(tts_message)
+                # generate the audio file and play it
+                tts_module_instance.say(tts_message)
 
-            # Kalliope has finished to talk, turn off the LED
-            self.switch_on_led_talking(rpi_settings=self.settings.rpi_settings, on=False)
+                # Kalliope has finished to talk, turn off the LED
+                self.switch_on_led_talking(rpi_settings=self.settings.rpi_settings, on=False)
 
     def _get_message_from_dict(self, message_dict):
         """
@@ -284,15 +291,15 @@ class NeuronModule(object):
         # create a tts object from the tts the user want to use
         tts_object = next((x for x in settings.ttss if x.name == tts_name), None)
         if tts_object is None:
-            raise TTSModuleNotFound("The tts module name %s does not exist in settings file" % tts_name)
+            raise TTSModuleNotFound("[NeuronModule] The tts module name %s does not exist in settings file" % tts_name)
 
         if override_parameter is not None:  # the user want to override the default TTS configuration
-            logger.debug("args for TTS plugin before update: %s" % str(tts_object.parameters))
+            logger.debug("[NeuronModule] args for TTS plugin before update: %s" % str(tts_object.parameters))
             for key, value in override_parameter.items():
                 tts_object.parameters[key] = value
-            logger.debug("args for TTS plugin after update: %s" % str(tts_object.parameters))
+            logger.debug("[NeuronModule] args for TTS plugin after update: %s" % str(tts_object.parameters))
 
-        logger.debug("NeuroneModule: TTS args: %s" % tts_object)
+        logger.debug("[NeuronModule] TTS args: %s" % tts_object)
         return tts_object
 
     @staticmethod
