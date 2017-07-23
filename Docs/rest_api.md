@@ -154,6 +154,14 @@ curl -i -H "Content-Type: application/json" --user admin:secret -X POST \
 -d '{"no_voice":"true"}' http://127.0.0.1:5000/synapses/start/id/say-hello-fr
 ```
 
+Some neuron inside a synapse will wait for parameters that comes from the order. 
+You can provide those parameters by adding a `parameters` list of data.
+Curl command:
+```bash
+curl -i -H "Content-Type: application/json" --user admin:secret -X POST  \
+-d '{"parameters": {"parameter1": "value1" }}' \
+http://127.0.0.1:5000/synapses/start/id/synapse-id
+```
 
 ### Run a synapse from an order
 
