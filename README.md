@@ -84,6 +84,7 @@ Ka-li-o-pé      (French)
 
 Demo French   : [video](https://www.youtube.com/watch?v=t4J42yO2rkM)
 Demo English  : [video](https://www.youtube.com/watch?v=PcLzo4H18S4)
+Android app   : [Playstore](https://play.google.com/store/apps/details?id=kalliope.project)
 
 ## License
 
