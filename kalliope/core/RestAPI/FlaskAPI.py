@@ -142,7 +142,13 @@ class FlaskAPI(threading.Thread):
 
         run a synapse without making kalliope speaking
         curl -i -H "Content-Type: application/json" --user admin:secret -X POST  \
-        -d '{"no_voice":"true"} http://127.0.0.1:5000/synapses/start/id/say-hello-fr
+        -d '{"no_voice":"true"}' http://127.0.0.1:5000/synapses/start/id/say-hello-fr
+
+        Run a synapse by its name and pass order's parameters
+        curl -i -H "Content-Type: application/json" --user admin:secret -X POST  \
+        -d '{"no_voice":"true", "parameters": {"parameter1": "value1" }}' \
+        http://127.0.0.1:5000/synapses/start/id/say-hello-fr
+
         :param synapse_name: name(id) of the synapse to execute
         :return:
         """
@@ -153,6 +159,9 @@ class FlaskAPI(threading.Thread):
         # get no_voice_flag if present
         no_voice = self.get_no_voice_flag_from_request(request)
 
+        # get parameters
+        parameters = self.get_parameters_from_request(request)
+
         if synapse_target is None:
             data = {
                 "synapse name not found": "%s" % synapse_name
@@ -160,7 +169,7 @@ class FlaskAPI(threading.Thread):
             return jsonify(error=data), 404
         else:
             # generate a MatchedSynapse from the synapse
-            matched_synapse = MatchedSynapse(matched_synapse=synapse_target)
+            matched_synapse = MatchedSynapse(matched_synapse=synapse_target, overriding_parameter=parameters)
             # get the current LIFO buffer
             lifo_buffer = LIFOBuffer()
             # this is a new call we clean up the LIFO
@@ -329,7 +338,7 @@ class FlaskAPI(threading.Thread):
 
         no_voice = False
         try:
-            received_json = http_request.get_json()
+            received_json = http_request.get_json(force=True, silent=True, cache=True)
             if 'no_voice' in received_json:
                 no_voice = self.str_to_bool(received_json['no_voice'])
         except TypeError:
@@ -349,3 +358,21 @@ class FlaskAPI(threading.Thread):
                 return False
             else:
                 return False
+
+    @staticmethod
+    def get_parameters_from_request(http_request):
+        """
+        Get "parameters" object from the
+        :param http_request:
+        :return:
+        """
+        parameters = None
+        try:
+            received_json = http_request.get_json(silent=False, force=True)
+            if 'parameters' in received_json:
+                parameters = received_json['parameters']
+        except TypeError:
+            pass
+        logger.debug("[FlaskAPI] Overridden parameters: %s" % parameters)
+
+        return parameters
