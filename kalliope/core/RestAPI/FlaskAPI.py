@@ -1,26 +1,22 @@
 import logging
 import os
 import threading
-
-import subprocess
 import time
-
-from kalliope.core.LIFOBuffer import LIFOBuffer
-from kalliope.core.Models.MatchedSynapse import MatchedSynapse
-from kalliope.core.Utils.FileManager import FileManager
-
-from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
-from kalliope.core.OrderListener import OrderListener
-from werkzeug.utils import secure_filename
 
 from flask import jsonify
 from flask import request
-from flask_restful import abort
 from flask_cors import CORS
+from flask_restful import abort
+from werkzeug.utils import secure_filename
 
+from kalliope._version import version_str
+from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
+from kalliope.core.LIFOBuffer import LIFOBuffer
+from kalliope.core.Models.MatchedSynapse import MatchedSynapse
+from kalliope.core.OrderListener import OrderListener
 from kalliope.core.RestAPI.utils import requires_auth
 from kalliope.core.SynapseLauncher import SynapseLauncher
-from kalliope._version import version_str
+from kalliope.core.Utils.FileManager import FileManager
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -63,7 +59,10 @@ class FlaskAPI(threading.Thread):
         self.app.config['JSON_AS_ASCII'] = False
 
         if self.allowed_cors_origin is not False:
-            cors = CORS(app, resources={r"/*": {"origins": allowed_cors_origin}}, supports_credentials=True)
+            CORS(app, resources={r"/*": {"origins": allowed_cors_origin}}, supports_credentials=True)
+
+        # no voice flag
+        self.no_voice = False
 
         # Add routing rules
         self.app.add_url_rule('/', view_func=self.get_main_page, methods=['GET'])
@@ -140,12 +139,19 @@ class FlaskAPI(threading.Thread):
         Run a synapse by its name
         test with curl:
         curl -i --user admin:secret -X POST  http://127.0.0.1:5000/synapses/start/id/say-hello-fr
-        :param synapse_name:
+
+        run a synapse without making kalliope speaking
+        curl -i -H "Content-Type: application/json" --user admin:secret -X POST  \
+        -d '{"no_voice":"true"} http://127.0.0.1:5000/synapses/start/id/say-hello-fr
+        :param synapse_name: name(id) of the synapse to execute
         :return:
         """
         # get a synapse object from the name
         logger.debug("[FlaskAPI] run_synapse_by_name: synapse name -> %s" % synapse_name)
         synapse_target = BrainLoader().get_brain().get_synapse_by_name(synapse_name=synapse_name)
+
+        # get no_voice_flag if present
+        no_voice = self.get_no_voice_flag_from_request(request)
 
         if synapse_target is None:
             data = {
@@ -160,7 +166,7 @@ class FlaskAPI(threading.Thread):
             # this is a new call we clean up the LIFO
             lifo_buffer.clean()
             lifo_buffer.add_synapse_list_to_lifo([matched_synapse])
-            response = lifo_buffer.execute(is_api_call=True)
+            response = lifo_buffer.execute(is_api_call=True, no_voice=no_voice)
             data = jsonify(response)
             return data, 201
 
@@ -169,17 +175,27 @@ class FlaskAPI(threading.Thread):
         """
         Give an order to Kalliope via API like it was from a spoken one
         Test with curl
-        curl -i --user admin:secret -H "Content-Type: application/json" -X POST -d '{"order":"my order"}' http://localhost:5000/synapses/start/order
+        curl -i --user admin:secret -H "Content-Type: application/json" -X POST \
+        -d '{"order":"my order"}' http://localhost:5000/synapses/start/order
+
         In case of quotes in the order or accents, use a file
         cat post.json:
         {"order":"j'aime"}
-        curl -i --user admin:secret -H "Content-Type: application/json" -X POST --data @post.json http://localhost:5000/order/
+        curl -i --user admin:secret -H "Content-Type: application/json" -X POST \
+        --data @post.json http://localhost:5000/order/
+
+        Can be used with no_voice flag
+        curl -i --user admin:secret -H "Content-Type: application/json" -X POST \
+        -d '{"order":"my order", "no_voice":"true"}' http://localhost:5000/synapses/start/order
+
         :return:
         """
         if not request.get_json() or 'order' not in request.get_json():
             abort(400)
 
         order = request.get_json('order')
+        # get no_voice_flag if present
+        no_voice = self.get_no_voice_flag_from_request(request)
         if order is not None:
             # get the order
             order_to_run = order["order"]
@@ -187,7 +203,8 @@ class FlaskAPI(threading.Thread):
             api_response = SynapseLauncher.run_matching_synapse_from_order(order_to_run,
                                                                            self.brain,
                                                                            self.settings,
-                                                                           is_api_call=True)
+                                                                           is_api_call=True,
+                                                                           no_voice=no_voice)
 
             data = jsonify(api_response)
             return data, 201
@@ -203,28 +220,34 @@ class FlaskAPI(threading.Thread):
         Give an order to Kalliope with an audio file
         Test with curl
         curl -i --user admin:secret -X POST  http://localhost:5000/synapses/start/audio -F "file=@/path/to/input.wav"
+
+        With no_voice flag
+        curl -i -H "Content-Type: application/json" --user admin:secret -X POST \
+        http://localhost:5000/synapses/start/audio -F "file=@path/to/file.wav" -F no_voice="true"
         :return:
         """
-        # check if the post request has the file part
+        # get no_voice_flag if present
+        self.no_voice = self.str_to_bool(request.form.get("no_voice"))
 
+        # check if the post request has the file part
         if 'file' not in request.files:
             data = {
                 "error": "No file provided"
             }
             return jsonify(error=data), 400
 
-        file = request.files['file']
+        uploaded_file = request.files['file']
         # if user does not select file, browser also
         # submit a empty part without filename
-        if file.filename == '':
+        if uploaded_file.filename == '':
             data = {
                 "error": "No file provided"
             }
             return jsonify(error=data), 400
         # save the file
-        filename = secure_filename(file.filename)
+        filename = secure_filename(uploaded_file.filename)
         base_path = os.path.join(self.app.config['UPLOAD_FOLDER'])
-        file.save(os.path.join(base_path, filename))
+        uploaded_file.save(os.path.join(base_path, filename))
 
         # now start analyse the audio with STT engine
         audio_path = base_path + os.sep + filename
@@ -290,8 +313,39 @@ class FlaskAPI(threading.Thread):
         api_response = SynapseLauncher.run_matching_synapse_from_order(order,
                                                                        self.brain,
                                                                        self.settings,
-                                                                       is_api_call=True)
+                                                                       is_api_call=True,
+                                                                       no_voice=self.no_voice)
         self.api_response = api_response
 
         # this boolean will notify the main process that the order have been processed
         self.order_analyser_return = True
+
+    def get_no_voice_flag_from_request(self, http_request):
+        """
+        Get the no_voice flag from the request if exist
+        :param http_request:
+        :return:
+        """
+
+        no_voice = False
+        try:
+            received_json = http_request.get_json()
+            if 'no_voice' in received_json:
+                no_voice = self.str_to_bool(received_json['no_voice'])
+        except TypeError:
+            # no json received
+            pass
+        logger.debug("[FlaskAPI] no_voice: %s" % no_voice)
+        return no_voice
+
+    @staticmethod
+    def str_to_bool(s):
+        if isinstance(s, bool):  # do not convert if already a boolean
+            return s
+        else:
+            if s == 'True' or s == 'true' or s == '1':
+                return True
+            elif s == 'False' or s == 'false' or s == '0':
+                return False
+            else:
+                return False

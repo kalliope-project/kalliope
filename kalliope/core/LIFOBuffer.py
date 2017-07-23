@@ -39,6 +39,7 @@ class LIFOBuffer(object):
     logger.debug("[LIFOBuffer] LIFO buffer created")
     answer = None
     is_api_call = False
+    no_voice = False
 
     @classmethod
     def set_answer(cls, value):
@@ -80,7 +81,7 @@ class LIFOBuffer(object):
         return returned_api_response
 
     @classmethod
-    def execute(cls, answer=None, is_api_call=False):
+    def execute(cls, answer=None, is_api_call=False, no_voice=False):
         """
         Process the LIFO list.
         
@@ -90,13 +91,15 @@ class LIFOBuffer(object):
         If a neuron add a Synapse list to the lifo, this synapse list is processed before executing the first list 
         in which we were in.
         
-        :param answer: String answer to give the the last neuron which whas waiting for an answer
+        :param answer: String answer to give the the last neuron which was waiting for an answer
         :param is_api_call: Boolean passed to all neuron in order to let them know if the current call comes from API
+        :param no_voice: If true, the generated text will not be processed by the TTS engine
         :return: serialized APIResponse object
         """
         # store the answer if present
         cls.answer = answer
         cls.is_api_call = is_api_call
+        cls.no_voice = no_voice
 
         try:
             # we keep looping over the LIFO til we have synapse list to process in it
@@ -165,7 +168,9 @@ class LIFOBuffer(object):
                 cls.answer = None
             # todo fix this when we have a full client/server call. The client would be the voice or api call
             neuron.parameters["is_api_call"] = cls.is_api_call
-            logger.debug("[LIFOBuffer] process_neuron_list: is_api_call: %s" % cls.is_api_call)
+            neuron.parameters["no_voice"] = cls.no_voice
+            logger.debug("[LIFOBuffer] process_neuron_list: is_api_call: %s, no_voice: %s" % (cls.is_api_call,
+                                                                                              cls.no_voice))
             # execute the neuron
             instantiated_neuron = NeuronLauncher.start_neuron(neuron=neuron,
                                                               parameters_dict=matched_synapse.parameters)
