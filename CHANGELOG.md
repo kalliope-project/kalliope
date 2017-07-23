@@ -1,3 +1,13 @@
+v0.4.5 / 2017-07-23
+===================
+- add keyword_entries attribute to CMU Sphinx
+- add simplerate attribute to Pico2wav TTS
+- API: convert mp3 file to wav automatically
+- add sensitivity attribute to snowboy trigger
+- add grammar attribute to CMU Sphinx
+- add no_voice flag to api
+- add possibility to send parameters when using api with run synapse by name
+
 v0.4.4 / 2017-05-20
 ===================
 - Fix: Uppercase in order/parameters/global variables are now handled correctly

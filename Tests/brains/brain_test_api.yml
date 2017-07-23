@@ -17,3 +17,12 @@
   
   - includes:
     - included_brain_test.yml
+
+  - name: "test4"
+    signals:
+      - order: "test_order_with_parameter"
+    neurons:
+      - say:
+          message:
+            - "test message {{ parameter1 }}"
+

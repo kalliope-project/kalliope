@@ -8,11 +8,12 @@ class MatchedSynapse(object):
     This class represent a synapse that has matched an order send by an User.
     """
 
-    def __init__(self, matched_synapse=None, matched_order=None, user_order=None):
+    def __init__(self, matched_synapse=None, matched_order=None, user_order=None, overriding_parameter=None):
         """
         :param matched_synapse: The synapse that has matched in the brain.
         :param matched_order: The order from the synapse that have matched.
         :param user_order: The order said by the user.
+        :param overriding_parameter: If set, those parameters will over
         """
 
         # create a copy of the synapse. the received synapse come from the brain.
@@ -26,6 +27,10 @@ class MatchedSynapse(object):
         if matched_order is not None:
             self.parameters = NeuronParameterLoader.get_parameters(synapse_order=self.matched_order,
                                                                    user_order=user_order)
+        if overriding_parameter is not None:
+            # we suppose that we don't have any parameters.
+            # We replace the current parameter object with the received one
+            self.parameters = overriding_parameter
 
         # list of Neuron Module
         self.neuron_module_list = list()
