@@ -23,11 +23,12 @@ class SynapseNameNotFound(Exception):
 class SynapseLauncher(object):
 
     @classmethod
-    def start_synapse_by_name(cls, name, brain=None):
+    def start_synapse_by_name(cls, name, brain=None, overriding_parameter_dict=None):
         """
         Start a synapse by it's name
         :param name: Name (Unique ID) of the synapse to launch
         :param brain: Brain instance
+        :param overriding_parameter_dict: parameter to pass to neurons
         """
         logger.debug("[SynapseLauncher] start_synapse_by_name called with synapse name: %s " % name)
         # check if we have found and launched the synapse
@@ -41,7 +42,8 @@ class SynapseLauncher(object):
             list_synapse_to_process = list()
             new_matching_synapse = MatchedSynapse(matched_synapse=synapse,
                                                   matched_order=None,
-                                                  user_order=None)
+                                                  user_order=None,
+                                                  overriding_parameter=overriding_parameter_dict)
             list_synapse_to_process.append(new_matching_synapse)
             lifo_buffer.add_synapse_list_to_lifo(list_synapse_to_process)
             return lifo_buffer.execute(is_api_call=True)

@@ -28,9 +28,8 @@ class MatchedSynapse(object):
             self.parameters = NeuronParameterLoader.get_parameters(synapse_order=self.matched_order,
                                                                    user_order=user_order)
         if overriding_parameter is not None:
-            # we suppose that we don't have any parameters.
-            # We replace the current parameter object with the received one
-            self.parameters = overriding_parameter
+            # merge dict of parameters with overriding
+            self.parameters = self.merge_two_dicts(self.parameters, overriding_parameter)
 
         # list of Neuron Module
         self.neuron_module_list = list()
@@ -58,3 +57,12 @@ class MatchedSynapse(object):
         :return:
         """
         return self.__dict__ == other.__dict__
+
+    @staticmethod
+    def merge_two_dicts(x, y):
+        """
+        Given two dicts, merge them into a new dict as a shallow copy.
+        """
+        z = x.copy()
+        z.update(y)
+        return z
