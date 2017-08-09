@@ -354,7 +354,7 @@ var_files:
   - variables.yml
   - variables2.yml
 ```
-/!\ If a variable is defined in different files, the last file defines the value.
+> **Note:** If a variable is defined in different files, the last file defines the value.
 
 In the files the variables are defined by key/value:
 ```yml
@@ -364,7 +364,6 @@ password: "secret"
 ```
 
 And use variables in your neurons:
-/!\ Because YAML format does no allow double braces not surrounded by quotes: you must use the variable between double quotes. 
 ```yml
   - name: "run-simple-sleep"
     signals:
@@ -374,6 +373,26 @@ And use variables in your neurons:
           url: "{{baseURL}}get/1"        
           user: "admin"
           password: "{{password}}"
+```
+
+> **Note:** Because YAML format does no allow double braces not surrounded by quotes: you must use the variable between double quotes. 
+
+A global variable can be a dictionary. Example:
+```yml
+contacts:
+  nico: "1234"
+  tibo: "5678"
+```
+
+And a synapse that use this dict:
+```yml
+- name: "test-var"
+  signals:
+    - order: "give me the number of {{ contact_to_search }}"
+  neurons:
+    - say:
+        message:
+        - "the number is {{ contacts[contact_to_search] }}"
 ```
 
 ## Raspberry LED and mute button

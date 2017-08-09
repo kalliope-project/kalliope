@@ -1,10 +1,10 @@
 import logging
-import six
-import jinja2
-import sys
 
-from kalliope.core.Utils.Utils import Utils
+import jinja2
+import six
+
 from kalliope.core.ConfigurationManager.SettingLoader import SettingLoader
+from kalliope.core.Utils.Utils import Utils
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -28,8 +28,7 @@ class NeuronLauncher:
         :return:
         """
         logger.debug("Run neuron: \"%s\"" % (neuron.__str__()))
-        sl = SettingLoader()
-        settings = sl.settings
+        settings = cls.load_settings()
         neuron_folder = None
         if settings.resources:
             neuron_folder = settings.resources.neuron_folder
@@ -72,6 +71,8 @@ class NeuronLauncher:
             if Utils.is_containing_bracket(neuron_parameters):
                 # check that the parameter to replace is available in the loaded_parameters dict
                 if cls._neuron_parameters_are_available_in_loaded_parameters(neuron_parameters, loaded_parameters):
+                    # add parameters from global variable into the final loaded parameter dict
+                    loaded_parameters = cls.merge_with_global_variable_from_settings(loaded_parameters)
                     neuron_parameters = jinja2.Template(neuron_parameters).render(loaded_parameters)
                     neuron_parameters = Utils.encode_text_utf8(neuron_parameters)
                     return str(neuron_parameters)
@@ -121,3 +122,23 @@ class NeuronLauncher:
                 Utils.print_danger("The parameter %s is not available in the order" % str(parameter))
                 return False
         return True
+
+    @classmethod
+    def merge_with_global_variable_from_settings(cls, loaded_parameters):
+        """
+        merge the received dict "loaded_parameters" with the dict of global variables from settings
+        """
+        settings = cls.load_settings()
+        z = loaded_parameters.copy()
+        z.update(settings.variables)
+        logger.debug("[NeuronLauncher] final dict of parameters: %s" % z)
+        return z
+
+    @classmethod
+    def load_settings(cls):
+        """
+        Return loaded kalliope settings
+        :return: setting object
+        """
+        sl = SettingLoader()
+        return sl.settings

@@ -2,6 +2,7 @@
 
 import unittest
 import mock
+from kalliope.core.Models import Singleton
 
 from kalliope.core.Models.Resources import Resources
 from kalliope.core.NeuronLauncher import NeuronLauncher, NeuronParameterNotAvailable
@@ -16,7 +17,11 @@ class TestNeuronLauncher(unittest.TestCase):
     """
 
     def setUp(self):
-        pass
+        # clean settings
+        Singleton._instances = dict()
+
+    def tearDown(self):
+        Singleton._instances = dict()
 
     ####
     # Neurons Launcher
