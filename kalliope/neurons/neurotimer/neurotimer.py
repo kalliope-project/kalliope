@@ -24,7 +24,7 @@ class TimerThread(threading.Thread):
 
     def run(self):
         # wait the amount of seconds
-        logger.debug("[Neuroretarder] wait %s seconds" % self.time_to_wait_seconds)
+        logger.debug("[Neurotimer] wait %s seconds" % self.time_to_wait_seconds)
         time.sleep(self.time_to_wait_seconds)
         # then run the callback method
         self.callback()
@@ -59,14 +59,14 @@ class Neurotimer(NeuronModule):
 
         # at least one time parameter must be set
         if self.seconds is None and self.minutes is None and self.hours is None:
-            raise MissingParameterException("Neuroretarder must have at least one time "
+            raise MissingParameterException("Neurotimer must have at least one time "
                                             "parameter: seconds, minutes, hours")
 
         self.seconds = self.get_integer_time_parameter(self.seconds)
         self.minutes = self.get_integer_time_parameter(self.minutes)
         self.hours = self.get_integer_time_parameter(self.hours)
         if self.synapse is None:
-            raise MissingParameterException("Neuroretarder must have a synapse name parameter")
+            raise MissingParameterException("Neurotimer must have a synapse name parameter")
 
         return True
 
@@ -86,10 +86,10 @@ class Neurotimer(NeuronModule):
                 try:
                     time_parameter = int(time_parameter)
                 except ValueError:
-                    raise InvalidParameterException("[Neuroretarder] %s is not a valid integer" % time_parameter)
+                    raise InvalidParameterException("[Neurotimer] %s is not a valid integer" % time_parameter)
             # check if positive
             if time_parameter < 0:
-                raise InvalidParameterException("[Neuroretarder] %s must be > 0" % time_parameter)
+                raise InvalidParameterException("[Neurotimer] %s must be > 0" % time_parameter)
 
         return time_parameter
 
@@ -104,11 +104,11 @@ class Neurotimer(NeuronModule):
         if self.seconds is not None:
             returned_time += self.seconds
         if self.minutes is not None:
-            returned_time += self.minutes
+            returned_time += self.minutes * 60
         if self.hours is not None:
-            returned_time += self.hours
+            returned_time += self.hours * 3600
 
-        logger.debug("[Neuroretarder] get_retarding_time_seconds: %s" % returned_time)
+        logger.debug("[Neurotimer] get_retarding_time_seconds: %s" % returned_time)
         return returned_time
 
     def callback_run_synapse(self):
@@ -116,6 +116,6 @@ class Neurotimer(NeuronModule):
         Callback method which will be started by the timer thread once the time is over
         :return:
         """
-        logger.debug("[Neuroretarder] waiting time is over, start the synapse %s" % self.synapse)
+        logger.debug("[Neurotimer] waiting time is over, start the synapse %s" % self.synapse)
 
         self.start_synapse_by_name(synapse_name=self.synapse, overriding_parameter_dict=self.forwarded_parameter)

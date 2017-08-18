@@ -36,7 +36,7 @@ None
   signals:
     - order: "remember me to remove the bag of my tea"
   neurons:
-    - neuroretarder:
+    - neurotimer:
         minutes: 3
         synapse: "time-over"
     - say:
@@ -64,7 +64,7 @@ If your STT engine return integer when capturing a spoken order, you can set the
     signals:
       - order: "notify me in {{ time }} minutes"
     neurons:
-      - neuroretarder:
+      - neurotimer:
           minutes: "{{ time }}"
           synapse: "notify"
       - say:
