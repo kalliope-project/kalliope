@@ -72,7 +72,9 @@ class NeuronLauncher:
                 # check that the parameter to replace is available in the loaded_parameters dict
                 if cls._neuron_parameters_are_available_in_loaded_parameters(neuron_parameters, loaded_parameters):
                     # add parameters from global variable into the final loaded parameter dict
-                    loaded_parameters = cls.merge_with_global_variable_from_settings(loaded_parameters)
+                    # loaded_parameters = cls.merge_with_global_variable_from_settings(loaded_parameters)
+                    settings = cls.load_settings()
+                    loaded_parameters.update(settings.variables)
                     neuron_parameters = jinja2.Template(neuron_parameters).render(loaded_parameters)
                     neuron_parameters = Utils.encode_text_utf8(neuron_parameters)
                     return str(neuron_parameters)
@@ -123,19 +125,8 @@ class NeuronLauncher:
                 return False
         return True
 
-    @classmethod
-    def merge_with_global_variable_from_settings(cls, loaded_parameters):
-        """
-        merge the received dict "loaded_parameters" with the dict of global variables from settings
-        """
-        settings = cls.load_settings()
-        z = loaded_parameters.copy()
-        z.update(settings.variables)
-        logger.debug("[NeuronLauncher] final dict of parameters: %s" % z)
-        return z
-
-    @classmethod
-    def load_settings(cls):
+    @staticmethod
+    def load_settings():
         """
         Return loaded kalliope settings
         :return: setting object
