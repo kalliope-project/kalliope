@@ -6,6 +6,7 @@ import six
 
 from jinja2 import Template
 
+from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core import OrderListener
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
@@ -315,3 +316,18 @@ class NeuronModule(object):
                     RpiUtils.switch_pin_to_on(rpi_settings.pin_led_talking)
                 else:
                     RpiUtils.switch_pin_to_off(rpi_settings.pin_led_talking)
+
+    def start_synapse_by_name(self, synapse_name, overriding_parameter_dict=None):
+        """
+        Used to run a synapse by name by calling directly the SynapseLauncher class.
+        The Lifo buffer is not aware of this call and so the user cannot get the result
+        :param synapse_name: name of the synapse to run
+        :param overriding_parameter_dict: dict of parameter to pass to the synapse
+        """
+        # received parameters are not coded with utf-8 on python 2 by default.
+        if sys.version_info[0] == 2:
+            reload(sys)
+            sys.setdefaultencoding('utf-8')
+        SynapseLauncher.start_synapse_by_name(synapse_name,
+                                              brain=self.brain,
+                                              overriding_parameter_dict=overriding_parameter_dict)
