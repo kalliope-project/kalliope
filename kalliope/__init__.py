@@ -7,7 +7,6 @@ from kalliope.core import ShellGui
 from kalliope.core import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.ConfigurationManager.BrainLoader import BrainLoader
-from kalliope.core.MainController import MainController
 from kalliope.core.SignalLauncher import SignalLauncher
 from kalliope.core.Utils.RpiUtils import RpiUtils
 from flask import Flask
