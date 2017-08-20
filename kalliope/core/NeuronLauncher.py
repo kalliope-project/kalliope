@@ -72,7 +72,6 @@ class NeuronLauncher:
                 # check that the parameter to replace is available in the loaded_parameters dict
                 if cls._neuron_parameters_are_available_in_loaded_parameters(neuron_parameters, loaded_parameters):
                     # add parameters from global variable into the final loaded parameter dict
-                    # loaded_parameters = cls.merge_with_global_variable_from_settings(loaded_parameters)
                     settings = cls.load_settings()
                     loaded_parameters.update(settings.variables)
                     neuron_parameters = jinja2.Template(neuron_parameters).render(loaded_parameters)

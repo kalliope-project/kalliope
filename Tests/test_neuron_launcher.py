@@ -186,6 +186,29 @@ class TestNeuronLauncher(unittest.TestCase):
         self.assertEqual(expected_result, NeuronLauncher._replace_brackets_by_loaded_parameter(neuron_parameters,
                                                                                                loaded_parameters))
 
+        # replacing with variable
+        sl = SettingLoader()
+        sl.settings.variables = {
+            "replaced": {
+                "name": u'replaced successfully'
+            }
+        }
+
+        neuron_parameters = {
+            "param1": "this is a value {{ replaced['name'] }}"
+        }
+
+        loaded_parameters = {
+            "name": "replaced successfully"
+        }
+
+        expected_result = {
+            "param1": "this is a value replaced successfully"
+        }
+
+        self.assertEqual(expected_result, NeuronLauncher._replace_brackets_by_loaded_parameter(neuron_parameters,
+                                                                                               loaded_parameters))
+
     def test_parameters_are_available_in_loaded_parameters(self):
         # the parameter in bracket is available in the dict
         string_parameters = "this is a {{ parameter1 }}"
