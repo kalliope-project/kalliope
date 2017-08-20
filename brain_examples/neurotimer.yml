@@ -1,0 +1,55 @@
+  - name: "timer"
+    signals:
+      - order: "je lance un thé"
+      - order: "je lance un T"
+    neurons:
+      - neurotimer:
+          seconds: 10
+          synapse: "time-over"
+      - say:
+          message:
+            - "je vous préviens dans 5 secondes"
+
+  - name: "time-over"
+    signals:
+      - order: "time-is-over"
+    neurons:
+      - say:
+          message:
+            - "c'est terminé"
+
+  - name: "timer2"
+    signals:
+      - order: "préviens moi dans {{ time }} secondes"
+      - order: "préviens-moi dans {{ time }} secondes"
+    neurons:
+      - neurotimer:
+          seconds: "{{ time }}"
+          synapse: "time-over"
+      - say:
+          message:
+            - "je vous préviens dans {{ time }} secondes"
+
+  - name: "remember-synapse"
+    signals:
+      - order: "rappel-moi de {{ remember }} dans {{ time }} secondes"
+      - order: "rappel moi de {{ remember }} dans {{ time }} secondes"
+      - order: "rappelle-moi de {{ remember }} dans {{ time }} secondes"
+    neurons:
+      - neurotimer:
+          seconds: "{{ time }}"
+          synapse: "remember-todo"
+          forwarded_parameters:
+            remember: "{{ remember }}"
+            time: "{{ time }}"
+      - say:
+          message:
+            - "je vous le rappel dans {{ time }} secondes"
+
+  - name: "remember-todo"
+    signals:
+      - order: "no-order-for-this-synapse"
+    neurons:
+      - say:
+          message:
+            - "Vous m'avez demandé de vous rappler de {{ remember }} il y a {{ time }} secondes"
