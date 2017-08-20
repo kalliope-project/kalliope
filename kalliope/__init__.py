@@ -7,9 +7,11 @@ from kalliope.core import ShellGui
 from kalliope.core import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.ConfigurationManager.BrainLoader import BrainLoader
-from kalliope.core.EventManager import EventManager
 from kalliope.core.MainController import MainController
+from kalliope.core.SignalLauncher import SignalLauncher
 from kalliope.core.Utils.RpiUtils import RpiUtils
+from flask import Flask
+from kalliope.core.RestAPI.FlaskAPI import FlaskAPI
 
 from ._version import version_str
 import signal
@@ -144,17 +146,26 @@ def main():
                                                             is_api_call=False)
 
         if (parser.run_synapse is None) and (parser.run_order is None):
-            # first, load events in event manager
-            EventManager(brain.synapses)
-            Utils.print_success("Events loaded")
-            # then start kalliope
+            # start kalliope
             Utils.print_success("Starting Kalliope")
             Utils.print_info("Press Ctrl+C for stopping")
             # catch signal for killing on Ctrl+C pressed
             signal.signal(signal.SIGINT, signal_handler)
-            # start the state machine
+
+            # get a list of signal class to load from declared synapse in the brain
+            # this list will contain string of signal class type.
+            # For example, if the brain contains multiple time the signal type "order", the list will be ["order"]
+            # If the brain contains some synapse with "order" and "event", the list will be ["order", "event"]
+            list_signals_class_to_load = get_list_signal_class_to_load(brain)
+            # start each class name
             try:
-                MainController(brain=brain)
+                for signal_class_name in list_signals_class_to_load:
+                    signal_instance = SignalLauncher.launch_signal_class_by_name(signal_name=signal_class_name,
+                                                                                 brain=brain,
+                                                                                 settings=settings)
+                    if signal_instance is not None:
+                        signal_instance.start()
+
             except (KeyboardInterrupt, SystemExit):
                 Utils.print_info("Ctrl+C pressed. Killing Kalliope")
             finally:
@@ -163,6 +174,9 @@ def main():
                     logger.debug("Clean GPIO")
                     import RPi.GPIO as GPIO
                     GPIO.cleanup()
+
+            # start rest api
+            start_rest_api(settings, brain)
 
     if parser.action == "gui":
         try:
@@ -195,3 +209,38 @@ def configure_logging(debug=None):
         logger.setLevel(logging.INFO)
 
     logger.debug("Logger ready")
+
+
+def get_list_signal_class_to_load(brain):
+    """
+    Return a list of signal class name
+    For all synapse, each signal type is added to a list only if the signal is not yet present in the list
+    :param brain: Brain object
+    :type brain: Brain
+    :return: list of signal class
+    """
+    list_signal_class_name = list()
+
+    for synapse in brain.synapses:
+        for signal_object in synapse.signals:
+            # add the signal name if not yet in the list
+            if signal_object.name not in list_signal_class_name:
+                list_signal_class_name.append(signal_object.name)
+    logger.debug("[Kalliope entrypoint] List of signal class to load: %s" % list_signal_class_name)
+    return list_signal_class_name
+
+
+def start_rest_api(settings, brain):
+    """
+    Start the Rest API if asked in the user settings
+    """
+    # run the api if the user want it
+    if settings.rest_api.active:
+        Utils.print_info("Starting REST API Listening port: %s" % settings.rest_api.port)
+        app = Flask(__name__)
+        flask_api = FlaskAPI(app=app,
+                             port=settings.rest_api.port,
+                             brain=brain,
+                             allowed_cors_origin=settings.rest_api.allowed_cors_origin)
+        flask_api.daemon = True
+        flask_api.start()
