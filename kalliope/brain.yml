@@ -26,3 +26,37 @@
             - "Veuillez renouveller votre ordre"
             - "Veuillez reformuller s'il vous plait"
             - "Je n'ai pas saisi cet ordre"
+
+# https://pypi.python.org/pypi/paho-mqtt/1.3.0#constructor-reinitialise
+  - name: "test-mqtt-1"
+    signals:
+      - mqtt_subscriber:
+          broker_ip: "127.0.0.1"
+          topic: "topic1"
+      - mqtt_subscriber:
+          broker_ip: "192.168.0.1"
+          topic: "topic2"
+    neurons:
+      - say:
+          message:
+            - "Bonjour monsieur"
+
+  - name: "test-mqtt-2"
+    signals:
+      - mqtt_subscriber:
+          broker_ip: "127.0.0.1"
+          topic: "topic3"
+    neurons:
+      - say:
+          message:
+            - "Bonjour monsieur"
+
+  - name: "test-mqtt-3"
+    signals:
+      - mqtt_subscriber:
+          broker_ip: "127.0.0.1"
+          topic: "topic1"
+    neurons:
+      - say:
+          message:
+            - "Bonjour monsieur"
