@@ -20,7 +20,8 @@ class Topic(object):
 
 class Broker(object):
     def __init__(self, broker_ip=None, topics=None, port=None, client_id=None, keepalive=None,
-                 username=None, password=None, protocol=None):
+                 username=None, password=None, protocol=None, ca_cert=None, certfile=None, keyfile=None,
+                 tls_insecure=None):
         self.broker_ip = broker_ip
         self.topics = topics
         if self.topics is None:
@@ -33,6 +34,10 @@ class Broker(object):
         self.username = username
         self.password = password
         self.protocol = protocol
+        self.ca_cert = ca_cert
+        self.certfile = certfile
+        self.keyfile = keyfile
+        self.tls_insecure = tls_insecure
 
     def build_from_signal_dict(self, dict_parameters):
         """
@@ -84,6 +89,20 @@ class Broker(object):
         else:
             self.protocol = "MQTTv311"
 
+        if "ca_cert" in dict_parameters:
+            self.ca_cert = dict_parameters["ca_cert"]
+
+        if "certfile" in dict_parameters:
+            self.certfile = dict_parameters["certfile"]
+
+        if "keyfile" in dict_parameters:
+            self.keyfile = dict_parameters["keyfile"]
+
+        if "tls_insecure" in dict_parameters:
+            self.tls_insecure = dict_parameters["tls_insecure"]
+            self.tls_insecure = bool(self.tls_insecure)
+        else:
+            self.tls_insecure = False
 
     def __eq__(self, other):
         """
