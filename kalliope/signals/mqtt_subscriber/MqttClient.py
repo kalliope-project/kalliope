@@ -31,6 +31,15 @@ class MqttClient(Thread):
             logger.debug("[MqttClient] Username and password are set")
             self.client.username_pw_set(self.broker.username, self.broker.password)
 
+        if self.broker.ca_cert is not None and self.broker.certfile is not None and self.broker.keyfile is not None:
+            logger.debug("[MqttClient] Active TLS")
+            self.client.tls_set(ca_certs=self.broker.ca_cert,
+                                certfile=self.broker.certfile,
+                                keyfile=self.broker.keyfile)
+            self.client.tls_insecure_set(self.broker.tls_insecure)
+        else:
+            print("miss")
+
     def run(self):
         logger.debug("[MqttClient] Try to connect to broker: %s, port: %s, "
                      "keepalive: %s, protocol: %s" % (self.broker.broker_ip,

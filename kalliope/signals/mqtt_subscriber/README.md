@@ -1,6 +1,9 @@
 # MQTT Subscriber
 
-## Install rabbitmq
+
+## Test with rabbitmq-server broker
+
+### Install rabbitmq
 
 ```
 sudo apt-get install rabbitmq-server amqp-tools
@@ -31,16 +34,86 @@ sudo rabbitmqctl set_user_tags admin administrator
 sudo rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
 ```
 
+### Test publish
 Publish a message with amqp-tools in the default rabbitmq exchange with the topic key "test.light"
 ```
 amqp-publish -e "amq.topic" -r "test.light" -b "your message"
 ```
-
 
 Test publish json
 ```
 amqp-publish -e "amq.topic" -r "test.light" -b '{"test" : "message"}'
 ```
 
+### Add TLS to rabbitmq
 
-amqp-publish -e "amq.topic" -r "topic1" -b "your message"
+#### Create root CA
+
+Install openssl
+```bash
+apt-get install openssl
+```
+
+Create PKI structure
+```bash
+mkdir testca
+cd testca
+echo 01 > serial
+```
+
+Create private key and CA certificate
+```bash
+openssl req -out ca.key -new -x509 
+```
+
+Generate server/key pair
+```bash
+openssl genrsa -out server.key 2048 
+openssl req -key server.key -new -out server.req 
+openssl x509 -req -in server.req -CA ca.crt -CAkey privkey.pem -CAserial serial -out server.crt
+```
+
+#### Create client certificate/key pair
+
+Create private key
+```bash
+openssl genrsa -out client.key 2048
+```
+
+Create a certificate request
+```bash
+openssl req -key client.key -new -out client.req 
+```
+
+Sign the client request with the CA
+```bash
+openssl x509 -req -in client.req -CA ca.cert -CAkey privkey.pem -CAserial serial -out client.crt 
+```
+
+#### Update rabbitmq configuration
+
+Edit (or create if the file is not present) a config file `/etc/rabbitmq/rabbitmq.config`
+```
+[
+  {rabbit, [
+     {ssl_listeners, [5671]},
+     {ssl_options, [{cacertfile,"/path/to/ca.cert"},
+                    {certfile,"/path/to/server.crt"},
+                    {keyfile,"/path/to/server.key"},
+                    {verify,verify_peer},
+                    {fail_if_no_peer_cert,false}]}
+   ]},
+  {rabbitmq_mqtt, [
+                  {ssl_listeners,    [8883]},
+                  {tcp_listeners,    [1883]}
+                ]}
+
+].
+```
+
+Restart rabbitmq server to take care of changes
+```bash
+sudo systemctl restart rabbitmq-server
+```
+
+
