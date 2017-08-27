@@ -1,3 +1,4 @@
+import json
 import logging
 import socket
 from threading import Thread
@@ -32,13 +33,16 @@ class MqttClient(Thread):
             self.client.username_pw_set(self.broker.username, self.broker.password)
 
         if self.broker.ca_cert is not None and self.broker.certfile is not None and self.broker.keyfile is not None:
-            logger.debug("[MqttClient] Active TLS")
+            logger.debug("[MqttClient] Active TLS with client certificate authentication")
             self.client.tls_set(ca_certs=self.broker.ca_cert,
                                 certfile=self.broker.certfile,
                                 keyfile=self.broker.keyfile)
             self.client.tls_insecure_set(self.broker.tls_insecure)
-        else:
-            print("miss")
+
+        elif self.broker.ca_cert is not None:
+            logger.debug("[MqttClient] Active TLS with server CA certificate only")
+            self.client.tls_set(ca_certs=self.broker.ca_cert)
+            self.client.tls_insecure_set(self.broker.tls_insecure)
 
     def run(self):
         logger.debug("[MqttClient] Try to connect to broker: %s, port: %s, "
@@ -73,9 +77,7 @@ class MqttClient(Thread):
         """
         The callback for when a PUBLISH message is received from the server
         """
-        print(msg.topic + ": " + str(msg.payload))
-
-        # obj = json.loads(msg.payload)
+        logger.debug("[MqttClient] " + msg.topic + ": " + str(msg.payload))
 
         self.call_concerned_synapses(msg.topic, msg.payload)
 
@@ -95,6 +97,11 @@ class MqttClient(Thread):
         """
         # find concerned topic by name
         target_topic = next(topic for topic in self.broker.topics if topic.name == topic_name)
+        # convert payload to a dict if necessary
+        if target_topic.is_json:
+            message = json.loads(message)
+            logger.debug("[MqttClient] Payload converted to JSON dict: %s" % message)
+
         # run each synapse
         for synapse in target_topic.synapses:
             logger.debug("[MqttClient] start synapse name %s" % synapse.name)
@@ -103,6 +110,7 @@ class MqttClient(Thread):
             SynapseLauncher.start_synapse_by_name(synapse.name,
                                                   brain=self.brain,
                                                   overriding_parameter_dict=overriding_parameter_dict)
+
 
 
 
