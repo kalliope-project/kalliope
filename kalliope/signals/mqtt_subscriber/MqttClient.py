@@ -100,7 +100,9 @@ class MqttClient(Thread):
         # convert payload to a dict if necessary
         if target_topic.is_json:
             message = json.loads(message)
-            logger.debug("[MqttClient] Payload converted to JSON dict: %s" % message)
+            logger.debug("[MqttClient] Payload message converted to JSON dict: %s" % message)
+        else:
+            logger.debug("[MqttClient] Payload message is plain text: %s" % message)
 
         # run each synapse
         for synapse in target_topic.synapses:
