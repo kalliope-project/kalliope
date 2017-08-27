@@ -33,17 +33,18 @@
       - mqtt_subscriber:
           broker_ip: "127.0.0.1"
           broker_port: 8883
+          is_json: True
           topic: "topic1"
           username: "guest"
           password: "guest"
           ca_cert: "/home/nico/Desktop/PKI_rabbit/ca.cert"
-          certfile: "/home/nico/Desktop/PKI_rabbit/client.crt"
-          keyfile: "/home/nico/Desktop/PKI_rabbit/client.key"
+#          certfile: "/home/nico/Desktop/PKI_rabbit/client.crt"
+#          keyfile: "/home/nico/Desktop/PKI_rabbit/client.key"
           tls_insecure: True
     neurons:
       - say:
           message:
-            - "Bonjour monsieur"
+            - "Bonjour monsieur {{ mqtt_subscriber_message['test'] }}"
 
 #  - name: "test-mqtt-2"
 #    signals:

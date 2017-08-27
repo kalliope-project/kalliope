@@ -86,6 +86,12 @@ class Mqtt_subscriber(Thread):
                                                                                        signal.parameters["topic"]))
                     new_topic = Topic()
                     new_topic.name = signal.parameters["topic"]
+                    if "is_json" in signal.parameters:
+                        logger.debug("[Mqtt_subscriber] Message for the topic %s will be json converted"
+                                     % new_topic.name)
+                        new_topic.is_json = bool(signal.parameters["is_json"])
+                    else:
+                        new_topic.is_json = False
                     # add the current synapse to the topic
                     new_topic.synapses = list()
                     new_topic.synapses.append(synapse)
@@ -101,6 +107,12 @@ class Mqtt_subscriber(Thread):
                     if not any(topic.name == signal.parameters["topic"] for topic in broker_to_edit.topics):
                         new_topic = Topic()
                         new_topic.name = signal.parameters["topic"]
+                        if "is_json" in signal.parameters:
+                            logger.debug("[Mqtt_subscriber] Message for the topic %s will be json converted"
+                                         % new_topic.name)
+                            new_topic.is_json = bool(signal.parameters["is_json"])
+                        else:
+                            new_topic.is_json = False
                         logger.debug("[Mqtt_subscriber] Add new topic to existing broker "
                                      "%s: %s" % (broker_to_edit.broker_ip, signal.parameters["topic"]))
                         # add the current synapse to the topic

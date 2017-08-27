@@ -5,9 +5,10 @@ logger = logging.getLogger("kalliope")
 
 
 class Topic(object):
-    def __init__(self, name=None, synapses=None):
+    def __init__(self, name=None, synapses=None, is_json=None):
         self.name = name
         self.synapses = synapses
+        self.is_json = is_json
 
     def __eq__(self, other):
         """
@@ -60,6 +61,11 @@ class Broker(object):
         else:
             # set default port
             self.port = 1883
+
+        if "client_id" in dict_parameters:
+            self.client_id = dict_parameters["client_id"]
+        else:
+            self.client_id = "kalliope"
 
         if "username" in dict_parameters:
             self.username = dict_parameters["username"]
