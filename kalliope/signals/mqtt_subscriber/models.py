@@ -5,10 +5,26 @@ logger = logging.getLogger("kalliope")
 
 
 class Topic(object):
-    def __init__(self, name=None, synapses=None, is_json=None):
+    def __init__(self, name=None, synapses=None, is_json=False):
         self.name = name
         self.synapses = synapses
         self.is_json = is_json
+
+    def serialize(self):
+        """
+        This method allows to serialize in a proper way this object
+
+        :return: A dict of name and parameters
+        :rtype: Dict
+        """
+        return {
+            'name': self.name,
+            'is_json': self.is_json,
+            'synapses': [e.serialize() for e in self.synapses],
+        }
+
+    def __str__(self):
+        return str(self.serialize())
 
     def __eq__(self, other):
         """
@@ -20,9 +36,9 @@ class Topic(object):
 
 
 class Broker(object):
-    def __init__(self, broker_ip=None, topics=None, port=None, client_id=None, keepalive=None,
-                 username=None, password=None, protocol=None, ca_cert=None, certfile=None, keyfile=None,
-                 tls_insecure=None):
+    def __init__(self, broker_ip=None, topics=None, port=1883, client_id="kalliope", keepalive=60,
+                 username=None, password=None, protocol="MQTTv311", ca_cert=None, certfile=None, keyfile=None,
+                 tls_insecure=False):
         self.broker_ip = broker_ip
         self.topics = topics
         if self.topics is None:
@@ -39,6 +55,31 @@ class Broker(object):
         self.certfile = certfile
         self.keyfile = keyfile
         self.tls_insecure = tls_insecure
+
+    def serialize(self):
+        """
+        This method allows to serialize in a proper way this object
+
+        :return: A dict of name and parameters
+        :rtype: Dict
+        """
+        return {
+            'broker_ip': self.broker_ip,
+            'port': self.port,
+            'client_id': self.client_id,
+            'keepalive': self.keepalive,
+            'username': self.username,
+            'password': self.password,
+            'protocol': self.protocol,
+            'ca_cert': self.ca_cert,
+            'certfile': self.certfile,
+            'keyfile': self.keyfile,
+            'tls_insecure': self.tls_insecure,
+            'topics': [e.serialize() for e in self.topics],
+        }
+
+    def __str__(self):
+        return str(self.serialize())
 
     def build_from_signal_dict(self, dict_parameters):
         """

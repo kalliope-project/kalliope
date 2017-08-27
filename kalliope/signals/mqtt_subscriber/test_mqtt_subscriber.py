@@ -83,14 +83,19 @@ class TestMqtt_subscriber(unittest.TestCase):
 
         mq = Mqtt_subscriber(brain=brain)
 
-        self.assertEqual(expected_retuned_list, mq.get_list_broker_to_instantiate(list_synapse_with_mqtt_subscriber))
+        self.assertListEqual(expected_retuned_list,
+                             mq.get_list_broker_to_instantiate(list_synapse_with_mqtt_subscriber))
 
         # ----------------
         #  one synapse, two different broker
         # ----------------
         neuron = Neuron(name='say', parameters={'message': ['test message']})
-        signal1 = Signal(name="mqtt_subscriber", parameters={"topic": "topic1", "broker_ip": "192.168.0.1"})
-        signal2 = Signal(name="mqtt_subscriber", parameters={"topic": "topic2", "broker_ip": "172.16.0.1"})
+        signal1 = Signal(name="mqtt_subscriber", parameters={"topic": "topic1",
+                                                             "broker_ip": "192.168.0.1",
+                                                             "is_json": False})
+        signal2 = Signal(name="mqtt_subscriber", parameters={"topic": "topic2",
+                                                             "broker_ip": "172.16.0.1",
+                                                             "is_json": False})
         synapse1 = Synapse(name="synapse1", neurons=[neuron], signals=[signal1, signal2])
         brain = Brain()
         brain.synapses = [synapse1]
