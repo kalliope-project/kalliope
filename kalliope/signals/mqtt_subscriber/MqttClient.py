@@ -3,6 +3,7 @@ import logging
 import socket
 from threading import Thread
 
+import paho
 import paho.mqtt.client as mqtt
 from kalliope.core.SynapseLauncher import SynapseLauncher
 
@@ -23,7 +24,7 @@ class MqttClient(Thread):
         self.broker = broker
         self.brain = brain
 
-        self.client = mqtt.Client(client_id=self.broker.client_id, protocol=self.broker.protocol)
+        self.client = mqtt.Client(client_id=self.broker.client_id, protocol=self._get_protocol(self.broker.protocol))
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
         self.client.on_subscribe = self.on_subscribe
@@ -113,6 +114,11 @@ class MqttClient(Thread):
                                                   brain=self.brain,
                                                   overriding_parameter_dict=overriding_parameter_dict)
 
-
-
-
+    @staticmethod
+    def _get_protocol(protocol):
+        """
+        return the right protocol version number from the lib depending on the string protocol
+        """
+        if protocol == "MQTTv31":
+            return paho.mqtt.client.MQTTv31
+        return paho.mqtt.client.MQTTv311
