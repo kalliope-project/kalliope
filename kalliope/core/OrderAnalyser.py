@@ -1,13 +1,11 @@
 # coding: utf8
 import collections
 from collections import Counter
-import sys
 import six
 
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.Utils.Utils import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
-from kalliope.core.Models import Order
 
 import logging
 
@@ -54,12 +52,13 @@ class OrderAnalyser:
         for synapse in cls.brain.synapses:
             # we are only concerned by synapse with a order type of signal
             for signal in synapse.signals:
-                if type(signal) == Order:
-                    if cls.spelt_order_match_brain_order_via_table(signal.sentence, order):
+
+                if signal.name == "order":
+                    if cls.spelt_order_match_brain_order_via_table(signal.parameters, order):
                         # the order match the synapse, we add it to the returned list
                         logger.debug("Order found! Run synapse name: %s" % synapse.name)
                         Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
-                        list_match_synapse.append(synapse_order_tuple(synapse=synapse, order=signal.sentence))
+                        list_match_synapse.append(synapse_order_tuple(synapse=synapse, order=signal.parameters))
 
         # create a list of MatchedSynapse from the tuple list
         list_synapse_to_process = list()

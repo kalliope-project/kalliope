@@ -5,6 +5,7 @@ import imp
 from kalliope.core.Utils.Utils import ModuleNotFoundError
 from kalliope.core.ConfigurationManager.SettingLoader import SettingLoader
 
+
 class InvalidSynapeName(Exception):
     """
     The name of the synapse is not correct. It should only contains alphanumerics at the beginning and the end of
@@ -45,15 +46,6 @@ class NoValidSignal(Exception):
     .. seealso:: Event, Order
     """
 
-    pass
-
-
-class NoEventPeriod(Exception):
-    """
-    An Event must contains a period corresponding to its execution
-
-    .. seealso:: Event
-    """
     pass
 
 
@@ -172,72 +164,43 @@ class ConfigurationChecker:
 
     @staticmethod
     def check_signal_dict(signal_dict):
-        """
-        Check received signal dictionary is valid:
 
-        :param signal_dict: The signal Dictionary
-        :type signal_dict: Dict
-        :return: True if signal are ok
-        :rtype: Boolean
+        def check_signal_exist(signal_name):
+            """
+            Return True if the signal_name python Class exist in signals package
+            :param signal_name: Name of the neuron module to check
+            :type signal_name: str
+            :return:
+            """
+            sl = SettingLoader()
+            settings = sl.settings
+            package_name = "kalliope.signals" + "." + signal_name.lower() + "." + signal_name.lower()
+            if settings.resources is not None:
+                neuron_resource_path = settings.resources.neuron_folder + \
+                                       os.sep + signal_name.lower() + os.sep + \
+                                       signal_name.lower() + ".py"
+                if os.path.exists(neuron_resource_path):
+                    imp.load_source(signal_name.capitalize(), neuron_resource_path)
+                    package_name = signal_name.capitalize()
 
-        :Example:
-
-            ConfigurationChecker().check_signal_dict(signal_dict):
-
-        .. seealso:: Order, Event
-        .. raises:: NoValidSignal
-        .. warnings:: Static and Public
-        """
-
-        if ('event' not in signal_dict) and ('order' not in signal_dict):
-            raise NoValidSignal("The signal is not an event or an order %s" % signal_dict)
-        return True
-
-    @staticmethod
-    def check_event_dict(event_dict):
-        """
-        Check received event dictionary is valid:
-
-        :param event_dict: The event Dictionary
-        :type event_dict: Dict
-        :return: True if event are ok
-        :rtype: Boolean
-
-        :Example:
-
-            ConfigurationChecker().check_event_dict(event_dict):
-
-        .. seealso::  Event
-        .. raises:: NoEventPeriod
-        .. warnings:: Static and Public
-        """
-        def get_key(key_name):
             try:
-                return event_dict[key_name]
-            except KeyError:
-                return None
+                mod = __import__(package_name, fromlist=[signal_name.capitalize()])
+                getattr(mod, signal_name.capitalize())
+            except AttributeError:
+                raise ModuleNotFoundError(
+                    "[AttributeError] The module %s does not exist in the package %s " % (signal_name.capitalize(),
+                                                                                          package_name))
+            except ImportError:
+                raise ModuleNotFoundError(
+                    "[ImportError] The module %s does not exist in the package %s " % (signal_name.capitalize(),
+                                                                                       package_name))
+            return True
 
-        if event_dict is None or event_dict == "":
-            raise NoEventPeriod("Event must contain at least one of those elements: "
-                                "year, month, day, week, day_of_week, hour, minute, second")
-
-        # check content as at least on key
-        year = get_key("year")
-        month = get_key("month")
-        day = get_key("day")
-        week = get_key("week")
-        day_of_week = get_key("day_of_week")
-        hour = get_key("hour")
-        minute = get_key("minute")
-        second = get_key("second")
-
-        list_to_check = [year, month, day, week, day_of_week, hour, minute, second]
-        number_of_none_object = list_to_check.count(None)
-        list_size = len(list_to_check)
-        if number_of_none_object >= list_size:
-            raise NoEventPeriod("Event must contain at least one of those elements: "
-                                "year, month, day, week, day_of_week, hour, minute, second")
-
+        if isinstance(signal_dict, dict):
+            for signal_name in signal_dict:
+                check_signal_exist(signal_name)
+        else:
+            check_signal_exist(signal_dict)
         return True
 
     @staticmethod

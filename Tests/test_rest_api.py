@@ -73,51 +73,84 @@ class TestRestAPI(LiveServerTestCase):
 
         response = self.client.get(url)
         expected_content = {
-            "synapses": [{
-                "name": "test",
-                "neurons": [{
-                    "name": "say",
-                    "parameters": {
-                        "message": ["test message"]
-                    }
-                }],
-                "signals": [{
-                    "order": "test_order"
-                }]
-            }, {
-                "name": "test2",
-                "neurons": [{
-                    "name": "say",
-                    "parameters": {
-                        "message": ["test message"]
-                    }
-                }],
-                "signals": [{
-                    "order": "bonjour"
-                }]
-            }, {
-                "name": "test4",
-                "neurons": [{
-                    "name": "say",
-                    "parameters": {
-                        "message": ["test message {{parameter1}}"]
-                    }
-                }],
-                "signals": [{
-                    "order": "test_order_with_parameter"
-                }]
-            }, {
-                "name": "test3",
-                "neurons": [{
-                    "name": "say",
-                    "parameters": {
-                        "message": ["test message"]
-                    }
-                }],
-                "signals": [{
-                    "order": "test_order_3"
-                }]
-            }]
+          "synapses": [
+            {
+              "name": "test",
+              "neurons": [
+                {
+                  "name": "say",
+                  "parameters": {
+                    "message": [
+                      "test message"
+                    ]
+                  }
+                }
+              ],
+              "signals": [
+                {
+                  "name": "order",
+                  "parameters": "test_order"
+                }
+              ]
+            },
+            {
+              "name": "test2",
+              "neurons": [
+                {
+                  "name": "say",
+                  "parameters": {
+                    "message": [
+                      "test message"
+                    ]
+                  }
+                }
+              ],
+              "signals": [
+                {
+                  "name": "order",
+                  "parameters": "bonjour"
+                }
+              ]
+            },
+            {
+              "name": "test4",
+              "neurons": [
+                {
+                  "name": "say",
+                  "parameters": {
+                    "message": [
+                      "test message {{parameter1}}"
+                    ]
+                  }
+                }
+              ],
+              "signals": [
+                {
+                  "name": "order",
+                  "parameters": "test_order_with_parameter"
+                }
+              ]
+            },
+            {
+              "name": "test3",
+              "neurons": [
+                {
+                  "name": "say",
+                  "parameters": {
+                    "message": [
+                      "test message"
+                    ]
+                  }
+                }
+              ],
+              "signals": [
+                {
+                  "name": "order",
+                  "parameters": "test_order_3"
+                }
+              ]
+            }
+          ]
         }
         # a lot of char ti process
         self.maxDiff = None
@@ -129,25 +162,26 @@ class TestRestAPI(LiveServerTestCase):
         url = self.get_server_url() + "/synapses/test"
         response = self.client.get(url)
 
-        expected_content = {
-            "synapses": {
-                "name": "test",
-                "neurons": [
-                    {
-                        "name": "say",
-                        "parameters": {
-                            "message": [
-                                "test message"
-                            ]
-                        }
-                    }
-                ],
-                "signals": [
-                    {
-                        "order": "test_order"
-                    }
-                ]
-            }
+        expected_content ={
+          "synapses": {
+            "name": "test",
+            "neurons": [
+              {
+                "name": "say",
+                "parameters": {
+                  "message": [
+                    "test message"
+                  ]
+                }
+              }
+            ],
+            "signals": [
+              {
+                "name": "order",
+                "parameters": "test_order"
+              }
+            ]
+          }
         }
         self.assertEqual(json.dumps(expected_content, sort_keys=True),
                          json.dumps(json.loads(response.get_data().decode('utf-8')), sort_keys=True))
