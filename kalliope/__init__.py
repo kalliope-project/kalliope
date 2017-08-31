@@ -216,15 +216,13 @@ def get_list_signal_class_to_load(brain):
     For all synapse, each signal type is added to a list only if the signal is not yet present in the list
     :param brain: Brain object
     :type brain: Brain
-    :return: list of signal class
+    :return: set of signal class
     """
-    list_signal_class_name = list()
+    list_signal_class_name = set()
 
     for synapse in brain.synapses:
         for signal_object in synapse.signals:
-            # add the signal name if not yet in the list
-            if signal_object.name not in list_signal_class_name:
-                list_signal_class_name.append(signal_object.name)
+            list_signal_class_name.add(signal_object.name)
     logger.debug("[Kalliope entrypoint] List of signal class to load: %s" % list_signal_class_name)
     return list_signal_class_name
 
