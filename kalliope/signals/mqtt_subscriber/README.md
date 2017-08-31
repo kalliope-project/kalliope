@@ -171,7 +171,7 @@ This part can help you to configure your brain by sending message to a local bro
 ### Install rabbitmq
 
 ```
-sudo apt-get install rabbitmq-server amqp-tools
+sudo apt-get install rabbitmq-server mosquitto-clients
 ```
 
 Enable mqtt plugin
@@ -201,14 +201,14 @@ sudo rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
 
 ### Publish message from CLI
 
-Publish a message with amqp-tools in the default rabbitmq exchange (amq.topic) with the topic key "test.light"
+Publish a plain text message
 ```
-amqp-publish -e "amq.topic" -r "test.light" -b "your message"
+mosquitto_pub -t 'my_topic' -m 'message'
 ```
 
 Test publish a json message
 ```
-amqp-publish -e "amq.topic" -r "test.light" -b '{"test" : "message"}'
+mosquitto_pub -t 'my_topic' -m '{"test" : "message"}'
 ```
 
 ### Add TLS to rabbitmq
