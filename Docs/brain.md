@@ -7,6 +7,9 @@ Brain is composed by synapses: a synapse is the link between input and output ac
 An input action, called a "[signal](signals.md)" can be:
 - **an order:** Something that has been spoke out loud by the user.
 - **an event:** A date or a frequency (E.G: repeat each morning at 8:30)
+- **a mqtt message** A message received on a MQTT topic
+- A signal made the community
+- **No signal**. Then the synapse can be only called from another synapse or by the API
 
 An output action is
 - **a list of neurons:** A [neuron](neurons.md) is a module or plugin that will perform some actions like simply talking, run a script, run a command or call a web service.
