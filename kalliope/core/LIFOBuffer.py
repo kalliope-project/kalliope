@@ -1,5 +1,6 @@
 import logging
 
+from kalliope.core.Cortex import Cortex
 from kalliope.core.NeuronLauncher import NeuronLauncher
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.APIResponse import APIResponse
@@ -113,6 +114,8 @@ class LIFOBuffer(object):
                     continue
                 # remove the synapse list from the LIFO
                 cls.lifo_list.remove(last_synapse_fifo_list)
+                # clean the cortex from value loaded from order as all synapses have been processed
+                Cortex.clean_parameter_from_order()
             raise Serialize
 
         except Serialize:

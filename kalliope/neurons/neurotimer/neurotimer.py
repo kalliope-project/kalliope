@@ -39,7 +39,6 @@ class Neurotimer(NeuronModule):
         self.minutes = kwargs.get('minutes', None)
         self.hours = kwargs.get('hours', None)
         self.synapse = kwargs.get('synapse', None)
-        self.forwarded_parameter = kwargs.get('forwarded_parameters', None)
 
         # do some check
         if self._is_parameters_ok():
@@ -118,4 +117,4 @@ class Neurotimer(NeuronModule):
         """
         logger.debug("[Neurotimer] waiting time is over, start the synapse %s" % self.synapse)
 
-        self.start_synapse_by_name(synapse_name=self.synapse, overriding_parameter_dict=self.forwarded_parameter)
+        self.start_synapse_by_name(synapse_name=self.synapse)

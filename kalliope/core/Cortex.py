@@ -14,7 +14,7 @@ class Cortex(with_metaclass(Singleton, object)):
     """
     short-term memories of kalliope. Used to store object with a "key" "value"
     """
-    # this dict cotain the short term memory of kalliope.
+    # this dict contains the short term memory of kalliope.
     # all keys present in this dict has been saved from a user demand
     memory = dict()
     # this is a temp dict that allow us to store temporary parameters that as been loaded from the user order
@@ -75,7 +75,7 @@ class Cortex(with_metaclass(Singleton, object)):
         cls.temp = dict()
 
     @classmethod
-    def save_memory(cls, dict_parameter_to_save, neuron_parameters):
+    def save_neuron_parameter_in_memory(cls, dict_parameter_to_save, neuron_parameters):
         """
         receive a dict of value send by the child neuron
         save in kalliope memory all value
@@ -94,8 +94,6 @@ class Cortex(with_metaclass(Singleton, object)):
         if dict_parameter_to_save is not None:
             logger.debug("[NeuronModule] save_memory - User want to save: %s" % dict_parameter_to_save)
             logger.debug("[NeuronModule] save_memory - Available parameters in the neuron: %s" % neuron_parameters)
-            logger.debug("[NeuronModule] save_memory - Available parameters in orders: %s"
-                         % Cortex.get_parameters_from_order())
 
             for dict_key_val in dict_parameter_to_save:
                 for key, value in dict_key_val.items():
@@ -105,6 +103,15 @@ class Cortex(with_metaclass(Singleton, object)):
                             value = jinja2.Template(value).render(neuron_parameters)
                         Cortex.save(key, value)
 
+    @classmethod
+    def save_parameter_from_order_in_memory(cls, dict_parameter_to_save):
+
+        if dict_parameter_to_save is not None:
+            logger.debug("[NeuronModule] save_memory - User want to save: %s" % dict_parameter_to_save)
+            logger.debug("[NeuronModule] save_memory - Available parameters in orders: %s"
+                         % Cortex.get_parameters_from_order())
+            for dict_key_val in dict_parameter_to_save:
+                for key, value in dict_key_val.items():
                     # ask the cortex to save in memory the target "key" if it was in the order
                     if Utils.is_containing_bracket(value):
                         value = jinja2.Template(value).render(Cortex.get_parameters_from_order())
