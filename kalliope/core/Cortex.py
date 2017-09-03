@@ -59,14 +59,6 @@ class Cortex(with_metaclass(Singleton, object)):
         cls.temp.update(dict_parameter)
 
     @classmethod
-    def get_parameters_from_order(cls):
-        """
-        return the current list of
-        :return:
-        """
-        return cls.temp
-
-    @classmethod
     def clean_parameter_from_order(cls):
         """
         Clean the temps memory that store parameters loaded from vocal order
@@ -75,7 +67,7 @@ class Cortex(with_metaclass(Singleton, object)):
         cls.temp = dict()
 
     @classmethod
-    def save_neuron_parameter_in_memory(cls, dict_parameter_to_save, neuron_parameters):
+    def save_neuron_parameter_in_memory(cls, kalliope_memory_dict, neuron_parameters):
         """
         receive a dict of value send by the child neuron
         save in kalliope memory all value
@@ -88,31 +80,35 @@ class Cortex(with_metaclass(Singleton, object)):
 
         :param neuron_parameters: dict of parameter the neuron has processed and send to the neurone module to
                 be processed by the TTS engine
-        :param dict_parameter_to_save: a dict of key value the user want to save from the dict_neuron_parameter
+        :param kalliope_memory_dict: a dict of key value the user want to save from the dict_neuron_parameter
         """
 
-        if dict_parameter_to_save is not None:
-            logger.debug("[NeuronModule] save_memory - User want to save: %s" % dict_parameter_to_save)
-            logger.debug("[NeuronModule] save_memory - Available parameters in the neuron: %s" % neuron_parameters)
+        if kalliope_memory_dict is not None:
+            logger.debug("[Cortex] save_memory - User want to save: %s" % kalliope_memory_dict)
+            logger.debug("[Cortex] save_memory - Available parameters in the neuron: %s" % neuron_parameters)
 
-            for dict_key_val in dict_parameter_to_save:
-                for key, value in dict_key_val.items():
-                    # ask the cortex to save in memory the target "key" if it was in parameters of the neuron
-                    if isinstance(neuron_parameters, dict):
-                        if Utils.is_containing_bracket(value):
-                            value = jinja2.Template(value).render(neuron_parameters)
-                        Cortex.save(key, value)
+            for key, value in kalliope_memory_dict.items():
+                # ask the cortex to save in memory the target "key" if it was in parameters of the neuron
+                if isinstance(neuron_parameters, dict):
+                    if Utils.is_containing_bracket(value):
+                        value = jinja2.Template(value).render(neuron_parameters)
+                    Cortex.save(key, value)
 
     @classmethod
-    def save_parameter_from_order_in_memory(cls, dict_parameter_to_save):
+    def save_parameter_from_order_in_memory(cls, order_parameters):
+        """
+        Save key from the temp dict (where parameters loaded from the voice order where placed temporary)
+        into the memory dict
+        :param order_parameters: dict of key to save.  {'key_name_in_memory': 'key_name_in_temp_dict'}
+        """
 
-        if dict_parameter_to_save is not None:
-            logger.debug("[NeuronModule] save_memory - User want to save: %s" % dict_parameter_to_save)
-            logger.debug("[NeuronModule] save_memory - Available parameters in orders: %s"
-                         % Cortex.get_parameters_from_order())
-            for dict_key_val in dict_parameter_to_save:
-                for key, value in dict_key_val.items():
-                    # ask the cortex to save in memory the target "key" if it was in the order
-                    if Utils.is_containing_bracket(value):
-                        value = jinja2.Template(value).render(Cortex.get_parameters_from_order())
-                        Cortex.save(key, value)
+        if order_parameters is not None:
+            logger.debug("[Cortex] save_memory - User want to save: %s" % order_parameters)
+            logger.debug("[Cortex] save_memory - Available parameters in orders: %s"
+                         % cls.temp)
+
+            for key, value in order_parameters.items():
+                # ask the cortex to save in memory the target "key" if it was in the order
+                if Utils.is_containing_bracket(value):
+                    value = jinja2.Template(value).render(Cortex.temp)
+                    Cortex.save(key, value)

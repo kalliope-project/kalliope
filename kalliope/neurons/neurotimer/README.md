@@ -94,8 +94,8 @@ Passing argument to the called synapse with the `kalliope_memory`.
         seconds: "{{ time }}"
         synapse: "remember-todo"
         kalliope_memory:
-          - remember: "{{ remember }}"
-          - seconds: "{{ time }}"
+          remember: "{{ remember }}"
+          seconds: "{{ time }}"
     - say:
         message:
           - "I'll remind you in {{ time }} minutes"
