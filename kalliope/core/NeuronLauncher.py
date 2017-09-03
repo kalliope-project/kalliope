@@ -4,6 +4,7 @@ import jinja2
 import six
 
 from kalliope.core.ConfigurationManager.SettingLoader import SettingLoader
+from kalliope.core.Cortex import Cortex
 from kalliope.core.Utils.Utils import Utils
 
 logging.basicConfig()
@@ -66,6 +67,11 @@ class NeuronLauncher:
         :param loaded_parameters: dict of parameters
         """
         logger.debug("[NeuronLauncher] replacing brackets from %s, using %s" % (neuron_parameters, loaded_parameters))
+        # add variables from the short term memory to the list of loaded parameters that can be used in a template
+        # the final dict is added into a key "kalliope_memory" to not override existing keys loaded form the order
+        memory_dict = dict()
+        memory_dict["kalliope_memory"] = Cortex.get_memory()
+        loaded_parameters.update(memory_dict)
         if isinstance(neuron_parameters, str) or isinstance(neuron_parameters, six.text_type):
             # replace bracket parameter only if the str contains brackets
             if Utils.is_containing_bracket(neuron_parameters):
@@ -84,7 +90,8 @@ class NeuronLauncher:
         if isinstance(neuron_parameters, dict):
             returned_dict = dict()
             for key, value in neuron_parameters.items():
-                if key in "say_template" or key in "file_template":  # those keys are reserved for the TTS.
+                # following keys are reserved for the TTS
+                if key in "say_template" or key in "file_template" or key in "kalliope_memory":
                     returned_dict[key] = value
                 else:
                     returned_dict[key] = cls._replace_brackets_by_loaded_parameter(value, loaded_parameters)

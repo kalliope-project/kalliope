@@ -2,15 +2,16 @@
 import logging
 import random
 import sys
-import six
 
+import six
 from jinja2 import Template
 
-from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core import OrderListener
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
+from kalliope.core.Cortex import Cortex
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.OrderAnalyser import OrderAnalyser
+from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.Utils.RpiUtils import RpiUtils
 from kalliope.core.Utils.Utils import Utils
 
@@ -104,6 +105,8 @@ class NeuronModule(object):
         self.is_waiting_for_answer = False
         # the synapse name to add the the buffer
         self.pending_synapse = None
+        # a dict of parameters the user ask to save in short term memory
+        self.kalliope_memory = kwargs.get('kalliope_memory', None)
 
     def __str__(self):
         retuned_string = ""
@@ -137,6 +140,9 @@ class NeuronModule(object):
         logger.debug("[NeuronModule] Say() called with message: %s" % message)
 
         tts_message = None
+
+        # we can save parameters in memory
+        Cortex.save_memory(self.kalliope_memory, message)
 
         if isinstance(message, str) or isinstance(message, six.text_type):
             logger.debug("[NeuronModule] message is string")
@@ -186,7 +192,7 @@ class NeuronModule(object):
         .. raises:: TemplateFileNotFoundException
         """
         returned_message = None
-
+        print(message_dict)
         # the user chooses a say_template option
         if self.say_template is not None:
             returned_message = self._get_say_template(self.say_template, message_dict)

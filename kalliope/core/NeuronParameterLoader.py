@@ -1,3 +1,4 @@
+from kalliope.core.Cortex import Cortex
 from kalliope.core.Utils import Utils
 
 import logging
@@ -17,6 +18,8 @@ class NeuronParameterLoader(object):
         if Utils.is_containing_bracket(synapse_order):
             params = cls._associate_order_params_to_values(user_order, synapse_order)
             logger.debug("Parameters for order: %s" % params)
+            # we place the dict of parameters load from order into a cache in Cortex so the user can save it later
+            Cortex.add_parameters_from_order(params)
         return params
 
     @classmethod
