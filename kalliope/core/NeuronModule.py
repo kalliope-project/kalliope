@@ -107,6 +107,8 @@ class NeuronModule(object):
         self.pending_synapse = None
         # a dict of parameters the user ask to save in short term memory
         self.kalliope_memory = kwargs.get('kalliope_memory', None)
+        # parameters loaded from the order can be save now
+        Cortex.save_parameter_from_order_in_memory(self.kalliope_memory)
 
     def __str__(self):
         retuned_string = ""
@@ -141,8 +143,8 @@ class NeuronModule(object):
 
         tts_message = None
 
-        # we can save parameters in memory
-        Cortex.save_memory(self.kalliope_memory, message)
+        # we can save parameters from the neuron in memory
+        Cortex.save_neuron_parameter_in_memory(self.kalliope_memory, message)
 
         if isinstance(message, str) or isinstance(message, six.text_type):
             logger.debug("[NeuronModule] message is string")

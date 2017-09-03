@@ -39,17 +39,16 @@
       - neurotimer:
           seconds: "{{ time }}"
           synapse: "remember-todo"
-          forwarded_parameters:
-            remember: "{{ remember }}"
-            time: "{{ time }}"
+          kalliope_memory:
+            - remember: "{{ remember }}"
+            - time: "{{ time }}"
       - say:
           message:
             - "je vous le rappel dans {{ time }} secondes"
 
   - name: "remember-todo"
-    signals:
-      - order: "no-order-for-this-synapse"
+    signals: {}
     neurons:
       - say:
           message:
-            - "Vous m'avez demandé de vous rappler de {{ remember }} il y a {{ time }} secondes"
+            - "Vous m'avez demandé de vous rappeler de {{ kalliope_memory['remember'] }} il y a {{ kalliope_memory['time'] }} secondes"
