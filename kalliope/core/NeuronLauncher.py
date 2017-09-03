@@ -71,6 +71,8 @@ class NeuronLauncher:
         # the final dict is added into a key "kalliope_memory" to not override existing keys loaded form the order
         memory_dict = dict()
         memory_dict["kalliope_memory"] = Cortex.get_memory()
+        if loaded_parameters is None:
+            loaded_parameters = dict()  # instantiate an empty dict in order to be able to add memory in it
         loaded_parameters.update(memory_dict)
         if isinstance(neuron_parameters, str) or isinstance(neuron_parameters, six.text_type):
             # replace bracket parameter only if the str contains brackets
