@@ -194,7 +194,6 @@ class NeuronModule(object):
         .. raises:: TemplateFileNotFoundException
         """
         returned_message = None
-        print(message_dict)
         # the user chooses a say_template option
         if self.say_template is not None:
             returned_message = self._get_say_template(self.say_template, message_dict)
