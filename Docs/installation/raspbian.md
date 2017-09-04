@@ -1,6 +1,6 @@
 # Kalliope requirements for Raspbian
 
-## Install the pre-compiled disk image
+## Install via the pre-compiled disk image
 
 Download the last image [from the release page](https://github.com/kalliope-project/kalliope/releases) of Kalliope and load it as usual onto an SD card.
 
@@ -14,10 +14,12 @@ The two starter config files are located in `/home/pi` for [French](https://gith
 ## Manual installation
 
 Supported Raspbian images:
-[raspbian-2016-09-28](http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-09-28/)
-[raspbian-2016-11-29](http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-11-29/)
-[raspbian-2017-01-10](http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-01-10/)
-[raspbian-2017-04-10](http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-04-10/)
+- [raspbian-2016-09-28](http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-09-28/) (Jessie based)
+- [raspbian-2016-11-29](http://downloads.raspberrypi.org/raspbian/images/raspbian-2016-11-29/) (Jessie based)
+- [raspbian-2017-01-10](http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-01-10/) (Jessie based)
+- [raspbian-2017-04-10](http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-04-10/) (Jessie based)
+- [raspbian-2017-08-16](http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-04-10/) (Strech based)
+
 
 > **Note:** It is recommended to use a **lite** installation of Raspbian without any graphical interface for a better experience. 
 
