@@ -32,7 +32,7 @@ Kalliope is easy-peasy to use, see the hello world
 ## Installation
 
 - [Kalliope installation documentation](Docs/installation.md) (Ubuntu/Debian/Raspbian)
-- [Pre-compiled disk image for Raspberry](Docs/installation/raspbian_jessie.md)
+- [Pre-compiled disk image for Raspberry](Docs/installation/raspbian.md)
 
 ## Quick start
 

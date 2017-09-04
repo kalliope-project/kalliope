@@ -1,11 +1,19 @@
-# Kalliope requirements for Debian Jessie
+# Kalliope requirements for Debian Jessie/Strech
 
 ## Debian packages requirements
 
 Edit `/etc/apt/sources.list` and check that you have `contrib` and `non-free` are enabled:
+
+On Debian Jessie:
 ```bash
 deb http://httpredir.debian.org/debian jessie main contrib non-free
 deb-src http://httpredir.debian.org/debian jessie main contrib non-free
+```
+
+On Debian Strech:
+```bash
+deb http://httpredir.debian.org/debian strech main contrib non-free
+deb-src http://httpredir.debian.org/debian strech main contrib non-free
 ```
 
 Install some required system libraries and softwares:
