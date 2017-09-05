@@ -201,7 +201,8 @@ class TestModels(unittest.TestCase):
             'tts_folder': '/path/tts',
             'neuron_folder': '/path/neuron',
             'stt_folder': '/path/stt',
-            'trigger_folder': '/path/trigger'
+            'trigger_folder': '/path/trigger',
+            'signal_folder': None
         }
 
         self.assertDictEqual(expected_result_serialize, resource1.serialize())

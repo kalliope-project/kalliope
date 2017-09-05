@@ -136,7 +136,7 @@ class ConfigurationChecker:
             sl = SettingLoader()
             settings = sl.settings
             package_name = "kalliope.neurons" + "." + neuron_module_name.lower() + "." + neuron_module_name.lower()
-            if settings.resources is not None:
+            if settings.resources.neuron_folder is not None:
                 neuron_resource_path = settings.resources.neuron_folder + \
                                        os.sep + neuron_module_name.lower() + os.sep + \
                                        neuron_module_name.lower()+".py"
@@ -175,7 +175,7 @@ class ConfigurationChecker:
             sl = SettingLoader()
             settings = sl.settings
             package_name = "kalliope.signals" + "." + signal_name.lower() + "." + signal_name.lower()
-            if settings.resources is not None:
+            if settings.resources.signal_folder is not None:
                 neuron_resource_path = settings.resources.neuron_folder + \
                                        os.sep + signal_name.lower() + os.sep + \
                                        signal_name.lower() + ".py"

@@ -615,6 +615,8 @@ class SettingLoader(with_metaclass(Singleton, object)):
         .. raises:: SettingNotFound, NullSettingException, SettingInvalidException
         .. warnings:: Class Method and Private
         """
+        # return an empty resource object anyway
+        resource_object = Resources()
         try:
             resource_dir = settings["resource_directory"]
             logger.debug("Resource directory synapse: %s" % resource_dir)
@@ -623,40 +625,60 @@ class SettingLoader(with_metaclass(Singleton, object)):
             stt_folder = None
             tts_folder = None
             trigger_folder = None
+            signal_folder = None
+
             if "neuron" in resource_dir:
                 neuron_folder = resource_dir["neuron"]
-                if not os.path.exists(neuron_folder):
+                if os.path.exists(neuron_folder):
+                    logger.debug("[SettingLoader] Neuron resource folder path loaded: %s" % neuron_folder)
+                    resource_object.neuron_folder = neuron_folder
+                else:
                     raise SettingInvalidException("The path %s does not exist on the system" % neuron_folder)
 
             if "stt" in resource_dir:
                 stt_folder = resource_dir["stt"]
-                if not os.path.exists(stt_folder):
+                if os.path.exists(stt_folder):
+                    logger.debug("[SettingLoader] STT resource folder path loaded: %s" % stt_folder)
+                    resource_object.stt_folder = stt_folder
+                else:
                     raise SettingInvalidException("The path %s does not exist on the system" % stt_folder)
 
             if "tts" in resource_dir:
                 tts_folder = resource_dir["tts"]
-                if not os.path.exists(tts_folder):
+                if os.path.exists(tts_folder):
+                    logger.debug("[SettingLoader] TTS resource folder path loaded: %s" % tts_folder)
+                    resource_object.tts_folder = tts_folder
+                else:
                     raise SettingInvalidException("The path %s does not exist on the system" % tts_folder)
 
             if "trigger" in resource_dir:
                 trigger_folder = resource_dir["trigger"]
-                if not os.path.exists(trigger_folder):
+                if os.path.exists(trigger_folder):
+                    logger.debug("[SettingLoader] Trigger resource folder path loaded: %s" % trigger_folder)
+                    resource_object.trigger_folder = trigger_folder
+                else:
                     raise SettingInvalidException("The path %s does not exist on the system" % trigger_folder)
+
+            if "signal" in resource_dir:
+                signal_folder = resource_dir["signal"]
+                if os.path.exists(signal_folder):
+                    logger.debug("[SettingLoader] Signal resource folder path loaded: %s" % signal_folder)
+                    resource_object.signal_folder = signal_folder
+                else:
+                    raise SettingInvalidException("The path %s does not exist on the system" % signal_folder)
 
             if neuron_folder is None \
                     and stt_folder is None \
                     and tts_folder is None \
-                    and trigger_folder is None:
+                    and trigger_folder is None \
+                    and signal_folder is None:
                 raise SettingInvalidException("No required folder has been provided in the setting resource_directory. "
-                                              "Define : \'neuron\' or/and \'stt\' or/and \'tts\' or/and \'trigger\'")
+                                              "Define : \'neuron\' or/and \'stt\' or/and \'tts\' or/and \'trigger\' "
+                                              "or/and \'signal\'")
 
-            resource_object = Resources(neuron_folder=neuron_folder,
-                                        stt_folder=stt_folder,
-                                        tts_folder=tts_folder,
-                                        trigger_folder=trigger_folder)
         except KeyError:
             logger.debug("Resource directory not found in settings")
-            resource_object = None
+            return resource_object
 
         return resource_object
 
