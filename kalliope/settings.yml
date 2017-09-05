@@ -172,13 +172,14 @@ default_synapse: "default-synapse"
 #   - stt
 #   - tts
 #   - trigger  /!\ we do not manage trigger properly yet...
+#   - signal
 # ---------------------------
 #resource_directory:
 #  neuron: "/var/tmp/resources/neurons"
 #  stt: "resources/stt"
 #  tts: "resources/tts"
 #  trigger: "resources/trigger"
-
+#  signal: "resources/signal"
 
 # ---------------------------
 # Global files variables
