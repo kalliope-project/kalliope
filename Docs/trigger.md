@@ -28,6 +28,7 @@ kalliope-FR
 kalliope-EN
 kalliope-RU
 kalliope-DE
+kalliope-IT
 ```
 Then, open an issue or create a pull request to add the model to the list bellow.
 
@@ -35,9 +36,10 @@ Then, open an issue or create a pull request to add the model to the list bellow
 
 > **Important note:** Do not enhance a model in the wrong language. Check the pronunciation before recording your voice!
 
-| Name                                                | language | Pronounced     |
-|-----------------------------------------------------|----------|----------------|
-| [kalliope-FR](https://snowboy.kitt.ai/hotword/1363) | French   | Ka-lio-pé      |
-| [kalliope-EN](https://snowboy.kitt.ai/hotword/2540) | English  | kə-LIE-ə-pee   |
-| [kalliope-RU](https://snowboy.kitt.ai/hotword/2964) | Russian  | каллиопа       |
-| [kalliope-DE](https://snowboy.kitt.ai/hotword/4324) | German  | Ka-lio-pe   |
+| Name                                                 | language | Pronounced   |
+|------------------------------------------------------|----------|--------------|
+| [kalliope-FR](https://snowboy.kitt.ai/hotword/1363)  | French   | Ka-lio-pé    |
+| [kalliope-EN](https://snowboy.kitt.ai/hotword/2540)  | English  | kə-LIE-ə-pee |
+| [kalliope-RU](https://snowboy.kitt.ai/hotword/2964)  | Russian  | каллиопа     |
+| [kalliope-DE](https://snowboy.kitt.ai/hotword/4324)  | German   | Ka-lio-pe    |
+| [kalliope-IT](https://snowboy.kitt.ai/hotword/10650) | Italian  | Ka-lljo-pe   |
