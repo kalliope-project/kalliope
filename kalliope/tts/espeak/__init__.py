@@ -1,1 +1,1 @@
-from espeak import Espeak
+from .espeak import Espeak

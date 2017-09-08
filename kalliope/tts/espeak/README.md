@@ -22,44 +22,60 @@ This TTS is based on the eSpeak engine
 
 ## Notes :
 
-To see the full list of language and voices:
+Espeak package need to be installed
+```bash
+sudo apt-get install espeak
+```
 
-    espeak --voices
+To see the full list of language and voices:
+```bash
+espeak --voices
+```    
 
 To see the full list of voices:
+```bash
+espeak --voices=LANGUAGE
+```
+    
+Example:
+```
+espeak --voices=fr
+Pty Language Age/Gender VoiceName          File          Other Languages
+ 5  fr-fr          M  french               fr            (fr 5)
+ 7  fr             M  french-mbrola-1      mb/mb-fr1
+ 7  fr             F  french-mbrola-4      mb/mb-fr4
+ 5  fr-be          M  french-Belgium       europe/fr-be  (fr 8)
+```
 
-    espeak --voices=LANGUAGE
+Configuration for "7  fr             M  french-mbrola-1      mb/mb-fr1"
+```yaml
+voice: "mb-fr1"
+```
     
-    # exemple:
-    
-    espeak --voices=fr
-    Pty Language Age/Gender VoiceName          File          Other Languages
-     5  fr-fr          M  french               fr            (fr 5)
-     7  fr             M  french-mbrola-1      mb/mb-fr1
-     7  fr             F  french-mbrola-4      mb/mb-fr4
-     5  fr-be          M  french-Belgium       europe/fr-be  (fr 8)
-     
-     # Configuration for "7  fr             M  french-mbrola-1      mb/mb-fr1"
-     voice: "mb-fr1"
 
 To see the full list of variant:
+```bash
+espeak --voices=variant
+```
+    
+Example:
+```
+espeak --voices=variant
+Pty Language Age/Gender VoiceName          File          Other Languages
+ 5  variant        F  female2              !v/f2
+ 5  variant        F  female3              !v/f3
+ 5  variant        F  female4              !v/f4
+ 5  variant        F  female5              !v/f5
+ 5  variant        F  female_whisper       !v/whisperf
+ 5  variant        -  klatt                !v/klatt
+ 5  variant        -  klatt2               !v/klatt2
+ [...]
+```
 
-    espeak --voices=variant
+Configuration for "5  variant        F  female3              !v/f3".
+```yaml
+voice: "fr"
+variant: "f3"
+```
     
-    # exemple:
     
-    espeak --voices=variant
-    Pty Language Age/Gender VoiceName          File          Other Languages
-     5  variant        F  female2              !v/f2
-     5  variant        F  female3              !v/f3
-     5  variant        F  female4              !v/f4
-     5  variant        F  female5              !v/f5
-     5  variant        F  female_whisper       !v/whisperf
-     5  variant        -  klatt                !v/klatt
-     5  variant        -  klatt2               !v/klatt2
-     [...]
-     
-     # Configuration for "5  variant        F  female3              !v/f3"
-     # chose your language voice
-     voice: "fr"
-     variant: "f3"
