@@ -13,6 +13,7 @@ Core TTSs are already packaged with the installation of Kalliope an can be used 
 | VoiceRSS  | [VoiceRSS](../kalliope/tts/voicerss/README.md)   | Cloud based |
 | Pico2wave | [Pico2wave](../kalliope/tts/pico2wave/README.md) | Self hosted |
 | ~~Voxygen~~ | ~~[Voxygen](../kalliope/tts/voxygen/README.md)~~ |~~Cloud based~~|
+| Espeak    | [Espeak](../kalliope/tts/espeak/README.md)       | Self hosted |
 
 ## Community TTS
 Community TTSs need to be installed manually.
@@ -21,7 +22,7 @@ To know how to install a community TTS, read the "Installation" section of the [
 
 | Name   | Description                                          | Type        |
 |--------|------------------------------------------------------|-------------|
-| Espeak | [Espeak](https://github.com/Ultchad/kalliope-espeak) | Self hosted |
+
 
 Wanna add your TTS in the list? Open [an issue](../../issues) with the link of your TTS or send a pull request to update the list directly.
 
