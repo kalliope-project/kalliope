@@ -110,5 +110,7 @@ class Cortex(with_metaclass(Singleton, object)):
             for key, value in order_parameters.items():
                 # ask the cortex to save in memory the target "key" if it was in the order
                 if Utils.is_containing_bracket(value):
-                    value = jinja2.Template(value).render(Cortex.temp)
-                    Cortex.save(key, value)
+                    # if the key exist in the temp dict we can load it with jinja
+                    if value in Cortex.temp:
+                        value = jinja2.Template(value).render(Cortex.temp)
+                        Cortex.save(key, value)
