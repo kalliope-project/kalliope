@@ -9,6 +9,7 @@ from flask_cors import CORS
 from flask_restful import abort
 from werkzeug.utils import secure_filename
 
+from kalliope import SignalLauncher
 from kalliope._version import version_str
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 from kalliope.core.LIFOBuffer import LIFOBuffer
@@ -17,6 +18,7 @@ from kalliope.core.OrderListener import OrderListener
 from kalliope.core.RestAPI.utils import requires_auth
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.Utils.FileManager import FileManager
+from kalliope.signals.order import Order
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -72,6 +74,8 @@ class FlaskAPI(threading.Thread):
         self.app.add_url_rule('/synapses/start/order', view_func=self.run_synapse_by_order, methods=['POST'])
         self.app.add_url_rule('/synapses/start/audio', view_func=self.run_synapse_by_audio, methods=['POST'])
         self.app.add_url_rule('/shutdown/', view_func=self.shutdown_server, methods=['POST'])
+        self.app.add_url_rule('/mute/', view_func=self.get_mute, methods=['GET'])
+        self.app.add_url_rule('/mute/', view_func=self.set_mute, methods=['POST'])
 
     def run(self):
         self.app.run(host='0.0.0.0', port="%s" % int(self.port), debug=True, threaded=True, use_reloader=False)
@@ -157,7 +161,7 @@ class FlaskAPI(threading.Thread):
         synapse_target = BrainLoader().get_brain().get_synapse_by_name(synapse_name=synapse_name)
 
         # get no_voice_flag if present
-        no_voice = self.get_no_voice_flag_from_request(request)
+        no_voice = self.get_boolean_flag_from_request(request, json_name="no_voice")
 
         # get parameters
         parameters = self.get_parameters_from_request(request)
@@ -204,7 +208,7 @@ class FlaskAPI(threading.Thread):
 
         order = request.get_json('order')
         # get no_voice_flag if present
-        no_voice = self.get_no_voice_flag_from_request(request)
+        no_voice = self.get_boolean_flag_from_request(request, json_name="no_voice")
         if order is not None:
             # get the order
             order_to_run = order["order"]
@@ -307,6 +311,75 @@ class FlaskAPI(threading.Thread):
         func()
         return "Shutting down..."
 
+    @requires_auth
+    def get_mute(self):
+        """
+        Return the current trigger status
+
+        Curl test
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/mute
+        """
+
+        # find the order signal and call the mute method
+        for signal in SignalLauncher.get_launched_signals_list():
+            if isinstance(signal, Order):
+                data = {
+                    "mute": signal.get_mute_status()
+                }
+                return jsonify(data), 200
+
+        # if no Order instance
+        data = {
+            "error": "Mute status unknow"
+        }
+        return jsonify(error=data), 400
+
+    @requires_auth
+    def set_mute(self):
+        """
+        Set the trigger status (muted or not)
+
+        Curl test:
+        curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
+        -d '{"mute": "True"}' http://127.0.0.1:5000/mute
+        """
+
+        if not request.get_json() or 'mute' not in request.get_json():
+            abort(400)
+
+        # get mute if present
+        mute = self.get_boolean_flag_from_request(request, json_name="mute")
+
+        # find the order signal and call the mute method
+        for signal in SignalLauncher.get_launched_signals_list():
+            if isinstance(signal, Order):
+                signal.set_mute_status(mute)
+                data = {
+                    "mute": signal.get_mute_status()
+                }
+                return jsonify(data), 200
+
+        data = {
+            "error": "Cannot switch mute status"
+        }
+        return jsonify(error=data), 400
+
+    @requires_auth
+    def unmute(self):
+        # find the order signal and call the mute method
+        for signal in SignalLauncher.get_launched_signals_list():
+            if isinstance(signal, Order):
+                signal.set_mute_status(False)
+                data = {
+                    "mute": "False"
+                }
+                return jsonify(data), 200
+
+        data = {
+            "error": "Cannot unmute"
+        }
+        return jsonify(error=data), 400
+
     def audio_analyser_callback(self, order):
         """
         Callback of the OrderListener. Called after the processing of the audio file
@@ -329,22 +402,23 @@ class FlaskAPI(threading.Thread):
         # this boolean will notify the main process that the order have been processed
         self.order_analyser_return = True
 
-    def get_no_voice_flag_from_request(self, http_request):
+    def get_boolean_flag_from_request(self, http_request, json_name):
         """
         Get the no_voice flag from the request if exist
         :param http_request:
+        :param json_name
         :return:
         """
 
         no_voice = False
         try:
             received_json = http_request.get_json(force=True, silent=True, cache=True)
-            if 'no_voice' in received_json:
-                no_voice = self.str_to_bool(received_json['no_voice'])
+            if json_name in received_json:
+                no_voice = self.str_to_bool(received_json[json_name])
         except TypeError:
             # no json received
             pass
-        logger.debug("[FlaskAPI] no_voice: %s" % no_voice)
+        logger.debug("[FlaskAPI] Boolean %s : %s" % (json_name, no_voice))
         return no_voice
 
     @staticmethod

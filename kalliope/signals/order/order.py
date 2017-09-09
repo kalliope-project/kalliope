@@ -51,6 +51,7 @@ class Order(Thread):
         # save an instance of the trigger
         self.trigger_instance = None
         self.trigger_callback_called = False
+        self.is_trigger_muted = False
 
         # save the current order listener
         self.order_listener = None
@@ -60,19 +61,7 @@ class Order(Thread):
         self.on_ready_notification_played_once = False
 
         # rpi setting for led and mute button
-        self.rpi_utils = None
-        if self.settings.rpi_settings:
-            # the useer set GPIO pin, we need to instantiate the RpiUtils class in order to setup GPIO
-            self.rpi_utils = RpiUtils(self.settings.rpi_settings, self.muted_button_pressed)
-            if self.settings.rpi_settings.pin_mute_button:
-                # start the listening for button pressed thread only if the user set a pin
-                self.rpi_utils.daemon = True
-                self.rpi_utils.start()
-        # switch high the start led, as kalliope is started. Only if the setting exist
-        if self.settings.rpi_settings:
-            if self.settings.rpi_settings.pin_led_started:
-                logger.debug("[MainController] Switching pin_led_started to ON")
-                RpiUtils.switch_pin_to_on(self.settings.rpi_settings.pin_led_started)
+        self.init_rpi_utils()
 
         # Initialize the state machine
         self.machine = Machine(model=self, states=Order.states, initial='init', queued=True)
@@ -135,7 +124,11 @@ class Order(Thread):
         Method to print in debug that the main process is waiting for a trigger detection
         """
         logger.debug("[MainController] Entering state: %s" % self.state)
-        Utils.print_info("Waiting for trigger detection")
+        if self.is_trigger_muted:  # the user asked to mute inside the mute neuron
+            Utils.print_info("Kalliope is muted")
+            self.trigger_instance.pause()
+        else:
+            Utils.print_info("Waiting for trigger detection")
         # this loop is used to keep the main thread alive
         while not self.trigger_callback_called:
             sleep(0.1)
@@ -234,11 +227,41 @@ class Order(Thread):
         logger.debug("[MainController] Selected sound: %s" % random_path)
         return Utils.get_real_file_path(random_path)
 
-    def muted_button_pressed(self, muted=False):
+    def set_mute_status(self, muted=False):
+        """
+        Define is the trigger is listening or not
+        :param muted: Boolean. If true, kalliope is muted
+        """
         logger.debug("[MainController] Mute button pressed. Switch trigger process to muted: %s" % muted)
         if muted:
             self.trigger_instance.pause()
+            self.is_trigger_muted = True
             Utils.print_info("Kalliope now muted")
         else:
             self.trigger_instance.unpause()
+            self.is_trigger_muted = False
             Utils.print_info("Kalliope now listening for trigger detection")
+
+    def get_mute_status(self):
+        """
+        return the current state of the trigger (muted or not)
+        :return: Boolean
+        """
+        return self.is_trigger_muted
+
+    def init_rpi_utils(self):
+        """
+        Start listening on GPIO if defined in settings
+        """
+        if self.settings.rpi_settings:
+            # the user set GPIO pin, we need to instantiate the RpiUtils class in order to setup GPIO
+            rpi_utils = RpiUtils(self.settings.rpi_settings, self.set_mute_status)
+            if self.settings.rpi_settings.pin_mute_button:
+                # start the listening for button pressed thread only if the user set a pin
+                rpi_utils.daemon = True
+                rpi_utils.start()
+        # switch high the start led, as kalliope is started. Only if the setting exist
+        if self.settings.rpi_settings:
+            if self.settings.rpi_settings.pin_led_started:
+                logger.debug("[MainController] Switching pin_led_started to ON")
+                RpiUtils.switch_pin_to_on(self.settings.rpi_settings.pin_led_started)
