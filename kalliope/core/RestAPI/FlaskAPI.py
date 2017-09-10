@@ -161,7 +161,7 @@ class FlaskAPI(threading.Thread):
         synapse_target = BrainLoader().get_brain().get_synapse_by_name(synapse_name=synapse_name)
 
         # get no_voice_flag if present
-        no_voice = self.get_boolean_flag_from_request(request, json_name="no_voice")
+        no_voice = self.get_boolean_flag_from_request(request, boolean_flag_to_find="no_voice")
 
         # get parameters
         parameters = self.get_parameters_from_request(request)
@@ -208,7 +208,7 @@ class FlaskAPI(threading.Thread):
 
         order = request.get_json('order')
         # get no_voice_flag if present
-        no_voice = self.get_boolean_flag_from_request(request, json_name="no_voice")
+        no_voice = self.get_boolean_flag_from_request(request, boolean_flag_to_find="no_voice")
         if order is not None:
             # get the order
             order_to_run = order["order"]
@@ -321,12 +321,12 @@ class FlaskAPI(threading.Thread):
         """
 
         # find the order signal and call the mute method
-        for signal in SignalLauncher.get_launched_signals_list():
-            if isinstance(signal, Order):
-                data = {
-                    "mute": signal.get_mute_status()
-                }
-                return jsonify(data), 200
+        signal_order = SignalLauncher.get_order_instance()
+        if signal_order is not None:
+            data = {
+                "mute": signal_order.get_mute_status()
+            }
+            return jsonify(data), 200
 
         # if no Order instance
         data = {
@@ -348,35 +348,19 @@ class FlaskAPI(threading.Thread):
             abort(400)
 
         # get mute if present
-        mute = self.get_boolean_flag_from_request(request, json_name="mute")
+        mute = self.get_boolean_flag_from_request(request, boolean_flag_to_find="mute")
 
         # find the order signal and call the mute method
-        for signal in SignalLauncher.get_launched_signals_list():
-            if isinstance(signal, Order):
-                signal.set_mute_status(mute)
-                data = {
-                    "mute": signal.get_mute_status()
-                }
-                return jsonify(data), 200
+        signal_order = SignalLauncher.get_order_instance()
+        if signal_order is not None:
+            signal_order.set_mute_status(mute)
+            data = {
+                "mute": signal_order.get_mute_status()
+            }
+            return jsonify(data), 200
 
         data = {
             "error": "Cannot switch mute status"
-        }
-        return jsonify(error=data), 400
-
-    @requires_auth
-    def unmute(self):
-        # find the order signal and call the mute method
-        for signal in SignalLauncher.get_launched_signals_list():
-            if isinstance(signal, Order):
-                signal.set_mute_status(False)
-                data = {
-                    "mute": "False"
-                }
-                return jsonify(data), 200
-
-        data = {
-            "error": "Cannot unmute"
         }
         return jsonify(error=data), 400
 
@@ -402,24 +386,23 @@ class FlaskAPI(threading.Thread):
         # this boolean will notify the main process that the order have been processed
         self.order_analyser_return = True
 
-    def get_boolean_flag_from_request(self, http_request, json_name):
+    def get_boolean_flag_from_request(self, http_request, boolean_flag_to_find):
         """
-        Get the no_voice flag from the request if exist
+        Get the boolean flag from the request if exist
         :param http_request:
-        :param json_name
-        :return:
+        :param boolean_flag_to_find: json flag to find in the http_request
+        :return: True or False if the boolean flag has been found in the request
         """
-
-        no_voice = False
+        boolean_flag = False
         try:
             received_json = http_request.get_json(force=True, silent=True, cache=True)
-            if json_name in received_json:
-                no_voice = self.str_to_bool(received_json[json_name])
+            if boolean_flag_to_find in received_json:
+                boolean_flag = self.str_to_bool(received_json[boolean_flag_to_find])
         except TypeError:
             # no json received
             pass
-        logger.debug("[FlaskAPI] Boolean %s : %s" % (json_name, no_voice))
-        return no_voice
+        logger.debug("[FlaskAPI] Boolean %s : %s" % (boolean_flag_to_find, boolean_flag))
+        return boolean_flag
 
     @staticmethod
     def str_to_bool(s):

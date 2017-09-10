@@ -131,7 +131,7 @@ class TestCortex(unittest.TestCase):
         self.assertDictEqual(dict(), Cortex.memory)
 
     def test_save_parameter_from_order_in_memory(self):
-        # define temp saved order parameter
+        # Test with a value that exist in the temp memory
         order_parameters = {
             "key1": "value1",
             "key2": "value2"
@@ -146,6 +146,18 @@ class TestCortex(unittest.TestCase):
         Cortex.save_parameter_from_order_in_memory(dict_val_to_save)
 
         self.assertDictEqual(expected_dict, Cortex.memory)
+
+        # test with a value that does not exsit
+        order_parameters = {
+            "key1": "value1",
+            "key2": "value2"
+        }
+
+        Cortex.temp = order_parameters
+        dict_val_to_save = {"my_key_in_memory": "{{key3}}"}
+
+        self.assertFalse(Cortex.save_parameter_from_order_in_memory(dict_val_to_save))
+
 
 if __name__ == '__main__':
     unittest.main()

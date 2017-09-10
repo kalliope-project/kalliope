@@ -100,6 +100,7 @@ class Cortex(with_metaclass(Singleton, object)):
         Save key from the temp dict (where parameters loaded from the voice order where placed temporary)
         into the memory dict
         :param order_parameters: dict of key to save.  {'key_name_in_memory': 'key_name_in_temp_dict'}
+        :return True if a value has been saved in the kalliope memory
         """
 
         if order_parameters is not None:
@@ -111,6 +112,8 @@ class Cortex(with_metaclass(Singleton, object)):
                 # ask the cortex to save in memory the target "key" if it was in the order
                 if Utils.is_containing_bracket(value):
                     # if the key exist in the temp dict we can load it with jinja
-                    if value in Cortex.temp:
-                        value = jinja2.Template(value).render(Cortex.temp)
+                    value = jinja2.Template(value).render(Cortex.temp)
+                    if value:
                         Cortex.save(key, value)
+                        return True
+        return False

@@ -1,6 +1,7 @@
 import logging
 
 from kalliope import Utils
+from kalliope.signals.order import Order
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -40,3 +41,14 @@ class SignalLauncher:
     @classmethod
     def get_launched_signals_list(cls):
         return cls.list_launched_signals
+
+    @classmethod
+    def get_order_instance(cls):
+        """
+        Return the Order instance from the list of launched signals if exist
+        :return:
+        """
+        for signal in cls.list_launched_signals:
+            if isinstance(signal, Order):
+                return signal
+        return None

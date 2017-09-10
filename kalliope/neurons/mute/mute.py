@@ -1,8 +1,7 @@
 import logging
 
 from kalliope import SignalLauncher
-from kalliope.core.NeuronModule import NeuronModule, MissingParameterException
-from kalliope.signals.order import Order
+from kalliope.core.NeuronModule import NeuronModule
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -17,9 +16,9 @@ class Mute(NeuronModule):
 
         # check if parameters have been provided
         if self._is_parameters_ok():
-            for signal in SignalLauncher.get_launched_signals_list():
-                if isinstance(signal, Order):
-                    signal.set_mute_status(self.status)
+            signal_order = SignalLauncher.get_order_instance()
+            if signal_order is not None:
+                signal_order.set_mute_status(self.status)
 
     def _is_parameters_ok(self):
         """
