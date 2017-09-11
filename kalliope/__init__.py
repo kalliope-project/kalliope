@@ -156,11 +156,11 @@ def main():
             # For example, if the brain contains multiple time the signal type "order", the list will be ["order"]
             # If the brain contains some synapse with "order" and "event", the list will be ["order", "event"]
             list_signals_class_to_load = get_list_signal_class_to_load(brain)
+
             # start each class name
             try:
                 for signal_class_name in list_signals_class_to_load:
                     signal_instance = SignalLauncher.launch_signal_class_by_name(signal_name=signal_class_name,
-                                                                                 brain=brain,
                                                                                  settings=settings)
                     if signal_instance is not None:
                         signal_instance.start()
