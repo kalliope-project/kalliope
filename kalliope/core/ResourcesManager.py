@@ -32,7 +32,7 @@ TYPE_NEURON = "neuron"
 TYPE_TTS = "tts"
 TYPE_STT = "stt"
 TYPE_TRIGGER = "trigger"
-
+TYPE_SIGNAL = "signal"
 
 class ResourcesManagerException(Exception):
     pass
@@ -103,7 +103,11 @@ class ResourcesManager(object):
                                  % str(self.tmp_path))
                     shutil.rmtree(self.tmp_path)
 
-    def uninstall(self, neuron_name=None, tts_name=None, stt_name=None, trigger_name=None):
+    def uninstall(self, neuron_name=None,
+                  tts_name=None,
+                  stt_name=None,
+                  trigger_name=None,
+                  signal_name= None):
         """
         Uninstall a community resource
         """
@@ -111,20 +115,25 @@ class ResourcesManager(object):
         module_name = ""
         if neuron_name is not None:
             target_path_to_delete = self._get_target_folder(resources=self.settings.resources,
-                                                            module_type="neuron")
+                                                            module_type=TYPE_NEURON)
             module_name = neuron_name
         if tts_name is not None:
             target_path_to_delete = self._get_target_folder(resources=self.settings.resources,
-                                                            module_type="neuron")
+                                                            module_type=TYPE_TTS)
             module_name = tts_name
         if stt_name is not None:
             target_path_to_delete = self._get_target_folder(resources=self.settings.resources,
-                                                            module_type="neuron")
+                                                            module_type=TYPE_STT)
             module_name = stt_name
         if trigger_name is not None:
             target_path_to_delete = self._get_target_folder(resources=self.settings.resources,
-                                                            module_type="neuron")
+                                                            module_type=TYPE_TRIGGER)
             module_name = trigger_name
+
+        if signal_name is not None:
+            target_path_to_delete = self._get_target_folder(resources=self.settings.resources,
+                                                            module_type=TYPE_SIGNAL)
+            module_name = signal_name
 
         if target_path_to_delete is not None:
             try:
@@ -173,7 +182,7 @@ class ResourcesManager(object):
                 logger.debug(message)
                 Utils.print_danger(message)
                 settings_ok = False
-            if dna.module_type == "signal" and resources.signal is None:
+            if dna.module_type == "signal" and resources.signal_folder is None:
                 message = "Resources folder for signal installation not set in settings, cannot install."
                 logger.debug(message)
                 Utils.print_danger(message)
@@ -206,7 +215,7 @@ class ResourcesManager(object):
         Return the folder from the resources and given a module type
         :param resources: Resource object
         :type resources: Resources
-        :param module_type: type of the module (TYPE_NEURON, TYPE_STT, TYPE_TTS, TYPE_TRIGGER)
+        :param module_type: type of the module (TYPE_NEURON, TYPE_STT, TYPE_TTS, TYPE_TRIGGER, TYPE_SIGNAL)
         :return: path of the folder
         """
         module_type_converter = dict()
@@ -216,7 +225,8 @@ class ResourcesManager(object):
                 TYPE_NEURON: resources.neuron_folder,
                 TYPE_STT: resources.stt_folder,
                 TYPE_TTS: resources.tts_folder,
-                TYPE_TRIGGER: resources.trigger_folder
+                TYPE_TRIGGER: resources.trigger_folder,
+                TYPE_SIGNAL: resources.signal_folder
             }
         except AttributeError:
             # will be raised if the resource folder is not set in settings

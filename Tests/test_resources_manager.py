@@ -47,6 +47,13 @@ class TestResourcesmanager(unittest.TestCase):
         dna.module_type = "trigger"
         self.assertTrue(ResourcesManager.is_settings_ok(valid_resource, dna))
 
+        # valid signal
+        valid_resource = Resources()
+        valid_resource.signal_folder = "/path"
+        dna = Dna()
+        dna.module_type = "signal"
+        self.assertTrue(ResourcesManager.is_settings_ok(valid_resource, dna))
+
         # -----------------
         # invalid resource
         # -----------------
@@ -76,6 +83,13 @@ class TestResourcesmanager(unittest.TestCase):
         valid_resource.trigger_folder = None
         dna = Dna()
         dna.module_type = "trigger"
+        self.assertFalse(ResourcesManager.is_settings_ok(valid_resource, dna))
+
+        # valid signal
+        valid_resource = Resources()
+        valid_resource.signal_folder = None
+        dna = Dna()
+        dna.module_type = "signal"
         self.assertFalse(ResourcesManager.is_settings_ok(valid_resource, dna))
 
     def test_is_repo_ok(self):
@@ -126,6 +140,11 @@ class TestResourcesmanager(unittest.TestCase):
         resources = Resources()
         resources.trigger_folder = '/var/tmp/test/resources'
         self.assertEqual(ResourcesManager._get_target_folder(resources, "trigger"), "/var/tmp/test/resources")
+
+        # test get signal folder
+        resources = Resources()
+        resources.signal_folder = '/var/tmp/test/resources'
+        self.assertEqual(ResourcesManager._get_target_folder(resources, "signal"), "/var/tmp/test/resources")
 
         # test get non existing resource
         resources = Resources()

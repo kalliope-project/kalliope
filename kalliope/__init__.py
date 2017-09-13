@@ -60,6 +60,7 @@ def parse_args(args):
     parser.add_argument("--stt-name", help="STT name to uninstall")
     parser.add_argument("--tts-name", help="TTS name to uninstall")
     parser.add_argument("--trigger-name", help="Trigger name to uninstall")
+    parser.add_argument("--signal-name", help="Signal name to uninstall")
     parser.add_argument('-v', '--version', action='version',
                         version='Kalliope ' + version_str)
 
@@ -108,14 +109,25 @@ def main():
 
     # uninstall modules
     if parser.action == "uninstall":
-        if not parser.neuron_name and not parser.stt_name and not parser.tts_name and not parser.trigger_name:
-            Utils.print_danger("You must specify a module name with --neuron-name or --stt-name or --tts-name "
-                               "or --trigger-name")
+        if not parser.neuron_name \
+                and not parser.stt_name \
+                and not parser.tts_name \
+                and not parser.trigger_name\
+                and not parser.signal_name:
+            Utils.print_danger("You must specify a module name with "
+                               "--neuron-name "
+                               "or --stt-name "
+                               "or --tts-name "
+                               "or --trigger-name "
+                               "or --signal-name")
             sys.exit(1)
         else:
             res_manager = ResourcesManager()
-            res_manager.uninstall(neuron_name=parser.neuron_name, stt_name=parser.stt_name,
-                                  tts_name=parser.tts_name, trigger_name=parser.trigger_name)
+            res_manager.uninstall(neuron_name=parser.neuron_name,
+                                  stt_name=parser.stt_name,
+                                  tts_name=parser.tts_name,
+                                  trigger_name=parser.trigger_name,
+                                  signal_name=parser.signal_name)
         return
 
     # load the brain once
