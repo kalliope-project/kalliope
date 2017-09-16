@@ -3,6 +3,8 @@
 import argparse
 import logging
 
+import time
+
 from kalliope.core import ShellGui
 from kalliope.core import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
@@ -175,6 +177,7 @@ def main():
                     signal_instance = SignalLauncher.launch_signal_class_by_name(signal_name=signal_class_name,
                                                                                  settings=settings)
                     if signal_instance is not None:
+                        signal_instance.daemon = True
                         signal_instance.start()
 
             except (KeyboardInterrupt, SystemExit):
@@ -188,6 +191,9 @@ def main():
 
             # start rest api
             start_rest_api(settings, brain)
+
+            while True:  # keep main thread alive. this is used to allow the main process to kill kalliope via ctrl-c
+                time.sleep(0.1)
 
     if parser.action == "gui":
         try:
