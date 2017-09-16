@@ -197,6 +197,15 @@ def main():
             sys.exit(0)
 
 
+class AppFilter(logging.Filter):
+    """
+    Class used to add a custom entry into the logger
+    """
+    def filter(self, record):
+        record.app_version = "kalliope-%s" % version_str
+        return True
+
+
 def configure_logging(debug=None):
     """
     Prepare log folder in current home directory.
@@ -205,19 +214,19 @@ def configure_logging(debug=None):
 
     """
     logger = logging.getLogger("kalliope")
+    logger.addFilter(AppFilter())
     logger.propagate = False
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
-    ch.setFormatter(formatter)
+    syslog = logging.StreamHandler()
+    syslog .setLevel(logging.DEBUG)
 
-    # add the handlers to logger
-    logger.addHandler(ch)
+    formatter = logging.Formatter('%(asctime)s :: %(app_version)s :: %(message)s', "%Y-%m-%d %H:%M:%S")
+    syslog .setFormatter(formatter)
 
     if debug:
         logger.setLevel(logging.DEBUG)
-    else:
-        logger.setLevel(logging.INFO)
+
+    # add the handlers to logger
+    logger.addHandler(syslog)
 
     logger.debug("Logger ready")
 
