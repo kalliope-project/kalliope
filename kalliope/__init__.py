@@ -143,10 +143,6 @@ def main():
 
     if parser.action == "start":
 
-        if settings.rpi_settings:
-            # init GPIO once
-            RpiUtils(settings.rpi_settings)
-
         # user set a synapse to start
         if parser.run_synapse is not None:
             SynapseLauncher.start_synapse_by_name(parser.run_synapse,
@@ -159,6 +155,9 @@ def main():
                                                             is_api_call=False)
 
         if (parser.run_synapse is None) and (parser.run_order is None):
+            # start rest api
+            start_rest_api(settings, brain)
+
             # start kalliope
             Utils.print_success("Starting Kalliope")
             Utils.print_info("Press Ctrl+C for stopping")
@@ -180,20 +179,16 @@ def main():
                         signal_instance.daemon = True
                         signal_instance.start()
 
+                while True:  # keep main thread alive
+                    time.sleep(0.1)
+
             except (KeyboardInterrupt, SystemExit):
-                Utils.print_info("Ctrl+C pressed. Killing Kalliope")
-            finally:
                 # we need to switch GPIO pin to default status if we are using a Rpi
                 if settings.rpi_settings:
+                    Utils.print_info("GPIO cleaned")
                     logger.debug("Clean GPIO")
                     import RPi.GPIO as GPIO
                     GPIO.cleanup()
-
-            # start rest api
-            start_rest_api(settings, brain)
-
-            while True:  # keep main thread alive. this is used to allow the main process to kill kalliope via ctrl-c
-                time.sleep(0.1)
 
     if parser.action == "gui":
         try:
