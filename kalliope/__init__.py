@@ -224,6 +224,8 @@ def configure_logging(debug=None):
 
     if debug:
         logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
 
     # add the handlers to logger
     logger.addHandler(syslog)

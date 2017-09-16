@@ -102,10 +102,10 @@ class Cortex(with_metaclass(Singleton, object)):
         :param order_parameters: dict of key to save.  {'key_name_in_memory': 'key_name_in_temp_dict'}
         :return True if a value has been saved in the kalliope memory
         """
-
+        order_saved = False
         if order_parameters is not None:
-            logger.debug("[Cortex] save_memory - User want to save: %s" % order_parameters)
-            logger.debug("[Cortex] save_memory - Available parameters in orders: %s"
+            logger.debug("[Cortex] save_parameter_from_order_in_memory - User want to save: %s" % order_parameters)
+            logger.debug("[Cortex] save_parameter_from_order_in_memory - Available parameters in orders: %s"
                          % cls.temp)
 
             for key, value in order_parameters.items():
@@ -115,5 +115,6 @@ class Cortex(with_metaclass(Singleton, object)):
                     value = jinja2.Template(value).render(Cortex.temp)
                     if value:
                         Cortex.save(key, value)
-                        return True
-        return False
+                        order_saved = True
+
+        return order_saved
