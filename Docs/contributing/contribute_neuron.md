@@ -33,7 +33,7 @@ Creating a new Neuron must follow some rules:
 
 
 1. The Neuron has a constructor __init__ which is the entry point.
-The constructor has a __**kwargs argument__ which is corresponding to the Dict of incoming variables:values defined either in the brain file or in the signal.
+The constructor has a __**kwargs argument__ which is corresponding to the Dict of incoming variables:values defined either in the brain file or in the signal. Global variables are not available. They must be defined as variable in the brain file (synapse definition).
 1. The Neuron must refer to its __parent structure__ in the init by calling the super of NeuronModule.
 
     ```Python
