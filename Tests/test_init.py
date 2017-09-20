@@ -43,10 +43,11 @@ class TestInit(unittest.TestCase):
     def test_main(self):
         # test start kalliope
         sys.argv = ['kalliope.py', 'start']
-        with mock.patch('kalliope.core.MainController.__init__') as mock_maincontroller:
-            mock_maincontroller.return_value = None
+        with mock.patch('kalliope.core.SignalLauncher.SignalLauncher.launch_signal_class_by_name') \
+                as mock_signal_launcher:
+            mock_signal_launcher.return_value = None
             main()
-            mock_maincontroller.assert_called()
+            mock_signal_launcher.assert_called()
 
         # test start gui
         sys.argv = ['kalliope.py', 'gui']

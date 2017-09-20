@@ -3,13 +3,12 @@ import unittest
 import mock
 
 from kalliope.core import LIFOBuffer
-from kalliope.core.Models import Brain
+from kalliope.core.Models import Brain, Signal
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.Models.Settings import Settings
 from kalliope.core.SynapseLauncher import SynapseLauncher, SynapseNameNotFound
 
 from kalliope.core.Models import Neuron
-from kalliope.core.Models import Order
 from kalliope.core.Models import Synapse
 
 
@@ -25,9 +24,9 @@ class TestSynapseLauncher(unittest.TestCase):
         neuron3 = Neuron(name='neurone3', parameters={'var3': 'val3'})
         neuron4 = Neuron(name='neurone4', parameters={'var4': 'val4'})
 
-        signal1 = Order(sentence="this is the sentence")
-        signal2 = Order(sentence="this is the second sentence")
-        signal3 = Order(sentence="that is part of the third sentence")
+        signal1 = Signal(name="order", parameters="this is the sentence")
+        signal2 = Signal(name="order", parameters="this is the second sentence")
+        signal3 = Signal(name="order", parameters="that is part of the third sentence")
 
         self.synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
         self.synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
@@ -48,6 +47,20 @@ class TestSynapseLauncher(unittest.TestCase):
         with mock.patch("kalliope.core.LIFOBuffer.execute"):
             should_be_created_matched_synapse = MatchedSynapse(matched_synapse=self.synapse1)
             SynapseLauncher.start_synapse_by_name("Synapse1", brain=self.brain_test)
+            # we expect that the lifo has been loaded with the synapse to run
+            expected_result = [[should_be_created_matched_synapse]]
+            self.assertEqual(expected_result, LIFOBuffer.lifo_list)
+
+            # we expect that the lifo has been loaded with the synapse to run and overwritten parameters
+            # clean the LiFO
+            LIFOBuffer.lifo_list = list()
+            overriding_param = {
+                "val1": "val"
+            }
+            SynapseLauncher.start_synapse_by_name("Synapse1", brain=self.brain_test,
+                                                  overriding_parameter_dict=overriding_param)
+            should_be_created_matched_synapse = MatchedSynapse(matched_synapse=self.synapse1,
+                                                               overriding_parameter=overriding_param)
             # we expect that the lifo has been loaded with the synapse to run
             expected_result = [[should_be_created_matched_synapse]]
             self.assertEqual(expected_result, LIFOBuffer.lifo_list)

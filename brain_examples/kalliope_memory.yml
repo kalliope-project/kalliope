@@ -1,0 +1,33 @@
+# test with a value to save from the order
+- name: "cortex-1"
+  signals:
+    - order: "dis bonjour à {{ friend }}"
+  neurons:
+    - say:
+        message:
+          - "Bonjour {{ friend }}"
+        kalliope_memory:
+          friend: "{{ friend }}"
+
+
+- name: "remember-synapse222"
+  signals:
+    - order: "remind me {{ remember }} in {{ time }} seconds"
+  neurons:
+    - neurotimer:
+        seconds: "{{ time }}"
+        synapse: "remember-todo22"
+        kalliope_memory:
+          remember: "{{ remember }}"
+          minutes: "{{ time }}"
+    - say:
+        message:
+          - "Ok {{ time }} seconds"
+
+- name: "remember-todo22"
+  signals:
+    - order: "no-order-for-this-synapse111"
+  neurons:
+    - say:
+        message:
+          - "does this work? {{ kalliope_memory['remember'] }} and the time? {{ kalliope_memory['minutes'] }}"

@@ -2,6 +2,7 @@
 
 import unittest
 import mock
+from kalliope.core.Models import Singleton
 
 from kalliope.core.Models.Resources import Resources
 from kalliope.core.NeuronLauncher import NeuronLauncher, NeuronParameterNotAvailable
@@ -16,7 +17,11 @@ class TestNeuronLauncher(unittest.TestCase):
     """
 
     def setUp(self):
-        pass
+        # clean settings
+        Singleton._instances = dict()
+
+    def tearDown(self):
+        Singleton._instances = dict()
 
     ####
     # Neurons Launcher
@@ -176,6 +181,29 @@ class TestNeuronLauncher(unittest.TestCase):
         expected_result = {
             "say_template": "{{output}}",
             "file_template": "here is a file"
+        }
+
+        self.assertEqual(expected_result, NeuronLauncher._replace_brackets_by_loaded_parameter(neuron_parameters,
+                                                                                               loaded_parameters))
+
+        # replacing with variable
+        sl = SettingLoader()
+        sl.settings.variables = {
+            "replaced": {
+                "name": u'replaced successfully'
+            }
+        }
+
+        neuron_parameters = {
+            "param1": "this is a value {{ replaced['name'] }}"
+        }
+
+        loaded_parameters = {
+            "name": "replaced successfully"
+        }
+
+        expected_result = {
+            "param1": "this is a value replaced successfully"
         }
 
         self.assertEqual(expected_result, NeuronLauncher._replace_brackets_by_loaded_parameter(neuron_parameters,

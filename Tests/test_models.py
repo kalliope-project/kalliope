@@ -3,6 +3,7 @@ import ast
 import mock
 
 from kalliope.core.Models.Player import Player
+from kalliope.core.Models.Signal import Signal
 from kalliope.core.Models.Tts import Tts
 
 from kalliope.core.Models.Trigger import Trigger
@@ -16,7 +17,7 @@ from kalliope.core.Models.Dna import Dna
 from kalliope.core import LIFOBuffer
 from kalliope.core.Models.Settings import Settings
 
-from kalliope.core.Models import Neuron, Order, Synapse, Brain, Event, Resources, Singleton
+from kalliope.core.Models import Neuron, Synapse, Brain, Resources, Singleton
 
 from kalliope.core.Models.APIResponse import APIResponse
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
@@ -34,9 +35,9 @@ class TestModels(unittest.TestCase):
         neuron3 = Neuron(name='neurone3', parameters={'var3': 'val3'})
         neuron4 = Neuron(name='neurone4', parameters={'var4': 'val4'})
 
-        signal1 = Order(sentence="this is the sentence")
-        signal2 = Order(sentence="this is the second sentence")
-        signal3 = Order(sentence="that is part of the third sentence")
+        signal1 = Signal(name="order", parameters="this is the sentence")
+        signal2 = Signal(name="order", parameters="this is the second sentence")
+        signal3 = Signal(name="order", parameters="that is part of the third sentence")
 
         self.synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
         self.synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
@@ -119,35 +120,6 @@ class TestModels(unittest.TestCase):
         self.assertTrue(dna1.__eq__(dna3))
         self.assertFalse(dna1.__eq__(dna2))
 
-    def test_Event(self):
-        event1 = Event(year=2017, month=12, day=31, week=53, day_of_week=2,
-                       hour=8, minute=30, second=0)
-
-        event2 = Event(year=2018, month=11, day=30, week=25, day_of_week=4,
-                       hour=9, minute=40, second=0)
-
-        # same as the event1
-        event3 = Event(year=2017, month=12, day=31, week=53, day_of_week=2,
-                       hour=8, minute=30, second=0)
-
-        expected_result_serialize = {
-            'event': {
-                'week': 53,
-                'second': 0,
-                'minute': 30,
-                'hour': 8,
-                'year': 2017,
-                'day': 31,
-                'day_of_week': 2,
-                'month': 12
-            }
-        }
-
-        self.assertDictEqual(expected_result_serialize, event1.serialize())
-
-        self.assertTrue(event1.__eq__(event3))
-        self.assertFalse(event1.__eq__(event2))
-
     def test_MatchedSynapse(self):
         user_order = "user order"
         matched_synapse1 = MatchedSynapse(matched_synapse=self.synapse1, matched_order=user_order)
@@ -215,20 +187,6 @@ class TestModels(unittest.TestCase):
 
         self.assertDictEqual(ast.literal_eval(neuron.__str__()), ast.literal_eval(expected_result_str))
 
-    def test_Order(self):
-        order1 = Order(sentence="this is an order")
-        order2 = Order(sentence="this is an other order")
-        order3 = Order(sentence="this is an order")
-
-        expected_result_serialize = {'order': 'this is an order'}
-        expected_result_str = "{'order': 'this is an order'}"
-
-        self.assertEqual(expected_result_serialize, order1.serialize())
-        self.assertEqual(expected_result_str, order1.__str__())
-
-        self.assertTrue(order1.__eq__(order3))
-        self.assertFalse(order1.__eq__(order2))
-
     def test_Resources(self):
         resource1 = Resources(neuron_folder="/path/neuron", stt_folder="/path/stt",
                               tts_folder="/path/tts", trigger_folder="/path/trigger")
@@ -243,7 +201,8 @@ class TestModels(unittest.TestCase):
             'tts_folder': '/path/tts',
             'neuron_folder': '/path/neuron',
             'stt_folder': '/path/stt',
-            'trigger_folder': '/path/trigger'
+            'trigger_folder': '/path/trigger',
+            'signal_folder': None
         }
 
         self.assertDictEqual(expected_result_serialize, resource1.serialize())
@@ -398,8 +357,8 @@ class TestModels(unittest.TestCase):
         neuron3 = Neuron(name='neurone3', parameters={'var3': 'val3'})
         neuron4 = Neuron(name='neurone4', parameters={'var4': 'val4'})
 
-        signal1 = Order(sentence="this is the sentence")
-        signal2 = Order(sentence="this is the second sentence")
+        signal1 = Signal(name="order", parameters="this is the sentence")
+        signal2 = Signal(name="order", parameters="this is the second sentence")
 
         synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
         synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
@@ -408,13 +367,14 @@ class TestModels(unittest.TestCase):
         expected_result_serialize = {
             'signals': [
                 {
-                    'order': 'this is the sentence'
+                    'name': 'order',
+                    'parameters': 'this is the sentence'
                 }
             ],
             'neurons': [
                 {
                     'name': 'neurone1',
-                     'parameters': {
+                    'parameters': {
                          'var1': 'val1'
                      }
                 },
@@ -471,3 +431,10 @@ class TestModels(unittest.TestCase):
         self.assertFalse(tts1.__eq__(tts2))
 
 
+if __name__ == '__main__':
+    unittest.main()
+
+    # suite = unittest.TestSuite()
+    # suite.addTest(TestLIFOBuffer("test_process_neuron_list"))
+    # runner = unittest.TextTestRunner()
+    # runner.run(suite)

@@ -1,33 +1,29 @@
 import logging
 import random
+from threading import Thread
 from time import sleep
 
-from transitions import Machine
-from kalliope.core import Utils
-from kalliope.core.ConfigurationManager import SettingLoader
+from kalliope.core.Utils.RpiUtils import RpiUtils
+
+from kalliope.core.SynapseLauncher import SynapseLauncher
+
 from kalliope.core.OrderListener import OrderListener
 
-# API
-from flask import Flask
-from kalliope.core.RestAPI.FlaskAPI import FlaskAPI
+from kalliope import Utils, BrainLoader
+from kalliope.neurons.say import Say
 
-# Launchers
-from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.TriggerLauncher import TriggerLauncher
-from kalliope.core.Utils.RpiUtils import RpiUtils
+from transitions import Machine
+
 from kalliope.core.PlayerLauncher import PlayerLauncher
 
-# Neurons
-from kalliope.neurons.say.say import Say
+from kalliope.core.ConfigurationManager import SettingLoader
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class MainController:
-    """
-    This Class is the global controller of the application.
-    """
+class Order(Thread):
     states = ['init',
               'starting_trigger',
               'playing_ready_sound',
@@ -38,31 +34,16 @@ class MainController:
               'waiting_for_order_listener_callback',
               'analysing_order']
 
-    def __init__(self, brain=None):
-        self.brain = brain
-        # get global configuration
+    def __init__(self):
+        super(Order, self).__init__()
+        Utils.print_info('Starting voice order manager')
+        # load settings and brain from singleton
         sl = SettingLoader()
         self.settings = sl.settings
+        self.brain = BrainLoader().get_brain()
+
         # keep in memory the order to process
         self.order_to_process = None
-
-        # Starting the rest API
-        self._start_rest_api()
-
-        # rpi setting for led and mute button
-        self.rpi_utils = None
-        if self.settings.rpi_settings:
-            # the useer set GPIO pin, we need to instantiate the RpiUtils class in order to setup GPIO
-            self.rpi_utils = RpiUtils(self.settings.rpi_settings, self.muted_button_pressed)
-            if self.settings.rpi_settings.pin_mute_button:
-                # start the listening for button pressed thread only if the user set a pin
-                self.rpi_utils.daemon = True
-                self.rpi_utils.start()
-        # switch high the start led, as kalliope is started. Only if the setting exist
-        if self.settings.rpi_settings:
-            if self.settings.rpi_settings.pin_led_started:
-                logger.debug("[MainController] Switching pin_led_started to ON")
-                RpiUtils.switch_pin_to_on(self.settings.rpi_settings.pin_led_started)
 
         # get the player instance
         self.player_instance = PlayerLauncher.get_player(settings=self.settings)
@@ -70,6 +51,7 @@ class MainController:
         # save an instance of the trigger
         self.trigger_instance = None
         self.trigger_callback_called = False
+        self.is_trigger_muted = False
 
         # save the current order listener
         self.order_listener = None
@@ -78,8 +60,11 @@ class MainController:
         # boolean used to know id we played the on ready notification at least one time
         self.on_ready_notification_played_once = False
 
+        # rpi setting for led and mute button
+        self.init_rpi_utils()
+
         # Initialize the state machine
-        self.machine = Machine(model=self, states=MainController.states, initial='init', queued=True)
+        self.machine = Machine(model=self, states=Order.states, initial='init', queued=True)
 
         # define transitions
         self.machine.add_transition('start_trigger', ['init', 'analysing_order'], 'starting_trigger')
@@ -102,6 +87,7 @@ class MainController:
         self.machine.on_enter_waiting_for_order_listener_callback('waiting_for_order_listener_callback_thread')
         self.machine.on_enter_analysing_order('analysing_order_thread')
 
+    def run(self):
         self.start_trigger()
 
     def start_trigger_process(self):
@@ -138,7 +124,11 @@ class MainController:
         Method to print in debug that the main process is waiting for a trigger detection
         """
         logger.debug("[MainController] Entering state: %s" % self.state)
-        Utils.print_info("Waiting for trigger detection")
+        if self.is_trigger_muted:  # the user asked to mute inside the mute neuron
+            Utils.print_info("Kalliope is muted")
+            self.trigger_instance.pause()
+        else:
+            Utils.print_info("Waiting for trigger detection")
         # this loop is used to keep the main thread alive
         while not self.trigger_callback_called:
             sleep(0.1)
@@ -168,7 +158,7 @@ class MainController:
     def stop_trigger_process(self):
         """
         The trigger has been awaken, we don't needed it anymore
-        :return: 
+        :return:
         """
         logger.debug("[MainController] Entering state: %s" % self.state)
         self.trigger_instance.stop()
@@ -237,26 +227,41 @@ class MainController:
         logger.debug("[MainController] Selected sound: %s" % random_path)
         return Utils.get_real_file_path(random_path)
 
-    def _start_rest_api(self):
+    def set_mute_status(self, muted=False):
         """
-        Start the Rest API if asked in the user settings
+        Define is the trigger is listening or not
+        :param muted: Boolean. If true, kalliope is muted
         """
-        # run the api if the user want it
-        if self.settings.rest_api.active:
-            Utils.print_info("Starting REST API Listening port: %s" % self.settings.rest_api.port)
-            app = Flask(__name__)
-            flask_api = FlaskAPI(app=app,
-                                 port=self.settings.rest_api.port,
-                                 brain=self.brain,
-                                 allowed_cors_origin=self.settings.rest_api.allowed_cors_origin)
-            flask_api.daemon = True
-            flask_api.start()
-
-    def muted_button_pressed(self, muted=False):
         logger.debug("[MainController] Mute button pressed. Switch trigger process to muted: %s" % muted)
         if muted:
             self.trigger_instance.pause()
+            self.is_trigger_muted = True
             Utils.print_info("Kalliope now muted")
         else:
             self.trigger_instance.unpause()
+            self.is_trigger_muted = False
             Utils.print_info("Kalliope now listening for trigger detection")
+
+    def get_mute_status(self):
+        """
+        return the current state of the trigger (muted or not)
+        :return: Boolean
+        """
+        return self.is_trigger_muted
+
+    def init_rpi_utils(self):
+        """
+        Start listening on GPIO if defined in settings
+        """
+        if self.settings.rpi_settings:
+            # the user set GPIO pin, we need to instantiate the RpiUtils class in order to setup GPIO
+            rpi_utils = RpiUtils(self.settings.rpi_settings, self.set_mute_status)
+            if self.settings.rpi_settings.pin_mute_button:
+                # start the listening for button pressed thread only if the user set a pin
+                rpi_utils.daemon = True
+                rpi_utils.start()
+        # switch high the start led, as kalliope is started. Only if the setting exist
+        if self.settings.rpi_settings:
+            if self.settings.rpi_settings.pin_led_started:
+                logger.debug("[MainController] Switching pin_led_started to ON")
+                RpiUtils.switch_pin_to_on(self.settings.rpi_settings.pin_led_started)

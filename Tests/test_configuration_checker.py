@@ -1,7 +1,7 @@
 import unittest
 
-from kalliope.core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker, NoSynapeName, NoSynapeNeurons, \
-    NoSynapeSignals, NoValidSignal, NoEventPeriod, NoValidOrder, MultipleSameSynapseName
+from kalliope.core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker, NoSynapeName, \
+                                                NoSynapeNeurons, NoSynapeSignals, NoValidSignal, MultipleSameSynapseName
 from kalliope.core.Models import Synapse
 from kalliope.core.Utils.Utils import ModuleNotFoundError
 
@@ -57,47 +57,13 @@ class TestConfigurationChecker(unittest.TestCase):
             ConfigurationChecker.check_neuron_dict(invalid_neuron)
 
     def test_check_signal_dict(self):
-        valid_signal_with_order = {'order': 'test_order'}
-        valid_signal_with_event = {'event': '0 * * * *'}
-        invalid_signal = {'invalid_option': 'test_order'}
+        valid_signal = {'event': {'parameter_1': ['value1']}}
+        invalid_signal = {'non_existing_signal_name': {'parameter_2': ['value2']}}
 
-        self.assertTrue(ConfigurationChecker.check_signal_dict(valid_signal_with_order))
-        self.assertTrue(ConfigurationChecker.check_signal_dict(valid_signal_with_event))
+        self.assertTrue(ConfigurationChecker.check_signal_dict(valid_signal))
 
-        with self.assertRaises(NoValidSignal):
+        with self.assertRaises(ModuleNotFoundError):
             ConfigurationChecker.check_signal_dict(invalid_signal)
-
-    def test_check_event_dict(self):
-        valid_event = {
-            "hour": "18",
-            "minute": "16"
-          }
-        invalid_event = None
-        invalid_event2 = ""
-        invalid_event3 = {
-            "notexisting": "12"
-        }
-
-        self.assertTrue(ConfigurationChecker.check_event_dict(valid_event))
-
-        with self.assertRaises(NoEventPeriod):
-            ConfigurationChecker.check_event_dict(invalid_event)
-        with self.assertRaises(NoEventPeriod):
-            ConfigurationChecker.check_event_dict(invalid_event2)
-        with self.assertRaises(NoEventPeriod):
-            ConfigurationChecker.check_event_dict(invalid_event3)
-
-    def test_check_order_dict(self):
-        valid_order = 'test_order'
-        invalid_order = ''
-        invalid_order2 = None
-
-        self.assertTrue(ConfigurationChecker.check_order_dict(valid_order))
-
-        with self.assertRaises(NoValidOrder):
-            ConfigurationChecker.check_order_dict(invalid_order)
-        with self.assertRaises(NoValidOrder):
-            ConfigurationChecker.check_order_dict(invalid_order2)
 
     def test_check_synapes(self):
         synapse_1 = Synapse(name="test")
