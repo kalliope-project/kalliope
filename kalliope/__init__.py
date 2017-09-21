@@ -157,38 +157,7 @@ def main():
         if (parser.run_synapse is None) and (parser.run_order is None):
             # start rest api
             start_rest_api(settings, brain)
-
-            # start kalliope
-            Utils.print_success("Starting Kalliope")
-            Utils.print_info("Press Ctrl+C for stopping")
-            # catch signal for killing on Ctrl+C pressed
-            signal.signal(signal.SIGINT, signal_handler)
-
-            # get a list of signal class to load from declared synapse in the brain
-            # this list will contain string of signal class type.
-            # For example, if the brain contains multiple time the signal type "order", the list will be ["order"]
-            # If the brain contains some synapse with "order" and "event", the list will be ["order", "event"]
-            list_signals_class_to_load = get_list_signal_class_to_load(brain)
-
-            # start each class name
-            try:
-                for signal_class_name in list_signals_class_to_load:
-                    signal_instance = SignalLauncher.launch_signal_class_by_name(signal_name=signal_class_name,
-                                                                                 settings=settings)
-                    if signal_instance is not None:
-                        signal_instance.daemon = True
-                        signal_instance.start()
-
-                while True:  # keep main thread alive
-                    time.sleep(0.1)
-
-            except (KeyboardInterrupt, SystemExit):
-                # we need to switch GPIO pin to default status if we are using a Rpi
-                if settings.rpi_settings:
-                    Utils.print_info("GPIO cleaned")
-                    logger.debug("Clean GPIO")
-                    import RPi.GPIO as GPIO
-                    GPIO.cleanup()
+            start_kalliope(settings, brain)
 
     if parser.action == "gui":
         try:
@@ -265,3 +234,40 @@ def start_rest_api(settings, brain):
                              allowed_cors_origin=settings.rest_api.allowed_cors_origin)
         flask_api.daemon = True
         flask_api.start()
+
+
+def start_kalliope(settings, brain):
+    """
+    Start all signals declared in the brain
+    """
+    # start kalliope
+    Utils.print_success("Starting Kalliope")
+    Utils.print_info("Press Ctrl+C for stopping")
+    # catch signal for killing on Ctrl+C pressed
+    signal.signal(signal.SIGINT, signal_handler)
+
+    # get a list of signal class to load from declared synapse in the brain
+    # this list will contain string of signal class type.
+    # For example, if the brain contains multiple time the signal type "order", the list will be ["order"]
+    # If the brain contains some synapse with "order" and "event", the list will be ["order", "event"]
+    list_signals_class_to_load = get_list_signal_class_to_load(brain)
+
+    # start each class name
+    try:
+        for signal_class_name in list_signals_class_to_load:
+            signal_instance = SignalLauncher.launch_signal_class_by_name(signal_name=signal_class_name,
+                                                                         settings=settings)
+            if signal_instance is not None:
+                signal_instance.daemon = True
+                signal_instance.start()
+
+        while True:  # keep main thread alive
+            time.sleep(0.1)
+
+    except (KeyboardInterrupt, SystemExit):
+        # we need to switch GPIO pin to default status if we are using a Rpi
+        if settings.rpi_settings:
+            Utils.print_info("GPIO cleaned")
+            logger.debug("Clean GPIO")
+            import RPi.GPIO as GPIO
+            GPIO.cleanup()
