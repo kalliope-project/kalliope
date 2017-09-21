@@ -32,7 +32,7 @@ Then, create a file `~/.local/bin/_pico2wave`
 ```bash
 #!/bin/bash
 export LD_LIBRARY_PATH=~/.local/lib64:~/.local/lib
-~/.local/bin/_pico2wave $@
+~/.local/bin/pico2wave $@
 ```
 
 Make it executable: `chmod +x ~/.local/bin/_pico2wave`
