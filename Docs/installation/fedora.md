@@ -23,16 +23,21 @@ wget https://raw.githubusercontent.com/stevenmirabito/asterisk-picotts/master/pi
 # call install script replacing
 # default path
 sed 's,\s/usr/, ~/.local/,g' picotts-install.sh | bash
+
+# change pico2wave binary name to create our own
+mv ~/.local/bin/pico2wave ~/.local/bin/pico2wave.orig
 ```
 
-Because we installed pico2wave in "local" dir, we need to force pico2wave to check librairies in another directory.
+Because we installed pico2wave in "local" dir, we need to force pico2wave to check librairies in another directory. That will be done by adding LD_LIBRARY_PATH env in our own launch script.
 
-Then, create a file `~/.local/bin/_pico2wave`
+Note: we moved pico2wave binary to pico2wave.orig to not have conflict when we will call "pico2wave" without absolute path.
+
+So, create a file `~/.local/bin/_pico2wave`
 
 ```bash
 #!/bin/bash
-export LD_LIBRARY_PATH=~/.local/lib64:~/.local/lib
-~/.local/bin/pico2wave $@
+export LD_LIBRARY_PATH=~/.local/lib
+~/.local/bin/pico2wave.orig "$@"
 ```
 
 Make it executable: `chmod +x ~/.local/bin/_pico2wave`
