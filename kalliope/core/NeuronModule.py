@@ -5,6 +5,7 @@ import sys
 
 import six
 from jinja2 import Template
+from kalliope.core.LIFOBuffer import LIFOBuffer
 
 from kalliope.core import OrderListener
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
@@ -230,18 +231,23 @@ class NeuronModule(object):
 
         return returned_message
 
-    def run_synapse_by_name(self, synapse_name, user_order=None, synapse_order=None):
+    @staticmethod
+    def run_synapse_by_name(synapse_name, user_order=None, synapse_order=None, high_priority=False):
         """
         call the lifo for adding a synapse to execute in the list of synapse list to process
         :param synapse_name: The name of the synapse to run
         :param user_order: The user order
         :param synapse_order: The synapse order
+        :param high_priority: If True, the synapse is executed before the end of the current synapse list
         """
         synapse = BrainLoader().get_brain().get_synapse_by_name(synapse_name)
         matched_synapse = MatchedSynapse(matched_synapse=synapse,
                                          matched_order=synapse_order,
                                          user_order=user_order)
-        self.pending_synapse = matched_synapse
+
+        list_synapse_to_process = list()
+        list_synapse_to_process.append(matched_synapse)
+        LIFOBuffer.add_synapse_list_to_lifo(list_synapse_to_process, high_priority=high_priority)
 
     @staticmethod
     def is_order_matching(order_said, order_match):
@@ -323,18 +329,3 @@ class NeuronModule(object):
                     RpiUtils.switch_pin_to_on(rpi_settings.pin_led_talking)
                 else:
                     RpiUtils.switch_pin_to_off(rpi_settings.pin_led_talking)
-
-    def start_synapse_by_name(self, synapse_name, overriding_parameter_dict=None):
-        """
-        Used to run a synapse by name by calling directly the SynapseLauncher class.
-        The Lifo buffer is not aware of this call and so the user cannot get the result
-        :param synapse_name: name of the synapse to run
-        :param overriding_parameter_dict: dict of parameter to pass to the synapse
-        """
-        # received parameters are not coded with utf-8 on python 2 by default.
-        if sys.version_info[0] == 2:
-            reload(sys)
-            sys.setdefaultencoding('utf-8')
-        SynapseLauncher.start_synapse_by_name(synapse_name,
-                                              brain=self.brain,
-                                              overriding_parameter_dict=overriding_parameter_dict)

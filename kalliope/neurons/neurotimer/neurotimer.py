@@ -117,4 +117,4 @@ class Neurotimer(NeuronModule):
         """
         logger.debug("[Neurotimer] waiting time is over, start the synapse %s" % self.synapse)
 
-        self.start_synapse_by_name(synapse_name=self.synapse)
+        self.run_synapse_by_name(synapse_name=self.synapse, high_priority=False)
