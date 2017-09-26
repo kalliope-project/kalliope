@@ -42,7 +42,7 @@ class Neurotransmitter(NeuronModule):
         # print self.links
         # set a bool to know if we have found a valid answer
         if audio is None:
-            self.run_synapse_by_name(self.default, high_priority=True)
+            self.run_synapse_by_name(self.default, high_priority=True, is_api_call=self.is_api_call)
         else:
             found = False
             for el in self.from_answer_link:
@@ -52,11 +52,12 @@ class Neurotransmitter(NeuronModule):
                         self.run_synapse_by_name(synapse_name=el["synapse"],
                                                  user_order=audio,
                                                  synapse_order=answer,
-                                                 high_priority=True)
+                                                 high_priority=True,
+                                                 is_api_call=self.is_api_call)
                         found = True
                         break
             if not found:  # the answer do not correspond to any answer. We run the default synapse
-                self.run_synapse_by_name(self.default, high_priority=True)
+                self.run_synapse_by_name(self.default, high_priority=True, is_api_call=self.is_api_call)
 
     def _is_parameters_ok(self):
         """

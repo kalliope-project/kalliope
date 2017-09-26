@@ -232,13 +232,15 @@ class NeuronModule(object):
         return returned_message
 
     @staticmethod
-    def run_synapse_by_name(synapse_name, user_order=None, synapse_order=None, high_priority=False):
+    def run_synapse_by_name(synapse_name, user_order=None, synapse_order=None, high_priority=False,
+                            is_api_call=False):
         """
         call the lifo for adding a synapse to execute in the list of synapse list to process
         :param synapse_name: The name of the synapse to run
         :param user_order: The user order
         :param synapse_order: The synapse order
         :param high_priority: If True, the synapse is executed before the end of the current synapse list
+        :param is_api_call: If true, the current call comes from the api
         """
         synapse = BrainLoader().get_brain().get_synapse_by_name(synapse_name)
         matched_synapse = MatchedSynapse(matched_synapse=synapse,
@@ -248,6 +250,7 @@ class NeuronModule(object):
         list_synapse_to_process = list()
         list_synapse_to_process.append(matched_synapse)
         LIFOBuffer.add_synapse_list_to_lifo(list_synapse_to_process, high_priority=high_priority)
+        LIFOBuffer.execute(is_api_call=is_api_call)
 
     @staticmethod
     def is_order_matching(order_said, order_match):
