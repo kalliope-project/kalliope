@@ -249,8 +249,10 @@ class NeuronModule(object):
 
         list_synapse_to_process = list()
         list_synapse_to_process.append(matched_synapse)
-        LIFOBuffer.add_synapse_list_to_lifo(list_synapse_to_process, high_priority=high_priority)
-        LIFOBuffer.execute(is_api_call=is_api_call)
+        # get the singleton
+        lifo_buffer = LIFOBuffer()
+        lifo_buffer.add_synapse_list_to_lifo(list_synapse_to_process, high_priority=high_priority)
+        lifo_buffer.execute(is_api_call=is_api_call)
 
     @staticmethod
     def is_order_matching(order_said, order_match):

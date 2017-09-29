@@ -335,19 +335,18 @@ class TestLIFOBuffer(unittest.TestCase):
                 self.lifo_buffer._process_neuron_list(matched_synapse=matched_synapse)
 
         # test with a neuron that want to add a synapse list to the LIFO
-        # TODO refactor the LIFO to be a syncable thread. This test cannot work because python split the memory
-        # self.lifo_buffer.clean()
-        # synapse = BrainLoader().brain.get_synapse_by_name("synapse6")
-        # order = "synapse6"
-        # matched_synapse = MatchedSynapse(matched_synapse=synapse,
-        #                                  user_order=order,
-        #                                  matched_order=order)
-        #
-        # self.lifo_buffer.set_api_call(True)
-        # self.lifo_buffer.set_answer("synapse 6 answer")
-        # with mock.patch("kalliope.core.TTS.TTSModule.generate_and_play"):
-        #     with self.assertRaises(SynapseListAddedToLIFO):
-        #         self.lifo_buffer._process_neuron_list(matched_synapse=matched_synapse)
+        self.lifo_buffer.clean()
+        synapse = BrainLoader().brain.get_synapse_by_name("synapse6")
+        order = "synapse6"
+        matched_synapse = MatchedSynapse(matched_synapse=synapse,
+                                         user_order=order,
+                                         matched_order=order)
+
+        self.lifo_buffer.set_api_call(True)
+        self.lifo_buffer.set_answer("synapse 6 answer")
+        with mock.patch("kalliope.core.TTS.TTSModule.generate_and_play"):
+            self.assertRaises(SynapseListAddedToLIFO,
+                              self.lifo_buffer._process_neuron_list(matched_synapse=matched_synapse))
 
 
 if __name__ == '__main__':
