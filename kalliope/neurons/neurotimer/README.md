@@ -16,6 +16,7 @@ CORE NEURON : No installation needed.
 | minutes              | NO       | int    |         | value > 0 | Number of minutes to wait before running the synapse         |
 | hours                | NO       | int    |         | value > 0 | Number of hours to wait before running the synapse           |
 | synapse              | YES      | string |         |           | Name of the synapse to run after the selected delay          |
+| forwarded_parameters | NO       | dict   |         |           | dict of parameters that will be passed to the called synapse |
 
 ## Return Values
 
@@ -79,7 +80,7 @@ If your STT engine return integer when capturing a spoken order, you can set the
           - "You asked me to notify you" 
 ```
 
-Passing argument to the called synapse with the `kalliope_memory`.
+Passing argument to the called synapse with the `forwarded_parameters`.
 **Scenario:** You want to remember to do something
 > **You:** remind me to call mom in 15 minutes<br>
 **Kalliope:** I'll notify you in 15 minutes<br>
@@ -93,7 +94,7 @@ Passing argument to the called synapse with the `kalliope_memory`.
     - neurotimer:
         seconds: "{{ time }}"
         synapse: "remember-todo"
-        kalliope_memory:
+        forwarded_parameters:
           remember: "{{ remember }}"
           seconds: "{{ time }}"
     - say:
@@ -106,9 +107,9 @@ Passing argument to the called synapse with the `kalliope_memory`.
   neurons:
     - say:
         message:
-          - "You asked me to remind you to {{ kalliope_memory['remember'] }} {{ kalliope_memory['time'] }} minutes ago"
+          - "You asked me to remind you to {{ remember }} {{ time }} minutes ago"
 ```
-
+> **Note:** You can still use the **kalliope_memory** instead of **forwarded_parameters** but your value will be overridden if you call the same synapse a multiple time.
 
 ## Notes
 
