@@ -11,6 +11,7 @@ from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 from kalliope.core.Cortex import Cortex
 from kalliope.core.LIFOBuffer import LIFOBuffer
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
+from kalliope.core.NeuronExceptions import NeuronExceptions
 from kalliope.core.OrderAnalyser import OrderAnalyser
 from kalliope.core.Utils.RpiUtils import RpiUtils
 from kalliope.core.Utils.Utils import Utils
@@ -19,14 +20,14 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class InvalidParameterException(Exception):
+class InvalidParameterException(NeuronExceptions):
     """
     Some Neuron parameters are invalid.
     """
     pass
 
 
-class MissingParameterException(Exception):
+class MissingParameterException(NeuronExceptions):
     """
     Some Neuron parameters are missing.
     """
