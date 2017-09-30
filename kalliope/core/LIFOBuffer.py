@@ -34,7 +34,6 @@ class LIFOBuffer(with_metaclass(Singleton, object)):
     like with the Neurotransmitter neuron.
     
     """
-    __metaclass__ = Singleton
 
     def __init__(self):
         logger.debug("[LIFOBuffer] LIFO buffer created")
