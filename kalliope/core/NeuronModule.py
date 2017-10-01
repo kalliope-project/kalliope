@@ -5,14 +5,14 @@ import sys
 
 import six
 from jinja2 import Template
-from kalliope.core.LIFOBuffer import LIFOBuffer
 
 from kalliope.core import OrderListener
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 from kalliope.core.Cortex import Cortex
+from kalliope.core.LIFOBuffer import LIFOBuffer
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
+from kalliope.core.NeuronExceptions import NeuronExceptions
 from kalliope.core.OrderAnalyser import OrderAnalyser
-from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.Utils.RpiUtils import RpiUtils
 from kalliope.core.Utils.Utils import Utils
 
@@ -20,14 +20,14 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class InvalidParameterException(Exception):
+class InvalidParameterException(NeuronExceptions):
     """
     Some Neuron parameters are invalid.
     """
     pass
 
 
-class MissingParameterException(Exception):
+class MissingParameterException(NeuronExceptions):
     """
     Some Neuron parameters are missing.
     """
@@ -233,7 +233,7 @@ class NeuronModule(object):
 
     @staticmethod
     def run_synapse_by_name(synapse_name, user_order=None, synapse_order=None, high_priority=False,
-                            is_api_call=False):
+                            is_api_call=False, overriding_parameter_dict=None):
         """
         call the lifo for adding a synapse to execute in the list of synapse list to process
         :param synapse_name: The name of the synapse to run
@@ -241,11 +241,13 @@ class NeuronModule(object):
         :param synapse_order: The synapse order
         :param high_priority: If True, the synapse is executed before the end of the current synapse list
         :param is_api_call: If true, the current call comes from the api
+        :param overriding_parameter_dict: dict of value to add to neuron parameters
         """
         synapse = BrainLoader().get_brain().get_synapse_by_name(synapse_name)
         matched_synapse = MatchedSynapse(matched_synapse=synapse,
                                          matched_order=synapse_order,
-                                         user_order=user_order)
+                                         user_order=user_order,
+                                         overriding_parameter=overriding_parameter_dict)
 
         list_synapse_to_process = list()
         list_synapse_to_process.append(matched_synapse)

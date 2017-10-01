@@ -1,0 +1,2 @@
+class NeuronExceptions(Exception):
+    pass

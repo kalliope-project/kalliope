@@ -1,11 +1,10 @@
 import logging
+import sys
 import threading
-
 import time
 
-from kalliope.core.NeuronModule import MissingParameterException, InvalidParameterException
-
 from kalliope.core import NeuronModule
+from kalliope.core.NeuronModule import MissingParameterException, InvalidParameterException
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -39,6 +38,7 @@ class Neurotimer(NeuronModule):
         self.minutes = kwargs.get('minutes', None)
         self.hours = kwargs.get('hours', None)
         self.synapse = kwargs.get('synapse', None)
+        self.forwarded_parameter = kwargs.get('forwarded_parameters', None)
 
         # do some check
         if self._is_parameters_ok():
@@ -116,5 +116,11 @@ class Neurotimer(NeuronModule):
         :return:
         """
         logger.debug("[Neurotimer] waiting time is over, start the synapse %s" % self.synapse)
+        # trick to remove unicode problem when loading jinja template with non ascii char
+        if sys.version_info[0] == 2:
+            reload(sys)
+            sys.setdefaultencoding('utf-8')
 
-        self.run_synapse_by_name(synapse_name=self.synapse, high_priority=False)
+        self.run_synapse_by_name(synapse_name=self.synapse,
+                                 high_priority=False,
+                                 overriding_parameter_dict=self.forwarded_parameter)

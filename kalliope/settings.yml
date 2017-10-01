@@ -25,6 +25,11 @@ triggers:
 # This is the STT that will be used by default
 default_speech_to_text: "google"
 
+# Speech to text options
+#recognition_options:
+#  energy_threshold: 4000
+#  adjust_for_ambient_noise_second: 1
+
 # Speech to Text engines configuration
 # Available engine are:
 # - google (via SpeechRecognition)

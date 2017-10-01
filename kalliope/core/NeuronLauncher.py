@@ -5,6 +5,7 @@ import six
 
 from kalliope.core.ConfigurationManager.SettingLoader import SettingLoader
 from kalliope.core.Cortex import Cortex
+from kalliope.core.NeuronExceptions import NeuronExceptions
 from kalliope.core.Utils.Utils import Utils
 
 logging.basicConfig()
@@ -52,9 +53,14 @@ class NeuronLauncher:
             try:
                 neuron.parameters = cls._replace_brackets_by_loaded_parameter(neuron.parameters, parameters_dict)
             except NeuronParameterNotAvailable:
-                Utils.print_danger("The neuron %s cannot be launched" % neuron.name)
+                Utils.print_danger("Missing parameter in neuron %s. Execution skipped" % neuron.name)
                 return None
-        instantiated_neuron = NeuronLauncher.launch_neuron(neuron)
+        try:
+            instantiated_neuron = NeuronLauncher.launch_neuron(neuron)
+        except NeuronExceptions:
+            Utils.print_danger("ERROR: Fail to execute neuron '%s'. Missing or invalid parameter(s). Execution skipped"
+                               % neuron.name)
+            return None
         return instantiated_neuron
 
     @classmethod
