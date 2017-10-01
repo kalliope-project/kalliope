@@ -32,8 +32,23 @@ class SpeechRecognition(Thread):
         if audio_file is None:
             # audio file not set, we need to capture a sample from the microphone
             with self.microphone as source:
-                # we only need to calibrate once, before we start listening
-                self.recognizer.adjust_for_ambient_noise(source)
+                if self.settings.stt_options.adjust_for_ambient_noise_second > 0:
+                    # threshold is calculated from capturing ambient sound
+                    logger.debug("[SpeechRecognition] threshold calculated by "
+                                 "capturing ambient noise during %s seconds" %
+                                 self.settings.stt_options.adjust_for_ambient_noise_second)
+                    Utils.print_info("[SpeechRecognition] capturing ambient sound during %s seconds" %
+                                     self.settings.stt_options.adjust_for_ambient_noise_second)
+                    self.recognizer.adjust_for_ambient_noise(source,
+                                                             duration=self.settings.
+                                                             stt_options.adjust_for_ambient_noise_second)
+                else:
+                    # threshold is defined manually
+                    logger.debug("[SpeechRecognition] threshold defined by settings: %s" %
+                                 self.settings.stt_options.energy_threshold)
+                    self.recognizer.energy_threshold = self.settings.stt_options.energy_threshold
+
+                Utils.print_info("Threshold set to: %s" % self.recognizer.energy_threshold)
         else:
             # audio file provided
             with sr.AudioFile(audio_file) as source:

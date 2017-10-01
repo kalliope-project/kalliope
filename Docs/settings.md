@@ -4,7 +4,7 @@ This part of the documentation explains the main configuration of Kalliope place
 
 ## Triggers configuration
 
-#### default_trigger
+### default_trigger
 
 The trigger is the module detecting the hotword that will wake up Kalliope.
 Common usage of hotword include Alexa on Amazon Echo, OK Google on some Android devices and Hey Siri on iPhones.
@@ -17,7 +17,7 @@ default_trigger: "trigger_name"
 Available triggers for Kalliope are:
 - snowboy
 
-#### triggers
+### triggers
 The hotword (also called a wake word or trigger word) detector is the engine in charge of waking up Kalliope.
 
 Each Trigger has it own configuration. This configuration is passed as argument following the syntax bellow
@@ -38,7 +38,7 @@ See the complete list of [available triggers here](trigger.md).
 
 ## Players configuration
 
-#### default_player
+### default_player
 
 The player is the module managing the sound in Kalliope.
 
@@ -51,7 +51,7 @@ E.g
 default_player: "mplayer"
 ```
 
-#### players
+### players
 The player is the engine in charge of running sounds in Kalliope.
 
 Each Players has it own configuration. 
@@ -91,7 +91,7 @@ Core players are already packaged with the installation of Kalliope an can be us
 
 ## Speech to text configuration
 
-#### default_speech_to_text
+### default_speech_to_text
 
 A Speech To Text(STT) is an engine used to translate what you say into a text that can be processed by Kalliope core.
 By default, Kalliope uses google STT engine.
@@ -108,7 +108,7 @@ default_speech_to_text: "google"
 
 Get the full list of [SST engine here](stt.md).
 
-#### speech_to_text
+### speech_to_text
 Each STT has it own configuration. This configuration is passed as argument as shown bellow
 ```yml
 speech_to_text:
@@ -126,9 +126,58 @@ speech_to_text:
 
 Some arguments are required, some others are optional, please refer to the [STT documentation](stt.md) to know available parameters for each supported STT.
 
+### stt_options
+
+Represents a collection of speech recognition settings and functionality.
+```yml
+stt_options:
+  option_name: option_value
+  option_name2: option_value2
+```
+
+E.g
+```yml
+stt_options:
+  energy_threshold: 3000
+```
+
+#### energy_threshold
+
+Represents the energy level threshold for sounds. By default set to **4000**.
+Values below this threshold are considered silence, and values above this threshold are considered speech.
+This is adjusted automatically if dynamic thresholds are enabled with `adjust_for_ambient_noise_second` parameter.
+
+This threshold is associated with the perceived loudness of the sound, but it is a nonlinear relationship. 
+The actual energy threshold you will need depends on your microphone sensitivity or audio data. 
+Typical values for a silent room are 0 to 100, and typical values for speaking are between 150 and 3500. 
+Ambient (non-speaking) noise has a significant impact on what values will work best.
+
+If you're having trouble with the recognizer trying to recognize words even when you're not speaking, try tweaking this to a higher value. 
+If you're having trouble with the recognizer not recognizing your words when you are speaking, try tweaking this to a lower value. 
+For example, a sensitive microphone or microphones in louder rooms might have a ambient energy level of up to 4000.
+```yml
+stt_options:
+  energy_threshold: 4000
+```
+
+>**Note:** The default value is 4000 if not set
+
+#### adjust_for_ambient_noise_second
+
+If defined, will adjusts the energy threshold dynamically by capturing the current ambient noise of the room during the number of second set in the parameter.
+When set, the `energy_threshold` parameter is overridden by the returned value of the noise calibration.
+This value should be at least 0.5 in order to get a representative sample of the ambient noise.
+
+```yml
+stt_options:
+  adjust_for_ambient_noise_second: 1
+```
+
+>**Note:** The number of second here represents the time between kalliope's awakening and the moment when you can give her your order.
+
 ## Text to speech configuration
 
-#### default_text_to_speech
+### default_text_to_speech
 A Text To Speech is an engine used to translate written text into a speech, into an audio stream.
 By default, Kalliope use Pico2wave TTS engine.
 
@@ -144,7 +193,7 @@ default_text_to_speech: "pico2wave"
 
 Get the full list of [TTS engine here](tts.md).
 
-#### text_to_speech
+### text_to_speech
 Each TTS has it own configuration. This configuration is passed as argument following the syntax bellow
 ```yml
 text_to_speech:
@@ -165,7 +214,7 @@ Some arguments are required, some other optional, please refer to the [TTS docum
 
 ## Wake up answers configuration
 
-#### random_wake_up_answers
+### random_wake_up_answers
 When Kalliope detects your trigger/hotword/magic word, it lets you know that it's operational and now waiting for order. It's done by answering randomly
 one of the sentences provided in the variable random_wake_up_answers.
 
@@ -187,7 +236,7 @@ random_wake_up_answers:
   - "Yes?"
 ```
 
-#### random_wake_up_sounds
+### random_wake_up_sounds
 You can play a sound when Kalliope detects the hotword/trigger instead of saying something from
 the `random_wake_up_answers`.
 Place here a list of full paths of the sound files you want to use. Otherwise, you can use some default sounds provided by Kalliope which you can find in `/usr/lib/kalliope/sounds`.
@@ -215,7 +264,7 @@ E.g: `# random_wake_up_answers:`
 ## On ready notification
 This section is used to notify the user when Kalliope is waiting for a trigger detection by playing a sound or speak a sentence out loud
 
-#### play_on_ready_notification
+### play_on_ready_notification
 This parameter define if you play the on ready notification:
  - `always`: every time Kalliope is ready to be awaken
  - `never`: never play a sound or sentences when kalliope is ready
@@ -225,7 +274,7 @@ E.g:
 ```yml
 play_on_ready_notification: always
 ```
-#### on_ready_answers
+### on_ready_answers
 The on ready notification can be a sentence. Place here a sentence or a list of sentence. If you set a list, one sentence will be picked up randomly
 
 E.g:
@@ -235,7 +284,7 @@ on_ready_answers:
   - "Waiting for order"
 ```
 
-#### on_ready_sounds
+### on_ready_sounds
 You can play a sound instead of a sentence.
 Remove the `on_ready_answers` parameters by commenting it out and use this one instead.
 Place here the path of the sound file. Files must be .wav or .mp3 format.
@@ -272,22 +321,22 @@ rest_api:
   allowed_cors_origin: "*"
 ```
 
-#### active
+### active
 To enable the rest api server.
 
-#### port
+### port
 The listening port of the web server. Must be an integer in range 1024-65535.
 
-#### password_protected
+### password_protected
 If `True`, the whole api will be password protected.
 
 #### Login
 Login used by the basic HTTP authentication. Must be provided if `password_protected` is `True`
 
-#### Password
+### Password
 Password used by the basic HTTP authentication. Must be provided if `password_protected` is `True`
 
-#### Cors request
+### Cors request
 If you want to allow request from external application, you'll need to enable the CORS requests settings by defining authorized origins.
 To do so, just indicated the origins that are allowed to leverage the API. The authorize values are:
 

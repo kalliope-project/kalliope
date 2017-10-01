@@ -29,8 +29,8 @@ class Order(Thread):
               'playing_ready_sound',
               'waiting_for_trigger_callback',
               'stopping_trigger',
-              'start_order_listener',
               'playing_wake_up_answer',
+              'start_order_listener',
               'waiting_for_order_listener_callback',
               'analysing_order']
 
@@ -71,9 +71,9 @@ class Order(Thread):
         self.machine.add_transition('play_ready_sound', 'starting_trigger', 'playing_ready_sound')
         self.machine.add_transition('wait_trigger_callback', 'playing_ready_sound', 'waiting_for_trigger_callback')
         self.machine.add_transition('stop_trigger', 'waiting_for_trigger_callback', 'stopping_trigger')
-        self.machine.add_transition('play_wake_up_answer', 'waiting_for_trigger_callback', 'playing_wake_up_answer')
+        self.machine.add_transition('play_wake_up_answer', 'stopping_trigger', 'playing_wake_up_answer')
         self.machine.add_transition('wait_for_order', 'playing_wake_up_answer', 'waiting_for_order_listener_callback')
-        self.machine.add_transition('analyse_order', 'waiting_for_order_listener_callback', 'analysing_order')
+        self.machine.add_transition('analyse_order', 'playing_wake_up_answer', 'analysing_order')
 
         self.machine.add_ordered_transitions()
 
