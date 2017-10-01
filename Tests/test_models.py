@@ -4,7 +4,7 @@ import mock
 
 from kalliope.core.Models.Player import Player
 from kalliope.core.Models.Signal import Signal
-from kalliope.core.Models.SttOptions import SttOptions
+from kalliope.core.Models.RecognitionOptions import RecognitionOptions
 from kalliope.core.Models.Tts import Tts
 
 from kalliope.core.Models.Trigger import Trigger
@@ -244,7 +244,7 @@ class TestModels(unittest.TestCase):
                                 active=True,
                                 port=5000, allowed_cors_origin="*")
 
-            stt_options = SttOptions()
+            recognition_options = RecognitionOptions()
 
             setting1 = Settings(default_tts_name="pico2wav",
                                 default_stt_name="google",
@@ -264,7 +264,7 @@ class TestModels(unittest.TestCase):
                                 default_synapse="default_synapse",
                                 resources=None,
                                 variables={"key1": "val1"},
-                                stt_options=stt_options)
+                                recognition_options=recognition_options)
             setting1.kalliope_version = "0.4.5"
 
             setting2 = Settings(default_tts_name="accapela",
@@ -284,7 +284,7 @@ class TestModels(unittest.TestCase):
                                 default_synapse="my_default_synapse",
                                 resources=None,
                                 variables={"key1": "val1"},
-                                stt_options=stt_options)
+                                recognition_options=recognition_options)
             setting2.kalliope_version = "0.4.5"
 
             setting3 = Settings(default_tts_name="pico2wav",
@@ -305,7 +305,7 @@ class TestModels(unittest.TestCase):
                                 default_synapse="default_synapse",
                                 resources=None,
                                 variables={"key1": "val1"},
-                                stt_options=stt_options)
+                                recognition_options=recognition_options)
             setting3.kalliope_version = "0.4.5"
 
             expected_result_serialize = {
@@ -338,7 +338,7 @@ class TestModels(unittest.TestCase):
                 'triggers': ['snowboy'],
                 'rpi_settings': None,
                 'players': ['mplayer'],
-                'stt_options': {'energy_threshold': 4000, 'adjust_for_ambient_noise_second': 0}
+                'recognition_options': {'energy_threshold': 4000, 'adjust_for_ambient_noise_second': 0}
             }
 
             self.assertDictEqual(expected_result_serialize, setting1.serialize())

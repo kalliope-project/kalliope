@@ -1,6 +1,6 @@
-class SttOptions(object):
+class RecognitionOptions(object):
     """
-    This Class is representing a Speech To Text (STT) element with name and parameters
+    This Class is representing a Speech To Text (STT) Recognition elements with name and parameters
 
     .. note:: must be defined in the settings.yml
     """

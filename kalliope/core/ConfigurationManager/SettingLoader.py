@@ -3,7 +3,7 @@ import os
 from six import with_metaclass
 
 from kalliope.core.Models.RpiSettings import RpiSettings
-from kalliope.core.Models.SttOptions import SttOptions
+from kalliope.core.Models.RecognitionOptions import RecognitionOptions
 from .YAMLLoader import YAMLLoader
 from kalliope.core.Models.Resources import Resources
 from kalliope.core.Utils.Utils import Utils
@@ -119,7 +119,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         resources = self._get_resources(settings)
         variables = self._get_variables(settings)
         rpi_settings = self._get_rpi_settings(settings)
-        stt_options = self._get_stt_options(settings)
+        recognition_options = self._get_recognition_options(settings)
 
         # Load the setting singleton with the parameters
         setting_object.default_tts_name = default_tts_name
@@ -141,7 +141,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         setting_object.resources = resources
         setting_object.variables = variables
         setting_object.rpi_settings = rpi_settings
-        setting_object.stt_options = stt_options
+        setting_object.recognition_options = recognition_options
 
         return setting_object
 
@@ -789,28 +789,28 @@ class SettingLoader(with_metaclass(Singleton, object)):
             return None
 
     @staticmethod
-    def _get_stt_options(settings):
+    def _get_recognition_options(settings):
         """
         return the value of stt_threshold
         :param settings: The loaded YAML settings file
         :return: integer or 1200 by default if not set
         """
-        stt_options = SttOptions()
+        recognition_options = RecognitionOptions()
 
         try:
-            stt_options_dict = settings["stt_options"]
+            recognition_options_dict = settings["RecognitionOptions"]
 
-            if "energy_threshold" in stt_options_dict:
-                stt_options.energy_threshold = stt_options_dict["energy_threshold"]
-                logger.debug("[SettingsLoader] energy_threshold set to %s" % stt_options.energy_threshold)
-            if "adjust_for_ambient_noise_second" in stt_options_dict:
-                stt_options.adjust_for_ambient_noise_second = stt_options_dict["adjust_for_ambient_noise_second"]
+            if "energy_threshold" in recognition_options_dict:
+                recognition_options.energy_threshold = recognition_options_dict["energy_threshold"]
+                logger.debug("[SettingsLoader] energy_threshold set to %s" % recognition_options.energy_threshold)
+            if "adjust_for_ambient_noise_second" in recognition_options_dict:
+                recognition_options.adjust_for_ambient_noise_second = recognition_options_dict["adjust_for_ambient_noise_second"]
                 logger.debug("[SettingsLoader] adjust_for_ambient_noise_second set to %s"
-                             % stt_options.adjust_for_ambient_noise_second)
-            return stt_options
+                             % recognition_options.adjust_for_ambient_noise_second)
+            return recognition_options
 
         except KeyError:
-            logger.debug("[SettingsLoader] no stt_options defined. Set to default")
+            logger.debug("[SettingsLoader] no recognition_options defined. Set to default")
 
-        logger.debug("[SettingsLoader] stt_options: %s" % str(stt_options))
-        return stt_options
+        logger.debug("[SettingsLoader] recognition_options: %s" % str(recognition_options))
+        return recognition_options

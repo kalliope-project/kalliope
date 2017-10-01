@@ -126,18 +126,18 @@ speech_to_text:
 
 Some arguments are required, some others are optional, please refer to the [STT documentation](stt.md) to know available parameters for each supported STT.
 
-### stt_options
+### recognition_options
 
 Represents a collection of speech recognition settings and functionality.
 ```yml
-stt_options:
+recognition_options:
   option_name: option_value
   option_name2: option_value2
 ```
 
 E.g
 ```yml
-stt_options:
+recognition_options:
   energy_threshold: 3000
 ```
 
@@ -156,7 +156,7 @@ If you're having trouble with the recognizer trying to recognize words even when
 If you're having trouble with the recognizer not recognizing your words when you are speaking, try tweaking this to a lower value. 
 For example, a sensitive microphone or microphones in louder rooms might have a ambient energy level of up to 4000.
 ```yml
-stt_options:
+recognition_options:
   energy_threshold: 4000
 ```
 
@@ -169,7 +169,7 @@ When set, the `energy_threshold` parameter is overridden by the returned value o
 This value should be at least 0.5 in order to get a representative sample of the ambient noise.
 
 ```yml
-stt_options:
+recognition_options:
   adjust_for_ambient_noise_second: 1
 ```
 
