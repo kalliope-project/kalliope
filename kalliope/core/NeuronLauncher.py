@@ -99,7 +99,8 @@ class NeuronLauncher:
             returned_dict = dict()
             for key, value in neuron_parameters.items():
                 # following keys are reserved for the TTS
-                if key in "say_template" or key in "file_template" or key in "kalliope_memory":
+                if key in "say_template" or key in "file_template" or key in "kalliope_memory" \
+                        or key in "from_answer_link":
                     returned_dict[key] = value
                 else:
                     returned_dict[key] = cls._replace_brackets_by_loaded_parameter(value, loaded_parameters)

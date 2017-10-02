@@ -1,0 +1,32 @@
+- name: "remember-synapse"
+  signals:
+    - order: "rappel moi de {{ remember }} dans {{ time }} secondes"
+  neurons:
+    - neurotimer:
+        seconds: "{{ time }}"
+        synapse: "remember-todo"
+        forwarded_parameters:
+          remember: "{{ remember }}"
+          time: "{{ time }}"
+    - say:
+        message:
+          - "je vous le rappel dans {{ time }} secondes"
+
+- name: "remember-todo"
+  signals: {}
+  neurons:
+    - say:
+        message:
+          - "vous m'avez demandé de vous rappeler de {{ remember }} il a {{ time }} secondes"
+    - neurotransmitter:
+          from_answer_link:
+            - synapse: "your-welcome"
+              answers:
+                - "merci"
+          default: "synapse3"
+
+- name: "your-welcome"
+  signals: {}
+  neurons:
+    - say:
+        message: "de rien"
