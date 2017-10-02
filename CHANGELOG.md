@@ -9,6 +9,7 @@ v0.4.6 / 2017-10-03
 - new feature: kalliope memory
 - add espeak tts to core
 - add stt options. manual or dynamic threshold
+- Fix: neurotransmitter bracket in answer
 
 v0.4.5 / 2017-07-23
 ===================

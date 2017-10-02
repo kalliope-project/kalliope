@@ -24,14 +24,19 @@ class InvalidParameterException(NeuronExceptions):
     """
     Some Neuron parameters are invalid.
     """
-    pass
+    def __init__(self, message):
+        # Call the base class constructor with the parameters it needs
+        super(InvalidParameterException, self).__init__(message)
 
 
 class MissingParameterException(NeuronExceptions):
     """
     Some Neuron parameters are missing.
     """
-    pass
+
+    def __init__(self, message):
+        # Call the base class constructor with the parameters it needs
+        super(MissingParameterException, self).__init__(message)
 
 
 class NoTemplateException(Exception):

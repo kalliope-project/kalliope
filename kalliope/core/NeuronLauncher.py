@@ -57,9 +57,9 @@ class NeuronLauncher:
                 return None
         try:
             instantiated_neuron = NeuronLauncher.launch_neuron(neuron)
-        except NeuronExceptions:
-            Utils.print_danger("ERROR: Fail to execute neuron '%s'. Missing or invalid parameter(s). Execution skipped"
-                               % neuron.name)
+        except NeuronExceptions as e:
+            Utils.print_danger("ERROR: Fail to execute neuron '%s'. "
+                               '%s' ". -> Execution skipped" % (neuron.name, e.message))
             return None
         return instantiated_neuron
 
