@@ -1,3 +1,4 @@
+from kalliope.core.Cortex import Cortex
 from kalliope.core.Utils import Utils
 
 import logging
@@ -16,7 +17,9 @@ class NeuronParameterLoader(object):
         params = dict()
         if Utils.is_containing_bracket(synapse_order):
             params = cls._associate_order_params_to_values(user_order, synapse_order)
-            logger.debug("Parameters for order: %s" % params)
+            logger.debug("[NeuronParameterLoader.get_parameters]Parameters for order: %s" % params)
+            # we place the dict of parameters load from order into a cache in Cortex so the user can save it later
+            Cortex.add_parameters_from_order(params)
         return params
 
     @classmethod
@@ -29,7 +32,7 @@ class NeuronParameterLoader(object):
         :type order: str
         :return: the dict corresponding to the key / value of the params
         """
-        logger.debug("[OrderAnalyser._associate_order_params_to_values] user order: %s, "
+        logger.debug("[NeuronParameterLoader._associate_order_params_to_values] user order: %s, "
                      "order from synapse: %s" % (order, order_to_check))
 
         list_word_in_order = Utils.remove_spaces_in_brackets(order_to_check).split()
@@ -54,7 +57,7 @@ class NeuronParameterLoader(object):
                     dict_var[var_name] = " ".join(truncate_list_word_said)
                     break
                 for word_said in truncate_list_word_said:
-                    if word_said == stop_value:
+                    if word_said.lower() == stop_value.lower():  # Do not consider the case
                         break
                     if var_name in dict_var:
                         dict_var[var_name] += " " + word_said

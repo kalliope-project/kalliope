@@ -1,10 +1,12 @@
 import logging
-import six
-import jinja2
-import sys
 
-from kalliope.core.Utils.Utils import Utils
+import jinja2
+import six
+
 from kalliope.core.ConfigurationManager.SettingLoader import SettingLoader
+from kalliope.core.Cortex import Cortex
+from kalliope.core.NeuronExceptions import NeuronExceptions
+from kalliope.core.Utils.Utils import Utils
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -28,8 +30,7 @@ class NeuronLauncher:
         :return:
         """
         logger.debug("Run neuron: \"%s\"" % (neuron.__str__()))
-        sl = SettingLoader()
-        settings = sl.settings
+        settings = cls.load_settings()
         neuron_folder = None
         if settings.resources:
             neuron_folder = settings.resources.neuron_folder
@@ -52,9 +53,14 @@ class NeuronLauncher:
             try:
                 neuron.parameters = cls._replace_brackets_by_loaded_parameter(neuron.parameters, parameters_dict)
             except NeuronParameterNotAvailable:
-                Utils.print_danger("The neuron %s cannot be launched" % neuron.name)
+                Utils.print_danger("Missing parameter in neuron %s. Execution skipped" % neuron.name)
                 return None
-        instantiated_neuron = NeuronLauncher.launch_neuron(neuron)
+        try:
+            instantiated_neuron = NeuronLauncher.launch_neuron(neuron)
+        except NeuronExceptions as e:
+            Utils.print_danger("ERROR: Fail to execute neuron '%s'. "
+                               '%s' ". -> Execution skipped" % (neuron.name, e.message))
+            return None
         return instantiated_neuron
 
     @classmethod
@@ -67,11 +73,21 @@ class NeuronLauncher:
         :param loaded_parameters: dict of parameters
         """
         logger.debug("[NeuronLauncher] replacing brackets from %s, using %s" % (neuron_parameters, loaded_parameters))
+        # add variables from the short term memory to the list of loaded parameters that can be used in a template
+        # the final dict is added into a key "kalliope_memory" to not override existing keys loaded form the order
+        memory_dict = dict()
+        memory_dict["kalliope_memory"] = Cortex.get_memory()
+        if loaded_parameters is None:
+            loaded_parameters = dict()  # instantiate an empty dict in order to be able to add memory in it
+        loaded_parameters.update(memory_dict)
         if isinstance(neuron_parameters, str) or isinstance(neuron_parameters, six.text_type):
             # replace bracket parameter only if the str contains brackets
             if Utils.is_containing_bracket(neuron_parameters):
                 # check that the parameter to replace is available in the loaded_parameters dict
                 if cls._neuron_parameters_are_available_in_loaded_parameters(neuron_parameters, loaded_parameters):
+                    # add parameters from global variable into the final loaded parameter dict
+                    settings = cls.load_settings()
+                    loaded_parameters.update(settings.variables)
                     neuron_parameters = jinja2.Template(neuron_parameters).render(loaded_parameters)
                     neuron_parameters = Utils.encode_text_utf8(neuron_parameters)
                     return str(neuron_parameters)
@@ -82,7 +98,9 @@ class NeuronLauncher:
         if isinstance(neuron_parameters, dict):
             returned_dict = dict()
             for key, value in neuron_parameters.items():
-                if key in "say_template" or key in "file_template":  # those keys are reserved for the TTS.
+                # following keys are reserved by kalliope core
+                if key in "say_template" or key in "file_template" or key in "kalliope_memory" \
+                        or key in "from_answer_link":
                     returned_dict[key] = value
                 else:
                     returned_dict[key] = cls._replace_brackets_by_loaded_parameter(value, loaded_parameters)
@@ -121,3 +139,12 @@ class NeuronLauncher:
                 Utils.print_danger("The parameter %s is not available in the order" % str(parameter))
                 return False
         return True
+
+    @staticmethod
+    def load_settings():
+        """
+        Return loaded kalliope settings
+        :return: setting object
+        """
+        sl = SettingLoader()
+        return sl.settings

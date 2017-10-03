@@ -3,13 +3,16 @@
 import argparse
 import logging
 
+import time
+
 from kalliope.core import ShellGui
 from kalliope.core import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.ConfigurationManager.BrainLoader import BrainLoader
-from kalliope.core.EventManager import EventManager
-from kalliope.core.MainController import MainController
+from kalliope.core.SignalLauncher import SignalLauncher
 from kalliope.core.Utils.RpiUtils import RpiUtils
+from flask import Flask
+from kalliope.core.RestAPI.FlaskAPI import FlaskAPI
 
 from ._version import version_str
 import signal
@@ -59,6 +62,7 @@ def parse_args(args):
     parser.add_argument("--stt-name", help="STT name to uninstall")
     parser.add_argument("--tts-name", help="TTS name to uninstall")
     parser.add_argument("--trigger-name", help="Trigger name to uninstall")
+    parser.add_argument("--signal-name", help="Signal name to uninstall")
     parser.add_argument('-v', '--version', action='version',
                         version='Kalliope ' + version_str)
 
@@ -107,14 +111,25 @@ def main():
 
     # uninstall modules
     if parser.action == "uninstall":
-        if not parser.neuron_name and not parser.stt_name and not parser.tts_name and not parser.trigger_name:
-            Utils.print_danger("You must specify a module name with --neuron-name or --stt-name or --tts-name "
-                               "or --trigger-name")
+        if not parser.neuron_name \
+                and not parser.stt_name \
+                and not parser.tts_name \
+                and not parser.trigger_name\
+                and not parser.signal_name:
+            Utils.print_danger("You must specify a module name with "
+                               "--neuron-name "
+                               "or --stt-name "
+                               "or --tts-name "
+                               "or --trigger-name "
+                               "or --signal-name")
             sys.exit(1)
         else:
             res_manager = ResourcesManager()
-            res_manager.uninstall(neuron_name=parser.neuron_name, stt_name=parser.stt_name,
-                                  tts_name=parser.tts_name, trigger_name=parser.trigger_name)
+            res_manager.uninstall(neuron_name=parser.neuron_name,
+                                  stt_name=parser.stt_name,
+                                  tts_name=parser.tts_name,
+                                  trigger_name=parser.trigger_name,
+                                  signal_name=parser.signal_name)
         return
 
     # load the brain once
@@ -128,10 +143,6 @@ def main():
 
     if parser.action == "start":
 
-        if settings.rpi_settings:
-            # init GPIO once
-            RpiUtils(settings.rpi_settings)
-
         # user set a synapse to start
         if parser.run_synapse is not None:
             SynapseLauncher.start_synapse_by_name(parser.run_synapse,
@@ -144,25 +155,9 @@ def main():
                                                             is_api_call=False)
 
         if (parser.run_synapse is None) and (parser.run_order is None):
-            # first, load events in event manager
-            EventManager(brain.synapses)
-            Utils.print_success("Events loaded")
-            # then start kalliope
-            Utils.print_success("Starting Kalliope")
-            Utils.print_info("Press Ctrl+C for stopping")
-            # catch signal for killing on Ctrl+C pressed
-            signal.signal(signal.SIGINT, signal_handler)
-            # start the state machine
-            try:
-                MainController(brain=brain)
-            except (KeyboardInterrupt, SystemExit):
-                Utils.print_info("Ctrl+C pressed. Killing Kalliope")
-            finally:
-                # we need to switch GPIO pin to default status if we are using a Rpi
-                if settings.rpi_settings:
-                    logger.debug("Clean GPIO")
-                    import RPi.GPIO as GPIO
-                    GPIO.cleanup()
+            # start rest api
+            start_rest_api(settings, brain)
+            start_kalliope(settings, brain)
 
     if parser.action == "gui":
         try:
@@ -170,6 +165,15 @@ def main():
         except (KeyboardInterrupt, SystemExit):
             Utils.print_info("Ctrl+C pressed. Killing Kalliope")
             sys.exit(0)
+
+
+class AppFilter(logging.Filter):
+    """
+    Class used to add a custom entry into the logger
+    """
+    def filter(self, record):
+        record.app_version = "kalliope-%s" % version_str
+        return True
 
 
 def configure_logging(debug=None):
@@ -180,18 +184,90 @@ def configure_logging(debug=None):
 
     """
     logger = logging.getLogger("kalliope")
+    logger.addFilter(AppFilter())
     logger.propagate = False
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
-    ch.setFormatter(formatter)
+    syslog = logging.StreamHandler()
+    syslog .setLevel(logging.DEBUG)
 
-    # add the handlers to logger
-    logger.addHandler(ch)
+    formatter = logging.Formatter('%(asctime)s :: %(app_version)s :: %(message)s', "%Y-%m-%d %H:%M:%S")
+    syslog .setFormatter(formatter)
 
     if debug:
         logger.setLevel(logging.DEBUG)
     else:
         logger.setLevel(logging.INFO)
 
+    # add the handlers to logger
+    logger.addHandler(syslog)
+
     logger.debug("Logger ready")
+
+
+def get_list_signal_class_to_load(brain):
+    """
+    Return a list of signal class name
+    For all synapse, each signal type is added to a list only if the signal is not yet present in the list
+    :param brain: Brain object
+    :type brain: Brain
+    :return: set of signal class
+    """
+    list_signal_class_name = set()
+
+    for synapse in brain.synapses:
+        for signal_object in synapse.signals:
+            list_signal_class_name.add(signal_object.name)
+    logger.debug("[Kalliope entrypoint] List of signal class to load: %s" % list_signal_class_name)
+    return list_signal_class_name
+
+
+def start_rest_api(settings, brain):
+    """
+    Start the Rest API if asked in the user settings
+    """
+    # run the api if the user want it
+    if settings.rest_api.active:
+        Utils.print_info("Starting REST API Listening port: %s" % settings.rest_api.port)
+        app = Flask(__name__)
+        flask_api = FlaskAPI(app=app,
+                             port=settings.rest_api.port,
+                             brain=brain,
+                             allowed_cors_origin=settings.rest_api.allowed_cors_origin)
+        flask_api.daemon = True
+        flask_api.start()
+
+
+def start_kalliope(settings, brain):
+    """
+    Start all signals declared in the brain
+    """
+    # start kalliope
+    Utils.print_success("Starting Kalliope")
+    Utils.print_info("Press Ctrl+C for stopping")
+    # catch signal for killing on Ctrl+C pressed
+    signal.signal(signal.SIGINT, signal_handler)
+
+    # get a list of signal class to load from declared synapse in the brain
+    # this list will contain string of signal class type.
+    # For example, if the brain contains multiple time the signal type "order", the list will be ["order"]
+    # If the brain contains some synapse with "order" and "event", the list will be ["order", "event"]
+    list_signals_class_to_load = get_list_signal_class_to_load(brain)
+
+    # start each class name
+    try:
+        for signal_class_name in list_signals_class_to_load:
+            signal_instance = SignalLauncher.launch_signal_class_by_name(signal_name=signal_class_name,
+                                                                         settings=settings)
+            if signal_instance is not None:
+                signal_instance.daemon = True
+                signal_instance.start()
+
+        while True:  # keep main thread alive
+            time.sleep(0.1)
+
+    except (KeyboardInterrupt, SystemExit):
+        # we need to switch GPIO pin to default status if we are using a Rpi
+        if settings.rpi_settings:
+            Utils.print_info("GPIO cleaned")
+            logger.debug("Clean GPIO")
+            import RPi.GPIO as GPIO
+            GPIO.cleanup()

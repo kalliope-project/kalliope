@@ -15,7 +15,7 @@ default_trigger: "snowboy"
 # - snowboy
 triggers:
   - snowboy:
-      pmdl_file: "trigger/snowboy/resources/kalliope-FR-13samples.pmdl"
+      pmdl_file: "trigger/snowboy/resources/kalliope-FR-40samples.pmdl"
 
 
 # ---------------------------
@@ -24,6 +24,11 @@ triggers:
 
 # This is the STT that will be used by default
 default_speech_to_text: "google"
+
+# Speech to text options
+#recognition_options:
+#  energy_threshold: 4000
+#  adjust_for_ambient_noise_second: 1
 
 # Speech to Text engines configuration
 # Available engine are:
@@ -172,13 +177,14 @@ default_synapse: "default-synapse"
 #   - stt
 #   - tts
 #   - trigger  /!\ we do not manage trigger properly yet...
+#   - signal
 # ---------------------------
 #resource_directory:
 #  neuron: "/var/tmp/resources/neurons"
 #  stt: "resources/stt"
 #  tts: "resources/tts"
 #  trigger: "resources/trigger"
-
+#  signal: "resources/signal"
 
 # ---------------------------
 # Global files variables

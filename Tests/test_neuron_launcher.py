@@ -2,6 +2,7 @@
 
 import unittest
 import mock
+from kalliope.core.Models import Singleton
 
 from kalliope.core.Models.Resources import Resources
 from kalliope.core.NeuronLauncher import NeuronLauncher, NeuronParameterNotAvailable
@@ -16,7 +17,11 @@ class TestNeuronLauncher(unittest.TestCase):
     """
 
     def setUp(self):
-        pass
+        # clean settings
+        Singleton._instances = dict()
+
+    def tearDown(self):
+        Singleton._instances = dict()
 
     ####
     # Neurons Launcher
@@ -181,47 +186,87 @@ class TestNeuronLauncher(unittest.TestCase):
         self.assertEqual(expected_result, NeuronLauncher._replace_brackets_by_loaded_parameter(neuron_parameters,
                                                                                                loaded_parameters))
 
+        # replacing with variable
+        sl = SettingLoader()
+        sl.settings.variables = {
+            "replaced": {
+                "name": u'replaced successfully'
+            }
+        }
+
+        neuron_parameters = {
+            "param1": "this is a value {{ replaced['name'] }}"
+        }
+
+        loaded_parameters = {
+            "name": "replaced successfully"
+        }
+
+        expected_result = {
+            "param1": "this is a value replaced successfully"
+        }
+
+        self.assertEqual(expected_result, NeuronLauncher._replace_brackets_by_loaded_parameter(neuron_parameters,
+                                                                                               loaded_parameters))
+
+        # the parameter is a reserved key. for example from_answer_link from the neurotransmitter
+        list_reserved_keys = ["say_template", "file_template", "kalliope_memory", "from_answer_link"]
+
+        for reserved_key in list_reserved_keys:
+            neuron_parameters = {
+                reserved_key: "this is a value with {{ 'brackets '}}"
+            }
+
+            loaded_parameters = dict()
+
+            expected_result = {
+                reserved_key: "this is a value with {{ 'brackets '}}"
+            }
+
+            self.assertEqual(expected_result, NeuronLauncher._replace_brackets_by_loaded_parameter(neuron_parameters,
+                                                                                               loaded_parameters))
+
     def test_parameters_are_available_in_loaded_parameters(self):
         # the parameter in bracket is available in the dict
         string_parameters = "this is a {{ parameter1 }}"
         loaded_parameters = {"parameter1": "value"}
 
         self.assertTrue(NeuronLauncher._neuron_parameters_are_available_in_loaded_parameters(string_parameters,
-                                                                                            loaded_parameters))
+                                                                                             loaded_parameters))
 
         # the parameter in bracket is NOT available in the dict
         string_parameters = "this is a {{ parameter1 }}"
         loaded_parameters = {"parameter2": "value"}
 
         self.assertFalse(NeuronLauncher._neuron_parameters_are_available_in_loaded_parameters(string_parameters,
-                                                                                             loaded_parameters))
+                                                                                              loaded_parameters))
 
         # the string_parameters doesn't contains bracket in bracket is available in the dict
         string_parameters = "this is a {{ parameter1 }}"
         loaded_parameters = {"parameter1": "value"}
 
         self.assertTrue(NeuronLauncher._neuron_parameters_are_available_in_loaded_parameters(string_parameters,
-                                                                                            loaded_parameters))
+                                                                                             loaded_parameters))
 
         # the string_parameters contains 2 parameters available in the dict
         string_parameters = "this is a {{ parameter1 }} and this is {{ parameter2 }}"
         loaded_parameters = {"parameter1": "value", "parameter2": "other value"}
 
         self.assertTrue(NeuronLauncher._neuron_parameters_are_available_in_loaded_parameters(string_parameters,
-                                                                                            loaded_parameters))
+                                                                                             loaded_parameters))
 
         # the string_parameters contains 2 parameters and one of them is not available in the dict
         string_parameters = "this is a {{ parameter1 }} and this is {{ parameter2 }}"
         loaded_parameters = {"parameter1": "value", "parameter3": "other value"}
 
         self.assertFalse(NeuronLauncher._neuron_parameters_are_available_in_loaded_parameters(string_parameters,
-                                                                                             loaded_parameters))
+                                                                                              loaded_parameters))
 
 
 if __name__ == '__main__':
     unittest.main()
 
     # suite = unittest.TestSuite()
-    # suite.addTest(TestNeuronLauncher("test_start_neuron"))
+    # suite.addTest(TestNeuronLauncher("test_replace_brackets_by_loaded_parameter"))
     # runner = unittest.TextTestRunner()
     # runner.run(suite)

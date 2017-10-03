@@ -43,10 +43,12 @@ class TestInit(unittest.TestCase):
     def test_main(self):
         # test start kalliope
         sys.argv = ['kalliope.py', 'start']
-        with mock.patch('kalliope.core.MainController.__init__') as mock_maincontroller:
-            mock_maincontroller.return_value = None
-            main()
-            mock_maincontroller.assert_called()
+        with mock.patch('kalliope.start_rest_api') as mock_rest_api:
+            with mock.patch('kalliope.start_kalliope') as mock_start_kalliope:
+                mock_rest_api.return_value = None
+                main()
+                mock_rest_api.assert_called()
+                mock_start_kalliope.assert_called()
 
         # test start gui
         sys.argv = ['kalliope.py', 'gui']

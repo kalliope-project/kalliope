@@ -2,13 +2,16 @@
 import logging
 import random
 import sys
-import six
 
+import six
 from jinja2 import Template
 
 from kalliope.core import OrderListener
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
+from kalliope.core.Cortex import Cortex
+from kalliope.core.LIFOBuffer import LIFOBuffer
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
+from kalliope.core.NeuronExceptions import NeuronExceptions
 from kalliope.core.OrderAnalyser import OrderAnalyser
 from kalliope.core.Utils.RpiUtils import RpiUtils
 from kalliope.core.Utils.Utils import Utils
@@ -17,18 +20,23 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class InvalidParameterException(Exception):
+class InvalidParameterException(NeuronExceptions):
     """
     Some Neuron parameters are invalid.
     """
-    pass
+    def __init__(self, message):
+        # Call the base class constructor with the parameters it needs
+        super(InvalidParameterException, self).__init__(message)
 
 
-class MissingParameterException(Exception):
+class MissingParameterException(NeuronExceptions):
     """
     Some Neuron parameters are missing.
     """
-    pass
+
+    def __init__(self, message):
+        # Call the base class constructor with the parameters it needs
+        super(MissingParameterException, self).__init__(message)
 
 
 class NoTemplateException(Exception):
@@ -103,6 +111,10 @@ class NeuronModule(object):
         self.is_waiting_for_answer = False
         # the synapse name to add the the buffer
         self.pending_synapse = None
+        # a dict of parameters the user ask to save in short term memory
+        self.kalliope_memory = kwargs.get('kalliope_memory', None)
+        # parameters loaded from the order can be save now
+        Cortex.save_parameter_from_order_in_memory(self.kalliope_memory)
 
     def __str__(self):
         retuned_string = ""
@@ -136,6 +148,9 @@ class NeuronModule(object):
         logger.debug("[NeuronModule] Say() called with message: %s" % message)
 
         tts_message = None
+
+        # we can save parameters from the neuron in memory
+        Cortex.save_neuron_parameter_in_memory(self.kalliope_memory, message)
 
         if isinstance(message, str) or isinstance(message, six.text_type):
             logger.debug("[NeuronModule] message is string")
@@ -185,7 +200,6 @@ class NeuronModule(object):
         .. raises:: TemplateFileNotFoundException
         """
         returned_message = None
-
         # the user chooses a say_template option
         if self.say_template is not None:
             returned_message = self._get_say_template(self.say_template, message_dict)
@@ -222,18 +236,30 @@ class NeuronModule(object):
 
         return returned_message
 
-    def run_synapse_by_name(self, synapse_name, user_order=None, synapse_order=None):
+    @staticmethod
+    def run_synapse_by_name(synapse_name, user_order=None, synapse_order=None, high_priority=False,
+                            is_api_call=False, overriding_parameter_dict=None):
         """
         call the lifo for adding a synapse to execute in the list of synapse list to process
         :param synapse_name: The name of the synapse to run
         :param user_order: The user order
         :param synapse_order: The synapse order
+        :param high_priority: If True, the synapse is executed before the end of the current synapse list
+        :param is_api_call: If true, the current call comes from the api
+        :param overriding_parameter_dict: dict of value to add to neuron parameters
         """
         synapse = BrainLoader().get_brain().get_synapse_by_name(synapse_name)
         matched_synapse = MatchedSynapse(matched_synapse=synapse,
                                          matched_order=synapse_order,
-                                         user_order=user_order)
-        self.pending_synapse = matched_synapse
+                                         user_order=user_order,
+                                         overriding_parameter=overriding_parameter_dict)
+
+        list_synapse_to_process = list()
+        list_synapse_to_process.append(matched_synapse)
+        # get the singleton
+        lifo_buffer = LIFOBuffer()
+        lifo_buffer.add_synapse_list_to_lifo(list_synapse_to_process, high_priority=high_priority)
+        lifo_buffer.execute(is_api_call=is_api_call)
 
     @staticmethod
     def is_order_matching(order_said, order_match):

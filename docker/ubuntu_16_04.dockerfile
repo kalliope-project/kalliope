@@ -21,6 +21,7 @@ RUN pip install --upgrade pip six
 RUN pip install --upgrade pip pyyaml
 RUN pip install --upgrade pip SpeechRecognition
 RUN pip install --upgrade pip Werkzeug
+RUN pip install --upgrade pip gitdb
 
 # add a standart user. tests must not be ran as root
 RUN useradd -m -u 1000 tester

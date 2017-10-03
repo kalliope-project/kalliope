@@ -12,6 +12,8 @@ Kalliope provides the REST API to manage the synapses. For configuring the API r
 | POST   | /synapses/start/id/<synapse_name> | Run a synapse by its name          |
 | POST   | /synapses/start/order             | Run a synapse from a text order    |
 | POST   | /synapses/start/audio             | Run a synapse from an audio sample |
+| GET    | /mute                             | Get the current mute status        |
+| POST   | /mute                             | Switch the mute status             |
 
 ## Curl examples
 
@@ -306,6 +308,39 @@ Curl command:
 curl -i --user admin:secret -X POST http://localhost:5000/synapses/start/audio -F "file=@path/to/file.wav" -F no_voice="true"
 ```
 
+### Get mute status
+
+Normal response codes: 200
+Error response codes: unauthorized(401), Bad request(400)
+
+Curl command:
+```bash
+curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/mute
+```
+
+Output example:
+```JSON
+{
+  "mute": true
+}
+```
+
+### Switch mute status
+
+Normal response codes: 200
+Error response codes: unauthorized(401), Bad request(400)
+
+Curl command:
+```bash
+curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"mute": "True"}' http://127.0.0.1:5000/mute
+```
+
+Output example:
+```JSON
+{
+  "mute": true
+}
+```
 
 ## No voice flag
 

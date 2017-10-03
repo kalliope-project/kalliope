@@ -4,15 +4,14 @@ import os
 from six import with_metaclass
 import six
 
+from kalliope.core.Models.Signal import Signal
 from .YAMLLoader import YAMLLoader
 from kalliope.core.Utils import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.Brain import Brain
-from kalliope.core.Models.Event import Event
 from kalliope.core.Models.Neuron import Neuron
-from kalliope.core.Models.Order import Order
 from kalliope.core.Models.Synapse import Synapse
 
 logging.basicConfig()
@@ -166,37 +165,11 @@ class BrainLoader(with_metaclass(Singleton, object)):
         signals = list()
         for signal_dict in signals_dict:
             if ConfigurationChecker().check_signal_dict(signal_dict):
-                event_or_order = cls._get_event_or_order_from_dict(signal_dict)
-                signals.append(event_or_order)
+                for signal_name in signal_dict:
+                    new_signal = Signal(name=signal_name, parameters=signal_dict[signal_name])
+                    signals.append(new_signal)
 
         return signals
-
-    @classmethod
-    def _get_event_or_order_from_dict(cls, signal_or_event_dict):
-        """
-        The signal is either an Event or an Order
-
-        :param signal_or_event_dict: A dict of event or signal
-        :type signal_or_event_dict: dict
-        :return: The object corresponding to An Order or an Event
-        :rtype: An Order or an Event
-
-        :Example:
-
-            event_or_order = cls._get_event_or_order_from_dict(signal_dict)
-
-        .. seealso:: Event, Order
-        .. warnings:: Static method and Private
-        """
-        if 'event' in signal_or_event_dict:
-            event = signal_or_event_dict["event"]
-            if ConfigurationChecker.check_event_dict(event):
-                return cls._get_event_object(event)
-
-        if 'order' in signal_or_event_dict:
-            order = signal_or_event_dict["order"]
-            if ConfigurationChecker.check_order_dict(order):
-                return Order(sentence=order)
 
     @staticmethod
     def _get_root_brain_path():
@@ -220,26 +193,6 @@ class BrainLoader(with_metaclass(Singleton, object)):
         if os.path.isfile(brain_path):
             return brain_path
         raise IOError("Default brain.yml file not found")
-
-    @classmethod
-    def _get_event_object(cls, event_dict):
-        def get_key(key_name):
-            try:
-                return event_dict[key_name]
-            except KeyError:
-                return None
-
-        year = get_key("year")
-        month = get_key("month")
-        day = get_key("day")
-        week = get_key("week")
-        day_of_week = get_key("day_of_week")
-        hour = get_key("hour")
-        minute = get_key("minute")
-        second = get_key("second")
-
-        return Event(year=year, month=month, day=day, week=week,
-                     day_of_week=day_of_week, hour=hour, minute=minute, second=second)
 
     @classmethod
     def _replace_global_variables(cls, parameter, settings):

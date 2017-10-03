@@ -11,6 +11,7 @@ from kalliope.core.Models.Player import Player
 from kalliope.core.Models.RestAPI import RestAPI
 from kalliope.core.Models.Settings import Settings
 from kalliope.core.Models.Stt import Stt
+from kalliope.core.Models.RecognitionOptions import RecognitionOptions
 from kalliope.core.Models.Trigger import Trigger
 from kalliope.core.Models.Tts import Tts
 
@@ -119,6 +120,7 @@ class TestSettingLoader(unittest.TestCase):
             "test": "kalliope"
         }
         settings_object.machine = platform.machine()
+        settings_object.recognition_options = RecognitionOptions()
 
         sl = SettingLoader(file_path=self.settings_file_to_test)
 

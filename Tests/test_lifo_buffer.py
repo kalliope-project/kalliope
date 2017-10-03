@@ -82,7 +82,7 @@ class TestLIFOBuffer(unittest.TestCase):
                         'neuron_module_list': [
                             {
                                 'neuron_name': 'Say',
-                                 'generated_message': 'question in synapse 1'
+                                'generated_message': 'question in synapse 1'
                             },
                             {
                                 'neuron_name': 'Neurotransmitter',
@@ -99,7 +99,7 @@ class TestLIFOBuffer(unittest.TestCase):
                                 'generated_message': 'enter synapse 2'
                             }
                         ],
-                    'synapse_name': 'synapse2'
+                        'synapse_name': 'synapse2'
                     }
                 ],
                 'user_order': None
@@ -139,7 +139,7 @@ class TestLIFOBuffer(unittest.TestCase):
                     },
                     {
                         'matched_order': 'enter in synapse 1',
-                        'neuron_module_list':[
+                        'neuron_module_list': [
                             {
                                 'neuron_name': 'Say',
                                 'generated_message': 'question in synapse 1'
@@ -345,8 +345,8 @@ class TestLIFOBuffer(unittest.TestCase):
         self.lifo_buffer.set_api_call(True)
         self.lifo_buffer.set_answer("synapse 6 answer")
         with mock.patch("kalliope.core.TTS.TTSModule.generate_and_play"):
-            with self.assertRaises(SynapseListAddedToLIFO):
-                self.lifo_buffer._process_neuron_list(matched_synapse=matched_synapse)
+            self.assertRaises(SynapseListAddedToLIFO,
+                              self.lifo_buffer._process_neuron_list(matched_synapse=matched_synapse))
 
 
 if __name__ == '__main__':

@@ -1,3 +1,16 @@
+v0.4.6 / 2017-10-03
+===================
+- add core neuron: neurotimer
+- add core neuron: mqtt
+- add core signal: mqtt
+- new feature: community signal now supported
+- dict can be used in global variables
+- bug fix: python 3 execution with snowboy lib
+- new feature: kalliope memory
+- add espeak tts to core
+- add stt options. manual or dynamic threshold
+- Fix: neurotransmitter bracket in answer
+
 v0.4.5 / 2017-07-23
 ===================
 - add keyword_entries attribute to CMU Sphinx

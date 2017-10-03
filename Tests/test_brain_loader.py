@@ -2,13 +2,11 @@
 import os
 import unittest
 
-from kalliope.core.Models import Singleton
+from kalliope.core.Models import Singleton, Signal
 
 from kalliope.core.ConfigurationManager import BrainLoader
-from kalliope.core.Models import Event
 from kalliope.core.Models import Neuron
 from kalliope.core.Models import Synapse
-from kalliope.core.Models import Order
 from kalliope.core.Models.Brain import Brain
 from kalliope.core.Models.Settings import Settings
 
@@ -57,10 +55,10 @@ class TestBrainLoader(unittest.TestCase):
         neuron = Neuron(name='say', parameters={'message': ['test message']})
         neuron2 = Neuron(name='sleep', parameters={'seconds': 60})
 
-        signal1 = Order(sentence="test_order")
-        signal2 = Order(sentence="test_order_2")
-        signal3 = Order(sentence="test_order_3")
-        signal4 = Order(sentence="order_for_int")
+        signal1 = Signal(name="order", parameters="test_order")
+        signal2 = Signal(name="order", parameters="test_order_2")
+        signal3 = Signal(name="order", parameters="test_order_3")
+        signal4 = Signal(name="order", parameters="order_for_int")
 
         synapse1 = Synapse(name="test", neurons=[neuron], signals=[signal1])
         synapse2 = Synapse(name="test2", neurons=[neuron], signals=[signal2])
@@ -127,27 +125,12 @@ class TestBrainLoader(unittest.TestCase):
     def test_get_signals(self):
         signals = [{'order': 'test_order'}]
 
-        signal = Order(sentence='test_order')
+        signal = Signal(name="order", parameters="test_order")
 
         bl = BrainLoader(file_path=self.brain_to_test)
         signals_from_brain_loader = bl._get_signals(signals)
 
         self.assertEqual([signal], signals_from_brain_loader)
-
-    def test_get_event_or_order_from_dict(self):
-
-        order_object = Order(sentence="test_order")
-        event_object = Event(hour="7")
-
-        dict_order = {'order': 'test_order'}
-        dict_event = {'event': {'hour': '7'}}
-
-        bl = BrainLoader(file_path=self.brain_to_test)
-        order_from_bl = bl._get_event_or_order_from_dict(dict_order)
-        event_from_bl = bl._get_event_or_order_from_dict(dict_event)
-
-        self.assertEqual(order_from_bl, order_object)
-        self.assertEqual(event_from_bl, event_object)
 
     def test_singleton(self):
         bl1 = BrainLoader(file_path=self.brain_to_test)
@@ -184,7 +167,7 @@ class TestBrainLoader(unittest.TestCase):
         }
 
         self.assertEqual(BrainLoader._replace_global_variables(parameter=parameters,
-                                                                settings=st),
+                                                               settings=st),
                          expected_parameters,
                          "Fail to assign a single global variable to parameters")
 
@@ -203,7 +186,7 @@ class TestBrainLoader(unittest.TestCase):
         }
 
         self.assertEqual(BrainLoader._replace_global_variables(parameter=parameters,
-                                                                settings=st),
+                                                               settings=st),
                          expected_parameters,
                          "Fail to assign a global variable with string after to parameters")
 
@@ -222,7 +205,7 @@ class TestBrainLoader(unittest.TestCase):
         }
 
         self.assertEqual(BrainLoader._replace_global_variables(parameter=parameters,
-                                                                settings=st),
+                                                               settings=st),
                          expected_parameters,
                          "Fail to assign global variable with int after to parameters")
 
@@ -241,7 +224,7 @@ class TestBrainLoader(unittest.TestCase):
         }
 
         self.assertEqual(BrainLoader._replace_global_variables(parameter=parameters,
-                                                                settings=st),
+                                                               settings=st),
                          expected_parameters,
                          "Fail to assign multiple global variables to parameters")
 
@@ -260,7 +243,7 @@ class TestBrainLoader(unittest.TestCase):
         }
 
         self.assertEqual(BrainLoader._replace_global_variables(parameter=parameters,
-                                                                settings=st),
+                                                               settings=st),
                          expected_parameters,
                          "Fail to assign a single global when parameter value is a list to neuron")
 
@@ -280,7 +263,7 @@ class TestBrainLoader(unittest.TestCase):
         }
 
         self.assertEqual(BrainLoader._replace_global_variables(parameter=parameters,
-                                                                settings=st),
+                                                               settings=st),
                          expected_parameters,
                          "Fail to assign a single global when parameter value is a list to neuron")
 
@@ -300,7 +283,7 @@ class TestBrainLoader(unittest.TestCase):
         expected_result = "i am kalliope"
 
         self.assertEqual(BrainLoader._get_global_variable(sentence=sentence,
-                                                           settings=st),
+                                                          settings=st),
                          expected_result)
 
         # test with accent
@@ -308,7 +291,7 @@ class TestBrainLoader(unittest.TestCase):
         expected_result = u"i am kalliopé"
 
         self.assertEqual(BrainLoader._get_global_variable(sentence=sentence,
-                                                           settings=st),
+                                                          settings=st),
                          expected_result)
 
         # test with int
@@ -316,7 +299,7 @@ class TestBrainLoader(unittest.TestCase):
         expected_result = "i am 1"
 
         self.assertEqual(BrainLoader._get_global_variable(sentence=sentence,
-                                                           settings=st),
+                                                          settings=st),
                          expected_result)
 
 

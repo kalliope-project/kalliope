@@ -28,9 +28,8 @@ class MatchedSynapse(object):
             self.parameters = NeuronParameterLoader.get_parameters(synapse_order=self.matched_order,
                                                                    user_order=user_order)
         if overriding_parameter is not None:
-            # we suppose that we don't have any parameters.
-            # We replace the current parameter object with the received one
-            self.parameters = overriding_parameter
+            # merge dict of parameters with overriding
+            self.parameters.update(overriding_parameter)
 
         # list of Neuron Module
         self.neuron_module_list = list()

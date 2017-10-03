@@ -29,10 +29,13 @@ Kalliope is easy-peasy to use, see the hello world
           message: "Hello world!"    
 ```
 
+If you want an idea of what you can do with Kalliope, click on the image below
+[![ENGLISH DEMO](https://img.youtube.com/vi/PcLzo4H18S4/0.jpg)](https://www.youtube.com/watch?v=PcLzo4H18S4)
+
 ## Installation
 
 - [Kalliope installation documentation](Docs/installation.md) (Ubuntu/Debian/Raspbian)
-- [Pre-compiled disk image for Raspberry](Docs/installation/raspbian_jessie.md)
+- [Pre-compiled disk image for Raspberry](Docs/installation/raspbian.md)
 
 ## Quick start
 
@@ -43,6 +46,7 @@ Once installed, you can start learning basics of Kalliope from a [quick start co
 - [Configure default settings](Docs/settings.md)
 - [Create the brain of your Kalliope](Docs/brain.md)
 - [Run Kalliope with CLI](Docs/kalliope_cli.md)
+- See the list of [available neurons](https://kalliope-project.github.io/neurons_marketplace.html) with examples of usage
 
 ## Documentation summary
 
@@ -62,30 +66,33 @@ Once installed, you can start learning basics of Kalliope from a [quick start co
 
 ## Contributing
 
-If you'd like to contribute to Kalliope, please read our [Contributing Guide](Docs/contributing.md), which contains the philosophies to preserve, tests to run, and more. 
+If you'd like to contribute to Kalliope, please read our [Contributing Guide](Docs/contributing.md), which contains the philosophies to preserve, tests to run, and more.
 Reading through this guide before writing any code is recommended.
 
 - Read the [contributing guide](Docs/contributing.md)
 - Add [issues and feature requests](../../issues)
-
-You liked kalliope? **Star us!**
+- [Chat](https://gitter.im/kalliope-project/Lobby) with the community or developers
+- You liked kalliope? **Star us!**
+- [Improve the Snowboy models](Docs/trigger.md)
 
 ## Credits
 
 > **Meaning of Kalliope** Kalliope means "beautiful voice" from Greek καλλος (kallos) "beauty" and οψ (ops) "voice". 
 In Greek mythology she was a goddess of epic poetry and eloquence, one of the nine Muses.
 
-kə-LIE-ə-pee    (English) 
-Ka-li-o-pé      (French)
-каллиопа        (Russian)
-
-[Improve models with Snowboy](Docs/trigger.md)
+- kə-LIE-ə-pee    (English)
+- Ka-li-o-pé      (French)
+- каллиопа        (Russian)
 
 ## Links
 
-Demo French   : [video](https://www.youtube.com/watch?v=t4J42yO2rkM)
-Demo English  : [video](https://www.youtube.com/watch?v=PcLzo4H18S4)
-Android app   : [Playstore](https://play.google.com/store/apps/details?id=kalliope.project)
+- [Kalliope website](https://kalliope-project.github.io/)
+- [Android app](https://play.google.com/store/apps/details?id=kalliope.project)
+- [Chat](https://gitter.im/kalliope-project/Lobby)
+
+<p align="center">
+    <img src="images/kalliope_app.png">
+</p>
 
 ## License
 
