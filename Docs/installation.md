@@ -94,6 +94,8 @@ Those repositories provide you a basic structure to start playing with kalliope.
 - [French starter config](https://github.com/kalliope-project/kalliope_starter_fr)
 - [English starter config](https://github.com/kalliope-project/kalliope_starter_en)
 - [German starter config](https://github.com/kalliope-project/kalliope_starter_de)
+- [Czech starter config](https://github.com/kalliope-project/kalliope_starter_cs)
+- [Italian starter config](https://github.com/kalliope-project/kalliope_starter_it)
 
 
 ## Start Kalliope automatically after a reboot
