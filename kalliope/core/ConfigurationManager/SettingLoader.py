@@ -765,7 +765,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         """
         return RpiSettings object
         :param settings: The loaded YAML settings file
-        :return: 
+        :return:
         """
 
         try:
@@ -798,7 +798,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         recognition_options = RecognitionOptions()
 
         try:
-            recognition_options_dict = settings["RecognitionOptions"]
+            recognition_options_dict = settings["recognition_options"]
 
             if "energy_threshold" in recognition_options_dict:
                 recognition_options.energy_threshold = recognition_options_dict["energy_threshold"]
