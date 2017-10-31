@@ -17,7 +17,7 @@ class Geolocation(Thread):
 
     def run(self):
         logger.debug("[Geolocalisation] Loading ...")
-        self.list_synapses_with_geolocalion = self._get_list_synapse_with_geolocation(self.brain)
+        self.list_synapses_with_geolocalion = self._get_list_synapse_with_geolocation(brain=self.brain)
 
     @classmethod
     def _get_list_synapse_with_geolocation(cls, brain):
@@ -31,10 +31,11 @@ class Geolocation(Thread):
             for signal in synapse.signals:
                 # if the signal is an event we add it to the task list
                 if signal.name == "geolocation":
-                    if not cls._check_geolocation(signal.parameters):
+                    if not cls._check_geolocation(parameters=signal.parameters):
                         logger.debug("[Geolocation] The signal is missing mandatory parameters, check documentation")
                     else:
                         yield synapse
+
 
     @staticmethod
     def _check_geolocation(parameters):
