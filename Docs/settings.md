@@ -494,5 +494,14 @@ he LEDs will want to draw more, and if allowed to they will burn out the Raspber
 Therefore putting the resistors in the circuit will ensure that only this small current will flow and the Pi will not be damaged.
 
 
+## Start options
+Options that can be defined when kalliope starts.
+
+Example config
+```yaml
+start_options:
+  muted: True
+```
+
 ## Next: configure the brain of Kalliope
 Now your settings are ok, you can start creating the [brain](brain.md) of your assistant.

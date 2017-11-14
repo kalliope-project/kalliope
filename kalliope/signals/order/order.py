@@ -53,6 +53,11 @@ class Order(Thread):
         self.trigger_callback_called = False
         self.is_trigger_muted = False
 
+        # If kalliope is asked to start muted
+        #self.set_mute_status(self.settings.start_muted)
+        if self.settings.start_options['muted'] is True:
+            self.is_trigger_muted = True
+
         # save the current order listener
         self.order_listener = None
         self.order_listener_callback_called = False
