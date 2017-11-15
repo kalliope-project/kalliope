@@ -308,6 +308,88 @@ Curl command:
 curl -i --user admin:secret -X POST http://localhost:5000/synapses/start/audio -F "file=@path/to/file.wav" -F no_voice="true"
 ```
 
+#### The neurotransmitter case
+
+In case of leveraging the [neurotransmitter neuron](https://github.com/kalliope-project/kalliope/tree/master/kalliope/neurons/neurotransmitter), Kalliope expects back and forth answers.
+Fortunately, the API provides a way to continue interaction with Kalliope and still use neurotransmitter neurons while doing API calls.
+
+When you start a synapse via its name or an order (like shown above), the answer of the API call will tell you in the response that kalliope is waiting for a response via the "status" return. 
+
+Status can either by ```complete``` (nothing else to do) or ```waiting_for_answer```, in which case Kalliope is waiting for your response :).
+
+In this case, you can launch another order containing your response.
+
+Let's take as an example the simple [neurotransmitter brain of the EN starter kit](https://github.com/kalliope-project/kalliope_starter_en/blob/master/brains/neurotransmitter.yml):
+
+First step is to fire the "ask me a question order":
+
+```bash
+curl -i --user admin:secret -H "Content-Type: application/json" -X POST -d '{"order":"ask me a question"}' http://localhost:5000/synapses/start/order
+```
+
+The response should be as follow:
+
+```JSON
+{
+  "matched_synapses": [
+    {
+      "matched_order": "ask me a question",
+      "neuron_module_list": [
+        {
+          "generated_message": "do you like french fries?",
+          "neuron_name": "Say"
+        }
+      ],
+      "synapse_name": "synapse1"
+    }
+  ],
+  "status": "waiting_for_answer",
+  "user_order": "ask me a question"
+}
+```
+
+The ```"status": "waiting_for_answer"``` indicates that it waits for a response, so let's send it:
+
+```bash
+ --user admin:secret -H "Content-Type: application/json" -X POST -d '{"order":"not at all"}' http://localhost:5000/synapses/start/order
+```
+
+```JSON
+{
+  "matched_synapses": [
+    {
+      "matched_order": "ask me a question",
+      "neuron_module_list": [
+        {
+          "generated_message": "do you like french fries?",
+          "neuron_name": "Say"
+        },
+        {
+          "generated_message": null,
+          "neuron_name": "Neurotransmitter"
+        }
+      ],
+      "synapse_name": "synapse1"
+    },
+    {
+      "matched_order": "not at all",
+      "neuron_module_list": [
+        {
+          "generated_message": "You don't like french fries.",
+          "neuron_name": "Say"
+        }
+      ],
+      "synapse_name": "synapse3"
+    }
+  ],
+  "status": "complete",
+  "user_order": null
+}
+
+```
+
+And now the status is complete. This works also when you have nested neurotransmitter neurons, you just need to keep monitoring the status from the API answer.
+
 ### Get mute status
 
 Normal response codes: 200
