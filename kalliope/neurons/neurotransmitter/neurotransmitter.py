@@ -53,7 +53,8 @@ class Neurotransmitter(NeuronModule):
                                                  user_order=audio,
                                                  synapse_order=answer,
                                                  high_priority=True,
-                                                 is_api_call=self.is_api_call)
+                                                 is_api_call=self.is_api_call,
+                                                 no_voice=self.no_voice)
                         found = True
                         break
             if not found:  # the answer do not correspond to any answer. We run the default synapse
