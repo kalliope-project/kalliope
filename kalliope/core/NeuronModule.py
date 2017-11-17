@@ -238,7 +238,7 @@ class NeuronModule(object):
 
     @staticmethod
     def run_synapse_by_name(synapse_name, user_order=None, synapse_order=None, high_priority=False,
-                            is_api_call=False, overriding_parameter_dict=None):
+                            is_api_call=False, overriding_parameter_dict=None, no_voice=False):
         """
         call the lifo for adding a synapse to execute in the list of synapse list to process
         :param synapse_name: The name of the synapse to run
@@ -259,7 +259,7 @@ class NeuronModule(object):
         # get the singleton
         lifo_buffer = LIFOBuffer()
         lifo_buffer.add_synapse_list_to_lifo(list_synapse_to_process, high_priority=high_priority)
-        lifo_buffer.execute(is_api_call=is_api_call)
+        lifo_buffer.execute(is_api_call=is_api_call, no_voice=no_voice)
 
     @staticmethod
     def is_order_matching(order_said, order_match):
