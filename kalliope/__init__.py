@@ -63,6 +63,7 @@ def parse_args(args):
     parser.add_argument("--tts-name", help="TTS name to uninstall")
     parser.add_argument("--trigger-name", help="Trigger name to uninstall")
     parser.add_argument("--signal-name", help="Signal name to uninstall")
+    parser.add_argument("--muted", action='store_true', help="Starts Kalliope muted")
     parser.add_argument('-v', '--version', action='version',
                         version='Kalliope ' + version_str)
 
@@ -155,6 +156,10 @@ def main():
                                                             is_api_call=False)
 
         if (parser.run_synapse is None) and (parser.run_order is None):
+            # if --muted
+            if parser.muted:
+                settings.start_options['muted'] = True
+
             # start rest api
             start_rest_api(settings, brain)
             start_kalliope(settings, brain)

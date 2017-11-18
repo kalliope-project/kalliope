@@ -28,7 +28,8 @@ class Settings(object):
                  resources=None,
                  variables=None,
                  rpi_settings=None,
-                 recognition_options=None):
+                 recognition_options=None,
+                 start_options=None):
 
         self.default_tts_name = default_tts_name
         self.default_stt_name = default_stt_name
@@ -52,6 +53,7 @@ class Settings(object):
         self.kalliope_version = current_kalliope_version
         self.rpi_settings = rpi_settings
         self.recognition_options = recognition_options
+        self.start_options = start_options
 
     def serialize(self):
         """
@@ -84,6 +86,7 @@ class Settings(object):
             'kalliope_version': self.kalliope_version,
             'rpi_settings': self.rpi_settings.serialize() if self.rpi_settings is not None else None,
             'recognition_options': self.recognition_options.serialize() if self.recognition_options is not None else None,
+            'start_options': self.start_options,
         }
 
     def __str__(self):

@@ -120,6 +120,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         variables = self._get_variables(settings)
         rpi_settings = self._get_rpi_settings(settings)
         recognition_options = self._get_recognition_options(settings)
+        start_options = self._get_start_options(settings)
 
         # Load the setting singleton with the parameters
         setting_object.default_tts_name = default_tts_name
@@ -142,6 +143,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         setting_object.variables = variables
         setting_object.rpi_settings = rpi_settings
         setting_object.recognition_options = recognition_options
+        setting_object.start_options = start_options
 
         return setting_object
 
@@ -814,3 +816,32 @@ class SettingLoader(with_metaclass(Singleton, object)):
 
         logger.debug("[SettingsLoader] recognition_options: %s" % str(recognition_options))
         return recognition_options
+
+    @staticmethod
+    def _get_start_options(settings):
+        """
+        Return the start options settings
+
+        :param settings: The YAML settings file
+        :type settings: dict
+        :return: A dict containing the start options
+        :rtype: dict
+        """
+        options = dict()
+        muted = False
+
+        try:
+            start_options = settings["start_options"]
+        except KeyError:
+            start_options = None
+
+        if start_options is not None:
+            try:
+                muted = start_options['muted']
+            except KeyError:
+                muted = False
+
+        options['muted'] = muted
+
+        logger.debug("Start options: %s" % options)
+        return options

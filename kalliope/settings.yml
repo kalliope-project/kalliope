@@ -203,3 +203,9 @@ default_synapse: "default-synapse"
 #  pin_led_muted: 17
 #  pin_led_talking: 27
 #  pin_led_listening: 22
+
+# -------------
+# Start options
+# -------------
+#start_options:
+#  muted: False
