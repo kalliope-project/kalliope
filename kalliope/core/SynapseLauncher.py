@@ -1,9 +1,9 @@
 import logging
 
 from kalliope.core.ConfigurationManager import BrainLoader
+from kalliope.core.HookManager import HookManager
 from kalliope.core.LIFOBuffer import LIFOBuffer
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
-from kalliope.core.NeuronLauncher import NeuronLauncher
 from kalliope.core.OrderAnalyser import OrderAnalyser
 
 
@@ -31,6 +31,10 @@ class SynapseLauncher(object):
         :param overriding_parameter_dict: parameter to pass to neurons
         """
         logger.debug("[SynapseLauncher] start_synapse_by_name called with synapse name: %s " % name)
+
+        if brain is None:
+            brain = BrainLoader().get_brain()
+
         # check if we have found and launched the synapse
         synapse = brain.get_synapse_by_name(synapse_name=name)
 
@@ -73,17 +77,9 @@ class SynapseLauncher(object):
             list_synapse_to_process = OrderAnalyser.get_matching_synapse(order=order_to_process, brain=brain)
 
             if not list_synapse_to_process:  # the order analyser returned us an empty list
-                # add the default synapse if exist into the lifo
-                if settings.default_synapse:
-                    logger.debug("[SynapseLauncher] No matching Synapse-> running default synapse ")
-                    # get the default synapse
-                    default_synapse = brain.get_synapse_by_name(settings.default_synapse)
-                    new_matching_synapse = MatchedSynapse(matched_synapse=default_synapse,
-                                                          matched_order=None,
-                                                          user_order=order_to_process)
-                    list_synapse_to_process.append(new_matching_synapse)
-                else:
-                    logger.debug("[SynapseLauncher] No matching Synapse and no default synapse ")
+                return HookManager.on_order_not_found()
+            else:
+                HookManager.on_order_found()
 
             lifo_buffer.add_synapse_list_to_lifo(list_synapse_to_process)
             lifo_buffer.api_response.user_order = order_to_process

@@ -60,10 +60,6 @@ class SpeechRecognition(Thread):
         """
         if self.audio_stream is None:
             Utils.print_info("Say something!")
-            # Turn on the listening led if we are on a Raspberry
-            if self.settings.rpi_settings:
-                if self.settings.rpi_settings.pin_led_listening:
-                    RpiUtils.switch_pin_to_on(self.settings.rpi_settings.pin_led_listening)
             self.stop_thread = self.recognizer.listen_in_background(self.microphone, self.callback)
             while not self.kill_yourself:
                 sleep(0.1)

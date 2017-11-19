@@ -108,19 +108,13 @@ class SettingLoader(with_metaclass(Singleton, object)):
         ttss = self._get_ttss(settings)
         triggers = self._get_triggers(settings)
         players = self._get_players(settings)
-        random_wake_up_answers = self._get_random_wake_up_answers(settings)
-        random_wake_up_sound = self._get_random_wake_up_sounds(settings)
-        play_on_ready_notification = self._get_play_on_ready_notification(settings)
-        on_ready_answers = self._get_on_ready_answers(settings)
-        on_ready_sounds = self._get_on_ready_sounds(settings)
         rest_api = self._get_rest_api(settings)
         cache_path = self._get_cache_path(settings)
-        default_synapse = self._get_default_synapse(settings)
         resources = self._get_resources(settings)
         variables = self._get_variables(settings)
-        rpi_settings = self._get_rpi_settings(settings)
         recognition_options = self._get_recognition_options(settings)
         start_options = self._get_start_options(settings)
+        hooks = self._get_hooks(settings)
 
         # Load the setting singleton with the parameters
         setting_object.default_tts_name = default_tts_name
@@ -131,19 +125,13 @@ class SettingLoader(with_metaclass(Singleton, object)):
         setting_object.ttss = ttss
         setting_object.triggers = triggers
         setting_object.players = players
-        setting_object.random_wake_up_answers = random_wake_up_answers
-        setting_object.random_wake_up_sounds = random_wake_up_sound
-        setting_object.play_on_ready_notification = play_on_ready_notification
-        setting_object.on_ready_answers = on_ready_answers
-        setting_object.on_ready_sounds = on_ready_sounds
         setting_object.rest_api = rest_api
         setting_object.cache_path = cache_path
-        setting_object.default_synapse = default_synapse
         setting_object.resources = resources
         setting_object.variables = variables
-        setting_object.rpi_settings = rpi_settings
         setting_object.recognition_options = recognition_options
         setting_object.start_options = start_options
+        setting_object.hooks = hooks
 
         return setting_object
 
@@ -411,72 +399,6 @@ class SettingLoader(with_metaclass(Singleton, object)):
         return players
 
     @staticmethod
-    def _get_random_wake_up_answers(settings):
-        """
-        Return a list of the wake up answers set up on the settings.yml file
-
-        :param settings: The YAML settings file
-        :type settings: dict
-        :return: List of wake up answers
-        :rtype: list of str
-
-        :Example:
-
-            wakeup = cls._get_random_wake_up_answers(settings)
-
-        .. seealso::
-        .. raises:: NullSettingException
-        .. warnings:: Class Method and Private
-        """
-
-        try:
-            random_wake_up_answers_list = settings["random_wake_up_answers"]
-        except KeyError:
-            # User does not provide this settings
-            return None
-
-        # The list cannot be empty
-        if random_wake_up_answers_list is None:
-            raise NullSettingException("random_wake_up_answers settings is null")
-
-        return random_wake_up_answers_list
-
-    @staticmethod
-    def _get_random_wake_up_sounds(settings):
-        """
-        Return a list of the wake up sounds set up on the settings.yml file
-
-        :param settings: The YAML settings file
-        :type settings: dict
-        :return: list of wake up sounds
-        :rtype: list of str
-
-        :Example:
-
-            wakeup_sounds = cls._get_random_wake_up_sounds(settings)
-
-        .. seealso::
-        .. raises:: NullSettingException
-        .. warnings:: Class Method and Private
-        """
-
-        try:
-            random_wake_up_sounds_list = settings["random_wake_up_sounds"]
-            # In case files are declared in settings.yml, make sure kalliope can access them.
-            for sound in random_wake_up_sounds_list:
-                if Utils.get_real_file_path(sound) is None:
-                    raise SettingInvalidException("sound file %s not found" % sound)
-        except KeyError:
-            # User does not provide this settings
-            return None
-
-        # The the setting is present, the list cannot be empty
-        if random_wake_up_sounds_list is None:
-            raise NullSettingException("random_wake_up_sounds settings is empty")
-
-        return random_wake_up_sounds_list
-
-    @staticmethod
     def _get_rest_api(settings):
         """
         Return the settings of the RestApi
@@ -576,33 +498,6 @@ class SettingLoader(with_metaclass(Singleton, object)):
             raise SettingInvalidException("The cache_path seems to be invalid: %s" % cache_path)
 
     @staticmethod
-    def _get_default_synapse(settings):
-        """
-        Return the name of the default synapse
-
-        :param settings: The YAML settings file
-        :type settings: dict
-        :return: the default synapse name
-        :rtype: String
-
-        :Example:
-
-            default_synapse = cls._get_default_synapse(settings)
-
-        .. seealso::
-        .. raises:: SettingNotFound, NullSettingException, SettingInvalidException
-        .. warnings:: Class Method and Private
-        """
-
-        try:
-            default_synapse = settings["default_synapse"]
-            logger.debug("Default synapse: %s" % default_synapse)
-        except KeyError:
-            default_synapse = None
-
-        return default_synapse
-
-    @staticmethod
     def _get_resources(settings):
         """
         Return a resources object that contains path of third party modules
@@ -688,58 +583,6 @@ class SettingLoader(with_metaclass(Singleton, object)):
         return resource_object
 
     @staticmethod
-    def _get_play_on_ready_notification(settings):
-        """
-        Return the on_ready_notification setting. If the user didn't provided it the default is never
-        :param settings: The YAML settings file
-        :type settings: dict
-        :return:
-        """
-        try:
-            play_on_ready_notification = settings["play_on_ready_notification"]
-        except KeyError:
-            # User does not provide this settings, by default we set it to never
-            play_on_ready_notification = "never"
-            return play_on_ready_notification
-        return play_on_ready_notification
-
-    @staticmethod
-    def _get_on_ready_answers(settings):
-        """
-        Return the list of on_ready_answers string from the settings.
-        :param settings: The YAML settings file
-        :type settings: dict
-        :return: String parameter on_ready_answers
-        """
-        try:
-            on_ready_answers = settings["on_ready_answers"]
-        except KeyError:
-            # User does not provide this settings
-            return None
-
-        return on_ready_answers
-
-    @staticmethod
-    def _get_on_ready_sounds(settings):
-        """
-        Return the list of on_ready_sounds string from the settings.
-        :param settings: The YAML settings file
-        :type settings: dict
-        :return: String parameter on_ready_sounds
-        """
-        try:
-            on_ready_sounds = settings["on_ready_sounds"]
-            # In case files are declared in settings.yml, make sure kalliope can access them.
-            for sound in on_ready_sounds:
-                if Utils.get_real_file_path(sound) is None:
-                    raise SettingInvalidException("sound file %s not found" % sound)
-        except KeyError:
-            # User does not provide this settings
-            return None
-
-        return on_ready_sounds
-
-    @staticmethod
     def _get_variables(settings):
         """
         Return the dict of variables from the settings.
@@ -761,34 +604,6 @@ class SettingLoader(with_metaclass(Singleton, object)):
         except KeyError:
             # User does not provide this settings
             return dict()
-
-    @staticmethod
-    def _get_rpi_settings(settings):
-        """
-        return RpiSettings object
-        :param settings: The loaded YAML settings file
-        :return:
-        """
-
-        try:
-            rpi_settings_dict = settings["rpi"]
-            rpi_settings = RpiSettings()
-            # affect pin if there are declared
-            if "pin_mute_button" in rpi_settings_dict:
-                rpi_settings.pin_mute_button = rpi_settings_dict["pin_mute_button"]
-            if "pin_led_started" in rpi_settings_dict:
-                rpi_settings.pin_led_started = rpi_settings_dict["pin_led_started"]
-            if "pin_led_muted" in rpi_settings_dict:
-                rpi_settings.pin_led_muted = rpi_settings_dict["pin_led_muted"]
-            if "pin_led_talking" in rpi_settings_dict:
-                rpi_settings.pin_led_talking = rpi_settings_dict["pin_led_talking"]
-            if "pin_led_listening" in rpi_settings_dict:
-                rpi_settings.pin_led_listening = rpi_settings_dict["pin_led_listening"]
-
-            return rpi_settings
-        except KeyError:
-            logger.debug("[SettingsLoader] No Rpi config")
-            return None
 
     @staticmethod
     def _get_recognition_options(settings):
@@ -845,3 +660,50 @@ class SettingLoader(with_metaclass(Singleton, object)):
 
         logger.debug("Start options: %s" % options)
         return options
+
+    def _get_hooks(self, settings):
+        """
+        Return hooks settings
+        :param settings: The YAML settings file
+        :return: A dict containing hooks
+        :rtype: dict
+        """
+
+        try:
+            hooks = settings["hooks"]
+
+        except KeyError:
+            # if the user haven't set any hooks we define an empty dict
+            hooks = dict()
+            hooks["on_start"] = None
+            hooks["on_waiting_for_trigger"] = None
+            hooks["on_triggered"] = None
+            hooks["on_start_listening"] = None
+            hooks["on_stop_listening"] = None
+            hooks["on_order_found"] = None
+            hooks["on_order_not_found"] = None
+            hooks["on_starting_synapse"] = None
+            hooks["on_ending_synapse"] = None
+            hooks["on_mute"] = None
+            hooks["on_unmute"] = None
+
+        all_hook = [
+            "on_start",
+            "on_waiting_for_trigger",
+            "on_triggered",
+            "on_start_listening",
+            "on_stop_listening",
+            "on_order_found",
+            "on_order_not_found",
+            "on_starting_synapse"
+            "on_ending_synapse",
+            "on_mute",
+            "on_unmute"
+        ]
+
+        for key in all_hook:
+            if key not in hooks:
+                hooks[key] = None
+
+        print(hooks)
+        return hooks

@@ -1,16 +1,12 @@
 import logging
-import random
 from threading import Thread
 from time import sleep
-
-from kalliope.core.Utils.RpiUtils import RpiUtils
 
 from kalliope.core.SynapseLauncher import SynapseLauncher
 
 from kalliope.core.OrderListener import OrderListener
 
 from kalliope import Utils, BrainLoader
-from kalliope.neurons.say import Say
 
 from kalliope.core.TriggerLauncher import TriggerLauncher
 from transitions import Machine
@@ -19,6 +15,8 @@ from kalliope.core.PlayerLauncher import PlayerLauncher
 
 from kalliope.core.ConfigurationManager import SettingLoader
 
+from kalliope.core.HookManager import HookManager
+
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
@@ -26,17 +24,15 @@ logger = logging.getLogger("kalliope")
 class Order(Thread):
     states = ['init',
               'starting_trigger',
-              'playing_ready_sound',
               'waiting_for_trigger_callback',
               'stopping_trigger',
-              'playing_wake_up_answer',
               'start_order_listener',
               'waiting_for_order_listener_callback',
               'analysing_order']
 
     def __init__(self):
         super(Order, self).__init__()
-        Utils.print_info('Starting voice order manager')
+        Utils.print_info('Starting order signal')
         # load settings and brain from singleton
         sl = SettingLoader()
         self.settings = sl.settings
@@ -54,7 +50,6 @@ class Order(Thread):
         self.is_trigger_muted = False
 
         # If kalliope is asked to start muted
-        #self.set_mute_status(self.settings.start_muted)
         if self.settings.start_options['muted'] is True:
             self.is_trigger_muted = True
 
@@ -62,37 +57,29 @@ class Order(Thread):
         self.order_listener = None
         self.order_listener_callback_called = False
 
-        # boolean used to know id we played the on ready notification at least one time
-        self.on_ready_notification_played_once = False
-
-        # rpi setting for led and mute button
-        self.init_rpi_utils()
-
         # Initialize the state machine
         self.machine = Machine(model=self, states=Order.states, initial='init', queued=True)
 
         # define transitions
         self.machine.add_transition('start_trigger', ['init', 'analysing_order'], 'starting_trigger')
-        self.machine.add_transition('play_ready_sound', 'starting_trigger', 'playing_ready_sound')
-        self.machine.add_transition('wait_trigger_callback', 'playing_ready_sound', 'waiting_for_trigger_callback')
+        self.machine.add_transition('wait_trigger_callback', 'starting_trigger', 'waiting_for_trigger_callback')
         self.machine.add_transition('stop_trigger', 'waiting_for_trigger_callback', 'stopping_trigger')
-        self.machine.add_transition('play_wake_up_answer', 'stopping_trigger', 'playing_wake_up_answer')
-        self.machine.add_transition('wait_for_order', 'playing_wake_up_answer', 'waiting_for_order_listener_callback')
-        self.machine.add_transition('analyse_order', 'playing_wake_up_answer', 'analysing_order')
+        self.machine.add_transition('wait_for_order', 'stopping_trigger', 'waiting_for_order_listener_callback')
+        self.machine.add_transition('analyse_order', 'waiting_for_order_listener_callback', 'analysing_order')
 
         self.machine.add_ordered_transitions()
 
         # add method which are called when changing state
         self.machine.on_enter_starting_trigger('start_trigger_process')
-        self.machine.on_enter_playing_ready_sound('play_ready_sound_process')
         self.machine.on_enter_waiting_for_trigger_callback('waiting_for_trigger_callback_thread')
-        self.machine.on_enter_playing_wake_up_answer('play_wake_up_answer_thread')
         self.machine.on_enter_stopping_trigger('stop_trigger_process')
         self.machine.on_enter_start_order_listener('start_order_listener_thread')
         self.machine.on_enter_waiting_for_order_listener_callback('waiting_for_order_listener_callback_thread')
         self.machine.on_enter_analysing_order('analysing_order_thread')
 
     def run(self):
+        # run hook on_start
+        HookManager.on_start()
         self.start_trigger()
 
     def start_trigger_process(self):
@@ -100,28 +87,12 @@ class Order(Thread):
         This function will start the trigger thread that listen for the hotword
         """
         logger.debug("[MainController] Entering state: %s" % self.state)
+        HookManager.on_waiting_for_trigger()
         self.trigger_instance = TriggerLauncher.get_trigger(settings=self.settings, callback=self.trigger_callback)
         self.trigger_callback_called = False
         self.trigger_instance.daemon = True
         # Wait that the kalliope trigger is pronounced by the user
         self.trigger_instance.start()
-        self.next_state()
-
-    def play_ready_sound_process(self):
-        """
-        Play a sound when Kalliope is ready to be awaken at the first start
-        """
-        logger.debug("[MainController] Entering state: %s" % self.state)
-        if (not self.on_ready_notification_played_once and self.settings.play_on_ready_notification == "once") or \
-                        self.settings.play_on_ready_notification == "always":
-            # we remember that we played the notification one time
-            self.on_ready_notification_played_once = True
-            # here we tell the user that we are listening
-            if self.settings.on_ready_answers is not None:
-                Say(message=self.settings.on_ready_answers)
-            elif self.settings.on_ready_sounds is not None:
-                random_sound_to_play = self._get_random_sound(self.settings.on_ready_sounds)
-                self.player_instance.play(random_sound_to_play)
         self.next_state()
 
     def waiting_for_trigger_callback_thread(self):
@@ -137,6 +108,8 @@ class Order(Thread):
         # this loop is used to keep the main thread alive
         while not self.trigger_callback_called:
             sleep(0.1)
+        # if here, then the trigger has been called
+        HookManager.on_triggered()
         self.next_state()
 
     def waiting_for_order_listener_callback_thread(self):
@@ -147,9 +120,7 @@ class Order(Thread):
         # this loop is used to keep the main thread alive
         while not self.order_listener_callback_called:
             sleep(0.1)
-        if self.settings.rpi_settings:
-            if self.settings.rpi_settings.pin_led_listening:
-                RpiUtils.switch_pin_to_off(self.settings.rpi_settings.pin_led_listening)
+        # TODO on end listening here
         self.next_state()
 
     def trigger_callback(self):
@@ -174,25 +145,12 @@ class Order(Thread):
         Start the STT engine thread
         """
         logger.debug("[MainController] Entering state: %s" % self.state)
+        HookManager.on_start_listening()
         # start listening for an order
         self.order_listener_callback_called = False
         self.order_listener = OrderListener(callback=self.order_listener_callback)
         self.order_listener.daemon = True
         self.order_listener.start()
-        self.next_state()
-
-    def play_wake_up_answer_thread(self):
-        """
-        Play a sound or make Kalliope say something to notify the user that she has been awaken and now
-        waiting for order
-        """
-        logger.debug("[MainController] Entering state: %s" % self.state)
-        # if random wake answer sentence are present, we play this
-        if self.settings.random_wake_up_answers is not None:
-            Say(message=self.settings.random_wake_up_answers)
-        else:
-            random_sound_to_play = self._get_random_sound(self.settings.random_wake_up_sounds)
-            self.player_instance.play(random_sound_to_play)
         self.next_state()
 
     def order_listener_callback(self, order):
@@ -202,6 +160,7 @@ class Order(Thread):
         :type order: str
         """
         logger.debug("[MainController] Order listener callback called. Order to process: %s" % order)
+        HookManager.on_stop_listening()
         self.order_to_process = order
         self.order_listener_callback_called = True
 
@@ -218,20 +177,6 @@ class Order(Thread):
         # return to the state "unpausing_trigger"
         self.start_trigger()
 
-    @staticmethod
-    def _get_random_sound(random_wake_up_sounds):
-        """
-        Return a path of a sound to play
-        If the path is absolute, test if file exist
-        If the path is relative, we check if the file exist in the sound folder
-        :param random_wake_up_sounds: List of wake_up sounds
-        :return: path of a sound to play
-        """
-        # take first randomly a path
-        random_path = random.choice(random_wake_up_sounds)
-        logger.debug("[MainController] Selected sound: %s" % random_path)
-        return Utils.get_real_file_path(random_path)
-
     def set_mute_status(self, muted=False):
         """
         Define is the trigger is listening or not
@@ -242,10 +187,12 @@ class Order(Thread):
             self.trigger_instance.pause()
             self.is_trigger_muted = True
             Utils.print_info("Kalliope now muted")
+            HookManager.on_mute()
         else:
             self.trigger_instance.unpause()
             self.is_trigger_muted = False
             Utils.print_info("Kalliope now listening for trigger detection")
+            HookManager.on_unmute()
 
     def get_mute_status(self):
         """
@@ -253,20 +200,3 @@ class Order(Thread):
         :return: Boolean
         """
         return self.is_trigger_muted
-
-    def init_rpi_utils(self):
-        """
-        Start listening on GPIO if defined in settings
-        """
-        if self.settings.rpi_settings:
-            # the user set GPIO pin, we need to instantiate the RpiUtils class in order to setup GPIO
-            rpi_utils = RpiUtils(self.settings.rpi_settings, self.set_mute_status)
-            if self.settings.rpi_settings.pin_mute_button:
-                # start the listening for button pressed thread only if the user set a pin
-                rpi_utils.daemon = True
-                rpi_utils.start()
-        # switch high the start led, as kalliope is started. Only if the setting exist
-        if self.settings.rpi_settings:
-            if self.settings.rpi_settings.pin_led_started:
-                logger.debug("[MainController] Switching pin_led_started to ON")
-                RpiUtils.switch_pin_to_on(self.settings.rpi_settings.pin_led_started)

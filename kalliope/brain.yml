@@ -4,8 +4,7 @@
       - order: "Bonjour"
     neurons:
       - say:
-          message:
-            - "Bonjour monsieur"
+          message: "Bonjour monsieur"
 
   - name: "say-hello-en"
     signals:
@@ -15,9 +14,8 @@
           message:
             - "Hello sir"
 
-  - name: "default-synapse"
-    signals:
-      - order: "default-synapse-order"
+  - name: "order-not-found-synapse"
+    signals: []
     neurons:
       - say:
           message:
@@ -26,3 +24,27 @@
             - "Veuillez renouveller votre ordre"
             - "Veuillez reformuller s'il vous plait"
             - "Je n'ai pas saisi cet ordre"
+
+  - name: "on-triggered-synapse"
+    signals: []
+    neurons:
+      - say:
+          message:
+            - "Oui monsieur?"
+            - "Je vous écoute"
+            - "Monsieur?"
+            - "Que puis-je faire pour vous?"
+            - "J'écoute"
+            - "Oui?"
+
+  - name: "on-start-synapse"
+    signals: []
+    neurons:
+      - say:
+          message: "je suis prête"
+
+  - name: "test"
+    signals: []
+    neurons:
+      - say:
+          message: "bip"

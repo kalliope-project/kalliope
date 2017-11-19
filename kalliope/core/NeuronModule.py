@@ -182,14 +182,9 @@ class NeuronModule(object):
                                                                             module_name=self.tts.name,
                                                                             parameters=self.tts.parameters,
                                                                             resources_dir=tts_folder)
-                # Kalliope will talk, turn on the LED
-                self.switch_on_led_talking(rpi_settings=self.settings.rpi_settings, on=True)
 
                 # generate the audio file and play it
                 tts_module_instance.say(tts_message)
-
-                # Kalliope has finished to talk, turn off the LED
-                self.switch_on_led_talking(rpi_settings=self.settings.rpi_settings, on=False)
 
     def _get_message_from_dict(self, message_dict):
         """
