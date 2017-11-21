@@ -8,6 +8,15 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
+class MissingParameter(Exception):
+    """
+    A geolocation must contain latitude, longitude, radius.
+
+    .. seealso:: Geolocation
+    """
+    pass
+
+
 class Geolocation(Thread):
 
     def __init__(self):
@@ -25,7 +34,7 @@ class Geolocation(Thread):
         return the list of synapse that use geolocation as signal in the provided brain
         :param brain: Brain object that contain all synapses loaded
         :type brain: Brain
-        :return: list of synapse that use geolocation as signal
+        :return: generator of synapse that use geolocation as signal
         """
         for synapse in brain.synapses:
             for signal in synapse.signals:
@@ -33,6 +42,7 @@ class Geolocation(Thread):
                 if signal.name == "geolocation":
                     if not cls._check_geolocation(parameters=signal.parameters):
                         logger.debug("[Geolocation] The signal is missing mandatory parameters, check documentation")
+                        raise MissingParameter()
                     else:
                         yield synapse
 
