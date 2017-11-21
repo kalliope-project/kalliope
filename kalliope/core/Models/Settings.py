@@ -15,7 +15,6 @@ class Settings(object):
                  default_player_name=None,
                  ttss=None,
                  stts=None,
-                 play_on_ready_notification=None,
                  triggers=None,
                  players=None,
                  rest_api=None,
@@ -32,7 +31,6 @@ class Settings(object):
         self.default_player_name = default_player_name
         self.ttss = ttss
         self.stts = stts
-        self.play_on_ready_notification = play_on_ready_notification
         self.triggers = triggers
         self.players = players
         self.rest_api = rest_api
@@ -60,7 +58,6 @@ class Settings(object):
             'default_player_name': self.default_player_name,
             'ttss': self.ttss,
             'stts': self.stts,
-            'play_on_ready_notification': self.play_on_ready_notification,
             'triggers': self.triggers,
             'players': self.players,
             'rest_api': self.rest_api.serialize(),

@@ -11,3 +11,4 @@ from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
 from kalliope.core.NeuronModule import NeuronModule
 from kalliope.core.SignalModule import SignalModule, MissingParameter
 from kalliope.core.PlayerModule import PlayerModule
+from kalliope.core.HookManager import HookManager

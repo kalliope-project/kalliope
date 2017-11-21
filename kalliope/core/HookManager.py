@@ -51,7 +51,7 @@ class HookManager(object):
         # list of synapse to execute
         list_synapse = settings.hooks[hook_name]
 
-        print("hook: %s , type: %s" % (hook_name, type(list_synapse)))
+        logger.debug("[HookManager] hook: %s , type: %s" % (hook_name, type(list_synapse)))
 
         if isinstance(list_synapse, list):
             if list_synapse is not None:
@@ -59,5 +59,4 @@ class HookManager(object):
                     return SynapseLauncher.start_synapse_by_name(synapse)
 
         if isinstance(list_synapse, str):
-            print("here")
             return SynapseLauncher.start_synapse_by_name(list_synapse)

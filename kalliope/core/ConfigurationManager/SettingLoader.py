@@ -705,5 +705,4 @@ class SettingLoader(with_metaclass(Singleton, object)):
             if key not in hooks:
                 hooks[key] = None
 
-        print(hooks)
         return hooks

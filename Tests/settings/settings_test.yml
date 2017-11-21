@@ -63,43 +63,6 @@ players:
   - pyalsaaudio:
      device: "default"
 
-# ---------------------------
-# Wake up answers
-# ---------------------------
-# When Kalliope detect the hotword/trigger, he will select randomly a phrase in the following list
-# to notify the user that he's listening for orders
-random_wake_up_answers:
-  - "Oui monsieur?"
-
-# You can play a sound when Kalliope detect the hotword/trigger instead of saying something from
-# the `random_wake_up_answers`.
-# Place here the full path of the sound file or just the name of the file in /usr/lib/kalliope/sounds
-# The file must be .wav or .mp3 format. By default two file are provided: ding.wav and dong.wav
-random_wake_up_sounds:
-  - "sounds/ding.wav"
-  - "sounds/dong.wav"
-
-# ---------------------------
-# On ready notification
-# ---------------------------
-# This section is used to notify the user when Kalliope is waiting for a trigger detection by playing a sound or speak a sentence out loud
-
-# This parameter define if you play the on ready answer:
-# - always: every time Kalliope is ready to be awaken
-# - never: never play a sound or sentences when kalliope is ready
-# - once: at the first start of Kalliope
-play_on_ready_notification: never
-
-# The on ready notification can be a sentence. Place here a sentence or a list of sentence. If you set a list, one sentence will be picked up randomly
-on_ready_answers:
-  - "Kalliope is ready"
-
-# You can play a sound instead of a sentence.
-# Remove the `on_ready_answers` parameters by commenting it out and use this one instead.
-# Place here the path of the sound file. Files must be .wav or .mp3 format.
-on_ready_sounds:
-  - "sounds/ding.wav"
-  - "sounds/dong.wav"
 
 
 # ---------------------------
@@ -114,10 +77,21 @@ rest_api:
   allowed_cors_origin: False
 
 # ---------------------------
-# Default Synapse
+# Hooks
 # ---------------------------
-# Specify an optional default synapse response in case your order is not found.
-default_synapse: "Default-synapse"
+hooks:
+  on_start:
+    - "on-start-synapse"
+  on_waiting_for_trigger: "test"
+  on_triggered:
+    - "on-triggered-synapse"
+  on_start_listening:
+  on_stop_listening:
+  on_order_found:
+  on_order_not_found:
+    - "order-not-found-synapse"
+  on_mute: []
+  on_unmute: []
 
 # ---------------------------
 # resource directory path
