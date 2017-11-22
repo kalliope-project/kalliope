@@ -130,7 +130,9 @@ class TestSettingLoader(unittest.TestCase):
                                  'on_starting_synapseon_ending_synapse': None, 'on_start': ['on-start-synapse'],
                                  'on_unmute': [], 'on_triggered': ['on-triggered-synapse'], 'on_mute': [],
                                  'on_order_not_found': [
-                                     'order-not-found-synapse']
+                                     'order-not-found-synapse'],
+                                 'on_start_speaking': None,
+                                 'on_stop_speaking': None,
                                  }
 
         sl = SettingLoader(file_path=self.settings_file_to_test)

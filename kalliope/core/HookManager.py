@@ -44,6 +44,14 @@ class HookManager(object):
         return cls.execute_synapses_in_hook_name("on_unmute")
 
     @classmethod
+    def on_start_speaking(cls):
+        return cls.execute_synapses_in_hook_name("on_start_speaking")
+
+    @classmethod
+    def on_stop_speaking(cls):
+        return cls.execute_synapses_in_hook_name("on_stop_speaking")
+
+    @classmethod
     def execute_synapses_in_hook_name(cls, hook_name):
         logger.debug("[HookManager] calling synapses in hook name: %s" % hook_name)
         settings = SettingLoader().settings

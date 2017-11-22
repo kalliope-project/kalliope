@@ -111,18 +111,17 @@ players:
 # Hooks
 # ---------------------------
 hooks:
-  on_start:
-    - "on-start-synapse"
-  on_waiting_for_trigger: "test"
-  on_triggered:
-    - "on-triggered-synapse"
+  on_start: "on-start-synapse"
+  on_waiting_for_trigger:
+  on_triggered: "on-triggered-synapse"
   on_start_listening:
   on_stop_listening:
   on_order_found:
-  on_order_not_found:
-    - "order-not-found-synapse"
-  on_mute: []
-  on_unmute: []
+  on_order_not_found: "order-not-found-synapse"
+  on_mute:
+  on_unmute:
+  on_start_speaking:
+  on_stop_speaking:
 
 # ---------------------------
 # Rest API

@@ -2,7 +2,6 @@ import logging
 import os
 from six import with_metaclass
 
-from kalliope.core.Models.RpiSettings import RpiSettings
 from kalliope.core.Models.RecognitionOptions import RecognitionOptions
 from .YAMLLoader import YAMLLoader
 from kalliope.core.Models.Resources import Resources
@@ -661,7 +660,8 @@ class SettingLoader(with_metaclass(Singleton, object)):
         logger.debug("Start options: %s" % options)
         return options
 
-    def _get_hooks(self, settings):
+    @staticmethod
+    def _get_hooks(settings):
         """
         Return hooks settings
         :param settings: The YAML settings file
@@ -686,6 +686,8 @@ class SettingLoader(with_metaclass(Singleton, object)):
             hooks["on_ending_synapse"] = None
             hooks["on_mute"] = None
             hooks["on_unmute"] = None
+            hooks["on_start_speaking"] = None
+            hooks["on_stop_speaking"] = None
 
         all_hook = [
             "on_start",
@@ -698,7 +700,9 @@ class SettingLoader(with_metaclass(Singleton, object)):
             "on_starting_synapse"
             "on_ending_synapse",
             "on_mute",
-            "on_unmute"
+            "on_unmute",
+            "on_start_speaking",
+            "on_stop_speaking"
         ]
 
         for key in all_hook:

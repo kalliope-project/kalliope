@@ -5,7 +5,6 @@ import logging
 import speech_recognition as sr
 
 from kalliope import Utils, SettingLoader
-from kalliope.core.Utils.RpiUtils import RpiUtils
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
