@@ -82,6 +82,7 @@ rest_api:
 hooks:
   on_start:
     - "on-start-synapse"
+    - "bring-led-on"
   on_waiting_for_trigger: "test"
   on_triggered:
     - "on-triggered-synapse"

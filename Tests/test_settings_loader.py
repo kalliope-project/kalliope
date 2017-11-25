@@ -58,7 +58,7 @@ class TestSettingLoader(unittest.TestCase):
                       'on_stop_listening': None,
                       'on_start_listening': None,
                       'on_order_found': None,
-                      'on_start': ['on-start-synapse'],
+                      'on_start': ['on-start-synapse', 'bring-led-on'],
                       'on_unmute': [], 'on_triggered': ['on-triggered-synapse'], 'on_mute': [],
                       'on_order_not_found': [
                           'order-not-found-synapse']
@@ -127,7 +127,7 @@ class TestSettingLoader(unittest.TestCase):
         settings_object.recognition_options = RecognitionOptions()
         settings_object.hooks = {'on_waiting_for_trigger': 'test', 'on_stop_listening': None,
                                  'on_start_listening': None, 'on_order_found': None,
-                                 'on_starting_synapseon_ending_synapse': None, 'on_start': ['on-start-synapse'],
+                                 'on_starting_synapseon_ending_synapse': None, 'on_start': ['on-start-synapse', 'bring-led-on'],
                                  'on_unmute': [], 'on_triggered': ['on-triggered-synapse'], 'on_mute': [],
                                  'on_order_not_found': [
                                      'order-not-found-synapse'],

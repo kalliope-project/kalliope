@@ -53,18 +53,21 @@ class HookManager(object):
 
     @classmethod
     def execute_synapses_in_hook_name(cls, hook_name):
-        logger.debug("[HookManager] calling synapses in hook name: %s" % hook_name)
-        settings = SettingLoader().settings
+        # need to import SynapseLauncher from here to avoid cross import
         from kalliope.core.SynapseLauncher import SynapseLauncher
+
+        logger.debug("[HookManager] calling synapses in hook name: %s" % hook_name)
+
+        settings = SettingLoader().settings
+
         # list of synapse to execute
         list_synapse = settings.hooks[hook_name]
-
         logger.debug("[HookManager] hook: %s , type: %s" % (hook_name, type(list_synapse)))
 
         if isinstance(list_synapse, list):
-            if list_synapse is not None:
-                for synapse in list_synapse:
-                    return SynapseLauncher.start_synapse_by_name(synapse)
+            return SynapseLauncher.start_synapse_by_list_name(list_synapse)
 
         if isinstance(list_synapse, str):
             return SynapseLauncher.start_synapse_by_name(list_synapse)
+
+        return None

@@ -53,6 +53,41 @@ class SynapseLauncher(object):
             return lifo_buffer.execute(is_api_call=True)
 
     @classmethod
+    def start_synapse_by_list_name(cls, list_name, brain=None, overriding_parameter_dict=None):
+        """
+        Start synapses by their name
+        :param list_name: List of name of the synapse to launch
+        :param brain: Brain instance
+        :param overriding_parameter_dict: parameter to pass to neurons
+        """
+        logger.debug("[SynapseLauncher] start_synapse_by_list_name called with synapse list: %s " % list_name)
+
+        if list_name:
+            if brain is None:
+                brain = BrainLoader().get_brain()
+
+            # ge all synapse object
+            list_synapse_object_to_start = list()
+            for name in list_name:
+                synapse_to_start = brain.get_synapse_by_name(synapse_name=name)
+                list_synapse_object_to_start.append(synapse_to_start)
+
+            # run the LIFO with all synapse
+            lifo_buffer = LIFOBuffer()
+            list_synapse_to_process = list()
+            for synapse in list_synapse_object_to_start:
+                if synapse is not None:
+                    new_matching_synapse = MatchedSynapse(matched_synapse=synapse,
+                                                          matched_order=None,
+                                                          user_order=None,
+                                                          overriding_parameter=overriding_parameter_dict)
+                    list_synapse_to_process.append(new_matching_synapse)
+
+            lifo_buffer.add_synapse_list_to_lifo(list_synapse_to_process)
+            return lifo_buffer.execute(is_api_call=True)
+        return None
+
+    @classmethod
     def run_matching_synapse_from_order(cls, order_to_process, brain, settings, is_api_call=False, no_voice=False):
         """
         
