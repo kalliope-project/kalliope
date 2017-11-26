@@ -33,7 +33,7 @@ class SynapseLauncher(object):
         logger.debug("[SynapseLauncher] start_synapse_by_name called with synapse name: %s " % name)
 
         if brain is None:
-            brain = BrainLoader().get_brain()
+            brain = BrainLoader().brain
 
         # check if we have found and launched the synapse
         synapse = brain.get_synapse_by_name(synapse_name=name)
@@ -64,7 +64,7 @@ class SynapseLauncher(object):
 
         if list_name:
             if brain is None:
-                brain = BrainLoader().get_brain()
+                brain = BrainLoader().brain
 
             # ge all synapse object
             list_synapse_object_to_start = list()
