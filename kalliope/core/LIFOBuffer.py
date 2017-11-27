@@ -203,4 +203,5 @@ class LIFOBuffer(with_metaclass(Singleton, object)):
                     self.reset_lifo = False
                     raise SynapseListAddedToLIFO
             else:
-                raise Serialize
+                # the neuron has not been processed but we still need to remove it from the list
+                matched_synapse.neuron_fifo_list.remove(neuron)
