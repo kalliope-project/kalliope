@@ -1,4 +1,5 @@
 import logging
+from abc import ABCMeta, abstractmethod
 from kalliope.core import Utils
 
 from kalliope.core.ConfigurationManager import BrainLoader
@@ -17,13 +18,15 @@ class MissingParameter(Exception):
 
 
 class SignalModule(object):
+    __metaclass__ = ABCMeta
+
     def __init__(self, **kwargs):
         super(SignalModule, self).__init__(**kwargs)
         # get the child who called the class
         self.signal_name = self.__class__.__name__
 
         Utils.print_info('Init Signal :' + self.signal_name)
-        self.brain = BrainLoader().get_brain()
+        self.brain = BrainLoader().brain
 
     def get_list_synapse(self):
         for synapse in self.brain.synapses:
@@ -38,5 +41,6 @@ class SignalModule(object):
                         yield synapse
 
     @staticmethod
+    @abstractmethod
     def check_parameters(parameters):
         raise NotImplementedError("[SignalModule] Must override check_parameters method !")
