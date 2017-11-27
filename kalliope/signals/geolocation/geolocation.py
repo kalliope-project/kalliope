@@ -1,55 +1,24 @@
 import logging
 from threading import Thread
 
-from kalliope.core import Utils
-from kalliope.core.ConfigurationManager import BrainLoader
+from kalliope.core import SignalModule
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class MissingParameter(Exception):
-    """
-    A geolocation must contain latitude, longitude, radius.
-
-    .. seealso:: Geolocation
-    """
-    pass
-
-
-class Geolocation(Thread):
-
-    def __init__(self):
-        super(Geolocation, self).__init__()
-        Utils.print_info('Init Geolocation')
-        self.brain = BrainLoader().get_brain()
+class Geolocation(SignalModule, Thread):
+    def __init__(self, **kwargs):
+        super(Geolocation, self).__init__(**kwargs)
 
     def run(self):
         logger.debug("[Geolocalisation] Loading ...")
-        self.list_synapses_with_geolocalion = self._get_list_synapse_with_geolocation(brain=self.brain)
-
-    @classmethod
-    def _get_list_synapse_with_geolocation(cls, brain):
-        """
-        return the list of synapse that use geolocation as signal in the provided brain
-        :param brain: Brain object that contain all synapses loaded
-        :type brain: Brain
-        :return: generator of synapse that use geolocation as signal
-        """
-        for synapse in brain.synapses:
-            for signal in synapse.signals:
-                # if the signal is an event we add it to the task list
-                if signal.name == "geolocation":
-                    if not cls._check_geolocation(parameters=signal.parameters):
-                        logger.debug("[Geolocation] The signal is missing mandatory parameters, check documentation")
-                        raise MissingParameter()
-                    else:
-                        yield synapse
-
+        self.list_synapses_with_geolocalion = list(super(Geolocation, self).get_list_synapse())
 
     @staticmethod
-    def _check_geolocation(parameters):
+    def check_parameters(parameters):
         """
+        Overwritten method
         receive a dict of parameter from a geolocation signal and them
         :param parameters: dict of parameters
         :return: True if parameters are valid

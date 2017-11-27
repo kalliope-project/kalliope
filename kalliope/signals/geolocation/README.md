@@ -73,4 +73,4 @@ If the syntax is NOT ok, Kalliope will raise an error and log a message:
 
 ### Note
 
-/!\ this feature is supported by the Kalliope official smartphone application.
+/!\ this feature is supported by the [Kalliope official smartphone application.](https://github.com/kalliope-project/kalliope-app)
