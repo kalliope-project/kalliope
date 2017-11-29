@@ -30,7 +30,7 @@ class TestNeuronParameterLoader(unittest.TestCase):
 
         user_order = "this is the value with multiple words"
         expected_result = {'sentence': 'value',
-                           'params':'words'}
+                           'params': 'words'}
 
         self.assertEqual(NeuronParameterLoader.get_parameters(synapse_order=synapse_order, user_order=user_order),
                          expected_result,
@@ -102,14 +102,14 @@ class TestNeuronParameterLoader(unittest.TestCase):
         order_user = "This is the value"
         expected_result = {'variable': 'value'}
         self.assertNotEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
-                             expected_result)
+                            expected_result)
 
         # Fail
         order_brain = "This is the { variable}}"
         order_user = "This is the value"
         expected_result = {'variable': 'value'}
         self.assertNotEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
-                             expected_result)
+                            expected_result)
 
         ##
         # Testing the brackets position in the sentence
@@ -175,7 +175,7 @@ class TestNeuronParameterLoader(unittest.TestCase):
         order_brain = "This Is The {{ variable }} And The {{ variable2 }}"
         order_user = "ThiS is tHe VAlue aND tHE vAlUe2"
         expected_result = {'variable': 'VAlue',
-                           'variable2':'vAlUe2'}
+                           'variable2': 'vAlUe2'}
         self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
                          expected_result)
 
@@ -292,6 +292,7 @@ class TestNeuronParameterLoader(unittest.TestCase):
                            'variable2': 'bar'}
         self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
                          expected_result)
+
 
 if __name__ == '__main__':
     unittest.main()

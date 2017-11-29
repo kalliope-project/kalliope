@@ -37,13 +37,7 @@ class NeuronParameterLoader(object):
 
         list_word_in_order = Utils.remove_spaces_in_brackets(order_to_check).split()
 
-        # get the order, defined by the first words before {{
-        # /!\ Could be empty if order starts with double brace
-        the_order = order_to_check[:order_to_check.find('{{')]
-
         # remove sentence before order which are sentences not matching anyway
-        # Manage Upper/Lower case
-        # UseLess ?! # truncate_user_sentence = order[order.lower().find(the_order.lower()):]
         truncate_list_word_said = order.split()
 
         # make dict var:value
