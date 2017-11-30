@@ -78,6 +78,10 @@ text_to_speech:
   - voicerss:
       language: "fr-fr"
       cache: True
+  - watson:
+      username: "me"
+      password: "password"
+      voice: "fr-FR_ReneeVoice"
 
 # ---------------------------
 # players
