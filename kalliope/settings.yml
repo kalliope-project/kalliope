@@ -72,10 +72,6 @@ text_to_speech:
   - pico2wave:
       language: "fr-FR"
       cache: True
-  - acapela:
-      language: "sonid15"
-      voice: "Manon"
-      cache: True
   - googletts:
       language: "fr"
       cache: True
