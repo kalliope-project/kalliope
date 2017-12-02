@@ -18,7 +18,6 @@ class Pico2wave(TTSModule):
         self.samplerate = kwargs.get('samplerate', None)
         self.path = kwargs.get('path', None)
 
-
         self._check_parameters()
 
     def _check_parameters(self):

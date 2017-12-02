@@ -14,6 +14,7 @@ TTS_TIMEOUT_SEC = 30
 class Voicerss(TTSModule):
     def __init__(self, **kwargs):
         super(Voicerss, self).__init__(**kwargs)
+        self._check_parameters()
 
     def say(self, words):
         """
@@ -21,7 +22,6 @@ class Voicerss(TTSModule):
         """
 
         self.generate_and_play(words, self._generate_audio_file)
-        self._check_parameters()
 
     def _check_parameters(self):
         """
@@ -61,7 +61,7 @@ class Voicerss(TTSModule):
 
     def get_payload(self):
         """
-        Generic method used load the payload used to acces the remote api
+        Generic method used load the payload used to access the remote api
 
         :return: Payload to use to access the remote api
         """

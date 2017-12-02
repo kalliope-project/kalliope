@@ -15,14 +15,14 @@ class Googletts(TTSModule):
     def __init__(self, **kwargs):
         super(Googletts, self).__init__(**kwargs)
 
+        self._check_parameters()
+
     def say(self, words):
         """
         :param words: The sentence to say
         """
 
         self.generate_and_play(words, self._generate_audio_file)
-
-        self._check_parameters()
 
     def _check_parameters(self):
         """
