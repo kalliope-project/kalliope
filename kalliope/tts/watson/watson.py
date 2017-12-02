@@ -1,6 +1,6 @@
 from kalliope.core.Utils.FileManager import FileManager
 from requests.auth import HTTPBasicAuth
-from kalliope.core.TTS.TTSModule import TTSModule
+from kalliope.core.TTS.TTSModule import TTSModule, MissingTTSParameter
 import logging
 import requests
 
@@ -9,13 +9,6 @@ logger = logging.getLogger("kalliope")
 
 TTS_URL = "https://stream.watsonplatform.net/text-to-speech/api/v1"
 TTS_CONTENT_TYPE = "audio/wav"
-
-
-class MissingParameterException():
-    """
-    Some Watson parameters are missing.
-    """
-    pass
 
 
 class Watson(TTSModule):
@@ -37,7 +30,7 @@ class Watson(TTSModule):
                .. raises:: MissingParameterException
         """
         if self.username is None or self.password is None or self.voice is None:
-            raise MissingParameterException("[Watson] Missing parameters, check documentation !")
+            raise MissingTTSParameter("[Watson] Missing parameters, check documentation !")
         return True
 
     def say(self, words):

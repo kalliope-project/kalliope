@@ -1,6 +1,6 @@
 import requests
 from kalliope.core import FileManager
-from kalliope.core.TTS.TTSModule import TTSModule, FailToLoadSoundFile
+from kalliope.core.TTS.TTSModule import TTSModule, FailToLoadSoundFile, MissingTTSParameter
 import logging
 
 logging.basicConfig()
@@ -21,6 +21,18 @@ class Voicerss(TTSModule):
         """
 
         self.generate_and_play(words, self._generate_audio_file)
+        self._check_parameters()
+
+    def _check_parameters(self):
+        """
+        Check parameters are ok, raise MissingTTSParameterException exception otherwise.
+        :return: true if parameters are ok, raise an exception otherwise
+
+               .. raises:: MissingTTSParameterException
+        """
+        if self.language == "default" or self.language is None:
+            raise MissingTTSParameter("[voicerss] Missing parameters, check documentation !")
+        return True
 
     def _generate_audio_file(self):
         """

@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from kalliope.core.TTS.TTSModule import TTSModule
+from kalliope.core.TTS.TTSModule import TTSModule, MissingTTSParameter
 import sox
 
 import logging
@@ -17,6 +17,20 @@ class Pico2wave(TTSModule):
         super(Pico2wave, self).__init__(**kwargs)
         self.samplerate = kwargs.get('samplerate', None)
         self.path = kwargs.get('path', None)
+
+
+        self._check_parameters()
+
+    def _check_parameters(self):
+        """
+        Check parameters are ok, raise MissingTTSParameters exception otherwise.
+        :return: true if parameters are ok, raise an exception otherwise
+
+               .. raises:: MissingTTSParameterException
+        """
+        if self.language == "default" or self.language is None:
+            raise MissingTTSParameter("[pico2wave] Missing parameters, check documentation !")
+        return True
 
     def say(self, words):
         """
