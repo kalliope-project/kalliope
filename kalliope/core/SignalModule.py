@@ -1,5 +1,4 @@
 import logging
-from abc import ABCMeta, abstractmethod
 from kalliope.core import Utils
 
 from kalliope.core.ConfigurationManager import BrainLoader
@@ -10,15 +9,13 @@ logger = logging.getLogger("kalliope")
 
 class MissingParameter(Exception):
     """
-    A geolocation must contain latitude, longitude, radius.
+    An exception when parameters are missing from signals.
 
-    .. seealso:: Geolocation
     """
     pass
 
 
 class SignalModule(object):
-    __metaclass__ = ABCMeta
 
     def __init__(self, **kwargs):
         super(SignalModule, self).__init__(**kwargs)
@@ -41,6 +38,5 @@ class SignalModule(object):
                         yield synapse
 
     @staticmethod
-    @abstractmethod
     def check_parameters(parameters):
         raise NotImplementedError("[SignalModule] Must override check_parameters method !")
