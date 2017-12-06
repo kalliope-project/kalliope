@@ -36,6 +36,7 @@ class SignalModule(object):
                         raise MissingParameter()
                     else:
                         yield synapse
+                        break # if there is multiple signals in the synapse, we only add it once !
 
     @staticmethod
     def check_parameters(parameters):
