@@ -58,7 +58,7 @@ speech_to_text:
 # Text to speech
 # ---------------------------
 # This is the default TTS that will be used by Kalliope to talk.
-default_text_to_speech: "pico2wave"
+default_text_to_speech: "voicerss"
 # where we store generated audio files from TTS engine to reuse them
 cache_path: "/tmp/kalliope_tts_cache"
 
@@ -77,6 +77,7 @@ text_to_speech:
       cache: True
   - voicerss:
       language: "fr-fr"
+      key: "API_Key"
       cache: True
   - watson:
       username: "me"
