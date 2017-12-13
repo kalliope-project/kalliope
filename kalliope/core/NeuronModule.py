@@ -248,7 +248,7 @@ class NeuronModule(object):
         :param is_api_call: If true, the current call comes from the api
         :param overriding_parameter_dict: dict of value to add to neuron parameters
         """
-        synapse = BrainLoader().get_brain().get_synapse_by_name(synapse_name)
+        synapse = BrainLoader().brain.get_synapse_by_name(synapse_name)
         matched_synapse = MatchedSynapse(matched_synapse=synapse,
                                          matched_order=synapse_order,
                                          user_order=user_order,

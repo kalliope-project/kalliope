@@ -42,7 +42,7 @@ class BrainLoader(with_metaclass(Singleton, object)):
         if self.file_path is None:
             raise BrainNotFound("brain file not found")
         self.yaml_config = self.get_yaml_config()
-        self.brain = self.get_brain()
+        self.brain = self.load_brain()
 
     def get_yaml_config(self):
         """
@@ -61,7 +61,7 @@ class BrainLoader(with_metaclass(Singleton, object)):
             brain_file_path = self.file_path
         return YAMLLoader.get_config(brain_file_path)
 
-    def get_brain(self):
+    def load_brain(self):
         """
         Class Methods which loads default or the provided YAML file and return a Brain
         :return: The loaded Brain
@@ -69,7 +69,7 @@ class BrainLoader(with_metaclass(Singleton, object)):
 
         :Example:
 
-            brain = BrainLoader.get_brain(file_path="/var/tmp/brain.yml")
+            brain = BrainLoader.load_brain(file_path="/var/tmp/brain.yml")
 
         .. seealso:: Brain
         .. warnings:: Class Method

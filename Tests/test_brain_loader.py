@@ -47,7 +47,7 @@ class TestBrainLoader(unittest.TestCase):
         brain_loader = BrainLoader(file_path=self.brain_to_test)
         self.assertEqual(brain_loader.yaml_config, self.expected_result)
 
-    def test_get_brain(self):
+    def test_load_brain(self):
         """
         Test the class return a valid brain object
         """
