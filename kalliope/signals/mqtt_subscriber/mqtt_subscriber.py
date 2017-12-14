@@ -1,9 +1,13 @@
 import logging
 from threading import Thread
 
+from kalliope.core import SignalModule, MissingParameter
+
 from kalliope.core.ConfigurationManager import BrainLoader
 from kalliope.signals.mqtt_subscriber.MqttClient import MqttClient
 from kalliope.signals.mqtt_subscriber.models import Broker, Topic
+
+from kalliope.core import Utils
 
 CLIENT_ID = "kalliope"
 
@@ -11,55 +15,36 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class Mqtt_subscriber(Thread):
+class Mqtt_subscriber(SignalModule, Thread):
 
-    def __init__(self, brain=None):
-        super(Mqtt_subscriber, self).__init__()
-        logger.debug("[Mqtt_subscriber] Mqtt_subscriber class created")
-        # variables
+    def __init__(self, **kwargs):
+        super(Mqtt_subscriber, self).__init__(**kwargs)
+        Utils.print_info('[Mqtt_subscriber] Starting manager')# variables
+        self.list_synapses_with_mqtt = list(super(Mqtt_subscriber, self).get_list_synapse())
         self.broker_ip = None
         self.topic = None
         self.json_message = False
 
-        self.brain = brain
-        if self.brain is None:
-            self.brain = BrainLoader().get_brain()
-
     def run(self):
         logger.debug("[Mqtt_subscriber] Starting Mqtt_subscriber")
-        # get the list of synapse that use Mqtt_subscriber as signal
-        list_synapse_with_mqtt_subscriber = self.get_list_synapse_with_mqtt_subscriber(brain=self.brain)
 
         # we need to sort broker URL by ip, then for each broker, we sort by topic and attach synapses name to run to it
-        list_broker_to_instantiate = self.get_list_broker_to_instantiate(list_synapse_with_mqtt_subscriber)
+        list_broker_to_instantiate = self.get_list_broker_to_instantiate(self.list_synapses_with_mqtt)
 
         # now instantiate a MQTT client for each broker object
         self.instantiate_mqtt_client(list_broker_to_instantiate)
 
-    def get_list_synapse_with_mqtt_subscriber(self, brain):
-        """
-        return the list of synapse that use Mqtt_subscriber as signal in the provided brain
-        :param brain: Brain object that contain all synapses loaded
-        :type brain: Brain
-        :return: list of synapse that use Mqtt_subscriber as signal
-        """
-        for synapse in brain.synapses:
-            for signal in synapse.signals:
-                # if the signal is an event we add it to the task list
-                if signal.name == "mqtt_subscriber":
-                    if self.check_mqtt_dict(signal.parameters):
-                        yield synapse
-
     @staticmethod
-    def check_mqtt_dict(mqtt_signal_parameters):
+    def check_parameters(parameters):
         """
-        receive a dict of parameter from a mqtt_subscriber signal and them
-        :param mqtt_signal_parameters: dict of parameters
+        overwrite method
+        receive a dict of parameter from a mqtt_subscriber signal
+        :param parameters: dict of mqtt_signal_parameters
         :return: True if parameters are valid
         """
         # check mandatory parameters
         mandatory_parameters = ["broker_ip", "topic"]
-        if not all(key in mqtt_signal_parameters for key in mandatory_parameters):
+        if not all(key in parameters for key in mandatory_parameters):
             return False
 
         return True

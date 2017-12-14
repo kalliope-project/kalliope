@@ -1,35 +1,35 @@
 import unittest
 
+from kalliope.core.SignalModule import MissingParameter
 
 from kalliope.core.Models import Brain
 from kalliope.core.Models import Neuron
 from kalliope.core.Models import Synapse
 from kalliope.core.Models.Signal import Signal
 
-from kalliope.signals.geolocation.geolocation import Geolocation, MissingParameter
+from kalliope.signals.geolocation.geolocation import Geolocation
 
 
 class Test_Geolocation(unittest.TestCase):
-
     def test_check_geolocation_valid(self):
         expected_parameters = ["latitude", "longitude", "radius"]
-        self.assertTrue(Geolocation._check_geolocation(expected_parameters))
+        self.assertTrue(Geolocation.check_parameters(expected_parameters))
 
     def test_check_geolocation_valid_with_other(self):
         expected_parameters = ["latitude", "longitude", "radius", "kalliope", "random"]
-        self.assertTrue(Geolocation._check_geolocation(expected_parameters))
+        self.assertTrue(Geolocation.check_parameters(expected_parameters))
 
     def test_check_geolocation_no_radius(self):
         expected_parameters = ["latitude", "longitude", "kalliope", "random"]
-        self.assertFalse(Geolocation._check_geolocation(expected_parameters))
+        self.assertFalse(Geolocation.check_parameters(expected_parameters))
 
     def test_check_geolocation_no_latitude(self):
         expected_parameters = ["longitude", "radius", "kalliope", "random"]
-        self.assertFalse(Geolocation._check_geolocation(expected_parameters))
+        self.assertFalse(Geolocation.check_parameters(expected_parameters))
 
     def test_check_geolocation_no_longitude(self):
         expected_parameters = ["latitude", "radius", "kalliope", "random"]
-        self.assertFalse(Geolocation._check_geolocation(expected_parameters))
+        self.assertFalse(Geolocation.check_parameters(expected_parameters))
 
     def test_get_list_synapse_with_geolocation(self):
         # Init
@@ -53,7 +53,13 @@ class Test_Geolocation(unittest.TestCase):
         br = Brain(synapses=synapses_list)
 
         expected_list = [synapse1]
-        self.assertEqual(expected_list, list(Geolocation._get_list_synapse_with_geolocation(brain=br)))
+
+        # Stubbing the Geolocation Signal with the brain
+        geo = Geolocation()
+        geo.brain = br
+        geo.run()
+
+        self.assertEqual(expected_list, geo.list_synapses_with_geolocalion)
 
     def test_get_list_synapse_with_raise_missing_parameters(self):
         # Init
@@ -75,9 +81,12 @@ class Test_Geolocation(unittest.TestCase):
         synapses_list = [synapse1, synapse2]
         br = Brain(synapses=synapses_list)
 
+        # Stubbing the Geolocation Signal with the brain
+        geo = Geolocation()
+        geo.brain = br
+
         with self.assertRaises(MissingParameter):
-            # /!\ Note: impossible to call a generator method directly ! need to use a list !
-            list(Geolocation._get_list_synapse_with_geolocation(brain=br))
+            geo.run()
 
 
 if __name__ == '__main__':

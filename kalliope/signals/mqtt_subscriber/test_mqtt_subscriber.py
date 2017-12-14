@@ -18,8 +18,8 @@ class TestMqtt_subscriber(unittest.TestCase):
             "topic": "my_topic"
         }
 
-        self.assertTrue(Mqtt_subscriber.check_mqtt_dict(valid_dict_of_parameters))
-        self.assertFalse(Mqtt_subscriber.check_mqtt_dict(invalid_dict_of_parameters))
+        self.assertTrue(Mqtt_subscriber.check_parameters(valid_dict_of_parameters))
+        self.assertFalse(Mqtt_subscriber.check_parameters(invalid_dict_of_parameters))
 
     def test_get_list_synapse_with_mqtt_subscriber(self):
 
@@ -33,9 +33,10 @@ class TestMqtt_subscriber(unittest.TestCase):
 
         expected_result = synapses
 
-        mq = Mqtt_subscriber(brain=brain)
+        mq = Mqtt_subscriber()
+        mq.brain = brain
 
-        generator = mq.get_list_synapse_with_mqtt_subscriber(brain)
+        generator = mq.get_list_synapse()
 
         self.assertEqual(expected_result, list(generator))
 
@@ -52,8 +53,9 @@ class TestMqtt_subscriber(unittest.TestCase):
 
         expected_result = [synapse2]
 
-        mq = Mqtt_subscriber(brain=brain)
-        generator = mq.get_list_synapse_with_mqtt_subscriber(brain)
+        mq = Mqtt_subscriber()
+        mq.brain = brain
+        generator = mq.get_list_synapse()
 
         self.assertEqual(expected_result, list(generator))
 
@@ -81,7 +83,8 @@ class TestMqtt_subscriber(unittest.TestCase):
 
         expected_retuned_list = [expected_broker]
 
-        mq = Mqtt_subscriber(brain=brain)
+        mq = Mqtt_subscriber()
+        mq.brain = brain
 
         self.assertListEqual(expected_retuned_list,
                              mq.get_list_broker_to_instantiate(list_synapse_with_mqtt_subscriber))
@@ -124,7 +127,8 @@ class TestMqtt_subscriber(unittest.TestCase):
 
         expected_retuned_list = [expected_broker1, expected_broker2]
 
-        mq = Mqtt_subscriber(brain=brain)
+        mq = Mqtt_subscriber()
+        mq.brain = brain
 
         self.assertEqual(expected_retuned_list, mq.get_list_broker_to_instantiate(list_synapse_with_mqtt_subscriber))
 
@@ -162,7 +166,8 @@ class TestMqtt_subscriber(unittest.TestCase):
 
         expected_retuned_list = [expected_broker1]
 
-        mq = Mqtt_subscriber(brain=brain)
+        mq = Mqtt_subscriber()
+        mq.brain = brain
 
         self.assertEqual(expected_retuned_list, mq.get_list_broker_to_instantiate(list_synapse_with_mqtt_subscriber))
 
@@ -196,7 +201,8 @@ class TestMqtt_subscriber(unittest.TestCase):
 
         expected_retuned_list = [expected_broker1]
 
-        mq = Mqtt_subscriber(brain=brain)
+        mq = Mqtt_subscriber()
+        mq.brain = brain
 
         self.assertEqual(expected_retuned_list, mq.get_list_broker_to_instantiate(list_synapse_with_mqtt_subscriber))
 

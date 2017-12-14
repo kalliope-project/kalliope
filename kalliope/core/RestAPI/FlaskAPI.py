@@ -158,7 +158,7 @@ class FlaskAPI(threading.Thread):
         """
         # get a synapse object from the name
         logger.debug("[FlaskAPI] run_synapse_by_name: synapse name -> %s" % synapse_name)
-        synapse_target = BrainLoader().get_brain().get_synapse_by_name(synapse_name=synapse_name)
+        synapse_target = BrainLoader().brain.get_synapse_by_name(synapse_name=synapse_name)
 
         # get no_voice_flag if present
         no_voice = self.get_boolean_flag_from_request(request, boolean_flag_to_find="no_voice")

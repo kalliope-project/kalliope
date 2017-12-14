@@ -40,7 +40,7 @@ class Order(Thread):
         # load settings and brain from singleton
         sl = SettingLoader()
         self.settings = sl.settings
-        self.brain = BrainLoader().get_brain()
+        self.brain = BrainLoader().brain
 
         # keep in memory the order to process
         self.order_to_process = None
