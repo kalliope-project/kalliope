@@ -1,9 +1,10 @@
 import json
 import unittest
+import mock
 
 from httpretty import httpretty
 
-from kalliope.core.NeuronModule import InvalidParameterException
+from kalliope.core.NeuronModule import NeuronModule, InvalidParameterException
 from kalliope.neurons.uri.uri import Uri
 
 
@@ -21,8 +22,10 @@ class TestUri(unittest.TestCase):
             "url": self.test_url
         }
 
-        uri_neuron = Uri(**parameters)
-        self.assertEqual(uri_neuron.text, expected_content)
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+
+            uri_neuron = Uri(**parameters)
+            self.assertEqual(uri_neuron.text, expected_content)
 
     def testGetRaw(self):
         expected_content = b'raw line'
@@ -31,8 +34,10 @@ class TestUri(unittest.TestCase):
         parameters = {
             "url": self.test_url
         }
-        uri_neuron = Uri(**parameters)
-        self.assertEqual(uri_neuron.content, expected_content)
+
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+            uri_neuron = Uri(**parameters)
+            self.assertEqual(uri_neuron.content, expected_content)
 
     def testPost(self):
         expected_content = '{"voice": "nico"}'
@@ -44,8 +49,9 @@ class TestUri(unittest.TestCase):
             "method": "POST"
         }
 
-        uri_neuron = Uri(**parameters)
-        self.assertEqual(uri_neuron.text, expected_content)
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+            uri_neuron = Uri(**parameters)
+            self.assertEqual(uri_neuron.text, expected_content)
 
     def testPut(self):
         expected_content = '{"voice": "nico"}'
@@ -57,8 +63,9 @@ class TestUri(unittest.TestCase):
             "method": "PUT"
         }
 
-        uri_neuron = Uri(**parameters)
-        self.assertEqual(uri_neuron.text, expected_content)
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+            uri_neuron = Uri(**parameters)
+            self.assertEqual(uri_neuron.text, expected_content)
 
     def testDelete(self):
         expected_content = '{"voice": "nico"}'
@@ -70,8 +77,9 @@ class TestUri(unittest.TestCase):
             "method": "DELETE"
         }
 
-        uri_neuron = Uri(**parameters)
-        self.assertEqual(uri_neuron.text, expected_content)
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+            uri_neuron = Uri(**parameters)
+            self.assertEqual(uri_neuron.text, expected_content)
 
     def testOptions(self):
         expected_content = '{"voice": "nico"}'
@@ -83,8 +91,9 @@ class TestUri(unittest.TestCase):
             "method": "OPTIONS"
         }
 
-        uri_neuron = Uri(**parameters)
-        self.assertEqual(uri_neuron.text, expected_content)
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+            uri_neuron = Uri(**parameters)
+            self.assertEqual(uri_neuron.text, expected_content)
 
     def testHead(self):
         expected_content = '{"voice": "nico"}'
@@ -96,8 +105,9 @@ class TestUri(unittest.TestCase):
             "method": "HEAD"
         }
 
-        uri_neuron = Uri(**parameters)
-        self.assertEqual(uri_neuron.status_code, 200)
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+            uri_neuron = Uri(**parameters)
+            self.assertEqual(uri_neuron.status_code, 200)
 
     def testPatch(self):
         expected_content = '{"voice": "nico"}'
@@ -109,8 +119,9 @@ class TestUri(unittest.TestCase):
             "method": "PATCH"
         }
 
-        uri_neuron = Uri(**parameters)
-        self.assertEqual(uri_neuron.text, expected_content)
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+            uri_neuron = Uri(**parameters)
+            self.assertEqual(uri_neuron.text, expected_content)
 
     def testParameters(self):
         def run_test(parameters_to_test):
@@ -169,8 +180,9 @@ class TestUri(unittest.TestCase):
             }
         }
 
-        uri_neuron = Uri(**parameters)
-        self.assertEqual(uri_neuron.status_code, 200)
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+            uri_neuron = Uri(**parameters)
+            self.assertEqual(uri_neuron.status_code, 200)
 
     def testPostJson(self):
         """
@@ -196,8 +208,10 @@ class TestUri(unittest.TestCase):
             }
         }
 
-        uri_neuron = Uri(**parameters)
-        self.assertEqual(uri_neuron.status_code, 200)
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+            uri_neuron = Uri(**parameters)
+            self.assertEqual(uri_neuron.status_code, 200)
+
 
 if __name__ == '__main__':
     unittest.main()

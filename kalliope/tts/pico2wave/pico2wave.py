@@ -64,7 +64,7 @@ class Pico2wave(TTSModule):
         logger.debug("Pico2wave command: %s" % final_command)
 
         # generate the file with pico2wav
-        subprocess.call(final_command, stderr=sys.stderr)
+        subprocess.call(final_command)
         
         # convert samplerate
         if self.samplerate is not None:
