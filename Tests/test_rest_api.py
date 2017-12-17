@@ -7,7 +7,7 @@ from flask_testing import LiveServerTestCase
 from mock import mock
 
 from kalliope._version import version_str
-from kalliope.core import LIFOBuffer
+from kalliope.core import LIFOBuffer, LifoManager
 from kalliope.core.ConfigurationManager import BrainLoader
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.Models import Singleton
@@ -19,7 +19,7 @@ class TestRestAPI(LiveServerTestCase):
     def tearDown(self):
         Singleton._instances = {}
         # clean the lifo
-        LIFOBuffer.lifo_list = list()
+        LifoManager.clean_saved_lifo()
 
     def create_app(self):
         """
@@ -42,6 +42,7 @@ class TestRestAPI(LiveServerTestCase):
         sl.settings.port = 5000
         sl.settings.allowed_cors_origin = "*"
         sl.settings.default_synapse = None
+        sl.settings.hooks["on_order_not_found"] = "order-not-found-synapse"
 
         # prepare a test brain
         brain_to_test = full_path_brain_to_test

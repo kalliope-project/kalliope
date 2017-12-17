@@ -322,6 +322,9 @@ hooks:
         path: "/path/to/script.sh off"  
 ```
 
+>**Note:** You cannot use a neurotransmitter neuron inside a synapse called from a hook. 
+You cannot use the "say" neuron inside the "on_start_speaking" or "on_stop_speaking" or it will create an infinite loop
+
 ## Rest API
 
 A Rest API can be activated in order to:
@@ -379,19 +382,6 @@ allowed_cors_origin:
 ```
 
 Remember that an origin is composed of the scheme (http(s)), the port (eg: 80, 4200,…) and the domain (mydomain.com, localhost).
-
-## Default synapse
-
-Run a default [synapse](brain.md) when Kalliope can't find the order in any synapse or if the SST engine haven't understood the order.
-
-```yml
-default_synapse: "synapse-name"
-```
-
-E.g
-```yml
-default_synapse: "Default-response"
-```
 
 ## Resources directory
 

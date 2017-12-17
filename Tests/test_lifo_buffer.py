@@ -3,9 +3,9 @@ import unittest
 
 import mock
 
-from kalliope.core import LIFOBuffer
+from kalliope.core import LifoManager
 from kalliope.core.ConfigurationManager import BrainLoader
-from kalliope.core.LIFOBuffer import Serialize, SynapseListAddedToLIFO
+from kalliope.core.Lifo.LIFOBuffer import Serialize, SynapseListAddedToLIFO
 
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
@@ -24,7 +24,7 @@ class TestLIFOBuffer(unittest.TestCase):
 
         BrainLoader(file_path=self.brain_to_test)
         # create a new lifo buffer
-        self.lifo_buffer = LIFOBuffer()
+        self.lifo_buffer = LifoManager.get_singleton_lifo()
         self.lifo_buffer.clean()
 
     def test_execute(self):
@@ -292,7 +292,7 @@ class TestLIFOBuffer(unittest.TestCase):
         list_matched_synapse = list()
         list_matched_synapse.append(matched_synapse)
 
-        with mock.patch("kalliope.core.LIFOBuffer._process_neuron_list"):
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer._process_neuron_list"):
             self.lifo_buffer._process_synapse_list(list_matched_synapse)
             expected_response = {
                 'status': None,
@@ -322,7 +322,7 @@ class TestLIFOBuffer(unittest.TestCase):
             self.assertEqual("complete", self.lifo_buffer.api_response.status)
 
         # test with neuron that wait for an answer
-        self.lifo_buffer.clean()
+        LifoManager.clean_saved_lifo()
         synapse = BrainLoader().brain.get_synapse_by_name("synapse6")
         order = "synapse6"
         matched_synapse = MatchedSynapse(matched_synapse=synapse,
@@ -335,7 +335,7 @@ class TestLIFOBuffer(unittest.TestCase):
                 self.lifo_buffer._process_neuron_list(matched_synapse=matched_synapse)
 
         # test with a neuron that want to add a synapse list to the LIFO
-        self.lifo_buffer.clean()
+        LifoManager.clean_saved_lifo()
         synapse = BrainLoader().brain.get_synapse_by_name("synapse6")
         order = "synapse6"
         matched_synapse = MatchedSynapse(matched_synapse=synapse,
@@ -353,6 +353,6 @@ if __name__ == '__main__':
     unittest.main()
 
     # suite = unittest.TestSuite()
-    # suite.addTest(TestLIFOBuffer("test_process_neuron_list"))
+    # suite.addTest(TestLIFOBuffer("test_execute"))
     # runner = unittest.TextTestRunner()
     # runner.run(suite)

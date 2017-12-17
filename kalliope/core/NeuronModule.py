@@ -10,7 +10,7 @@ from kalliope.core import OrderListener
 from kalliope.core.HookManager import HookManager
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 from kalliope.core.Cortex import Cortex
-from kalliope.core.LIFOBuffer import LIFOBuffer
+from kalliope.core.Lifo.LifoManager import LifoManager
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.NeuronExceptions import NeuronExceptions
 from kalliope.core.OrderAnalyser import OrderAnalyser
@@ -174,6 +174,7 @@ class NeuronModule(object):
                 logger.debug("[NeuronModule] no_voice is True, Kalliope is muted")
             else:
                 logger.debug("[NeuronModule] no_voice is False, make Kalliope speaking")
+                HookManager.on_start_speaking()
                 # get the instance of the TTS module
                 tts_folder = None
                 if self.settings.resources:
@@ -183,7 +184,6 @@ class NeuronModule(object):
                                                                             parameters=self.tts.parameters,
                                                                             resources_dir=tts_folder)
 
-                HookManager.on_start_speaking()
                 # generate the audio file and play it
                 tts_module_instance.say(tts_message)
                 HookManager.on_stop_speaking()
@@ -254,7 +254,7 @@ class NeuronModule(object):
         list_synapse_to_process = list()
         list_synapse_to_process.append(matched_synapse)
         # get the singleton
-        lifo_buffer = LIFOBuffer()
+        lifo_buffer = LifoManager.get_singleton_lifo()
         lifo_buffer.add_synapse_list_to_lifo(list_synapse_to_process, high_priority=high_priority)
         lifo_buffer.execute(is_api_call=is_api_call, no_voice=no_voice)
 

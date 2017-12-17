@@ -12,13 +12,12 @@ from werkzeug.utils import secure_filename
 from kalliope import SignalLauncher
 from kalliope._version import version_str
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
-from kalliope.core.LIFOBuffer import LIFOBuffer
+from kalliope.core.Lifo.LifoManager import LifoManager
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.OrderListener import OrderListener
 from kalliope.core.RestAPI.utils import requires_auth
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.Utils.FileManager import FileManager
-from kalliope.signals.order import Order
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -174,8 +173,8 @@ class FlaskAPI(threading.Thread):
         else:
             # generate a MatchedSynapse from the synapse
             matched_synapse = MatchedSynapse(matched_synapse=synapse_target, overriding_parameter=parameters)
-            # get the current LIFO buffer
-            lifo_buffer = LIFOBuffer()
+            # get the current LIFO buffer from the singleton
+            lifo_buffer = LifoManager.get_singleton_lifo()
             # this is a new call we clean up the LIFO
             lifo_buffer.clean()
             lifo_buffer.add_synapse_list_to_lifo([matched_synapse])

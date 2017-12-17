@@ -2,7 +2,7 @@ import unittest
 
 import mock
 
-from kalliope.core import LIFOBuffer
+from kalliope.core import LIFOBuffer, LifoManager
 from kalliope.core.Models import Brain, Signal, Singleton
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.Models.Settings import Settings
@@ -41,20 +41,22 @@ class TestSynapseLauncher(unittest.TestCase):
 
         # clean the LiFO
         Singleton._instances = dict()
+        LifoManager.clean_saved_lifo()
 
     def test_start_synapse_by_name(self):
         # existing synapse in the brain
-        with mock.patch("kalliope.core.LIFOBuffer.execute"):
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
             should_be_created_matched_synapse = MatchedSynapse(matched_synapse=self.synapse1)
             SynapseLauncher.start_synapse_by_name("Synapse1", brain=self.brain_test)
             # we expect that the lifo has been loaded with the synapse to run
             expected_result = [[should_be_created_matched_synapse]]
-            lifo_buffer = LIFOBuffer()
+            lifo_buffer = LifoManager.get_singleton_lifo()
             self.assertEqual(expected_result, lifo_buffer.lifo_list)
 
             # we expect that the lifo has been loaded with the synapse to run and overwritten parameters
             Singleton._instances = dict()
-            lifo_buffer = LIFOBuffer()
+            LifoManager.clean_saved_lifo()
+            lifo_buffer = LifoManager.get_singleton_lifo()
             overriding_param = {
                 "val1": "val"
             }
@@ -74,7 +76,7 @@ class TestSynapseLauncher(unittest.TestCase):
         # ------------------
         # test_match_synapse1
         # ------------------
-        with mock.patch("kalliope.core.LIFOBuffer.execute"):
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
             order_to_match = "this is the sentence"
 
             should_be_created_matched_synapse = MatchedSynapse(matched_synapse=self.synapse1,
@@ -85,7 +87,7 @@ class TestSynapseLauncher(unittest.TestCase):
                                                             brain=self.brain_test,
                                                             settings=self.settings_test)
 
-            lifo_buffer = LIFOBuffer()
+            lifo_buffer = LifoManager.get_singleton_lifo()
             self.assertEqual(expected_result, lifo_buffer.lifo_list)
 
         # -------------------------
@@ -93,7 +95,8 @@ class TestSynapseLauncher(unittest.TestCase):
         # -------------------------
         # clean LIFO
         Singleton._instances = dict()
-        with mock.patch("kalliope.core.LIFOBuffer.execute"):
+        LifoManager.clean_saved_lifo()
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
             order_to_match = "this is the second sentence"
             should_be_created_matched_synapse1 = MatchedSynapse(matched_synapse=self.synapse1,
                                                                 user_order=order_to_match,
@@ -106,7 +109,7 @@ class TestSynapseLauncher(unittest.TestCase):
             SynapseLauncher.run_matching_synapse_from_order(order_to_match,
                                                             brain=self.brain_test,
                                                             settings=self.settings_test)
-            lifo_buffer = LIFOBuffer()
+            lifo_buffer = LifoManager.get_singleton_lifo()
             self.assertEqual(expected_result, lifo_buffer.lifo_list)
 
         # -------------------------
@@ -114,6 +117,7 @@ class TestSynapseLauncher(unittest.TestCase):
         # -------------------------
         # clean LIFO
         Singleton._instances = dict()
+        LifoManager.clean_saved_lifo()
         with mock.patch("kalliope.core.HookManager.on_order_not_found") as mock_hook:
             order_to_match = "not existing sentence"
 
@@ -129,7 +133,7 @@ class TestSynapseLauncher(unittest.TestCase):
         # -------------------------
         # clean LIFO
         Singleton._instances = dict()
-        with mock.patch("kalliope.core.LIFOBuffer.execute"):
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
             with mock.patch("kalliope.core.HookManager.on_order_found") as mock_hook:
                 order_to_match = "this is the second sentence"
                 new_settings = Settings()

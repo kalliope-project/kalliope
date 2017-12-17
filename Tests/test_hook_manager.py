@@ -41,7 +41,7 @@ class TestInit(unittest.TestCase):
         """
         with mock.patch("kalliope.core.SynapseLauncher.start_synapse_by_list_name") as mock_synapse_launcher:
             HookManager.on_start()
-            mock_synapse_launcher.assert_called_with(["on-start-synapse", "bring-led-on"])
+            mock_synapse_launcher.assert_called_with(["on-start-synapse", "bring-led-on"], new_lifo=True)
             mock_synapse_launcher.reset_mock()
 
     def test_on_waiting_for_trigger(self):
@@ -50,13 +50,13 @@ class TestInit(unittest.TestCase):
         """
         with mock.patch("kalliope.core.SynapseLauncher.start_synapse_by_name") as mock_synapse_launcher:
             HookManager.on_waiting_for_trigger()
-            mock_synapse_launcher.assert_called_with("test")
+            mock_synapse_launcher.assert_called_with("test", new_lifo=True)
             mock_synapse_launcher.reset_mock()
 
     def test_on_triggered(self):
         with mock.patch("kalliope.core.SynapseLauncher.start_synapse_by_list_name") as mock_synapse_launcher:
             HookManager.on_triggered()
-            mock_synapse_launcher.assert_called_with(["on-triggered-synapse"])
+            mock_synapse_launcher.assert_called_with(["on-triggered-synapse"], new_lifo=True)
             mock_synapse_launcher.reset_mock()
 
     def test_on_start_listening(self):
@@ -71,7 +71,7 @@ class TestInit(unittest.TestCase):
     def test_on_order_not_found(self):
         with mock.patch("kalliope.core.SynapseLauncher.start_synapse_by_list_name") as mock_synapse_launcher:
             HookManager.on_order_not_found()
-            mock_synapse_launcher.assert_called_with(["order-not-found-synapse"])
+            mock_synapse_launcher.assert_called_with(["order-not-found-synapse"], new_lifo=True)
             mock_synapse_launcher.reset_mock()
 
     def test_on_mute(self):
