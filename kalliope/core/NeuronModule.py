@@ -260,8 +260,8 @@ class NeuronModule(object):
 
     @staticmethod
     def is_order_matching(order_said, order_match):
-        return OrderAnalyser().spelt_order_match_brain_order_via_table(order_to_analyse=order_match,
-                                                                       user_said=order_said)
+        return OrderAnalyser().is_order_matching(signal_order=order_match,
+                                                 user_order=order_said)
 
     @staticmethod
     def _get_content_of_file(real_file_template_path):
