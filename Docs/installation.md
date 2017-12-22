@@ -8,6 +8,9 @@ Please follow the right link bellow to install requirements depending on your ta
 - [Ubuntu 16.04](installation/ubuntu_16.04.md)
 - [Debian Jessie/Strech](installation/debian.md)
 
+Testing only:
+- [Fedora](installation/fedora.md)
+
 ## Installation
 
 ### Method 1 - User install using the PIP package
