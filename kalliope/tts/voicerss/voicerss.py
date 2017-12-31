@@ -1,6 +1,5 @@
-import requests
 from kalliope.core import FileManager
-from kalliope.core.TTS.TTSModule import TTSModule, FailToLoadSoundFile, MissingTTSParameter
+from kalliope.core.TTS.TTSModule import TTSModule, MissingTTSParameter
 import logging
 from voicerss_tts.voicerss_tts import TextToSpeech
 

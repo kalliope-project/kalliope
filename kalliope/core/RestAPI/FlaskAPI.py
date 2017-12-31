@@ -78,7 +78,7 @@ class FlaskAPI(threading.Thread):
         self.app.add_url_rule('/mute/', view_func=self.set_mute, methods=['POST'])
 
     def run(self):
-        self.app.run(host='0.0.0.0', port="%s" % int(self.port), debug=True, threaded=True, use_reloader=False)
+        self.app.run(host='0.0.0.0', port=int(self.port), debug=True, threaded=True, use_reloader=False)
 
     @requires_auth
     def get_main_page(self):
