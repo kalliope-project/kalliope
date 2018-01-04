@@ -215,9 +215,9 @@ Some arguments are required, some other optional, please refer to the [TTS docum
 ## Hooks
 
 Hooking allow to bind actions to events based on the lifecycle of Kalliope. 
-For example, it's useful to know yen Kalliope has detected the hotword from the trigger engine and make her spell out loud that she's ready to listen your order.
+For example, it's useful to know when Kalliope has detected the hotword from the trigger engine and make her spell out loud that she's ready to listen your order.
 
-To use a hook, attach the name of the hook to a synapse (or list of synapse) which exist in your brain.
+To use a hook, attach the name of the hook to a synapse (or list of synapse) which exists in your brain.
 
 Syntax:
 ```yml
@@ -239,16 +239,16 @@ List of available hook
 | Hook name              | Description                                                     |
 |------------------------|-----------------------------------------------------------------|
 | on_start               | When kalliope is started. This hook will only be triggered once |
-| on_waiting_for_trigger | When Kalliope wait for the hotword detection                    |
+| on_waiting_for_trigger | When Kalliope waits for the hotword detection                   |
 | on_triggered           | When the hotword has been detected                              |
 | on_start_listening     | When the Speech to Text engine is listening for an order        |
 | on_stop_listening      | When the Speech to Text engine stop listening for an order      |
 | on_order_found         | When the pronounced order has been found in the brain           |
 | on_order_not_found     | When the pronounced order has not been found in the brain       |
-| on_mute                | When Kalliope switch from non muted to muted                    |
-| on_unmute              | When Kalliope switch from muted to non muted                    |
-| on_start_speaking      | When Kalliope start speaking via the text to speech engine      |
-| on_stop_speaking       | When Kalliope stop speaking                                     |
+| on_mute                | When Kalliope switches from non muted to muted                  |
+| on_unmute              | When Kalliope switches from muted to non muted                  |
+| on_start_speaking      | When Kalliope starts speaking via the text to speech engine     |
+| on_stop_speaking       | When Kalliope stops speaking                                    |
 
 Example: You want to hear a random answer when the hotword has been triggered
 

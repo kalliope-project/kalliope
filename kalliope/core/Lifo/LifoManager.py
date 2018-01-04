@@ -18,6 +18,10 @@ class LifoManager(with_metaclass(Singleton, object)):
 
     @classmethod
     def get_new_lifo(cls):
+        """
+        This class is used to manage hooks "on_start_speaking" and "on_stop_speaking".
+        :return:
+        """
         return LIFOBuffer()
 
     @classmethod
