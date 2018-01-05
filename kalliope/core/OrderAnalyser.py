@@ -74,7 +74,6 @@ class OrderAnalyser:
                         except KeyError:
                             logger.debug("[OrderAnalyser] Warning, missing parameter 'matching-type' in order. "
                                          "Fallback to 'normal'")
-                            expected_matching_type = "normal"
 
                     if cls.is_order_matching(user_order=order,
                                              signal_order=signal_order,
@@ -185,7 +184,7 @@ class OrderAnalyser:
     @classmethod
     def is_order_matching(cls, user_order, signal_order, expected_order_type="normal"):
         """
-        return True if the user_order match the signal_order following the expected_order_type
+        return True if the user_order matches the signal_order following the expected_order_type
         where "expected_order_type" is in
         - normal: normal matching. all words are present in the user_order. this is the default
         - strict: only word in the user order match. no more word
