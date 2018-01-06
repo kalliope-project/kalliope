@@ -1,10 +1,20 @@
+import logging
+import sys
+
 from kalliope.core import FileManager
 from kalliope.core.TTS.TTSModule import TTSModule, MissingTTSParameter
-import logging
-from voicerss_tts.voicerss_tts import TextToSpeech
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
+
+# TODO : voicerss lib dependancies are not working as expected in python3
+# CF: git : https://github.com/kalliope-project/kalliope/pull/397
+# TODO : remove this check, when fixed :
+# https://bitbucket.org/daycoder/cachingutil/pull-requests/1/fix-python3-packages-paths/diff
+if sys.version_info[0] == 3:
+    logger.error("[Voicerss] WARNING : VOICERSS is not working for python3 yet !")
+else :
+    from voicerss_tts.voicerss_tts import TextToSpeech
 
 TTS_URL = "http://www.voicerss.org/controls/speech.ashx"
 TTS_CONTENT_TYPE = "audio/mpeg"
@@ -50,15 +60,20 @@ class Voicerss(TTSModule):
         .. raises:: FailToLoadSoundFile
         """
         voicerss = TextToSpeech(
-             api_key=self.key,
-             text= self.words,
-             language=self.language,
-             rate=self.rate,
-             codec=self.codec,
-             audio_format=self.audio_format,
-             ssml=self.ssml,
-             base64=self.base64,
-             ssl=self.ssl)
+            api_key=self.key,
+            text=self.words,
+            language=self.language,
+            rate=self.rate,
+            codec=self.codec,
+            audio_format=self.audio_format,
+            ssml=self.ssml,
+            base64=self.base64,
+            ssl=self.ssl)
 
-        # OK we get the audio we can write the sound file
-        FileManager.write_in_file(self.file_path, voicerss.speech)
+        # TODO : voicerss lib dependancies are not working as expected in python3
+        # CF: git : https://github.com/kalliope-project/kalliope/pull/397
+        # TODO : remove this check, when fixed :
+        # https://bitbucket.org/daycoder/cachingutil/pull-requests/1/fix-python3-packages-paths/diff
+        if sys.version_info[0] < 3:
+            # OK we get the audio we can write the sound file
+            FileManager.write_in_file(self.file_path, voicerss.speech)

@@ -61,7 +61,7 @@ class Pico2wave(TTSModule):
         final_command.extend(pico2wave_options)
         final_command.append(self.words)
 
-        logger.debug("Pico2wave command: %s" % final_command)
+        logger.debug("[Pico2wave] command: %s" % final_command)
 
         # generate the file with pico2wav
         subprocess.call(final_command)
