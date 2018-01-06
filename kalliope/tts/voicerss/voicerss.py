@@ -1,10 +1,20 @@
-import requests
-from kalliope.core import FileManager
-from kalliope.core.TTS.TTSModule import TTSModule, FailToLoadSoundFile, MissingTTSParameter
 import logging
+import sys
+
+from kalliope.core import FileManager
+from kalliope.core.TTS.TTSModule import TTSModule, MissingTTSParameter
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
+
+# TODO : voicerss lib dependancies are not working as expected in python3
+# CF: git : https://github.com/kalliope-project/kalliope/pull/397
+# TODO : remove this check, when fixed :
+# https://bitbucket.org/daycoder/cachingutil/pull-requests/1/fix-python3-packages-paths/diff
+if sys.version_info[0] == 3:
+    logger.error("[Voicerss] WARNING : VOICERSS is not working for python3 yet !")
+else :
+    from voicerss_tts.voicerss_tts import TextToSpeech
 
 TTS_URL = "http://www.voicerss.org/controls/speech.ashx"
 TTS_CONTENT_TYPE = "audio/mpeg"
@@ -14,6 +24,14 @@ TTS_TIMEOUT_SEC = 30
 class Voicerss(TTSModule):
     def __init__(self, **kwargs):
         super(Voicerss, self).__init__(**kwargs)
+
+        self.key = kwargs.get('key', None)
+        self.rate = kwargs.get('rate', 0)
+        self.codec = kwargs.get('codec', 'MP3')
+        self.audio_format = kwargs.get('audio_format', '44khz_16bit_stereo')
+        self.ssml = kwargs.get('ssml', False)
+        self.base64 = kwargs.get('base64', False)
+        self.ssl = kwargs.get('ssl', False)
         self._check_parameters()
 
     def say(self, words):
@@ -30,8 +48,8 @@ class Voicerss(TTSModule):
 
                .. raises:: MissingTTSParameterException
         """
-        if self.language == "default" or self.language is None:
-            raise MissingTTSParameter("[voicerss] Missing parameters, check documentation !")
+        if self.language == "default" or self.language is None or self.key is None:
+            raise MissingTTSParameter("[voicerss] Missing mandatory parameters, check documentation !")
         return True
 
     def _generate_audio_file(self):
@@ -41,33 +59,21 @@ class Voicerss(TTSModule):
 
         .. raises:: FailToLoadSoundFile
         """
-        # Prepare payload
-        payload = self.get_payload()
+        voicerss = TextToSpeech(
+            api_key=self.key,
+            text=self.words,
+            language=self.language,
+            rate=self.rate,
+            codec=self.codec,
+            audio_format=self.audio_format,
+            ssml=self.ssml,
+            base64=self.base64,
+            ssl=self.ssl)
 
-        # getting the audio
-        r = requests.get(TTS_URL, params=payload, stream=True, timeout=TTS_TIMEOUT_SEC)
-        content_type = r.headers['Content-Type']
-
-        logger.debug("Voicerss : Trying to get url: %s response code: %s and content-type: %s",
-                     r.url,
-                     r.status_code,
-                     content_type)
-        # Verify the response status code and the response content type
-        if r.status_code != requests.codes.ok or content_type != TTS_CONTENT_TYPE:
-            raise FailToLoadSoundFile("Voicerss : Fail while trying to remotely access the audio file")
-
-        # OK we get the audio we can write the sound file
-        FileManager.write_in_file(self.file_path, r.content)
-
-    def get_payload(self):
-        """
-        Generic method used load the payload used to access the remote api
-
-        :return: Payload to use to access the remote api
-        """
-
-        return {
-            "src": self.words,
-            "hl": self.language,
-            "c": "mp3"
-        }
+        # TODO : voicerss lib dependancies are not working as expected in python3
+        # CF: git : https://github.com/kalliope-project/kalliope/pull/397
+        # TODO : remove this check, when fixed :
+        # https://bitbucket.org/daycoder/cachingutil/pull-requests/1/fix-python3-packages-paths/diff
+        if sys.version_info[0] < 3:
+            # OK we get the audio we can write the sound file
+            FileManager.write_in_file(self.file_path, voicerss.speech)

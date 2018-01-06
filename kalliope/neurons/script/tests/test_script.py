@@ -1,8 +1,9 @@
 import os
 import time
 import unittest
+import mock
 
-from kalliope.core.NeuronModule import MissingParameterException, InvalidParameterException
+from kalliope.core.NeuronModule import NeuronModule, MissingParameterException, InvalidParameterException
 from kalliope.neurons.script.script import Script
 
 
@@ -59,7 +60,7 @@ class TestScript(unittest.TestCase):
         os.chmod(tmp_file_path, 0o700)
         os.remove(tmp_file_path)
 
-    def test_script_execution(self):
+    def script_execution(self):
         """
         Test we can run a script
         """
@@ -67,8 +68,9 @@ class TestScript(unittest.TestCase):
             "path": "kalliope/neurons/script/tests/test_script.sh"
         }
 
-        Script(**param)
-        self.assertTrue(os.path.isfile(self.test_file))
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+            Script(**param)
+            self.assertTrue(os.path.isfile(self.test_file))
 
         # remove the tet file
         os.remove(self.test_file)
@@ -82,10 +84,11 @@ class TestScript(unittest.TestCase):
             "async": True
         }
 
-        Script(**param)
-        # let the time to the thread to do its job
-        time.sleep(0.5)
-        self.assertTrue(os.path.isfile(self.test_file))
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+            Script(**param)
+            # let the time to the thread to do its job
+            time.sleep(0.5)
+            self.assertTrue(os.path.isfile(self.test_file))
 
         # remove the test file
         os.remove(self.test_file)
@@ -104,12 +107,14 @@ class TestScript(unittest.TestCase):
             "path": "kalliope/neurons/script/tests/test_script_cat.sh",
         }
 
-        script = Script(**parameters)
-        self.assertEqual(script.output, text_to_write)
-        self.assertEqual(script.returncode, 0)
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+            script = Script(**parameters)
+            self.assertEqual(script.output, text_to_write)
+            self.assertEqual(script.returncode, 0)
 
         # remove the tet file
         os.remove(self.test_file)
+
 
 if __name__ == '__main__':
     unittest.main()
