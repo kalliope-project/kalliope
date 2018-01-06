@@ -93,6 +93,8 @@ hooks:
     - "order-not-found-synapse"
   on_mute: []
   on_unmute: []
+  on_start_speaking:
+  on_stop_speaking:
 
 # ---------------------------
 # resource directory path

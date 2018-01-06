@@ -13,7 +13,7 @@ logger = logging.getLogger("kalliope")
 # https://bitbucket.org/daycoder/cachingutil/pull-requests/1/fix-python3-packages-paths/diff
 if sys.version_info[0] == 3:
     logger.error("[Voicerss] WARNING : VOICERSS is not working for python3 yet !")
-else :
+else:
     from voicerss_tts.voicerss_tts import TextToSpeech
 
 TTS_URL = "http://www.voicerss.org/controls/speech.ashx"

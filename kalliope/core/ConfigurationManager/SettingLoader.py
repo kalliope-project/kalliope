@@ -675,19 +675,6 @@ class SettingLoader(with_metaclass(Singleton, object)):
         except KeyError:
             # if the user haven't set any hooks we define an empty dict
             hooks = dict()
-            hooks["on_start"] = None
-            hooks["on_waiting_for_trigger"] = None
-            hooks["on_triggered"] = None
-            hooks["on_start_listening"] = None
-            hooks["on_stop_listening"] = None
-            hooks["on_order_found"] = None
-            hooks["on_order_not_found"] = None
-            hooks["on_starting_synapse"] = None
-            hooks["on_ending_synapse"] = None
-            hooks["on_mute"] = None
-            hooks["on_unmute"] = None
-            hooks["on_start_speaking"] = None
-            hooks["on_stop_speaking"] = None
 
         all_hook = [
             "on_start",
@@ -697,8 +684,6 @@ class SettingLoader(with_metaclass(Singleton, object)):
             "on_stop_listening",
             "on_order_found",
             "on_order_not_found",
-            "on_starting_synapse"
-            "on_ending_synapse",
             "on_mute",
             "on_unmute",
             "on_start_speaking",

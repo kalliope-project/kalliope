@@ -49,19 +49,21 @@ class TestSettingLoader(unittest.TestCase):
             'text_to_speech': [
                 {'pico2wave': {'cache': True, 'language': 'fr-FR'}},
                 {'voxygen': {'voice': 'Agnes', 'cache': True}}
-            ],
+                ],
             'var_files': ["../Tests/settings/variables.yml"],
-            'start_options': {
-                'muted': True
-            },
+            'start_options': {'muted': True},
             'hooks': {'on_waiting_for_trigger': 'test',
                       'on_stop_listening': None,
                       'on_start_listening': None,
                       'on_order_found': None,
                       'on_start': ['on-start-synapse', 'bring-led-on'],
-                      'on_unmute': [], 'on_triggered': ['on-triggered-synapse'], 'on_mute': [],
+                      'on_unmute': [],
+                      'on_triggered': ['on-triggered-synapse'],
+                      'on_mute': [],
                       'on_order_not_found': [
-                          'order-not-found-synapse']
+                          'order-not-found-synapse'],
+                      'on_start_speaking': None,
+                      'on_stop_speaking': None
                       }
         }
 
@@ -125,10 +127,14 @@ class TestSettingLoader(unittest.TestCase):
         }
         settings_object.machine = platform.machine()
         settings_object.recognition_options = RecognitionOptions()
-        settings_object.hooks = {'on_waiting_for_trigger': 'test', 'on_stop_listening': None,
-                                 'on_start_listening': None, 'on_order_found': None,
-                                 'on_starting_synapseon_ending_synapse': None, 'on_start': ['on-start-synapse', 'bring-led-on'],
-                                 'on_unmute': [], 'on_triggered': ['on-triggered-synapse'], 'on_mute': [],
+        settings_object.hooks = {'on_waiting_for_trigger': 'test',
+                                 'on_stop_listening': None,
+                                 'on_start_listening': None,
+                                 'on_order_found': None,
+                                 'on_start': ['on-start-synapse', 'bring-led-on'],
+                                 'on_unmute': [],
+                                 'on_triggered': ['on-triggered-synapse'],
+                                 'on_mute': [],
                                  'on_order_not_found': [
                                      'order-not-found-synapse'],
                                  'on_start_speaking': None,
@@ -221,6 +227,58 @@ class TestSettingLoader(unittest.TestCase):
         self.assertEqual(expected_result,
                          sl._get_start_options(self.settings_dict))
 
+    def test_get_hooks(self):
+
+        # test with only one hook set
+        settings = dict()
+        settings["hooks"] = {
+            "on_start": "test_synapse"
+        }
+
+        expected_dict = {
+            "on_start": "test_synapse",
+            "on_waiting_for_trigger": None,
+            "on_triggered": None,
+            "on_start_listening": None,
+            "on_stop_listening": None,
+            "on_order_found": None,
+            "on_order_not_found": None,
+            "on_mute": None,
+            "on_unmute": None,
+            "on_start_speaking": None,
+            "on_stop_speaking": None
+        }
+
+        returned_dict = SettingLoader._get_hooks(settings)
+
+        self.assertEqual(returned_dict, expected_dict)
+
+        # test with no hook set
+        settings = dict()
+
+        expected_dict = {
+            "on_start": None,
+            "on_waiting_for_trigger": None,
+            "on_triggered": None,
+            "on_start_listening": None,
+            "on_stop_listening": None,
+            "on_order_found": None,
+            "on_order_not_found": None,
+            "on_mute": None,
+            "on_unmute": None,
+            "on_start_speaking": None,
+            "on_stop_speaking": None
+        }
+
+        returned_dict = SettingLoader._get_hooks(settings)
+
+        self.assertEqual(returned_dict, expected_dict)
+
 
 if __name__ == '__main__':
     unittest.main()
+
+    # suite = unittest.TestSuite()
+    # suite.addTest(TestSettingLoader("test_get_hooks"))
+    # runner = unittest.TextTestRunner()
+    # runner.run(suite)

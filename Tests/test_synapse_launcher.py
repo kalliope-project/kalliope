@@ -72,6 +72,62 @@ class TestSynapseLauncher(unittest.TestCase):
         with self.assertRaises(SynapseNameNotFound):
             SynapseLauncher.start_synapse_by_name("not_existing", brain=self.brain_test)
 
+    def test_start_synapse_by_list_name(self):
+        # test to start a list of synapse
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
+            created_matched_synapse1 = MatchedSynapse(matched_synapse=self.synapse1)
+            created_matched_synapse2 = MatchedSynapse(matched_synapse=self.synapse2)
+
+            expected_list_matched_synapse = [created_matched_synapse1, created_matched_synapse2]
+
+            SynapseLauncher.start_synapse_by_list_name(["Synapse1", "Synapse2"], brain=self.brain_test)
+            # we expect that the lifo has been loaded with the synapse to run
+            expected_result = [expected_list_matched_synapse]
+            lifo_buffer = LifoManager.get_singleton_lifo()
+            self.maxDiff = None
+            self.assertEqual(expected_result, lifo_buffer.lifo_list)
+
+        # empty list should return none
+        empty_list = list()
+        self.assertIsNone(SynapseLauncher.start_synapse_by_list_name(empty_list))
+
+        # test to start a synapse list with a new lifo
+        # we create a Lifo that is the current singleton
+        Singleton._instances = dict()
+        LifoManager.clean_saved_lifo()
+        lifo_buffer = LifoManager.get_singleton_lifo()
+        created_matched_synapse1 = MatchedSynapse(matched_synapse=self.synapse1)
+
+        lifo_buffer.lifo_list = [created_matched_synapse1]
+        # the current status of the singleton lifo should not move even after the call of SynapseLauncher
+        expected_result = [created_matched_synapse1]
+
+        # create a new call
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
+            SynapseLauncher.start_synapse_by_list_name(["Synapse2", "Synapse3"],
+                                                       brain=self.brain_test,
+                                                       new_lifo=True)
+            # the current singleton should be the same
+            self.assertEqual(expected_result, lifo_buffer.lifo_list)
+
+        # test to start a synapse list with the singleton lifo
+        Singleton._instances = dict()
+        LifoManager.clean_saved_lifo()
+        lifo_buffer = LifoManager.get_singleton_lifo()
+        created_matched_synapse1 = MatchedSynapse(matched_synapse=self.synapse1)
+        # place a synapse in the singleton
+        lifo_buffer.lifo_list = [created_matched_synapse1]
+        # the current status of the singleton lifo should contain synapse launched in the next call
+        created_matched_synapse2 = MatchedSynapse(matched_synapse=self.synapse2)
+        created_matched_synapse3 = MatchedSynapse(matched_synapse=self.synapse3)
+        expected_result = [created_matched_synapse1, [created_matched_synapse2, created_matched_synapse3]]
+
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
+            SynapseLauncher.start_synapse_by_list_name(["Synapse2", "Synapse3"],
+                                                       brain=self.brain_test)
+            # the singleton should now contains the synapse that was already there and the 2 other synapses
+            self.assertEqual(expected_result, lifo_buffer.lifo_list)
+
     def test_run_matching_synapse_from_order(self):
         # ------------------
         # test_match_synapse1
@@ -149,6 +205,6 @@ if __name__ == '__main__':
     unittest.main()
 
     # suite = unittest.TestSuite()
-    # suite.addTest(TestSynapseLauncher("test_run_matching_synapse_from_order"))
+    # suite.addTest(TestSynapseLauncher("test_start_synapse_by_list_name"))
     # runner = unittest.TextTestRunner()
     # runner.run(suite)

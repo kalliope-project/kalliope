@@ -62,7 +62,7 @@ class SynapseLauncher(object):
         :param list_name: List of name of the synapse to launch
         :param brain: Brain instance
         :param overriding_parameter_dict: parameter to pass to neurons
-        :param new_lifo: If True, ask the HookManager to return a new lifo and not the singleton
+        :param new_lifo: If True, ask the LifoManager to return a new lifo and not the singleton
         """
         logger.debug("[SynapseLauncher] start_synapse_by_list_name called with synapse list: %s " % list_name)
 
@@ -70,7 +70,7 @@ class SynapseLauncher(object):
             if brain is None:
                 brain = BrainLoader().brain
 
-            # ge all synapse object
+            # get all synapse object
             list_synapse_object_to_start = list()
             for name in list_name:
                 synapse_to_start = brain.get_synapse_by_name(synapse_name=name)
