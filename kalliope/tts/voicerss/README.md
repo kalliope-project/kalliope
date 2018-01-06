@@ -1,8 +1,9 @@
 ### Voicerss
 
-This TTS is based on the [VoiceRSS engine](http://www.voicerss.org/)
+This TTS is based on the [VoiceRSS engine](http://www.voicerss.org/). [Official Documentation here](http://www.voicerss.org/api/documentation.aspx)
 
-Official Documentation : http://www.voicerss.org/api/documentation.aspx
+> **Note:** This TTS engine do not work so far on python 3. This is due to the underlaying lib. We've proposed a fix to the project. 
+You can follow the progress [here](https://bitbucket.org/daycoder/cachingutil/pull-requests/1/fix-python3-packages-paths/diff).
 
 | Parameters   | Required | Default              | Choices                                                                          | Comment                                         |
 |--------------|----------|----------------------|----------------------------------------------------------------------------------|-------------------------------------------------|
