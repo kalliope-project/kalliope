@@ -27,7 +27,6 @@ class TestSettingLoader(unittest.TestCase):
         self.settings_file_to_test = root_dir + os.sep + "Tests/settings/settings_test.yml"
 
         self.settings_dict = {
-            'default_synapse': 'Default-synapse',
             'rest_api':
                 {'allowed_cors_origin': False,
                  'active': True,
@@ -35,15 +34,11 @@ class TestSettingLoader(unittest.TestCase):
                  'password_protected': True,
                  'password': 'secret', 'port': 5000},
             'default_trigger': 'snowboy',
-            'default_player': 'mplayer',
-            'play_on_ready_notification': 'never',
             'triggers': [{'snowboy': {'pmdl_file': 'trigger/snowboy/resources/kalliope-FR-6samples.pmdl'}}],
+            'default_player': 'mplayer',
             'players': [{'mplayer': {}}, {'pyalsaaudio': {"device": "default"}}],
             'speech_to_text': [{'google': {'language': 'fr-FR'}}],
-            'on_ready_answers': ['Kalliope is ready'],
             'cache_path': '/tmp/kalliope_tts_cache',
-            'random_wake_up_answers': ['Oui monsieur?'],
-            'on_ready_sounds': ['sounds/ding.wav', 'sounds/dong.wav'],
             'resource_directory': {
                 'stt': '/tmp/kalliope/tests/kalliope_resources_dir/stt',
                 'tts': '/tmp/kalliope/tests/kalliope_resources_dir/tts',
@@ -51,15 +46,25 @@ class TestSettingLoader(unittest.TestCase):
                 'trigger': '/tmp/kalliope/tests/kalliope_resources_dir/trigger'},
             'default_text_to_speech': 'pico2wave',
             'default_speech_to_text': 'google',
-            'random_wake_up_sounds': ['sounds/ding.wav', 'sounds/dong.wav'],
             'text_to_speech': [
                 {'pico2wave': {'cache': True, 'language': 'fr-FR'}},
                 {'voxygen': {'voice': 'Agnes', 'cache': True}}
-            ],
+                ],
             'var_files': ["../Tests/settings/variables.yml"],
-            'start_options': {
-                'muted': True
-            }
+            'start_options': {'muted': True},
+            'hooks': {'on_waiting_for_trigger': 'test',
+                      'on_stop_listening': None,
+                      'on_start_listening': None,
+                      'on_order_found': None,
+                      'on_start': ['on-start-synapse', 'bring-led-on'],
+                      'on_unmute': [],
+                      'on_triggered': ['on-triggered-synapse'],
+                      'on_mute': [],
+                      'on_order_not_found': [
+                          'order-not-found-synapse'],
+                      'on_start_speaking': None,
+                      'on_stop_speaking': None
+                      }
         }
 
         # Init the folders, otherwise it raises an exceptions
@@ -83,7 +88,8 @@ class TestSettingLoader(unittest.TestCase):
     def test_get_yaml_config(self):
 
         sl = SettingLoader(file_path=self.settings_file_to_test)
-        self.assertEqual(sl.yaml_config, self.settings_dict)
+        self.maxDiff = None
+        self.assertDictEqual(sl.yaml_config, self.settings_dict)
 
     def test_get_settings(self):
         settings_object = Settings()
@@ -96,11 +102,6 @@ class TestSettingLoader(unittest.TestCase):
         settings_object.ttss = [tts1, tts2]
         stt = Stt(name="google", parameters={'language': 'fr-FR'})
         settings_object.stts = [stt]
-        settings_object.random_wake_up_answers = ['Oui monsieur?']
-        settings_object.random_wake_up_sounds = ['sounds/ding.wav', 'sounds/dong.wav']
-        settings_object.play_on_ready_notification = "never"
-        settings_object.on_ready_answers = ['Kalliope is ready']
-        settings_object.on_ready_sounds = ['sounds/ding.wav', 'sounds/dong.wav']
         trigger1 = Trigger(name="snowboy",
                            parameters={'pmdl_file': 'trigger/snowboy/resources/kalliope-FR-6samples.pmdl'})
         settings_object.triggers = [trigger1]
@@ -111,7 +112,6 @@ class TestSettingLoader(unittest.TestCase):
                                            login="admin", password="secret", port=5000,
                                            allowed_cors_origin=False)
         settings_object.cache_path = '/tmp/kalliope_tts_cache'
-        settings_object.default_synapse = 'Default-synapse'
         resources = Resources(neuron_folder="/tmp/kalliope/tests/kalliope_resources_dir/neurons",
                               stt_folder="/tmp/kalliope/tests/kalliope_resources_dir/stt",
                               tts_folder="/tmp/kalliope/tests/kalliope_resources_dir/tts",
@@ -127,6 +127,19 @@ class TestSettingLoader(unittest.TestCase):
         }
         settings_object.machine = platform.machine()
         settings_object.recognition_options = RecognitionOptions()
+        settings_object.hooks = {'on_waiting_for_trigger': 'test',
+                                 'on_stop_listening': None,
+                                 'on_start_listening': None,
+                                 'on_order_found': None,
+                                 'on_start': ['on-start-synapse', 'bring-led-on'],
+                                 'on_unmute': [],
+                                 'on_triggered': ['on-triggered-synapse'],
+                                 'on_mute': [],
+                                 'on_order_not_found': [
+                                     'order-not-found-synapse'],
+                                 'on_start_speaking': None,
+                                 'on_stop_speaking': None,
+                                 }
 
         sl = SettingLoader(file_path=self.settings_file_to_test)
 
@@ -173,21 +186,6 @@ class TestSettingLoader(unittest.TestCase):
         sl = SettingLoader(file_path=self.settings_file_to_test)
         self.assertEqual([player1, player2], sl._get_players(self.settings_dict))
 
-    def test_get_random_wake_up_answers(self):
-        expected_random_wake_up_answers = ['Oui monsieur?']
-        sl = SettingLoader(file_path=self.settings_file_to_test)
-        self.assertEqual(expected_random_wake_up_answers, sl._get_random_wake_up_answers(self.settings_dict))
-
-    def test_get_on_ready_answers(self):
-        expected_on_ready_answers = ['Kalliope is ready']
-        sl = SettingLoader(file_path=self.settings_file_to_test)
-        self.assertEqual(expected_on_ready_answers, sl._get_on_ready_answers(self.settings_dict))
-
-    def test_get_on_ready_sounds(self):
-        expected_on_ready_sounds = ['sounds/ding.wav', 'sounds/dong.wav']
-        sl = SettingLoader(file_path=self.settings_file_to_test)
-        self.assertEqual(expected_on_ready_sounds, sl._get_on_ready_sounds(self.settings_dict))
-
     def test_get_rest_api(self):
         expected_rest_api = RestAPI(password_protected=True, active=True,
                                     login="admin", password="secret", port=5000,
@@ -200,11 +198,6 @@ class TestSettingLoader(unittest.TestCase):
         expected_cache_path = '/tmp/kalliope_tts_cache'
         sl = SettingLoader(file_path=self.settings_file_to_test)
         self.assertEqual(expected_cache_path, sl._get_cache_path(self.settings_dict))
-
-    def test_get_default_synapse(self):
-        expected_default_synapse = 'Default-synapse'
-        sl = SettingLoader(file_path=self.settings_file_to_test)
-        self.assertEqual(expected_default_synapse, sl._get_default_synapse(self.settings_dict))
 
     def test_get_resources(self):
 
@@ -234,6 +227,58 @@ class TestSettingLoader(unittest.TestCase):
         self.assertEqual(expected_result,
                          sl._get_start_options(self.settings_dict))
 
+    def test_get_hooks(self):
+
+        # test with only one hook set
+        settings = dict()
+        settings["hooks"] = {
+            "on_start": "test_synapse"
+        }
+
+        expected_dict = {
+            "on_start": "test_synapse",
+            "on_waiting_for_trigger": None,
+            "on_triggered": None,
+            "on_start_listening": None,
+            "on_stop_listening": None,
+            "on_order_found": None,
+            "on_order_not_found": None,
+            "on_mute": None,
+            "on_unmute": None,
+            "on_start_speaking": None,
+            "on_stop_speaking": None
+        }
+
+        returned_dict = SettingLoader._get_hooks(settings)
+
+        self.assertEqual(returned_dict, expected_dict)
+
+        # test with no hook set
+        settings = dict()
+
+        expected_dict = {
+            "on_start": None,
+            "on_waiting_for_trigger": None,
+            "on_triggered": None,
+            "on_start_listening": None,
+            "on_stop_listening": None,
+            "on_order_found": None,
+            "on_order_not_found": None,
+            "on_mute": None,
+            "on_unmute": None,
+            "on_start_speaking": None,
+            "on_stop_speaking": None
+        }
+
+        returned_dict = SettingLoader._get_hooks(settings)
+
+        self.assertEqual(returned_dict, expected_dict)
+
 
 if __name__ == '__main__':
     unittest.main()
+
+    # suite = unittest.TestSuite()
+    # suite.addTest(TestSettingLoader("test_get_hooks"))
+    # runner = unittest.TextTestRunner()
+    # runner.run(suite)

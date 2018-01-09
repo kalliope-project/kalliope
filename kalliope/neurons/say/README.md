@@ -10,9 +10,9 @@ CORE NEURON : No installation needed.
 
 ## Options
 
-| parameter | required | default | choices | comment                                |
-|-----------|----------|---------|---------|----------------------------------------|
-| message   | YES      |         |         | A list of messages Kalliope could say  |
+| parameter | required | default | choices | comment                                                    |
+|-----------|----------|---------|---------|------------------------------------------------------------|
+| message   | YES      |         |         | A single message or a list of messages Kalliope could say  |
 
 ## Return Values
 
@@ -28,8 +28,7 @@ Simple example :
     - order: "hello"
   neurons:
     - say:
-        message:
-          - "Hello Sir"     
+        message: "Hello Sir"     
 ```
 
 With a multiple choice list, Kalliope will pick one randomly:
@@ -53,8 +52,7 @@ With an input value
     - order: "say hello to {{ friend_name }}"
   neurons:
     - say:
-        message:
-          - "Hello {{ friend_name }}"     
+        message: "Hello {{ friend_name }}"
 ```
 
 ## Notes

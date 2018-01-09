@@ -56,7 +56,7 @@ class TestModels(unittest.TestCase):
         # this brain is the same as the first one
         self.brain_test3 = Brain(synapses=self.all_synapse_list1)
 
-        self.settings_test = Settings(default_synapse="Synapse3")
+        self.settings_test = Settings()
 
         # clean the LiFO
         LIFOBuffer.lifo_list = list()
@@ -252,16 +252,10 @@ class TestModels(unittest.TestCase):
                                 default_player_name="mplayer",
                                 ttss=["ttts"],
                                 stts=["stts"],
-                                random_wake_up_answers=["yes"],
-                                random_wake_up_sounds=None,
-                                play_on_ready_notification=False,
-                                on_ready_answers=None,
-                                on_ready_sounds=None,
                                 triggers=["snowboy"],
                                 players=["mplayer"],
                                 rest_api=rest_api1,
                                 cache_path="/tmp/kalliope",
-                                default_synapse="default_synapse",
                                 resources=None,
                                 variables={"key1": "val1"},
                                 recognition_options=recognition_options,
@@ -274,15 +268,9 @@ class TestModels(unittest.TestCase):
                                 default_player_name="mplayer",
                                 ttss=["ttts"],
                                 stts=["stts"],
-                                random_wake_up_answers=["no"],
-                                random_wake_up_sounds=None,
-                                play_on_ready_notification=False,
-                                on_ready_answers=None,
-                                on_ready_sounds=None,
                                 triggers=["snowboy"],
                                 rest_api=rest_api1,
                                 cache_path="/tmp/kalliope_tmp",
-                                default_synapse="my_default_synapse",
                                 resources=None,
                                 variables={"key1": "val1"},
                                 recognition_options=recognition_options,
@@ -295,16 +283,10 @@ class TestModels(unittest.TestCase):
                                 default_player_name="mplayer",
                                 ttss=["ttts"],
                                 stts=["stts"],
-                                random_wake_up_answers=["yes"],
-                                random_wake_up_sounds=None,
-                                play_on_ready_notification=False,
-                                on_ready_answers=None,
-                                on_ready_sounds=None,
                                 triggers=["snowboy"],
                                 players=["mplayer"],
                                 rest_api=rest_api1,
                                 cache_path="/tmp/kalliope",
-                                default_synapse="default_synapse",
                                 resources=None,
                                 variables={"key1": "val1"},
                                 recognition_options=recognition_options,
@@ -312,8 +294,8 @@ class TestModels(unittest.TestCase):
             setting3.kalliope_version = "0.4.5"
 
             expected_result_serialize = {
-                'default_synapse': 'default_synapse',
                 'default_tts_name': 'pico2wav',
+                'hooks': None,
                 'rest_api':
                     {
                         'password_protected': True,
@@ -323,28 +305,23 @@ class TestModels(unittest.TestCase):
                         'password': 'password',
                         'login': 'admin'
                     },
-                'play_on_ready_notification': False,
                 'default_stt_name': 'google',
                 'kalliope_version': '0.4.5',
-                'random_wake_up_sounds': None,
-                'on_ready_answers': None,
                 'default_trigger_name': 'swoyboy',
                 'default_player_name': 'mplayer',
                 'cache_path': '/tmp/kalliope',
                 'stts': ['stts'],
                 'machine': 'pumpkins',
-                'random_wake_up_answers': ['yes'],
-                'on_ready_sounds': None,
                 'ttss': ['ttts'],
                 'variables': {'key1': 'val1'},
                 'resources': None,
                 'triggers': ['snowboy'],
-                'rpi_settings': None,
                 'players': ['mplayer'],
                 'recognition_options': {'energy_threshold': 4000, 'adjust_for_ambient_noise_second': 0},
                 'start_options': {'muted': False}
             }
 
+            self.maxDiff = None
             self.assertDictEqual(expected_result_serialize, setting1.serialize())
 
             self.assertTrue(setting1.__eq__(setting3))
