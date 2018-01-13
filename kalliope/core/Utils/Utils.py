@@ -273,7 +273,7 @@ class Utils(object):
         :return: the sentence without any spaces in brackets
         """
 
-        pattern = '\s+(?=[^\{\{\}\}]*\}\})'
+        pattern = '(?<=\{\{)\s+|\s+(?=\}\})'
         # Remove white spaces (if any) between the variable and the double brace then split
         if not isinstance(sentence, six.text_type):
             sentence = str(sentence)
