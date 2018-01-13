@@ -7,13 +7,13 @@ import six
 from jinja2 import Template
 
 from kalliope.core import OrderListener
+from kalliope.core.HookManager import HookManager
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
 from kalliope.core.Cortex import Cortex
-from kalliope.core.LIFOBuffer import LIFOBuffer
+from kalliope.core.Lifo.LifoManager import LifoManager
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.NeuronExceptions import NeuronExceptions
 from kalliope.core.OrderAnalyser import OrderAnalyser
-from kalliope.core.Utils.RpiUtils import RpiUtils
 from kalliope.core.Utils.Utils import Utils
 
 logging.basicConfig()
@@ -174,6 +174,7 @@ class NeuronModule(object):
                 logger.debug("[NeuronModule] no_voice is True, Kalliope is muted")
             else:
                 logger.debug("[NeuronModule] no_voice is False, make Kalliope speaking")
+                HookManager.on_start_speaking()
                 # get the instance of the TTS module
                 tts_folder = None
                 if self.settings.resources:
@@ -182,14 +183,10 @@ class NeuronModule(object):
                                                                             module_name=self.tts.name,
                                                                             parameters=self.tts.parameters,
                                                                             resources_dir=tts_folder)
-                # Kalliope will talk, turn on the LED
-                self.switch_on_led_talking(rpi_settings=self.settings.rpi_settings, on=True)
 
                 # generate the audio file and play it
                 tts_module_instance.say(tts_message)
-
-                # Kalliope has finished to talk, turn off the LED
-                self.switch_on_led_talking(rpi_settings=self.settings.rpi_settings, on=False)
+                HookManager.on_stop_speaking()
 
     def _get_message_from_dict(self, message_dict):
         """
@@ -238,7 +235,7 @@ class NeuronModule(object):
 
     @staticmethod
     def run_synapse_by_name(synapse_name, user_order=None, synapse_order=None, high_priority=False,
-                            is_api_call=False, overriding_parameter_dict=None):
+                            is_api_call=False, overriding_parameter_dict=None, no_voice=False):
         """
         call the lifo for adding a synapse to execute in the list of synapse list to process
         :param synapse_name: The name of the synapse to run
@@ -248,7 +245,7 @@ class NeuronModule(object):
         :param is_api_call: If true, the current call comes from the api
         :param overriding_parameter_dict: dict of value to add to neuron parameters
         """
-        synapse = BrainLoader().get_brain().get_synapse_by_name(synapse_name)
+        synapse = BrainLoader().brain.get_synapse_by_name(synapse_name)
         matched_synapse = MatchedSynapse(matched_synapse=synapse,
                                          matched_order=synapse_order,
                                          user_order=user_order,
@@ -257,14 +254,14 @@ class NeuronModule(object):
         list_synapse_to_process = list()
         list_synapse_to_process.append(matched_synapse)
         # get the singleton
-        lifo_buffer = LIFOBuffer()
+        lifo_buffer = LifoManager.get_singleton_lifo()
         lifo_buffer.add_synapse_list_to_lifo(list_synapse_to_process, high_priority=high_priority)
-        lifo_buffer.execute(is_api_call=is_api_call)
+        lifo_buffer.execute(is_api_call=is_api_call, no_voice=no_voice)
 
     @staticmethod
     def is_order_matching(order_said, order_match):
-        return OrderAnalyser().spelt_order_match_brain_order_via_table(order_to_analyse=order_match,
-                                                                       user_said=order_said)
+        return OrderAnalyser().is_order_matching(signal_order=order_match,
+                                                 user_order=order_said)
 
     @staticmethod
     def _get_content_of_file(real_file_template_path):
@@ -327,17 +324,3 @@ class NeuronModule(object):
 
         logger.debug("[NeuronModule] TTS args: %s" % tts_object)
         return tts_object
-
-    @staticmethod
-    def switch_on_led_talking(rpi_settings, on):
-        """
-        Call the Rpi utils class to switch the led talking if the setting has been specified by the user
-        :param rpi_settings: Rpi
-        :param on: True if the led need to be switched to on
-        """
-        if rpi_settings:
-            if rpi_settings.pin_led_talking:
-                if on:
-                    RpiUtils.switch_pin_to_on(rpi_settings.pin_led_talking)
-                else:
-                    RpiUtils.switch_pin_to_off(rpi_settings.pin_led_talking)

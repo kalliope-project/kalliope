@@ -1,5 +1,6 @@
 from threading import Thread
 
+from kalliope.core import SignalModule, MissingParameter
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
@@ -8,22 +9,12 @@ from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core import Utils
 
 
-class NoEventPeriod(Exception):
-    """
-    An Event must contains a period corresponding to its execution
-
-    .. seealso:: Event
-    """
-    pass
-
-
-class Event(Thread):
-    def __init__(self):
-        super(Event, self).__init__()
-        Utils.print_info('Starting event manager')
+class Event(SignalModule, Thread):
+    def __init__(self, **kwargs):
+        super(Event, self).__init__(**kwargs)
+        Utils.print_info('[Event] Starting manager')
         self.scheduler = BackgroundScheduler()
-        self.brain = BrainLoader().get_brain()
-        self.synapses = self.brain.synapses
+        self.list_synapses_with_event = list(super(Event, self).get_list_synapse())
         self.load_events()
 
     def run(self):
@@ -33,30 +24,30 @@ class Event(Thread):
         """
         For each received synapse that have an event as signal, we add a new job scheduled
         to launch the synapse
-        :return:
         """
-        for synapse in self.synapses:
+        for synapse in self.list_synapses_with_event:
             for signal in synapse.signals:
-                # if the signal is an event we add it to the task list
+                # We need to loop here again if the synapse has multiple event signals.
+                # if the signal is an event we add it to the task list.
                 if signal.name == "event":
-                    if self.check_event_dict(signal.parameters):
-                        my_cron = CronTrigger(year=self.get_parameter_from_dict("year", signal.parameters),
-                                              month=self.get_parameter_from_dict("month", signal.parameters),
-                                              day=self.get_parameter_from_dict("day", signal.parameters),
-                                              week=self.get_parameter_from_dict("week", signal.parameters),
-                                              day_of_week=self.get_parameter_from_dict("day_of_week", signal.parameters),
-                                              hour=self.get_parameter_from_dict("hour", signal.parameters),
-                                              minute=self.get_parameter_from_dict("minute", signal.parameters),
-                                              second=self.get_parameter_from_dict("second", signal.parameters),)
-                        Utils.print_info("Add synapse name \"%s\" to the scheduler: %s" % (synapse.name, my_cron))
-                        self.scheduler.add_job(self.run_synapse_by_name, my_cron, args=[synapse.name])
+                    my_cron = CronTrigger(year=self.get_parameter_from_dict("year", signal.parameters),
+                                          month=self.get_parameter_from_dict("month", signal.parameters),
+                                          day=self.get_parameter_from_dict("day", signal.parameters),
+                                          week=self.get_parameter_from_dict("week", signal.parameters),
+                                          day_of_week=self.get_parameter_from_dict("day_of_week",
+                                                                                   signal.parameters),
+                                          hour=self.get_parameter_from_dict("hour", signal.parameters),
+                                          minute=self.get_parameter_from_dict("minute", signal.parameters),
+                                          second=self.get_parameter_from_dict("second", signal.parameters), )
+                    Utils.print_info("Add synapse name \"%s\" to the scheduler: %s" % (synapse.name, my_cron))
+                    self.scheduler.add_job(self.run_synapse_by_name, my_cron, args=[synapse.name])
 
     @staticmethod
     def run_synapse_by_name(synapse_name):
         """
         This method will run the synapse
         """
-        Utils.print_info("Event triggered, running synapse: %s" % synapse_name)
+        Utils.print_info("[Event] triggered, running synapse: %s" % synapse_name)
         # get a brain
         brain_loader = BrainLoader()
         brain = brain_loader.brain
@@ -77,7 +68,7 @@ class Event(Thread):
             return None
 
     @staticmethod
-    def check_event_dict(event_dict):
+    def check_parameters(parameters):
         """
         Check received event dictionary of parameter is valid:
 
@@ -86,14 +77,15 @@ class Event(Thread):
         :return: True if event are ok
         :rtype: Boolean
         """
+
         def get_key(key_name):
             try:
-                return event_dict[key_name]
+                return parameters[key_name]
             except KeyError:
                 return None
 
-        if event_dict is None or event_dict == "":
-            raise NoEventPeriod("Event must contain at least one of those elements: "
+        if parameters is None or parameters == "":
+            raise MissingParameter("Event must contain at least one of those elements: "
                                 "year, month, day, week, day_of_week, hour, minute, second")
 
         # check content as at least on key
@@ -110,7 +102,7 @@ class Event(Thread):
         number_of_none_object = list_to_check.count(None)
         list_size = len(list_to_check)
         if number_of_none_object >= list_size:
-            raise NoEventPeriod("Event must contain at least one of those elements: "
+            raise MissingParameter("Event must contain at least one of those elements: "
                                 "year, month, day, week, day_of_week, hour, minute, second")
 
         return True

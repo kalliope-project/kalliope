@@ -19,7 +19,7 @@ class Espeak(TTSModule):
         self.pitch = str(kwargs.get('pitch', '50'))
         self.espeak_exec_path = kwargs.get('path', r'/usr/bin/espeak')
 
-        if self.voice == 'Default':
+        if self.voice == 'default' or self.voice is None:
             raise MissingTTSParameter("voice parameter is required by the eSpeak TTS")
 
         # if voice = default, don't add voice option to espeak

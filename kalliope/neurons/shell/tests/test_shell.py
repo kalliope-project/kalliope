@@ -1,10 +1,12 @@
 import os
 import unittest
-
+import mock
 import time
 
 from kalliope.core.NeuronModule import MissingParameterException
 from kalliope.neurons.shell.shell import Shell
+
+from kalliope.core.NeuronModule import NeuronModule
 
 
 class TestShell(unittest.TestCase):
@@ -37,10 +39,13 @@ class TestShell(unittest.TestCase):
             "cmd": "touch %s" % self.test_file
         }
 
-        shell = Shell(**parameters)
-        self.assertTrue(os.path.isfile(self.test_file))
-        self.assertEqual(shell.returncode, 0)
-        # remove the test file
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+
+            shell = Shell(**parameters)
+            self.assertTrue(os.path.isfile(self.test_file))
+            self.assertEqual(shell.returncode, 0)
+            # remove the test file
+
         os.remove(self.test_file)
 
     def test_shell_content(self):
@@ -57,10 +62,13 @@ class TestShell(unittest.TestCase):
             "cmd": "cat %s" % self.test_file
         }
 
-        shell = Shell(**parameters)
-        self.assertEqual(shell.output, text_to_write)
-        self.assertEqual(shell.returncode, 0)
-        # remove the test file
+        with mock.patch.object(NeuronModule, 'say', return_value=None) as mock_method:
+
+            shell = Shell(**parameters)
+            self.assertEqual(shell.output, text_to_write)
+            self.assertEqual(shell.returncode, 0)
+            # remove the test file
+
         os.remove(self.test_file)
 
     def test_async_shell(self):

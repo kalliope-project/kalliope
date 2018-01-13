@@ -26,3 +26,8 @@
           message:
             - "test message {{ parameter1 }}"
 
+  - name: "order-not-found-synapse"
+    signals: []
+    neurons:
+      - say:
+          message: "order not found"

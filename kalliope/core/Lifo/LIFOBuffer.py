@@ -25,7 +25,7 @@ class SynapseListAddedToLIFO(Exception):
     pass
 
 
-class LIFOBuffer(with_metaclass(Singleton, object)):
+class LIFOBuffer(object):
     """
     This class is a LIFO list of synapse to process where the last synapse list to enter will be the first synapse
     list to be processed.
@@ -203,4 +203,5 @@ class LIFOBuffer(with_metaclass(Singleton, object)):
                     self.reset_lifo = False
                     raise SynapseListAddedToLIFO
             else:
-                raise Serialize
+                # the neuron has not been processed but we still need to remove it from the list
+                matched_synapse.neuron_fifo_list.remove(neuron)

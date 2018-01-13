@@ -2,7 +2,7 @@ import unittest
 
 import mock
 
-from kalliope.core import LIFOBuffer
+from kalliope.core import LIFOBuffer, LifoManager
 from kalliope.core.Models import Brain, Signal, Singleton
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.Models.Settings import Settings
@@ -37,24 +37,26 @@ class TestSynapseLauncher(unittest.TestCase):
                                  self.synapse3]
 
         self.brain_test = Brain(synapses=self.all_synapse_list)
-        self.settings_test = Settings(default_synapse="Synapse3")
+        self.settings_test = Settings()
 
         # clean the LiFO
         Singleton._instances = dict()
+        LifoManager.clean_saved_lifo()
 
     def test_start_synapse_by_name(self):
         # existing synapse in the brain
-        with mock.patch("kalliope.core.LIFOBuffer.execute"):
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
             should_be_created_matched_synapse = MatchedSynapse(matched_synapse=self.synapse1)
             SynapseLauncher.start_synapse_by_name("Synapse1", brain=self.brain_test)
             # we expect that the lifo has been loaded with the synapse to run
             expected_result = [[should_be_created_matched_synapse]]
-            lifo_buffer = LIFOBuffer()
+            lifo_buffer = LifoManager.get_singleton_lifo()
             self.assertEqual(expected_result, lifo_buffer.lifo_list)
 
             # we expect that the lifo has been loaded with the synapse to run and overwritten parameters
             Singleton._instances = dict()
-            lifo_buffer = LIFOBuffer()
+            LifoManager.clean_saved_lifo()
+            lifo_buffer = LifoManager.get_singleton_lifo()
             overriding_param = {
                 "val1": "val"
             }
@@ -70,11 +72,67 @@ class TestSynapseLauncher(unittest.TestCase):
         with self.assertRaises(SynapseNameNotFound):
             SynapseLauncher.start_synapse_by_name("not_existing", brain=self.brain_test)
 
+    def test_start_synapse_by_list_name(self):
+        # test to start a list of synapse
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
+            created_matched_synapse1 = MatchedSynapse(matched_synapse=self.synapse1)
+            created_matched_synapse2 = MatchedSynapse(matched_synapse=self.synapse2)
+
+            expected_list_matched_synapse = [created_matched_synapse1, created_matched_synapse2]
+
+            SynapseLauncher.start_synapse_by_list_name(["Synapse1", "Synapse2"], brain=self.brain_test)
+            # we expect that the lifo has been loaded with the synapse to run
+            expected_result = [expected_list_matched_synapse]
+            lifo_buffer = LifoManager.get_singleton_lifo()
+            self.maxDiff = None
+            self.assertEqual(expected_result, lifo_buffer.lifo_list)
+
+        # empty list should return none
+        empty_list = list()
+        self.assertIsNone(SynapseLauncher.start_synapse_by_list_name(empty_list))
+
+        # test to start a synapse list with a new lifo
+        # we create a Lifo that is the current singleton
+        Singleton._instances = dict()
+        LifoManager.clean_saved_lifo()
+        lifo_buffer = LifoManager.get_singleton_lifo()
+        created_matched_synapse1 = MatchedSynapse(matched_synapse=self.synapse1)
+
+        lifo_buffer.lifo_list = [created_matched_synapse1]
+        # the current status of the singleton lifo should not move even after the call of SynapseLauncher
+        expected_result = [created_matched_synapse1]
+
+        # create a new call
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
+            SynapseLauncher.start_synapse_by_list_name(["Synapse2", "Synapse3"],
+                                                       brain=self.brain_test,
+                                                       new_lifo=True)
+            # the current singleton should be the same
+            self.assertEqual(expected_result, lifo_buffer.lifo_list)
+
+        # test to start a synapse list with the singleton lifo
+        Singleton._instances = dict()
+        LifoManager.clean_saved_lifo()
+        lifo_buffer = LifoManager.get_singleton_lifo()
+        created_matched_synapse1 = MatchedSynapse(matched_synapse=self.synapse1)
+        # place a synapse in the singleton
+        lifo_buffer.lifo_list = [created_matched_synapse1]
+        # the current status of the singleton lifo should contain synapse launched in the next call
+        created_matched_synapse2 = MatchedSynapse(matched_synapse=self.synapse2)
+        created_matched_synapse3 = MatchedSynapse(matched_synapse=self.synapse3)
+        expected_result = [created_matched_synapse1, [created_matched_synapse2, created_matched_synapse3]]
+
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
+            SynapseLauncher.start_synapse_by_list_name(["Synapse2", "Synapse3"],
+                                                       brain=self.brain_test)
+            # the singleton should now contains the synapse that was already there and the 2 other synapses
+            self.assertEqual(expected_result, lifo_buffer.lifo_list)
+
     def test_run_matching_synapse_from_order(self):
         # ------------------
         # test_match_synapse1
         # ------------------
-        with mock.patch("kalliope.core.LIFOBuffer.execute"):
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
             order_to_match = "this is the sentence"
 
             should_be_created_matched_synapse = MatchedSynapse(matched_synapse=self.synapse1,
@@ -85,7 +143,7 @@ class TestSynapseLauncher(unittest.TestCase):
                                                             brain=self.brain_test,
                                                             settings=self.settings_test)
 
-            lifo_buffer = LIFOBuffer()
+            lifo_buffer = LifoManager.get_singleton_lifo()
             self.assertEqual(expected_result, lifo_buffer.lifo_list)
 
         # -------------------------
@@ -93,7 +151,8 @@ class TestSynapseLauncher(unittest.TestCase):
         # -------------------------
         # clean LIFO
         Singleton._instances = dict()
-        with mock.patch("kalliope.core.LIFOBuffer.execute"):
+        LifoManager.clean_saved_lifo()
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
             order_to_match = "this is the second sentence"
             should_be_created_matched_synapse1 = MatchedSynapse(matched_synapse=self.synapse1,
                                                                 user_order=order_to_match,
@@ -106,47 +165,46 @@ class TestSynapseLauncher(unittest.TestCase):
             SynapseLauncher.run_matching_synapse_from_order(order_to_match,
                                                             brain=self.brain_test,
                                                             settings=self.settings_test)
-            lifo_buffer = LIFOBuffer()
+            lifo_buffer = LifoManager.get_singleton_lifo()
             self.assertEqual(expected_result, lifo_buffer.lifo_list)
 
         # -------------------------
-        # test_match_default_synapse
+        # test_call_hook_order_not_found
         # -------------------------
         # clean LIFO
         Singleton._instances = dict()
-        with mock.patch("kalliope.core.LIFOBuffer.execute"):
+        LifoManager.clean_saved_lifo()
+        with mock.patch("kalliope.core.HookManager.on_order_not_found") as mock_hook:
             order_to_match = "not existing sentence"
-            should_be_created_matched_synapse = MatchedSynapse(matched_synapse=self.synapse3,
-                                                               user_order=order_to_match,
-                                                               matched_order=None)
 
-            expected_result = [[should_be_created_matched_synapse]]
             SynapseLauncher.run_matching_synapse_from_order(order_to_match,
                                                             brain=self.brain_test,
                                                             settings=self.settings_test)
-            lifo_buffer = LIFOBuffer()
-            self.assertEqual(expected_result, lifo_buffer.lifo_list)
+            mock_hook.assert_called_with()
+
+        mock_hook.reset_mock()
 
         # -------------------------
-        # test_no_match_and_no_default_synapse
+        # test_call_hook_order_found
         # -------------------------
         # clean LIFO
         Singleton._instances = dict()
-        with mock.patch("kalliope.core.LIFOBuffer.execute"):
-            order_to_match = "not existing sentence"
-            new_settings = Settings()
-            expected_result = [[]]
-            SynapseLauncher.run_matching_synapse_from_order(order_to_match,
-                                                            brain=self.brain_test,
-                                                            settings=new_settings)
-            lifo_buffer = LIFOBuffer()
-            self.assertEqual(expected_result, lifo_buffer.lifo_list)
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
+            with mock.patch("kalliope.core.HookManager.on_order_found") as mock_hook:
+                order_to_match = "this is the second sentence"
+                new_settings = Settings()
+                SynapseLauncher.run_matching_synapse_from_order(order_to_match,
+                                                                brain=self.brain_test,
+                                                                settings=new_settings)
+                mock_hook.assert_called_with()
+
+        mock_hook.reset_mock()
 
 
 if __name__ == '__main__':
     unittest.main()
 
     # suite = unittest.TestSuite()
-    # suite.addTest(TestSynapseLauncher("test_run_matching_synapse_from_order"))
+    # suite.addTest(TestSynapseLauncher("test_start_synapse_by_list_name"))
     # runner = unittest.TextTestRunner()
     # runner.run(suite)

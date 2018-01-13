@@ -37,19 +37,16 @@ class NeuronParameterLoader(object):
 
         list_word_in_order = Utils.remove_spaces_in_brackets(order_to_check).split()
 
-        # get the order, defined by the first words before {{
-        # /!\ Could be empty if order starts with double brace
-        the_order = order_to_check[:order_to_check.find('{{')]
-
         # remove sentence before order which are sentences not matching anyway
-        # Manage Upper/Lower case
-        truncate_user_sentence = order[order.lower().find(the_order.lower()):]
-        truncate_list_word_said = truncate_user_sentence.split()
+        truncate_list_word_said = order.split()
 
         # make dict var:value
         dict_var = dict()
         for idx, ow in enumerate(list_word_in_order):
-            if Utils.is_containing_bracket(ow):
+            if not Utils.is_containing_bracket(ow):
+                while truncate_list_word_said and ow.lower() != truncate_list_word_said[0].lower():
+                    truncate_list_word_said = truncate_list_word_said[1:]
+            else:
                 # remove bracket and grab the next value / stop value
                 var_name = ow.replace("{{", "").replace("}}", "")
                 stop_value = Utils.get_next_value_list(list_word_in_order[idx:])
@@ -65,4 +62,5 @@ class NeuronParameterLoader(object):
                     else:
                         dict_var[var_name] = word_said
             truncate_list_word_said = truncate_list_word_said[1:]
+
         return dict_var

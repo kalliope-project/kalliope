@@ -96,6 +96,20 @@ You can combine the options together like, for example:
 kalliope start --run-synapse "say-hello" --brain-file /home/me/my_other_brain.yml
 ```
 
+### --muted
+
+Starts Kalliope in a muted state.
+
+Example of use
+```bash
+kalliope start --muted
+```
+
+You can combine the options together like, for example:
+```bash
+kalliope start --muted --brain-file /home/me/my_other_brain.yml
+```
+
 ### --debug
 
 Show debug output in the console

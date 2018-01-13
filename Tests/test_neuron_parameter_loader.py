@@ -30,7 +30,7 @@ class TestNeuronParameterLoader(unittest.TestCase):
 
         user_order = "this is the value with multiple words"
         expected_result = {'sentence': 'value',
-                           'params':'words'}
+                           'params': 'words'}
 
         self.assertEqual(NeuronParameterLoader.get_parameters(synapse_order=synapse_order, user_order=user_order),
                          expected_result,
@@ -102,14 +102,14 @@ class TestNeuronParameterLoader(unittest.TestCase):
         order_user = "This is the value"
         expected_result = {'variable': 'value'}
         self.assertNotEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
-                             expected_result)
+                            expected_result)
 
         # Fail
         order_brain = "This is the { variable}}"
         order_user = "This is the value"
         expected_result = {'variable': 'value'}
         self.assertNotEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
-                             expected_result)
+                            expected_result)
 
         ##
         # Testing the brackets position in the sentence
@@ -175,7 +175,7 @@ class TestNeuronParameterLoader(unittest.TestCase):
         order_brain = "This Is The {{ variable }} And The {{ variable2 }}"
         order_user = "ThiS is tHe VAlue aND tHE vAlUe2"
         expected_result = {'variable': 'VAlue',
-                           'variable2':'vAlUe2'}
+                           'variable2': 'vAlUe2'}
         self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
                          expected_result)
 
@@ -194,6 +194,105 @@ class TestNeuronParameterLoader(unittest.TestCase):
                            'variable2': '2'}
         self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
                          expected_result)
+
+        # ##
+        # #  More words in the order brain.
+        # #  /!\ Not working but not needed !
+        # ##
+        #
+        # # more words in the middle of order but matching
+        # order_brain = "this is the {{ variable }} and the {{ variable2 }}"
+        # order_user = "this the foo and the bar" # missing "is" but matching because all words are present !
+        # expected_result = {'variable': 'foo',
+        #                    'variable2': 'bar'}
+        # self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
+        #                  expected_result)
+        #
+        # # more words in the beginning of order but matching +  bonus with mixed uppercases
+        # order_brain = "blaBlabla bla This Is The {{ variable }} And The {{ variable2 }}"
+        # order_user = "ThiS is tHe foo aND tHE bar"
+        # expected_result = {'variable': 'foo',
+        #                    'variable2': 'bar'}
+        # self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
+        #                  expected_result)
+        #
+        # # more words in the end of order but matching +  bonus with mixed uppercases
+        # order_brain = "This Is The bla BLa bla BLa {{ variable }} And The {{ variable2 }}"
+        # order_user = "ThiS is tHe foo aND tHE bar"
+        # expected_result = {'variable': 'foo',
+        #                    'variable2': 'bar'}
+        # self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
+        #                  expected_result)
+        #
+        # # complex more words in the end of order but matching +  bonus with mixed uppercases
+        # order_brain = "Hi theRe This Is bla BLa The bla BLa {{ variable }} And The {{ variable2 }}"
+        # order_user = "ThiS is tHe foo aND tHE bar"
+        # expected_result = {'variable': 'foo',
+        #                    'variable2': 'bar'}
+        # self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
+        #                  expected_result)
+        #
+        # # complex more words everywhere in the order but matching +  bonus with mixed uppercases
+        # order_brain = "Hi theRe This Is bla BLa The bla BLa {{ variable }} And Oops The {{ variable2 }} Oopssss"
+        # order_user = "ThiS is tHe foo aND tHE bar"
+        # expected_result = {'variable': 'foo',
+        #                    'variable2': 'bar'}
+        # self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
+        #                  expected_result)
+        #
+
+        ##
+        #  More words in the user order brain
+        ##
+
+        # 1 not matching word in the middle of user order but matching
+        order_brain = "this the {{ variable }} and the {{ variable2 }}"
+        order_user = "this is the foo and the bar"  # adding "is" but matching because all words are present !
+        expected_result = {'variable': 'foo',
+                           'variable2': 'bar'}
+        self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
+                         expected_result)
+
+        # 2 not matching  words in the middle of user order but matching
+        order_brain = "this the {{ variable }} and the {{ variable2 }}"
+        order_user = "this is Fake the foo and the bar"
+        expected_result = {'variable': 'foo',
+                           'variable2': 'bar'}
+        self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
+                         expected_result)
+
+        # 1 not matching word at the beginning and 1 not matching word in the middle of user order but matching
+        order_brain = "this the {{ variable }} and the {{ variable2 }}"
+        order_user = "Oops this is the foo and the bar"
+        expected_result = {'variable': 'foo',
+                           'variable2': 'bar'}
+        self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
+                         expected_result)
+
+        # 2 not matching words at the beginning and 2 not matching words in the middle of user order but matching
+        order_brain = "this the {{ variable }} and the {{ variable2 }}"
+        order_user = "Oops Oops this is BlaBla the foo and the bar"
+        expected_result = {'variable': 'foo',
+                           'variable2': 'bar'}
+        self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
+                         expected_result)
+
+        # Adding complex not matching words in the middle of user order and between variable but matching
+        order_brain = "this the {{ variable }} and the {{ variable2 }}"
+        order_user = "Oops Oops this is BlaBla the foo and ploup ploup the bar"
+        expected_result = {'variable': 'foo',
+                           'variable2': 'bar'}
+        self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
+                         expected_result)
+
+        # Adding complex not matching words in the middle of user order and between variable and at the end but matching
+        order_brain = "this the {{ variable }} and the {{ variable2 }} hello"
+        order_user = "Oops Oops this is BlaBla the foo and ploup ploup the bar hello test"
+        expected_result = {'variable': 'foo',
+                           'variable2': 'bar'}
+        self.assertEqual(NeuronParameterLoader._associate_order_params_to_values(order_user, order_brain),
+                         expected_result)
+
 
 if __name__ == '__main__':
     unittest.main()

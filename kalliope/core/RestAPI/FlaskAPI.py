@@ -12,13 +12,12 @@ from werkzeug.utils import secure_filename
 from kalliope import SignalLauncher
 from kalliope._version import version_str
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader
-from kalliope.core.LIFOBuffer import LIFOBuffer
+from kalliope.core.Lifo.LifoManager import LifoManager
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.OrderListener import OrderListener
 from kalliope.core.RestAPI.utils import requires_auth
 from kalliope.core.SynapseLauncher import SynapseLauncher
 from kalliope.core.Utils.FileManager import FileManager
-from kalliope.signals.order import Order
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -78,7 +77,7 @@ class FlaskAPI(threading.Thread):
         self.app.add_url_rule('/mute/', view_func=self.set_mute, methods=['POST'])
 
     def run(self):
-        self.app.run(host='0.0.0.0', port="%s" % int(self.port), debug=True, threaded=True, use_reloader=False)
+        self.app.run(host='0.0.0.0', port=int(self.port), debug=True, threaded=True, use_reloader=False)
 
     @requires_auth
     def get_main_page(self):
@@ -158,7 +157,7 @@ class FlaskAPI(threading.Thread):
         """
         # get a synapse object from the name
         logger.debug("[FlaskAPI] run_synapse_by_name: synapse name -> %s" % synapse_name)
-        synapse_target = BrainLoader().get_brain().get_synapse_by_name(synapse_name=synapse_name)
+        synapse_target = BrainLoader().brain.get_synapse_by_name(synapse_name=synapse_name)
 
         # get no_voice_flag if present
         no_voice = self.get_boolean_flag_from_request(request, boolean_flag_to_find="no_voice")
@@ -174,8 +173,8 @@ class FlaskAPI(threading.Thread):
         else:
             # generate a MatchedSynapse from the synapse
             matched_synapse = MatchedSynapse(matched_synapse=synapse_target, overriding_parameter=parameters)
-            # get the current LIFO buffer
-            lifo_buffer = LIFOBuffer()
+            # get the current LIFO buffer from the singleton
+            lifo_buffer = LifoManager.get_singleton_lifo()
             # this is a new call we clean up the LIFO
             lifo_buffer.clean()
             lifo_buffer.add_synapse_list_to_lifo([matched_synapse])

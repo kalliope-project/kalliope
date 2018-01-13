@@ -27,3 +27,4 @@ Here is a list of core signal that are installed natively with Kalliope
 | [event](../kalliope/signals/event)                     | Launch synapses periodically at fixed times, dates, or intervals. |
 | [mqtt_subscriber](../kalliope/signals/mqtt_subscriber) | Launch synapse from when receive a message from a MQTT broker     |
 | [order](../kalliope/signals/order)                     | Launch synapses from captured vocal order from the microphone     |
+| [geolocation](../kalliope/signals/geolocation)         | Define synapses to be triggered by clients handling geolocation   |

@@ -151,6 +151,9 @@ class HotwordDetector(Thread):
                     callback = self.detected_callback[ans-1]
                     if callback is not None:
                         callback()
+            else:
+                # take a little break
+                time.sleep(self.sleep_time)
 
         logger.debug("[Snowboy] process finished.")
 

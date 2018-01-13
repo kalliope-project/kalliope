@@ -90,9 +90,9 @@ setup(
         'sounddevice>=0.3.7',
         'SoundFile>=0.9.0',
         'pyalsaaudio>=0.8.4',
-        'RPi.GPIO>=0.6.3',
         'sox>=1.3.0',
-        'paho-mqtt>=1.3.0'
+        'paho-mqtt>=1.3.0',
+        'voicerss_tts>=1.0.3'
     ],
 
 

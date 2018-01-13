@@ -226,6 +226,15 @@ class TestUtils(unittest.TestCase):
                          expected_result,
                          "Fail to remove spaces in two brackets")
 
+        # test with json
+        sentence = "{\"params\": {\"apikey\": \"ISNOTMYPASSWORD\", " \
+                   "\"query\": \"met le chauffage a {{ valeur }} degres\"}}"
+        expected_result = "{\"params\": {\"apikey\": \"ISNOTMYPASSWORD\", " \
+                          "\"query\": \"met le chauffage a {{valeur}} degres\"}}"
+        self.assertEqual(Utils.remove_spaces_in_brackets(sentence=sentence),
+                         expected_result,
+                         "Fail to remove spaces in two brackets")
+
     def test_encode_text_utf8(self):
         """
         Test encoding the text in utf8
@@ -237,3 +246,7 @@ class TestUtils(unittest.TestCase):
 
         self.assertEqual(Utils.encode_text_utf8(text=sentence),
                          expected_sentence)
+
+
+if __name__ == '__main__':
+    unittest.main()

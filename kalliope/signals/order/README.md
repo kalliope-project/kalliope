@@ -10,25 +10,98 @@ An **order** signal is a word, or a sentence caught by the microphone and proces
 |-----------|----------|---------|---------|-----------------------------------------------------|
 | order     | YES      |         |         | The order is passed directly without any parameters |
 
+Other way to write an order, with parameters:
+
+| parameter     | required | default            | choices                        | comment                                  |
+|---------------|----------|--------------------|--------------------------------|------------------------------------------|
+| text          | YES      | The order to match |                                |                                          |
+| matching-type | NO       | normal             | normal, strict, ordered-strict | Type of matching. See explanation bellow |
+
+**Matching-type:**
+- **normal**: Will match if all words are present in the spoken order.
+- **strict**: All word are present. No more word must be present in the spoken order.
+- **ordered-strict**: All word are present, no more word and all word are in the same order as defined in the signal.
+
 ## Values sent to the synapse
 
 None
 
 ## Synapses example
 
-### Simple order
+### Normal order
 
 Syntax:
 ```yml
 signals:
-    - order: "<sentence>"
+  - order: "<sentence>"
+
+signals:
+  - order:
+      text: "<sentence>"
+      matching-type: "normal"
 ```
 
 Example:
 ```yml
 signals:
-    - order: "please do this action"
+  - order: "please do this action"
+
+signals:
+  - order:
+      text: "please do this action"
+      matching-type: "normal"
 ```
+
+In this example, with a `normal` matching type, the synapse would be triggered if the user say:
+- please do this action
+- please do this action with more word
+- action this do please
+- action this do please with more word
+
+### Strict order
+
+Syntax:
+```yml
+signals:
+    - order:
+        text: "<sentence>"
+        matching-type: "strict"
+```
+
+Example:
+```yml
+signals:
+    - order:
+        text: "please do this action"
+        matching-type: "strict"
+```
+
+In this example, with a `strict` matching type, the synapse would be triggered if the user say:
+- please do this action
+- action this do please
+
+### Ordered strict order
+
+Syntax:
+```yml
+signals:
+    - order:
+        text: "<sentence>"
+        matching-type: "ordered-strict"
+```
+
+Example:
+```yml
+signals:
+    - order:
+        text: "please do this action"
+        matching-type: "ordered-strict"
+```
+
+In this example, with a `strict` matching type, the synapse would be triggered if the user say:
+- please do this action
+
+### Notes
 
 > **Important note:** SST engines can misunderstand what you say, or translate your sentence into text containing some spelling mistakes.
 For example, if you say "Kalliope please do this", the SST engine can return "caliope please do this". So, to be sure that your speaking order will be correctly caught and executed, we recommend you to test your STT engine by using the [Kalliope GUI](kalliope_cli.md) and check the returned text for the given order.
