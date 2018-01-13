@@ -1,3 +1,17 @@
+v0.5.0 / 2018-01-13
+===================
+- Fix: recognition option in settings
+- Fix: no_voice flag in neurotransmitter neuron no longer lost
+- Fix: retrieve parameters when user order contains non matching words
+- Fix: Update Voicerss TTS
+- Fix: Usage of double brackets with json sentence
+- Fix: Remove acapela TTS
+- Feature: Kalliope can be started muted
+- Feature: add geolocation signals
+- Feature: add Watson TTS
+- Feature: Hook. WARNING: This is a breaking change. Settings must be updated
+- Feature: add normal, strict and ordered-strict order
+
 v0.4.6 / 2017-10-03
 ===================
 - add core neuron: neurotimer
