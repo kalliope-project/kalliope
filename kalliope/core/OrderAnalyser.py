@@ -60,7 +60,7 @@ class OrderAnalyser:
                     expected_matching_type = "normal"
                     signal_order = None
 
-                    if isinstance(signal.parameters, str):
+                    if isinstance(signal.parameters, str) or isinstance(signal.parameters, six.text_type):
                         signal_order = signal.parameters
                     if isinstance(signal.parameters, dict):
                         try:
