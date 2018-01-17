@@ -1,5 +1,6 @@
 import unittest
 import os
+import sys
 
 from kalliope.core.Utils.FileManager import FileManager
 
@@ -54,6 +55,14 @@ class TestFileManager(unittest.TestCase):
             content = content_file.read()
             self.assertEqual(content, in_file_text,
                              "Fail writing in the file ")
+
+        if sys.version_info[0] > 2:
+            # Test writing of bytes object for python3
+            FileManager.write_in_file(file_path=file_path, content=bytes(in_file_text, 'utf-8'))
+            with open(file_path, 'r') as content_file:
+                content = content_file.read()
+                self.assertEqual(content, in_file_text,
+                                "Fail writing in the file ")
 
         # Clean up
         if os.path.exists(file_path):
