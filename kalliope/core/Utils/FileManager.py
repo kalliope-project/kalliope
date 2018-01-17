@@ -1,8 +1,6 @@
 import logging
 import os
 
-import sys
-
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
@@ -31,17 +29,16 @@ class FileManager:
         :param file_path: the path of the file to write on
         :type file_path: str
         :param content: the contents to write in the file
-        :type content: str
+        :type content: str or bytes
 
         .. raises:: IOError
         """
         try:
             with open(file_path, "wb") as file_open:
-                if sys.version_info[0] == 2:
+                if type(content) == bytes:
                     file_open.write(content)
                 else:
                     file_open.write(content.encode())
-                file_open.close()
             return not FileManager.file_is_empty(file_path)
         except IOError as e:
             logger.error("I/O error(%s): %s", e.errno, e.strerror)
