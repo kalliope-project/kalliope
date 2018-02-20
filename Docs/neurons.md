@@ -273,6 +273,62 @@ Here is another example brain whit use the `neurotimer` neuron. In this scenario
           - "You asked me to remind you to {{ kalliope_memory['remember'] }} {{ kalliope_memory['time'] }} minutes ago"
 ```
 
+### Get the last order generated TTS message
+
+Kalliope will save in memory automatically:
+- the last generated TTS message . 
+- the last caught order
+
+To get the last generated message, use the key `{{ kalliope_memory['kalliope_last_tts_message'] }}` in your synapse.
+To get the last order, use the key `{{ kalliope_memory['kalliope_last_order'] }}` in your synapse.
+
+Keep in mind that the `kalliope_last_tts_message` variable is overridden every time Kalliope says something. 
+So you need to catch messages you want to process in the right hook like `on_start_speaking` or `on_stop_speaking`.
+
+An example of usage is to send each message to an API each time Kalliope start speaking. 
+
+You need at first to create a hook in your `settings.yml` like the following
+```yml
+hooks:  
+  on_start_speaking: "mm-say"
+```
+
+Then create a synapse in your `brain` that is linked to the hook to send each message. 
+As a concrete example, here the [magic mirror neuron](https://github.com/kalliope-project/kalliope_neuron_magic_mirror) is used to send each spelt out loud message to the Magic Mirror API in order to show them on the screen.
+```yml
+  - name: "mm-say"
+    signals: []
+    neurons:
+      - magic_mirror:
+          mm_url: "http://127.0.0.1:8080/kalliope"
+          notification: "KALLIOPE"
+          payload: "{{ kalliope_memory['kalliope_last_tts_message'] }}"
+```
+
+**Note**
+
+`kalliope_last_tts_message` is overridden each time Kalliope says something. 
+For example, a common practice is to have a synapse placed in the hook `on_triggered` in order to know when the hotword has been triggered. 
+So, if this synapse is configured like the following
+```yml
+- name: "on-triggered-synapse"
+  signals: []
+  neurons:
+    - say:
+        message: "what can i do for you?"
+```
+
+And you try the get the last generated message with a synapse like the following
+```yml
+- name: "last-message"
+    signals:
+      - order: "what was the last message?"
+    neurons:
+      - say:
+          message: "it was {{ kalliope_memory['kalliope_last_tts_message'] }}"
+```
+
+Then the answer will always be "it was what can i do for you?" because the variable `kalliope_last_tts_message` has been overridden during the execution of the `on-triggered-synapse`.
 
 ## Overridable parameters
 
