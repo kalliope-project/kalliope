@@ -2,6 +2,7 @@ import logging
 from threading import Thread
 from time import sleep
 
+from kalliope.core.Cortex import Cortex
 from kalliope.core.SynapseLauncher import SynapseLauncher
 
 from kalliope.core.OrderListener import OrderListener
@@ -163,6 +164,8 @@ class Order(Thread):
         HookManager.on_stop_listening()
         self.order_to_process = order
         self.order_listener_callback_called = True
+        # save in kalliope memory the last order
+        Cortex.save('kalliope_last_order', order)
 
     def analysing_order_thread(self):
         """

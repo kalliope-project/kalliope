@@ -168,6 +168,8 @@ class NeuronModule(object):
             logger.debug("[NeuronModule] tts_message to say: %s" % tts_message)
             self.tts_message = tts_message
             Utils.print_success(tts_message)
+            # save in kalliope memory the last tts message
+            Cortex.save("kalliope_last_tts_message", tts_message)
 
             # process the audio only if the no_voice flag is false
             if self.no_voice:
