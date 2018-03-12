@@ -40,16 +40,6 @@ wget https://bootstrap.pypa.io/get-pip.py
 sudo python get-pip.py
 ```
 
-On a Raspberry Pi, pulseaudio is not installed by default:
-```bash
-sudo apt-get install pulseaudio pulseaudio-utils
-```
-
-Start the pulseaudio server:
-```bash
-pulseaudio -D
-```
-
 ## Raspberry Pi configuration
 
 This section deals with the special configuration needed to get kalliope working on a RPi.
