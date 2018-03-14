@@ -1,9 +1,7 @@
 import logging
-from six import with_metaclass
 
 from kalliope.core.Cortex import Cortex
 from kalliope.core.NeuronLauncher import NeuronLauncher
-from kalliope.core.Models import Singleton
 from kalliope.core.Models.APIResponse import APIResponse
 
 logging.basicConfig()
@@ -19,7 +17,7 @@ class Serialize(Exception):
 
 class SynapseListAddedToLIFO(Exception):
     """
-    When raised, a synapse list to process has been added to the LIFO list. 
+    When raised, a synapse list to process has been added to the LIFO list.
     The LIFO must start over and process the last synapse list added
     """
     pass
@@ -29,10 +27,10 @@ class LIFOBuffer(object):
     """
     This class is a LIFO list of synapse to process where the last synapse list to enter will be the first synapse
     list to be processed.
-    This design is needed in order to use Kalliope from the API. 
+    This design is needed in order to use Kalliope from the API.
     Because we want to return an information when a Neuron is still processing and waiting for an answer from the user
     like with the Neurotransmitter neuron.
-    
+
     """
 
     def __init__(self):
@@ -56,12 +54,11 @@ class LIFOBuffer(object):
         Add a synapse list to process to the lifo
         :param matched_synapse_list: List of Matched Synapse
         :param high_priority: If True, the synapse list added is executed directly
-        :return: 
+        :return:
         """
         logger.debug("[LIFOBuffer] Add a new synapse list to process to the LIFO")
         self.lifo_list.append(matched_synapse_list)
-        if high_priority:
-            self.reset_lifo = True
+        self.reset_lifo = high_priority
 
     def clean(self):
         """
@@ -74,7 +71,7 @@ class LIFOBuffer(object):
         """
         Serialize Exception has been raised by the execute process somewhere, return the serialized API response
         to the caller. Clean up the APIResponse object for the next call
-        :return: 
+        :return:
         """
         # we prepare a json response
         returned_api_response = self.api_response.serialize()
@@ -85,13 +82,13 @@ class LIFOBuffer(object):
     def execute(self, answer=None, is_api_call=False, no_voice=False):
         """
         Process the LIFO list.
-        
-        The LIFO list contains multiple list of matched synapses.        
-        For each list of matched synapse we process synapses inside        
-        For each synapses we process neurons.        
-        If a neuron add a Synapse list to the lifo, this synapse list is processed before executing the first list 
+
+        The LIFO list contains multiple list of matched synapses.
+        For each list of matched synapse we process synapses inside
+        For each synapses we process neurons.
+        If a neuron add a Synapse list to the lifo, this synapse list is processed before executing the first list
         in which we were in.
-        
+
         :param answer: String answer to give the the last neuron which was waiting for an answer
         :param is_api_call: Boolean passed to all neuron in order to let them know if the current call comes from API
         :param no_voice: If true, the generated text will not be processed by the TTS engine
@@ -102,10 +99,10 @@ class LIFOBuffer(object):
         self.is_api_call = is_api_call
         self.no_voice = no_voice
 
-        if not self.is_running:
-            self.is_running = True
+        try:
+            if not self.is_running:
+                self.is_running = True
 
-            try:
                 # we keep looping over the LIFO til we have synapse list to process in it
                 while self.lifo_list:
                     logger.debug("[LIFOBuffer] number of synapse list to process: %s" % len(self.lifo_list))
@@ -122,8 +119,8 @@ class LIFOBuffer(object):
                 self.is_running = False
                 raise Serialize
 
-            except Serialize:
-                return self._return_serialized_api_response()
+        except Serialize:
+            return self._return_serialized_api_response()
 
     def _process_synapse_list(self, synapse_list):
         """

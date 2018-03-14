@@ -28,7 +28,7 @@ class PlayerModule(object):
         This function assumes ffmpeg is available on the system
         :param file_path_mp3: the file path to convert from mp3 to wav
         """
-        logger.debug("Converting mp3 file to wav file: %s" % file_path_mp3)
+        logger.debug("[PlayerModule] Converting mp3 file to wav file: %s" % file_path_mp3)
         fnull = open(os.devnull, 'w')
         # temp file
         tmp_file_wav = file_path_mp3 + ".wav"
