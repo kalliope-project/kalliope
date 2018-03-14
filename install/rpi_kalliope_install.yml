@@ -56,8 +56,6 @@
         - mplayer
         - libyaml-dev
         - libpython2.7-dev
-        - pulseaudio
-        - pulseaudio-utils
         - libav-tools
         - libportaudio0
         - libportaudio2

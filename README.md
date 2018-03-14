@@ -34,7 +34,13 @@ If you want an idea of what you can do with Kalliope, click on the image below
 
 ## Installation
 
-- [Kalliope installation documentation](Docs/installation.md) (Ubuntu/Debian/Raspbian)
+Just run the following bash command to install Kalliope on a freshly installed Raspberry Pi:
+```
+bash -c "$(curl -sL https://raw.githubusercontent.com/kalliope-project/kalliope/master/install/rpi_install_kalliope.sh)"
+```
+
+Or use:
+- [Kalliope manuall installation documentation](Docs/installation.md) (Ubuntu/Debian/Raspbian)
 - [Pre-compiled disk image for Raspberry](Docs/installation/raspbian.md)
 
 ## Quick start
