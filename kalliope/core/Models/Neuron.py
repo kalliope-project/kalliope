@@ -5,7 +5,7 @@ class Neuron(object):
     .. note:: Neurons are defined in the brain file
     """
 
-    def __init__(self, name=None, parameters=None):
+    def __init__(self, name=None, parameters=dict()):
         self.name = name
         self.parameters = parameters
 
