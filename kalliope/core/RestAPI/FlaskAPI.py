@@ -175,8 +175,6 @@ class FlaskAPI(threading.Thread):
             matched_synapse = MatchedSynapse(matched_synapse=synapse_target, overriding_parameter=parameters)
             # get the current LIFO buffer from the singleton
             lifo_buffer = LifoManager.get_singleton_lifo()
-            # this is a new call we clean up the LIFO
-            lifo_buffer.clean()
             lifo_buffer.add_synapse_list_to_lifo([matched_synapse])
             response = lifo_buffer.execute(is_api_call=True, no_voice=no_voice)
             data = jsonify(response)
