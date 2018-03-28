@@ -177,5 +177,5 @@ class ShellGui:
             self.show_main_menu()
         if code == self.d.OK:
             logger.debug("Run synapse from GUI: %s" % tag)
-            SynapseLauncher.start_synapse_by_name(tag, brain=self.brain)
+            SynapseLauncher.start_synapse_by_list_name([tag], brain=self.brain)
             self.show_synapses_test_menu()

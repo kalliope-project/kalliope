@@ -43,11 +43,11 @@ class TestSynapseLauncher(unittest.TestCase):
         Singleton._instances = dict()
         LifoManager.clean_saved_lifo()
 
-    def test_start_synapse_by_name(self):
+    def test_start_synapse_by_list_name_single_synapse(self):
         # existing synapse in the brain
         with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
             should_be_created_matched_synapse = MatchedSynapse(matched_synapse=self.synapse1)
-            SynapseLauncher.start_synapse_by_name("Synapse1", brain=self.brain_test)
+            SynapseLauncher.start_synapse_by_list_name(["Synapse1"], brain=self.brain_test)
             # we expect that the lifo has been loaded with the synapse to run
             expected_result = [[should_be_created_matched_synapse]]
             lifo_buffer = LifoManager.get_singleton_lifo()
@@ -60,8 +60,8 @@ class TestSynapseLauncher(unittest.TestCase):
             overriding_param = {
                 "val1": "val"
             }
-            SynapseLauncher.start_synapse_by_name("Synapse1", brain=self.brain_test,
-                                                  overriding_parameter_dict=overriding_param)
+            SynapseLauncher.start_synapse_by_list_name(["Synapse1"], brain=self.brain_test,
+                                                       overriding_parameter_dict=overriding_param)
             should_be_created_matched_synapse = MatchedSynapse(matched_synapse=self.synapse1,
                                                                overriding_parameter=overriding_param)
             # we expect that the lifo has been loaded with the synapse to run
@@ -70,7 +70,7 @@ class TestSynapseLauncher(unittest.TestCase):
 
         # non existing synapse in the brain
         with self.assertRaises(SynapseNameNotFound):
-            SynapseLauncher.start_synapse_by_name("not_existing", brain=self.brain_test)
+            SynapseLauncher.start_synapse_by_list_name(["not_existing"], brain=self.brain_test)
 
     def test_start_synapse_by_list_name(self):
         # test to start a list of synapse

@@ -23,39 +23,6 @@ class SynapseNameNotFound(Exception):
 class SynapseLauncher(object):
 
     @classmethod
-    def start_synapse_by_name(cls, name, brain=None, overriding_parameter_dict=None, new_lifo=False):
-        """
-        Start a synapse by it's name
-        :param name: Name (Unique ID) of the synapse to launch
-        :param brain: Brain instance
-        :param overriding_parameter_dict: parameter to pass to neurons
-        :param new_lifo: If True, ask the HookManager to return a new lifo and not the singleton
-        """
-        logger.debug("[SynapseLauncher] start_synapse_by_name called with synapse name: %s " % name)
-
-        if brain is None:
-            brain = BrainLoader().brain
-
-        # check if we have found and launched the synapse
-        synapse = brain.get_synapse_by_name(synapse_name=name)
-
-        if not synapse:
-            raise SynapseNameNotFound("The synapse name \"%s\" does not exist in the brain file" % name)
-        else:
-            if new_lifo:
-                lifo_buffer = LifoManager.get_new_lifo()
-            else:
-                lifo_buffer = LifoManager.get_singleton_lifo()
-            list_synapse_to_process = list()
-            new_matching_synapse = MatchedSynapse(matched_synapse=synapse,
-                                                  matched_order=None,
-                                                  user_order=None,
-                                                  overriding_parameter=overriding_parameter_dict)
-            list_synapse_to_process.append(new_matching_synapse)
-            lifo_buffer.add_synapse_list_to_lifo(list_synapse_to_process)
-            return lifo_buffer.execute(is_api_call=True)
-
-    @classmethod
     def start_synapse_by_list_name(cls, list_name, brain=None, overriding_parameter_dict=None, new_lifo=False):
         """
         Start synapses by their name
@@ -74,6 +41,8 @@ class SynapseLauncher(object):
             list_synapse_object_to_start = list()
             for name in list_name:
                 synapse_to_start = brain.get_synapse_by_name(synapse_name=name)
+                if not synapse_to_start:
+                    raise SynapseNameNotFound("[SynapseLauncher] The synapse name \"%s\" does not exist in the brain file" % name)
                 list_synapse_object_to_start.append(synapse_to_start)
 
             # run the LIFO with all synapse
