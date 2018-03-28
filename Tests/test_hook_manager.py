@@ -48,9 +48,9 @@ class TestInit(unittest.TestCase):
         """
         test with single synapse 
         """
-        with mock.patch("kalliope.core.SynapseLauncher.start_synapse_by_name") as mock_synapse_launcher:
+        with mock.patch("kalliope.core.SynapseLauncher.start_synapse_by_list_name") as mock_synapse_launcher:
             HookManager.on_waiting_for_trigger()
-            mock_synapse_launcher.assert_called_with("test", new_lifo=True)
+            mock_synapse_launcher.assert_called_with(["test"], new_lifo=True)
             mock_synapse_launcher.reset_mock()
 
     def test_on_triggered(self):
