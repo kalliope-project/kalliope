@@ -186,14 +186,14 @@ class Order(Thread):
         :param muted: Boolean. If true, kalliope is muted
         """
         logger.debug("[MainController] Mute button pressed. Switch trigger process to muted: %s" % muted)
+        self.settings.start_options['muted']= muted
+        self.is_trigger_muted = muted
         if muted:
             self.trigger_instance.pause()
-            self.is_trigger_muted = True
             Utils.print_info("Kalliope now muted")
             HookManager.on_mute()
         else:
             self.trigger_instance.unpause()
-            self.is_trigger_muted = False
             Utils.print_info("Kalliope now listening for trigger detection")
             HookManager.on_unmute()
 

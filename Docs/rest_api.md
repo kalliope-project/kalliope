@@ -147,14 +147,6 @@ Output example:
   "status": "complete",
   "user_order": null
 }
-```
-
-The [no_voice flag](#no-voice-flag) can be added to this call.
-Curl command:
-```bash
-curl -i -H "Content-Type: application/json" --user admin:secret -X POST \
--d '{"no_voice":"true"}' http://127.0.0.1:5000/synapses/start/id/say-hello-fr
-```
 
 Some neuron inside a synapse will wait for parameters that comes from the order. 
 You can provide those parameters by adding a `parameters` list of data.
@@ -232,14 +224,6 @@ Or return an empty list of matched synapse
   "status": null,
   "user_order": "not existing order"
 }
-```
-
-The [no_voice flag](#no-voice-flag) can be added to this call.
-Curl command:
-```bash
-curl -i --user admin:secret -H "Content-Type: application/json" -X POST \
--d '{"order":"my order", "no_voice":"true"}' http://localhost:5000/synapses/start/order
-```
 
 ### Run a synapse from an audio file
 
@@ -300,12 +284,6 @@ Or return an empty list of matched synapse
   "status": null,
   "user_order": "not existing order"
 }
-```
-
-The [no_voice flag](#no-voice-flag) can be added to this call with a form.
-Curl command:
-```bash
-curl -i --user admin:secret -X POST http://localhost:5000/synapses/start/audio -F "file=@path/to/file.wav" -F no_voice="true"
 ```
 
 #### The neurotransmitter case
@@ -423,9 +401,3 @@ Output example:
   "mute": true
 }
 ```
-
-## No voice flag
-
-When you use the API, by default Kalliope will generate a text and process it into the TTS engine.
-Some calls to the API can be done with a flag that will tell Kalliope to only return the generated text without processing it into the audio player.
-When `no_voice` is switched to true, Kalliope will not speak out loud on the server side.

@@ -105,8 +105,6 @@ class NeuronModule(object):
         self.tts_message = None
         # if the current call is api one
         self.is_api_call = kwargs.get('is_api_call', False)
-        # if the current call want to mute kalliope
-        self.no_voice = kwargs.get('no_voice', False)
         # boolean to know id the synapse is waiting for an answer
         self.is_waiting_for_answer = False
         # the synapse name to add the the buffer
@@ -171,11 +169,11 @@ class NeuronModule(object):
             # save in kalliope memory the last tts message
             Cortex.save("kalliope_last_tts_message", tts_message)
 
-            # process the audio only if the no_voice flag is false
-            if self.no_voice:
-                logger.debug("[NeuronModule] no_voice is True, Kalliope is muted")
+            # process the audio only if the muted flag is false
+            if self.settings.start_options['muted']:
+                logger.debug("[NeuronModule] muted is True, Kalliope is muted")
             else:
-                logger.debug("[NeuronModule] no_voice is False, make Kalliope speaking")
+                logger.debug("[NeuronModule] muted is False, make Kalliope speaking")
                 HookManager.on_start_speaking()
                 # get the instance of the TTS module
                 tts_folder = None
@@ -237,7 +235,7 @@ class NeuronModule(object):
 
     @staticmethod
     def run_synapse_by_name(synapse_name, user_order=None, synapse_order=None, high_priority=False,
-                            is_api_call=False, overriding_parameter_dict=None, no_voice=False):
+                            is_api_call=False, overriding_parameter_dict=None):
         """
         call the lifo for adding a synapse to execute in the list of synapse list to process
         :param synapse_name: The name of the synapse to run
@@ -258,7 +256,7 @@ class NeuronModule(object):
         # get the singleton
         lifo_buffer = LifoManager.get_singleton_lifo()
         lifo_buffer.add_synapse_list_to_lifo(list_synapse_to_process, high_priority=high_priority)
-        lifo_buffer.execute(is_api_call=is_api_call, no_voice=no_voice)
+        lifo_buffer.execute(is_api_call=is_api_call)
 
     @staticmethod
     def is_order_matching(order_said, order_match):

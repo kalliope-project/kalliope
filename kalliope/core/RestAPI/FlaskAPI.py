@@ -62,9 +62,6 @@ class FlaskAPI(threading.Thread):
         if self.allowed_cors_origin is not False:
             CORS(app, resources={r"/*": {"origins": allowed_cors_origin}}, supports_credentials=True)
 
-        # no voice flag
-        self.no_voice = False
-
         # Add routing rules
         self.app.add_url_rule('/', view_func=self.get_main_page, methods=['GET'])
         self.app.add_url_rule('/synapses', view_func=self.get_synapses, methods=['GET'])
@@ -143,14 +140,9 @@ class FlaskAPI(threading.Thread):
         test with curl:
         curl -i --user admin:secret -X POST  http://127.0.0.1:5000/synapses/start/id/say-hello-fr
 
-        run a synapse without making kalliope speaking
-        curl -i -H "Content-Type: application/json" --user admin:secret -X POST  \
-        -d '{"no_voice":"true"}' http://127.0.0.1:5000/synapses/start/id/say-hello-fr
-
         Run a synapse by its name and pass order's parameters
         curl -i -H "Content-Type: application/json" --user admin:secret -X POST  \
-        -d '{"no_voice":"true", "parameters": {"parameter1": "value1" }}' \
-        http://127.0.0.1:5000/synapses/start/id/say-hello-fr
+        -d '{"parameters": {"parameter1": "value1" }}' http://127.0.0.1:5000/synapses/start/id/say-hello-fr
 
         :param synapse_name: name(id) of the synapse to execute
         :return:
@@ -158,9 +150,6 @@ class FlaskAPI(threading.Thread):
         # get a synapse object from the name
         logger.debug("[FlaskAPI] run_synapse_by_name: synapse name -> %s" % synapse_name)
         synapse_target = BrainLoader().brain.get_synapse_by_name(synapse_name=synapse_name)
-
-        # get no_voice_flag if present
-        no_voice = self.get_boolean_flag_from_request(request, boolean_flag_to_find="no_voice")
 
         # get parameters
         parameters = self.get_parameters_from_request(request)
@@ -178,7 +167,7 @@ class FlaskAPI(threading.Thread):
             # this is a new call we clean up the LIFO
             lifo_buffer.clean()
             lifo_buffer.add_synapse_list_to_lifo([matched_synapse])
-            response = lifo_buffer.execute(is_api_call=True, no_voice=no_voice)
+            response = lifo_buffer.execute(is_api_call=True)
             data = jsonify(response)
             return data, 201
 
@@ -196,18 +185,12 @@ class FlaskAPI(threading.Thread):
         curl -i --user admin:secret -H "Content-Type: application/json" -X POST \
         --data @post.json http://localhost:5000/order/
 
-        Can be used with no_voice flag
-        curl -i --user admin:secret -H "Content-Type: application/json" -X POST \
-        -d '{"order":"my order", "no_voice":"true"}' http://localhost:5000/synapses/start/order
-
         :return:
         """
         if not request.get_json() or 'order' not in request.get_json():
             abort(400)
 
         order = request.get_json('order')
-        # get no_voice_flag if present
-        no_voice = self.get_boolean_flag_from_request(request, boolean_flag_to_find="no_voice")
         if order is not None:
             # get the order
             order_to_run = order["order"]
@@ -215,8 +198,7 @@ class FlaskAPI(threading.Thread):
             api_response = SynapseLauncher.run_matching_synapse_from_order(order_to_run,
                                                                            self.brain,
                                                                            self.settings,
-                                                                           is_api_call=True,
-                                                                           no_voice=no_voice)
+                                                                           is_api_call=True)
 
             data = jsonify(api_response)
             return data, 201
@@ -233,13 +215,8 @@ class FlaskAPI(threading.Thread):
         Test with curl
         curl -i --user admin:secret -X POST  http://localhost:5000/synapses/start/audio -F "file=@/path/to/input.wav"
 
-        With no_voice flag
-        curl -i -H "Content-Type: application/json" --user admin:secret -X POST \
-        http://localhost:5000/synapses/start/audio -F "file=@path/to/file.wav" -F no_voice="true"
         :return:
         """
-        # get no_voice_flag if present
-        self.no_voice = self.str_to_bool(request.form.get("no_voice"))
 
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -378,8 +355,7 @@ class FlaskAPI(threading.Thread):
         api_response = SynapseLauncher.run_matching_synapse_from_order(order,
                                                                        self.brain,
                                                                        self.settings,
-                                                                       is_api_call=True,
-                                                                       no_voice=self.no_voice)
+                                                                       is_api_call=True)
         self.api_response = api_response
 
         # this boolean will notify the main process that the order have been processed
@@ -424,7 +400,8 @@ class FlaskAPI(threading.Thread):
         """
         parameters = None
         try:
-            received_json = http_request.get_json(silent=False, force=True)
+            # silent = True otherwise when no data provided in POST it raises a 400 Bad Request
+            received_json = http_request.get_json(silent=True, force=True, cache=True)
             if 'parameters' in received_json:
                 parameters = received_json['parameters']
         except TypeError:
