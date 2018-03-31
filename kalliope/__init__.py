@@ -37,6 +37,7 @@ def signal_handler(signal, frame):
     Utils.print_info("Ctrl+C pressed. Killing Kalliope")
     sys.exit(0)
 
+
 # actions available
 ACTION_LIST = ["start", "gui", "install", "uninstall"]
 
@@ -114,7 +115,7 @@ def main():
         if not parser.neuron_name \
                 and not parser.stt_name \
                 and not parser.tts_name \
-                and not parser.trigger_name\
+                and not parser.trigger_name \
                 and not parser.signal_name:
             Utils.print_danger("You must specify a module name with "
                                "--neuron-name "
@@ -145,9 +146,8 @@ def main():
 
         # user set a synapse to start
         if parser.run_synapse is not None:
-            SynapseLauncher.start_synapse_by_name(parser.run_synapse,
-                                                  brain=brain)
-
+            SynapseLauncher.start_synapse_by_list_name([parser.run_synapse],
+                                                       brain=brain)
         if parser.run_order is not None:
             SynapseLauncher.run_matching_synapse_from_order(parser.run_order,
                                                             brain=brain,
@@ -175,6 +175,7 @@ class AppFilter(logging.Filter):
     """
     Class used to add a custom entry into the logger
     """
+
     def filter(self, record):
         record.app_version = "kalliope-%s" % version_str
         return True
@@ -191,10 +192,10 @@ def configure_logging(debug=None):
     logger.addFilter(AppFilter())
     logger.propagate = False
     syslog = logging.StreamHandler()
-    syslog .setLevel(logging.DEBUG)
+    syslog.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter('%(asctime)s :: %(app_version)s :: %(message)s', "%Y-%m-%d %H:%M:%S")
-    syslog .setFormatter(formatter)
+    syslog.setFormatter(formatter)
 
     if debug:
         logger.setLevel(logging.DEBUG)
@@ -267,5 +268,3 @@ def start_kalliope(settings, brain):
 
     while True:  # keep main thread alive
         time.sleep(0.1)
-
-

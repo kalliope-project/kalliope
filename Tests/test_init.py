@@ -59,7 +59,7 @@ class TestInit(unittest.TestCase):
 
         # test run_synapse
         sys.argv = ['kalliope.py', 'start', '--run-synapse', 'synapse_name']
-        with mock.patch('kalliope.core.SynapseLauncher.start_synapse_by_name') as mock_synapse_launcher:
+        with mock.patch('kalliope.core.SynapseLauncher.start_synapse_by_list_name') as mock_synapse_launcher:
             mock_synapse_launcher.return_value = None
             main()
             mock_synapse_launcher.assert_called()
