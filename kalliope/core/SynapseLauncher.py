@@ -95,4 +95,6 @@ class SynapseLauncher(object):
             lifo_buffer.add_synapse_list_to_lifo(list_synapse_to_process)
             lifo_buffer.api_response.user_order = order_to_process
 
-            return lifo_buffer.execute(is_api_call=is_api_call, no_voice=no_voice)
+            execdata = lifo_buffer.execute(is_api_call=is_api_call, no_voice=no_voice)
+            HookManager.on_processed_synapses()
+            return execdata

@@ -62,6 +62,7 @@ class TestSettingLoader(unittest.TestCase):
                       'on_mute': [],
                       'on_order_not_found': [
                           'order-not-found-synapse'],
+                      'on_processed_synapses': None,
                       'on_start_speaking': None,
                       'on_stop_speaking': None
                       }
@@ -137,6 +138,7 @@ class TestSettingLoader(unittest.TestCase):
                                  'on_mute': [],
                                  'on_order_not_found': [
                                      'order-not-found-synapse'],
+                                 'on_processed_synapses': None,
                                  'on_start_speaking': None,
                                  'on_stop_speaking': None,
                                  }

@@ -74,6 +74,9 @@ class TestInit(unittest.TestCase):
             mock_synapse_launcher.assert_called_with(["order-not-found-synapse"], new_lifo=True)
             mock_synapse_launcher.reset_mock()
 
+    def test_on_processed_synapses(self):
+        self.assertIsNone(HookManager.on_processed_synapses())
+
     def test_on_mute(self):
         """
         test that empty list of synapse return none

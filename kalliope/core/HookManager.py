@@ -36,6 +36,10 @@ class HookManager(object):
         return cls.execute_synapses_in_hook_name("on_order_not_found")
 
     @classmethod
+    def on_processed_synapses(cls):
+        return cls.execute_synapses_in_hook_name("on_processed_synapses")
+
+    @classmethod
     def on_mute(cls):
         return cls.execute_synapses_in_hook_name("on_mute")
 
