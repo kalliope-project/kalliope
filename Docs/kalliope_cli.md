@@ -96,18 +96,18 @@ You can combine the options together like, for example:
 kalliope start --run-synapse "say-hello" --brain-file /home/me/my_other_brain.yml
 ```
 
-### --muted
+### --deaf
 
-Starts Kalliope in a muted state.
+Starts Kalliope in a deaf state, the trigger is paused.
 
 Example of use
 ```bash
-kalliope start --muted
+kalliope start --deaf
 ```
 
 You can combine the options together like, for example:
 ```bash
-kalliope start --muted --brain-file /home/me/my_other_brain.yml
+kalliope start --deaf --brain-file /home/me/my_other_brain.yml
 ```
 
 ### --debug

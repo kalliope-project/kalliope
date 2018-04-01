@@ -12,8 +12,8 @@ Kalliope provides the REST API to manage the synapses. For configuring the API r
 | POST   | /synapses/start/id/<synapse_name> | Run a synapse by its name          |
 | POST   | /synapses/start/order             | Run a synapse from a text order    |
 | POST   | /synapses/start/audio             | Run a synapse from an audio sample |
-| GET    | /mute                             | Get the current mute status        |
-| POST   | /mute                             | Switch the mute status             |
+| GET    | /deaf                             | Get the current deaf status        |
+| POST   | /deaf                             | Switch the deaf status             |
 
 ## Curl examples
 
@@ -390,37 +390,37 @@ The ```"status": "waiting_for_answer"``` indicates that it waits for a response,
 
 And now the status is complete. This works also when you have nested neurotransmitter neurons, you just need to keep monitoring the status from the API answer.
 
-### Get mute status
+### Get deaf status
 
 Normal response codes: 200
 Error response codes: unauthorized(401), Bad request(400)
 
 Curl command:
 ```bash
-curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/mute
+curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/deaf
 ```
 
 Output example:
 ```JSON
 {
-  "mute": true
+  "deaf": true
 }
 ```
 
-### Switch mute status
+### Switch deaf status
 
 Normal response codes: 200
 Error response codes: unauthorized(401), Bad request(400)
 
 Curl command:
 ```bash
-curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"mute": "True"}' http://127.0.0.1:5000/mute
+curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"deaf": "True"}' http://127.0.0.1:5000/deaf
 ```
 
 Output example:
 ```JSON
 {
-  "mute": true
+  "deaf": true
 }
 ```
 

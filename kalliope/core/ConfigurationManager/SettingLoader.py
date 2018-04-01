@@ -642,7 +642,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         :rtype: dict
         """
         options = dict()
-        muted = False
+        deaf = False
 
         try:
             start_options = settings["start_options"]
@@ -651,11 +651,11 @@ class SettingLoader(with_metaclass(Singleton, object)):
 
         if start_options is not None:
             try:
-                muted = start_options['muted']
+                deaf = start_options['deaf']
             except KeyError:
-                muted = False
+                deaf = False
 
-        options['muted'] = muted
+        options['deaf'] = deaf
 
         logger.debug("Start options: %s" % options)
         return options
@@ -684,8 +684,8 @@ class SettingLoader(with_metaclass(Singleton, object)):
             "on_stop_listening",
             "on_order_found",
             "on_order_not_found",
-            "on_mute",
-            "on_unmute",
+            "on_deaf",
+            "on_undeaf",
             "on_start_speaking",
             "on_stop_speaking"
         ]
