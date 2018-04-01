@@ -51,15 +51,15 @@ class TestSettingLoader(unittest.TestCase):
                 {'voxygen': {'voice': 'Agnes', 'cache': True}}
                 ],
             'var_files': ["../Tests/settings/variables.yml"],
-            'start_options': {'muted': True},
+            'start_options': {'deaf': True},
             'hooks': {'on_waiting_for_trigger': 'test',
                       'on_stop_listening': None,
                       'on_start_listening': None,
                       'on_order_found': None,
                       'on_start': ['on-start-synapse', 'bring-led-on'],
-                      'on_unmute': [],
+                      'on_undeaf': [],
                       'on_triggered': ['on-triggered-synapse'],
-                      'on_mute': [],
+                      'on_deaf': [],
                       'on_order_not_found': [
                           'order-not-found-synapse'],
                       'on_processed_synapses': None,
@@ -124,7 +124,7 @@ class TestSettingLoader(unittest.TestCase):
             "test": "kalliope"
         }
         settings_object.start_options = {
-            "muted": True
+            "deaf": True
         }
         settings_object.machine = platform.machine()
         settings_object.recognition_options = RecognitionOptions()
@@ -133,9 +133,9 @@ class TestSettingLoader(unittest.TestCase):
                                  'on_start_listening': None,
                                  'on_order_found': None,
                                  'on_start': ['on-start-synapse', 'bring-led-on'],
-                                 'on_unmute': [],
+                                 'on_undeaf': [],
                                  'on_triggered': ['on-triggered-synapse'],
-                                 'on_mute': [],
+                                 'on_deaf': [],
                                  'on_order_not_found': [
                                      'order-not-found-synapse'],
                                  'on_processed_synapses': None,
@@ -223,7 +223,7 @@ class TestSettingLoader(unittest.TestCase):
 
     def test_get_start_options(self):
         expected_result = {
-            "muted": True
+            "deaf": True
         }
         sl = SettingLoader(file_path=self.settings_file_to_test)
         self.assertEqual(expected_result,
@@ -245,8 +245,8 @@ class TestSettingLoader(unittest.TestCase):
             "on_stop_listening": None,
             "on_order_found": None,
             "on_order_not_found": None,
-            "on_mute": None,
-            "on_unmute": None,
+            "on_deaf": None,
+            "on_undeaf": None,
             "on_start_speaking": None,
             "on_stop_speaking": None
         }
@@ -266,8 +266,8 @@ class TestSettingLoader(unittest.TestCase):
             "on_stop_listening": None,
             "on_order_found": None,
             "on_order_not_found": None,
-            "on_mute": None,
-            "on_unmute": None,
+            "on_deaf": None,
+            "on_undeaf": None,
             "on_start_speaking": None,
             "on_stop_speaking": None
         }

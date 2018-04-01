@@ -73,8 +73,8 @@ class FlaskAPI(threading.Thread):
         self.app.add_url_rule('/synapses/start/order', view_func=self.run_synapse_by_order, methods=['POST'])
         self.app.add_url_rule('/synapses/start/audio', view_func=self.run_synapse_by_audio, methods=['POST'])
         self.app.add_url_rule('/shutdown/', view_func=self.shutdown_server, methods=['POST'])
-        self.app.add_url_rule('/mute/', view_func=self.get_mute, methods=['GET'])
-        self.app.add_url_rule('/mute/', view_func=self.set_mute, methods=['POST'])
+        self.app.add_url_rule('/deaf/', view_func=self.get_deaf, methods=['GET'])
+        self.app.add_url_rule('/deaf/', view_func=self.set_deaf, methods=['POST'])
 
     def run(self):
         self.app.run(host='0.0.0.0', port=int(self.port), debug=True, threaded=True, use_reloader=False)
@@ -309,55 +309,55 @@ class FlaskAPI(threading.Thread):
         return "Shutting down..."
 
     @requires_auth
-    def get_mute(self):
+    def get_deaf(self):
         """
         Return the current trigger status
 
         Curl test
-        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/mute
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/deaf
         """
 
-        # find the order signal and call the mute method
+        # find the order signal and call the deaf method
         signal_order = SignalLauncher.get_order_instance()
         if signal_order is not None:
             data = {
-                "mute": signal_order.get_mute_status()
+                "deaf": signal_order.get_deaf_status()
             }
             return jsonify(data), 200
 
         # if no Order instance
         data = {
-            "error": "Mute status unknow"
+            "error": "deaf status unknow"
         }
         return jsonify(error=data), 400
 
     @requires_auth
-    def set_mute(self):
+    def set_deaf(self):
         """
-        Set the trigger status (muted or not)
+        Set the trigger status (deaf or not)
 
         Curl test:
         curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
-        -d '{"mute": "True"}' http://127.0.0.1:5000/mute
+        -d '{"deaf": "True"}' http://127.0.0.1:5000/deaf
         """
 
-        if not request.get_json() or 'mute' not in request.get_json():
+        if not request.get_json() or 'deaf' not in request.get_json():
             abort(400)
 
-        # get mute if present
-        mute = self.get_boolean_flag_from_request(request, boolean_flag_to_find="mute")
+        # get deaf if present
+        deaf = self.get_boolean_flag_from_request(request, boolean_flag_to_find="deaf")
 
-        # find the order signal and call the mute method
+        # find the order signal and call the deaf method
         signal_order = SignalLauncher.get_order_instance()
         if signal_order is not None:
-            signal_order.set_mute_status(mute)
+            signal_order.set_deaf_status(deaf)
             data = {
-                "mute": signal_order.get_mute_status()
+                "deaf": signal_order.get_deaf_status()
             }
             return jsonify(data), 200
 
         data = {
-            "error": "Cannot switch mute status"
+            "error": "Cannot switch deaf status"
         }
         return jsonify(error=data), 400
 

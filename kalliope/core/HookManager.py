@@ -40,12 +40,12 @@ class HookManager(object):
         return cls.execute_synapses_in_hook_name("on_processed_synapses")
 
     @classmethod
-    def on_mute(cls):
-        return cls.execute_synapses_in_hook_name("on_mute")
+    def on_deaf(cls):
+        return cls.execute_synapses_in_hook_name("on_deaf")
 
     @classmethod
-    def on_unmute(cls):
-        return cls.execute_synapses_in_hook_name("on_unmute")
+    def on_undeaf(cls):
+        return cls.execute_synapses_in_hook_name("on_undeaf")
 
     @classmethod
     def on_start_speaking(cls):

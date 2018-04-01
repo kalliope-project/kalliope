@@ -1,10 +1,10 @@
 
-- name: "mute-synapse"
+- name: "deaf-synapse"
   signals:
     - order: "stop listening"
   neurons:
     - say:
         message:
           - "I stop hearing you, sir"
-    - mute:
+    - deaf:
         status: True

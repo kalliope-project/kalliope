@@ -92,8 +92,8 @@ hooks:
   on_order_not_found:
     - "order-not-found-synapse"
   on_processed_synapses:
-  on_mute: []
-  on_unmute: []
+  on_deaf: []
+  on_undeaf: []
   on_start_speaking:
   on_stop_speaking:
 
@@ -114,4 +114,4 @@ var_files:
   - "../Tests/settings/variables.yml"
 
 start_options:
-  muted: True
+  deaf: True

@@ -105,7 +105,7 @@ class NeuronModule(object):
         self.tts_message = None
         # if the current call is api one
         self.is_api_call = kwargs.get('is_api_call', False)
-        # if the current call want to mute kalliope
+        # if the current call want to deaf kalliope
         self.no_voice = kwargs.get('no_voice', False)
         # boolean to know id the synapse is waiting for an answer
         self.is_waiting_for_answer = False
