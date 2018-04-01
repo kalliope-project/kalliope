@@ -245,6 +245,7 @@ List of available hook
 | on_stop_listening      | When the Speech to Text engine stop listening for an order      |
 | on_order_found         | When the pronounced order has been found in the brain           |
 | on_order_not_found     | When the pronounced order has not been found in the brain       |
+| on_processed_synapses  | When all neurons in synapses have been processed                |
 | on_mute                | When Kalliope switches from non muted to muted                  |
 | on_unmute              | When Kalliope switches from muted to non muted                  |
 | on_start_speaking      | When Kalliope starts speaking via the text to speech engine     |
