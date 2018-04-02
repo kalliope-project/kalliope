@@ -110,9 +110,9 @@ class MqttClient(Thread):
             logger.debug("[MqttClient] start synapse name %s" % synapse.name)
             overriding_parameter_dict = dict()
             overriding_parameter_dict["mqtt_subscriber_message"] = message
-            SynapseLauncher.start_synapse_by_name(synapse.name,
-                                                  brain=self.brain,
-                                                  overriding_parameter_dict=overriding_parameter_dict)
+            SynapseLauncher.start_synapse_by_list_name([synapse.name],
+                                                       brain=self.brain,
+                                                       overriding_parameter_dict=overriding_parameter_dict)
 
     @staticmethod
     def _get_protocol(protocol):

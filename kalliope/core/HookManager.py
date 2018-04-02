@@ -68,10 +68,6 @@ class HookManager(object):
         list_synapse = settings.hooks[hook_name]
         logger.debug("[HookManager] hook: %s , type: %s" % (hook_name, type(list_synapse)))
 
-        if isinstance(list_synapse, list):
-            return SynapseLauncher.start_synapse_by_list_name(list_synapse, new_lifo=True)
-
         if isinstance(list_synapse, str):
-            return SynapseLauncher.start_synapse_by_name(list_synapse, new_lifo=True)
-
-        return None
+            list_synapse = [list_synapse]
+        return SynapseLauncher.start_synapse_by_list_name(list_synapse, new_lifo=True)
