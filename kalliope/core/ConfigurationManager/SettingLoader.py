@@ -643,6 +643,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         """
         options = dict()
         deaf = False
+        mute = False
 
         try:
             start_options = settings["start_options"]
@@ -650,12 +651,13 @@ class SettingLoader(with_metaclass(Singleton, object)):
             start_options = None
 
         if start_options is not None:
-            try:
+            if start_options['deaf']:
                 deaf = start_options['deaf']
-            except KeyError:
-                deaf = False
+            if start_options['mute']:
+                mute = start_options['mute']
 
         options['deaf'] = deaf
+        options['mute'] = mute
 
         logger.debug("Start options: %s" % options)
         return options

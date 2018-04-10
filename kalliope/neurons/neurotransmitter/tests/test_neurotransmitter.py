@@ -124,8 +124,7 @@ class TestNeurotransmitter(unittest.TestCase):
                                                                  user_order=audio_text,
                                                                  synapse_order="answer one",
                                                                  high_priority=True,
-                                                                 is_api_call=False,
-                                                                 no_voice=False)
+                                                                 is_api_call=False)
 
     def testInit(self):
         """

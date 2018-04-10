@@ -39,7 +39,6 @@ class LIFOBuffer(object):
         self.lifo_list = list()
         self.answer = None
         self.is_api_call = False
-        self.no_voice = False
         self.is_running = False
         self.reset_lifo = False
 
@@ -79,7 +78,7 @@ class LIFOBuffer(object):
         self.api_response = APIResponse()
         return returned_api_response
 
-    def execute(self, answer=None, is_api_call=False, no_voice=False):
+    def execute(self, answer=None, is_api_call=False):
         """
         Process the LIFO list.
 
@@ -91,13 +90,11 @@ class LIFOBuffer(object):
 
         :param answer: String answer to give the the last neuron which was waiting for an answer
         :param is_api_call: Boolean passed to all neuron in order to let them know if the current call comes from API
-        :param no_voice: If true, the generated text will not be processed by the TTS engine
         :return: serialized APIResponse object
         """
         # store the answer if present
         self.answer = answer
         self.is_api_call = is_api_call
-        self.no_voice = no_voice
 
         try:
             if not self.is_running:
@@ -170,9 +167,7 @@ class LIFOBuffer(object):
                 self.answer = None
             # todo fix this when we have a full client/server call. The client would be the voice or api call
             neuron.parameters["is_api_call"] = self.is_api_call
-            neuron.parameters["no_voice"] = self.no_voice
-            logger.debug("[LIFOBuffer] process_neuron_list: is_api_call: %s, no_voice: %s" % (self.is_api_call,
-                                                                                              self.no_voice))
+            logger.debug("[LIFOBuffer] process_neuron_list: is_api_call: %s" % (self.is_api_call))
             # execute the neuron
             instantiated_neuron = NeuronLauncher.start_neuron(neuron=neuron,
                                                               parameters_dict=matched_synapse.parameters)

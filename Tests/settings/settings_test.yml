@@ -115,3 +115,4 @@ var_files:
 
 start_options:
   deaf: True
+  mute: False

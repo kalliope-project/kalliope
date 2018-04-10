@@ -64,14 +64,13 @@ class SynapseLauncher(object):
         return None
 
     @classmethod
-    def run_matching_synapse_from_order(cls, order_to_process, brain, settings, is_api_call=False, no_voice=False):
+    def run_matching_synapse_from_order(cls, order_to_process, brain, settings, is_api_call=False):
         """
         
         :param order_to_process: the spoken order sent by the user
         :param brain: Brain object
         :param settings: Settings object
         :param is_api_call: if True, the current call come from the API. This info must be known by launched Neuron
-        :param no_voice: If true, the generated text will not be processed by the TTS engine
         :return: list of matched synapse
         """
 
@@ -81,7 +80,7 @@ class SynapseLauncher(object):
         # if the LIFO is not empty, so, the current order is passed to the current processing synapse as an answer
         if len(lifo_buffer.lifo_list) > 0:
             # the LIFO is not empty, this is an answer to a previous call
-            return lifo_buffer.execute(answer=order_to_process, is_api_call=is_api_call, no_voice=no_voice)
+            return lifo_buffer.execute(answer=order_to_process, is_api_call=is_api_call)
 
         else:  # the LIFO is empty, this is a new call
             # get a list of matched synapse from the order
@@ -95,6 +94,6 @@ class SynapseLauncher(object):
             lifo_buffer.add_synapse_list_to_lifo(list_synapse_to_process)
             lifo_buffer.api_response.user_order = order_to_process
 
-            execdata = lifo_buffer.execute(is_api_call=is_api_call, no_voice=no_voice)
+            execdata = lifo_buffer.execute(is_api_call=is_api_call)
             HookManager.on_processed_synapses()
             return execdata
