@@ -51,7 +51,7 @@ class TestSettingLoader(unittest.TestCase):
                 {'voxygen': {'voice': 'Agnes', 'cache': True}}
                 ],
             'var_files': ["../Tests/settings/variables.yml"],
-            'start_options': {'deaf': True},
+            'start_options': {'deaf': True, 'mute': False},
             'hooks': {'on_waiting_for_trigger': 'test',
                       'on_stop_listening': None,
                       'on_start_listening': None,
@@ -124,7 +124,8 @@ class TestSettingLoader(unittest.TestCase):
             "test": "kalliope"
         }
         settings_object.start_options = {
-            "deaf": True
+            "deaf": True,
+            "mute": False
         }
         settings_object.machine = platform.machine()
         settings_object.recognition_options = RecognitionOptions()
@@ -223,7 +224,8 @@ class TestSettingLoader(unittest.TestCase):
 
     def test_get_start_options(self):
         expected_result = {
-            "deaf": True
+            "deaf": True,
+            "mute": False
         }
         sl = SettingLoader(file_path=self.settings_file_to_test)
         self.assertEqual(expected_result,

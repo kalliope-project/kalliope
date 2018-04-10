@@ -165,4 +165,5 @@ rest_api:
 # Start options
 # -------------
 #start_options:
-#  muted: False
+#  deaf: False
+#  mute: False

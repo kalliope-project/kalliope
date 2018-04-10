@@ -149,11 +149,11 @@ Output example:
 }
 ```
 
-The [no_voice flag](#no-voice-flag) can be added to this call.
+The [mute flag](#mute-flag) can be added to this call.
 Curl command:
 ```bash
 curl -i -H "Content-Type: application/json" --user admin:secret -X POST \
--d '{"no_voice":"true"}' http://127.0.0.1:5000/synapses/start/id/say-hello-fr
+-d '{"mute":"true"}' http://127.0.0.1:5000/synapses/start/id/say-hello-fr
 ```
 
 Some neuron inside a synapse will wait for parameters that comes from the order. 
@@ -234,11 +234,11 @@ Or return an empty list of matched synapse
 }
 ```
 
-The [no_voice flag](#no-voice-flag) can be added to this call.
+The [mute flag](#mute-flag) can be added to this call.
 Curl command:
 ```bash
 curl -i --user admin:secret -H "Content-Type: application/json" -X POST \
--d '{"order":"my order", "no_voice":"true"}' http://localhost:5000/synapses/start/order
+-d '{"order":"my order", "mute":"true"}' http://localhost:5000/synapses/start/order
 ```
 
 ### Run a synapse from an audio file
@@ -302,10 +302,10 @@ Or return an empty list of matched synapse
 }
 ```
 
-The [no_voice flag](#no-voice-flag) can be added to this call with a form.
+The [mute flag](#mute-flag) can be added to this call with a form.
 Curl command:
 ```bash
-curl -i --user admin:secret -X POST http://localhost:5000/synapses/start/audio -F "file=@path/to/file.wav" -F no_voice="true"
+curl -i --user admin:secret -X POST http://localhost:5000/synapses/start/audio -F "file=@path/to/file.wav" -F mute="true"
 ```
 
 #### The neurotransmitter case
@@ -351,7 +351,7 @@ The response should be as follow:
 The ```"status": "waiting_for_answer"``` indicates that it waits for a response, so let's send it:
 
 ```bash
- --user admin:secret -H "Content-Type: application/json" -X POST -d '{"order":"not at all"}' http://localhost:5000/synapses/start/order
+curl -i --user admin:secret -H "Content-Type: application/json" -X POST -d '{"order":"not at all"}' http://localhost:5000/synapses/start/order
 ```
 
 ```JSON
@@ -408,6 +408,8 @@ Output example:
 ```
 
 ### Switch deaf status
+Kalliope can switch to 'deaf' mode, so it can not ear you anymore, the trigger/hotword is desactivated.
+However Kalliope continues to process synapses.
 
 Normal response codes: 200
 Error response codes: unauthorized(401), Bad request(400)
@@ -424,8 +426,44 @@ Output example:
 }
 ```
 
-## No voice flag
+## Mute flag
 
 When you use the API, by default Kalliope will generate a text and process it into the TTS engine.
 Some calls to the API can be done with a flag that will tell Kalliope to only return the generated text without processing it into the audio player.
-When `no_voice` is switched to true, Kalliope will not speak out loud on the server side.
+When `mute` is switched to true, Kalliope will not speak out loud on the server side.
+
+### Get mute status
+
+Normal response codes: 200
+Error response codes : unauthorized(401), Bad request(400)
+
+
+Curl command:
+```bash
+curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/mute
+```
+
+Output example:
+```JSON
+{
+  "mute": true
+}
+```
+
+### Set mute status
+
+Normal response codes: 200
+Error response codes : unauthorized(401), Bad request(400)
+
+
+Curl command:
+```bash
+curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"mute": "True"}' http://127.0.0.1:5000/mute
+```
+
+Output example:
+```JSON
+{
+  "mute": true
+}
+```
