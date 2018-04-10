@@ -14,6 +14,8 @@ Kalliope provides the REST API to manage the synapses. For configuring the API r
 | POST   | /synapses/start/audio             | Run a synapse from an audio sample |
 | GET    | /deaf                             | Get the current deaf status        |
 | POST   | /deaf                             | Switch the deaf status             |
+| GET    | /mute                             | Get the current mute status        |
+| POST   | /mute                             | Switch the mute status             |
 
 ## Curl examples
 
