@@ -48,7 +48,6 @@ class Order(Thread):
         # save an instance of the trigger
         self.trigger_instance = None
         self.trigger_callback_called = False
-        self.is_trigger_deaf = self.settings.options['deaf']
 
         # save the current order listener
         self.order_listener = None
@@ -97,7 +96,7 @@ class Order(Thread):
         Method to print in debug that the main process is waiting for a trigger detection
         """
         logger.debug("[MainController] Entering state: %s" % self.state)
-        if self.is_trigger_deaf:  # the user asked to deaf inside the deaf neuron
+        if self.settings.options["deaf"]:  # the user asked to deaf inside the deaf neuron
             Utils.print_info("Kalliope is deaf")
             self.trigger_instance.pause()
         else:
@@ -175,26 +174,3 @@ class Order(Thread):
 
         # return to the state "unpausing_trigger"
         self.start_trigger()
-
-    def set_deaf_status(self, deaf=False):
-        """
-        Define is the trigger is listening or not
-        :param deaf: Boolean. If true, kalliope is trigger is paused
-        """
-        logger.debug("[MainController] deaf button pressed. Switch trigger process to deaf : %s" % deaf)
-        self.is_trigger_deaf = deaf
-        if deaf:
-            self.trigger_instance.pause()
-            Utils.print_info("Kalliope now deaf, trigger has been paused")
-            HookManager.on_deaf()
-        else:
-            self.trigger_instance.unpause()
-            Utils.print_info("Kalliope now listening for trigger detection")
-            HookManager.on_undeaf()
-
-    def get_deaf_status(self):
-        """
-        return the current state of the trigger (deaf or not)
-        :return: Boolean
-        """
-        return self.is_trigger_deaf

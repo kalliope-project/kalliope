@@ -94,6 +94,8 @@ hooks:
   on_processed_synapses:
   on_deaf: []
   on_undeaf: []
+  on_mute: []
+  on_unmute: []
   on_start_speaking:
   on_stop_speaking:
 
