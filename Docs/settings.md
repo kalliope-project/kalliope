@@ -461,7 +461,7 @@ Options that can be defined when kalliope starts.
 
 Example config
 ```yaml
-start_options:
+options:
   muted: True
 ```
 

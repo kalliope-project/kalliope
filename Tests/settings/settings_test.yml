@@ -113,6 +113,6 @@ resource_directory:
 var_files:
   - "../Tests/settings/variables.yml"
 
-start_options:
+options:
   deaf: True
   mute: False

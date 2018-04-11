@@ -48,7 +48,7 @@ class Order(Thread):
         # save an instance of the trigger
         self.trigger_instance = None
         self.trigger_callback_called = False
-        self.is_trigger_deaf = self.settings.start_options['deaf']
+        self.is_trigger_deaf = self.settings.options['deaf']
 
         # save the current order listener
         self.order_listener = None

@@ -162,8 +162,8 @@ rest_api:
 #  - variables2.yml
 
 # -------------
-# Start options
+# Options
 # -------------
-#start_options:
-#  deaf: False
-#  mute: False
+options:
+  deaf: False
+  mute: False

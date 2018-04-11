@@ -22,7 +22,7 @@ class Settings(object):
                  resources=None,
                  variables=None,
                  recognition_options=None,
-                 start_options=None,
+                 options=None,
                  hooks=None):
 
         self.default_tts_name = default_tts_name
@@ -40,7 +40,7 @@ class Settings(object):
         self.machine = platform.machine()   # can be x86_64 or armv7l
         self.kalliope_version = current_kalliope_version
         self.recognition_options = recognition_options
-        self.start_options = start_options
+        self.options = options
         self.hooks = hooks
 
     def serialize(self):
@@ -67,7 +67,7 @@ class Settings(object):
             'machine': self.machine,
             'kalliope_version': self.kalliope_version,
             'recognition_options': self.recognition_options.serialize() if self.recognition_options is not None else None,
-            'start_options': self.start_options,
+            'options': self.options,
             'hooks': self.hooks
         }
 
