@@ -642,14 +642,13 @@ class SettingLoader(with_metaclass(Singleton, object)):
         :rtype: dict
         """
 
-        options = dict()
         deaf = False
         mute = False
 
         try:
             options = settings["options"]
         except KeyError:
-            options = None
+            options = dict()
 
         if options is not None:
             if options['deaf']:
@@ -689,6 +688,8 @@ class SettingLoader(with_metaclass(Singleton, object)):
             "on_order_not_found",
             "on_deaf",
             "on_undeaf",
+            "on_mute",
+            "on_unmute",
             "on_start_speaking",
             "on_stop_speaking"
         ]

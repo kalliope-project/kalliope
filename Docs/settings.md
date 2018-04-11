@@ -248,6 +248,8 @@ List of available hook
 | on_processed_synapses  | When all neurons in synapses have been processed                |
 | on_deaf                | When Kalliope switches from non deaf to deaf                    |
 | on_undeaf              | When Kalliope switches from deaf to non deaf                    |
+| on_mute                | When Kalliope switches from non mute to mute                    |
+| on_unmute              | When Kalliope switches from mute to non mute                    |
 | on_start_speaking      | When Kalliope starts speaking via the text to speech engine     |
 | on_stop_speaking       | When Kalliope stops speaking                                    |
 

@@ -60,6 +60,8 @@ class TestSettingLoader(unittest.TestCase):
                       'on_undeaf': [],
                       'on_triggered': ['on-triggered-synapse'],
                       'on_deaf': [],
+                      'on_mute': [],
+                      'on_unmute': [],
                       'on_order_not_found': [
                           'order-not-found-synapse'],
                       'on_processed_synapses': None,
@@ -137,6 +139,8 @@ class TestSettingLoader(unittest.TestCase):
                                  'on_undeaf': [],
                                  'on_triggered': ['on-triggered-synapse'],
                                  'on_deaf': [],
+                                 'on_mute': [],
+                                 'on_unmute': [],
                                  'on_order_not_found': [
                                      'order-not-found-synapse'],
                                  'on_processed_synapses': None,
@@ -249,6 +253,8 @@ class TestSettingLoader(unittest.TestCase):
             "on_order_not_found": None,
             "on_deaf": None,
             "on_undeaf": None,
+            "on_mute": None,
+            "on_unmute": None,
             "on_start_speaking": None,
             "on_stop_speaking": None
         }
@@ -270,6 +276,8 @@ class TestSettingLoader(unittest.TestCase):
             "on_order_not_found": None,
             "on_deaf": None,
             "on_undeaf": None,
+            "on_mute": None,
+            "on_unmute": None,
             "on_start_speaking": None,
             "on_stop_speaking": None
         }
