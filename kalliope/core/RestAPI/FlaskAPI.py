@@ -159,10 +159,10 @@ class FlaskAPI(threading.Thread):
         synapse_target = BrainLoader().brain.get_synapse_by_name(synapse_name=synapse_name)
 
         # Store the mute value, then apply depending of the request parameters
-        old_mute_value = self.settings.start_options["mute"]
+        old_mute_value = self.settings.options["mute"]
         mute = self.get_boolean_flag_from_request(request, boolean_flag_to_find="mute")
         if mute is not None:
-            self.settings.start_options["mute"] = mute
+            self.settings.options["mute"] = mute
 
         # get parameters
         parameters = self.get_parameters_from_request(request)
@@ -171,7 +171,7 @@ class FlaskAPI(threading.Thread):
             data = {
                 "synapse name not found": "%s" % synapse_name
             }
-            self.settings.start_options["mute"] = old_mute_value
+            self.settings.options["mute"] = old_mute_value
             return jsonify(error=data), 404
         else:
             # generate a MatchedSynapse from the synapse
@@ -181,7 +181,7 @@ class FlaskAPI(threading.Thread):
             lifo_buffer.add_synapse_list_to_lifo([matched_synapse])
             response = lifo_buffer.execute(is_api_call=True)
             data = jsonify(response)
-            self.settings.start_options["mute"] = old_mute_value
+            self.settings.options["mute"] = old_mute_value
             return data, 201
 
     @requires_auth
@@ -210,10 +210,10 @@ class FlaskAPI(threading.Thread):
         order = request.get_json('order')
 
         # Store the mute value, then apply depending of the request parameters
-        old_mute_value = self.settings.start_options["mute"]
+        old_mute_value = self.settings.options["mute"]
         mute = self.get_boolean_flag_from_request(request, boolean_flag_to_find="mute")
         if mute is not None:
-            self.settings.start_options["mute"] = mute
+            self.settings.options["mute"] = mute
 
         if order is not None:
             # get the order
@@ -225,13 +225,13 @@ class FlaskAPI(threading.Thread):
                                                                            is_api_call=True)
 
             data = jsonify(api_response)
-            self.settings.start_options["mute"] = old_mute_value
+            self.settings.options["mute"] = old_mute_value
             return data, 201
         else:
             data = {
                 "error": "order cannot be null"
             }
-            self.settings.start_options["mute"] = old_mute_value
+            self.settings.options["mute"] = old_mute_value
             return jsonify(error=data), 400
 
     @requires_auth
@@ -263,9 +263,9 @@ class FlaskAPI(threading.Thread):
             return jsonify(error=data), 400
 
         # Store the mute value, then apply depending of the request parameters
-        old_mute_value = self.settings.start_options["mute"]
+        old_mute_value = self.settings.options["mute"]
         if request.form.get("mute"):
-            self.settings.start_options["mute"] = self.str_to_bool(request.form.get("mute"))
+            self.settings.options["mute"] = self.str_to_bool(request.form.get("mute"))
 
         # save the file
         filename = secure_filename(uploaded_file.filename)
@@ -288,13 +288,13 @@ class FlaskAPI(threading.Thread):
             data = jsonify(self.api_response)
             self.api_response = None
             logger.debug("[FlaskAPI] run_synapse_by_audio: data %s" % data)
-            self.settings.start_options["mute"] = old_mute_value
+            self.settings.options["mute"] = old_mute_value
             return data, 201
         else:
             data = {
                 "error": "The given order doesn't match any synapses"
             }
-            self.settings.start_options["mute"] = old_mute_value
+            self.settings.options["mute"] = old_mute_value
             return jsonify(error=data), 400
 
     @staticmethod
@@ -386,9 +386,9 @@ class FlaskAPI(threading.Thread):
         """
 
         # find the order signal and call the deaf method
-        if self.settings.start_options["mute"] is not None:
+        if self.settings.options["mute"] is not None:
             data = {
-                "mute": self.settings.start_options["mute"]
+                "mute": self.settings.options["mute"]
             }
             return jsonify(data), 200
 
@@ -414,7 +414,7 @@ class FlaskAPI(threading.Thread):
         # get mute if present
         mute = self.get_boolean_flag_from_request(request, boolean_flag_to_find="mute")
 
-        self.settings.start_options["mute"] = mute
+        self.settings.options["mute"] = mute
         data = {
             "mute": mute
         }

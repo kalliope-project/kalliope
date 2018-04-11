@@ -410,7 +410,7 @@ Output example:
 ```
 
 ### Switch deaf status
-Kalliope can switch to 'deaf' mode, so it can not ear you anymore, the trigger/hotword is desactivated.
+Kalliope can switch to 'deaf' mode, so she can not ear you anymore, the trigger/hotword is desactivated.
 However Kalliope continues to process synapses.
 
 Normal response codes: 200
