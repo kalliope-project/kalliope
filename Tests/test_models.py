@@ -259,7 +259,7 @@ class TestModels(unittest.TestCase):
                                 resources=None,
                                 variables={"key1": "val1"},
                                 recognition_options=recognition_options,
-                                start_options={'muted': False})
+                                options={'deaf': False, 'mute': False})
             setting1.kalliope_version = "0.4.5"
 
             setting2 = Settings(default_tts_name="accapela",
@@ -274,7 +274,7 @@ class TestModels(unittest.TestCase):
                                 resources=None,
                                 variables={"key1": "val1"},
                                 recognition_options=recognition_options,
-                                start_options={'muted': False})
+                                options={'deaf': False, 'mute': False})
             setting2.kalliope_version = "0.4.5"
 
             setting3 = Settings(default_tts_name="pico2wav",
@@ -290,7 +290,7 @@ class TestModels(unittest.TestCase):
                                 resources=None,
                                 variables={"key1": "val1"},
                                 recognition_options=recognition_options,
-                                start_options={'muted': False})
+                                options={'deaf': False, 'mute': False})
             setting3.kalliope_version = "0.4.5"
 
             expected_result_serialize = {
@@ -318,7 +318,7 @@ class TestModels(unittest.TestCase):
                 'triggers': ['snowboy'],
                 'players': ['mplayer'],
                 'recognition_options': {'energy_threshold': 4000, 'adjust_for_ambient_noise_second': 0},
-                'start_options': {'muted': False}
+                'options': {'deaf': False, 'mute': False}
             }
 
             self.maxDiff = None

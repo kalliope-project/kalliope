@@ -77,11 +77,11 @@ class TestInit(unittest.TestCase):
     def test_on_processed_synapses(self):
         self.assertIsNone(HookManager.on_processed_synapses())
 
-    def test_on_mute(self):
+    def test_on_deaf(self):
         """
         test that empty list of synapse return none
         """
-        self.assertIsNone(HookManager.on_mute())
+        self.assertIsNone(HookManager.on_deaf())
 
 
 if __name__ == '__main__':

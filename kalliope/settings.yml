@@ -119,8 +119,8 @@ hooks:
   on_order_found:
   on_order_not_found: "order-not-found-synapse"
   on_processed_synapses:
-  on_mute:
-  on_unmute:
+  on_deaf:
+  on_undeaf:
   on_start_speaking:
   on_stop_speaking:
 
@@ -162,7 +162,8 @@ rest_api:
 #  - variables2.yml
 
 # -------------
-# Start options
+# Options
 # -------------
-#start_options:
-#  muted: False
+options:
+  deaf: False
+  mute: False

@@ -48,11 +48,6 @@ class Order(Thread):
         # save an instance of the trigger
         self.trigger_instance = None
         self.trigger_callback_called = False
-        self.is_trigger_muted = False
-
-        # If kalliope is asked to start muted
-        if self.settings.start_options['muted'] is True:
-            self.is_trigger_muted = True
 
         # save the current order listener
         self.order_listener = None
@@ -101,8 +96,8 @@ class Order(Thread):
         Method to print in debug that the main process is waiting for a trigger detection
         """
         logger.debug("[MainController] Entering state: %s" % self.state)
-        if self.is_trigger_muted:  # the user asked to mute inside the mute neuron
-            Utils.print_info("Kalliope is muted")
+        if self.settings.options["deaf"]:  # the user asked to deaf inside the deaf neuron
+            Utils.print_info("Kalliope is deaf")
             self.trigger_instance.pause()
         else:
             Utils.print_info("Waiting for trigger detection")
@@ -179,27 +174,3 @@ class Order(Thread):
 
         # return to the state "unpausing_trigger"
         self.start_trigger()
-
-    def set_mute_status(self, muted=False):
-        """
-        Define is the trigger is listening or not
-        :param muted: Boolean. If true, kalliope is muted
-        """
-        logger.debug("[MainController] Mute button pressed. Switch trigger process to muted: %s" % muted)
-        if muted:
-            self.trigger_instance.pause()
-            self.is_trigger_muted = True
-            Utils.print_info("Kalliope now muted")
-            HookManager.on_mute()
-        else:
-            self.trigger_instance.unpause()
-            self.is_trigger_muted = False
-            Utils.print_info("Kalliope now listening for trigger detection")
-            HookManager.on_unmute()
-
-    def get_mute_status(self):
-        """
-        return the current state of the trigger (muted or not)
-        :return: Boolean
-        """
-        return self.is_trigger_muted

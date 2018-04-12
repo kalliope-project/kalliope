@@ -112,7 +112,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         resources = self._get_resources(settings)
         variables = self._get_variables(settings)
         recognition_options = self._get_recognition_options(settings)
-        start_options = self._get_start_options(settings)
+        options = self._get_options(settings)
         hooks = self._get_hooks(settings)
 
         # Load the setting singleton with the parameters
@@ -129,7 +129,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         setting_object.resources = resources
         setting_object.variables = variables
         setting_object.recognition_options = recognition_options
-        setting_object.start_options = start_options
+        setting_object.options = options
         setting_object.hooks = hooks
 
         return setting_object
@@ -632,7 +632,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         return recognition_options
 
     @staticmethod
-    def _get_start_options(settings):
+    def _get_options(settings):
         """
         Return the start options settings
 
@@ -641,21 +641,23 @@ class SettingLoader(with_metaclass(Singleton, object)):
         :return: A dict containing the start options
         :rtype: dict
         """
-        options = dict()
-        muted = False
+
+        deaf = False
+        mute = False
 
         try:
-            start_options = settings["start_options"]
+            options = settings["options"]
         except KeyError:
-            start_options = None
+            options = dict()
 
-        if start_options is not None:
-            try:
-                muted = start_options['muted']
-            except KeyError:
-                muted = False
+        if options is not None:
+            if options['deaf']:
+                deaf = options['deaf']
+            if options['mute']:
+                mute = options['mute']
 
-        options['muted'] = muted
+        options['deaf'] = deaf
+        options['mute'] = mute
 
         logger.debug("Start options: %s" % options)
         return options
@@ -684,6 +686,8 @@ class SettingLoader(with_metaclass(Singleton, object)):
             "on_stop_listening",
             "on_order_found",
             "on_order_not_found",
+            "on_deaf",
+            "on_undeaf",
             "on_mute",
             "on_unmute",
             "on_start_speaking",

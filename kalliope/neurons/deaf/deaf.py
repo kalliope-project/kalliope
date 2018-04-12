@@ -2,15 +2,16 @@ import logging
 
 from kalliope import SignalLauncher
 from kalliope.core.NeuronModule import NeuronModule
+from kalliope.core.ConfigurationManager.SettingEditor import SettingEditor
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class Mute(NeuronModule):
+class Deaf(NeuronModule):
 
     def __init__(self, **kwargs):
-        super(Mute, self).__init__(**kwargs)
+        super(Deaf, self).__init__(**kwargs)
 
         self.status = kwargs.get('status', None)
 
@@ -18,7 +19,7 @@ class Mute(NeuronModule):
         if self._is_parameters_ok():
             signal_order = SignalLauncher.get_order_instance()
             if signal_order is not None:
-                signal_order.set_mute_status(self.status)
+                SettingEditor.set_deaf_status(signal_order.trigger_instance, self.status)
 
     def _is_parameters_ok(self):
         """
@@ -28,6 +29,6 @@ class Mute(NeuronModule):
         .. raises:: MissingParameterException
         """
         if self.status is None:
-            logger.debug("[Mute] You must specify a status with a boolean")
+            logger.debug("[Deaf] You must specify a status with a boolean")
             return False
         return True
