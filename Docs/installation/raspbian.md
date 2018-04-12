@@ -1,5 +1,13 @@
 # Kalliope requirements for Raspbian
 
+- [Kalliope requirements for Raspbian](#kalliope-requirements-for-raspbian)
+  - [Install via the pre-compiled disk image](#install-via-the-pre-compiled-disk-image)
+  - [Manual installation](#manual-installation)
+    - [Debian packages requirements](#debian-packages-requirements)
+  - [Raspberry Pi configuration](#raspberry-pi-configuration)
+    - [Microphone configuration](#microphone-configuration)
+    - [HDMI / Analog audio](#hdmi-analog-audio)
+
 ## Install via the pre-compiled disk image
 
 Download the last image [from the release page](https://github.com/kalliope-project/kalliope/releases) of Kalliope and load it as usual onto an SD card.
@@ -21,7 +29,7 @@ Supported Raspbian images:
 - [raspbian-2017-08-16](http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-04-10/) (Strech based)
 
 
-> **Note:** It is recommended to use a **lite** installation of Raspbian without any graphical interface for a better experience. 
+> **Note:** It is recommended to use a **lite** installation of Raspbian without any graphical interface for a better experience.
 
 > **Note:** The first Raspberry Pi is not officially supported. The installation will works but a single core with only 700Mhz may produce latency.
 
@@ -72,7 +80,7 @@ card 1: Headset [Logitech USB Headset], device 0: USB Audio [USB Audio]
   Subdevice #0: subdevice #0
 ```
 
-Here one shall see: 
+Here one shall see:
 - the analog audio (where the jack is connected) on card 0 and device 1
 - usb audio on card 1 and device 1
 

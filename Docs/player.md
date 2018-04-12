@@ -1,4 +1,4 @@
-# Players                                                                                                                                         # Players
+# Players
 
 The player is the library/software used to make Kalliope talk.
 With Kalliope project, you can set whatever sound player you want to use.
@@ -38,7 +38,7 @@ players:
      convert_to_wav: True
 ```
 
->**Note:** Sometime, parameters will be necessary to use an engine. 
+>**Note:** Sometime, parameters will be necessary to use an engine.
 Click on a Player engine link in the `Current CORE Available Players` section to know which parameter are required.
 
 >**Note:** A player which does not ask for input parameters need to be declared as an empty dict. E.g: ```- player_name: {}```
