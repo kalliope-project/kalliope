@@ -459,13 +459,22 @@ And a synapse that use this dict:
 ```
 
 ## Start options
+
 Options that can be defined when kalliope starts.
 
 Example config
 ```yaml
 options:
   muted: True
+  deaf: False
 ```
+
+Available options:
+
+| Option | Description                                                                                   |
+| ------ | --------------------------------------------------------------------------------------------- |
+| muted  | When muted, the STT engine will not be used to make Kalliope talking during neurons execution |
+| deaf   | When deaf, the trigger engine is not started. Kalliope will not listen for a wake up word     |
 
 ## Next: configure the brain of Kalliope
 Now your settings are ok, you can start creating the [brain](brain.md) of your assistant.
