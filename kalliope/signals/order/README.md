@@ -12,10 +12,12 @@ An **order** signal is a word, or a sentence caught by the microphone and proces
 
 Other way to write an order, with parameters:
 
-| parameter     | required | default            | choices                        | comment                                  |
-|---------------|----------|--------------------|--------------------------------|------------------------------------------|
-| text          | YES      | The order to match |                                |                                          |
-| matching-type | NO       | normal             | normal, strict, ordered-strict | Type of matching. See explanation bellow |
+| parameter           | required | default | choices                        | comment                                                |
+|---------------------|----------|---------|--------------------------------|--------------------------------------------------------|
+| text                | YES      |         |                                | The order to match                                     |
+| matching-type       | NO       | normal  | normal, strict, ordered-strict | Type of matching. See explanation bellow               |
+| stt-correction      | NO       |         |                                | List of words from the order to replace by other words |
+| stt-correction-file | NO       |         |                                | Same as stt-correction but load words from a YAML file |
 
 **Matching-type:**
 - **normal**: Will match if all words are present in the spoken order.
@@ -100,6 +102,84 @@ signals:
 
 In this example, with a `strict` matching type, the synapse would be triggered if the user say:
 - please do this action
+
+### stt-correction
+
+This option allow you to replace some words from the captured order by other word. 
+
+Syntax:
+```yml
+signals:
+    - order:
+        text: "<sentence>"
+        stt-correction:
+          - input: "words to replace"
+            output: "replacing words" 
+```
+
+E.g
+```yml
+- name: "stt-correction-test"
+    signals:
+      - order:
+          text: "this is my order"
+          stt-correction:
+            - input: "test"
+              output: "order"
+    neurons:
+      - debug:
+          message: "hello"
+```
+In this example, if you pronounce "this is my test", the word test will be translated into "order" and so the signal "stt-correction-test" would b triggered.
+
+This feature can be useful when working with numbers.
+For example, you know that your STT engine return all number as string and you need them as integer for your neurons.
+
+E.g:
+```yml
+- name: "mm-say"
+    signals:
+      - order:
+          text: "this is my number {{ number }}"
+          stt-correction:
+            - input: "one"
+              output: 1
+    neurons:
+      - debug:
+          message: "{{ number }}"
+```
+
+In this example, if you say "this is my number one", Kalliope will translate the word "one" into "1".
+
+### stt_correction_file
+
+This option allow to set a list of corrections from a YAML file instead of writing them directly in the order.
+
+Syntax:
+```yml
+signals:
+    - order:
+        text: "<sentence>"
+        stt-correction-file: "<path to yaml file>"   
+```
+
+E.g
+```yml
+- name: "stt-correction-test"
+    signals:
+      - order:
+          text: "this is my order"
+          stt-correction-file: "my_stt_correction_file.yml"            
+    neurons:
+      - debug:
+          message: "hello"
+```
+
+Where `my_stt_correction_file.yml` would looks like the following: 
+```yml
+- input: "test"
+  output: "order"
+```
 
 ### Notes
 
