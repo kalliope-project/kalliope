@@ -285,6 +285,27 @@ class TestOrderAnalyser(unittest.TestCase):
         self.assertTrue(OrderAnalyser.is_order_matching(user_order=test_order,
                                                         signal_order=test_signal))
 
+    def test_override_order_with_correction(self):
+        # test with provided correction
+        order = "this is my test"
+        stt_correction = [{
+            "input": "test",
+            "output": "order"
+        }]
+        expected_output = "this is my order"
+        new_order = OrderAnalyser.override_order_with_correction(order=order, stt_correction=stt_correction)
+        self.assertEquals(new_order, expected_output)
+
+        # missing key input
+        order = "this is my test"
+        stt_correction = [{
+            "wrong_key": "test",
+            "output": "order"
+        }]
+        expected_output = "this is my test"
+        new_order = OrderAnalyser.override_order_with_correction(order=order, stt_correction=stt_correction)
+        self.assertEquals(new_order, expected_output)
+
 
 if __name__ == '__main__':
     unittest.main()

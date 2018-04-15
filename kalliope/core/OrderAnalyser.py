@@ -2,6 +2,7 @@
 import collections
 from collections import Counter
 import six
+import yaml
 from jinja2 import Template
 
 from kalliope.core.NeuronParameterLoader import NeuronParameterLoader
@@ -59,6 +60,8 @@ class OrderAnalyser:
                     # get the type of matching expected, by default "normal"
                     expected_matching_type = "normal"
                     signal_order = None
+                    stt_correction = None
+                    stt_correction_file = None
 
                     if isinstance(signal.parameters, str) or isinstance(signal.parameters, six.text_type):
                         signal_order = signal.parameters
@@ -74,6 +77,23 @@ class OrderAnalyser:
                         except KeyError:
                             logger.debug("[OrderAnalyser] Warning, missing parameter 'matching-type' in order. "
                                          "Fallback to 'normal'")
+                        try:
+                            stt_correction = signal.parameters["stt-correction"]
+                            logger.debug("[OrderAnalyser] stt-correction provided by user")
+                        except KeyError:
+                            logger.debug("[OrderAnalyser] No stt-correction provided")
+
+                        try:
+                            stt_correction_file = signal.parameters["stt-correction-file"]
+                            logger.debug("[OrderAnalyser] stt-correction-file provided by user")
+                        except KeyError:
+                            logger.debug("[OrderAnalyser] No stt-correction-file provided")
+
+                    if stt_correction_file is not None:
+                        stt_correction = cls.load_stt_correction_file(stt_correction_file)
+
+                    if stt_correction is not None:
+                        order = cls.override_order_with_correction(order, stt_correction)
 
                     if cls.is_order_matching(user_order=order,
                                              signal_order=signal_order,
@@ -232,3 +252,31 @@ class OrderAnalyser:
         signal_order = t.render(**parameters_from_user_order)
 
         return signal_order
+
+    @classmethod
+    def override_order_with_correction(cls, order, stt_correction):
+        logger.debug("[OrderAnalyser] override_order_this_correction: stt_correction list: %s" % stt_correction)
+        logger.debug("[OrderAnalyser] override_order_this_correction: order before correction: %s" % order)
+        for correction in stt_correction:
+            try:
+                input_val = str(correction["input"])
+                output_val = str(correction["output"])
+            except KeyError as e:
+                logger.debug("[OrderAnalyser] override_order_this_correction: "
+                             "Missing key %s. Order will not be modified" % e)
+                return order
+
+            if str(input_val) in order.split():
+                logger.debug("[OrderAnalyser] STT override '%s' by '%s'" % (input_val, output_val))
+                order = order.replace(input_val, output_val)
+                break
+
+        return order
+
+    @classmethod
+    def load_stt_correction_file(cls, stt_correction_file):
+        stt_correction_file_path = Utils.get_real_file_path(stt_correction_file)
+        stt_correction_file = open(stt_correction_file_path, "r")
+        stt_correction = yaml.load(stt_correction_file)
+
+        return stt_correction
