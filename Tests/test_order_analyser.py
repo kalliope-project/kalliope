@@ -306,6 +306,40 @@ class TestOrderAnalyser(unittest.TestCase):
         new_order = OrderAnalyser.override_order_with_correction(order=order, stt_correction=stt_correction)
         self.assertEquals(new_order, expected_output)
 
+    def test_override_stt_correction_list(self):
+        # test override
+        list_stt_to_override = [
+            {"input": "value1", "output": "value2"}
+        ]
+
+        overriding_list = [
+            {"input": "value1", "output": "overridden"}
+        ]
+
+        expected_list = [
+            {"input": "value1", "output": "overridden"}
+        ]
+
+        self.assertListEqual(expected_list, OrderAnalyser.override_stt_correction_list(list_stt_to_override,
+                                                                                       overriding_list))
+
+        # stt correction added from the overriding_list
+        list_stt_to_override = [
+            {"input": "value1", "output": "value2"}
+        ]
+
+        overriding_list = [
+            {"input": "value2", "output": "overridden"}
+        ]
+
+        expected_list = [
+            {"input": "value1", "output": "value2"},
+            {"input": "value2", "output": "overridden"}
+        ]
+
+        self.assertListEqual(expected_list, OrderAnalyser.override_stt_correction_list(list_stt_to_override,
+                                                                                       overriding_list))
+
 
 if __name__ == '__main__':
     unittest.main()
