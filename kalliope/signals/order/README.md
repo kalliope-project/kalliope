@@ -151,7 +151,7 @@ E.g:
 
 In this example, if you say "this is my number one", Kalliope will translate the word "one" into "1".
 
-### stt_correction_file
+### stt-correction-file
 
 This option allow to set a list of corrections from a YAML file instead of writing them directly in the order.
 
@@ -180,6 +180,45 @@ Where `my_stt_correction_file.yml` would looks like the following:
 - input: "test"
   output: "order"
 ```
+
+### Use both stt-correction and stt-correction-file
+
+You can use both flag stt-correction and stt-correction-file in a synapse. 
+This can be useful to set a correction file used as global file, and override input with stt-correction.
+
+Syntax:
+```yml
+signals:
+  - order:
+      text: "<sentence>"
+      stt-correction-file: "<path to yaml file>"  
+      stt-correction:
+        - input: "<sentence>"
+          output: "<replacing sentence>" 
+```
+
+For example, if you define a `stt-correction-file` with the content bellow:
+```yml
+- input: "bla"
+  output: "this"
+```
+
+And a synapse like the following
+```yml
+- name: "stt-correction-test"
+  signals:
+    - order:
+        text: "this is my order"
+        stt-correction-file: "correction.yml"
+        stt-correction:
+          - input: "test"
+            output: "order"
+```
+
+If you pronounce "bla is my test", both `stt-correction-file` and `stt-correction` will be used to fix the pronounced order, resulting "this is my order".
+
+>**Note:** `stt-correction` has precedence over `stt-correction-file`. 
+If an input is declared in `stt-correction` and in `stt-correction-file`, the output will be taken from the `stt-correction` option.
 
 ### Notes
 

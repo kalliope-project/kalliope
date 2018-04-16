@@ -61,7 +61,8 @@ class OrderAnalyser:
                     expected_matching_type = "normal"
                     signal_order = None
                     stt_correction = None
-                    stt_correction_file = None
+                    stt_correction_file_path = None
+                    stt_correction_list = list()
 
                     if isinstance(signal.parameters, str) or isinstance(signal.parameters, six.text_type):
                         signal_order = signal.parameters
@@ -77,23 +78,27 @@ class OrderAnalyser:
                         except KeyError:
                             logger.debug("[OrderAnalyser] Warning, missing parameter 'matching-type' in order. "
                                          "Fallback to 'normal'")
+
+                        try:
+                            stt_correction_file_path = signal.parameters["stt-correction-file"]
+                            logger.debug("[OrderAnalyser] stt-correction-file provided by user")
+                        except KeyError:
+                            logger.debug("[OrderAnalyser] No stt-correction-file provided")
+
                         try:
                             stt_correction = signal.parameters["stt-correction"]
                             logger.debug("[OrderAnalyser] stt-correction provided by user")
                         except KeyError:
                             logger.debug("[OrderAnalyser] No stt-correction provided")
 
-                        try:
-                            stt_correction_file = signal.parameters["stt-correction-file"]
-                            logger.debug("[OrderAnalyser] stt-correction-file provided by user")
-                        except KeyError:
-                            logger.debug("[OrderAnalyser] No stt-correction-file provided")
-
-                    if stt_correction_file is not None:
-                        stt_correction = cls.load_stt_correction_file(stt_correction_file)
+                    if stt_correction_file_path is not None:
+                        stt_correction_list = cls.load_stt_correction_file(stt_correction_file_path)
 
                     if stt_correction is not None:
-                        order = cls.override_order_with_correction(order, stt_correction)
+                        stt_correction_list = cls.override_stt_correction_list(stt_correction_list, stt_correction)
+
+                    if stt_correction_list:
+                        order = cls.override_order_with_correction(order, stt_correction_list)
 
                     if cls.is_order_matching(user_order=order,
                                              signal_order=signal_order,
@@ -269,7 +274,6 @@ class OrderAnalyser:
             if str(input_val) in order.split():
                 logger.debug("[OrderAnalyser] STT override '%s' by '%s'" % (input_val, output_val))
                 order = order.replace(input_val, output_val)
-                break
 
         return order
 
@@ -280,3 +284,19 @@ class OrderAnalyser:
         stt_correction = yaml.load(stt_correction_file)
 
         return stt_correction
+
+    @classmethod
+    def override_stt_correction_list(cls, stt_correction_list_to_override, correction_list):
+        # add non existing dict
+        for correction_to_check in correction_list:
+            if correction_to_check["input"] not in (x["input"] for x in stt_correction_list_to_override):
+                stt_correction_list_to_override.append(correction_to_check)
+
+        # override dict with same input
+        for correction_to_override in stt_correction_list_to_override:
+            for correction_to_check in correction_list:
+                if correction_to_check["input"] == correction_to_override["input"]:
+                    correction_to_override["output"] = correction_to_check["output"]
+                    break
+
+        return stt_correction_list_to_override
