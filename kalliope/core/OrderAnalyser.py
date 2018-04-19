@@ -46,77 +46,107 @@ class OrderAnalyser:
         synapse_order_tuple = collections.namedtuple('tuple_synapse_matchingOrder',
                                                      ['synapse', 'order'])
 
-        list_match_synapse = list()
-
         # if the received order is None we can stop the process immediately
         if order is None:
-            return list_match_synapse
+            return list()
 
         # test each synapse from the brain
+        list_match_synapse = list()
         for synapse in cls.brain.synapses:
-            for signal in synapse.signals:
-                # we are only concerned by synapse with a order type of signal
-                if signal.name == "order":
-                    # get the type of matching expected, by default "normal"
-                    expected_matching_type = "normal"
-                    signal_order = None
-                    stt_correction = None
-                    stt_correction_file_path = None
-                    stt_correction_list = list()
-
-                    if isinstance(signal.parameters, str) or isinstance(signal.parameters, six.text_type):
-                        signal_order = signal.parameters
-                    if isinstance(signal.parameters, dict):
-                        try:
-                            signal_order = signal.parameters["text"]
-                        except KeyError:
-                            logger.debug("[OrderAnalyser] Warning, missing parameter 'text' in order. "
-                                         "Order will be skipped")
-                            continue
-                        try:
-                            expected_matching_type = signal.parameters["matching-type"]
-                        except KeyError:
-                            logger.debug("[OrderAnalyser] Warning, missing parameter 'matching-type' in order. "
-                                         "Fallback to 'normal'")
-
-                        try:
-                            stt_correction_file_path = signal.parameters["stt-correction-file"]
-                            logger.debug("[OrderAnalyser] stt-correction-file provided by user")
-                        except KeyError:
-                            logger.debug("[OrderAnalyser] No stt-correction-file provided")
-
-                        try:
-                            stt_correction = signal.parameters["stt-correction"]
-                            logger.debug("[OrderAnalyser] stt-correction provided by user")
-                        except KeyError:
-                            logger.debug("[OrderAnalyser] No stt-correction provided")
-
-                    if stt_correction_file_path is not None:
-                        stt_correction_list = cls.load_stt_correction_file(stt_correction_file_path)
-
-                    if stt_correction is not None:
-                        stt_correction_list = cls.override_stt_correction_list(stt_correction_list, stt_correction)
-
-                    if stt_correction_list:
-                        order = cls.override_order_with_correction(order, stt_correction_list)
-
-                    if cls.is_order_matching(user_order=order,
-                                             signal_order=signal_order,
-                                             expected_order_type=expected_matching_type):
-                        # the order match the synapse, we add it to the returned list
-                        logger.debug("Order found! Run synapse name: %s" % synapse.name)
-                        Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
-                        list_match_synapse.append(synapse_order_tuple(synapse=synapse, order=signal_order))
+            list_match_synapse = cls.get_list_match_synapse(order, list_match_synapse, synapse, synapse_order_tuple)
 
         # create a list of MatchedSynapse from the tuple list
+        list_synapse_to_process =cls.get_list_synapses_to_process(list_match_synapse, order)
+
+        return list_synapse_to_process
+
+    @classmethod
+    def get_list_synapses_to_process(cls, list_match_synapse, order):
         list_synapse_to_process = list()
         for tuple_el in list_match_synapse:
             new_matching_synapse = MatchedSynapse(matched_synapse=tuple_el.synapse,
                                                   matched_order=tuple_el.order,
                                                   user_order=order)
             list_synapse_to_process.append(new_matching_synapse)
-
         return list_synapse_to_process
+
+    @classmethod
+    def get_list_match_synapse(cls, order, list_match_synapse, synapse, synapse_order_tuple):
+        for signal in synapse.signals:
+            # we are only concerned by synapse with a order type of signal
+            if signal.name == "order":
+                # get the type of matching expected, by default "normal"
+                expected_matching_type = "normal"
+                signal_order = None
+
+                if isinstance(signal.parameters, str) or isinstance(signal.parameters, six.text_type):
+                    signal_order = signal.parameters
+                if isinstance(signal.parameters, dict):
+                    try:
+                        signal_order = signal.parameters["text"]
+                    except KeyError:
+                        logger.debug("[OrderAnalyser] Warning, missing parameter 'text' in order. "
+                                     "Order will be skipped")
+                        continue
+
+                    expected_matching_type = cls.get_matching_type(signal)
+
+                    order = cls.order_correction(order, signal)
+
+                if cls.is_order_matching(user_order=order,
+                                         signal_order=signal_order,
+                                         expected_order_type=expected_matching_type):
+                    # the order match the synapse, we add it to the returned list
+                    logger.debug("Order found! Run synapse name: %s" % synapse.name)
+                    Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
+                    list_match_synapse.append(synapse_order_tuple(synapse=synapse, order=signal_order))
+        return list_match_synapse
+
+    @classmethod
+    def order_correction(cls, order, signal):
+
+        stt_correction_list = list()
+
+        stt_correction_file_path = cls.get_stt_correction_file_path(signal)
+        stt_correction = cls.get_stt_correction(signal)
+
+        if stt_correction_file_path is not None:
+            stt_correction_list = cls.load_stt_correction_file(stt_correction_file_path)
+        if stt_correction is not None:
+            stt_correction_list = cls.override_stt_correction_list(stt_correction_list, stt_correction)
+        if stt_correction_list:
+            order = cls.override_order_with_correction(order, stt_correction_list)
+        return order
+
+    @staticmethod
+    def get_stt_correction(signal):
+        stt_correction = None
+        try:
+            stt_correction = signal.parameters["stt-correction"]
+            logger.debug("[OrderAnalyser] stt-correction provided by user")
+        except KeyError:
+            logger.debug("[OrderAnalyser] No stt-correction provided")
+        return stt_correction
+
+    @staticmethod
+    def get_stt_correction_file_path(signal):
+        stt_correction_file_path = None
+        try:
+            stt_correction_file_path = signal.parameters["stt-correction-file"]
+            logger.debug("[OrderAnalyser] stt-correction-file provided by user")
+        except KeyError:
+            logger.debug("[OrderAnalyser] No stt-correction-file provided")
+        return stt_correction_file_path
+
+    @staticmethod
+    def get_matching_type(signal):
+        expected_matching_type = "normal"
+        try:
+            expected_matching_type = signal.parameters["matching-type"]
+        except KeyError:
+            logger.debug("[OrderAnalyser] Warning, missing parameter 'matching-type' in order. "
+                         "Fallback to 'normal'")
+        return expected_matching_type
 
     @staticmethod
     def _get_split_order_without_bracket(order):
