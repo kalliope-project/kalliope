@@ -11,12 +11,10 @@ signals:
 Or
 ```yml
 signals:
-    - signal_type: 
+    - signal_type:
         parameter_key1: parameter_value1
         parameter_key2: parameter_value2
 ```
-
-
 
 ## Available signals
 

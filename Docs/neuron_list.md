@@ -1,4 +1,15 @@
 # Neuron installation
+
+- [Neuron installation](#neuron-installation)
+    - [Neuron list](#neuron-list)
+    - [Installation](#installation)
+        - [Via the kalliope's CLI](#via-the-kalliopes-cli)
+        - [Manually](#manually)
+    - [Uninstall a resource](#uninstall-a-resource)
+        - [Via the kalliope's CLI](#via-the-kalliopes-cli)
+        - [Manually](#manually)
+    - [Update a resource](#update-a-resource)
+
 A neuron is a module that will perform some actions attached to an order. You can use it in your synapses. See the [complete neuron documentation](neurons.md) for more information.
 
 ## Neuron list
@@ -26,7 +37,7 @@ You may be prompted to type your `sudo` password during the process.
 ### Manually
 
 You can also install a neuron manually.
-Fist, clone the repo in the right resource folder. 
+Fist, clone the repo in the right resource folder.
 ```bash
 cd /path/to/resource_folder
 git clone <plugin_url>

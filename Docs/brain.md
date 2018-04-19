@@ -1,5 +1,12 @@
 # Brain
 
+- [Brain](#brain)
+  - [Manage synapses](#manage-synapses)
+  - [Split the brain](#split-the-brain)
+  - [The default Synapse](#the-default-synapse)
+  - [Next: Start Kalliope](#next-start-kalliope)
+  - [Notes](#notes)
+
 The brain is a main component of Kalliope. It's a module that gives a configuration of your own personal assistant and, so, determines it's behavior and fonctionnalities.
 
 Brain is composed by synapses: a synapse is the link between input and output actions.
@@ -14,7 +21,7 @@ An input action, called a "[signal](signals.md)" can be:
 An output action is
 - **a list of neurons:** A [neuron](neurons.md) is a module or plugin that will perform some actions like simply talking, run a script, run a command or call a web service.
 
-Brain is expressed in YAML format (see YAML Syntax) and has a minimum of syntax, which intentionally tries to not be a programming language or script, 
+Brain is expressed in YAML format (see YAML Syntax) and has a minimum of syntax, which intentionally tries to not be a programming language or script,
 but rather a model of a configuration or a process.
 Kalliope will look for the brain in the order bellow:
 - From you current folder, E.g `/home/pi/my_kalliope/brain.yml`
@@ -28,9 +35,9 @@ Let's take a look on a basic synapse in our brain:
   - name: "Say-hello"
     signals:
       - order: "say hello"
-    neurons:      
+    neurons:
       - say:
-          message: "Hello, sir"    
+          message: "Hello, sir"
 ```
 
 Let's break this down in sections so we can understand how the file is built and what each part means.
@@ -52,7 +59,7 @@ signals:
   - order: "say-hello"
 ```
 
-You can add as many orders as you want for the signals. Even if literally they do not mean the same thing (For example order "say hello" and order "adventure" or whatever) as long they are in the same synaps, they will trigger the same action defined in neurons. 
+You can add as many orders as you want for the signals. Even if literally they do not mean the same thing (For example order "say hello" and order "adventure" or whatever) as long they are in the same synaps, they will trigger the same action defined in neurons.
 
 Note that you are not limited by the exact sentence you put in your order. Kalliope uses the matching, it means that you can pronounce the sentence which contains your order (so, can be much longer) and it will lauch an attached task anyway. In this example, the task attached to order "say hello" will be launched even if you say
 - "say hello Kalliope"
@@ -70,13 +77,13 @@ You must pay attention to define the orders as precise as possible. As Kalliope 
   signals:
     - order: "say hello"
 ```
-and 
+and
 ```yml
 - name: "Say-something"
   signals:
     - order: "say"
 ```
-When you will pronounce "say hello", it will trigger both synapses. 
+When you will pronounce "say hello", it will trigger both synapses.
 
 Then we have the neurons declaration. Neurons are modules that will be executed when the input action is triggered. You can define as many neurons as you want to the same input action (for example: say somethning, then do something etc...). This declaration contains a list (because it starts with a "-") of neurons
 ```yml
@@ -123,7 +130,7 @@ E.g:
       - brains/find_my_phone.yml
 ```
 
->**Note:** You can only use the `include` statement in the main brain file. 
+>**Note:** You can only use the `include` statement in the main brain file.
 
 >**Note:** the includes statement must start with a `-`
 

@@ -2,6 +2,35 @@
 
 This part of the documentation explains the main configuration of Kalliope placed in the `settings.md` file.
 
+- [Kalliope settings](#kalliope-settings)
+  - [Triggers configuration](#triggers-configuration)
+    - [default_trigger](#defaulttrigger)
+    - [triggers](#triggers)
+  - [Players configuration](#players-configuration)
+    - [default_player](#defaultplayer)
+    - [players](#players)
+  - [Speech to text configuration](#speech-to-text-configuration)
+    - [default_speech_to_text](#defaultspeechtotext)
+    - [speech_to_text](#speechtotext)
+    - [recognition_options](#recognitionoptions)
+      - [energy_threshold](#energythreshold)
+      - [adjust_for_ambient_noise_second](#adjustforambientnoisesecond)
+  - [Text to speech configuration](#text-to-speech-configuration)
+    - [default_text_to_speech](#defaulttexttospeech)
+    - [text_to_speech](#texttospeech)
+  - [Hooks](#hooks)
+  - [Rest API](#rest-api)
+    - [active](#active)
+    - [port](#port)
+    - [password_protected](#passwordprotected)
+      - [Login](#login)
+    - [Password](#password)
+    - [Cors request](#cors-request)
+  - [Resources directory](#resources-directory)
+  - [Global Variables](#global-variables)
+  - [Start options](#start-options)
+  - [Next: configure the brain of Kalliope](#next-configure-the-brain-of-kalliope)
+
 ## Triggers configuration
 
 ### default_trigger
@@ -54,7 +83,7 @@ default_player: "mplayer"
 ### players
 The player is the engine in charge of running sounds in Kalliope.
 
-Each Players has it own configuration. 
+Each Players has it own configuration.
 This configuration is passed as argument following the syntax bellow
 ```yml
 players:
@@ -84,7 +113,7 @@ players:
 ```
 
 Sometime, parameters will be necessary to use an engine. See the [complete list here](player_list.md) to know which parameter are required.
-Core players are already packaged with the installation of Kalliope an can be used out of the box. 
+Core players are already packaged with the installation of Kalliope an can be used out of the box.
 
 >**Note:** Most cloud based TTS generate a file in MP3 format. Some players are not able to read this format and then a conversion to wav is needed.
 
@@ -147,13 +176,13 @@ Represents the energy level threshold for sounds. By default set to **4000**.
 Values below this threshold are considered silence, and values above this threshold are considered speech.
 This is adjusted automatically if dynamic thresholds are enabled with `adjust_for_ambient_noise_second` parameter.
 
-This threshold is associated with the perceived loudness of the sound, but it is a nonlinear relationship. 
-The actual energy threshold you will need depends on your microphone sensitivity or audio data. 
-Typical values for a silent room are 0 to 100, and typical values for speaking are between 150 and 3500. 
+This threshold is associated with the perceived loudness of the sound, but it is a nonlinear relationship.
+The actual energy threshold you will need depends on your microphone sensitivity or audio data.
+Typical values for a silent room are 0 to 100, and typical values for speaking are between 150 and 3500.
 Ambient (non-speaking) noise has a significant impact on what values will work best.
 
-If you're having trouble with the recognizer trying to recognize words even when you're not speaking, try tweaking this to a higher value. 
-If you're having trouble with the recognizer not recognizing your words when you are speaking, try tweaking this to a lower value. 
+If you're having trouble with the recognizer trying to recognize words even when you're not speaking, try tweaking this to a higher value.
+If you're having trouble with the recognizer not recognizing your words when you are speaking, try tweaking this to a lower value.
 For example, a sensitive microphone or microphones in louder rooms might have a ambient energy level of up to 4000.
 ```yml
 recognition_options:
@@ -214,7 +243,7 @@ Some arguments are required, some other optional, please refer to the [TTS docum
 
 ## Hooks
 
-Hooking allow to bind actions to events based on the lifecycle of Kalliope. 
+Hooking allow to bind actions to events based on the lifecycle of Kalliope.
 For example, it's useful to know when Kalliope has detected the hotword from the trigger engine and make her spell out loud that she's ready to listen your order.
 
 To use a hook, attach the name of the hook to a synapse (or list of synapse) which exists in your brain.
@@ -313,19 +342,19 @@ hooks:
 **brain.yml**
 ```yml
 - name: "turn-on-led"
-  signals: []   
+  signals: []
   neurons:
     - script:
-        path: "/path/to/script.sh on" 
-        
+        path: "/path/to/script.sh on"
+
 - name: "turn-off-led"
-  signals: []   
+  signals: []
   neurons:
     - script:
-        path: "/path/to/script.sh off"  
+        path: "/path/to/script.sh off"
 ```
 
->**Note:** You cannot use a neurotransmitter neuron inside a synapse called from a hook. 
+>**Note:** You cannot use a neurotransmitter neuron inside a synapse called from a hook.
 You cannot use the "say" neuron inside the "on_start_speaking" or "on_stop_speaking" or it will create an infinite loop
 
 ## Rest API
@@ -411,7 +440,7 @@ resource_directory:
 The Global Variables paths list where to load the global variables.
 Those variables can be reused in neuron parameters within double brackets.
 
-E.g 
+E.g
 ```yml
 var_files:
   - variables.yml
@@ -433,12 +462,12 @@ And use variables in your neurons:
       - order: "Wait for me "
     neurons:
       - uri:
-          url: "{{baseURL}}get/1"        
+          url: "{{baseURL}}get/1"
           user: "admin"
           password: "{{password}}"
 ```
 
-> **Note:** Because YAML format does no allow double braces not surrounded by quotes: you must use the variable between double quotes. 
+> **Note:** Because YAML format does no allow double braces not surrounded by quotes: you must use the variable between double quotes.
 
 A global variable can be a dictionary. Example:
 ```yml
@@ -459,13 +488,22 @@ And a synapse that use this dict:
 ```
 
 ## Start options
+
 Options that can be defined when kalliope starts.
 
 Example config
 ```yaml
 options:
   muted: True
+  deaf: False
 ```
+
+Available options:
+
+| Option | Description                                                                                   |
+| ------ | --------------------------------------------------------------------------------------------- |
+| muted  | When muted, the STT engine will not be used to make Kalliope talking during neurons execution |
+| deaf   | When deaf, the trigger engine is not started. Kalliope will not listen for a wake up word     |
 
 ## Next: configure the brain of Kalliope
 Now your settings are ok, you can start creating the [brain](brain.md) of your assistant.
