@@ -1,5 +1,12 @@
 # Contributing
 
+- [Contributing](#contributing)
+    - [Core](#core)
+    - [Community module (Neuron, STT, TTS)](#community-module-neuron-stt-tts)
+    - [Constraints](#constraints)
+    - [Limitations](#limitations)
+    - [Share it](#share-it)
+
 Kalliope needs the community to improve its Core features and to create new Neurons, STTs, TTSs. Let's join us !
 [Here is the Todo list](https://trello.com/b/H0TecLSi/kalliopecore) if you are looking for some ideas.
 
@@ -37,14 +44,14 @@ See the dedicated documentation depending on the type of module you want to code
         :type my_parameter: str
         """
     ```
-    
+
 1. Respect [PEP 8](https://www.python.org/dev/peps/pep-0008/) -- Style Guide for Python Code
 We recommend the usage of an IDE like [Pycharm](https://www.jetbrains.com/pycharm/)
 
-##### Limitations
+## Limitations
 
 1. The management of incoming variable from the signal order when they are __numbers or float are not efficient__.
-    - Because of the differences between the STTs outputs: some are returning word some numbers (two != 2). 
+    - Because of the differences between the STTs outputs: some are returning word some numbers (two != 2).
     - Because of the i18n, we are not able to know if a variable should be  interpreted in english, french, spanish, etc ... ("two" != "deux" != "dos")
 
 

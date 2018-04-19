@@ -1,5 +1,20 @@
 # Kalliope Command-line interface
 
+- [Kalliope Command-line interface](#kalliope-command-line-interface)
+    - [SYNOPSIS](#synopsis)
+    - [ARGUMENTS](#arguments)
+        - [start](#start)
+        - [gui](#gui)
+        - [install](#install)
+    - [OPTIONS](#options)
+        - [-v or --version](#v-or---version)
+        - [--run-synapse SYNAPSE_NAME](#run-synapse-synapsename)
+        - [--run-order "Your Order"](#run-order-your-order)
+        - [--brain-file BRAIN_FILE](#brain-file-brainfile)
+        - [--deaf](#deaf)
+        - [--debug](#debug)
+        - [--git-url](#git-url)
+
 ## SYNOPSIS
 This is the syntax used to run Kalliope from command line
 ```bash
@@ -26,7 +41,7 @@ kalliope start
 To kill Kalliope, you can press "Ctrl-C" on your keyboard.
 
 ### gui
-Launch the Kalliope shell Graphical User Interface. 
+Launch the Kalliope shell Graphical User Interface.
 The GUI allows you to test your [STT](stt.md) and [TTS](tts.md) that you have configured in [settings.yml](default_settings.md) file of Kalliope.
 
 Example of use
@@ -84,7 +99,7 @@ kalliope start --run-order "hello"
 ### --brain-file BRAIN_FILE
 
 Replace the default brain file from the root of the project folder by a custom one.
-> **Important note:** The path must be absolute. The absolute path contains the root directory and all other subdirectories in which a file or folder is contained. 
+> **Important note:** The path must be absolute. The absolute path contains the root directory and all other subdirectories in which a file or folder is contained.
 
 Example of use
 ```bash

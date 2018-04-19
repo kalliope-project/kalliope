@@ -1,5 +1,17 @@
 # Kalliope installation
 
+- [Kalliope installation](#kalliope-installation)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+        - [Method 1 - User install using the PIP package](#method-1---user-install-using-the-pip-package)
+        - [Method 2 - Manual setup using sources](#method-2---manual-setup-using-sources)
+        - [Method 3 - Developer install using Virtualenv](#method-3---developer-install-using-virtualenv)
+        - [Method 4 - Developer, dependencies install only](#method-4---developer-dependencies-install-only)
+    - [Test your env](#test-your-env)
+    - [Get a starter configuration](#get-a-starter-configuration)
+    - [Start Kalliope automatically after a reboot](#start-kalliope-automatically-after-a-reboot)
+    - [Next: settings](#next-settings)
+
 ## Prerequisites
 
 Please follow the right link bellow to install requirements depending on your target environment:
@@ -88,7 +100,7 @@ mplayer test.wav
 Your installation is now complete, let's take a look now to the [quickstart documentation](installation/quickstart.md) to learn how to use Kalliope.
 
 ## Get a starter configuration
-We create some starter configuration that only need to be downloaded and then started. 
+We create some starter configuration that only need to be downloaded and then started.
 Those repositories provide you a basic structure to start playing with kalliope. We recommend you to clone one of them and then go to the next section.
 
 - [French starter config](https://github.com/kalliope-project/kalliope_starter_fr)
@@ -125,5 +137,6 @@ sudo systemctl start kalliope
 sudo systemctl enable kalliope
 ```
 
-## Next: 
+## Next: settings
+
 If everything is ok, you can start playing with Kalliope. First, take a look to the [default settings](settings.md).

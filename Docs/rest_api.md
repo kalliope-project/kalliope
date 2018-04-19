@@ -2,6 +2,22 @@
 
 Kalliope provides the REST API to manage the synapses. For configuring the API refer to the [settings documentation](settings.md).
 
+- [Rest API](#rest-api)
+  - [Synapse API](#synapse-api)
+  - [Curl examples](#curl-examples)
+    - [Get Kalliope's version](#get-kalliopes-version)
+    - [List synapses](#list-synapses)
+    - [Show synapse details](#show-synapse-details)
+    - [Run a synapse by its name](#run-a-synapse-by-its-name)
+    - [Run a synapse from an order](#run-a-synapse-from-an-order)
+    - [Run a synapse from an audio file](#run-a-synapse-from-an-audio-file)
+    - [The neurotransmitter case](#the-neurotransmitter-case)
+    - [Get deaf status](#get-deaf-status)
+    - [Switch deaf status](#switch-deaf-status)
+  - [Mute flag](#mute-flag)
+    - [Get mute status](#get-mute-status)
+    - [Set mute status](#set-mute-status)
+
 ## Synapse API
 
 | Method | URL                               | Action                             |
@@ -90,7 +106,7 @@ Output example:
 }
 ```
 
-### Show synapse details 
+### Show synapse details
 
 Normal response codes: 200
 Error response codes: unauthorized(401), itemNotFound(404)
@@ -158,7 +174,7 @@ curl -i -H "Content-Type: application/json" --user admin:secret -X POST \
 -d '{"mute":"true"}' http://127.0.0.1:5000/synapses/start/id/say-hello-fr
 ```
 
-Some neuron inside a synapse will wait for parameters that comes from the order. 
+Some neuron inside a synapse will wait for parameters that comes from the order.
 You can provide those parameters by adding a `parameters` list of data.
 Curl command:
 ```bash
@@ -179,7 +195,7 @@ curl -i --user admin:secret -H "Content-Type: application/json" -X POST -d '{"or
 
 If the order contains accent or quotes, use a file for testing with curl
 ```bash
-cat post.json 
+cat post.json
 {"order":"j'aime"}
 ```
 Then
@@ -310,12 +326,12 @@ Curl command:
 curl -i --user admin:secret -X POST http://localhost:5000/synapses/start/audio -F "file=@path/to/file.wav" -F mute="true"
 ```
 
-#### The neurotransmitter case
+### The neurotransmitter case
 
-In case of leveraging the [neurotransmitter neuron](https://github.com/kalliope-project/kalliope/tree/master/kalliope/neurons/neurotransmitter), Kalliope expects back and forth answers.
+In case of leveraging the [neurotransmitter neuron](../kalliope/neurons/neurotransmitter), Kalliope expects back and forth answers.
 Fortunately, the API provides a way to continue interaction with Kalliope and still use neurotransmitter neurons while doing API calls.
 
-When you start a synapse via its name or an order (like shown above), the answer of the API call will tell you in the response that kalliope is waiting for a response via the "status" return. 
+When you start a synapse via its name or an order (like shown above), the answer of the API call will tell you in the response that kalliope is waiting for a response via the "status" return.
 
 Status can either by ```complete``` (nothing else to do) or ```waiting_for_answer```, in which case Kalliope is waiting for your response :).
 
