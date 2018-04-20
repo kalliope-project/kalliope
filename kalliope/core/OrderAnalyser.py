@@ -51,12 +51,10 @@ class OrderAnalyser:
             return list()
 
         # test each synapse from the brain
-        list_match_synapse = list()
-        for synapse in cls.brain.synapses:
-            list_match_synapse = cls.get_list_match_synapse(order, list_match_synapse, synapse, synapse_order_tuple)
+        list_match_synapse = cls.get_list_match_synapse(order, synapse_order_tuple)
 
         # create a list of MatchedSynapse from the tuple list
-        list_synapse_to_process =cls.get_list_synapses_to_process(list_match_synapse, order)
+        list_synapse_to_process = cls.get_list_synapses_to_process(list_match_synapse, order)
 
         return list_synapse_to_process
 
@@ -71,35 +69,37 @@ class OrderAnalyser:
         return list_synapse_to_process
 
     @classmethod
-    def get_list_match_synapse(cls, order, list_match_synapse, synapse, synapse_order_tuple):
-        for signal in synapse.signals:
-            # we are only concerned by synapse with a order type of signal
-            if signal.name == "order":
-                # get the type of matching expected, by default "normal"
-                expected_matching_type = "normal"
-                signal_order = None
+    def get_list_match_synapse(cls, order, synapse_order_tuple):
+        list_match_synapse = list()
+        for synapse in cls.brain.synapses:
+            for signal in synapse.signals:
+                # we are only concerned by synapse with a order type of signal
+                if signal.name == "order":
+                    # get the type of matching expected, by default "normal"
+                    expected_matching_type = "normal"
+                    signal_order = None
 
-                if isinstance(signal.parameters, str) or isinstance(signal.parameters, six.text_type):
-                    signal_order = signal.parameters
-                if isinstance(signal.parameters, dict):
-                    try:
-                        signal_order = signal.parameters["text"]
-                    except KeyError:
-                        logger.debug("[OrderAnalyser] Warning, missing parameter 'text' in order. "
-                                     "Order will be skipped")
-                        continue
+                    if isinstance(signal.parameters, str) or isinstance(signal.parameters, six.text_type):
+                        signal_order = signal.parameters
+                    if isinstance(signal.parameters, dict):
+                        try:
+                            signal_order = signal.parameters["text"]
+                        except KeyError:
+                            logger.debug("[OrderAnalyser] Warning, missing parameter 'text' in order. "
+                                         "Order will be skipped")
+                            continue
 
-                    expected_matching_type = cls.get_matching_type(signal)
+                        expected_matching_type = cls.get_matching_type(signal)
 
-                    order = cls.order_correction(order, signal)
+                        order = cls.order_correction(order, signal)
 
-                if cls.is_order_matching(user_order=order,
-                                         signal_order=signal_order,
-                                         expected_order_type=expected_matching_type):
-                    # the order match the synapse, we add it to the returned list
-                    logger.debug("Order found! Run synapse name: %s" % synapse.name)
-                    Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
-                    list_match_synapse.append(synapse_order_tuple(synapse=synapse, order=signal_order))
+                    if cls.is_order_matching(user_order=order,
+                                             signal_order=signal_order,
+                                             expected_order_type=expected_matching_type):
+                        # the order match the synapse, we add it to the returned list
+                        logger.debug("Order found! Run synapse name: %s" % synapse.name)
+                        Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
+                        list_match_synapse.append(synapse_order_tuple(synapse=synapse, order=signal_order))
         return list_match_synapse
 
     @classmethod

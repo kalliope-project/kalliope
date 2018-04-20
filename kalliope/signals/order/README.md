@@ -1,5 +1,18 @@
 # Order
 
+- [Order](#order)
+  - [Synopsis](#synopsis)
+  - [Options](#options)
+  - [Synapses example](#synapses-example)
+    - [Normal order](#normal-order)
+    - [Strict order](#strict-order)
+    - [Ordered strict order](#ordered-strict-order)
+    - [stt-correction](#stt-correction)
+    - [stt-correction-file](#stt-correction-file)
+    - [Use both stt-correction and stt-correction-file](#use-both-stt-correction-and-stt-correction-file)
+    - [Order with arguments](#order-with-arguments)
+  - [Notes](#notes)
+
 ## Synopsis
 
 An **order** signal is a word, or a sentence caught by the microphone and processed by the STT engine.
@@ -23,10 +36,6 @@ Other way to write an order, with parameters:
 - **normal**: Will match if all words are present in the spoken order.
 - **strict**: All word are present. No more word must be present in the spoken order.
 - **ordered-strict**: All word are present, no more word and all word are in the same order as defined in the signal.
-
-## Values sent to the synapse
-
-None
 
 ## Synapses example
 
@@ -220,19 +229,6 @@ If you pronounce "bla is my test", both `stt-correction-file` and `stt-correctio
 >**Note:** `stt-correction` has precedence over `stt-correction-file`. 
 If an input is declared in `stt-correction` and in `stt-correction-file`, the output will be taken from the `stt-correction` option.
 
-### Notes
-
-> **Important note:** SST engines can misunderstand what you say, or translate your sentence into text containing some spelling mistakes.
-For example, if you say "Kalliope please do this", the SST engine can return "caliope please do this". So, to be sure that your speaking order will be correctly caught and executed, we recommend you to test your STT engine by using the [Kalliope GUI](kalliope_cli.md) and check the returned text for the given order.
-
-> **Important note:** STT engines don't know the context. Sometime they will return an unexpected word.
-For example, "the operation to perform is 2 minus 2" can return "two", "too", "to" or "2" in english.
-
-> **Important note:** Kalliope will try to match the order in each synapse of its brain. So, if an order of one synapse is included in another order of another synapse, then both synapses tasks will be started by Kalliope.
-
-> For example, you have "test my umbrella" in a synapse A and "test" in a synapse B. When you'll say "test my umbrella", both synapse A and B
-will be started by Kalliope. So keep in mind that the best practice is to use really different sentences with more than one word for your order.
-
 ### Order with arguments
 You can add one or more arguments to an order by adding bracket to the sentence.
 
@@ -263,3 +259,16 @@ And so, it will work too with: "give me the weather at St-Pierre de Chartreuse f
 See the **input values** section of the [neuron documentation](neurons) to know how to send arguments to a neuron.
 
 >**Important note:** The following syntax cannot be used: "<sentence> {{ arg_name }} {{ arg_name2 }}" as Kalliope cannot know when a block starts and when it finishes.
+
+## Notes
+
+> **Important note:** SST engines can misunderstand what you say, or translate your sentence into text containing some spelling mistakes.
+For example, if you say "Kalliope please do this", the SST engine can return "caliope please do this". So, to be sure that your speaking order will be correctly caught and executed, we recommend you to test your STT engine by using the [Kalliope GUI](kalliope_cli.md) and check the returned text for the given order.
+
+> **Important note:** STT engines don't know the context. Sometime they will return an unexpected word.
+For example, "the operation to perform is 2 minus 2" can return "two", "too", "to" or "2" in english.
+
+> **Important note:** Kalliope will try to match the order in each synapse of its brain. So, if an order of one synapse is included in another order of another synapse, then both synapses tasks will be started by Kalliope.
+
+> For example, you have "test my umbrella" in a synapse A and "test" in a synapse B. When you'll say "test my umbrella", both synapse A and B
+will be started by Kalliope. So keep in mind that the best practice is to use really different sentences with more than one word for your order.
