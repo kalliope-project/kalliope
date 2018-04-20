@@ -1,3 +1,4 @@
+import os
 import unittest
 
 
@@ -14,7 +15,10 @@ class TestOrderAnalyser(unittest.TestCase):
     """Test case for the OrderAnalyser Class"""
 
     def setUp(self):
-        pass
+        if "/Tests" in os.getcwd():
+            self.correction_file_to_test = os.getcwd() + os.sep + "files/test-stt-correction.yml"
+        else:
+            self.correction_file_to_test = os.getcwd() + os.sep + "Tests/files/test-stt-correction.yml"
 
     def test_get_matching_synapse(self):
         # Init
@@ -294,7 +298,7 @@ class TestOrderAnalyser(unittest.TestCase):
         }]
         expected_output = "this is my order"
         new_order = OrderAnalyser.override_order_with_correction(order=order, stt_correction=stt_correction)
-        self.assertEquals(new_order, expected_output)
+        self.assertEqual(new_order, expected_output)
 
         # missing key input
         order = "this is my test"
@@ -304,7 +308,7 @@ class TestOrderAnalyser(unittest.TestCase):
         }]
         expected_output = "this is my test"
         new_order = OrderAnalyser.override_order_with_correction(order=order, stt_correction=stt_correction)
-        self.assertEquals(new_order, expected_output)
+        self.assertEqual(new_order, expected_output)
 
     def test_override_stt_correction_list(self):
         # test override
@@ -339,6 +343,57 @@ class TestOrderAnalyser(unittest.TestCase):
 
         self.assertListEqual(expected_list, OrderAnalyser.override_stt_correction_list(list_stt_to_override,
                                                                                        overriding_list))
+
+    def test_order_correction(self):
+        # test with only stt-correction
+        testing_order = "thus is my test"
+
+        signal_parameter = {
+            "stt-correction": [
+                {"input": "thus",
+                 "output": "this"}
+            ]
+        }
+        testing_signals = Signal(name="test",
+                                 parameters=signal_parameter)
+
+        expected_fixed_order = "this is my test"
+        self.assertEqual(OrderAnalyser.order_correction(order=testing_order, signal=testing_signals),
+                         expected_fixed_order)
+
+        # test with both stt-correction and stt-correction-file
+        testing_order = "thus is my test"
+
+        signal_parameter = {
+            "stt-correction": [
+                {"input": "thus",
+                 "output": "this"}
+            ],
+            "stt-correction-file": self.correction_file_to_test
+        }
+        testing_signals = Signal(name="test",
+                                 parameters=signal_parameter)
+
+        expected_fixed_order = "this is my order"
+        self.assertEqual(OrderAnalyser.order_correction(order=testing_order, signal=testing_signals),
+                         expected_fixed_order)
+
+        # test with stt-correction that override stt-correction-file
+        testing_order = "thus is my test"
+
+        signal_parameter = {
+            "stt-correction": [
+                {"input": "test",
+                 "output": "overridden"}
+            ],
+            "stt-correction-file": self.correction_file_to_test
+        }
+        testing_signals = Signal(name="test",
+                                 parameters=signal_parameter)
+
+        expected_fixed_order = "thus is my overridden"
+        self.assertEqual(OrderAnalyser.order_correction(order=testing_order, signal=testing_signals),
+                         expected_fixed_order)
 
 
 if __name__ == '__main__':
