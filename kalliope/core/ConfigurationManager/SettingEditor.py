@@ -45,3 +45,39 @@ class SettingEditor(object):
             Utils.print_info("Kalliope now listening for trigger detection")
             HookManager.on_undeaf()
         settings.options["deaf"] = deaf
+
+    @staticmethod
+    def set_default_player_name(default_player_name):
+        """
+        Set dynamically a new default_player in the settings
+        :param default_player_name: string value
+        """
+        settings = SettingLoader().settings
+        settings.default_player_name = default_player_name
+
+    @staticmethod
+    def set_default_tts_name(default_tts_name):
+        """
+        Set dynamically a new default_tts_name in the settings
+        :param default_tts_name: string value
+        """
+        settings = SettingLoader().settings
+        settings.default_tts_name = default_tts_name
+
+    @staticmethod
+    def set_default_stt_name(default_stt_name):
+        """
+        Set dynamically a new default_stt_name in the settings
+        :param default_stt_name: string value
+        """
+        settings = SettingLoader().settings
+        settings.default_stt_name = default_stt_name
+
+    @staticmethod
+    def set_default_trigger_name(default_trigger_name):
+        """
+        Set dynamically a new default_trigger_name in the settingss
+        :param default_trigger_name: string value
+        """
+        settings = SettingLoader().settings
+        settings.default_trigger_name = default_trigger_name
