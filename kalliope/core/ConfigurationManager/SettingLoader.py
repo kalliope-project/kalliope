@@ -3,7 +3,6 @@ import os
 from six import with_metaclass
 
 from kalliope.core.Models.settings.Options import Options
-from kalliope.core.Models.settings.RecognitionOptions import RecognitionOptions
 from .YAMLLoader import YAMLLoader
 from kalliope.core.Models.settings.Resources import Resources
 from kalliope.core.Utils.Utils import Utils
@@ -112,7 +111,6 @@ class SettingLoader(with_metaclass(Singleton, object)):
         cache_path = self._get_cache_path(settings)
         resources = self._get_resources(settings)
         variables = self._get_variables(settings)
-        recognition_options = self._get_recognition_options(settings)
         options = self._get_options(settings)
         hooks = self._get_hooks(settings)
 
@@ -129,7 +127,6 @@ class SettingLoader(with_metaclass(Singleton, object)):
         setting_object.cache_path = cache_path
         setting_object.resources = resources
         setting_object.variables = variables
-        setting_object.recognition_options = recognition_options
         setting_object.options = options
         setting_object.hooks = hooks
 
@@ -606,39 +603,14 @@ class SettingLoader(with_metaclass(Singleton, object)):
             return dict()
 
     @staticmethod
-    def _get_recognition_options(settings):
-        """
-        return the value of stt_threshold
-        :param settings: The loaded YAML settings file
-        :return: integer or 1200 by default if not set
-        """
-        recognition_options = RecognitionOptions()
-
-        try:
-            recognition_options_dict = settings["recognition_options"]
-
-            if "energy_threshold" in recognition_options_dict:
-                recognition_options.energy_threshold = recognition_options_dict["energy_threshold"]
-                logger.debug("[SettingsLoader] energy_threshold set to %s" % recognition_options.energy_threshold)
-            if "adjust_for_ambient_noise_second" in recognition_options_dict:
-                recognition_options.adjust_for_ambient_noise_second = recognition_options_dict["adjust_for_ambient_noise_second"]
-                logger.debug("[SettingsLoader] adjust_for_ambient_noise_second set to %s"
-                             % recognition_options.adjust_for_ambient_noise_second)
-            return recognition_options
-
-        except KeyError:
-            logger.debug("[SettingsLoader] no recognition_options defined. Set to default")
-
-        logger.debug("[SettingsLoader] recognition_options: %s" % str(recognition_options))
-        return recognition_options
-
-    @staticmethod
     def _get_options(settings):
         """
         Return the Options settings
         if not set, default values are :
         deaf: False
         mute: False
+        energy_threshold = 4000
+        adjust_for_ambient_noise_second = 0
 
         :param settings: The YAML settings file
         :type settings: dict
@@ -648,6 +620,8 @@ class SettingLoader(with_metaclass(Singleton, object)):
 
         deaf = False
         mute = False
+        energy_threshold = 4000
+        adjust_for_ambient_noise_second = 0
 
         try:
             options = settings["options"]
@@ -655,12 +629,18 @@ class SettingLoader(with_metaclass(Singleton, object)):
                 deaf = options['deaf']
             if options['mute']:
                 mute = options['mute']
+            if options["energy_threshold"]:
+                energy_threshold = options["energy_threshold"]
+            if options["adjust_for_ambient_noise_second"]:
+                adjust_for_ambient_noise_second = options["adjust_for_ambient_noise_second"]
         except KeyError:
             pass
 
-        options = Options(deaf=deaf, mute=mute)
-
-        logger.debug("Options: %s" % options)
+        options = Options(energy_threshold=energy_threshold,
+                          adjust_for_ambient_noise_second=adjust_for_ambient_noise_second,
+                          deaf=deaf,
+                          mute=mute)
+        logger.debug("[SettingsLoader] Options: %s" % options)
         return options
 
     @staticmethod
