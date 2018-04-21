@@ -1,10 +1,12 @@
+from kalliope.core.Models.settings.SettingsEntry import SettingsEntry
 
 
-class Resources(object):
+class Resources(SettingsEntry):
     """
 
     """
     def __init__(self, neuron_folder=None, stt_folder=None, tts_folder=None, trigger_folder=None, signal_folder=None):
+        super(Resources, self).__init__("Resources")
         self.neuron_folder = neuron_folder
         self.stt_folder = stt_folder
         self.tts_folder = tts_folder

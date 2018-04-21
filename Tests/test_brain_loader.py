@@ -8,7 +8,7 @@ from kalliope.core.ConfigurationManager import BrainLoader
 from kalliope.core.Models import Neuron
 from kalliope.core.Models import Synapse
 from kalliope.core.Models.Brain import Brain
-from kalliope.core.Models.Settings import Settings
+from kalliope.core.Models.settings.Settings import Settings
 
 
 class TestBrainLoader(unittest.TestCase):

@@ -4,7 +4,7 @@ from mock import mock
 
 from kalliope.core import OrderListener
 from kalliope.core.Models import Resources
-from kalliope.core.Models.Stt import Stt
+from kalliope.core.Models.settings.Stt import Stt
 
 
 class TestOrderListener(unittest.TestCase):

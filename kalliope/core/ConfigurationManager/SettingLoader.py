@@ -2,17 +2,18 @@ import logging
 import os
 from six import with_metaclass
 
-from kalliope.core.Models.RecognitionOptions import RecognitionOptions
+from kalliope.core.Models.settings.Options import Options
+from kalliope.core.Models.settings.RecognitionOptions import RecognitionOptions
 from .YAMLLoader import YAMLLoader
-from kalliope.core.Models.Resources import Resources
+from kalliope.core.Models.settings.Resources import Resources
 from kalliope.core.Utils.Utils import Utils
 from kalliope.core.Models import Singleton
-from kalliope.core.Models.RestAPI import RestAPI
-from kalliope.core.Models.Settings import Settings
-from kalliope.core.Models.Stt import Stt
-from kalliope.core.Models.Trigger import Trigger
-from kalliope.core.Models.Player import Player
-from kalliope.core.Models.Tts import Tts
+from kalliope.core.Models.settings.RestAPI import RestAPI
+from kalliope.core.Models.settings.Settings import Settings
+from kalliope.core.Models.settings.Stt import Stt
+from kalliope.core.Models.settings.Trigger import Trigger
+from kalliope.core.Models.settings.Player import Player
+from kalliope.core.Models.settings.Tts import Tts
 from kalliope.core.Utils.FileManager import FileManager
 
 FILE_NAME = "settings.yml"
@@ -634,12 +635,15 @@ class SettingLoader(with_metaclass(Singleton, object)):
     @staticmethod
     def _get_options(settings):
         """
-        Return the start options settings
+        Return the Options settings
+        if not set, default values are :
+        deaf: False
+        mute: False
 
         :param settings: The YAML settings file
         :type settings: dict
-        :return: A dict containing the start options
-        :rtype: dict
+        :return: An Options with the start options
+        :rtype: Options
         """
 
         deaf = False
@@ -647,19 +651,16 @@ class SettingLoader(with_metaclass(Singleton, object)):
 
         try:
             options = settings["options"]
-        except KeyError:
-            options = dict()
-
-        if options is not None:
             if options['deaf']:
                 deaf = options['deaf']
             if options['mute']:
                 mute = options['mute']
+        except KeyError:
+            pass
 
-        options['deaf'] = deaf
-        options['mute'] = mute
+        options = Options(deaf=deaf, mute=mute)
 
-        logger.debug("Start options: %s" % options)
+        logger.debug("Options: %s" % options)
         return options
 
     @staticmethod

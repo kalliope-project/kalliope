@@ -157,7 +157,7 @@ def main():
         if (parser.run_synapse is None) and (parser.run_order is None):
             # if --deaf
             if parser.deaf:
-                settings.options['deaf'] = True
+                settings.options.deaf = True
 
             # start rest api
             start_rest_api(settings, brain)

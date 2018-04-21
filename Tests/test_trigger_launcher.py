@@ -1,10 +1,10 @@
 import unittest
 import mock
 
-from kalliope.core.Models.Settings import Settings
+from kalliope.core.Models.settings.Settings import Settings
 from kalliope.core.TriggerLauncher import TriggerLauncher
 
-from kalliope.core.Models.Trigger import Trigger
+from kalliope.core.Models.settings.Trigger import Trigger
 
 
 class TestTriggerLauncher(unittest.TestCase):

@@ -7,13 +7,14 @@ import unittest
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.Models import Singleton
 from kalliope.core.Models import Resources
-from kalliope.core.Models.Player import Player
-from kalliope.core.Models.RestAPI import RestAPI
-from kalliope.core.Models.Settings import Settings
-from kalliope.core.Models.Stt import Stt
-from kalliope.core.Models.RecognitionOptions import RecognitionOptions
-from kalliope.core.Models.Trigger import Trigger
-from kalliope.core.Models.Tts import Tts
+from kalliope.core.Models.settings.Options import Options
+from kalliope.core.Models.settings.Player import Player
+from kalliope.core.Models.settings.RestAPI import RestAPI
+from kalliope.core.Models.settings.Settings import Settings
+from kalliope.core.Models.settings.Stt import Stt
+from kalliope.core.Models.settings.RecognitionOptions import RecognitionOptions
+from kalliope.core.Models.settings.Trigger import Trigger
+from kalliope.core.Models.settings.Tts import Tts
 
 
 class TestSettingLoader(unittest.TestCase):
@@ -125,10 +126,7 @@ class TestSettingLoader(unittest.TestCase):
             "test_number": 60,
             "test": "kalliope"
         }
-        settings_object.options = {
-            "deaf": True,
-            "mute": False
-        }
+        settings_object.options = Options(deaf=True, mute=False)
         settings_object.machine = platform.machine()
         settings_object.recognition_options = RecognitionOptions()
         settings_object.hooks = {'on_waiting_for_trigger': 'test',
@@ -227,10 +225,7 @@ class TestSettingLoader(unittest.TestCase):
                          sl._get_variables(self.settings_dict))
 
     def test_get_options(self):
-        expected_result = {
-            "deaf": True,
-            "mute": False
-        }
+        expected_result = Options(deaf=True, mute=False)
         sl = SettingLoader(file_path=self.settings_file_to_test)
         self.assertEqual(expected_result,
                          sl._get_options(self.settings_dict))

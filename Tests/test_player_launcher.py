@@ -1,8 +1,8 @@
 import unittest
 import mock
 
-from kalliope.core.Models.Player import Player
-from kalliope.core.Models.Settings import Settings
+from kalliope.core.Models.settings.Player import Player
+from kalliope.core.Models.settings.Settings import Settings
 from kalliope.core.PlayerLauncher import PlayerLauncher
 
 

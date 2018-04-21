@@ -1,15 +1,15 @@
-from kalliope.core.Models.SettingsEntry import SettingsEntry
+from kalliope.core.Models.settings.SettingsEntry import SettingsEntry
 
 
-class Tts(SettingsEntry):
+class Trigger(SettingsEntry):
     """
-    This Class is representing a Text To Speech (TTS) with its name and parameters
+    This Class is representing a Trigger with its name and parameters
 
     .. note:: must be defined in the settings.yml
     """
 
     def __init__(self, name=None, parameters=None):
-        super(Tts, self).__init__(name=name)
+        super(Trigger, self).__init__(name=name)
         self.parameters = parameters
 
     def __str__(self):
@@ -24,7 +24,7 @@ class Tts(SettingsEntry):
     def __eq__(self, other):
         """
         This is used to compare 2 objects
-        :param other: the Tts to compare
-        :return: True if both ttss are similar, False otherwise
+        :param other: the Trigger to compare
+        :return: True if both triggers are similar, False otherwise
         """
         return self.__dict__ == other.__dict__

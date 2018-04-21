@@ -1,4 +1,7 @@
-class RecognitionOptions(object):
+from kalliope.core.Models.settings.SettingsEntry import SettingsEntry
+
+
+class RecognitionOptions(SettingsEntry):
     """
     This Class is representing a Speech To Text (STT) Recognition elements with name and parameters
 
@@ -6,6 +9,7 @@ class RecognitionOptions(object):
     """
 
     def __init__(self, energy_threshold=4000, adjust_for_ambient_noise_second=0):
+        super(RecognitionOptions, self).__init__("RecognitionOptions")
         self.energy_threshold = energy_threshold
         self.adjust_for_ambient_noise_second = adjust_for_ambient_noise_second
 
