@@ -21,7 +21,6 @@ class Settings(object):
                  cache_path=None,
                  resources=None,
                  variables=None,
-                 recognition_options=None,
                  options=None,
                  hooks=None):
 
@@ -39,7 +38,6 @@ class Settings(object):
         self.variables = variables
         self.machine = platform.machine()   # can be x86_64 or armv7l
         self.kalliope_version = current_kalliope_version
-        self.recognition_options = recognition_options
         self.options = options
         self.hooks = hooks
 
@@ -66,7 +64,6 @@ class Settings(object):
             'variables': self.variables,
             'machine': self.machine,
             'kalliope_version': self.kalliope_version,
-            'recognition_options': self.recognition_options.serialize() if self.recognition_options is not None else None,
             'options': self.options,
             'hooks': self.hooks
         }

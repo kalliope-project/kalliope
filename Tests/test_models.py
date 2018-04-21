@@ -4,7 +4,6 @@ import mock
 
 from kalliope.core.Models.settings.Player import Player
 from kalliope.core.Models.Signal import Signal
-from kalliope.core.Models.settings.RecognitionOptions import RecognitionOptions
 from kalliope.core.Models.settings.Tts import Tts
 
 from kalliope.core.Models.settings.Trigger import Trigger
@@ -244,8 +243,6 @@ class TestModels(unittest.TestCase):
                                 active=True,
                                 port=5000, allowed_cors_origin="*")
 
-            recognition_options = RecognitionOptions()
-
             setting1 = Settings(default_tts_name="pico2wav",
                                 default_stt_name="google",
                                 default_trigger_name="swoyboy",
@@ -258,7 +255,6 @@ class TestModels(unittest.TestCase):
                                 cache_path="/tmp/kalliope",
                                 resources=None,
                                 variables={"key1": "val1"},
-                                recognition_options=recognition_options,
                                 options={'deaf': False, 'mute': False})
             setting1.kalliope_version = "0.4.5"
 
@@ -273,7 +269,6 @@ class TestModels(unittest.TestCase):
                                 cache_path="/tmp/kalliope_tmp",
                                 resources=None,
                                 variables={"key1": "val1"},
-                                recognition_options=recognition_options,
                                 options={'deaf': False, 'mute': False})
             setting2.kalliope_version = "0.4.5"
 
@@ -289,7 +284,6 @@ class TestModels(unittest.TestCase):
                                 cache_path="/tmp/kalliope",
                                 resources=None,
                                 variables={"key1": "val1"},
-                                recognition_options=recognition_options,
                                 options={'deaf': False, 'mute': False})
             setting3.kalliope_version = "0.4.5"
 
@@ -317,7 +311,6 @@ class TestModels(unittest.TestCase):
                 'resources': None,
                 'triggers': ['snowboy'],
                 'players': ['mplayer'],
-                'recognition_options': {'energy_threshold': 4000, 'adjust_for_ambient_noise_second': 0},
                 'options': {'deaf': False, 'mute': False}
             }
 
