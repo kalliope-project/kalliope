@@ -32,24 +32,24 @@ class Settings(NeuronModule):
         :return: True if all parameters are set correctly, False otherwise.
         """
         if self.default_player_name:
-            if not self._check_name_in_list_object(self.default_player_name, self.settings.players):
+            if not self._check_name_in_list_settings_entry(self.default_player_name, self.settings.players):
                 logger.debug("[Settings] default_player_name %s is not defined in settings file ",
                              self.default_player_name)
                 return False
 
         if self.default_stt_name:
-            if not self._check_name_in_list_object(self.default_stt_name, self.settings.stts):
+            if not self._check_name_in_list_settings_entry(self.default_stt_name, self.settings.stts):
                 logger.debug("[Settings] default_stt_name %s is not defined in settings file ", self.default_stt_name)
                 return False
 
         if self.default_trigger_name:
-            if self._check_name_in_list_object(self.default_trigger_name, self.settings.triggers):
+            if self._check_name_in_list_settings_entry(self.default_trigger_name, self.settings.triggers):
                 logger.debug("[Settings] default_trigger_name %s is not defined in settings file ",
                              self.default_trigger_name)
                 return False
 
         if self.default_tts_name:
-            if not self._check_name_in_list_object(self.default_tts_name, self.settings.ttss):
+            if not self._check_name_in_list_settings_entry(self.default_tts_name, self.settings.ttss):
                 logger.debug("[Settings] default_tts_name %s is not defined in settings file ", self.default_tts_name)
                 return False
 
@@ -86,18 +86,17 @@ class Settings(NeuronModule):
         if self.mute is not None:
             SettingEditor.set_mute_status(self.mute)
 
-
     @staticmethod
-    def _check_name_in_list_object(name_to_check, list_obj):
+    def _check_name_in_list_settings_entry(name_to_check, list_settings_entry):
         """
         manage object models : STT, TRIGGERS, TTS, PLAYERS because they have "name" attributes
         TODO
         :param name_to_check:
-        :param list_obj:
+        :param list_settings_entry:
         :return:
         """
         found = False
-        for obj in list_obj:
-            if obj.name == name_to_check:
+        for settings_entry in list_settings_entry:
+            if settings_entry.name == name_to_check:
                 found = True
         return found
