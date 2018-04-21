@@ -1,4 +1,7 @@
-class Trigger(object):
+from kalliope.core.Models.SettingsEntry import SettingsEntry
+
+
+class Trigger(SettingsEntry):
     """
     This Class is representing a Trigger with its name and parameters
 
@@ -6,7 +9,7 @@ class Trigger(object):
     """
 
     def __init__(self, name=None, parameters=None):
-        self.name = name
+        super(Trigger, self).__init__(name=name)
         self.parameters = parameters
 
     def __str__(self):
@@ -21,7 +24,7 @@ class Trigger(object):
     def __eq__(self, other):
         """
         This is used to compare 2 objects
-        :param other:
-        :return:
+        :param other: the Trigger to compare
+        :return: True if both triggers are similar, False otherwise
         """
         return self.__dict__ == other.__dict__
