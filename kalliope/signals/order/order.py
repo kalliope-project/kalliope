@@ -96,7 +96,7 @@ class Order(Thread):
         Method to print in debug that the main process is waiting for a trigger detection
         """
         logger.debug("[MainController] Entering state: %s" % self.state)
-        if self.settings.options["deaf"]:  # the user asked to deaf inside the deaf neuron
+        if self.settings.options.deaf:  # the user asked to deaf inside the deaf neuron
             Utils.print_info("Kalliope is deaf")
             self.trigger_instance.pause()
         else:

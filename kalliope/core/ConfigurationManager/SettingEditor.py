@@ -25,7 +25,7 @@ class SettingEditor(object):
         else:
             Utils.print_info("Kalliope now speaking.")
             HookManager.on_unmute()
-        settings.options["mute"] = mute
+        settings.options.mute = mute
 
     @staticmethod
     def set_deaf_status(trigger_instance, deaf=False):
@@ -44,7 +44,7 @@ class SettingEditor(object):
             trigger_instance.unpause()
             Utils.print_info("Kalliope now listening for trigger detection")
             HookManager.on_undeaf()
-        settings.options["deaf"] = deaf
+        settings.options.deaf = deaf
 
     @staticmethod
     def set_default_player_name(default_player_name):

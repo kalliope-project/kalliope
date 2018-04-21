@@ -1,4 +1,7 @@
-class RestAPI(object):
+from kalliope.core.Models.settings.SettingsEntry import SettingsEntry
+
+
+class RestAPI(SettingsEntry):
     """
     This Class is representing the rest API with all its configuration.
     """
@@ -16,6 +19,7 @@ class RestAPI(object):
         :param active: specify if the rest api is loaded on start with Kalliope
         :param allowed_cors_origin: specify allowed origins
         """
+        super(RestAPI, self).__init__("RestAPI")
         self.password_protected = password_protected
         self.login = login
         self.password = password

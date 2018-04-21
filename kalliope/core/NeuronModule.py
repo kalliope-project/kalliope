@@ -170,7 +170,7 @@ class NeuronModule(object):
             Cortex.save("kalliope_last_tts_message", tts_message)
 
             # process the audio only if the mute flag is false
-            if self.settings.options["mute"]:
+            if self.settings.options.mute:
                 logger.debug("[NeuronModule] mute is True, Kalliope is muted")
             else:
                 logger.debug("[NeuronModule] mute is False, make Kalliope speaking")

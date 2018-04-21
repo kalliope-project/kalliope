@@ -9,7 +9,6 @@ from kalliope.core.Models import Singleton
 from kalliope.core.ConfigurationManager import SettingLoader
 
 from kalliope.core import HookManager
-from kalliope.core.Models.Settings import Settings
 
 
 class TestInit(unittest.TestCase):
