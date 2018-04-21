@@ -160,7 +160,7 @@ rest_api:
 # Options
 # -------------
 options:
-  energy_threshold: 4000                 # Speech to text option
-  adjust_for_ambient_noise_second: 1     # Speech to text option
+#  energy_threshold: 4000                 # Speech to text option
+#  adjust_for_ambient_noise_second: 1     # Speech to text option
   deaf: False
   mute: False
