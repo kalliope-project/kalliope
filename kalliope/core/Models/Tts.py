@@ -1,4 +1,7 @@
-class Tts(object):
+from kalliope.core.Models.SettingsEntry import SettingsEntry
+
+
+class Tts(SettingsEntry):
     """
     This Class is representing a Text To Speech (TTS) with its name and parameters
 
@@ -6,7 +9,7 @@ class Tts(object):
     """
 
     def __init__(self, name=None, parameters=None):
-        self.name = name
+        super(Tts, self).__init__(name=name)
         self.parameters = parameters
 
     def __str__(self):
@@ -21,7 +24,7 @@ class Tts(object):
     def __eq__(self, other):
         """
         This is used to compare 2 objects
-        :param other:
-        :return:
+        :param other: the Tts to compare
+        :return: True if both ttss are similar, False otherwise
         """
         return self.__dict__ == other.__dict__

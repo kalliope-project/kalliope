@@ -1,4 +1,7 @@
-class Player(object):
+from kalliope.core.Models.SettingsEntry import SettingsEntry
+
+
+class Player(SettingsEntry):
     """
     This Class is representing a Player with its name and parameters
 
@@ -6,7 +9,7 @@ class Player(object):
     """
 
     def __init__(self, name=None, parameters=None):
-        self.name = name
+        super(Player, self).__init__(name=name)
         self.parameters = parameters
 
     def __str__(self):
