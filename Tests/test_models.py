@@ -2,21 +2,21 @@ import unittest
 import ast
 import mock
 
-from kalliope.core.Models.Player import Player
+from kalliope.core.Models.settings.Player import Player
 from kalliope.core.Models.Signal import Signal
-from kalliope.core.Models.RecognitionOptions import RecognitionOptions
-from kalliope.core.Models.Tts import Tts
+from kalliope.core.Models.settings.RecognitionOptions import RecognitionOptions
+from kalliope.core.Models.settings.Tts import Tts
 
-from kalliope.core.Models.Trigger import Trigger
+from kalliope.core.Models.settings.Trigger import Trigger
 
-from kalliope.core.Models.Stt import Stt
+from kalliope.core.Models.settings.Stt import Stt
 
-from kalliope.core.Models.RestAPI import RestAPI
+from kalliope.core.Models.settings.RestAPI import RestAPI
 
 from kalliope.core.Models.Dna import Dna
 
 from kalliope.core import LIFOBuffer
-from kalliope.core.Models.Settings import Settings
+from kalliope.core.Models.settings.Settings import Settings
 
 from kalliope.core.Models import Neuron, Synapse, Brain, Resources, Singleton
 

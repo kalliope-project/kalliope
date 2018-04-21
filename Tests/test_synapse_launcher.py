@@ -2,10 +2,10 @@ import unittest
 
 import mock
 
-from kalliope.core import LIFOBuffer, LifoManager
+from kalliope.core import LifoManager
 from kalliope.core.Models import Brain, Signal, Singleton
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
-from kalliope.core.Models.Settings import Settings
+from kalliope.core.Models.settings.Settings import Settings
 from kalliope.core.SynapseLauncher import SynapseLauncher, SynapseNameNotFound
 
 from kalliope.core.Models import Neuron

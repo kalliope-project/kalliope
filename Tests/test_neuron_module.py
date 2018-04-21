@@ -3,7 +3,7 @@ import unittest
 import mock
 
 from kalliope.core.Models import Singleton
-from kalliope.core.Models.Tts import Tts
+from kalliope.core.Models.settings.Tts import Tts
 
 from kalliope import SettingLoader
 from kalliope.core.NeuronModule import NeuronModule, TemplateFileNotFoundException, TTSModuleNotFound

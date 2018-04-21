@@ -3,7 +3,7 @@ import unittest
 
 import mock
 
-from kalliope.core.Models.Settings import Settings
+from kalliope.core.Models.settings.Settings import Settings
 from kalliope.core.TTS.TTSModule import TTSModule, TtsGenerateAudioFunctionNotFound
 from kalliope.core.Utils.FileManager import FileManager
 

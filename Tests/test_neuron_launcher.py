@@ -4,7 +4,7 @@ import unittest
 import mock
 from kalliope.core.Models import Singleton
 
-from kalliope.core.Models.Resources import Resources
+from kalliope.core.Models.settings.Resources import Resources
 from kalliope.core.NeuronLauncher import NeuronLauncher, NeuronParameterNotAvailable
 from kalliope.core.ConfigurationManager import SettingLoader
 
