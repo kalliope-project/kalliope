@@ -159,7 +159,7 @@ class FlaskAPI(threading.Thread):
         synapse_target = BrainLoader().brain.get_synapse_by_name(synapse_name=synapse_name)
 
         # Store the mute value, then apply depending of the request parameters
-        old_mute_value = self.settings.options["mute"]
+        old_mute_value = self.settings.options.mute
         mute = self.get_boolean_flag_from_request(request, boolean_flag_to_find="mute")
         if mute is not None:
             SettingEditor.set_mute_status(mute=mute)
@@ -212,7 +212,7 @@ class FlaskAPI(threading.Thread):
         order = request.get_json('order')
 
         # Store the mute value, then apply depending of the request parameters
-        old_mute_value = self.settings.options["mute"]
+        old_mute_value = self.settings.options.mute
         mute = self.get_boolean_flag_from_request(request, boolean_flag_to_find="mute")
         if mute is not None:
             SettingEditor.set_mute_status(mute=mute)
@@ -267,7 +267,7 @@ class FlaskAPI(threading.Thread):
             return jsonify(error=data), 400
 
         # Store the mute value, then apply depending of the request parameters
-        old_mute_value = self.settings.options["mute"]
+        old_mute_value = self.settings.options.mute
         if request.form.get("mute"):
             SettingEditor.set_mute_status(mute=self.str_to_bool(request.form.get("mute")))
 
@@ -339,9 +339,9 @@ class FlaskAPI(threading.Thread):
         """
 
         # find the order signal and call the deaf settings
-        if self.settings.options["deaf"] is not None:
+        if self.settings.options.deaf is not None:
             data = {
-                "deaf": self.settings.options["deaf"]
+                "deaf": self.settings.options.deaf
             }
             return jsonify(data), 200
 
@@ -368,10 +368,10 @@ class FlaskAPI(threading.Thread):
         deaf = self.get_boolean_flag_from_request(request, boolean_flag_to_find="deaf")
 
         signal_order = SignalLauncher.get_order_instance()
-        if signal_order is not None and deaf is not None and self.settings.options["deaf"] is not None:
+        if signal_order is not None and deaf is not None and self.settings.options.deaf is not None:
             SettingEditor.set_deaf_status(signal_order.trigger_instance, deaf)
             data = {
-                "deaf": self.settings.options["deaf"]
+                "deaf": self.settings.options.deaf
             }
             return jsonify(data), 200
 
@@ -390,9 +390,9 @@ class FlaskAPI(threading.Thread):
         """
 
         # find the order signal and call the mute settings
-        if self.settings.options["mute"] is not None:
+        if self.settings.options.mute is not None:
             data = {
-                "mute": self.settings.options["mute"]
+                "mute": self.settings.options.mute
             }
             return jsonify(data), 200
 

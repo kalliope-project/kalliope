@@ -1,4 +1,4 @@
-from kalliope.core.Models.SettingsEntry import SettingsEntry
+from kalliope.core.Models.settings.SettingsEntry import SettingsEntry
 
 
 class Stt(SettingsEntry):
