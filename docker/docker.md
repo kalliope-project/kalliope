@@ -1,8 +1,11 @@
-# Docker deployment and tests
+# Docker 
 
-## Create images
+## Unit Tests
 
-### Ubuntu 16.04
+### Create images
+
+#### Ubuntu 16.04
+
 Build the image for Ubuntu 16.04. By default, the master branch of the Kalliope project will be cloned.
 ```
 docker build --force-rm=true -t kalliope-ubuntu1604 -f docker/ubuntu_16_04.dockerfile .
@@ -20,7 +23,8 @@ docker build \
 -f docker/ubuntu_16_04.dockerfile .
 ```
 
-### Debian Jessie
+#### Debian Jessie
+
 Build the image for Debian Jessie. By default, the master branch of the Kalliope project will be cloned.
 ```
 docker build --force-rm=true -t kalliope-debian8 -f docker/debian8.dockerfile .
@@ -38,7 +42,7 @@ docker build \
 -f docker/debian8.dockerfile .
 ```
 
-## Run the test
+### Run the test
 
 Ubuntu image
 ```
@@ -48,4 +52,12 @@ docker run -it --rm kalliope-ubuntu1604
 Debian image
 ```
 docker run -it --rm kalliope-debian8
+```
+
+## Compile Snowboy
+
+All Snowboy binaries for x86_64 architecture can be compiled from the docker compose file
+```bash
+mkdir /tmp/snowboy
+docker-compose -f compose_compile_snowboy_all.yml up
 ```
