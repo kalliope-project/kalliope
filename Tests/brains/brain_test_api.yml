@@ -24,7 +24,7 @@
     neurons:
       - say:
           message:
-            - "test message {{ parameter1 }}"
+            - "test message {{parameter1}}"
 
   - name: "order-not-found-synapse"
     signals: []

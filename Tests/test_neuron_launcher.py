@@ -224,7 +224,128 @@ class TestNeuronLauncher(unittest.TestCase):
             }
 
             self.assertEqual(expected_result, NeuronLauncher._replace_brackets_by_loaded_parameter(neuron_parameters,
-                                                                                               loaded_parameters))
+                                                                                                   loaded_parameters))
+
+        ####
+        # tests with global variables
+        ####
+
+        # 1/ only one global variable
+        sl = SettingLoader()
+        sl.settings.variables = {
+            "hello": "test",
+            "hello2": "test2",
+        }
+
+        parameters = {
+            'var1': '{{hello}}'
+        }
+
+        expected_parameters = {
+            'var1': 'test'
+        }
+
+        self.assertEqual(expected_parameters, NeuronLauncher._replace_brackets_by_loaded_parameter(parameters,
+                                                                                                   loaded_parameters))
+
+        # 2/ global variable with string after
+        sl.settings.variables = {
+            "hello": "test",
+            "hello2": "test2",
+        }
+
+        parameters = {
+            'var1': '{{hello}} Sispheor'
+        }
+
+        expected_parameters = {
+            'var1': 'test Sispheor'
+        }
+
+        self.assertEqual(expected_parameters, NeuronLauncher._replace_brackets_by_loaded_parameter(parameters,
+                                                                                                   loaded_parameters))
+
+        # 3/ global variable with int after
+        parameters = {
+            'var1': '{{hello}}0'
+        }
+        sl.settings.variables = {
+            "hello": 60,
+            "hello2": "test2",
+        }
+
+        expected_parameters = {
+            'var1': '600'
+        }
+
+        self.assertEqual(expected_parameters, NeuronLauncher._replace_brackets_by_loaded_parameter(parameters,
+                                                                                                   loaded_parameters))
+
+        # 4/ multiple global variables
+        parameters = {
+            'var1': '{{hello}} {{me}}'
+        }
+        sl.settings.variables = {
+            "hello": "hello",
+            "me": "LaMonf"
+        }
+
+        expected_parameters = {
+            'var1': 'hello LaMonf'
+        }
+
+        self.assertEqual(expected_parameters, NeuronLauncher._replace_brackets_by_loaded_parameter(parameters,
+                                                                                                   loaded_parameters))
+
+        # 5/ parameter value is a list
+        parameters = {
+            'var1': '[hello {{name}}, bonjour {{name}}]'
+        }
+        sl.settings.variables = {
+            "name": "LaMonf",
+            "hello2": "test2",
+        }
+
+        expected_parameters = {
+            'var1': '[hello LaMonf, bonjour LaMonf]'
+        }
+
+        self.assertEqual(expected_parameters, NeuronLauncher._replace_brackets_by_loaded_parameter(parameters,
+                                                                                                   loaded_parameters))
+
+        # 6/ parameter is a dict
+        parameters = {'random_dict': [{'synapse': 'synapse2', 'answers': ['absolument', '{{ name }}']},
+                                      {'synapse': 'synapse3', 'answers': ['{{ name }}']}], 'default': 'synapse4'}
+
+        sl.settings.variables = {
+            "name": "nico"
+        }
+
+        expected_parameters = {
+            'random_dict': [
+                {'synapse': 'synapse2', 'answers': ['absolument', 'nico']},
+                {'synapse': 'synapse3', 'answers': ['nico']}], 'default': 'synapse4'
+        }
+
+        self.assertEqual(expected_parameters, NeuronLauncher._replace_brackets_by_loaded_parameter(parameters,
+                                                                                                   loaded_parameters))
+
+        # 7/ parameter is a dict with a restricted word
+        parameters = {'from_answer_link': [{'synapse': 'synapse2', 'answers': ['absolument', '{{ name }}']},
+                                      {'synapse': 'synapse3', 'answers': ['{{ name }}']}], 'default': 'synapse4'}
+
+        sl.settings.variables = {
+            "name": "nico"
+        }
+
+        expected_parameters = {
+            'from_answer_link': [
+                {'synapse': 'synapse2', 'answers': ['absolument', '{{ name }}']},
+                {'synapse': 'synapse3', 'answers': ['{{ name }}']}], 'default': 'synapse4'
+        }
+
+        self.assertEqual(expected_parameters, NeuronLauncher._replace_brackets_by_loaded_parameter(parameters,
+                                                                                                   loaded_parameters))
 
     def test_parameters_are_available_in_loaded_parameters(self):
         # the parameter in bracket is available in the dict
