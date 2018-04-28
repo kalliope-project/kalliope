@@ -124,25 +124,14 @@ class BrainLoader(with_metaclass(Singleton, object)):
 
         neurons = list()
         for neuron_dict in neurons_dict:
-            if isinstance(neuron_dict, dict):
-                if ConfigurationChecker().check_neuron_dict(neuron_dict):
+            if ConfigurationChecker().check_neuron_dict(neuron_dict):
+                if isinstance(neuron_dict, dict):
                     for neuron_name in neuron_dict:
-
-                        name = neuron_name
-                        parameters = neuron_dict[name]
-
-                        # Update brackets with the global parameter if exist
-                        parameters = cls._replace_global_variables(parameter=parameters,
-                                                                   settings=settings)
-
-                        new_neuron = Neuron(name=name, parameters=parameters)
+                        new_neuron = Neuron(name=neuron_name, parameters=neuron_dict[neuron_name])
                         neurons.append(new_neuron)
-            else:
-                # the neuron does not have parameter
-                if ConfigurationChecker().check_neuron_dict(neuron_dict):
+                else:
                     new_neuron = Neuron(name=neuron_dict)
                     neurons.append(new_neuron)
-
         return neurons
 
     @classmethod
@@ -193,51 +182,3 @@ class BrainLoader(with_metaclass(Singleton, object)):
         if os.path.isfile(brain_path):
             return brain_path
         raise IOError("Default brain.yml file not found")
-
-    @classmethod
-    def _replace_global_variables(cls, parameter, settings):
-        """
-        replace a parameter that contains bracket by the instantiated parameter from the var file
-        This function will call itself multiple time to handle different level of parameter in a neuron
-
-        :param parameter: the parameter to update. can be a dict, a list or a string
-        :param settings: the settings
-        :return: the parameter dict
-        """
-        if isinstance(parameter, str) \
-                or isinstance(parameter, six.text_type) \
-                or isinstance(parameter, int):
-            if Utils.is_containing_bracket(parameter):
-                return cls._get_global_variable(sentence=parameter, settings=settings)
-        if isinstance(parameter, list):
-            new_parameter_list = list()
-            for el in parameter:
-                new_parameter_list.append(cls._replace_global_variables(el, settings=settings))
-            return new_parameter_list
-        if isinstance(parameter, dict):
-            for key, value in parameter.items():
-                parameter[key] = cls._replace_global_variables(value, settings=settings)
-        return parameter
-
-    @staticmethod
-    def _get_global_variable(sentence, settings):
-        """
-        Get the global variable from the sentence with brackets
-        :param sentence: the sentence to check
-        :return: the global variable
-        """
-        sentence_no_spaces = Utils.remove_spaces_in_brackets(sentence=sentence)
-        list_of_bracket_params = Utils.find_all_matching_brackets(sentence=sentence_no_spaces)
-        for param_with_bracket in list_of_bracket_params:
-            param_no_brackets = param_with_bracket.replace("{{", "").replace("}}", "")
-            if param_no_brackets in settings.variables:
-                logger.debug("Replacing variable %s with  %s" % (param_with_bracket,
-                                                                 settings.variables[param_no_brackets]))
-
-                # need to check if the variable is an integer
-                variable = settings.variables[param_no_brackets]
-                if isinstance(variable, int):
-                    variable = str(variable)
-                sentence_no_spaces = sentence_no_spaces.replace(param_with_bracket,
-                                                                variable)
-        return sentence_no_spaces
