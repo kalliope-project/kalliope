@@ -80,21 +80,7 @@ class NeuronModule(object):
         brain_loader = BrainLoader()
         self.brain = brain_loader.brain
 
-        # a dict of overridden TTS parameters if provided by the user
-        self.override_tts_parameters = kwargs.get('tts', None)
-
-        # create the TTS instance
-        self.tts = None
-        if self.override_tts_parameters is None or not isinstance(self.override_tts_parameters, dict):
-            # we get the default TTS
-            self.tts = self._get_tts_object(settings=self.settings)
-        else:
-            for key, value in self.override_tts_parameters.items():
-                tts_name = key
-                tts_parameters = value
-                self.tts = self._get_tts_object(tts_name=tts_name,
-                                                override_parameter=tts_parameters,
-                                                settings=self.settings)
+        self.tts = self._get_tts_object(settings=self.settings)
 
         # get templates if provided
         # Check if there is a template associate to the output message
