@@ -17,6 +17,9 @@ class NeuronParameterNotAvailable(Exception):
 
 
 class NeuronLauncher:
+    """
+    Static Class to launch Neurons
+    """
 
     def __init__(self):
         pass
@@ -41,7 +44,7 @@ class NeuronLauncher:
                                                      resources_dir=neuron_folder)
 
     @classmethod
-    def start_neuron(cls, neuron, parameters_dict=None):
+    def start_neuron(cls, neuron, parameters_dict=dict()):
         """
         Execute each neuron from the received neuron_list.
         Replace parameter if exist in the received dict of parameters_dict
@@ -64,7 +67,7 @@ class NeuronLauncher:
         return instantiated_neuron
 
     @classmethod
-    def _replace_brackets_by_loaded_parameter(cls, neuron_parameters, loaded_parameters):
+    def _replace_brackets_by_loaded_parameter(cls, neuron_parameters, loaded_parameters=dict()):
         """
         Receive a value (which can be a str or dict or list) and instantiate value in double brace bracket
         by the value specified in the loaded_parameters dict.
@@ -73,21 +76,21 @@ class NeuronLauncher:
         :param loaded_parameters: dict of parameters
         """
         logger.debug("[NeuronLauncher] replacing brackets from %s, using %s" % (neuron_parameters, loaded_parameters))
-        # add variables from the short term memory to the list of loaded parameters that can be used in a template
-        # the final dict is added into a key "kalliope_memory" to not override existing keys loaded form the order
-        memory_dict = dict()
-        memory_dict["kalliope_memory"] = Cortex.get_memory()
-        if loaded_parameters is None:
-            loaded_parameters = dict()  # instantiate an empty dict in order to be able to add memory in it
-        loaded_parameters.update(memory_dict)
+
         if isinstance(neuron_parameters, str) or isinstance(neuron_parameters, six.text_type):
             # replace bracket parameter only if the str contains brackets
             if Utils.is_containing_bracket(neuron_parameters):
+                settings = cls.load_settings()
+                # Priority to memory over the variables
+                loaded_parameters.update(settings.variables)
+                memory_dict = dict()
+                # add variables from the short term memory to the list of loaded parameters that can be used in a template
+                # the final dict is added into a key "kalliope_memory" to not override existing keys loaded form the order
+                memory_dict["kalliope_memory"] = Cortex.get_memory()
+                loaded_parameters.update(memory_dict)
                 # check that the parameter to replace is available in the loaded_parameters dict
                 if cls._neuron_parameters_are_available_in_loaded_parameters(neuron_parameters, loaded_parameters):
                     # add parameters from global variable into the final loaded parameter dict
-                    settings = cls.load_settings()
-                    loaded_parameters.update(settings.variables)
                     neuron_parameters = jinja2.Template(neuron_parameters).render(loaded_parameters)
                     neuron_parameters = Utils.encode_text_utf8(neuron_parameters)
                     return str(neuron_parameters)

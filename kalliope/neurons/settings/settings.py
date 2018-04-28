@@ -42,10 +42,10 @@ class Settings(NeuronModule):
         # Hooks
         self.hooks = kwargs.get("hooks", None)
 
-        # Not applicable yet as Variables are applied during brainloading.
         # Variables
-        # self.var_files = kwargs.get("var_files", None)
+        self.var_files = kwargs.get("var_files", None)
 
+        # Not applicable yet as Variables are applied during brainloading.
         # REST API
         # RESSOURCES ?
 
