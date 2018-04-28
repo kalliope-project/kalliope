@@ -47,7 +47,7 @@ class Settings(NeuronModule):
 
         # Not applicable yet as Variables are applied during brainloading.
         # REST API
-        # RESSOURCES ?
+        # RESSOURCES Does it even make sense to update this one ?
 
         if self._is_parameters_ok():
             self._set_settings()
@@ -115,7 +115,7 @@ class Settings(NeuronModule):
             if not self._check_name_in_list_settings_entry(self.default_tts, self.settings.ttss):
                 logger.debug("[Settings] default_tts %s is not defined in settings file ", self.default_tts)
                 return False
-        # TODO remove TTS management from the NeuronModule class
+
         if self.text_to_speech:
             if not isinstance(self.text_to_speech, list):
                 logger.debug("[Settings] text_to_speech current type: %s. text_to_speech should be a list",
@@ -174,10 +174,6 @@ class Settings(NeuronModule):
                 if var is None:
                     logger.debug("[Settings] Variables file %s not found", file_name)
                     return False
-
-        # TODO Resources Does it make sense to update this one ?
-
-        # TODO REST API
 
         return True
 
@@ -266,10 +262,9 @@ class Settings(NeuronModule):
     def _check_name_in_list_settings_entry(name_to_check, list_settings_entry):
         """
         manage object models : STT, TRIGGERS, TTS, PLAYERS because they have "name" attributes
-        TODO
-        :param name_to_check:
-        :param list_settings_entry:
-        :return:
+        :param name_to_check: name to find in the list_settings_entry ~kalliope.core.Models.settings.SettingsEntry.SettingsEntry
+        :param list_settings_entry: the list of SettingsEntry to inspect
+        :return: True if the name_to_check corresponds to a name in the SettingsEntry list provided.
         """
         found = False
         for settings_entry in list_settings_entry:
