@@ -71,7 +71,7 @@ class SettingEditor(object):
 
     # Players
     @staticmethod
-    def set_default_player_name(default_player_name):
+    def set_default_player(default_player_name):
         """
         Set dynamically a new default_player in the settings
         :param default_player_name: string value
@@ -79,9 +79,22 @@ class SettingEditor(object):
         settings = SettingLoader().settings
         settings.default_player_name = default_player_name
 
+    @staticmethod
+    def set_players(new_player):
+        """
+        Add a new Player object in the list of players in the settings.
+        If PLayer already exists in settings, it will be updated with the new player provided values.
+        :param new_player: the new PLayer object to add in the settings.
+        """
+        settings = SettingLoader().settings
+        list_no_duplicate_player = [player for player in settings.players if player.name != new_player.name]
+        list_no_duplicate_player.append(new_player)
+        settings.players = list_no_duplicate_player
+
+
     # TTS
     @staticmethod
-    def set_default_tts_name(default_tts_name):
+    def set_default_tts(default_tts_name):
         """
         Set dynamically a new default_tts_name in the settings
         :param default_tts_name: string value
@@ -103,7 +116,7 @@ class SettingEditor(object):
 
     # STT
     @staticmethod
-    def set_default_stt_name(default_stt_name):
+    def set_default_stt(default_stt_name):
         """
         Set dynamically a new default_stt_name in the settings
         :param default_stt_name: string value
@@ -111,12 +124,47 @@ class SettingEditor(object):
         settings = SettingLoader().settings
         settings.default_stt_name = default_stt_name
 
+    @staticmethod
+    def set_stts(new_stt):
+        settings = SettingLoader().settings
+        list_no_duplicate_stt = [stt for stt in settings.stts if stt.name != new_stt.name]
+        list_no_duplicate_stt.append(new_stt)
+        settings.stts = list_no_duplicate_stt
+
     # TRIGGER
     @staticmethod
-    def set_default_trigger_name(default_trigger_name):
+    def set_default_trigger(default_trigger):
         """
-        Set dynamically a new default_trigger_name in the settingss
-        :param default_trigger_name: string value
+        Set dynamically a new default_trigger in the settingss
+        :param default_trigger: string value
         """
         settings = SettingLoader().settings
-        settings.default_trigger_name = default_trigger_name
+        settings.default_trigger = default_trigger
+
+    @staticmethod
+    def set_trigger(new_trigger):
+        settings = SettingLoader().settings
+        list_no_duplicate_triggers = [trigger for trigger in settings.triggers if trigger.name != new_trigger.name]
+        list_no_duplicate_triggers.append(new_trigger)
+        settings.triggers = list_no_duplicate_triggers
+
+    # HOOKS
+    @staticmethod
+    def set_hooks(hooks):
+        """
+        Update the hooks dictionary defined in the settings with the new dictionary in param.
+        :param hooks: the dictionary containing hooks to update.
+        :type hooks : dict
+        """
+        settings = SettingLoader().settings
+        settings.hooks.update(hooks)
+
+    # Variables
+    @staticmethod
+    def set_variables(variables):
+        """
+        Update the settings variables dictionary.
+        :param variables: The dict of variables with the new values.
+        """
+        settings = SettingLoader().settings
+        settings.variables.update(variables)
