@@ -14,7 +14,22 @@ logger = logging.getLogger("kalliope")
 
 class Settings(NeuronModule):
     """
-
+    This Neuron allows to update dynamically the settings of kalliope.
+    Currently available Settings parameters :
+        - default_tts
+        - default_stt
+        - default_trigger
+        - default_player
+        - text_to_speech
+        - speech_to_text
+        - triggers
+        - players
+        - hooks
+        - var_files
+        - deaf
+        - mute
+        - energy_threshold
+        - adjust_for_ambient_noise_second
     """
 
     def __init__(self, **kwargs):

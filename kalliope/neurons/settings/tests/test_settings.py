@@ -2,4 +2,6 @@ import unittest
 
 
 class TestSettings(unittest.TestCase):
-    pass
+
+    def test_is_parameters_ok(self):
+        pass

@@ -9,7 +9,7 @@ logger = logging.getLogger("kalliope")
 
 
 class SettingEditor(object):
-    """This class provides methods/functions to update properties from the Settings"""
+    """This Static class provides methods/functions to update properties from the Settings"""
 
     # Options
     @staticmethod
@@ -91,7 +91,6 @@ class SettingEditor(object):
         list_no_duplicate_player.append(new_player)
         settings.players = list_no_duplicate_player
 
-
     # TTS
     @staticmethod
     def set_default_tts(default_tts_name):
@@ -126,6 +125,10 @@ class SettingEditor(object):
 
     @staticmethod
     def set_stts(new_stt):
+        """
+        Add or update the speak to text list defined in the settings.
+        :param new_stt: The new stt instance.
+        """
         settings = SettingLoader().settings
         list_no_duplicate_stt = [stt for stt in settings.stts if stt.name != new_stt.name]
         list_no_duplicate_stt.append(new_stt)
@@ -143,6 +146,11 @@ class SettingEditor(object):
 
     @staticmethod
     def set_trigger(new_trigger):
+        """
+        Update the list of triggers with a new trigger instance.
+        If the trigger name already exists then it will be updated otherwise it will be added.
+        :param new_trigger: the new trigger instance
+        """
         settings = SettingLoader().settings
         list_no_duplicate_triggers = [trigger for trigger in settings.triggers if trigger.name != new_trigger.name]
         list_no_duplicate_triggers.append(new_trigger)
