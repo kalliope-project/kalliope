@@ -484,7 +484,8 @@ class FlaskAPI(threading.Thread):
         """
         parameters = None
         try:
-            received_json = http_request.get_json(silent=False, force=True)
+            # Silent True in case no parameters it does not raise an error
+            received_json = http_request.get_json(silent=True, force=True)
             if 'parameters' in received_json:
                 parameters = received_json['parameters']
         except TypeError:
