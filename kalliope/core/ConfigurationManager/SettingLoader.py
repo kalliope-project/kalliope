@@ -653,8 +653,8 @@ class SettingLoader(with_metaclass(Singleton, object)):
         if options is not None:
             if options['deaf']:
                 deaf = options['deaf']
-            if options['mute']:
-                mute = options['mute']
+            if options['muted']:
+                mute = options['muted']
 
         options['deaf'] = deaf
         options['mute'] = mute
