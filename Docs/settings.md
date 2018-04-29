@@ -494,7 +494,7 @@ Options that can be defined when kalliope starts.
 Example config
 ```yaml
 options:
-  muted: True
+  mute: True
   deaf: False
 ```
 
