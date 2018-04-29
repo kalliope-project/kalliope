@@ -435,14 +435,14 @@ And a synapse that use this dict:
         - "the number is {{ contacts[contact_to_search] }}"
 ```
 
-## Start options
+## Options
 
-Options that can be defined when kalliope starts.
+Options that can be defined for Kalliope.
 
 Example config
 ```yaml
 options:
-  muted: True
+  mute: True
   deaf: False
 ```
 
@@ -450,7 +450,7 @@ Available options:
 
 | Option                            | Description                                                                                   |
 | ----------------------------------| --------------------------------------------------------------------------------------------- |
-| muted                             | When muted, the STT engine will not be used to make Kalliope talking during neurons execution |
+| mute                              | When mute, the STT engine will not be used to make Kalliope talking during neurons execution  |
 | deaf                              | When deaf, the trigger engine is not started. Kalliope will not listen for a wake up word     |
 | energy_threshold                  | [energy_threshold](#energythreshold)                                                          |
 | adjust_for_ambient_noise_second   | [adjust_for_ambient_noise_second](#adjustforambientnoisesecond)                               |
