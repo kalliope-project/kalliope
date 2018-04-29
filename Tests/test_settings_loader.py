@@ -51,7 +51,7 @@ class TestSettingLoader(unittest.TestCase):
                 {'voxygen': {'voice': 'Agnes', 'cache': True}}
                 ],
             'var_files': ["../Tests/settings/variables.yml"],
-            'options': {'deaf': True, 'mute': False},
+            'options': {'deaf': True, 'muted': False},
             'hooks': {'on_waiting_for_trigger': 'test',
                       'on_stop_listening': None,
                       'on_start_listening': None,
