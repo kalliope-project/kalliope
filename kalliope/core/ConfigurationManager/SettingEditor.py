@@ -142,7 +142,7 @@ class SettingEditor(object):
         :param default_trigger: string value
         """
         settings = SettingLoader().settings
-        settings.default_trigger = default_trigger
+        settings.default_trigger_name = default_trigger
 
     @staticmethod
     def set_trigger(new_trigger):

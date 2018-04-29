@@ -110,7 +110,7 @@ class Settings(NeuronModule):
 
         # TRIGGER
         if self.default_trigger:
-            if self._check_name_in_list_settings_entry(self.default_trigger, self.settings.triggers):
+            if not self._check_name_in_list_settings_entry(self.default_trigger, self.settings.triggers):
                 logger.debug("[Settings] default_trigger %s is not defined in settings file ",
                              self.default_trigger)
                 return False
@@ -249,7 +249,7 @@ class Settings(NeuronModule):
         if self.deaf is not None:
             signal_order = SignalLauncher.get_order_instance()
             if signal_order is not None:
-                SettingEditor.set_deaf_status(signal_order.trigger_instance, self.status)
+                SettingEditor.set_deaf_status(signal_order.trigger_instance, self.deaf)
 
         if self.mute is not None:
             SettingEditor.set_mute_status(self.mute)

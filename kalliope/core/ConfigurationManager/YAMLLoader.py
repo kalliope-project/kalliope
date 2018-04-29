@@ -76,7 +76,7 @@ class IncludeImport(object):
             self.data = yaml.load(f)
 
         if self.data is None:
-            raise YAMLFileEmpty("File %s is empty" % file_path)
+            raise YAMLFileEmpty("[YAMLLoader] File %s is empty" % file_path)
         # add included brain
         if isinstance(self.data, list):
             for el in self.data:
