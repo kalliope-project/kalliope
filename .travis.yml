@@ -14,9 +14,10 @@ before_install:
 - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse"
 - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse"
 - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
-- sudo apt-get update
+- sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+- sudo apt-get update -q
 - sudo apt-get install $(cat install/files/deb-packages_requirements.txt)
-- sudo apt-get install libstdc++6 libpython3.4-dev
+- sudo apt-get install gcc-4.9 libstdc++6 libpython3.4-dev
 - wget https://bootstrap.pypa.io/get-pip.py
 - sudo python get-pip.py
 
