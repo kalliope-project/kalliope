@@ -18,6 +18,7 @@ Please follow the right link bellow to install requirements depending on your ta
 - [Raspbian (Raspberry Pi 2 & 3)](installation/raspbian.md)
 - [Ubuntu 14.04](installation/ubuntu_14.04.md)
 - [Ubuntu 16.04](installation/ubuntu_16.04.md)
+- [Ubuntu 18.04](installation/ubuntu_18.04.md)
 - [Debian Jessie/Strech](installation/debian.md)
 
 ## Installation
