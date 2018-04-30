@@ -31,13 +31,13 @@ List of available parameter:
 
 | parameter   | required | default | choices                                                         | comment   |
 |-------------|----------|---------|-----------------------------------------------------------------|-----------|
-| latitude    | yes      |         | 46.204391                                                         | E.g: 2016 |
-| longitude   | yes      |         | 6.143158                                                    |           |
-| radius      | yes      |         | 1 (meters)                                               |           |
+| latitude    | yes      |         | 46.204391                                                       |           |
+| longitude   | yes      |         | 6.143158                                                        |           |
+| radius      | yes      |         | 1 (meters)                                                      |           |
 
 ## Synapses example
 
-### Web clock radio
+### Geolocation clock radio
 
 Let's make a complete example. 
 We want to Kalliope to :
