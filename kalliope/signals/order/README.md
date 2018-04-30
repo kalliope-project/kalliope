@@ -11,6 +11,8 @@
     - [stt-correction-file](#stt-correction-file)
     - [Use both stt-correction and stt-correction-file](#use-both-stt-correction-and-stt-correction-file)
     - [Order with arguments](#order-with-arguments)
+  - [Control from the Signal Neuron](#control-from-the-signal-neuron)
+    - [Skip the trigger](#skip-the-trigger)
   - [Notes](#notes)
 
 ## Synopsis
@@ -259,6 +261,94 @@ And so, it will work too with: "give me the weather at St-Pierre de Chartreuse f
 See the **input values** section of the [neuron documentation](neurons) to know how to send arguments to a neuron.
 
 >**Important note:** The following syntax cannot be used: "<sentence> {{ arg_name }} {{ arg_name2 }}" as Kalliope cannot know when a block starts and when it finishes.
+
+## Control from the Signal Neuron
+
+This signal can be updated on the fly from the [Signals neuron](../../neurons/signals).
+
+### Skip the trigger 
+
+- **Notification ID:** "skip_trigger"
+- **Payload dict**:
+
+| parameter | required | default | choices     | comment                         |
+|-----------|----------|---------|-------------|---------------------------------|
+| status    | YES      |         | TRUE, FALSE | Set to True to skip the trigger |
+
+Skip the trigger at the end of the synapse execution. Kalliope will listen for a new order directly without waiting for a trigger detection.
+
+The default flow of Kalliope is the following
+```
+Me: "Kalliope" → hotword trigger → Me: "do this" → synapse launched → hotword trigger → Me: "do that" → synapse launched → …"
+```
+
+When switching the skip_trigger to `True`, the Kalliope workflow will be the following one until you switch back the skip_trigger to `False`:
+```
+Me: "Kalliope" → hotword trigger → Me: "do this" → synapse launched → Me: "do that" → synapse launched → … → "stop interactive trigger" (eg: Thanks kalliope)
+```
+
+**Example synapses:**
+
+Start skipping the trigger from a specific synapse
+```yml
+- name: "say-hello"
+  signals:
+    - order: "hello"
+  neurons:
+    - say:
+        message: "hello sir"
+    - signals:
+          notification: "skip_trigger"
+          payload:
+            status: "True"
+```
+
+As we are escaping the trigger process, we need a synapse to break the loop.
+```yml
+- name: "stop-skip-trigger"
+  signals:
+    - order: "thanks kalliope"
+  neurons:
+    - say:
+        message: "at your service"
+    - signals:
+          notification: "skip_trigger"
+          payload:
+            status: "False"
+```
+
+You can set it in a hook, so it will be activated  after the first capture of the hotword from the trigger process.
+
+In this settings example, we will cal a synapse called `start-skip-trigger` on each trigger detection:
+```yml
+hooks:
+  on_start: "on-start-synapse"
+  on_triggered:
+    - "on-triggered-synapse"
+    - "start-skip-trigger"
+```
+
+The synapse in the brain looks like the following, of course we need to keep a `stop-skip-trigger` to be able to stop the loop anytime
+```yml
+- name: "start-skip-trigger"
+  signals: {}
+  neurons:
+    - signals:
+        notification: "skip_trigger"
+        payload:
+          status: "True"
+
+- name: "stop-skip-trigger"
+  signals:
+    - order: "thanks kalliope"
+  neurons:
+    - say:
+        message: "at your service"
+    - signals:
+        notification: "skip_trigger"
+        payload:
+          status: "False"
+```
 
 ## Notes
 
