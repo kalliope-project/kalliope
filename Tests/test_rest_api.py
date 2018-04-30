@@ -7,7 +7,7 @@ from flask_testing import LiveServerTestCase
 from mock import mock
 
 from kalliope._version import version_str
-from kalliope.core import LIFOBuffer, LifoManager
+from kalliope.core import LifoManager
 from kalliope.core.ConfigurationManager import BrainLoader
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.Models import Singleton
