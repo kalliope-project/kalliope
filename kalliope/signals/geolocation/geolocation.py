@@ -10,6 +10,7 @@ logger = logging.getLogger("kalliope")
 class Geolocation(SignalModule, Thread):
     def __init__(self, **kwargs):
         super(Geolocation, self).__init__(**kwargs)
+        Thread.__init__(self, name=Geolocation)
 
     def run(self):
         logger.debug("[Geolocalisation] Loading ...")
