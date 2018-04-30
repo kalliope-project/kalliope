@@ -23,7 +23,7 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 
-class Order(Thread, SignalModule):
+class Order(SignalModule, Thread):
 
     states = ['init',
               'starting_trigger',
@@ -34,8 +34,8 @@ class Order(Thread, SignalModule):
               'analysing_order']
 
     def __init__(self):
-        super(Order, self).__init__()
         super(SignalModule, self).__init__()
+        Thread.__init__(self, name=Order)
         Utils.print_info('Starting order signal')
         # load settings and brain from singleton
         sl = SettingLoader()

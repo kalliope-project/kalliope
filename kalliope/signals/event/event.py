@@ -12,6 +12,7 @@ from kalliope.core import Utils
 class Event(SignalModule, Thread):
     def __init__(self, **kwargs):
         super(Event, self).__init__(**kwargs)
+        Thread.__init__(self, name=Event)
         Utils.print_info('[Event] Starting manager')
         self.scheduler = BackgroundScheduler()
         self.list_synapses_with_event = list(super(Event, self).get_list_synapse())

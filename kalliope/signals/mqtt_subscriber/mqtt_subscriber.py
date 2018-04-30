@@ -19,6 +19,7 @@ class Mqtt_subscriber(SignalModule, Thread):
 
     def __init__(self, **kwargs):
         super(Mqtt_subscriber, self).__init__(**kwargs)
+        Thread.__init__(self, name=Mqtt_subscriber)
         Utils.print_info('[Mqtt_subscriber] Starting manager')# variables
         self.list_synapses_with_mqtt = list(super(Mqtt_subscriber, self).get_list_synapse())
         self.broker_ip = None

@@ -49,32 +49,32 @@ See a complete example from the [order signal documentation](../../signals/order
 
 ## How to implement notifications in my community signals
 
-You Signal will implement 2 classes, Thread and SignalModule.
+You Signal will implement 2 classes, SignalModule and Thread.
 
-- Thread is used to keep the signal awaken during the Kalliope process execution.
 - SignalModule is used to implement methods like notification
+- Thread is used to keep the signal awaken during the Kalliope process execution.
 
 Here is a basic implementation of a signal.
 ```python
-class Mysignal(Thread, SignalModule):
+class Mysignal(SignalModule, Thread):
     def __init__(self):
         super(Mysignal, self).__init__()
-        super(SignalModule, self).__init__()
+        Thread.__init__(self, name=Mysignal)
     
     def run:
         # do my signal job
 ```
 
 Now, to implement notification, add the `on_notification_received`
-```python
+
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
-
-class Mysignal(Thread, SignalModule):
+```python
+class Mysignal(SignalModule, Thread):
     def __init__(self):
         super(Mysignal, self).__init__()
-        super(SignalModule, self).__init__()
-    
+        Thread.__init__(self, name=Mysignal)
+        
     def run:
         # do my signal job
     
