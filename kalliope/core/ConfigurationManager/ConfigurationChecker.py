@@ -96,8 +96,11 @@ class ConfigurationChecker:
         prog = re.compile(pattern)
         result = prog.match(synape_dict["name"])
         if result is None:
-            raise InvalidSynapeName("Error with synapse name \"%s\".Valid syntax: [a - zA - Z0 - 9\-] with dashes "
-                                    "allowed in between but not at the start or end" % synape_dict["name"])
+            raise InvalidSynapeName("Error with synapse name \"%s\"."
+                                    "Valid syntax: "
+                                    "At least 4 characters "
+                                    "[a - zA - Z0 - 9\-] with dashes allowed in between but not at the start or end" %
+                                    synape_dict["name"])
 
         if 'neurons' not in synape_dict:
             raise NoSynapeNeurons("The Synapse does not have neurons: %s" % synape_dict)
@@ -139,7 +142,7 @@ class ConfigurationChecker:
             if settings.resources.neuron_folder is not None:
                 neuron_resource_path = settings.resources.neuron_folder + \
                                        os.sep + neuron_module_name.lower() + os.sep + \
-                                       neuron_module_name.lower()+".py"
+                                       neuron_module_name.lower() + ".py"
                 if os.path.exists(neuron_resource_path):
                     imp.load_source(neuron_module_name.capitalize(), neuron_resource_path)
                     package_name = neuron_module_name.capitalize()
@@ -148,11 +151,13 @@ class ConfigurationChecker:
                 mod = __import__(package_name, fromlist=[neuron_module_name.capitalize()])
                 getattr(mod, neuron_module_name.capitalize())
             except AttributeError:
-                raise ModuleNotFoundError("[AttributeError] The module %s does not exist in the package %s " % (neuron_module_name.capitalize(),
-                                                                                                                package_name))
+                raise ModuleNotFoundError("[AttributeError] The module %s does not exist in the package %s " % (
+                neuron_module_name.capitalize(),
+                package_name))
             except ImportError:
-                raise ModuleNotFoundError("[ImportError] The module %s does not exist in the package %s " % (neuron_module_name.capitalize(),
-                                                                                                             package_name))
+                raise ModuleNotFoundError(
+                    "[ImportError] The module %s does not exist in the package %s " % (neuron_module_name.capitalize(),
+                                                                                       package_name))
             return True
 
         if isinstance(neuron_dict, dict):
