@@ -25,7 +25,7 @@ This part of the documentation explains the main configuration of Kalliope place
     - [Cors request](#cors-request)
   - [Resources directory](#resources-directory)
   - [Global Variables](#global-variables)
-  - [Start options](#start-options)
+  - [Options](#options)
   - [Next: configure the brain of Kalliope](#next-configure-the-brain-of-kalliope)
 
 ## Triggers configuration
@@ -229,6 +229,7 @@ List of available hook
 | on_unmute              | When Kalliope switches from mute to non mute                    |
 | on_start_speaking      | When Kalliope starts speaking via the text to speech engine     |
 | on_stop_speaking       | When Kalliope stops speaking                                    |
+| on_stt_error           | When an error appeared during the STT processing                |
 
 Example: You want to hear a random answer when the hotword has been triggered
 
@@ -452,8 +453,9 @@ Available options:
 | ----------------------------------| --------------------------------------------------------------------------------------------- |
 | mute                              | When mute, the STT engine will not be used to make Kalliope talking during neurons execution  |
 | deaf                              | When deaf, the trigger engine is not started. Kalliope will not listen for a wake up word     |
-| energy_threshold                  | [energy_threshold](#energythreshold)                                                          |
-| adjust_for_ambient_noise_second   | [adjust_for_ambient_noise_second](#adjustforambientnoisesecond)                               |
+| energy_threshold                  | [energy_threshold](#energy_threshold)                                                         |
+| adjust_for_ambient_noise_second   | [adjust_for_ambient_noise_second](#adjust_for_ambient_noise_second)                           |
+| stt_timeout                       | Number of seconds before stop the STT process automatically                                   |
 
 ## Next: configure the brain of Kalliope
 Now your settings are ok, you can start creating the [brain](brain.md) of your assistant.
