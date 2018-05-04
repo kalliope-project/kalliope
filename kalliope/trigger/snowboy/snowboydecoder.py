@@ -88,14 +88,27 @@ class HotwordDetector(Thread):
         self.ring_buffer = RingBuffer(
             self.detector.NumChannels() * self.detector.SampleRate() * 5)
         self.audio = pyaudio.PyAudio()
-        self.stream_in = self.audio.open(
-            input=True, output=False,
-            format=self.audio.get_format_from_width(
-                self.detector.BitsPerSample() / 8),
-            channels=self.detector.NumChannels(),
-            rate=self.detector.SampleRate(),
-            frames_per_buffer=2048,
-            stream_callback=audio_callback)
+        self.open_audio(audio_callback)
+
+    def open_audio(self, audio_callback, i=0):
+        try:
+            self.stream_in = self.audio.open(
+                input=True, output=False,
+                format=self.audio.get_format_from_width(
+                    self.detector.BitsPerSample() / 8),
+                channels=self.detector.NumChannels(),
+                rate=self.detector.SampleRate(),
+                frames_per_buffer=2048,
+                stream_callback=audio_callback)
+        except IOError:
+            logger.debug("IOError raised, i = %s" % i)
+            if i == 5:
+                # Let's give up...
+                raise
+
+            i = i + 1
+            sleep(i)
+            self.open_audio(audio_callback, i)
 
     def run(self):
         """
