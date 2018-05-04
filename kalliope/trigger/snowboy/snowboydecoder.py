@@ -18,6 +18,10 @@ DETECT_DING = os.path.join(TOP_DIR, "resources/ding.wav")
 DETECT_DONG = os.path.join(TOP_DIR, "resources/dong.wav")
 
 
+class SnowboyOpenAudioException(Exception):
+    pass
+
+
 class RingBuffer(object):
     """Ring buffer to hold audio from PortAudio"""
     def __init__(self, size = 4096):
@@ -88,14 +92,30 @@ class HotwordDetector(Thread):
         self.ring_buffer = RingBuffer(
             self.detector.NumChannels() * self.detector.SampleRate() * 5)
         self.audio = pyaudio.PyAudio()
-        self.stream_in = self.audio.open(
-            input=True, output=False,
-            format=self.audio.get_format_from_width(
-                self.detector.BitsPerSample() / 8),
-            channels=self.detector.NumChannels(),
-            rate=self.detector.SampleRate(),
-            frames_per_buffer=2048,
-            stream_callback=audio_callback)
+        self.open_audio(audio_callback)
+
+    def open_audio(self, audio_callback, i=0):
+        try:
+            self.stream_in = self.audio.open(
+                input=True, output=False,
+                format=self.audio.get_format_from_width(
+                    self.detector.BitsPerSample() / 8),
+                channels=self.detector.NumChannels(),
+                rate=self.detector.SampleRate(),
+                frames_per_buffer=2048,
+                stream_callback=audio_callback)
+        except IOError as error:
+            logger.debug("IOError raised, i = %s (error: %s)"
+                         % (i, repr(error)))
+            if i == 5:
+                # Let's give up...
+                raise SnowboyOpenAudioException(
+                    'Error while trying to open audio: %',
+                    repr(error))
+
+            i = i + 1
+            time.sleep(i)
+            self.open_audio(audio_callback, i)
 
     def run(self):
         """
