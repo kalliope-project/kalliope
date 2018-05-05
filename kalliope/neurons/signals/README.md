@@ -67,8 +67,6 @@ class Mysignal(SignalModule, Thread):
 
 Now, to implement notification, add the `on_notification_received`
 
-logging.basicConfig()
-logger = logging.getLogger("kalliope")
 ```python
 class Mysignal(SignalModule, Thread):
     def __init__(self):

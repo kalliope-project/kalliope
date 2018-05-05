@@ -128,4 +128,7 @@ The {{nickname}} will be loaded in the variables.yml file.
 ```
 
 ## Notes
-It is not possible to update the REST API config nor the ressources path nor the cache path for tts.
+
+>**Note:** It is not possible to update the REST API config nor the ressources path nor the cache path for tts.
+
+>**Note:** Changes made to the settings from this neuron are not persistent. Settings will be loaded again following the yaml file at the next start of Kalliope.
