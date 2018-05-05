@@ -1,4 +1,3 @@
-from time import sleep
 
 import speech_recognition as sr
 
@@ -47,8 +46,9 @@ class Google(SpeechRecognition):
             Utils.print_danger("Could not request results from Google Speech Recognition service; {0}".format(e))
             # callback anyway, we need to listen again for a new order
             self._analyse_audio(audio_to_text=None)
-
-        self.stop_listening()
+        except AssertionError:
+            Utils.print_warning("No audio caught from microphone")
+            self._analyse_audio(audio_to_text=None)
 
     def _analyse_audio(self, audio_to_text):
         """
@@ -57,4 +57,3 @@ class Google(SpeechRecognition):
         """
         if self.main_controller_callback is not None:
             self.main_controller_callback(audio_to_text)
-

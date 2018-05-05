@@ -622,24 +622,29 @@ class SettingLoader(with_metaclass(Singleton, object)):
         mute = False
         energy_threshold = 4000
         adjust_for_ambient_noise_second = 0
+        stt_timeout = 0
 
         try:
             options = settings["options"]
-            if options['deaf']:
+            if "deaf" in options:
                 deaf = options['deaf']
-            if options['mute']:
+            if "mute" in options:
                 mute = options['mute']
-            if options["energy_threshold"]:
+            if "energy_threshold" in options:
                 energy_threshold = options["energy_threshold"]
-            if options["adjust_for_ambient_noise_second"]:
+            if "adjust_for_ambient_noise_second" in options:
                 adjust_for_ambient_noise_second = options["adjust_for_ambient_noise_second"]
-        except KeyError:
+            if "stt_timeout" in options:
+                stt_timeout = options["stt_timeout"]
+        except KeyError as e:
+            logger.debug("[SettingsLoader] missing settings key: %s" % e)
             pass
 
         options = Options(energy_threshold=energy_threshold,
                           adjust_for_ambient_noise_second=adjust_for_ambient_noise_second,
                           deaf=deaf,
-                          mute=mute)
+                          mute=mute,
+                          stt_timeout=stt_timeout)
         logger.debug("[SettingsLoader] Options: %s" % options)
         return options
 

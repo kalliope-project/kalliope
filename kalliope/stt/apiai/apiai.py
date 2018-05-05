@@ -51,9 +51,9 @@ class Apiai(SpeechRecognition):
             Utils.print_danger("Could not request results from Apiai Speech Recognition service; {0}".format(e))
             # callback anyway, we need to listen again for a new order
             self._analyse_audio(audio_to_text=None)
-
-        # stop listening for an audio
-        self.stop_listening()
+        except AssertionError:
+            Utils.print_warning("No audio caught from microphone")
+            self._analyse_audio(audio_to_text=None)
 
     def _analyse_audio(self, audio_to_text):
         """
