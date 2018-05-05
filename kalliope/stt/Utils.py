@@ -1,5 +1,4 @@
 from threading import Thread
-from time import sleep
 
 import logging
 import speech_recognition as sr
@@ -47,7 +46,7 @@ class SpeechRecognition(Thread):
                                  self.settings.options.energy_threshold)
                     self.recognizer.energy_threshold = self.settings.options.energy_threshold
 
-                Utils.print_info("Threshold set to: %s" % self.recognizer.energy_threshold)
+                Utils.print_info("[SpeechRecognition] Threshold set to: %s" % self.recognizer.energy_threshold)
         else:
             # audio file provided
             with sr.AudioFile(audio_file) as source:
@@ -59,12 +58,15 @@ class SpeechRecognition(Thread):
         """
         if self.audio_stream is None:
             Utils.print_info("Say something!")
-            self.stop_thread = self.recognizer.listen_in_background(self.microphone, self.callback)
-            while not self.kill_yourself:
-                sleep(0.1)
-            logger.debug("kill the speech recognition process")
-            self.stop_thread()
-        else:
+            try:
+                with self.microphone as source:
+                    logger.debug("[SpeechRecognition] STT timeout: %s" % self.settings.options.stt_timeout)
+                    self.audio_stream = self.recognizer.listen(source, timeout=self.settings.options.stt_timeout)
+            except sr.WaitTimeoutError:
+                logger.debug("[SpeechRecognition] timeout reached while waiting for audio input")
+                self.audio_stream = None
+            logger.debug("[SpeechRecognition] end of speech recognition process")
+
             self.callback(self.recognizer, self.audio_stream)
 
     def start_processing(self):
@@ -72,9 +74,6 @@ class SpeechRecognition(Thread):
         A method to start the thread
         """
         self.start()
-
-    def stop_listening(self):
-        self.kill_yourself = True
 
     def set_callback(self, callback):
         """

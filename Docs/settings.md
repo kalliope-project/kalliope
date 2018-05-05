@@ -4,29 +4,25 @@ This part of the documentation explains the main configuration of Kalliope place
 
 - [Kalliope settings](#kalliope-settings)
   - [Triggers configuration](#triggers-configuration)
-    - [default_trigger](#defaulttrigger)
+    - [default_trigger](#default-trigger)
     - [triggers](#triggers)
   - [Players configuration](#players-configuration)
-    - [default_player](#defaultplayer)
+    - [default_player](#default-player)
     - [players](#players)
   - [Speech to text configuration](#speech-to-text-configuration)
-    - [default_speech_to_text](#defaultspeechtotext)
-    - [speech_to_text](#speechtotext)
+    - [default_speech_to_text](#default-speech-to-text)
+    - [speech_to_text](#speech-to-text)
   - [Text to speech configuration](#text-to-speech-configuration)
-    - [default_text_to_speech](#defaulttexttospeech)
-    - [text_to_speech](#texttospeech)
+    - [default_text_to_speech](#default-text-to-speech)
+    - [text_to_speech](#text-to-speech)
   - [Hooks](#hooks)
   - [Rest API](#rest-api)
-    - [active](#active)
-    - [port](#port)
-    - [password_protected](#passwordprotected)
-      - [Login](#login)
-    - [Password](#password)
-    - [Cors request](#cors-request)
   - [Resources directory](#resources-directory)
   - [Global Variables](#global-variables)
-  - [Start options](#start-options)
-  - [Next: configure the brain of Kalliope](#next-configure-the-brain-of-kalliope)
+  - [Options](#options)
+    - [energy_threshold](#energy-threshold)
+    - [adjust_for_ambient_noise_second](#adjust-for-ambient-noise-second)
+  - [Next: configure the brain of Kalliope](#next--configure-the-brain-of-kalliope)
 
 ## Triggers configuration
 
@@ -214,7 +210,7 @@ hooks:
 List of available hook
 
 | Hook name              | Description                                                     |
-|------------------------|-----------------------------------------------------------------|
+| ---------------------- | --------------------------------------------------------------- |
 | on_start               | When kalliope is started. This hook will only be triggered once |
 | on_waiting_for_trigger | When Kalliope waits for the hotword detection                   |
 | on_triggered           | When the hotword has been detected                              |
@@ -229,6 +225,7 @@ List of available hook
 | on_unmute              | When Kalliope switches from mute to non mute                    |
 | on_start_speaking      | When Kalliope starts speaking via the text to speech engine     |
 | on_stop_speaking       | When Kalliope stops speaking                                    |
+| on_stt_error           | When an error appeared during the STT processing                |
 
 Example: You want to hear a random answer when the hotword has been triggered
 
@@ -325,22 +322,17 @@ rest_api:
   allowed_cors_origin: "*"
 ```
 
-### active
-To enable the rest api server.
+| parameter           | type    | comment                                                                                            |
+| ------------------- | ------- | -------------------------------------------------------------------------------------------------- |
+| active              | boolean | To enable the rest api server                                                                      |
+| port                | integer | TThe listening port of the web server. Must be an integer in range 1024-65535                      |
+| password_protected  | boolean | If `True`, the whole api will be password protected                                                |
+| login               | string  | Login used by the basic HTTP authentication. Must be provided if `password_protected` is `True`    |
+| password            | string  | Password used by the basic HTTP authentication. Must be provided if `password_protected` is `True` |
+| allowed_cors_origin | string  | Allow request from external application. See examples bellow                                       |
 
-### port
-The listening port of the web server. Must be an integer in range 1024-65535.
+**Cors request**
 
-### password_protected
-If `True`, the whole api will be password protected.
-
-#### Login
-Login used by the basic HTTP authentication. Must be provided if `password_protected` is `True`
-
-### Password
-Password used by the basic HTTP authentication. Must be provided if `password_protected` is `True`
-
-### Cors request
 If you want to allow request from external application, you'll need to enable the CORS requests settings by defining authorized origins.
 To do so, just indicated the origins that are allowed to leverage the API. The authorize values are:
 
@@ -448,18 +440,16 @@ options:
 
 Available options:
 
-| Option                            | Description                                                                                   |
-| ----------------------------------| --------------------------------------------------------------------------------------------- |
-| mute                              | When mute, the STT engine will not be used to make Kalliope talking during neurons execution  |
-| deaf                              | When deaf, the trigger engine is not started. Kalliope will not listen for a wake up word     |
-| energy_threshold                  | [energy_threshold](#energythreshold)                                                          |
-| adjust_for_ambient_noise_second   | [adjust_for_ambient_noise_second](#adjustforambientnoisesecond)                               |
-
-## Next: configure the brain of Kalliope
-Now your settings are ok, you can start creating the [brain](brain.md) of your assistant.
+| Option                          | Description                                                                                  |
+| ------------------------------- | -------------------------------------------------------------------------------------------- |
+| mute                            | When mute, the STT engine will not be used to make Kalliope talking during neurons execution |
+| deaf                            | When deaf, the trigger engine is not started. Kalliope will not listen for a wake up word    |
+| energy_threshold                | [energy_threshold](#energy_threshold)                                                        |
+| adjust_for_ambient_noise_second | [adjust_for_ambient_noise_second](#adjust_for_ambient_noise_second)                          |
+| stt_timeout                     | Number of seconds before stop the STT process automatically                                  |
 
 
-#### energy_threshold
+### energy_threshold
 
 Represents the energy level threshold for sounds. By default set to **4000**.
 Values below this threshold are considered silence, and values above this threshold are considered speech.
@@ -480,7 +470,7 @@ options:
 
 >**Note:** The default value is 4000 if not set
 
-#### adjust_for_ambient_noise_second
+### adjust_for_ambient_noise_second
 
 If defined, will adjusts the energy threshold dynamically by capturing the current ambient noise of the room during the number of second set in the parameter.
 When set, the `energy_threshold` parameter is overridden by the returned value of the noise calibration.
@@ -492,3 +482,6 @@ options:
 ```
 
 >**Note:** The number of second here represents the time between kalliope's awakening and the moment when you can give her your order.
+
+## Next: configure the brain of Kalliope
+Now your settings are ok, you can start creating the [brain](brain.md) of your assistant.

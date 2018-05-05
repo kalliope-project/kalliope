@@ -64,6 +64,10 @@ class HookManager(object):
         return cls.execute_synapses_in_hook_name("on_stop_speaking")
 
     @classmethod
+    def on_stt_error(cls):
+        return cls.execute_synapses_in_hook_name("on_stt_error")
+
+    @classmethod
     def execute_synapses_in_hook_name(cls, hook_name):
         # need to import SynapseLauncher from here to avoid cross import
         from kalliope.core.SynapseLauncher import SynapseLauncher
@@ -73,8 +77,13 @@ class HookManager(object):
         settings = SettingLoader().settings
 
         # list of synapse to execute
-        list_synapse = settings.hooks[hook_name]
-        logger.debug("[HookManager] hook: %s , type: %s" % (hook_name, type(list_synapse)))
+        try:
+            list_synapse = settings.hooks[hook_name]
+            logger.debug("[HookManager] hook: %s , type: %s" % (hook_name, type(list_synapse)))
+        except KeyError:
+            # the hook haven't been set in setting. just skip the execution
+            logger.debug("[HookManager] hook not set: %s" % hook_name)
+            return None
 
         if isinstance(list_synapse, str):
             list_synapse = [list_synapse]

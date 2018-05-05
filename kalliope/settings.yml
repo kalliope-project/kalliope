@@ -118,6 +118,7 @@ hooks:
   on_undeaf:
   on_start_speaking:
   on_stop_speaking:
+  on_stt_error:
 
 # ---------------------------
 # Rest API
@@ -162,5 +163,6 @@ rest_api:
 options:
 #  energy_threshold: 4000                 # Speech to text option
 #  adjust_for_ambient_noise_second: 1     # Speech to text option
+#  stt_timeout: 5                          # Speech to text option
   deaf: False
   mute: False

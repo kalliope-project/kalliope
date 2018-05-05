@@ -171,11 +171,15 @@ class Order(SignalModule, Thread):
         """
         Start the order analyser with the caught order to process
         """
-        logger.debug("[Order] order in analysing_order_thread %s" % self.order_to_process)
-        SynapseLauncher.run_matching_synapse_from_order(self.order_to_process,
-                                                        self.brain,
-                                                        self.settings,
-                                                        is_api_call=False)
+        if self.order_to_process is None or self.order_to_process == "":
+            logger.debug("[Order] No audio caught from analysing_order_thread")
+            HookManager.on_stt_error()
+        else:
+            logger.debug("[Order] order in analysing_order_thread %s" % self.order_to_process)
+            SynapseLauncher.run_matching_synapse_from_order(self.order_to_process,
+                                                            self.brain,
+                                                            self.settings,
+                                                            is_api_call=False)
 
         if self.skip_trigger:
             self.start_order_listener()
