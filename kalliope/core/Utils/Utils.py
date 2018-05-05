@@ -301,3 +301,15 @@ class Utils(object):
             if isinstance(text, unicode):
                 text = text.encode("utf-8")
         return text
+
+    @staticmethod
+    def str_to_bool(s):
+        if isinstance(s, bool):  # do not convert if already a boolean
+            return s
+        else:
+            if s == 'True' or s == 'true' or s == '1':
+                return True
+            elif s == 'False' or s == 'false' or s == '0':
+                return False
+            else:
+                return False

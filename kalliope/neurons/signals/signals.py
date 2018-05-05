@@ -29,12 +29,3 @@ class Signals(NeuronModule):
             raise MissingParameterException("[Signals] This neuron require a 'notification parameter'")
 
         return True
-
-    @staticmethod
-    def str_to_bool(s):
-        if s in ['True', 'true', '1']:
-            return True
-        elif s in ['False', 'false', '0']:
-            return False
-        else:
-            return False
