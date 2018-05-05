@@ -1,3 +1,8 @@
+import logging
+
+logging.basicConfig()
+logger = logging.getLogger("kalliope")
+
 
 class Brain:
     """
@@ -25,6 +30,34 @@ class Brain:
                 # we found the synapse, we don't need to check the rest of the list
                 break
         return synapse_launched
+
+    def disable_synapse_by_name(self, synapse_name):
+        """
+        disable a synapse from the brain by its name
+        :param synapse_name: the name of the synapse to disable
+        :return: True if the synapse has been disabled
+        """
+        for synapse in self.synapses:
+            if synapse.name == synapse_name:
+                logger.debug("[Brain] disable synapse name: %s" % synapse_name)
+                synapse.enabled = False
+                return True
+        logger.debug("[Brain] Cannot disable synapse name: %s. Synapse not found" % synapse_name)
+        return False
+
+    def enable_synapse_by_name(self, synapse_name):
+        """
+        enable a synapse from the brain by its name
+        :param synapse_name: the name of the synapse to enable
+        :return: True if the synapse has been enabled
+        """
+        for synapse in self.synapses:
+            if synapse.name == synapse_name:
+                logger.debug("[Brain] enable synapse name: %s" % synapse_name)
+                synapse.enabled = True
+                return True
+        logger.debug("[Brain] Cannot enable synapse name: %s. Synapse not found" % synapse_name)
+        return False
 
     def __eq__(self, other):
         """

@@ -5,10 +5,11 @@ class Synapse(object):
     .. note:: must be defined in the brain.yml
     """
 
-    def __init__(self, name=None, neurons=None, signals=None):
+    def __init__(self, name=None, neurons=None, signals=None, enabled=True):
         self.name = name
         self.neurons = neurons
         self.signals = signals
+        self.enabled = enabled
 
     def serialize(self):
         """
@@ -21,7 +22,8 @@ class Synapse(object):
         return {
             'name': self.name,
             'neurons': [e.serialize() for e in self.neurons],
-            'signals': [e.serialize() for e in self.signals]
+            'signals': [e.serialize() for e in self.signals],
+            'enabled': self.enabled
         }
 
     def __str__(self):

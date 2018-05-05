@@ -367,7 +367,8 @@ class TestModels(unittest.TestCase):
                         }
                 }
             ],
-            'name': 'Synapse1'
+            'name': 'Synapse1',
+            'enabled': True
         }
 
         self.assertDictEqual(expected_result_serialize, synapse1.serialize())
