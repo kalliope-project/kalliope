@@ -77,19 +77,19 @@ class TestRestAPI(LiveServerTestCase):
             "synapses": [
                 {"signals": [{"name": "order", "parameters": "test_order"}],
                  "neurons": [{"name": "say", "parameters": {"message": ["test message"]}}],
-                 "name": "test"},
+                 "name": "test", "enabled": True},
                 {"signals": [{"name": "order", "parameters": "bonjour"}],
                  "neurons": [{"name": "say", "parameters": {"message": ["test message"]}}],
-                 "name": "test2"},
+                 "name": "test2", "enabled": True},
                 {"signals": [{"name": "order", "parameters": "test_order_with_parameter"}],
                  "neurons": [{"name": "say", "parameters": {"message": ["test message {{parameter1}}"]}}],
-                 "name": "test4"},
+                 "name": "test4", "enabled": True},
                 {"signals": [],
                  "neurons": [{"name": "say", "parameters": {"message": "order not found"}}],
-                 "name": "order-not-found-synapse"},
+                 "name": "order-not-found-synapse", "enabled": True},
                 {"signals": [{"name": "order", "parameters": "test_order_3"}],
                  "neurons": [{"name": "say", "parameters": {"message": ["test message"]}}],
-                 "name": "test3"}]}
+                 "name": "test3", "enabled": True}]}
 
         # a lot of char ti process
         self.maxDiff = None
@@ -104,6 +104,7 @@ class TestRestAPI(LiveServerTestCase):
         expected_content = {
             "synapses": {
                 "name": "test",
+                'enabled': True,
                 "neurons": [
                     {
                         "name": "say",
