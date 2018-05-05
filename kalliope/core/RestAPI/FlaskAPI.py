@@ -9,6 +9,7 @@ from flask_cors import CORS
 from flask_restful import abort
 from werkzeug.utils import secure_filename
 
+from kalliope import Utils
 from kalliope.core.SignalLauncher import SignalLauncher
 from kalliope._version import version_str
 from kalliope.core.ConfigurationManager import SettingLoader, BrainLoader, SettingEditor
@@ -269,7 +270,7 @@ class FlaskAPI(threading.Thread):
         # Store the mute value, then apply depending of the request parameters
         old_mute_value = self.settings.options.mute
         if request.form.get("mute"):
-            SettingEditor.set_mute_status(mute=self.str_to_bool(request.form.get("mute")))
+            SettingEditor.set_mute_status(mute=Utils.str_to_bool(request.form.get("mute")))
 
         # save the file
         filename = secure_filename(uploaded_file.filename)
@@ -456,24 +457,12 @@ class FlaskAPI(threading.Thread):
         try:
             received_json = http_request.get_json(force=True, silent=True, cache=True)
             if boolean_flag_to_find in received_json:
-                boolean_flag = self.str_to_bool(received_json[boolean_flag_to_find])
+                boolean_flag = Utils.str_to_bool(received_json[boolean_flag_to_find])
         except TypeError:
             # no json received
             pass
         logger.debug("[FlaskAPI] Boolean %s : %s" % (boolean_flag_to_find, boolean_flag))
         return boolean_flag
-
-    @staticmethod
-    def str_to_bool(s):
-        if isinstance(s, bool):  # do not convert if already a boolean
-            return s
-        else:
-            if s == 'True' or s == 'true' or s == '1':
-                return True
-            elif s == 'False' or s == 'false' or s == '0':
-                return False
-            else:
-                return False
 
     @staticmethod
     def get_parameters_from_request(http_request):
