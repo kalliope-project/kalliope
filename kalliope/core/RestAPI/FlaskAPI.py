@@ -105,6 +105,11 @@ class FlaskAPI(threading.Thread):
         self.app.add_url_rule('/settings/default_trigger/', view_func=self.set_default_trigger,
                               methods=['POST'])
 
+        self.app.add_url_rule('/settings/hooks/', view_func=self.get_hooks,
+                              methods=['GET'])
+        self.app.add_url_rule('/settings/hooks/', view_func=self.set_hooks,
+                              methods=['POST'])
+
     def run(self):
         self.app.run(host='0.0.0.0', port=int(self.port), debug=True, threaded=True, use_reloader=False)
 
@@ -243,7 +248,6 @@ class FlaskAPI(threading.Thread):
                 "Error": "Wrong parameters, 'order' not set"
             }
             return jsonify(error=data), 400
-
 
         order = request.get_json('order')
 
@@ -405,7 +409,6 @@ class FlaskAPI(threading.Thread):
             }
             return jsonify(error=data), 400
 
-
         # get deaf if present
         deaf = self.get_value_flag_from_request(http_request=request,
                                                 flag_to_find="deaf",
@@ -462,7 +465,6 @@ class FlaskAPI(threading.Thread):
             }
             return jsonify(error=data), 400
 
-
         # get mute if present
         mute = self.get_value_flag_from_request(http_request=request,
                                                 flag_to_find="mute",
@@ -510,7 +512,6 @@ class FlaskAPI(threading.Thread):
                 "Error": "Wrong parameters, 'energy_threshold' not set"
             }
             return jsonify(error=data), 400
-
 
         # get energy_threshold if present
         energy_threshold = self.get_value_flag_from_request(http_request=request,
@@ -560,7 +561,6 @@ class FlaskAPI(threading.Thread):
                 "Error": "Wrong parameters, 'ambient_noise_second' not set"
             }
             return jsonify(error=data), 400
-
 
         # get if present
         ambient_noise_second = self.get_value_flag_from_request(http_request=request,
@@ -612,7 +612,6 @@ class FlaskAPI(threading.Thread):
             }
             return jsonify(error=data), 400
 
-
         # get if present
         value = self.get_value_flag_from_request(http_request=request,
                                                  flag_to_find="default_tts",
@@ -662,7 +661,6 @@ class FlaskAPI(threading.Thread):
                 "Error": "Wrong parameters, 'default_stt' not set"
             }
             return jsonify(error=data), 400
-
 
         # get if present
         value = self.get_value_flag_from_request(http_request=request,
@@ -772,6 +770,59 @@ class FlaskAPI(threading.Thread):
 
         data = {
             "default_trigger": self.settings.default_trigger_name
+        }
+        return jsonify(data), 200
+
+    @requires_auth
+    def get_hooks(self):
+        """
+        Return the list of hooks from settings
+
+        Curl test
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/hooks
+        """
+
+        if self.settings.hooks is not None:
+            data = {
+                "hooks": self.settings.hooks
+            }
+            return jsonify(data), 200
+
+        # if no Order instance
+        data = {
+            "error": "hooks are not defined"
+        }
+        return jsonify(error=data), 400
+
+    @requires_auth
+    def set_hooks(self):
+        """
+        Set the Kalliope Core hooks value
+
+        Curl test:
+        curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
+        -d '{"hook_name":"hook_value","hooke_name2":"hook_value2"}' http://127.0.0.1:5000/settings/hooks
+        """
+
+        if not request.get_json():
+            data = {
+                "Error": "No Parameters not"
+            }
+            return jsonify(error=data), 400
+
+        # get if present
+        value = request.get_json()
+
+        if not isinstance(value, dict):
+            data = {
+                "Error": "Hooks must be a dictionary"
+            }
+            return jsonify(error=data), 400
+
+        SettingEditor.set_hooks(hooks=value)
+
+        data = {
+            "hooks": self.settings.hooks
         }
         return jsonify(data), 200
 
