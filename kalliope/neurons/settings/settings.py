@@ -26,6 +26,7 @@ class Settings(NeuronModule):
         - players
         - hooks
         - var_files
+        - variable
         - deaf
         - mute
         - energy_threshold
@@ -59,6 +60,7 @@ class Settings(NeuronModule):
 
         # Variables
         self.var_files = kwargs.get("var_files", None)
+        self.variable = kwargs.get("variable", None)
 
         # Not applicable yet as Variables are applied during brainloading.
         # REST API
@@ -190,6 +192,11 @@ class Settings(NeuronModule):
                     logger.debug("[Settings] Variables file %s not found", file_name)
                     return False
 
+        if self.variable:
+            if not isinstance(self.variable, dict):
+                logger.debug("[Settings] variable property %s is not a dict as it should be.", type(self.variable))
+                return False
+
         return True
 
     def _set_settings(self):
@@ -272,3 +279,6 @@ class Settings(NeuronModule):
                 # var is None has been checked previously in _is_parameters_ok() method
                 variables.update(YAMLLoader.get_config(var))
             SettingEditor.set_variables(variables)
+
+        if self.variable is not None:
+            SettingEditor.set_variables(self.variable)
