@@ -65,12 +65,18 @@ class FlaskAPI(threading.Thread):
 
         # Add routing rules
         self.app.add_url_rule('/', view_func=self.get_main_page, methods=['GET'])
+
+        # Synapses
         self.app.add_url_rule('/synapses', view_func=self.get_synapses, methods=['GET'])
         self.app.add_url_rule('/synapses/<synapse_name>', view_func=self.get_synapse, methods=['GET'])
         self.app.add_url_rule('/synapses/start/id/<synapse_name>', view_func=self.run_synapse_by_name, methods=['POST'])
         self.app.add_url_rule('/synapses/start/order', view_func=self.run_synapse_by_order, methods=['POST'])
         self.app.add_url_rule('/synapses/start/audio', view_func=self.run_synapse_by_audio, methods=['POST'])
+
+        # Life Cycle
         self.app.add_url_rule('/shutdown/', view_func=self.shutdown_server, methods=['POST'])
+
+        # Settings
         self.app.add_url_rule('/settings/deaf/', view_func=self.get_deaf, methods=['GET'])
         self.app.add_url_rule('/settings/deaf/', view_func=self.set_deaf, methods=['POST'])
         self.app.add_url_rule('/settings/mute/', view_func=self.get_mute, methods=['GET'])
@@ -82,6 +88,11 @@ class FlaskAPI(threading.Thread):
         self.app.add_url_rule('/settings/energy_threshold/', view_func=self.get_energy_threshold,
                               methods=['GET'])
         self.app.add_url_rule('/settings/energy_threshold/', view_func=self.set_energy_threshold,
+                              methods=['POST'])
+
+        self.app.add_url_rule('/settings/default_tts/', view_func=self.get_default_tts,
+                              methods=['GET'])
+        self.app.add_url_rule('/settings/default_tts/', view_func=self.set_default_tts,
                               methods=['POST'])
 
     def run(self):
@@ -447,10 +458,9 @@ class FlaskAPI(threading.Thread):
         Return the current energy_threshold value from settings
 
         Curl test
-        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/energy_threshold
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/energy_threshold
         """
 
-        # find the order signal and call the energy_threshold settings
         if self.settings.options.energy_threshold is not None:
             data = {
                 "energy_threshold": self.settings.options.energy_threshold
@@ -470,7 +480,7 @@ class FlaskAPI(threading.Thread):
 
         Curl test:
         curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
-        -d '{"energy_threshold": "6666"}' http://127.0.0.1:5000/energy_threshold
+        -d '{"energy_threshold": "6666"}' http://127.0.0.1:5000/settings/energy_threshold
         """
 
         if not request.get_json() or 'energy_threshold' not in request.get_json():
@@ -494,10 +504,9 @@ class FlaskAPI(threading.Thread):
         Return the current ambient_noise_second value from settings
 
         Curl test
-        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/ambient_noise_second
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/ambient_noise_second
         """
 
-        # find the order signal and call the ambient_noise_second settings
         if self.settings.options.adjust_for_ambient_noise_second is not None:
             data = {
                 "ambient_noise_second": self.settings.options.adjust_for_ambient_noise_second
@@ -517,13 +526,13 @@ class FlaskAPI(threading.Thread):
 
         Curl test:
         curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
-        -d '{"energy_threshold": "6666"}' http://127.0.0.1:5000/ambient_noise_second
+        -d '{"energy_threshold": "6666"}' http://127.0.0.1:5000/settings/ambient_noise_second
         """
 
         if not request.get_json() or 'ambient_noise_second' not in request.get_json():
             abort(400)
 
-        # get energy_threshold if present
+        # get if present
         ambient_noise_second = self.get_value_flag_from_request(http_request=request,
                                                                 flag_to_find="ambient_noise_second",
                                                                 is_boolean=False)
@@ -534,6 +543,57 @@ class FlaskAPI(threading.Thread):
             "ambient_noise_second": ambient_noise_second
         }
         return jsonify(data), 200
+
+    @requires_auth
+    def get_default_tts(self):
+        """
+        Return the current default_tts value from settings
+
+        Curl test
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/default_tts
+        """
+
+        # the default_tts settings
+        if self.settings.default_tts_name is not None:
+            data = {
+                "default_tts": self.settings.default_tts_name
+            }
+            return jsonify(data), 200
+
+        # if no Order instance
+        data = {
+            "error": "default_tts status not defined"
+        }
+        return jsonify(error=data), 400
+
+    @requires_auth
+    def set_default_tts(self):
+        """
+        Set the Kalliope Core default_tts value
+
+        Curl test:
+        curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
+        -d '{"default_tts": "myTTS"}' http://127.0.0.1:5000/settings/default_tts
+        """
+
+        if not request.get_json() or 'default_tts' not in request.get_json():
+            abort(400)
+
+        # get if present
+        value = self.get_value_flag_from_request(http_request=request,
+                                                 flag_to_find="default_tts",
+                                                 is_boolean=False)
+
+        SettingEditor.set_default_tts(default_tts_name=value)
+
+        data = {
+            "default_tts": value
+        }
+        return jsonify(data), 200
+
+
+
+
 
     def audio_analyser_callback(self, order):
         """

@@ -11,6 +11,20 @@ logger = logging.getLogger("kalliope")
 class SettingEditor(object):
     """This Static class provides methods/functions to update properties from the Settings"""
 
+    @staticmethod
+    def _check_name_in_list_settings_entry(name_to_check, list_settings_entry):
+        """
+        manage object models : STT, TRIGGERS, TTS, PLAYERS because they have "name" attributes
+        :param name_to_check: name to find in the list_settings_entry ~kalliope.core.Models.settings.SettingsEntry.SettingsEntry
+        :param list_settings_entry: the list of SettingsEntry to inspect
+        :return: True if the name_to_check corresponds to a name in the SettingsEntry list provided.
+        """
+        found = False
+        for settings_entry in list_settings_entry:
+            if settings_entry.name == name_to_check:
+                found = True
+        return found
+
     # Options
     @staticmethod
     def set_mute_status(mute=False):
@@ -70,14 +84,17 @@ class SettingEditor(object):
             settings.options.energy_threshold = energy_threshold
 
     # Players
-    @staticmethod
-    def set_default_player(default_player_name):
+    @classmethod
+    def set_default_player(cls, default_player_name):
         """
         Set dynamically a new default_player in the settings
         :param default_player_name: string value
         """
         settings = SettingLoader().settings
-        settings.default_player_name = default_player_name
+        if cls._check_name_in_list_settings_entry(default_player_name, settings.players):
+            settings.default_player_name = default_player_name
+        else:
+            logger.debug("[Settings] default_player %s is not defined in settings file ", default_player_name)
 
     @staticmethod
     def set_players(new_player):
@@ -92,14 +109,18 @@ class SettingEditor(object):
         settings.players = list_no_duplicate_player
 
     # TTS
-    @staticmethod
-    def set_default_tts(default_tts_name):
+    @classmethod
+    def set_default_tts(cls, default_tts_name):
         """
         Set dynamically a new default_tts_name in the settings
         :param default_tts_name: string value
         """
         settings = SettingLoader().settings
-        settings.default_tts_name = default_tts_name
+        # Verify that the default name exists in the settings list
+        if cls._check_name_in_list_settings_entry(default_tts_name, settings.ttss):
+            settings.default_tts_name = default_tts_name
+        else:
+            logger.debug("[SettingsEditor] default_tts %s is not defined in settings file ", default_tts_name)
 
     @staticmethod
     def set_ttss(new_tts):
@@ -114,14 +135,17 @@ class SettingEditor(object):
         settings.ttss = list_no_duplicate_tts
 
     # STT
-    @staticmethod
-    def set_default_stt(default_stt_name):
+    @classmethod
+    def set_default_stt(cls, default_stt_name):
         """
-        Set dynamically a new default_stt_name in the settings
+        Set dynamically a new default_stt_name in the settings if in the list of stts.
         :param default_stt_name: string value
         """
         settings = SettingLoader().settings
-        settings.default_stt_name = default_stt_name
+        if cls._check_name_in_list_settings_entry(default_stt_name, settings.stts):
+            settings.default_stt_name = default_stt_name
+        else:
+            logger.debug("[Settings] default_stt %s is not defined in settings file ", default_stt_name)
 
     @staticmethod
     def set_stts(new_stt):
@@ -135,14 +159,17 @@ class SettingEditor(object):
         settings.stts = list_no_duplicate_stt
 
     # TRIGGER
-    @staticmethod
-    def set_default_trigger(default_trigger):
+    @classmethod
+    def set_default_trigger(cls, default_trigger):
         """
         Set dynamically a new default_trigger in the settingss
         :param default_trigger: string value
         """
         settings = SettingLoader().settings
-        settings.default_trigger_name = default_trigger
+        if cls._check_name_in_list_settings_entry(default_trigger, settings.triggers):
+            settings.default_trigger_name = default_trigger
+        else:
+            logger.debug("[Settings] default_trigger %s is not defined in settings file ", default_trigger)
 
     @staticmethod
     def set_trigger(new_trigger):
