@@ -28,10 +28,16 @@ Kalliope provides the REST API to manage the synapses. For configuring the API r
 | POST   | /synapses/start/id/<synapse_name> | Run a synapse by its name          |
 | POST   | /synapses/start/order             | Run a synapse from a text order    |
 | POST   | /synapses/start/audio             | Run a synapse from an audio sample |
-| GET    | /deaf                             | Get the current deaf status        |
-| POST   | /deaf                             | Switch the deaf status             |
-| GET    | /mute                             | Get the current mute status        |
-| POST   | /mute                             | Switch the mute status             |
+| GET    | /settings/deaf                    | Get the current deaf status        |
+| POST   | /settings/deaf                    | Switch the deaf status             |
+| GET    | /settings/mute                    | Get the current mute status        |
+| POST   | /settings/mute                    | Switch the mute status             |
+| GET    | /settings/energy_threshold        | Get the current energy_threshold   |
+| POST   | /settings/energy_threshold        | Update the energy_threshold value  |
+| GET    | /settings/ambient_noise_second    | Get the ambient_noise_second       |
+| POST   | /settings/ambient_noise_second    | Update the ambient_noise_second    |
+
+
 
 ## Curl examples
 
@@ -483,5 +489,44 @@ Output example:
 ```JSON
 {
   "mute": true
+}
+```
+
+## energy_threshold flag
+Define the [energy_threshold](settings.md) in the settigns 
+
+### Get energy_threshold status
+
+Normal response codes: 200
+Error response codes : unauthorized(401), Bad request(400)
+
+
+Curl command:
+```bash
+curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/energy_threshold
+```
+
+Output example:
+```JSON
+{
+  "energy_threshold": 4000
+}
+```
+
+### Set energy_threshold status
+
+Normal response codes: 200
+Error response codes : unauthorized(401), Bad request(400)
+
+
+Curl command:
+```bash
+curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"energy_threshold": 4000}' http://127.0.0.1:5000/settings/energy_threshold
+```
+
+Output example:
+```JSON
+{
+  "energy_threshold": 4000
 }
 ```
