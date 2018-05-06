@@ -71,10 +71,18 @@ class FlaskAPI(threading.Thread):
         self.app.add_url_rule('/synapses/start/order', view_func=self.run_synapse_by_order, methods=['POST'])
         self.app.add_url_rule('/synapses/start/audio', view_func=self.run_synapse_by_audio, methods=['POST'])
         self.app.add_url_rule('/shutdown/', view_func=self.shutdown_server, methods=['POST'])
-        self.app.add_url_rule('/deaf/', view_func=self.get_deaf, methods=['GET'])
-        self.app.add_url_rule('/deaf/', view_func=self.set_deaf, methods=['POST'])
-        self.app.add_url_rule('/mute/', view_func=self.get_mute, methods=['GET'])
-        self.app.add_url_rule('/mute/', view_func=self.set_mute, methods=['POST'])
+        self.app.add_url_rule('/settings/deaf/', view_func=self.get_deaf, methods=['GET'])
+        self.app.add_url_rule('/settings/deaf/', view_func=self.set_deaf, methods=['POST'])
+        self.app.add_url_rule('/settings/mute/', view_func=self.get_mute, methods=['GET'])
+        self.app.add_url_rule('/settings/mute/', view_func=self.set_mute, methods=['POST'])
+        self.app.add_url_rule('/settings/ambient_noise_second/', view_func=self.get_ambient_noise_second,
+                              methods=['GET'])
+        self.app.add_url_rule('/settings/ambient_noise_second/', view_func=self.set_adjust_for_ambient_noise_second,
+                              methods=['POST'])
+        self.app.add_url_rule('/settings/energy_threshold/', view_func=self.get_energy_threshold,
+                              methods=['GET'])
+        self.app.add_url_rule('/settings/energy_threshold/', view_func=self.set_energy_threshold,
+                              methods=['POST'])
 
     def run(self):
         self.app.run(host='0.0.0.0', port=int(self.port), debug=True, threaded=True, use_reloader=False)
@@ -161,7 +169,9 @@ class FlaskAPI(threading.Thread):
 
         # Store the mute value, then apply depending of the request parameters
         old_mute_value = self.settings.options.mute
-        mute = self.get_boolean_flag_from_request(request, boolean_flag_to_find="mute")
+        mute = self.get_value_flag_from_request(http_request=request,
+                                                flag_to_find="mute",
+                                                is_boolean=True)
         if mute is not None:
             SettingEditor.set_mute_status(mute=mute)
 
@@ -214,7 +224,9 @@ class FlaskAPI(threading.Thread):
 
         # Store the mute value, then apply depending of the request parameters
         old_mute_value = self.settings.options.mute
-        mute = self.get_boolean_flag_from_request(request, boolean_flag_to_find="mute")
+        mute = self.get_value_flag_from_request(http_request=request,
+                                                flag_to_find="mute",
+                                                is_boolean=True)
         if mute is not None:
             SettingEditor.set_mute_status(mute=mute)
 
@@ -366,7 +378,9 @@ class FlaskAPI(threading.Thread):
             abort(400)
 
         # get deaf if present
-        deaf = self.get_boolean_flag_from_request(request, boolean_flag_to_find="deaf")
+        deaf = self.get_value_flag_from_request(http_request=request,
+                                                flag_to_find="deaf",
+                                                is_boolean=True)
 
         signal_order = SignalLauncher.get_order_instance()
         if signal_order is not None and deaf is not None and self.settings.options.deaf is not None:
@@ -417,11 +431,107 @@ class FlaskAPI(threading.Thread):
             abort(400)
 
         # get mute if present
-        mute = self.get_boolean_flag_from_request(request, boolean_flag_to_find="mute")
+        mute = self.get_value_flag_from_request(http_request=request,
+                                                flag_to_find="mute",
+                                                is_boolean=True)
         SettingEditor.set_mute_status(mute=mute)
 
         data = {
             "mute": mute
+        }
+        return jsonify(data), 200
+
+    @requires_auth
+    def get_energy_threshold(self):
+        """
+        Return the current energy_threshold value from settings
+
+        Curl test
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/energy_threshold
+        """
+
+        # find the order signal and call the energy_threshold settings
+        if self.settings.options.energy_threshold is not None:
+            data = {
+                "energy_threshold": self.settings.options.energy_threshold
+            }
+            return jsonify(data), 200
+
+        # if no Order instance
+        data = {
+            "error": "energy_threshold status not defined"
+        }
+        return jsonify(error=data), 400
+
+    @requires_auth
+    def set_energy_threshold(self):
+        """
+        Set the Kalliope Core energy_threshold value
+
+        Curl test:
+        curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
+        -d '{"energy_threshold": "6666"}' http://127.0.0.1:5000/energy_threshold
+        """
+
+        if not request.get_json() or 'energy_threshold' not in request.get_json():
+            abort(400)
+
+        # get energy_threshold if present
+        energy_threshold = self.get_value_flag_from_request(http_request=request,
+                                                            flag_to_find="energy_threshold",
+                                                            is_boolean=False)
+
+        SettingEditor.set_energy_threshold(energy_threshold=energy_threshold)
+
+        data = {
+            "energy_threshold": energy_threshold
+        }
+        return jsonify(data), 200
+
+    @requires_auth
+    def get_ambient_noise_second(self):
+        """
+        Return the current ambient_noise_second value from settings
+
+        Curl test
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/ambient_noise_second
+        """
+
+        # find the order signal and call the ambient_noise_second settings
+        if self.settings.options.adjust_for_ambient_noise_second is not None:
+            data = {
+                "ambient_noise_second": self.settings.options.adjust_for_ambient_noise_second
+            }
+            return jsonify(data), 200
+
+        # if no Order instance
+        data = {
+            "error": "ambient_noise_second status not defined"
+        }
+        return jsonify(error=data), 400
+
+    @requires_auth
+    def set_adjust_for_ambient_noise_second(self):
+        """
+        Set the Kalliope Core ambient_noise_second value
+
+        Curl test:
+        curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
+        -d '{"energy_threshold": "6666"}' http://127.0.0.1:5000/ambient_noise_second
+        """
+
+        if not request.get_json() or 'ambient_noise_second' not in request.get_json():
+            abort(400)
+
+        # get energy_threshold if present
+        ambient_noise_second = self.get_value_flag_from_request(http_request=request,
+                                                                flag_to_find="ambient_noise_second",
+                                                                is_boolean=False)
+
+        SettingEditor.set_adjust_for_ambient_noise_second(adjust_for_ambient_noise_second=ambient_noise_second)
+
+        data = {
+            "ambient_noise_second": ambient_noise_second
         }
         return jsonify(data), 200
 
@@ -446,23 +556,46 @@ class FlaskAPI(threading.Thread):
         # this boolean will notify the main process that the order have been processed
         self.order_analyser_return = True
 
-    def get_boolean_flag_from_request(self, http_request, boolean_flag_to_find):
+    def get_value_flag_from_request(self, http_request, flag_to_find, is_boolean=False):
         """
-        Get the boolean flag from the request if exist, None otherwise !
+        Get the value flag from the request if exist, None otherwise !
         :param http_request:
-        :param boolean_flag_to_find: json flag to find in the http_request
-        :return: True or False if the boolean flag has been found in the request
+        :param flag_to_find: json flag to find in the http_request
+        :param is_boolean: True if the expected value is a boolean, False Otherwise.
+        :return: the Value of the flag that has been found in the request
         """
-        boolean_flag = None
+        flag_value = None
         try:
             received_json = http_request.get_json(force=True, silent=True, cache=True)
-            if boolean_flag_to_find in received_json:
-                boolean_flag = Utils.str_to_bool(received_json[boolean_flag_to_find])
+            if flag_to_find in received_json:
+                flag_value = received_json[flag_to_find]
+                if is_boolean:
+                    flag_value = self.str_to_bool(flag_value)
         except TypeError:
             # no json received
             pass
-        logger.debug("[FlaskAPI] Boolean %s : %s" % (boolean_flag_to_find, boolean_flag))
-        return boolean_flag
+        logger.debug("[FlaskAPI] Value found for : type %s,  %s : %s" % (flag_to_find, type(flag_value), flag_value))
+        return flag_value
+
+    @staticmethod
+    def str_to_bool(s):
+        if isinstance(s, bool):  # do not convert if already a boolean
+            return s
+        else:
+            if s == 'True' \
+                    or s == 'true' \
+                    or s == '1' \
+                    or s == 1 \
+                    or s == True:
+                return True
+            elif s == 'False' \
+                    or s == 'false' \
+                    or s == '0' \
+                    or s == 0 \
+                    or s == False:
+                return False
+            else:
+                return False
 
     @staticmethod
     def get_parameters_from_request(http_request):
