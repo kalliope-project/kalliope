@@ -14,6 +14,7 @@ Currently available:
 - players
 - hooks
 - var_files
+- variable
 - deaf
 - mute
 - energy_threshold
@@ -36,7 +37,8 @@ CORE NEURON : No installation needed.
 | triggers                        | No       | list (of dict) | None    |             | Add or Update a trigger to the list                             |
 | players                         | No       | list (of dict) | None    |             | Add or Update a player to the list                              |
 | hooks                           | No       | dict           | None    |             | Update the hooks dict from the settings with the given dict     |
-| var_files                       | No       | list           | None    |             | Udate the variables from the settings with the given files path |
+| var_files                       | No       | list           | None    |             | Update variables from the settings with the given files path    |
+| variable                        | No       | dict           | None    |             | Update the variable dict from the settings with the given dict  |
 | deaf                            | No       | boolean        | None    | True, False |                                                                 |
 | mute                            | No       | boolean        | None    | True, False |                                                                 |
 | energy_threshold                | No       | int            | None    |             |                                                                 |
@@ -111,7 +113,21 @@ To update the list of text_to_speech
 ```
 
 #### Variables
-/!\ the keyword is 'var_files' !
+```yaml
+  - name: "say-hello-en"
+    signals:
+      - order: "Hello"
+    neurons:
+      - settings:
+          variable:
+            nickname: "monf"
+      - say:
+          message:
+            - "Hello {{nickname}}"
+
+```
+
+/!\ the keyword is 'var_files' for files!
 
 The {{nickname}} will be loaded in the variables.yml file.
 ```yaml
