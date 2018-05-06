@@ -104,10 +104,14 @@ class FlaskAPI(threading.Thread):
                               methods=['GET'])
         self.app.add_url_rule('/settings/default_trigger/', view_func=self.set_default_trigger,
                               methods=['POST'])
-
         self.app.add_url_rule('/settings/hooks/', view_func=self.get_hooks,
                               methods=['GET'])
         self.app.add_url_rule('/settings/hooks/', view_func=self.set_hooks,
+                              methods=['POST'])
+
+        self.app.add_url_rule('/settings/variables/', view_func=self.get_variables,
+                              methods=['GET'])
+        self.app.add_url_rule('/settings/variables/', view_func=self.set_variables,
                               methods=['POST'])
 
     def run(self):
@@ -823,6 +827,58 @@ class FlaskAPI(threading.Thread):
 
         data = {
             "hooks": self.settings.hooks
+        }
+        return jsonify(data), 200
+
+    @requires_auth
+    def get_variables(self):
+        """
+        Return the list of variables from settings
+
+        Curl test
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/variables
+        """
+
+        if self.settings.variables is not None:
+            data = {
+                "variables": self.settings.variables
+            }
+            return jsonify(data), 200
+
+        # if no Order instance
+        data = {
+            "error": "variables are not defined"
+        }
+        return jsonify(error=data), 400
+
+    @requires_auth
+    def set_variables(self):
+        """
+        Set the Kalliope Core variables value.
+        Can be used with a dictionary of variables :
+        curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
+        -d '{"variable1":"variables_value","variables_name2":"variables_value2"}' http://127.0.0.1:5000/settings/varaibles
+        """
+
+        if not request.get_json():
+            data = {
+                "Error": "No Parameters provided"
+            }
+            return jsonify(error=data), 400
+
+        # get if present
+        value = request.get_json()
+
+        if not isinstance(value, dict):
+            data = {
+                "Error": "Variables must be a dictionary"
+            }
+            return jsonify(error=data), 400
+
+        SettingEditor.set_variables(variables=value)
+
+        data = {
+            "variables": self.settings.variables
         }
         return jsonify(data), 200
 
