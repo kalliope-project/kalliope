@@ -75,7 +75,7 @@ class Settings(NeuronModule):
 
         # Players
         if self.default_player:
-            if not self._check_name_in_list_settings_entry(self.default_player, self.settings.players):
+            if not SettingEditor._check_name_in_list_settings_entry(self.default_player, self.settings.players):
                 logger.debug("[Settings] default_player %s is not defined in settings file ",
                              self.default_player)
                 return False
@@ -92,7 +92,7 @@ class Settings(NeuronModule):
 
         # STT
         if self.default_stt:
-            if not self._check_name_in_list_settings_entry(self.default_stt, self.settings.stts):
+            if not SettingEditor._check_name_in_list_settings_entry(self.default_stt, self.settings.stts):
                 logger.debug("[Settings] default_stt %s is not defined in settings file ", self.default_stt)
                 return False
 
@@ -110,7 +110,7 @@ class Settings(NeuronModule):
 
         # TRIGGER
         if self.default_trigger:
-            if not self._check_name_in_list_settings_entry(self.default_trigger, self.settings.triggers):
+            if not SettingEditor._check_name_in_list_settings_entry(self.default_trigger, self.settings.triggers):
                 logger.debug("[Settings] default_trigger %s is not defined in settings file ",
                              self.default_trigger)
                 return False
@@ -127,7 +127,7 @@ class Settings(NeuronModule):
 
         # TTS
         if self.default_tts:
-            if not self._check_name_in_list_settings_entry(self.default_tts, self.settings.ttss):
+            if not SettingEditor._check_name_in_list_settings_entry(self.default_tts, self.settings.ttss):
                 logger.debug("[Settings] default_tts %s is not defined in settings file ", self.default_tts)
                 return False
 
@@ -272,17 +272,3 @@ class Settings(NeuronModule):
                 # var is None has been checked previously in _is_parameters_ok() method
                 variables.update(YAMLLoader.get_config(var))
             SettingEditor.set_variables(variables)
-
-    @staticmethod
-    def _check_name_in_list_settings_entry(name_to_check, list_settings_entry):
-        """
-        manage object models : STT, TRIGGERS, TTS, PLAYERS because they have "name" attributes
-        :param name_to_check: name to find in the list_settings_entry ~kalliope.core.Models.settings.SettingsEntry.SettingsEntry
-        :param list_settings_entry: the list of SettingsEntry to inspect
-        :return: True if the name_to_check corresponds to a name in the SettingsEntry list provided.
-        """
-        found = False
-        for settings_entry in list_settings_entry:
-            if settings_entry.name == name_to_check:
-                found = True
-        return found

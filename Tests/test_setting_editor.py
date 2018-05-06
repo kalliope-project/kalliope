@@ -17,6 +17,7 @@ class TestSettingEditor(unittest.TestCase):
     """
     Test class for the ~SettingEditor class and methods
     """
+
     def setUp(self):
         # get current script directory path. We are in /an/unknown/path/kalliope/core/tests
         cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
@@ -66,7 +67,10 @@ class TestSettingEditor(unittest.TestCase):
         with mock.patch("kalliope.core.ConfigurationManager.SettingLoader") as mock_setting_loader:
             mock_setting_loader.return_value(self.sl)
             SettingEditor.set_default_player(default_name)
-            self.assertEqual(default_name, self.sl.settings.default_player_name)
+            self.assertEqual("mplayer", self.sl.settings.default_player_name)  # not existing in the list, not updated !
+            default_name = "pyalsaaudio"
+            SettingEditor.set_default_player(default_name)
+            self.assertEqual(default_name, self.sl.settings.default_player_name)  # Updated
 
     def test_set_players(self):
         new_player = Player(name="totoplayer", parameters={})
@@ -79,6 +83,10 @@ class TestSettingEditor(unittest.TestCase):
         default_name = "NameTrigger"
         with mock.patch("kalliope.core.ConfigurationManager.SettingLoader") as mock_setting_loader:
             mock_setting_loader.return_value(self.sl)
+            SettingEditor.set_default_trigger(default_name)
+            self.assertEqual("snowboy",
+                             self.sl.settings.default_trigger_name)  # not existing in the list, not updated !
+            default_name = "snowboy"
             SettingEditor.set_default_trigger(default_name)
             self.assertEqual(default_name, self.sl.settings.default_trigger_name)
 
@@ -94,7 +102,10 @@ class TestSettingEditor(unittest.TestCase):
         with mock.patch("kalliope.core.ConfigurationManager.SettingLoader") as mock_setting_loader:
             mock_setting_loader.return_value(self.sl)
             SettingEditor.set_default_stt(default_name)
-            self.assertEqual(default_name, self.sl.settings.default_stt_name)
+            self.assertEqual("google", self.sl.settings.default_stt_name) # not updated because not in the list
+            default_name = "google"
+            SettingEditor.set_default_stt(default_name)
+            self.assertEqual(default_name, self.sl.settings.default_stt_name) # updated
 
     def test_set_stts(self):
         new_stt = Stt(name="totoStt", parameters={})
@@ -107,6 +118,9 @@ class TestSettingEditor(unittest.TestCase):
         default_name = "NameTts"
         with mock.patch("kalliope.core.ConfigurationManager.SettingLoader") as mock_setting_loader:
             mock_setting_loader.return_value(self.sl)
+            SettingEditor.set_default_tts(default_name)
+            self.assertEqual("pico2wave", self.sl.settings.default_tts_name)
+            default_name = "voxygen"
             SettingEditor.set_default_tts(default_name)
             self.assertEqual(default_name, self.sl.settings.default_tts_name)
 
