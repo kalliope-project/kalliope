@@ -7,7 +7,7 @@ RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ xenial multiverse" >> /etc/ap
 
 # install packages
 RUN apt-get update && apt-get install -y \
-    git python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog \
+    git python-dev libsmpeg0 libttspico-utils libsmpeg0 flac \
     libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
     sox libatlas3-base mplayer wget vim sudo\
     && rm -rf /var/lib/apt/lists/*

@@ -46,7 +46,6 @@
         - libttspico-utils
         - libsmpeg0
         - flac
-        - dialog
         - libffi-dev
         - libssl-dev
         - portaudio19-dev
