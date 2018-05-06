@@ -6,7 +6,6 @@ import time
 from flask import jsonify
 from flask import request
 from flask_cors import CORS
-from flask_restful import abort
 from werkzeug.utils import secure_filename
 
 from kalliope import Utils
@@ -89,10 +88,21 @@ class FlaskAPI(threading.Thread):
                               methods=['GET'])
         self.app.add_url_rule('/settings/energy_threshold/', view_func=self.set_energy_threshold,
                               methods=['POST'])
-
         self.app.add_url_rule('/settings/default_tts/', view_func=self.get_default_tts,
                               methods=['GET'])
         self.app.add_url_rule('/settings/default_tts/', view_func=self.set_default_tts,
+                              methods=['POST'])
+        self.app.add_url_rule('/settings/default_stt/', view_func=self.get_default_stt,
+                              methods=['GET'])
+        self.app.add_url_rule('/settings/default_stt/', view_func=self.set_default_stt,
+                              methods=['POST'])
+        self.app.add_url_rule('/settings/default_player/', view_func=self.get_default_player,
+                              methods=['GET'])
+        self.app.add_url_rule('/settings/default_player/', view_func=self.set_default_player,
+                              methods=['POST'])
+        self.app.add_url_rule('/settings/default_trigger/', view_func=self.get_default_trigger,
+                              methods=['GET'])
+        self.app.add_url_rule('/settings/default_trigger/', view_func=self.set_default_trigger,
                               methods=['POST'])
 
     def run(self):
@@ -229,7 +239,11 @@ class FlaskAPI(threading.Thread):
         :return:
         """
         if not request.get_json() or 'order' not in request.get_json():
-            abort(400)
+            data = {
+                "Error": "Wrong parameters, 'order' not set"
+            }
+            return jsonify(error=data), 400
+
 
         order = request.get_json('order')
 
@@ -386,7 +400,11 @@ class FlaskAPI(threading.Thread):
         """
 
         if not request.get_json() or 'deaf' not in request.get_json():
-            abort(400)
+            data = {
+                "Error": "Wrong parameters, 'deaf' not set"
+            }
+            return jsonify(error=data), 400
+
 
         # get deaf if present
         deaf = self.get_value_flag_from_request(http_request=request,
@@ -439,7 +457,11 @@ class FlaskAPI(threading.Thread):
         """
 
         if not request.get_json() or 'mute' not in request.get_json():
-            abort(400)
+            data = {
+                "Error": "Wrong parameters, 'mute' not set"
+            }
+            return jsonify(error=data), 400
+
 
         # get mute if present
         mute = self.get_value_flag_from_request(http_request=request,
@@ -484,7 +506,11 @@ class FlaskAPI(threading.Thread):
         """
 
         if not request.get_json() or 'energy_threshold' not in request.get_json():
-            abort(400)
+            data = {
+                "Error": "Wrong parameters, 'energy_threshold' not set"
+            }
+            return jsonify(error=data), 400
+
 
         # get energy_threshold if present
         energy_threshold = self.get_value_flag_from_request(http_request=request,
@@ -530,7 +556,11 @@ class FlaskAPI(threading.Thread):
         """
 
         if not request.get_json() or 'ambient_noise_second' not in request.get_json():
-            abort(400)
+            data = {
+                "Error": "Wrong parameters, 'ambient_noise_second' not set"
+            }
+            return jsonify(error=data), 400
+
 
         # get if present
         ambient_noise_second = self.get_value_flag_from_request(http_request=request,
@@ -577,7 +607,11 @@ class FlaskAPI(threading.Thread):
         """
 
         if not request.get_json() or 'default_tts' not in request.get_json():
-            abort(400)
+            data = {
+                "Error": "Wrong parameters, 'default_tts' not set"
+            }
+            return jsonify(error=data), 400
+
 
         # get if present
         value = self.get_value_flag_from_request(http_request=request,
@@ -587,13 +621,159 @@ class FlaskAPI(threading.Thread):
         SettingEditor.set_default_tts(default_tts_name=value)
 
         data = {
-            "default_tts": value
+            "default_tts": self.settings.default_tts_name
         }
         return jsonify(data), 200
 
+    @requires_auth
+    def get_default_stt(self):
+        """
+        Return the current default_stt value from settings
+
+        Curl test
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/default_stt
+        """
+
+        # the default_tts settings
+        if self.settings.default_stt_name is not None:
+            data = {
+                "default_stt": self.settings.default_stt_name
+            }
+            return jsonify(data), 200
+
+        # if no Order instance
+        data = {
+            "error": "default_stt status not defined"
+        }
+        return jsonify(error=data), 400
+
+    @requires_auth
+    def set_default_stt(self):
+        """
+        Set the Kalliope Core default_stt value
+
+        Curl test:
+        curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
+        -d '{"default_stt": "myStt"}' http://127.0.0.1:5000/settings/default_stt
+        """
+
+        if not request.get_json() or 'default_stt' not in request.get_json():
+            data = {
+                "Error": "Wrong parameters, 'default_stt' not set"
+            }
+            return jsonify(error=data), 400
 
 
+        # get if present
+        value = self.get_value_flag_from_request(http_request=request,
+                                                 flag_to_find="default_stt",
+                                                 is_boolean=False)
 
+        SettingEditor.set_default_stt(default_stt_name=value)
+
+        data = {
+            "default_stt": self.settings.default_stt_name
+        }
+        return jsonify(data), 200
+
+    @requires_auth
+    def get_default_player(self):
+        """
+        Return the current default_player value from settings
+
+        Curl test
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/default_player
+        """
+
+        # the default_player settings
+        if self.settings.default_player_name is not None:
+            data = {
+                "default_player": self.settings.default_player_name
+            }
+            return jsonify(data), 200
+
+        # if no Order instance
+        data = {
+            "error": "default_player status not defined"
+        }
+        return jsonify(error=data), 400
+
+    @requires_auth
+    def set_default_player(self):
+        """
+        Set the Kalliope Core default_player value
+
+        Curl test:
+        curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
+        -d '{"default_player": "myPlayer"}' http://127.0.0.1:5000/settings/default_player
+        """
+
+        if not request.get_json() or 'default_player' not in request.get_json():
+            data = {
+                "Error": "Wrong parameters, 'default_player' not set"
+            }
+            return jsonify(error=data), 400
+        # get if present
+        value = self.get_value_flag_from_request(http_request=request,
+                                                 flag_to_find="default_player",
+                                                 is_boolean=False)
+
+        SettingEditor.set_default_player(default_player_name=value)
+
+        data = {
+            "default_player": self.settings.default_player_name
+        }
+        return jsonify(data), 200
+
+    @requires_auth
+    def get_default_trigger(self):
+        """
+        Return the current default_trigger value from settings
+
+        Curl test
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/default_trigger
+        """
+
+        # the default_trigger settings
+        if self.settings.default_trigger_name is not None:
+            data = {
+                "default_trigger": self.settings.default_trigger_name
+            }
+            return jsonify(data), 200
+
+        # if no Order instance
+        data = {
+            "error": "default_trigger status not defined"
+        }
+        return jsonify(error=data), 400
+
+    @requires_auth
+    def set_default_trigger(self):
+        """
+        Set the Kalliope Core default_trigger value
+
+        Curl test:
+        curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
+        -d '{"default_trigger": "myTrigger"}' http://127.0.0.1:5000/settings/default_trigger
+        """
+
+        if not request.get_json() or 'default_trigger' not in request.get_json():
+            data = {
+                "Error": "Wrong parameters, 'default_trigger' not set"
+            }
+            return jsonify(error=data), 400
+
+        # get if present
+        value = self.get_value_flag_from_request(http_request=request,
+                                                 flag_to_find="default_trigger",
+                                                 is_boolean=False)
+
+        SettingEditor.set_default_trigger(default_trigger=value)
+
+        data = {
+            "default_trigger": self.settings.default_trigger_name
+        }
+        return jsonify(data), 200
 
     def audio_analyser_callback(self, order):
         """
