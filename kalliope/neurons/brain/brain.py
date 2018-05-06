@@ -16,21 +16,8 @@ class Brain(NeuronModule):
         self.synapse_name = kwargs.get('synapse_name', None)
         self.enabled = kwargs.get('enabled', None)
 
-        new_status = "unknown"
         if self._is_parameters_ok():
-            brain = BrainLoader().brain
-            if self.enabled:
-                if brain.enable_synapse_by_name(self.synapse_name):
-                    new_status = "enabled"
-            else:
-                if brain.disable_synapse_by_name(self.synapse_name):
-                    new_status = "disabled"
-
-        message = {
-            "synapse_name": self.synapse_name,
-            "status": new_status
-        }
-        self.say(message)
+            self.say(self._update_brain())
 
     def _is_parameters_ok(self):
         """
@@ -39,11 +26,27 @@ class Brain(NeuronModule):
 
         .. raises:: MissingParameterException
         """
-        if self.synapse_name is None:
+        if self.synapse_name is None or self.synapse_name == "":
             raise MissingParameterException("[Brain neuron] You must specify a 'synapse_name'")
-        if self.enabled is None:
-            raise MissingParameterException("[Brain neuron] You must specify a 'enabled boolean'")
+        if self.enabled is None or self.enabled == "":
+            raise MissingParameterException("[Brain neuron] You must specify a 'enabled' boolean")
 
         self.enabled = Utils.str_to_bool(self.enabled)
 
         return True
+
+    def _update_brain(self):
+        new_status = "unknown"
+        brain = BrainLoader().brain
+        if self.enabled:
+            if brain.enable_synapse_by_name(self.synapse_name):
+                new_status = "enabled"
+        else:
+            if brain.disable_synapse_by_name(self.synapse_name):
+                new_status = "disabled"
+
+        message = {
+            "synapse_name": self.synapse_name,
+            "status": new_status
+        }
+        return message

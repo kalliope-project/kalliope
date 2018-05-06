@@ -40,6 +40,7 @@ class TestOrderAnalyser(unittest.TestCase):
                                                    "text": "matching type non existing"})
         signal8 = Signal(name="order", parameters={"matching-type": "non-existing",
                                                    "non-existing-parameter": "will not match order"})
+        signal9 = Signal(name="order", parameters="order that should be triggered because synapse is disabled")
 
         synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
         synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
@@ -47,8 +48,9 @@ class TestOrderAnalyser(unittest.TestCase):
         synapse4 = Synapse(name="Synapse4", neurons=[neuron2, neuron4], signals=[signal4])
         synapse5 = Synapse(name="Synapse5", neurons=[neuron1, neuron2], signals=[signal5])
         synapse6 = Synapse(name="Synapse6", neurons=[neuron1, neuron2], signals=[signal6])
-        synapse7 = Synapse(name="Synapse6", neurons=[neuron1, neuron2], signals=[signal7])
-        synapse8 = Synapse(name="Synapse6", neurons=[neuron1, neuron2], signals=[signal8])
+        synapse7 = Synapse(name="Synapse7", neurons=[neuron1, neuron2], signals=[signal7])
+        synapse8 = Synapse(name="Synapse8", neurons=[neuron1, neuron2], signals=[signal8])
+        synapse9 = Synapse(name="Synapse9", enabled=False, neurons=[neuron1, neuron2], signals=[signal9])
 
         all_synapse_list = [synapse1,
                             synapse2,
@@ -57,7 +59,8 @@ class TestOrderAnalyser(unittest.TestCase):
                             synapse5,
                             synapse6,
                             synapse7,
-                            synapse8]
+                            synapse8,
+                            synapse9]
 
         br = Brain(synapses=all_synapse_list)
 
@@ -129,6 +132,12 @@ class TestOrderAnalyser(unittest.TestCase):
                                                     user_order=spoken_order)
         matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
         self.assertTrue(expected_matched_synapse_5 in matched_synapses)
+
+        # TEST7: should not match the disabled synapse
+        spoken_order = "order that should be triggered because synapse is disabled"
+        # we expect an empty list
+        matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
+        self.assertTrue(len(matched_synapses) == 0)
 
     def test_get_split_order_without_bracket(self):
         # Success
