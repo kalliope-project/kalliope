@@ -23,7 +23,6 @@ before_install:
 
 install:
   - pip install -r install/files/python_requirements.txt
-  - pip install python2-pythondialog || pip install pythondialog
   - pip install coveralls
 
 # command to run tests

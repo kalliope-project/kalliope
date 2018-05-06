@@ -5,7 +5,6 @@ import logging
 
 import time
 
-from kalliope.core import ShellGui
 from kalliope.core import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.ConfigurationManager.BrainLoader import BrainLoader
@@ -50,7 +49,7 @@ def parse_args(args):
     """
     # create arguments
     parser = argparse.ArgumentParser(description='Kalliope')
-    parser.add_argument("action", help="[start|gui|install|uninstall]")
+    parser.add_argument("action", help="[start|install|uninstall]")
     parser.add_argument("--run-synapse",
                         help="Name of a synapse to load surrounded by quote")
     parser.add_argument("--run-order", help="order surrounded by a quote")
@@ -162,13 +161,6 @@ def main():
             # start rest api
             start_rest_api(settings, brain)
             start_kalliope(settings, brain)
-
-    if parser.action == "gui":
-        try:
-            ShellGui(brain=brain)
-        except (KeyboardInterrupt, SystemExit):
-            Utils.print_info("Ctrl+C pressed. Killing Kalliope")
-            sys.exit(0)
 
 
 class AppFilter(logging.Filter):

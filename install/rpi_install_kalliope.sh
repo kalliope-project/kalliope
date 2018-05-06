@@ -26,7 +26,7 @@ echo "Installing python pip... [OK]"
 echo "Installing system packages..."
 sudo apt-get update
 sudo apt-get install -y git python-dev libsmpeg0 libttspico-utils libsmpeg0 \
-flac dialog libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
+flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
 libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython2.7-dev libav-tools
 
 # this is used to help the RPI

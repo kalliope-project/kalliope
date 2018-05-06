@@ -14,7 +14,6 @@ libsmpeg0
 libttspico-utils
 libsmpeg0
 flac
-dialog
 portaudio19-dev
 build-essential
 sox
