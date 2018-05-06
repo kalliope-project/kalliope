@@ -72,7 +72,6 @@ setup(
         'pyaudio>=0.2.11',
         'pyasn1>=0.2.3',
         'ansible>=2.3,<2.4',
-        py2_prefix + 'pythondialog>=3.4.0',
         'jinja2>=2.10',
         'cffi>=1.9.1',
         'ipaddress>=1.0.17',

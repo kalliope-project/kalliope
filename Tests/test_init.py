@@ -50,13 +50,6 @@ class TestInit(unittest.TestCase):
                 mock_rest_api.assert_called()
                 mock_start_kalliope.assert_called()
 
-        # test start gui
-        sys.argv = ['kalliope.py', 'gui']
-        with mock.patch('kalliope.core.ShellGui.__init__') as mock_shell_gui:
-            mock_shell_gui.return_value = None
-            main()
-            mock_shell_gui.assert_called()
-
         # test run_synapse
         sys.argv = ['kalliope.py', 'start', '--run-synapse', 'synapse_name']
         with mock.patch('kalliope.core.SynapseLauncher.start_synapse_by_list_name') as mock_synapse_launcher:
