@@ -4,7 +4,6 @@
     - [SYNOPSIS](#synopsis)
     - [ARGUMENTS](#arguments)
         - [start](#start)
-        - [gui](#gui)
         - [install](#install)
     - [OPTIONS](#options)
         - [-v or --version](#v-or---version)
@@ -39,15 +38,6 @@ kalliope start
 ```
 
 To kill Kalliope, you can press "Ctrl-C" on your keyboard.
-
-### gui
-Launch the Kalliope shell Graphical User Interface.
-The GUI allows you to test your [STT](stt.md) and [TTS](tts.md) that you have configured in [settings.yml](default_settings.md) file of Kalliope.
-
-Example of use
-```bash
-kalliope gui
-```
 
 ### install
 Install a community module. You must set an install type option. Currently the only available option is `--git-url`.
