@@ -76,6 +76,7 @@ class FlaskAPI(threading.Thread):
         self.app.add_url_rule('/shutdown/', view_func=self.shutdown_server, methods=['POST'])
 
         # Settings
+        self.app.add_url_rule('/settings', view_func=self.get_current_settings, methods=['GET'])
         self.app.add_url_rule('/settings/deaf/', view_func=self.get_deaf, methods=['GET'])
         self.app.add_url_rule('/settings/deaf/', view_func=self.set_deaf, methods=['POST'])
         self.app.add_url_rule('/settings/mute/', view_func=self.get_mute, methods=['GET'])
@@ -941,3 +942,13 @@ class FlaskAPI(threading.Thread):
         logger.debug("[FlaskAPI] Overridden parameters: %s" % parameters)
 
         return parameters
+
+    def get_current_settings(self):
+        """
+        get the current settings config
+        test with curl:
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings
+        """
+        logger.debug("[FlaskAPI] get_current_settings: all")
+        data = jsonify(settings=self.settings.serialize())
+        return data, 200

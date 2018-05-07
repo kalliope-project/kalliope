@@ -16,9 +16,10 @@ class Trigger(SettingsEntry):
         return str(self.serialize())
 
     def serialize(self):
+        # TODO fix Trigger to remove "callback" from parameters
         return {
             'name': self.name,
-            'parameters': self.parameters
+            'parameters': dict((key, value) for key, value in self.parameters.items() if key != "callback"),
         }
 
     def __eq__(self, other):
