@@ -1,3 +1,28 @@
+v0.5.1 / 2018-05-07
+===================
+- Fix: I/O error on Python 3
+- Fix: Snowboy build for Python 3
+- Fix: fix kill_switch core neuron
+- Fix: error with Jinja lib when installing
+- Fix: 'device unavailable' exception should now be handled properly
+- Fix: API call when kalliope is processing
+- Enhancement: rename 'mute' to 'deaf' in setting and neuron
+- Enhancement: create en 'option' setting. Deaf and mute are now placed in this setting
+- Enhancement: add mute / unmute hook
+- Enhancement: add 'on_stt_error' hook
+- Enhancement: add on_processed_synapses hook
+- Enhancement: Snowboy lib updated to v1.3.0
+- Enhancement: remove shell gui feature
+- Enhancement: add Ubuntu 18.04 support
+- Feature: Neuron 'settings'
+- Feature: Neuron 'brain'
+- Feature: Neuron 'signals'
+- Feature: stt correction
+- Feature: STT timeout
+- Feature: Mute (old no_voice flag). Make Kalliope processing neurons without speaking out loud
+- Feature: order signal can now skip the trigger to chain orders without waking Kalliope. See 'Signal' neuron
+- switch to GNU GPL v3.0 license
+
 v0.5.0 / 2018-01-13
 ===================
 - Fix: recognition option in settings
