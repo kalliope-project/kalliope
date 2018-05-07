@@ -36,7 +36,18 @@ Kalliope provides the REST API to manage the synapses. For configuring the API r
 | POST   | /settings/energy_threshold        | Update the energy_threshold value  |
 | GET    | /settings/ambient_noise_second    | Get the ambient_noise_second       |
 | POST   | /settings/ambient_noise_second    | Update the ambient_noise_second    |
-
+| GET    | /settings/hooks                   | Get the current hooks              |
+| POST   | /settings/hooks                   | Update the hooks list              |
+| GET    | /settings/variables               | Get the variables list             |
+| POST   | /settings/variables               | Update the variables list          |
+| GET    | /settings/default_tts             | Get current tts                    |
+| POST   | /settings/default_tts             | Update current tts                 |
+| GET    | /settings/default_stt             | Get current stt                    |
+| POST   | /settings/default_stt             | Update current stt                 |
+| GET    | /settings/default_player          | Get the current player             |
+| POST   | /settings/default_player          | Update current player              |
+| GET    | /settings/default_trigger         | Get the current trigger            |
+| POST   | /settings/default_trigger         | Update the current trigger         |
 
 
 ## Curl examples
@@ -318,7 +329,7 @@ If the order haven't match any synapses it will try to run the default synapse i
 ```
 
 Or return an empty list of matched synapse
-```
+```JSON
 {
   "matched_synapses": [],
   "status": null,
@@ -528,5 +539,97 @@ Output example:
 ```JSON
 {
   "energy_threshold": 4000
+}
+```
+
+
+## variables
+
+### Get variables list 
+
+Normal response codes: 200
+Error response codes : unauthorized(401), Bad request(400)
+
+
+Curl command:
+```bash
+curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/variables
+```
+
+Output example:
+```JSON
+{
+  "variables": {
+    "my_variable": "blabla", 
+    "nickname": "monf"
+  }
+}
+```
+
+### Update Variables
+
+Normal response codes: 200
+Error response codes : unauthorized(401), Bad request(400)
+
+
+Curl command:
+```bash
+curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"mySecondVariable": "SecondValue", "Nickname2": "Nico"}' http://127.0.0.1:5000/settings/variables
+```
+
+Output example:
+```JSON
+{
+  "variables": {
+    "my_variable ": "blabla", 
+    "nickname": "monf",
+    "mysecondVariable": "SecondValue",
+    "Nickname2": "Nico"
+  }
+}
+```
+
+
+
+## default tts, stt, player, trigger
+
+### Get 
+
+Normal response codes: 200
+Error response codes : unauthorized(401), Bad request(400)
+
+
+Curl command:
+```bash
+curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/default_tts
+curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/default_stt
+curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/default_player
+curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/default_trigger
+```
+
+Output example:
+```JSON
+{
+  "default_tts": "pico2wave"
+}
+```
+
+
+### Update
+
+Normal response codes: 200
+Error response codes : unauthorized(401), Bad request(400)
+
+/!\ Note: To update a tts, stt, player, trigger it should be properly defined in the 'settings.yml' in the corresponding list.
+
+Curl command:
+```bash
+curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"default_tts": "pico2wave"}' http://127.0.0.1:5000/settings/default_tts
+```
+
+Output example:
+```JSON
+{
+  "default_tts": "googletts"
 }
 ```

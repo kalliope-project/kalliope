@@ -108,7 +108,6 @@ class FlaskAPI(threading.Thread):
                               methods=['GET'])
         self.app.add_url_rule('/settings/hooks/', view_func=self.set_hooks,
                               methods=['POST'])
-
         self.app.add_url_rule('/settings/variables/', view_func=self.get_variables,
                               methods=['GET'])
         self.app.add_url_rule('/settings/variables/', view_func=self.set_variables,
