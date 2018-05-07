@@ -129,7 +129,7 @@ To update the list of text_to_speech
 
 /!\ the keyword is 'var_files' for files!
 
-The {{nickname}} will be loaded in the variables.yml file.
+The {{nickname}} will be loaded from the variables.yml file.
 ```yaml
   - name: "say-hello-en"
     signals:
