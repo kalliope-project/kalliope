@@ -5,28 +5,30 @@ Kalliope provides the REST API to manage the synapses. For configuring the API r
 - [Rest API](#rest-api)
   - [API ref](#api-ref)
   - [Get Kalliope's version](#get-kalliopes-version)
-  - [Synapses](#synapses)
+  - [Brain](#brain)
     - [List synapses](#list-synapses)
     - [Show synapse details](#show-synapse-details)
     - [Run a synapse by its name](#run-a-synapse-by-its-name)
     - [Run a synapse from an order](#run-a-synapse-from-an-order)
     - [Run a synapse from an audio file](#run-a-synapse-from-an-audio-file)
   - [The neurotransmitter case](#the-neurotransmitter-case)
-  - [Deaf](#deaf)
-    - [Get deaf status](#get-deaf-status)
-    - [Switch deaf status](#switch-deaf-status)
-  - [Mute](#mute)
-    - [Get mute status](#get-mute-status)
-    - [Set mute status](#set-mute-status)
-  - [energy_threshold](#energy-threshold)
-    - [Get energy_threshold status](#get-energy-threshold-status)
-    - [Set energy_threshold status](#set-energy-threshold-status)
-  - [Variables](#variables)
-    - [Get variables list](#get-variables-list)
-    - [Update Variables](#update-variables)
-  - [default tts, stt, player, trigger](#default-tts--stt--player--trigger)
-    - [Get](#get)
-    - [Update](#update)
+  - [Settings](#settings)
+    - [Get current settings](#get-current-settings)
+    - [Deaf](#deaf)
+      - [Get deaf status](#get-deaf-status)
+      - [Switch deaf status](#switch-deaf-status)
+    - [Mute](#mute)
+      - [Get mute status](#get-mute-status)
+      - [Set mute status](#set-mute-status)
+    - [energy_threshold](#energy-threshold)
+      - [Get energy_threshold status](#get-energy-threshold-status)
+      - [Set energy_threshold status](#set-energy-threshold-status)
+    - [Variables](#variables)
+      - [Get variables list](#get-variables-list)
+      - [Update Variables](#update-variables)
+    - [default tts, stt, player, trigger](#default-tts--stt--player--trigger)
+      - [Get](#get)
+      - [Update](#update)
 
 ## API ref
 
@@ -76,7 +78,7 @@ Output example:
 }
 ```
 
-## Synapses
+## Brain
 
 ### List synapses
 
@@ -434,9 +436,176 @@ curl -i --user admin:secret -H "Content-Type: application/json" -X POST -d '{"or
 
 And now the status is complete. This works also when you have nested neurotransmitter neurons, you just need to keep monitoring the status from the API answer.
 
-## Deaf
+## Settings
 
-### Get deaf status
+### Get current settings
+
+Normal response codes: 200
+Error response codes: unauthorized(401), Bad request(400)
+
+Curl command:
+```bash
+curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings
+```
+
+Output example:
+```JSON
+{
+  "settings": {
+    "cache_path": "/tmp/kalliope_tts_cache", 
+    "default_player_name": "mplayer", 
+    "default_stt_name": "google", 
+    "default_trigger_name": "snowboy", 
+    "default_tts_name": "pico2wave", 
+    "hooks": {
+      "on_deaf": null, 
+      "on_mute": null, 
+      "on_order_found": null, 
+      "on_order_not_found": "order-not-found-synapse", 
+      "on_processed_synapses": null, 
+      "on_start": "on-start-synapse", 
+      "on_start_listening": null, 
+      "on_start_speaking": null, 
+      "on_stop_listening": null, 
+      "on_stop_speaking": null, 
+      "on_stt_error": null, 
+      "on_triggered": "on-triggered-synapse", 
+      "on_undeaf": null, 
+      "on_unmute": null, 
+      "on_waiting_for_trigger": null
+    }, 
+    "kalliope_version": "0.5.1b", 
+    "machine": "x86_64", 
+    "options": {
+      "adjust_for_ambient_noise_second": 0, 
+      "deaf": false, 
+      "energy_threshold": 4000, 
+      "mute": false, 
+      "name": "Options", 
+      "stt_timeout": 0
+    }, 
+    "players": [
+      {
+        "name": "mplayer", 
+        "parameters": {}
+      }, 
+      {
+        "name": "pyalsaaudio", 
+        "parameters": {
+          "convert_to_wav": true, 
+          "device": "default"
+        }
+      }, 
+      {
+        "name": "pyaudioplayer", 
+        "parameters": {
+          "convert_to_wav": true
+        }
+      }, 
+      {
+        "name": "sounddeviceplayer", 
+        "parameters": {
+          "convert_to_wav": true
+        }
+      }
+    ], 
+    "resources": {
+      "neuron_folder": null, 
+      "signal_folder": null, 
+      "stt_folder": null, 
+      "trigger_folder": null, 
+      "tts_folder": null
+    }, 
+    "rest_api": {
+      "active": true, 
+      "allowed_cors_origin": false, 
+      "login": "admin", 
+      "password": "secret", 
+      "password_protected": true, 
+      "port": 5000
+    }, 
+    "stts": [
+      {
+        "name": "google", 
+        "parameters": {
+          "language": "fr-FR"
+        }
+      }, 
+      {
+        "name": "wit", 
+        "parameters": {
+          "key": "fakekey"
+        }
+      }, 
+      {
+        "name": "bing", 
+        "parameters": {
+          "key": "fakekey"
+        }
+      }, 
+      {
+        "name": "apiai", 
+        "parameters": {
+          "key": "fakekey", 
+          "language": "fr"
+        }
+      }, 
+      {
+        "name": "houndify", 
+        "parameters": {
+          "client_id": "fakeclientid", 
+          "key": "fakekey"
+        }
+      }
+    ], 
+    "triggers": [
+      {
+        "name": "snowboy", 
+        "parameters": {
+          "pmdl_file": "trigger/snowboy/resources/kalliope-FR-40samples.pmdl"
+        }
+      }
+    ], 
+    "ttss": [
+      {
+        "name": "pico2wave", 
+        "parameters": {
+          "cache": true, 
+          "language": "fr-FR"
+        }
+      }, 
+      {
+        "name": "googletts", 
+        "parameters": {
+          "cache": true, 
+          "language": "fr"
+        }
+      }, 
+      {
+        "name": "voicerss", 
+        "parameters": {
+          "cache": true, 
+          "key": "API_Key", 
+          "language": "fr-fr"
+        }
+      }, 
+      {
+        "name": "watson", 
+        "parameters": {
+          "password": "password", 
+          "username": "me", 
+          "voice": "fr-FR_ReneeVoice"
+        }
+      }
+    ], 
+    "variables": {}
+  }
+}
+```
+
+### Deaf
+
+#### Get deaf status
 
 Normal response codes: 200
 Error response codes: unauthorized(401), Bad request(400)
@@ -453,7 +622,7 @@ Output example:
 }
 ```
 
-### Switch deaf status
+#### Switch deaf status
 Kalliope can switch to 'deaf' mode, so she can not ear you anymore, the trigger/hotword is desactivated.
 However Kalliope continues to process synapses.
 
@@ -472,13 +641,13 @@ Output example:
 }
 ```
 
-## Mute
+### Mute
 
 When you use the API, by default Kalliope will generate a text and process it into the TTS engine.
 Some calls to the API can be done with a flag that will tell Kalliope to only return the generated text without processing it into the audio player.
 When `mute` is switched to true, Kalliope will not speak out loud on the server side.
 
-### Get mute status
+#### Get mute status
 
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
@@ -496,7 +665,7 @@ Output example:
 }
 ```
 
-### Set mute status
+#### Set mute status
 
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
@@ -514,11 +683,11 @@ Output example:
 }
 ```
 
-## energy_threshold
+### energy_threshold
 
 Define the [energy_threshold](settings.md) in the settigns 
 
-### Get energy_threshold status
+#### Get energy_threshold status
 
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
@@ -536,7 +705,7 @@ Output example:
 }
 ```
 
-### Set energy_threshold status
+#### Set energy_threshold status
 
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
@@ -555,9 +724,9 @@ Output example:
 ```
 
 
-## Variables
+### Variables
 
-### Get variables list 
+#### Get variables list 
 
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
@@ -578,7 +747,7 @@ Output example:
 }
 ```
 
-### Update Variables
+#### Update Variables
 
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
@@ -603,9 +772,9 @@ Output example:
 
 
 
-## default tts, stt, player, trigger
+### default tts, stt, player, trigger
 
-### Get 
+#### Get 
 
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
@@ -627,7 +796,7 @@ Output example:
 ```
 
 
-### Update
+#### Update
 
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
