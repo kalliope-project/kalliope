@@ -2,6 +2,7 @@ import unittest
 import ast
 import mock
 
+from kalliope.core.Models.settings.Options import Options
 from kalliope.core.Models.settings.Player import Player
 from kalliope.core.Models.Signal import Signal
 from kalliope.core.Models.settings.Tts import Tts
@@ -243,76 +244,60 @@ class TestModels(unittest.TestCase):
                                 active=True,
                                 port=5000, allowed_cors_origin="*")
 
+            tts1 = Tts(name="tts1", parameters=dict())
+            tts2 = Tts(name="tts2", parameters=dict())
+            stt1 = Stt(name="stt1", parameters=dict())
+            stt2 = Stt(name="stt2", parameters=dict())
+            trigger1 = Trigger(name="snowboy", parameters=dict())
+            player = Player(name="player1")
+            resources = Resources()
+            options = Options()
+
             setting1 = Settings(default_tts_name="pico2wav",
                                 default_stt_name="google",
                                 default_trigger_name="swoyboy",
                                 default_player_name="mplayer",
-                                ttss=["ttts"],
-                                stts=["stts"],
-                                triggers=["snowboy"],
-                                players=["mplayer"],
+                                ttss=[tts1],
+                                stts=[stt1],
+                                triggers=[trigger1],
+                                players=[player],
                                 rest_api=rest_api1,
                                 cache_path="/tmp/kalliope",
-                                resources=None,
+                                resources=resources,
                                 variables={"key1": "val1"},
-                                options={'deaf': False, 'mute': False})
+                                options=options)
             setting1.kalliope_version = "0.4.5"
 
-            setting2 = Settings(default_tts_name="accapela",
-                                default_stt_name="bing",
+            setting2 = Settings(default_tts_name="pico2wav",
+                                default_stt_name="google",
                                 default_trigger_name="swoyboy",
                                 default_player_name="mplayer",
-                                ttss=["ttts"],
-                                stts=["stts"],
-                                triggers=["snowboy"],
+                                ttss=[tts2],
+                                stts=[stt2],
+                                triggers=[trigger1],
+                                players=[player],
                                 rest_api=rest_api1,
-                                cache_path="/tmp/kalliope_tmp",
-                                resources=None,
+                                cache_path="/tmp/kalliope",
+                                resources=resources,
                                 variables={"key1": "val1"},
-                                options={'deaf': False, 'mute': False})
-            setting2.kalliope_version = "0.4.5"
+                                options=options)
 
             setting3 = Settings(default_tts_name="pico2wav",
                                 default_stt_name="google",
                                 default_trigger_name="swoyboy",
                                 default_player_name="mplayer",
-                                ttss=["ttts"],
-                                stts=["stts"],
-                                triggers=["snowboy"],
-                                players=["mplayer"],
+                                ttss=[tts1],
+                                stts=[stt1],
+                                triggers=[trigger1],
+                                players=[player],
                                 rest_api=rest_api1,
                                 cache_path="/tmp/kalliope",
-                                resources=None,
+                                resources=resources,
                                 variables={"key1": "val1"},
-                                options={'deaf': False, 'mute': False})
+                                options=options)
             setting3.kalliope_version = "0.4.5"
 
-            expected_result_serialize = {
-                'default_tts_name': 'pico2wav',
-                'hooks': None,
-                'rest_api':
-                    {
-                        'password_protected': True,
-                        'port': 5000,
-                        'active': True,
-                        'allowed_cors_origin': '*',
-                        'password': 'password',
-                        'login': 'admin'
-                    },
-                'default_stt_name': 'google',
-                'kalliope_version': '0.4.5',
-                'default_trigger_name': 'swoyboy',
-                'default_player_name': 'mplayer',
-                'cache_path': '/tmp/kalliope',
-                'stts': ['stts'],
-                'machine': 'pumpkins',
-                'ttss': ['ttts'],
-                'variables': {'key1': 'val1'},
-                'resources': None,
-                'triggers': ['snowboy'],
-                'players': ['mplayer'],
-                'options': {'deaf': False, 'mute': False}
-            }
+            expected_result_serialize = {'default_tts_name': 'pico2wav', 'default_stt_name': 'google', 'default_trigger_name': 'swoyboy', 'default_player_name': 'mplayer', 'ttss': [{'name': 'tts1', 'parameters': {}}], 'stts': [{'name': 'stt1', 'parameters': {}}], 'triggers': [{'name': 'snowboy', 'parameters': {}}], 'players': [{'name': 'player1', 'parameters': None}], 'rest_api': {'password_protected': True, 'login': 'admin', 'password': 'password', 'active': True, 'port': 5000, 'allowed_cors_origin': '*'}, 'cache_path': '/tmp/kalliope', 'resources': {'neuron_folder': None, 'stt_folder': None, 'tts_folder': None, 'trigger_folder': None, 'signal_folder': None}, 'variables': {'key1': 'val1'}, 'machine': 'pumpkins', 'kalliope_version': '0.4.5', 'options': {'name': 'Options', 'energy_threshold': 4000, 'adjust_for_ambient_noise_second': 0, 'deaf': None, 'mute': None, 'stt_timeout': 0}, 'hooks': None}
 
             self.maxDiff = None
             self.assertDictEqual(expected_result_serialize, setting1.serialize())
