@@ -23,6 +23,7 @@ class SettingEditor(object):
         for settings_entry in list_settings_entry:
             if settings_entry.name == name_to_check:
                 found = True
+                break
         return found
 
     # Options
