@@ -120,7 +120,7 @@ class TestSettingEditor(unittest.TestCase):
             mock_setting_loader.return_value(self.sl)
             SettingEditor.set_default_tts(default_name)
             self.assertEqual("pico2wave", self.sl.settings.default_tts_name)
-            default_name = "voxygen"
+            default_name = "googletts"
             SettingEditor.set_default_tts(default_name)
             self.assertEqual(default_name, self.sl.settings.default_tts_name)
 

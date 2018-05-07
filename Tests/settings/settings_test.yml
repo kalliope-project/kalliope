@@ -42,8 +42,8 @@ text_to_speech:
   - pico2wave:
       language: "fr-FR"
       cache: True
-  - voxygen:
-      voice: "Agnes"
+  - googletts:
+      language: "fr"
       cache: True
 
 # ---------------------------

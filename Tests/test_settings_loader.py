@@ -48,7 +48,7 @@ class TestSettingLoader(unittest.TestCase):
             'default_speech_to_text': 'google',
             'text_to_speech': [
                 {'pico2wave': {'cache': True, 'language': 'fr-FR'}},
-                {'voxygen': {'voice': 'Agnes', 'cache': True}}
+                {'googletts': {'language': 'fr', 'cache': True}}
                 ],
             'var_files': ["../Tests/settings/variables.yml"],
             'options': {'energy_threshold': 3000, 'deaf': True, 'mute': False},
@@ -101,7 +101,7 @@ class TestSettingLoader(unittest.TestCase):
         settings_object.default_trigger_name = "snowboy"
         settings_object.default_player_name = "mplayer"
         tts1 = Tts(name="pico2wave", parameters={'cache': True, 'language': 'fr-FR'})
-        tts2 = Tts(name="voxygen", parameters={'voice': 'Agnes', 'cache': True})
+        tts2 = Tts(name="googletts", parameters={'language': 'fr', 'cache': True})
         settings_object.ttss = [tts1, tts2]
         stt = Stt(name="google", parameters={'language': 'fr-FR'})
         settings_object.stts = [stt]
@@ -171,7 +171,7 @@ class TestSettingLoader(unittest.TestCase):
 
     def test_get_ttss(self):
         tts1 = Tts(name="pico2wave", parameters={'cache': True, 'language': 'fr-FR'})
-        tts2 = Tts(name="voxygen", parameters={'voice': 'Agnes', 'cache': True})
+        tts2 = Tts(name="googletts", parameters={'language': 'fr', 'cache': True})
         sl = SettingLoader(file_path=self.settings_file_to_test)
         self.assertEqual([tts1, tts2], sl._get_ttss(self.settings_dict))
 
