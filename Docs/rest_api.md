@@ -3,22 +3,32 @@
 Kalliope provides the REST API to manage the synapses. For configuring the API refer to the [settings documentation](settings.md).
 
 - [Rest API](#rest-api)
-  - [Synapse API](#synapse-api)
-  - [Curl examples](#curl-examples)
-    - [Get Kalliope's version](#get-kalliopes-version)
+  - [API ref](#api-ref)
+  - [Get Kalliope's version](#get-kalliopes-version)
+  - [Synapses](#synapses)
     - [List synapses](#list-synapses)
     - [Show synapse details](#show-synapse-details)
     - [Run a synapse by its name](#run-a-synapse-by-its-name)
     - [Run a synapse from an order](#run-a-synapse-from-an-order)
     - [Run a synapse from an audio file](#run-a-synapse-from-an-audio-file)
-    - [The neurotransmitter case](#the-neurotransmitter-case)
+  - [The neurotransmitter case](#the-neurotransmitter-case)
+  - [Deaf](#deaf)
     - [Get deaf status](#get-deaf-status)
     - [Switch deaf status](#switch-deaf-status)
-  - [Mute flag](#mute-flag)
+  - [Mute](#mute)
     - [Get mute status](#get-mute-status)
     - [Set mute status](#set-mute-status)
+  - [energy_threshold](#energy-threshold)
+    - [Get energy_threshold status](#get-energy-threshold-status)
+    - [Set energy_threshold status](#set-energy-threshold-status)
+  - [Variables](#variables)
+    - [Get variables list](#get-variables-list)
+    - [Update Variables](#update-variables)
+  - [default tts, stt, player, trigger](#default-tts--stt--player--trigger)
+    - [Get](#get)
+    - [Update](#update)
 
-## Synapse API
+## API ref
 
 | Method | URL                               | Action                             |
 |--------|-----------------------------------|------------------------------------|
@@ -49,12 +59,9 @@ Kalliope provides the REST API to manage the synapses. For configuring the API r
 | GET    | /settings/default_trigger         | Get the current trigger            |
 | POST   | /settings/default_trigger         | Update the current trigger         |
 
-
-## Curl examples
-
 >**Note:** --user is only needed if `password_protected` is True
 
-### Get Kalliope's version
+## Get Kalliope's version
 
 Normal response codes: 200
 Error response codes: unauthorized(401)
@@ -68,6 +75,8 @@ Output example:
   "Kalliope version": "0.4.2"
 }
 ```
+
+## Synapses
 
 ### List synapses
 
@@ -343,7 +352,7 @@ Curl command:
 curl -i --user admin:secret -X POST http://localhost:5000/synapses/start/audio -F "file=@path/to/file.wav" -F mute="true"
 ```
 
-### The neurotransmitter case
+## The neurotransmitter case
 
 In case of leveraging the [neurotransmitter neuron](../kalliope/neurons/neurotransmitter), Kalliope expects back and forth answers.
 Fortunately, the API provides a way to continue interaction with Kalliope and still use neurotransmitter neurons while doing API calls.
@@ -425,6 +434,8 @@ curl -i --user admin:secret -H "Content-Type: application/json" -X POST -d '{"or
 
 And now the status is complete. This works also when you have nested neurotransmitter neurons, you just need to keep monitoring the status from the API answer.
 
+## Deaf
+
 ### Get deaf status
 
 Normal response codes: 200
@@ -461,7 +472,7 @@ Output example:
 }
 ```
 
-## Mute flag
+## Mute
 
 When you use the API, by default Kalliope will generate a text and process it into the TTS engine.
 Some calls to the API can be done with a flag that will tell Kalliope to only return the generated text without processing it into the audio player.
@@ -503,7 +514,8 @@ Output example:
 }
 ```
 
-## energy_threshold flag
+## energy_threshold
+
 Define the [energy_threshold](settings.md) in the settigns 
 
 ### Get energy_threshold status
@@ -543,7 +555,7 @@ Output example:
 ```
 
 
-## variables
+## Variables
 
 ### Get variables list 
 
