@@ -24,7 +24,10 @@ class TestSettingLoader(unittest.TestCase):
         # get parent dir. Now we are in /an/unknown/path/kalliope
         root_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)
 
-        self.settings_file_to_test = root_dir + os.sep + "Tests/settings/settings_test.yml"
+        if "/Tests" in os.getcwd():
+            self.settings_file_to_test = root_dir + os.sep + "settings/settings_test.yml"
+        else:
+            self.settings_file_to_test = root_dir + os.sep + "Tests/settings/settings_test.yml"
 
         self.settings_dict = {
             'rest_api':
