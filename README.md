@@ -102,7 +102,10 @@ In Greek mythology she was a goddess of epic poetry and eloquence, one of the ni
 
 ## License
 
-Copyright (c) 2016. All rights reserved.
+Copyright (c) 2018. All rights reserved.
 
-Kalliope is covered by the MIT license, a permissive free software license that lets you do anything you want with the source code, 
-as long as you provide back attribution and ["don't hold you liable"](http://choosealicense.com/). For the full license text see the [LICENSE.md](LICENSE.md) file.
+Kalliope is covered by the  GNU GENERAL PUBLIC LICENSE v3.0.
+Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, 
+which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. 
+Contributors provide an express grant of patent rights.
+For the full license text see the [LICENSE.md](LICENSE.md) file.

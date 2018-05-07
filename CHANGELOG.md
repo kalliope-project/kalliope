@@ -21,6 +21,7 @@ v0.5.1 / 2018-05-07
 - Feature: STT timeout
 - Feature: Mute (old no_voice flag). Make Kalliope processing neurons without speaking out loud
 - Feature: order signal can now skip the trigger to chain orders without waking Kalliope. See 'Signal' neuron
+- switch to GNU GPL v3.0 license
 
 v0.5.0 / 2018-01-13
 ===================
