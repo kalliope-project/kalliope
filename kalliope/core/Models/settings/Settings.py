@@ -48,23 +48,22 @@ class Settings(object):
         :return: A dict of order
         :rtype: Dict
         """
-
         return {
             'default_tts_name': self.default_tts_name,
             'default_stt_name': self.default_stt_name,
             'default_trigger_name': self.default_trigger_name,
             'default_player_name': self.default_player_name,
-            'ttss': self.ttss,
-            'stts': self.stts,
-            'triggers': self.triggers,
-            'players': self.players,
+            'ttss': [e.serialize() for e in self.ttss],
+            'stts': [e.serialize() for e in self.stts],
+            'triggers': [e.serialize() for e in self.triggers],
+            'players': [e.serialize() for e in self.players],
             'rest_api': self.rest_api.serialize(),
             'cache_path': self.cache_path,
-            'resources': self.resources,
+            'resources': self.resources.serialize(),
             'variables': self.variables,
             'machine': self.machine,
             'kalliope_version': self.kalliope_version,
-            'options': self.options,
+            'options': self.options.serialize(),
             'hooks': self.hooks
         }
 
