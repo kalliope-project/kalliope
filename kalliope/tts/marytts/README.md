@@ -1,0 +1,20 @@
+# MaryTTS
+
+## Synopsis
+
+MaryTTS is an open-source, multilingual Text-to-Speech Synthesis platform written in Java.
+
+## Options
+
+| Parameters | Required | Default  | Choices                           | Comment                                               |
+|------------|----------|----------|-----------------------------------|-------------------------------------------------------|
+| voice      | yes      | None     | e.g. bits1, cmu-bdl, enst-camille | Run ./marytts list to check your installed voices     |
+| locale     | yes      | None     | e.g. de, en_US, fr                | Check http://localhost:59125/locales for installed locales| 
+| host       | no       | localhost|                                   | Host address of your MaryTTS server                   |
+| port       | no       | 59125    |                                   | Port of your MaryTTS server                           |
+
+
+## Notes :
+
+You need to install Marytts server.  
+https://github.com/marytts/marytts-installer
