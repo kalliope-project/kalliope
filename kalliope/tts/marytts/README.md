@@ -13,7 +13,25 @@ MaryTTS is an open-source, multilingual Text-to-Speech Synthesis platform writte
 | host       | no       | localhost|                                   | Host address of your MaryTTS server                   |
 | port       | no       | 59125    |                                   | Port of your MaryTTS server                           |
 
+## Example on how to setup MaryTTS in Kalliope :
 
+For english voice on localhost add the following lines in your settings.yml:
+```
+text_to_speech:
+  - marytts:
+      voice: "cmu-bdl"
+      locale: "en_US"
+      cache: True 
+```
+For english voice on remote host with default port:
+```
+text_to_speech:
+  - marytts:
+      voice: "cmu-bdl"
+      locale: "en_US"
+      host: 192.168.0.25
+      cache: True
+```      
 ## Notes :
 
 You need to install Marytts server.  
