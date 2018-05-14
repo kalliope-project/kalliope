@@ -15,6 +15,7 @@ Core TTSs are already packaged with the installation of Kalliope an can be used 
 | ~~Voxygen~~ | ~~[Voxygen](../kalliope/tts/voxygen/README.md)~~     | ~~Cloud based~~ |
 | Espeak      | [Espeak](../kalliope/tts/espeak/README.md)           | Self hosted     |
 | Watson      | [watson](../kalliope/tts/watson/README.md)           | Cloud based     |
+| MaryTTS     | [MaryTTS](../kalliope/tts/marytts/README.md)         | Self hosted     |
 
 ## Community TTS
 Community TTSs need to be installed manually.
