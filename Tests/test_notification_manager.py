@@ -28,7 +28,7 @@ class TestNotificationManager(unittest.TestCase):
             self.test_path = "__main__.FakeSignal.on_notification_received"
         else:
             self.test_path = "Tests.test_notification_manager.FakeSignal.on_notification_received"
-        print(self.test_path)
+        NotificationManager._instances.clear()
 
     def test_get_instances(self):
         # create a signal

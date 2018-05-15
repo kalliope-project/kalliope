@@ -234,9 +234,10 @@ class Order(SignalModule, Thread):
         :param payload: payload dict that contains the new status of the skip_trigger flag
         """
         if "status" in payload:
-            if payload["status"] == "True":
+            status = Utils.str_to_bool(payload["status"])
+            if status:
                 logger.debug("[Order] switch signals to True")
                 self.skip_trigger = True
-            if payload["status"] == "False":
+            else:
                 logger.debug("[Order] switch signals to False")
                 self.skip_trigger = False
