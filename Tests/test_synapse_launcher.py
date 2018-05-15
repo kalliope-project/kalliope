@@ -72,6 +72,17 @@ class TestSynapseLauncher(unittest.TestCase):
         with self.assertRaises(SynapseNameNotFound):
             SynapseLauncher.start_synapse_by_list_name(["not_existing"], brain=self.brain_test)
 
+        # check that the cortex is well loaded with temp parameter from a signal
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
+            overriding_parameter_dict = {
+                "parameter1": "value1"
+            }
+            with mock.patch("kalliope.core.Cortex.Cortex.add_parameters_from_order") as cortex_mock:
+                SynapseLauncher.start_synapse_by_list_name(["Synapse1"],
+                                                           brain=self.brain_test,
+                                                           overriding_parameter_dict=overriding_parameter_dict)
+                cortex_mock.assert_called_with(overriding_parameter_dict)
+
     def test_start_synapse_by_list_name(self):
         # test to start a list of synapse
         with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
