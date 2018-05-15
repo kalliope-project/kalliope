@@ -51,7 +51,10 @@ class Order(SignalModule, Thread):
         # save an instance of the trigger
         self.trigger_instance = None
         self.trigger_callback_called = False
-        self.skip_trigger = False  # keep the status of the trigger, if true we can skip it in the statue machine
+
+        # variable from notifications
+        self.skip_trigger = False       # keep the status of the trigger, if true we can skip it in the statue machine
+        self.counter_max_retry = 0      # 0 means disabled
 
         # save the current order listener
         self.order_listener = None
@@ -188,11 +191,52 @@ class Order(SignalModule, Thread):
 
     def on_notification_received(self, notification=None, payload=None):
         logger.debug("[Order] received notification, notification: %s, payload: %s" % (notification, payload))
+
+        # skip_trigger: change the trigger status
         if notification == "skip_trigger":
-            if "status" in payload:
-                if payload["status"] == "True":
-                    logger.debug("[Order] switch signals to True")
-                    self.skip_trigger = True
-                if payload["status"] == "False":
-                    logger.debug("[Order] switch signals to False")
-                    self.skip_trigger = False
+            self.switch_trigger(payload)
+
+        if notification == "skip_trigger_max_retry":
+            self.set_counter_max_retry(payload)
+
+        if notification == "skip_trigger_decrease_max_retry":
+            self.decrease_max_retry()
+
+    def set_counter_max_retry(self, payload):
+        """
+        set a 'counter_max_retry' for max retry before switching automatically the skip_trigger flag to False
+        :param payload: payload that contains the max_retry counter value to set
+        """
+        if "max_retry" in payload:
+            if payload["max_retry"] > 0:
+                self.counter_max_retry = payload["max_retry"]
+                logger.debug("[Order] max_retry set to %s" % self.counter_max_retry)
+
+    def decrease_max_retry(self):
+        """
+        will decrease the current value of 'counter_max_retry' if the current is > 0
+        If the new value == 0, then the skip_trigger flag is automatically switched to False
+        """
+        logger.debug("[Order] current max_retry: %s" % self.counter_max_retry)
+        if self.counter_max_retry > 0:
+            self.counter_max_retry = self.counter_max_retry - 1
+            logger.debug("[Order] new max_retry value after decrease: %s" % self.counter_max_retry)
+            if self.counter_max_retry == 0:
+                logger.debug("[Order] max_retry reached '0'. Set skip_trigger to False")
+                # the counter raised 0, we can stop to skip the trigger
+                self.skip_trigger = False
+        else:
+            logger.debug("[Order] cannot decrease max_retry because current value is <= 0")
+
+    def switch_trigger(self, payload):
+        """
+        switch the skip_trigger flag
+        :param payload: payload dict that contains the new status of the skip_trigger flag
+        """
+        if "status" in payload:
+            if payload["status"] == "True":
+                logger.debug("[Order] switch signals to True")
+                self.skip_trigger = True
+            if payload["status"] == "False":
+                logger.debug("[Order] switch signals to False")
+                self.skip_trigger = False
