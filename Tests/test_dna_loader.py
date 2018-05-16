@@ -65,6 +65,24 @@ class TestDnaLoader(unittest.TestCase):
 
         self.assertTrue(DnaLoader(file_path=self.dna_test_file)._check_dna_file(test_dna))
 
+        # invalid DNA, non existing resource type
+        test_dna = {'kalliope_supported_version': [0.5],
+                    'author': 'Kalliope project team',
+                    'type': 'non-existing',
+                    'name': 'neuron_test',
+                    'tags': ['test']}
+        self.assertFalse(DnaLoader(file_path=self.dna_test_file)._check_dna_file(test_dna))
+
+        # valid DNA, existing resource type
+        list_valid_dna = ["neuron", "stt", "tts", "trigger", "signal"]
+        for valid_resource in list_valid_dna:
+            test_dna = {'kalliope_supported_version': [0.5],
+                        'author': 'Kalliope project team',
+                        'type': valid_resource,
+                        'name': '%s_test' % valid_resource,
+                        'tags': ['test']}
+            self.assertTrue(DnaLoader(file_path=self.dna_test_file)._check_dna_file(test_dna))
+
         # invalid DNA file, no name
         test_dna = {'kalliope_supported_version': [0.4],
                     'author': 'Kalliope project team',
@@ -114,3 +132,6 @@ class TestDnaLoader(unittest.TestCase):
                     'tags': ['test']}
 
         self.assertFalse(DnaLoader(file_path=self.dna_test_file)._check_dna_file(test_dna))
+
+if __name__ == '__main__':
+    unittest.main()

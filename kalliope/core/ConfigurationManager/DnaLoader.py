@@ -8,7 +8,8 @@ from kalliope.core.Models.Dna import Dna
 class InvalidDNAException(Exception):
     pass
 
-VALID_DNA_MODULE_TYPE = ["neuron", "stt", "tts", "trigger"]
+
+VALID_DNA_MODULE_TYPE = ["neuron", "stt", "tts", "trigger", "signal"]
 
 
 class DnaLoader(object):
