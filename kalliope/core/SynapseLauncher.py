@@ -1,6 +1,7 @@
 import logging
 
 from kalliope.core.ConfigurationManager import BrainLoader
+from kalliope.core.Cortex import Cortex
 from kalliope.core.HookManager import HookManager
 from kalliope.core.Lifo.LifoManager import LifoManager
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
@@ -37,12 +38,18 @@ class SynapseLauncher(object):
             if brain is None:
                 brain = BrainLoader().brain
 
+            if overriding_parameter_dict:
+                # this dict is used by signals to pass parameter to neuron,
+                # save in temp memory in case the user want to save in kalliope memory
+                Cortex.add_parameters_from_order(overriding_parameter_dict)
+
             # get all synapse object
             list_synapse_object_to_start = list()
             for name in list_name:
                 synapse_to_start = brain.get_synapse_by_name(synapse_name=name)
                 if not synapse_to_start:
-                    raise SynapseNameNotFound("[SynapseLauncher] The synapse name \"%s\" does not exist in the brain file" % name)
+                    raise SynapseNameNotFound("[SynapseLauncher] The synapse name \"%s\" does not exist "
+                                              "in the brain file" % name)
                 list_synapse_object_to_start.append(synapse_to_start)
 
             # run the LIFO with all synapse
