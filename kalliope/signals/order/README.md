@@ -13,6 +13,10 @@
     - [Order with arguments](#order-with-arguments)
   - [Control from the Signal Neuron](#control-from-the-signal-neuron)
     - [Skip the trigger](#skip-the-trigger)
+    - [Max retry for skipping the trigger](#max-retry-for-skipping-the-trigger)
+      - [skip_trigger_max_retry](#skip-trigger-max-retry)
+      - [skip_trigger_decrease_max_retry](#skip-trigger-decrease-max-retry)
+      - [Config example](#config-example)
   - [Notes](#notes)
 
 ## Synopsis
@@ -21,18 +25,18 @@ An **order** signal is a word, or a sentence caught by the microphone and proces
 
 ## Options
 
-| parameter | required | default | choices | comment                                             |
-|-----------|----------|---------|---------|-----------------------------------------------------|
-| order     | YES      |         |         | The order is passed directly without any parameters |
+| parameter   | required   | default   | choices   | comment                                               |
+| ----------- | ---------- | --------- | --------- | ----------------------------------------------------- |
+| order       | YES        |           |           | The order is passed directly without any parameters   |
 
 Other way to write an order, with parameters:
 
-| parameter           | required | default | choices                        | comment                                                |
-|---------------------|----------|---------|--------------------------------|--------------------------------------------------------|
-| text                | YES      |         |                                | The order to match                                     |
-| matching-type       | NO       | normal  | normal, strict, ordered-strict | Type of matching. See explanation bellow               |
-| stt-correction      | NO       |         |                                | List of words from the order to replace by other words |
-| stt-correction-file | NO       |         |                                | Same as stt-correction but load words from a YAML file |
+| parameter             | required   | default   | choices                          | comment                                                  |
+| --------------------- | ---------- | --------- | -------------------------------- | -------------------------------------------------------- |
+| text                  | YES        |           |                                  | The order to match                                       |
+| matching-type         | NO         | normal    | normal, strict, ordered-strict   | Type of matching. See explanation bellow                 |
+| stt-correction        | NO         |           |                                  | List of words from the order to replace by other words   |
+| stt-correction-file   | NO         |           |                                  | Same as stt-correction but load words from a YAML file   |
 
 **Matching-type:**
 - **normal**: Will match if all words are present in the spoken order.
@@ -116,7 +120,7 @@ In this example, with a `strict` matching type, the synapse would be triggered i
 
 ### stt-correction
 
-This option allow you to replace some words from the captured order by other word. 
+This option allow you to replace some words from the captured order by other word.
 
 Syntax:
 ```yml
@@ -125,7 +129,7 @@ signals:
         text: "<sentence>"
         stt-correction:
           - input: "words to replace"
-            output: "replacing words" 
+            output: "replacing words"
 ```
 
 E.g
@@ -171,7 +175,7 @@ Syntax:
 signals:
     - order:
         text: "<sentence>"
-        stt-correction-file: "<path to yaml file>"   
+        stt-correction-file: "<path to yaml file>"
 ```
 
 E.g
@@ -180,13 +184,13 @@ E.g
     signals:
       - order:
           text: "this is my order"
-          stt-correction-file: "my_stt_correction_file.yml"            
+          stt-correction-file: "my_stt_correction_file.yml"
     neurons:
       - debug:
           message: "hello"
 ```
 
-Where `my_stt_correction_file.yml` would looks like the following: 
+Where `my_stt_correction_file.yml` would looks like the following:
 ```yml
 - input: "test"
   output: "order"
@@ -194,7 +198,7 @@ Where `my_stt_correction_file.yml` would looks like the following:
 
 ### Use both stt-correction and stt-correction-file
 
-You can use both flag stt-correction and stt-correction-file in a synapse. 
+You can use both flag stt-correction and stt-correction-file in a synapse.
 This can be useful to set a correction file used as global file, and override input with stt-correction.
 
 Syntax:
@@ -202,10 +206,10 @@ Syntax:
 signals:
   - order:
       text: "<sentence>"
-      stt-correction-file: "<path to yaml file>"  
+      stt-correction-file: "<path to yaml file>"
       stt-correction:
         - input: "<sentence>"
-          output: "<replacing sentence>" 
+          output: "<replacing sentence>"
 ```
 
 For example, if you define a `stt-correction-file` with the content bellow:
@@ -228,7 +232,7 @@ And a synapse like the following
 
 If you pronounce "bla is my test", both `stt-correction-file` and `stt-correction` will be used to fix the pronounced order, resulting "this is my order".
 
->**Note:** `stt-correction` has precedence over `stt-correction-file`. 
+>**Note:** `stt-correction` has precedence over `stt-correction-file`.
 If an input is declared in `stt-correction` and in `stt-correction-file`, the output will be taken from the `stt-correction` option.
 
 ### Order with arguments
@@ -266,14 +270,14 @@ See the **input values** section of the [neuron documentation](neurons) to know 
 
 This signal can be updated on the fly from the [Signals neuron](../../neurons/signals).
 
-### Skip the trigger 
+### Skip the trigger
 
 - **Notification ID:** "skip_trigger"
 - **Payload dict**:
 
-| parameter | required | default | choices     | comment                         |
-|-----------|----------|---------|-------------|---------------------------------|
-| status    | YES      |         | TRUE, FALSE | Set to True to skip the trigger |
+| parameter   | required   | default   | choices       | comment                           |
+| ----------- | ---------- | --------- | ------------- | --------------------------------- |
+| status      | YES        |           | TRUE, FALSE   | Set to True to skip the trigger   |
 
 Skip the trigger at the end of the synapse execution. Kalliope will listen for a new order directly without waiting for a trigger detection.
 
@@ -348,6 +352,68 @@ The synapse in the brain looks like the following, of course we need to keep a `
         notification: "skip_trigger"
         payload:
           status: "False"
+```
+
+### Max retry for skipping the trigger
+
+Following options prevent Kalliope from entering in an infinite loop in case of multiple STT errors.
+This configuration will only work if you've set a stt timeout in your settings
+```yaml
+options:
+  stt_timeout: 5   
+```
+In this case, each 5 seconds, the `on_stt_error` hook will be raised.
+
+#### skip_trigger_max_retry
+
+This notification will prevent the order signal to enter in an infinite loop in case of multiple stt error.
+
+- **Notification ID:** "skip_trigger_max_retry"
+- **Payload dict**:
+
+| parameter   | required   | default   | choices       | comment                                                                                                          |
+| ----------- | ---------- | --------- | ------------- | ---------------------------------------------------------------------------------------------------------------- |
+| max_retry   | YES        | 0         |               | Set a maximum of retry before switch the `skip_trigger` to False automatically. 0 means this feature is disabled |
+
+#### skip_trigger_decrease_max_retry
+
+This notification will decrease the counter set from the "skip_trigger_max_retry". If "skip_trigger_max_retry" reach 0, then the skip_trigger flag is automatically switched to False to prevent infinite loop.
+
+- **Notification ID:** "skip_trigger_decrease_max_retry"
+- **Payload**: No payload
+
+#### Config example
+
+In your settings:
+  - add a synapse "skip_trigger_max_retry" that will be called to set the max retry counter at:
+    - the start of kalliope
+    - each time the order as been found (so the counter is reset)
+  - add a synapse that will be used to decrease the counter each time something went wrong with the STT process
+
+```yaml
+hooks:
+  on_start:
+    - "on-start-synapse"
+    - "set-skip-trigger-max-retry"
+  on_order_found: "set-skip-trigger-max-retry"
+  on_stt_error: "decrease-max-retry-counter"
+```
+
+Define synapses in your brain
+```yaml
+- name: "set-skip-trigger-max-retry"
+  signals: []
+  neurons:
+    - signals:
+        notification: "skip_trigger_max_retry"
+        payload:
+          max_retry: 3
+
+- name: "decrease-max-retry-counter"
+  signals: []
+  neurons:
+    - signals:
+        notification: "skip_trigger_decrease_max_retry"
 ```
 
 ## Notes

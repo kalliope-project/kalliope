@@ -1,7 +1,7 @@
 import logging
 
 from kalliope.core import NeuronModule
-from kalliope.core.NeuronModule import MissingParameterException, InvalidParameterException
+from kalliope.core.NeuronModule import MissingParameterException
 from kalliope.core.NotificationManager import NotificationManager
 
 logging.basicConfig()
@@ -13,8 +13,8 @@ class Signals(NeuronModule):
         super(Signals, self).__init__(**kwargs)
 
         # get the command
-        self.notification = kwargs.get('notification', False)
-        self.payload = kwargs.get('payload', False)
+        self.notification = kwargs.get('notification', None)
+        self.payload = kwargs.get('payload', None)
 
         if self._is_parameters_ok():
 
