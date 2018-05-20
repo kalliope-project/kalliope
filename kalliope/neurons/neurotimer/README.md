@@ -92,11 +92,11 @@ Passing argument to the called synapse with the `forwarded_parameters`.
     - order: "remind me to {{ remember }} in {{ time }} minutes"
   neurons:
     - neurotimer:
-        seconds: "{{ time }}"
+        minutes: "{{ time }}"
         synapse: "remember-todo"
         forwarded_parameters:
           remember: "{{ remember }}"
-          seconds: "{{ time }}"
+          time: "{{ time }}"
     - say:
         message:
           - "I'll remind you in {{ time }} minutes"
