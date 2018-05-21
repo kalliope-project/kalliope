@@ -25,6 +25,7 @@ class TestSettingLoader(unittest.TestCase):
         root_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)
 
         if "/Tests" in os.getcwd():
+            # For travis ...
             self.settings_file_to_test = root_dir + os.sep + "settings/settings_test.yml"
         else:
             self.settings_file_to_test = root_dir + os.sep + "Tests/settings/settings_test.yml"
