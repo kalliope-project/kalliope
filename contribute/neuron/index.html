@@ -1161,7 +1161,7 @@
 <h2 id="repository-structure">Repository Structure</h2>
 <ol>
 <li>The Neuron repository name is in <strong>lowercase</strong>.</li>
-<li>Under the Neuron repository, the Neuron has a <strong>README.md file</strong> describing the Neuron following this structure. You can get a <a href="neuron_template.md">template here</a>:<ul>
+<li>Under the Neuron repository, the Neuron has a <strong>README.md file</strong> describing the Neuron following this structure:<ul>
 <li>Neuron name:</li>
 <li>Installation:     The CLI command used to install the neuron</li>
 <li>Synopsis:         Description of the Neuron</li>
@@ -1219,7 +1219,7 @@ the message variable must be a Dict of variable:values where variables can be de
 </li>
 <li>
 <p>The Neuron must (as much as possible) ensure the i18n. This means that they should <strong>not manage a specific language</strong> inside its own logic.
-Only <a href="brain.md">Synapse</a> by the use of <a href="signals.md">Order</a> must interact with the languages. This allow a Neuron to by reused by anyone, speaking any language.</p>
+Only synapse by the use of order must interact with the languages. This allow a Neuron to by reused by anyone, speaking any language.</p>
 </li>
 </ol>
 <h2 id="code-example">Code example</h2>
