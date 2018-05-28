@@ -1,0 +1,83 @@
+# how to use
+# install python packages
+# sudo pip install mkdocs mkdocs-material markdown-include pygments
+# run dev server
+# mkdocs serve
+
+site_name: Kalliope doc
+dev_addr: 0.0.0.0:8000
+
+theme:
+  name: 'material'
+  palette:
+    primary: 'teal' # Valid values are: red, pink, purple, deep purple, indigo, blue, light blue, cyan, teal, green, light green, lime, yellow, amber, orange, deep orange, brown, grey, blue grey and white.
+    accent: 'pink'
+
+markdown_extensions:
+  - markdown_include.include:
+      base_path: docs
+  - codehilite
+
+pages:
+  - Home: "index.md"
+  - Installation:
+    - "Raspberry": "installation/raspbian.md"
+    - "Debian": "installation/debian.md"
+    - "Ubuntu": "installation/ubuntu.md"
+  - Getting-started: "getting-started.md"
+  - Settings:
+    - settings.yml: "settings/settings.md"
+    - Trigger:
+      - Snowboy: "settings/triggers/snowboy.md"
+    - Player:
+      - mplayer: "settings/players/mplayer.md"
+      - pyalsaaudio: "settings/players/pyalsaaudio.md"
+      - pyaudioplayer: "settings/players/pyaudioplayer.md"
+      - sounddeviceplayer: "settings/players/sounddeviceplayer.md"
+    - STT:
+      - api.ai: "settings/stt/api.ai.md"
+      - Bing: "settings/stt/bing.md"
+      - CMUSphinx: "settings/stt/CMUSphinx.md"
+      - Google: "settings/stt/google.md"
+      - Houndify: "settings/stt/houndify.md"
+      - wit.ai: "settings/stt/wit.ai.md"
+    - TTS:
+      - espeak: "settings/tts/espeak.md"
+      - googletts: "settings/tts/googletts.md"
+      - pico2wave: "settings/tts/pico2wave.md"
+      - voicerss: "settings/tts/voicerss.md"
+      - watson: "settings/tts/watson.md"
+  - Brain:
+    - brain.yml: "brain/brain.md"
+    - Core signals:
+      - event: "brain/signals/event.md"
+      - geolocation: "brain/signals/geolocation.md"
+      - mqtt_subscriber: "brain/signals/mqtt_subscriber.md"
+      - order: "brain/signals/order.md"
+    - Core neurons:
+      - ansible_playbook: "brain/neurons/ansible_playbook.md"
+      - brain: "brain/neurons/brain.md"
+      - debug: "brain/neurons/debug.md"
+      - kill_switch: "brain/neurons/kill_switch.md"
+      - mqtt_publisher: "brain/neurons/mqtt_publisher.md"
+      - neurotimer: "brain/neurons/neurotimer.md"
+      - neurotransmitter: "brain/neurons/neurotransmitter.md"
+      - say: "brain/neurons/say.md"
+      - script: "brain/neurons/script.md"
+      - settings: "brain/neurons/settings.md"
+      - shell: "brain/neurons/shell.md"
+      - signals: "brain/neurons/signals.md"
+      - sleep: "brain/neurons/sleep.md"
+      - systemdate: "brain/neurons/systemdate.md"
+      - uri: "brain/neurons/uri.md"
+    - Community modules: "brain/community_modules.md"
+  - CLI: "cli.md"
+  - API: "rest_api.md"
+  - Contribute:
+    - Core: "contribute/core.md"
+    - Neuron: "contribute/neuron.md"
+    - STT: "contribute/stt.md"
+    - TTS: "contribute/tts.md"
+    - Documentation: "contribute/documentation.md"
+    - install.yml: "contribute/installation_file.md"
+    - dna.yml: "contribute/dna.md"
