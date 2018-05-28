@@ -1354,18 +1354,36 @@ sudo python get-pip.py
 
 <p>Your installation is now complete, let's take a look now to the <a href="../../getting-started/">getting started documentation</a> to learn how to use Kalliope.</p>
 <h3 id="optional-start-kalliope-automatically-after-a-reboot">(Optional) Start Kalliope automatically after a reboot</h3>
-<p>If you want to start Kalliope automatically Place the script bellow in <code>/etc/systemd/system/kalliope.service</code>.
-Update the path to your folder where you've placed your <code>brain.yml</code> and <code>settings.yml</code>.</p>
+<p>If you want to start Kalliope automatically Place the script bellow in <code>/etc/systemd/system/kalliope.service</code>.</p>
+<p>Update the path <code>&lt;my_config_path&gt;</code> with the path where you've placed your <code>brain.yml</code> and <code>settings.yml</code>.</p>
+<p>Update the <code>&lt;username&gt;</code> with a non root user. For example, on Raspbian you can set <code>pi</code>.</p>
 <div class="codehilite"><pre><span></span><span class="o">[</span>Unit<span class="o">]</span>
 <span class="nv">Description</span><span class="o">=</span>Kalliope
 
 <span class="o">[</span>Service<span class="o">]</span>
-<span class="nv">WorkingDirectory</span><span class="o">=</span>/path/to/kalliope_brain_folder
+<span class="nv">WorkingDirectory</span><span class="o">=</span>&lt;my_config_path&gt;
 
 <span class="nv">Environment</span><span class="o">=</span><span class="s1">&#39;STDOUT=/var/log/kalliope.log&#39;</span>
 <span class="nv">Environment</span><span class="o">=</span><span class="s1">&#39;STDERR=/var/log/kalliope.err.log&#39;</span>
 <span class="nv">ExecStart</span><span class="o">=</span>/bin/bash -c <span class="s2">&quot;/usr/local/bin/kalliope start &gt; </span><span class="si">${</span><span class="nv">STDOUT</span><span class="si">}</span><span class="s2"> 2&gt; </span><span class="si">${</span><span class="nv">STDERR</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="nv">User</span><span class="o">=</span>%i
+<span class="nv">User</span><span class="o">=</span>&lt;username&gt;
+
+<span class="o">[</span>Install<span class="o">]</span>
+<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+</pre></div>
+
+
+<p>E.g</p>
+<div class="codehilite"><pre><span></span><span class="o">[</span>Unit<span class="o">]</span>
+<span class="nv">Description</span><span class="o">=</span>Kalliope
+
+<span class="o">[</span>Service<span class="o">]</span>
+<span class="nv">WorkingDirectory</span><span class="o">=</span>/home/pi/my_kalliope_config
+
+<span class="nv">Environment</span><span class="o">=</span><span class="s1">&#39;STDOUT=/var/log/kalliope.log&#39;</span>
+<span class="nv">Environment</span><span class="o">=</span><span class="s1">&#39;STDERR=/var/log/kalliope.err.log&#39;</span>
+<span class="nv">ExecStart</span><span class="o">=</span>/bin/bash -c <span class="s2">&quot;/usr/local/bin/kalliope start &gt; </span><span class="si">${</span><span class="nv">STDOUT</span><span class="si">}</span><span class="s2"> 2&gt; </span><span class="si">${</span><span class="nv">STDERR</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="nv">User</span><span class="o">=</span>pi
 
 <span class="o">[</span>Install<span class="o">]</span>
 <span class="nv">WantedBy</span><span class="o">=</span>multi-user.target

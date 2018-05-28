@@ -642,6 +642,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#output-parameters" title="Output parameters" class="md-nav__link">
+    Output parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#available-signals" title="Available signals" class="md-nav__link">
     Available signals
   </a>
@@ -1200,6 +1207,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#output-parameters" title="Output parameters" class="md-nav__link">
+    Output parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#available-signals" title="Available signals" class="md-nav__link">
     Available signals
   </a>
@@ -1311,10 +1325,10 @@
 <li>From <code>/etc/kalliope/brain.yml</code></li>
 <li>From the default <code>brain.yml</code> located in the root of the project tree.</li>
 </ul>
-<p>Brain is composed by <strong>synapses</strong>: a synapse is the link between input(signals) and output actions(neurons).</p>
+<p>Brain is composed by <strong>synapses</strong>: a synapse is the link between input(<strong>signals</strong>) and output actions(<strong>neurons</strong>).</p>
 <h2 id="signals">Signals</h2>
 <h3 id="syntax">Syntax</h3>
-<p>A signal is an input event triggered by a synapse. When a signal is caught, Kalliope runs attached neurons of the synapse.</p>
+<p>A signal is an input event triggered by a synapse. When a signal from the list is caught, Kalliope runs attached neurons of the synapse.</p>
 <p>The syntax is the following</p>
 <div class="codehilite"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">signals</span><span class="p p-Indicator">:</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">signal_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">parameter</span>
@@ -1339,6 +1353,27 @@
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">event</span><span class="p p-Indicator">:</span>
       <span class="l l-Scalar l-Scalar-Plain">hour</span><span class="p p-Indicator">:</span> <span class="s">&quot;8&quot;</span>
       <span class="l l-Scalar l-Scalar-Plain">minute</span><span class="p p-Indicator">:</span> <span class="s">&quot;30&quot;</span>
+</pre></div>
+
+
+<p>You can also set an empty list as signals. This means that the synapse can only be started from the CLI, the API, a hook or from another synapse.</p>
+<div class="codehilite"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">signals</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[]</span>
+</pre></div>
+
+
+<h3 id="output-parameters">Output parameters</h3>
+<p>Some signals will send a list of parameters to all neurons when triggered. Neurons are then free to use them or not.
+For example, the signal mqtt_subscriber(signals/mqtt_subscriber.md) send a variable called "mqtt_subscriber_message" when triggered. In the example bellow, the neuron "say" use this variable to make Kalliope speak out loud a status received from the MQTT broker.</p>
+<p>E.g</p>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&quot;mqtt&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">signals</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">mqtt_subscriber</span><span class="p p-Indicator">:</span>   <span class="c1"># this signal send a &quot;mqtt_subscriber_message&quot; when triggered</span>
+        <span class="l l-Scalar l-Scalar-Plain">broker_ip</span><span class="p p-Indicator">:</span> <span class="s">&quot;127.0.0.1&quot;</span>
+        <span class="l l-Scalar l-Scalar-Plain">topic</span><span class="p p-Indicator">:</span> <span class="s">&quot;topic1&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">neurons</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">say</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">message</span><span class="p p-Indicator">:</span>
+          <span class="p p-Indicator">-</span> <span class="s">&quot;The</span><span class="nv"> </span><span class="s">light</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">now</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">mqtt_subscriber_message</span><span class="nv"> </span><span class="s">}}&quot;</span>
 </pre></div>
 
 
@@ -1398,11 +1433,12 @@ The <code>neurons</code> section is a list (because it starts with a "-") which 
 <p><strong>note:</strong> Kalliope will try to load the neuron from your resources directory, then from core neuron packages.</p>
 </blockquote>
 <h3 id="input-values">Input values</h3>
-<p>Neurons require some <strong>parameters</strong> from the synapse declaration to work. Those parameters, also called arguments, can be passed to the neuron in two way:</p>
+<p>Neurons require some <strong>parameters</strong> from the synapse declaration to work. Those parameters, also called arguments, can be passed to the neuron from:</p>
 <ul>
-<li>from the neuron declaration</li>
-<li>from global variables</li>
-<li>from the captured order</li>
+<li>the neuron declaration</li>
+<li>global variables</li>
+<li>the captured order</li>
+<li>output parameter from a signal</li>
 </ul>
 <p>From the neuron declaration:</p>
 <div class="codehilite"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">neurons</span><span class="p p-Indicator">:</span>
@@ -1434,8 +1470,20 @@ The <code>neurons</code> section is a list (because it starts with a "-") which 
 
 
 <p>Here, the spoken value captured by the TTS engine will be passed as an argument to the neuron in every parameters that want use it.</p>
-<p>Example, with the synapse declaration above, if you say "say hello to Bob". The parameter parameter message is instantiated and all <code>{{ name }}</code> are replaced by "bob".
-We recommend the reading of the signals section for a complete understanding of how arguments in a neuron work.</p>
+<p>Example, with the synapse declaration above, if you say "say hello to Bob". The parameter parameter message is instantiated and all <code>{{ name }}</code> are replaced by "bob".</p>
+<p>From parameters sent by a signal(E.g, mqtt subscriber)</p>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&quot;mqtt&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">signals</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">mqtt_subscriber</span><span class="p p-Indicator">:</span>   <span class="c1"># this signal send a &quot;mqtt_subscriber_message&quot; when triggered</span>
+        <span class="l l-Scalar l-Scalar-Plain">broker_ip</span><span class="p p-Indicator">:</span> <span class="s">&quot;127.0.0.1&quot;</span>
+        <span class="l l-Scalar l-Scalar-Plain">topic</span><span class="p p-Indicator">:</span> <span class="s">&quot;topic1&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">neurons</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">say</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">message</span><span class="p p-Indicator">:</span>
+          <span class="p p-Indicator">-</span> <span class="s">&quot;The</span><span class="nv"> </span><span class="s">light</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">now</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">mqtt_subscriber_message</span><span class="nv"> </span><span class="s">}}&quot;</span>
+</pre></div>
+
+
 <blockquote>
 <p><strong>Note:</strong> If a parameter of a neuron is waiting for a variable from the order and this variable haven't been found in the spoken order, then the neuron is not launched.</p>
 </blockquote>

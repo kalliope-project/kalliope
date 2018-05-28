@@ -4,7 +4,7 @@
     
     <url>
      <loc>/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -13,19 +13,19 @@
         
     <url>
      <loc>/installation/raspbian/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/installation/debian/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/installation/ubuntu/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -34,7 +34,7 @@
     
     <url>
      <loc>/getting-started/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -43,7 +43,7 @@
         
     <url>
      <loc>/settings/settings/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -77,7 +77,7 @@
         
     <url>
      <loc>/brain/brain/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -95,7 +95,7 @@
         
     <url>
      <loc>/brain/community_modules/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -104,7 +104,7 @@
     
     <url>
      <loc>/cli/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -112,7 +112,7 @@
     
     <url>
      <loc>/rest_api/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -121,43 +121,43 @@
         
     <url>
      <loc>/contribute/core/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/contribute/neuron/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/contribute/stt/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/contribute/tts/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/contribute/documentation/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/contribute/installation_file/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/contribute/dna/</loc>
-     <lastmod>2018-05-26</lastmod>
+     <lastmod>2018-05-28</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
