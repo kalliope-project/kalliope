@@ -55,7 +55,7 @@ At the top level we have a "name" tag. This is the **unique identifier** of the 
 ```
 
 The first part, called **signals** is a list of input actions.
-You can add as many signal as you want in the "signals" section. If one of them is triggered, te neuron list will be executed.
+You can add as many signal as you want in the "signals" section. If one of them is triggered, the neuron list will be executed.
 ```yaml
 signals:
   - order: "say-hello"

@@ -117,6 +117,7 @@ Neurons require some **parameters** from the synapse declaration to work. Those 
 - global variables
 - the captured order
 - output parameter from a signal
+- kalliope memory
 
 From the neuron declaration:
 ```yaml
@@ -148,7 +149,7 @@ From the captured order:
 ```
 Here, the spoken value captured by the TTS engine will be passed as an argument to the neuron in every parameters that want use it.
 
-Example, with the synapse declaration above, if you say "say hello to Bob". The parameter parameter message is instantiated and all `{{ name }}` are replaced by "bob".
+Example, with the synapse declaration above, if you say "say hello to Bob". The parameter message is instantiated and all `{{ name }}` are replaced by "bob".
 
 From parameters sent by a signal(E.g, mqtt subscriber)
 ```yaml

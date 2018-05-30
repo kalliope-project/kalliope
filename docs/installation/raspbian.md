@@ -104,6 +104,7 @@ card 1: Headset [Logitech USB Headset], device 0: USB Audio [USB Audio]
 Here one shall see one peripheral on card 1 and device 0
 
 Create a configuration file that applies the following configuration:
+
 - output audio (what Kalliope says) on the analog audio (via speakers connected to the jack)
 - input audio (what is said to Kalliope) on the USB microphone
 

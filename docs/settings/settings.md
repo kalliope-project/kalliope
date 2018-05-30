@@ -116,12 +116,12 @@ Click on a Player engine link in the `Current CORE Available Players` section to
 
 Core Players are already packaged with the installation of Kalliope an can be used out of the box.
 
-| Doc                                               | Note                                                                                   |
-| ------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| [mplayer](players/mplayer.md)                     | Based on [mplayer software](http://www.mplayerhq.hu/design7/news.html)                 |
-| [pyalsaaudio](players/pyalsaaudio.md)             | Based on [pyalsaaudio](https://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html lib |
-| [pyaudioplayer](players/pyaudioplayer.md)         | Based on [pyaudio](https://people.csail.mit.edu/hubert/pyaudio/docs/) lib              |
-| [sounddeviceplayer](players/sounddeviceplayer.md) | Based on [sounddevice](https://pypi.python.org/pypi/sounddevice) lib                   |
+| Doc                                               | Note                                                                                    |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| [mplayer](players/mplayer.md)                     | Based on [mplayer software](http://www.mplayerhq.hu/design7/news.html)                  |
+| [pyalsaaudio](players/pyalsaaudio.md)             | Based on [pyalsaaudio](https://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html) lib |
+| [pyaudioplayer](players/pyaudioplayer.md)         | Based on [pyaudio](https://people.csail.mit.edu/hubert/pyaudio/docs/) lib               |
+| [sounddeviceplayer](players/sounddeviceplayer.md) | Based on [sounddevice](https://pypi.python.org/pypi/sounddevice) lib                    |
 
 
 ## Speech to text configuration
@@ -165,15 +165,15 @@ speech_to_text:
   - google:
       language: "fr-FR"
   - wit:
-      key: "B5JI3YUSLYOYWNIZRNBVM34XUODME2K"
+      key: "MYKEYS"
   - bing:
-      key: "9e48dert65904838bedc11aea6b36fb0"
+      key: "MYKEYS"
   - apiai:
-      key: "e0cbff145af44944a6b9f82c0668b527"
+      key: "MYKEYS"
       language: "fr"
   - houndify:
-      key: "6ej90T7qAV74OYXk4X4vI2Xhk7wPsJu4aEZ0G5Ll-BMmV1JGtFpCxtSH9SmTY4G3bpEJ7a5y_GTQid-CAKI6vw=="
-      client_id: "lM2JXeaSticbSo9-llczbA=="
+      key: "MYKEYS"
+      client_id: "MYCLIENTID"
 
 ```
 
@@ -397,9 +397,12 @@ You cannot use the "say" neuron inside the "on_start_speaking" or "on_stop_speak
 ## Rest API
 
 A Rest API can be activated in order to:
+
 - List synapses
 - Get synapse's detail
 - Run a synapse
+- Update settings
+- Update the brain
 
 For the complete API ref see the [REST API documentation](../rest_api.md)
 
