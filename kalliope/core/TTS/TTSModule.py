@@ -51,6 +51,7 @@ class TTSModule(object):
         self.cache = kwargs.get('cache', False)
         self.language = kwargs.get('language', "default")
         self.voice = kwargs.get('voice', "default")
+        self.split_sentences = kwargs.get('split_sentences', False)
         # the name of the TSS is the name of the Tss module that have instantiated TTSModule
         self.tts_caller_name = self.__class__.__name__
 
@@ -68,10 +69,11 @@ class TTSModule(object):
         base_path = os.path.join(self.settings.cache_path, self.tts_caller_name, self.language, self.voice)
         FileManager.create_directory(base_path)
 
-        logger.debug("Class TTSModule called from module %s, cache: %s, language: %s, voice: %s" % (self.tts_caller_name,
+        logger.debug("Class TTSModule called from module %s, cache: %s, language: %s, voice: %s, split_sentences: %s" % (self.tts_caller_name,
                                                                                                      self.cache,
                                                                                                      self.language,
-                                                                                                     self.voice))
+                                                                                                     self.voice,
+                                                                                                     self.split_sentences))
 
     def play_audio(self):
         """
