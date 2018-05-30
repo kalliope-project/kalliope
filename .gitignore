@@ -90,3 +90,6 @@ ENV/
 
 # Idea project
 .idea/
+
+# mkdocs
+site
