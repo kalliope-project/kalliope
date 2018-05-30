@@ -1703,7 +1703,7 @@ Click on a Player engine link in the <code>Current CORE Available Players</code>
 </tr>
 <tr>
 <td><a href="../players/pyalsaaudio/">pyalsaaudio</a></td>
-<td>Based on [pyalsaaudio](https://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html lib</td>
+<td>Based on <a href="https://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html">pyalsaaudio</a> lib</td>
 </tr>
 <tr>
 <td><a href="../players/pyaudioplayer/">pyaudioplayer</a></td>
@@ -1751,15 +1751,15 @@ speech_to_text:
   - google:
       language: &quot;fr-FR&quot;
   - wit:
-      key: &quot;B5JI3YUSLYOYWNIZRNBVM34XUODME2K&quot;
+      key: &quot;MYKEYS&quot;
   - bing:
-      key: &quot;9e48dert65904838bedc11aea6b36fb0&quot;
+      key: &quot;MYKEYS&quot;
   - apiai:
-      key: &quot;e0cbff145af44944a6b9f82c0668b527&quot;
+      key: &quot;MYKEYS&quot;
       language: &quot;fr&quot;
   - houndify:
-      key: &quot;6ej90T7qAV74OYXk4X4vI2Xhk7wPsJu4aEZ0G5Ll-BMmV1JGtFpCxtSH9SmTY4G3bpEJ7a5y_GTQid-CAKI6vw==&quot;
-      client_id: &quot;lM2JXeaSticbSo9-llczbA==&quot;
+      key: &quot;MYKEYS&quot;
+      client_id: &quot;MYCLIENTID&quot;
 </pre></div>
 
 
@@ -2062,10 +2062,14 @@ You can call this script every time kalliope start or stop speaking</p>
 You cannot use the "say" neuron inside the "on_start_speaking" or "on_stop_speaking" or it will create an infinite loop</p>
 </blockquote>
 <h2 id="rest-api">Rest API</h2>
-<p>A Rest API can be activated in order to:
-- List synapses
-- Get synapse's detail
-- Run a synapse</p>
+<p>A Rest API can be activated in order to:</p>
+<ul>
+<li>List synapses</li>
+<li>Get synapse's detail</li>
+<li>Run a synapse</li>
+<li>Update settings</li>
+<li>Update the brain</li>
+</ul>
 <p>For the complete API ref see the <a href="../../rest_api/">REST API documentation</a></p>
 <p>Settings examples:</p>
 <div class="codehilite"><pre><span></span><span class="n">rest_api</span><span class="o">:</span>

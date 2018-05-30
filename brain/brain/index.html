@@ -1439,6 +1439,7 @@ The <code>neurons</code> section is a list (because it starts with a "-") which 
 <li>global variables</li>
 <li>the captured order</li>
 <li>output parameter from a signal</li>
+<li>kalliope memory</li>
 </ul>
 <p>From the neuron declaration:</p>
 <div class="codehilite"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">neurons</span><span class="p p-Indicator">:</span>
@@ -1470,7 +1471,7 @@ The <code>neurons</code> section is a list (because it starts with a "-") which 
 
 
 <p>Here, the spoken value captured by the TTS engine will be passed as an argument to the neuron in every parameters that want use it.</p>
-<p>Example, with the synapse declaration above, if you say "say hello to Bob". The parameter parameter message is instantiated and all <code>{{ name }}</code> are replaced by "bob".</p>
+<p>Example, with the synapse declaration above, if you say "say hello to Bob". The parameter message is instantiated and all <code>{{ name }}</code> are replaced by "bob".</p>
 <p>From parameters sent by a signal(E.g, mqtt subscriber)</p>
 <div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&quot;mqtt&quot;</span>
   <span class="l l-Scalar l-Scalar-Plain">signals</span><span class="p p-Indicator">:</span>

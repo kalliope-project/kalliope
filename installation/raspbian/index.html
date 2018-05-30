@@ -1476,9 +1476,11 @@ card <span class="m">1</span>: Headset <span class="o">[</span>Logitech USB Head
 
 
 <p>Here one shall see one peripheral on card 1 and device 0</p>
-<p>Create a configuration file that applies the following configuration:
-- output audio (what Kalliope says) on the analog audio (via speakers connected to the jack)
-- input audio (what is said to Kalliope) on the USB microphone</p>
+<p>Create a configuration file that applies the following configuration:</p>
+<ul>
+<li>output audio (what Kalliope says) on the analog audio (via speakers connected to the jack)</li>
+<li>input audio (what is said to Kalliope) on the USB microphone</li>
+</ul>
 <p>Create a file in <code>/home/pi/.asoundrc</code> with the content below</p>
 <div class="codehilite"><pre><span></span>pcm.!default {
    type asym
