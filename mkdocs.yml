@@ -44,6 +44,7 @@ pages:
     - TTS:
       - espeak: "settings/tts/espeak.md"
       - googletts: "settings/tts/googletts.md"
+      - marytts: "settings/tts/marytts.md"
       - pico2wave: "settings/tts/pico2wave.md"
       - voicerss: "settings/tts/voicerss.md"
       - watson: "settings/tts/watson.md"
