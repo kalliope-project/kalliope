@@ -270,6 +270,7 @@ Core TTSs are already packaged with the installation of Kalliope an can be used 
 | ----------------------------- | ----------- |
 | [espeak](tts/espeak.md)       | Self hosted |
 | [googletts](tts/googletts.md) | Cloud based |
+| [marytts](tts/marytts.md)     | Self hosted |
 | [pico2wave](tts/pico2wave.md) | Self hosted |
 | [voicerss](tts/voicerss.md)   | Cloud based |
 | [watson](tts/watson.md)       | Cloud based |
