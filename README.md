@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="images/Kalliope_logo_large.png">
+    <img src="docs/images/Kalliope_logo_large.png">
 </p>
 
 # Kalliope
@@ -11,101 +11,54 @@
 [![Beerpay](https://beerpay.io/kalliope-project/kalliope/badge.svg?style=flat)](https://beerpay.io/kalliope-project/kalliope)
 
 
-Kalliope is a modular always-on voice controlled personal assistant designed for home automation.
-Kalliope is based on audio input recognition, so it recognize an order pronounced by the user and then execute actions attached to the order.
+Kalliope is a framework that will help you to create your own personal assistant.
 
-You can create your own Kalliope bot, by simply choosing and composing the existing modules without writing any code. But, if you need a particular module, you can
-write it by yourself and add it to your project. You can also propose it to the community.
+The concept is to create the brain of your assistant by attaching an input **signal** (vocal order, scheduled event, MQTT message, GPIO event, etc..) to one or multiple actions called **neurons**.
+
+You can create your own Kalliope bot, by simply choosing and composing the [existing neurons](https://kalliope-project.github.io/neurons_marketplace.html) without writing any code. But, if you need a particular module, you can write it by yourself, add it to your project and propose it to the community.
 
 Kalliope can run on all Linux Debian based distribution including a Raspberry Pi and it's multi-lang. The only thing you need is a microphone.
 
 Kalliope is easy-peasy to use, see the hello world
-```yml
+
+```yaml
   - name: "Hello-world"
     signals:
       - order: "say hello"
-    neurons:      
+    neurons:
       - say:
-          message: "Hello world!"    
+          message: "Hello world!"
 ```
 
 If you want an idea of what you can do with Kalliope, click on the image below
 [![ENGLISH DEMO](https://img.youtube.com/vi/PcLzo4H18S4/0.jpg)](https://www.youtube.com/watch?v=PcLzo4H18S4)
 
-## Installation
+## Links
 
-Just run the following bash command to install Kalliope on a freshly installed Raspberry Pi:
-```
-bash -c "$(curl -sL https://raw.githubusercontent.com/kalliope-project/kalliope/master/install/rpi_install_kalliope.sh)"
-```
+- [Documentation](https://kalliope-project.github.io/kalliope/)
+- [Kalliope website](https://kalliope-project.github.io/)
+- [Android app](https://play.google.com/store/apps/details?id=kalliope.project)
+- [Chat](https://gitter.im/kalliope-project/Lobby)
 
-Or use:
-- [Kalliope manuall installation documentation](Docs/installation.md) (Ubuntu/Debian/Raspbian)
-- [Pre-compiled disk image for Raspberry](Docs/installation/raspbian.md)
-
-## Quick start
-
-Once installed, you can start learning basics of Kalliope from a [quick start configuration](Docs/installation/quickstart.md)
-
-## Usage
-
-- [Configure default settings](Docs/settings.md)
-- [Create the brain of your Kalliope](Docs/brain.md)
-- [Run Kalliope with CLI](Docs/kalliope_cli.md)
-- See the list of [available neurons](https://kalliope-project.github.io/neurons_marketplace.html) with examples of usage
-
-## Documentation summary
-
-| Link                               | Detail                                                                                      |
-|------------------------------------|---------------------------------------------------------------------------------------------|
-| [Settings](Docs/settings.md)       | The main Kalliope configuration                                                             |
-| [Brain](Docs/brain.md)             | What is the brain and how to create your own bot                                            |
-| [neuron](Docs/neurons.md)          | What is a neuron and how to use it                                                          |
-| [neuron list](Docs/neuron_list.md) | List of available neurons                                                                   |
-| [CLI](Docs/kalliope_cli.md)        | How to use Kalliope from the command line interface                                         |
-| [Signals](Docs/signals.md)         | Signals are input event that can wake up kalliope (spoken order, scheduled event, REST API) |
-| [STT](Docs/stt.md)                 | Speech to text configuration                                                                |
-| [TTS](Docs/tts.md)                 | Text to speech configuration                                                                |
-| [Triggers](Docs/trigger.md)        | Magic hotword engine used to make Kalliope listening for an order                           |
-| [REST API](Docs/rest_api.md)       | Integrated REST API. Can be used to send an order                                           |
-| [Players](Docs/player.md)          | Player is the software used to make kalliope talk                                           |
-
-## Contributing
-
-If you'd like to contribute to Kalliope, please read our [Contributing Guide](Docs/contributing.md), which contains the philosophies to preserve, tests to run, and more.
-Reading through this guide before writing any code is recommended.
-
-- Read the [contributing guide](Docs/contributing.md)
-- Add [issues and feature requests](../../issues)
-- [Chat](https://gitter.im/kalliope-project/Lobby) with the community or developers
-- You liked kalliope? **Star us!**
-- [Improve the Snowboy models](Docs/trigger.md)
+<p align="center">
+    <img src="docs/images/kalliope_app.png">
+</p>
 
 ## Credits
 
-> **Meaning of Kalliope** Kalliope means "beautiful voice" from Greek καλλος (kallos) "beauty" and οψ (ops) "voice". 
+> **Meaning of Kalliope** Kalliope means "beautiful voice" from Greek καλλος (kallos) "beauty" and οψ (ops) "voice".
 In Greek mythology she was a goddess of epic poetry and eloquence, one of the nine Muses.
 
 - kə-LIE-ə-pee    (English)
 - Ka-li-o-pé      (French)
 - каллиопа        (Russian)
 
-## Links
-
-- [Kalliope website](https://kalliope-project.github.io/)
-- [Android app](https://play.google.com/store/apps/details?id=kalliope.project)
-- [Chat](https://gitter.im/kalliope-project/Lobby)
-
-<p align="center">
-    <img src="images/kalliope_app.png">
-</p>
-
 ## License
 
 Copyright (c) 2018. All rights reserved.
 
 Kalliope is covered by the  GNU GENERAL PUBLIC LICENSE v3.0.
-Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, 
-which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. 
+Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications,
+which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved.
 Contributors provide an express grant of patent rights.
 For the full license text see the [LICENSE.md](LICENSE.md) file.
