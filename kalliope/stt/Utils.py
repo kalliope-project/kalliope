@@ -67,7 +67,7 @@ class SpeechRecognition(Thread):
                 self.audio_stream = None
             logger.debug("[SpeechRecognition] end of speech recognition process")
 
-            self.callback(self.recognizer, self.audio_stream)
+        self.callback(self.recognizer, self.audio_stream)
 
     def start_processing(self):
         """
