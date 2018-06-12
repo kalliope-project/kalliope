@@ -181,11 +181,11 @@ class ConfigurationChecker:
             settings = sl.settings
             package_name = "kalliope.signals" + "." + signal_name.lower() + "." + signal_name.lower()
             if settings.resources.signal_folder is not None:
-                neuron_resource_path = settings.resources.neuron_folder + \
+                signal_resource_path = settings.resources.signal_folder + \
                                        os.sep + signal_name.lower() + os.sep + \
                                        signal_name.lower() + ".py"
-                if os.path.exists(neuron_resource_path):
-                    imp.load_source(signal_name.capitalize(), neuron_resource_path)
+                if os.path.exists(signal_resource_path):
+                    imp.load_source(signal_name.capitalize(), signal_resource_path)
                     package_name = signal_name.capitalize()
 
             try:
