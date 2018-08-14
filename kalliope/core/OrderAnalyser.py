@@ -101,6 +101,7 @@ class OrderAnalyser:
                             logger.debug("Order found! Run synapse name: %s" % synapse.name)
                             Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
                             list_match_synapse.append(synapse_order_tuple(synapse=synapse, order=signal_order))
+                            break
         return list_match_synapse
 
     @classmethod
