@@ -1,4 +1,4 @@
-# Kalliope requirements for Debian Jessie/Strech
+# Kalliope requirements for Debian Jessie/Stretch
 
 ## Debian packages requirements
 
@@ -10,10 +10,10 @@ deb http://httpredir.debian.org/debian jessie main contrib non-free
 deb-src http://httpredir.debian.org/debian jessie main contrib non-free
 ```
 
-On Debian Strech:
+On Debian Stretch:
 ```bash
-deb http://httpredir.debian.org/debian strech main contrib non-free
-deb-src http://httpredir.debian.org/debian strech main contrib non-free
+deb http://httpredir.debian.org/debian stretch main contrib non-free
+deb-src http://httpredir.debian.org/debian stretch main contrib non-free
 ```
 
 Install some required system libraries and softwares:
