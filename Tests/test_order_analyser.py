@@ -41,6 +41,8 @@ class TestOrderAnalyser(unittest.TestCase):
         signal8 = Signal(name="order", parameters={"matching-type": "non-existing",
                                                    "non-existing-parameter": "will not match order"})
         signal9 = Signal(name="order", parameters="order that should be triggered because synapse is disabled")
+        signal10 = Signal(name="order", parameters="i say this")
+        signal11 = Signal(name="order", parameters="and then that")
 
         synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
         synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
@@ -51,6 +53,7 @@ class TestOrderAnalyser(unittest.TestCase):
         synapse7 = Synapse(name="Synapse7", neurons=[neuron1, neuron2], signals=[signal7])
         synapse8 = Synapse(name="Synapse8", neurons=[neuron1, neuron2], signals=[signal8])
         synapse9 = Synapse(name="Synapse9", enabled=False, neurons=[neuron1, neuron2], signals=[signal9])
+        synapse10 = Synapse(name="Synapse10", neurons=[neuron1], signals=[signal10, signal11])
 
         all_synapse_list = [synapse1,
                             synapse2,
@@ -60,7 +63,8 @@ class TestOrderAnalyser(unittest.TestCase):
                             synapse6,
                             synapse7,
                             synapse8,
-                            synapse9]
+                            synapse9,
+                            synapse10]
 
         br = Brain(synapses=all_synapse_list)
 
@@ -138,6 +142,12 @@ class TestOrderAnalyser(unittest.TestCase):
         # we expect an empty list
         matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
         self.assertTrue(len(matched_synapses) == 0)
+
+        # TEST8: a spoken order that match multiple time the same synapse should return the synapse only once
+        spoken_order = "i say this and then that"
+        matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
+        self.assertTrue("Synapse10" in matched_synapse.synapse.name for matched_synapse in matched_synapses)
+        self.assertTrue(len(matched_synapses) == 1)
 
     def test_get_split_order_without_bracket(self):
         # Success
