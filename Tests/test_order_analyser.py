@@ -43,6 +43,11 @@ class TestOrderAnalyser(unittest.TestCase):
         signal9 = Signal(name="order", parameters="order that should be triggered because synapse is disabled")
         signal10 = Signal(name="order", parameters="i say this")
         signal11 = Signal(name="order", parameters="and then that")
+        signal12 = Signal(name="order", parameters={"matching-type": "strict",
+                                                    "text": "just 1 test",
+                                                    "stt-correction": [
+                                                        {"input": "one", "output": "1"}
+                                                    ]})
 
         synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
         synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
@@ -54,6 +59,7 @@ class TestOrderAnalyser(unittest.TestCase):
         synapse8 = Synapse(name="Synapse8", neurons=[neuron1, neuron2], signals=[signal8])
         synapse9 = Synapse(name="Synapse9", enabled=False, neurons=[neuron1, neuron2], signals=[signal9])
         synapse10 = Synapse(name="Synapse10", neurons=[neuron1], signals=[signal10, signal11])
+        synapse11 = Synapse(name="Synapse11", neurons=[neuron1], signals=[signal12])
 
         all_synapse_list = [synapse1,
                             synapse2,
@@ -64,7 +70,8 @@ class TestOrderAnalyser(unittest.TestCase):
                             synapse7,
                             synapse8,
                             synapse9,
-                            synapse10]
+                            synapse10,
+                            synapse11]
 
         br = Brain(synapses=all_synapse_list)
 
@@ -147,6 +154,12 @@ class TestOrderAnalyser(unittest.TestCase):
         spoken_order = "i say this and then that"
         matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
         self.assertTrue("Synapse10" in matched_synapse.synapse.name for matched_synapse in matched_synapses)
+        self.assertTrue(len(matched_synapses) == 1)
+
+        # TEST9: with STT correction
+        spoken_order = "just one test"
+        matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
+        self.assertTrue("Synapse11" in matched_synapse.synapse.name for matched_synapse in matched_synapses)
         self.assertTrue(len(matched_synapses) == 1)
 
     def test_get_split_order_without_bracket(self):
