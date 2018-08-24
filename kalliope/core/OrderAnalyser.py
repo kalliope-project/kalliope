@@ -73,7 +73,9 @@ class OrderAnalyser:
         list_match_synapse = list()
         for synapse in cls.brain.synapses:
             if synapse.enabled:
+                fixed_order = order  # keep in mind the original order
                 for signal in synapse.signals:
+                    logger.debug("[OrderAnalyser] Testing Synapse name %s" % synapse.name)
                     # we are only concerned by synapse with a order type of signal
                     if signal.name == "order":
                         # get the type of matching expected, by default "normal"
@@ -92,9 +94,9 @@ class OrderAnalyser:
 
                             expected_matching_type = cls.get_matching_type(signal)
 
-                            order = cls.order_correction(order, signal)
+                            fixed_order = cls.order_correction(order, signal)
 
-                        if cls.is_order_matching(user_order=order,
+                        if cls.is_order_matching(user_order=fixed_order,
                                                  signal_order=signal_order,
                                                  expected_order_type=expected_matching_type):
                             # the order match the synapse, we add it to the returned list
