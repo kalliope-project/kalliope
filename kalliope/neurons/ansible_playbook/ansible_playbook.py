@@ -1,10 +1,13 @@
 from collections import namedtuple
 
 import logging
+
+import yaml
+from ansible.executor.task_queue_manager import TaskQueueManager
+from ansible.inventory.manager import InventoryManager
 from ansible.parsing.dataloader import DataLoader
-from ansible.vars import VariableManager
-from ansible.inventory import Inventory
-from ansible.executor.playbook_executor import PlaybookExecutor
+from ansible.playbook.play import Play
+from ansible.vars.manager import VariableManager
 
 from kalliope.core.NeuronModule import NeuronModule, MissingParameterException
 
@@ -23,25 +26,47 @@ class Ansible_playbook(NeuronModule):
 
         # check if parameters have been provided
         if self._is_parameters_ok():
-
-            variable_manager = VariableManager()
-            loader = DataLoader()
             options = self._get_options()
+
+            # initialize needed objects
+            loader = DataLoader()
+
             passwords = {'become_pass': self.sudo_password}
 
-            inventory = Inventory(loader=loader, variable_manager=variable_manager, host_list="localhost")
+            inventory = InventoryManager(loader=loader, sources="localhost,")
+
+            # variable manager takes care of merging all the different sources to give you a unified
+            # view of variables available in each context
+            variable_manager = VariableManager(loader=loader, inventory=inventory)
             variable_manager.set_inventory(inventory)
-            playbooks = [self.task_file]
 
-            executor = PlaybookExecutor(
-                playbooks=playbooks,
-                inventory=inventory,
-                variable_manager=variable_manager,
-                loader=loader,
-                options=options,
-                passwords=passwords)
+            playbooks = None
+            with open(self.task_file, 'r') as stream:
+                try:
+                    playbooks = yaml.load(stream)
+                except yaml.YAMLError as exc:
+                    print(exc)
 
-            executor.run()
+            play = Play().load(playbooks[0], variable_manager=variable_manager, loader=loader)
+
+            # Run it - instantiate task queue manager, which takes care of forking and setting up all objects
+            # to iterate over host list and tasks
+            tqm = None
+            try:
+                tqm = TaskQueueManager(
+                    inventory=inventory,
+                    variable_manager=variable_manager,
+                    loader=loader,
+                    options=options,
+                    passwords=passwords,
+                    stdout_callback='default',
+                    # Use our custom callback instead of the ``default`` callback plugin, which prints to stdout
+                )
+                tqm.run(play)  # most interesting data for a play is actually sent to the callback's methods
+            finally:
+                # we always need to cleanup child procs and the structres we use to communicate with them
+                if tqm is not None:
+                    tqm.cleanup()
 
     def _is_parameters_ok(self):
         if self.task_file is None:
@@ -64,15 +89,15 @@ class Ansible_playbook(NeuronModule):
         """
         Options = namedtuple('Options',
                              ['connection', 'forks', 'become', 'become_method', 'become_user', 'check', 'listhosts',
-                              'listtasks', 'listtags', 'syntax', 'module_path'])
+                              'listtasks', 'listtags', 'syntax', 'module_path', 'diff'])
         if self.sudo:
             options = Options(connection='local', forks=100, become=True, become_method="sudo",
                               become_user=self.sudo_user, check=False, listhosts=False, listtasks=False, listtags=False,
-                              syntax=False, module_path="")
+                              syntax=False, module_path="", diff=False)
         else:
             options = Options(connection='local', forks=100, become=None, become_method=None, become_user=None,
                               check=False, listhosts=False, listtasks=False, listtags=False, syntax=False,
-                              module_path="")
+                              module_path="", diff=False)
 
         logger.debug("Ansible options: %s" % str(options))
         return options

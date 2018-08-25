@@ -34,6 +34,7 @@ TYPE_STT = "stt"
 TYPE_TRIGGER = "trigger"
 TYPE_SIGNAL = "signal"
 
+
 class ResourcesManagerException(Exception):
     pass
 
@@ -107,7 +108,7 @@ class ResourcesManager(object):
                   tts_name=None,
                   stt_name=None,
                   trigger_name=None,
-                  signal_name= None):
+                  signal_name=None):
         """
         Uninstall a community resource
         """
@@ -140,7 +141,8 @@ class ResourcesManager(object):
                 shutil.rmtree(target_path_to_delete + os.sep + module_name.lower())
                 Utils.print_success("Module %s deleted" % module_name.lower())
             except shutil.Error:
-                Utils.print_warning("The module %s doest not exist in the path %s" % (module_name.lower(), target_path_to_delete))
+                Utils.print_warning("The module %s doest not exist in the path %s" % (module_name.lower(),
+                                                                                      target_path_to_delete))
             except OSError:
                 Utils.print_warning(
                     "The module %s doest not exist in the path %s" % (module_name.lower(), target_path_to_delete))
