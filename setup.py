@@ -71,7 +71,7 @@ setup(
         'markupsafe>=1.0',
         'pyaudio>=0.2.11',
         'pyasn1>=0.2.3',
-        'ansible>=2.3,<2.4',
+        'ansible>=2.6.3',
         'jinja2>=2.10',
         'cffi>=1.9.1',
         'ipaddress>=1.0.17',
