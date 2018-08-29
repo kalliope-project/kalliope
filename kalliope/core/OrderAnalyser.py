@@ -44,7 +44,7 @@ class OrderAnalyser:
 
         # We use a namedtuple to associate the synapse and the signal of the synapse
         synapse_order_tuple = collections.namedtuple('tuple_synapse_matchingOrder',
-                                                     ['synapse', 'order'])
+                                                     ['synapse', 'matched_order', 'user_order'])
 
         # if the received order is None we can stop the process immediately
         if order is None:
@@ -54,17 +54,17 @@ class OrderAnalyser:
         list_match_synapse = cls.get_list_match_synapse(order, synapse_order_tuple)
 
         # create a list of MatchedSynapse from the tuple list
-        list_synapse_to_process = cls.get_list_synapses_to_process(list_match_synapse, order)
+        list_synapse_to_process = cls.get_list_synapses_to_process(list_match_synapse)
 
         return list_synapse_to_process
 
     @classmethod
-    def get_list_synapses_to_process(cls, list_match_synapse, order):
+    def get_list_synapses_to_process(cls, list_match_synapse):
         list_synapse_to_process = list()
         for tuple_el in list_match_synapse:
             new_matching_synapse = MatchedSynapse(matched_synapse=tuple_el.synapse,
-                                                  matched_order=tuple_el.order,
-                                                  user_order=order)
+                                                  matched_order=tuple_el.matched_order,
+                                                  user_order=tuple_el.user_order)
             list_synapse_to_process.append(new_matching_synapse)
         return list_synapse_to_process
 
@@ -102,7 +102,9 @@ class OrderAnalyser:
                             # the order match the synapse, we add it to the returned list
                             logger.debug("Order found! Run synapse name: %s" % synapse.name)
                             Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
-                            list_match_synapse.append(synapse_order_tuple(synapse=synapse, order=signal_order))
+                            list_match_synapse.append(synapse_order_tuple(synapse=synapse,
+                                                                          matched_order=signal_order,
+                                                                          user_order=fixed_order))
                             # we matched this synapse with an order, don't need to check another
                             break
         return list_match_synapse
