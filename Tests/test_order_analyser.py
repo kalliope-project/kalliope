@@ -160,6 +160,7 @@ class TestOrderAnalyser(unittest.TestCase):
         spoken_order = "just one test"
         matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
         self.assertTrue("Synapse11" in matched_synapse.synapse.name for matched_synapse in matched_synapses)
+        self.assertTrue(spoken_order in matched_synapse.user_order for matched_synapse in matched_synapses)
         self.assertTrue(len(matched_synapses) == 1)
 
     def test_get_split_order_without_bracket(self):
