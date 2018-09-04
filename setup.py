@@ -91,7 +91,9 @@ setup(
         'pyalsaaudio>=0.8.4',
         'sox>=1.3.0',
         'paho-mqtt>=1.3.0',
-        'voicerss_tts>=1.0.3'
+        'voicerss_tts>=1.0.3',
+        'gTTS>=2.0.1',
+        'urllib3>=1.23'
     ],
 
 
