@@ -1,14 +1,15 @@
 import requests
+import warnings
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+from gtts import gTTS
+
 from kalliope.core import FileManager
 from kalliope.core.TTS.TTSModule import TTSModule, FailToLoadSoundFile, MissingTTSParameter
 import logging
 
+
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
-
-TTS_URL = "http://translate.google.com/translate_tts"
-TTS_CONTENT_TYPE = "audio/mpeg"
-TTS_TIMEOUT_SEC = 30
 
 
 class Googletts(TTSModule):
@@ -43,35 +44,14 @@ class Googletts(TTSModule):
         .. raises:: FailToLoadSoundFile
         """
 
-        # Prepare payload
-        payload = self.get_payload()
-
-        # getting the audio
-        r = requests.get(TTS_URL, params=payload, stream=True, timeout=TTS_TIMEOUT_SEC)
-        content_type = r.headers['Content-Type']
-
-        logger.debug("Googletts : Trying to get url: %s response code: %s and content-type: %s",
-                     r.url,
-                     r.status_code,
-                     content_type)
-        # Verify the response status code and the response content type
-        if r.status_code != requests.codes.ok or content_type != TTS_CONTENT_TYPE:
-            raise FailToLoadSoundFile("Googletts : Fail while trying to remotely access the audio file")
-
+        # Since the gTTS lib disabled the SSL verification we get rid of insecure request warning
+        requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+        
+        tts = gTTS(text=self.words, lang=self.language)
+        
         # OK we get the audio we can write the sound file
-        FileManager.write_in_file(self.file_path, r.content)
-
-    def get_payload(self):
-        """
-        Generic method used load the payload used to access the remote api
-
-        :return: Payload to use to access the remote api
-        """
-
-        return {
-            "q": self.words,
-            "tl": self.language,
-            "ie": "UTF-8",
-            "total": "1",
-            "client": "tw-ob"
-        }
+        tts.save(self.file_path)
+        
+        # Re enable the warnings to avoid affecting the whole kalliope process 
+        warnings.resetwarnings()
+        
