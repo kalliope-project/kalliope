@@ -297,7 +297,7 @@ class TestRestAPI(LiveServerTestCase):
             expected_result = "/tmp/kalliope/tempfile.wav"
             result_file = FlaskAPI._convert_to_wav(temp_file)
             self.assertEqual(expected_result, result_file)
-            mock_os_system.assert_called_once_with("avconv -y -i " + temp_file + " " + expected_result)
+            mock_os_system.assert_called_once_with("ffmpeg -loglevel panic -y -i " + temp_file + " " + expected_result)
 
     def test_get_mute(self):
         """

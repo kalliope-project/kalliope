@@ -363,7 +363,7 @@ class FlaskAPI(threading.Thread):
             current_file_path = audio_file_path
             logger.debug("Converting file "+ current_file_path + " to .wav")
             audio_file_path = base + ".wav"
-            os.system("ffmpeg -y -i " + current_file_path + " " + audio_file_path)  # --> deprecated
+            os.system("ffmpeg -loglevel panic -y -i " + current_file_path + " " + audio_file_path)  # --> deprecated
             # subprocess.call(['avconv', '-y', '-i', audio_path, new_file_path], shell=True) # Not working ...
 
         return audio_file_path

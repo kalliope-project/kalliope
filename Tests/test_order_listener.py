@@ -30,7 +30,7 @@ class TestOrderListener(unittest.TestCase):
 
         resources = Resources(stt_folder="/tmp")
         ol.settings = mock.MagicMock(default_stt_name="default-stt",
-                                     stts=[stt1,stt2,stt3],
+                                     stts=[stt1, stt2, stt3],
                                      resources=resources)
 
         callback = mock.MagicMock()
@@ -43,10 +43,11 @@ class TestOrderListener(unittest.TestCase):
                              "class_instance",
                              "Fail getting the proper value")
 
-            mock_get_dynamic_class_instantiation.assert_called_once_with(package_name= "stt",
-                                                                         module_name= "Default-stt",
-                                                                         parameters={'callback' : callback},
-                                                                         resources_dir= "/tmp")
+            mock_get_dynamic_class_instantiation.assert_called_once_with(package_name="stt",
+                                                                         module_name="Default-stt",
+                                                                         parameters={'callback': callback,
+                                                                                     'audio_file_path': None},
+                                                                         resources_dir="/tmp")
 
 
 if __name__ == '__main__':
