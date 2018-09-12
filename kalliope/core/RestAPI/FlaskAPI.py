@@ -23,7 +23,7 @@ logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 UPLOAD_FOLDER = '/tmp/kalliope/tmp_uploaded_audio'
-ALLOWED_EXTENSIONS = {'mp3', 'wav'}
+ALLOWED_EXTENSIONS = {'wav'}
 
 
 class FlaskAPI(threading.Thread):
@@ -361,8 +361,9 @@ class FlaskAPI(threading.Thread):
         extension = os.path.splitext(audio_file_path)[1]
         if extension != ".wav":
             current_file_path = audio_file_path
+            logger.debug("Converting file "+ current_file_path + " to .wav")
             audio_file_path = base + ".wav"
-            os.system("avconv -y -i " + current_file_path + " " + audio_file_path)  # --> deprecated
+            os.system("ffmpeg -loglevel panic -y -i " + current_file_path + " " + audio_file_path)  # --> deprecated
             # subprocess.call(['avconv', '-y', '-i', audio_path, new_file_path], shell=True) # Not working ...
 
         return audio_file_path

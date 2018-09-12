@@ -60,9 +60,7 @@ class OrderListener(Thread):
             if stt_object.name == self.stt_module_name:
                 stt_object.parameters["callback"] = self.callback
                 # add the audio file path to the list of parameter if set
-                if self.audio_file_path is not None:
-                    stt_object.parameters["audio_file_path"] = self.audio_file_path
-
+                stt_object.parameters["audio_file_path"] = self.audio_file_path
                 stt_folder = None
                 if self.settings.resources:
                     stt_folder = self.settings.resources.stt_folder
