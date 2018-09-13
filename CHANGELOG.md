@@ -1,3 +1,17 @@
+v0.5.2 / 2018-09-07
+===================
+- Fix: API receive audio and use now ffmpeg as format converter
+- Fix: community signal installation
+- Fix: Cortex (kalliope memory) usable with signals
+- Fix: making sure the called synapse is execute only once
+- Fix: STT correction only affect one synapse
+- Fix: STT correction, fixed order is now used in the neuron to get parameters
+- Enhancement: Update Google TTS, use a lib instead of manual call. Allow long sentences.
+- Enhancement: Move documentation to mkdocs
+- Enhancement: Add hook on_start_listening and on_stop_listening
+- Feature: add MaryTTS engine
+- Enhancement: Update Ansible to the last revision
+
 v0.5.1 / 2018-05-07
 ===================
 - Fix: I/O error on Python 3
