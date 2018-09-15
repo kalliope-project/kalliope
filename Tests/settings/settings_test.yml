@@ -119,3 +119,6 @@ options:
   deaf: True
   mute: False
   energy_threshold: 3000
+
+# send hit to anonymously evaluate the global usage of Kalliope app by users
+send_anonymous_usage_stats: False

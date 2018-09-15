@@ -1,5 +1,8 @@
+from kalliope._version import version_str
 from kalliope.core.ConfigurationManager import SettingLoader
 import logging
+
+from kalliope.core.Utils.google_tracking import GoogleTracking
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -17,6 +20,12 @@ class HookManager(object):
 
     @classmethod
     def on_triggered(cls):
+        sl = SettingLoader()
+        gt = GoogleTracking(cid=sl.settings.send_anonymous_usage_stats,
+                            kalliope_version=version_str,
+                            category='synapse',
+                            action='execute')
+        gt.start()
         return cls.execute_synapses_in_hook_name("on_triggered")
 
     @classmethod

@@ -22,7 +22,8 @@ class Settings(object):
                  resources=None,
                  variables=None,
                  options=None,
-                 hooks=None):
+                 hooks=None,
+                 send_anonymous_usage_stats=None):
 
         self.default_tts_name = default_tts_name
         self.default_stt_name = default_stt_name
@@ -40,6 +41,7 @@ class Settings(object):
         self.kalliope_version = current_kalliope_version
         self.options = options
         self.hooks = hooks
+        self.send_anonymous_usage_stats = send_anonymous_usage_stats
 
     def serialize(self):
         """
@@ -64,7 +66,8 @@ class Settings(object):
             'machine': self.machine,
             'kalliope_version': self.kalliope_version,
             'options': self.options.serialize(),
-            'hooks': self.hooks
+            'hooks': self.hooks,
+            'send_anonymous_usage_stats': self.send_anonymous_usage_stats
         }
 
     def __str__(self):

@@ -577,3 +577,18 @@ options:
 ```
 
 >**Note:** The number of second here represents the time between kalliope's awakening and the moment when you can give her your order.
+
+
+## send_anonymous_usage_stats
+
+This flag allow Kalliope to send some stats in order to anonymously evaluate the global usage of Kalliope app by users.
+
+Syntax:
+```yml
+send_anonymous_usage_stats: <boolean>
+```
+
+E.g:
+```yml
+send_anonymous_usage_stats: False
+```
