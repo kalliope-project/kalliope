@@ -1,5 +1,7 @@
 import logging
 import os
+import uuid
+
 from six import with_metaclass
 
 from kalliope.core.Models.settings.Options import Options
@@ -113,6 +115,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         variables = self._get_variables(settings)
         options = self._get_options(settings)
         hooks = self._get_hooks(settings)
+        send_anonymous_usage_stats = self._get_anonymous_usage_stats(settings)
 
         # Load the setting singleton with the parameters
         setting_object.default_tts_name = default_tts_name
@@ -129,6 +132,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         setting_object.variables = variables
         setting_object.options = options
         setting_object.hooks = hooks
+        setting_object.send_anonymous_usage_stats = send_anonymous_usage_stats
 
         return setting_object
 
@@ -685,3 +689,21 @@ class SettingLoader(with_metaclass(Singleton, object)):
                 hooks[key] = None
 
         return hooks
+
+    def _get_anonymous_usage_stats(self, settings):
+
+        cid = uuid.uuid4().hex
+        try:
+            send_anonymous_usage_stats = settings["send_anonymous_usage_stats"]
+            bool_send_anonymous_usage_stats = Utils.str_to_bool(send_anonymous_usage_stats)
+            if bool_send_anonymous_usage_stats:
+                # generate a unique user ID
+                send_anonymous_usage_stats = cid
+            else:  # the user choose to disable stats
+                send_anonymous_usage_stats = 0
+
+        except KeyError:
+            # if the user haven't set this flag
+            send_anonymous_usage_stats = cid
+        logger.debug("[SettingsLoader] send_anonymous_usage_stats: %s" % send_anonymous_usage_stats)
+        return send_anonymous_usage_stats

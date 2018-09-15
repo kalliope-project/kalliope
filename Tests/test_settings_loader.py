@@ -70,7 +70,8 @@ class TestSettingLoader(unittest.TestCase):
                       'on_processed_synapses': None,
                       'on_start_speaking': None,
                       'on_stop_speaking': None
-                      }
+                      },
+            'send_anonymous_usage_stats': 0
         }
 
         # Init the folders, otherwise it raises an exceptions
@@ -146,6 +147,7 @@ class TestSettingLoader(unittest.TestCase):
                                  'on_start_speaking': None,
                                  'on_stop_speaking': None,
                                  }
+        settings_object.send_anonymous_usage_stats = 0
 
         sl = SettingLoader(file_path=self.settings_file_to_test)
 
