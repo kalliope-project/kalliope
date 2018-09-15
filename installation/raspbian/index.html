@@ -314,6 +314,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#configure-your-locales" title="Configure your locales" class="md-nav__link">
+    Configure your locales
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1294,6 +1301,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#configure-your-locales" title="Configure your locales" class="md-nav__link">
+    Configure your locales
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1373,7 +1387,7 @@ The SSH server is enable by default. Get the IP of your Rpi via the command <cod
 <h3 id="debian-packages-requirements">Debian packages requirements</h3>
 <p>Install the required system libraries and software:</p>
 <div class="codehilite"><pre><span></span>sudo apt-get update
-sudo apt-get install git python-dev libsmpeg0 libttspico-utils libsmpeg0 flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython2.7-dev libav-tools
+sudo apt-get install git python-dev libsmpeg0 libttspico-utils libsmpeg0 flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython2.7-dev libav-tools libjpeg-dev
 </pre></div>
 
 
@@ -1525,6 +1539,38 @@ card <span class="m">1</span>: Headset <span class="o">[</span>Logitech USB Head
 <p>By default, the audio stream will use HDMI if something is plugged into this port.
 Check the <a href="https://www.raspberrypi.org/documentation/configuration/audio-config.md">official documentation</a> to switch from HDMI to analog.</p>
 <div class="codehilite"><pre><span></span>sudo raspi-config
+</pre></div>
+
+
+<h3 id="configure-your-locales">Configure your locales</h3>
+<p>Locales defines language and country specific setting for your programs and shell session. 
+To set system’s locale you need use shell variable. For example, LANG variable can be used to set en_US (English US) language. </p>
+<p>Check current locales:</p>
+<div class="codehilite"><pre><span></span>locale
+</pre></div>
+
+
+<p>To update your locale, type the command bellow:</p>
+<div class="codehilite"><pre><span></span>sudo dpkg-reconfigure locales
+</pre></div>
+
+
+<p>Select in the list the locales of your country, by selecting the code with UTF8, example:</p>
+<ul>
+<li>de_DE.utf8</li>
+<li>en_GB.utf8</li>
+<li>fr_FR.utf8</li>
+<li>es_ES.utf8</li>
+</ul>
+<p>Then, update your <code>/home/pi/.bashrc</code> file by exporting the language. Example:</p>
+<div class="codehilite"><pre><span></span>export LC_ALL=&quot;en_US.UTF-8&quot;
+export LANG=&quot;en_US.UTF-8&quot;
+export LANGUAGE=&quot;en_US.UTF-8&quot;
+</pre></div>
+
+
+<p>Source the file to handle changes</p>
+<div class="codehilite"><pre><span></span>source /home/pi/.bashrc
 </pre></div>
 
 
