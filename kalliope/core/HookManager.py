@@ -21,11 +21,12 @@ class HookManager(object):
     @classmethod
     def on_triggered(cls):
         sl = SettingLoader()
-        gt = GoogleTracking(cid=sl.settings.send_anonymous_usage_stats,
-                            kalliope_version=version_str,
-                            category='synapse',
-                            action='execute')
-        gt.start()
+        if sl.settings.send_anonymous_usage_stats > 0:  # the user allow to send hit
+            gt = GoogleTracking(cid=sl.settings.send_anonymous_usage_stats,
+                                kalliope_version=version_str,
+                                category='synapse',
+                                action='execute')
+            gt.start()
         return cls.execute_synapses_in_hook_name("on_triggered")
 
     @classmethod
