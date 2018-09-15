@@ -39,7 +39,7 @@ Install the required system libraries and software:
 
 ```bash
 sudo apt-get update
-sudo apt-get install git python-dev libsmpeg0 libttspico-utils libsmpeg0 flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython2.7-dev libav-tools
+sudo apt-get install git python-dev libsmpeg0 libttspico-utils libsmpeg0 flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython2.7-dev libav-tools libjpeg-dev
 ```
 
 Install the last release of python-pip:
@@ -145,6 +145,40 @@ Check the [official documentation](https://www.raspberrypi.org/documentation/con
 
 ```bash
 sudo raspi-config
+```
+
+### Configure your locales
+
+Locales defines language and country specific setting for your programs and shell session. 
+To set system’s locale you need use shell variable. For example, LANG variable can be used to set en_US (English US) language. 
+
+Check current locales:
+```
+locale
+```
+
+To update your locale, type the command bellow:
+```
+sudo dpkg-reconfigure locales
+```
+
+Select in the list the locales of your country, by selecting the code with UTF8, example:
+
+- de_DE.utf8
+- en_GB.utf8
+- fr_FR.utf8
+- es_ES.utf8
+
+Then, update your `/home/pi/.bashrc` file by exporting the language. Example:
+```
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US.UTF-8"
+export LANGUAGE="en_US.UTF-8"
+```
+
+Source the file to handle changes
+```
+source /home/pi/.bashrc
 ```
 
 {!installation/check_env.md!}
