@@ -12,10 +12,6 @@ basedir = path.abspath(path.dirname(__file__))
 with open(path.join(basedir, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
-# get requirements
-with open('install/files/python_requirements.txt') as f:
-    requirements = f.read().splitlines()
-
 
 # locate our version number
 def read_version_py(file_name):
@@ -68,7 +64,38 @@ setup(
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
 
     # required libs
-    install_requires=requirements,
+    install_requires=[
+        'pyyaml>=3.12',
+        'six>=1.11.0',
+        'SpeechRecognition>=3.7.1',
+        'markupsafe>=1.0',
+        'pyaudio>=0.2.11',
+        'pyasn1>=0.2.3',
+        'ansible>=2.6.3',
+        'jinja2>=2.10',
+        'cffi>=1.9.1',
+        'ipaddress>=1.0.17',
+        'flask>=1.0.2',
+        'Flask-Restful>=0.3.5',
+        'flask_cors>=3.0.2',
+        'requests>=2.13',
+        'httpretty>=0.8.14',
+        'mock>=2.0.0',
+        'Flask-Testing>=0.6.2',
+        'apscheduler>=3.3.1',
+        'GitPython>=2.1.3',
+        'packaging>=16.8',
+        'transitions>=0.4.3',
+        'sounddevice>=0.3.7',
+        'SoundFile>=0.9.0',
+        'pyalsaaudio>=0.8.4',
+        'sox>=1.3.0',
+        'paho-mqtt>=1.3.0',
+        'voicerss_tts>=1.0.3',
+        'gTTS>=2.0.1',
+        'urllib3>=1.23'
+    ],
+
 
     # additional files
     package_data={
