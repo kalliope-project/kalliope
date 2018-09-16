@@ -44,4 +44,8 @@ echo "Installing Kalliope..."
 cd kalliope
 git checkout ${branch}
 sudo python setup.py install
+
+# fix https://github.com/kalliope-project/kalliope/issues/487
+sudo chmod -R o+r /usr/local/lib/python2.7/dist-packages/
+
 echo "Installing Kalliope...[OK]"
