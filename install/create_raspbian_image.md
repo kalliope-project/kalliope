@@ -40,6 +40,26 @@ Check Kalliope is installed
 ```bash
 kalliope --version
 ```
+Configure locales
+```
+locale-gen en_US.UTF-8
+```
+
+```
+sudo dpkg-reconfigure locales
+```
+
+Edit `~/.bashrc` and add those line at the end of the file
+```
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US.UTF-8"
+export LANGUAGE="en_US.UTF-8"
+```
+
+Try to run the default config
+```
+kalliope start
+```
 
 Cleanup installation files
 ```bash
@@ -62,7 +82,7 @@ sudo sed -i 's/raspberrypi/kalliope/g' /etc/hosts
 
 Clear the command line history
 ```bash
-history -c
+cat /dev/null > /home/pi/.bash_history && history -c
 ```
 
 Shutdown the Rpi
