@@ -2,6 +2,8 @@ import logging
 
 from kalliope.core.NeuronModule import NeuronModule, MissingParameterException, InvalidParameterException
 
+from kalliope.core.Cortex import Cortex
+
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
@@ -45,6 +47,7 @@ class Neurotransmitter(NeuronModule):
             self.run_synapse_by_name(self.default, high_priority=True, is_api_call=self.is_api_call)
         else:
             found = False
+            Cortex.save('kalliope_last_order', audio)
             for el in self.from_answer_link:
                 for answer in el["answers"]:
                     if self.is_order_matching(audio, answer):
