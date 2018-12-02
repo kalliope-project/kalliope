@@ -147,7 +147,7 @@ class TestCortex(unittest.TestCase):
 
         self.assertDictEqual(expected_dict, Cortex.memory)
 
-        # test with a value that does not exsit
+        # test with a value that does not exist
         order_parameters = {
             "key1": "value1",
             "key2": "value2"
@@ -157,6 +157,13 @@ class TestCortex(unittest.TestCase):
         dict_val_to_save = {"my_key_in_memory": "{{key3}}"}
 
         self.assertFalse(Cortex.save_parameter_from_order_in_memory(dict_val_to_save))
+
+        # save a value with no brackets
+        dict_val_to_save = {"my_key_in_memory": "my value"}
+        expected_dict = {"my_key_in_memory": "my value"}
+
+        self.assertTrue(Cortex.save_parameter_from_order_in_memory(dict_val_to_save))
+        self.assertDictEqual(expected_dict, Cortex.memory)
 
 
 if __name__ == '__main__':
