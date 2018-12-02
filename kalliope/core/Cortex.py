@@ -113,8 +113,8 @@ class Cortex(with_metaclass(Singleton, object)):
                 if Utils.is_containing_bracket(value):
                     # if the key exist in the temp dict we can load it with jinja
                     value = jinja2.Template(value).render(Cortex.temp)
-                    if value:
-                        Cortex.save(key, value)
-                        order_saved = True
+                if value:
+                    Cortex.save(key, value)
+                    order_saved = True
 
         return order_saved
