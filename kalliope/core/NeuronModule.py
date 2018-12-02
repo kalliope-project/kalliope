@@ -148,6 +148,10 @@ class NeuronModule(object):
             logger.debug("[NeuronModule] message is dict")
             tts_message = self._get_message_from_dict(message)
 
+        if message is None:
+            logger.debug("[NeuronModule] message is empty, try to load a template")
+            tts_message = self._get_message_from_dict(message)
+
         if tts_message is not None:
             logger.debug("[NeuronModule] tts_message to say: %s" % tts_message)
             self.tts_message = tts_message
@@ -215,8 +219,10 @@ class NeuronModule(object):
 
         # load the content of the file as template
         t = Template(cls._get_content_of_file(real_file_template_path))
-        returned_message = t.render(**message_dict)
-
+        if message_dict:
+            returned_message = t.render(**message_dict)
+        else:
+            returned_message = t.render()
         return returned_message
 
     @staticmethod
