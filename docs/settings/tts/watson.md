@@ -2,14 +2,13 @@ This TTS is based on the [IBM Watson engine](https://www.ibm.com/watson/services
 
 ## Installation
 
-You need to create an account and then a project to get a username and password.
+You need to create an account and then a project to get a location and an apikey.
 
 Once you project created, you should see your credentials like the following
 ```json
 {
   "url": "https://stream.watsonplatform.net/text-to-speech/api",
-  "username": "785dazs-example-98dz-b324-a965478az",
-  "password": "generated_password"
+  "apikey": "myRANDOMAPIKEY"
 }
 ```
 
@@ -17,8 +16,8 @@ Once you project created, you should see your credentials like the following
 
 | Parameters | Required | Default | Choices               | Comment                                           |
 |------------|----------|---------|-----------------------|---------------------------------------------------|
-| username   | yes      |         |                       | Username of the created service in IBM cloud      |
-| password   | yes      |         |                       | Password related to the username                  |
+| apikey     | yes      |         |                       | apikey provided by [IAM](https://console.bluemix.net/docs/services/watson/getting-started-iam.html)                 |
+| location   | no       |  LONDON |                       | [endpoint location](https://www.ibm.com/watson/developercloud/text-to-speech/api/v1/curl.html?curl#service-endpoint)                               |
 | voice      | yes      |         | See voice table below | Code that define the voice used for the synthesis |
 
 ## Voice code
@@ -49,9 +48,9 @@ default_text_to_speech: "watson"
 
 text_to_speech:
   - watson:
-      username: "username_code"
-      password: "generated_password"
+      apikey: "MyRANDOMAPIKEY"
       voice: "fr-FR_ReneeVoice"
+      location: "https://stream-fra.watsonplatform.net/text-to-speech/api"
 ```
 
 ## Notes
