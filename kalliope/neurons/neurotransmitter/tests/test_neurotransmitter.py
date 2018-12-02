@@ -2,6 +2,7 @@ import unittest
 
 from mock import mock
 
+from kalliope.core.Cortex import Cortex
 from kalliope.core.NeuronModule import MissingParameterException, InvalidParameterException
 from kalliope.neurons.neurotransmitter import Neurotransmitter
 
@@ -108,23 +109,33 @@ class TestNeurotransmitter(unittest.TestCase):
                 # testing running the default when audio None
                 audio_text = None
                 nt.callback(audio=audio_text)
+                self.assertDictEqual(Cortex.get_memory(), {})
                 mock_run_synapse_by_name.assert_called_once_with(self.default, high_priority=True, is_api_call=False)
                 mock_run_synapse_by_name.reset_mock()
 
                 # testing running the default when no order matching
                 audio_text = "try test audio "
                 nt.callback(audio=audio_text)
+                self.assertDictEqual(Cortex.get_memory(), {'kalliope_last_order': 'try test audio '})
                 mock_run_synapse_by_name.assert_called_once_with(self.default, high_priority=True, is_api_call=False)
                 mock_run_synapse_by_name.reset_mock()
 
                 # Testing calling the right synapse
                 audio_text = "answer one"
                 nt.callback(audio=audio_text)
+                self.assertEqual(audio_text, Cortex.get_memory()['kalliope_last_order'])
                 mock_run_synapse_by_name.assert_called_once_with(synapse_name="synapse2",
                                                                  user_order=audio_text,
                                                                  synapse_order="answer one",
                                                                  high_priority=True,
                                                                  is_api_call=False)
+                mock_run_synapse_by_name.reset_mock()
+
+                # testing that an unrecognised STT doesn't rewrites last order
+                audio_text = None
+                nt.callback(audio=audio_text)
+                self.assertDictEqual(Cortex.get_memory(), {'kalliope_last_order': 'answer one'})
+                mock_run_synapse_by_name.assert_called_once_with(self.default, high_priority=True, is_api_call=False)
 
     def testInit(self):
         """
