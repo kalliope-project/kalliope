@@ -5,6 +5,8 @@ This neuron is the mouth of Kalliope and uses the TTS engine defined in your set
 | parameter | required | default | choices | comment                                                    |
 |-----------|----------|---------|---------|------------------------------------------------------------|
 | message   | YES      |         |         | A single message or a list of messages Kalliope could say  |
+| file_template   | NO      |         |         | Path to a file template to use instead of a message  |
+| parameters   | NO      |         |         | A dict of parameters to pass to the file template if used  |
 
 ## Returned values
 
@@ -45,6 +47,40 @@ With an input value
   neurons:
     - say:
         message: "Hello {{ friend_name }}"
+```
+
+With a template
+```yaml
+- name: "Say-hello-template"
+  signals:
+    - order: "say hello"
+  neurons:
+    - say:
+        file_template: "say_something.j2" 
+        parameters: 
+          friend_name: "{{ friend_name }}"
+```
+
+Where `say_something.j2` would be
+```
+Hello sir!
+```
+
+With a file template, and passing some variable from the order:
+```yaml
+- name: "Say-hello-to-friend-template"
+  signals:
+    - order: "say hello to {{ friend_name }}"
+  neurons:
+    - say:
+        file_template: "my_template.j2" 
+        parameters: 
+          forwarded_variable_name: "{{ friend_name }}"
+```
+
+Where `my_template.j2` would be
+```
+Hello {{ forwarded_variable_name }}
 ```
 
 ## Notes
