@@ -78,7 +78,7 @@ setup(
         'flask>=1.0.2',
         'Flask-Restful>=0.3.5',
         'flask_cors>=3.0.2',
-        'requests>=2.13',
+        'requests>=2.20.1',
         'httpretty>=0.8.14',
         'mock>=2.0.0',
         'Flask-Testing>=0.6.2',
