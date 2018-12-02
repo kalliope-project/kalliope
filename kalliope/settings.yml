@@ -75,9 +75,9 @@ text_to_speech:
       key: "API_Key"
       cache: True
   - watson:
-      username: "me"
-      password: "password"
+      apikey: "MYRANDOWAPI-IAM"
       voice: "fr-FR_ReneeVoice"
+      location: "https://stream-fra.watsonplatform.net/text-to-speech/api"
 
 # ---------------------------
 # players

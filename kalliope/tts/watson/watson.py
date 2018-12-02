@@ -7,7 +7,8 @@ import requests
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
-TTS_URL = "https://stream.watsonplatform.net/text-to-speech/api/v1"
+API_VERSION = "v1"
+TTS_URL = "https://stream.watsonplatform.net/text-to-speech/api/"
 TTS_CONTENT_TYPE = "audio/wav"
 
 
@@ -16,8 +17,8 @@ class Watson(TTSModule):
         super(Watson, self).__init__(**kwargs)
 
         # set parameter from what we receive from the settings
-        self.username = kwargs.get('username', None)
-        self.password = kwargs.get('password', None)
+        self.apikey = kwargs.get('apikey', None)
+        self.location = kwargs.get('location', TTS_URL)
         self.voice = kwargs.get('voice', None)
 
         self._check_parameters()
@@ -29,7 +30,7 @@ class Watson(TTSModule):
 
                .. raises:: MissingParameterException
         """
-        if self.username is None or self.password is None or self.voice is None:
+        if self.apikey is None or self.voice is None:
             raise MissingTTSParameter("[Watson] Missing parameters, check documentation !")
         return True
 
@@ -51,10 +52,11 @@ class Watson(TTSModule):
             "Accept": "audio/wav"
         }
 
-        url = "%s/synthesize?voice=%s" % (TTS_URL, self.voice)
+        endpoint_location = self.location if self.location.endswith('/') else self.location+"/"
+        url = "%s/synthesize?voice=%s" % (endpoint_location + API_VERSION, self.voice)
 
         response = requests.post(url,
-                                 auth=HTTPBasicAuth(self.username, self.password),
+                                 auth=HTTPBasicAuth("apikey", self.apikey),
                                  headers=headers,
                                  json=payload)
 
