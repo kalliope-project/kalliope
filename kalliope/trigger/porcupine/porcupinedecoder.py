@@ -21,7 +21,7 @@ import pyaudio
 import logging
 
 from kalliope.core.ConfigurationManager import SettingLoader
-from porcupine_binding import Porcupine
+from kalliope.trigger.porcupine.porcupine_binding import Porcupine
 from kalliope import Utils
 
 logging.basicConfig()
