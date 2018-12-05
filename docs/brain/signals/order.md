@@ -8,12 +8,13 @@ An **order** signal is a word, or a sentence caught by the microphone and proces
 
 Other way to write an order, with parameters:
 
-| parameter           | required | default | choices                        | comment                                                |
-|---------------------|----------|---------|--------------------------------|--------------------------------------------------------|
-| text                | YES      |         |                                | The order to match                                     |
-| matching-type       | NO       | normal  | normal, strict, ordered-strict | Type of matching. See explanation bellow               |
-| stt-correction      | NO       |         |                                | List of words from the order to replace by other words |
-| stt-correction-file | NO       |         |                                | Same as stt-correction but load words from a YAML file |
+| parameter           | required            | default | choices                                     | comment                                                |
+|---------------------|---------------------|---------|---------------------------------------------|--------------------------------------------------------|
+| text                | YES                 |         |                                             | The order to match                                     |
+| matching-type       | NO                  | normal  | normal, strict, ordered-strict, not-contain | Type of matching. See explanation bellow               |
+| words-in-order      | only if not-contain |         |                                             | The words which are present in the order to prevent other orders to be execute |
+| stt-correction      | NO                  |         |                                             | List of words from the order to replace by other words |
+| stt-correction-file | NO                  |         |                                             | Same as stt-correction but load words from a YAML file |
 
 
 ## Matching type
@@ -43,6 +44,18 @@ When you will pronounce "say hello", it will trigger both synapses. To prevent t
 - **normal**: Will match if all words are present in the spoken order.
 - **strict**: All word are present. No more word must be present in the spoken order.
 - **ordered-strict**: All word are present, no more word and all word are in the same order as defined in the signal.
+- **not-contain**: The list of the given words will prevent to execute another synapse with these words in it.
+
+```yaml
+- order: 
+    text: "what is the weather"
+    matching-type: "not-contain"
+    words-in-order:
+      - "in"
+      - "at"
+      - "on"
+```
+This way you can have another synapse where the order is "what is the weather in paris" and it will get not matched.
 
 ## Order with arguments
 You can add one or more arguments to an order by adding bracket to the sentence.

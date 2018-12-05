@@ -108,6 +108,9 @@ setup(
             'trigger/snowboy/x86_64/python35/_snowboydetect.so',
             'trigger/snowboy/x86_64/python36/_snowboydetect.so',
             'trigger/snowboy/resources/*',
+            'trigger/porcupine/lib/x86_64/libpv_porcupine.so',
+            'trigger/porcupine/lib/armv7l/libpv_porcupine.so',
+            'trigger/porcupine/lib/common/*',
             'sounds/*'
          ],
     },
