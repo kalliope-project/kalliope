@@ -25,6 +25,9 @@ class TestTriggerLauncher(unittest.TestCase):
         trigger2 = Trigger("Trigger2", {'pmdl_file': "trigger/snowboy/resources/kalliope-FR-6samples.pmdl"})
         settings = Settings()
         settings.triggers = [trigger1, trigger2]
+        trigger_folder = None
+        if settings.resources:
+            trigger_folder = settings.resources.trigger_folder
         with mock.patch("kalliope.core.Utils.get_dynamic_class_instantiation") as mock_get_class_instantiation:
             # Get the trigger 1
             settings.default_trigger_name = "Trigger"
@@ -33,7 +36,8 @@ class TestTriggerLauncher(unittest.TestCase):
 
             mock_get_class_instantiation.assert_called_once_with(package_name="trigger",
                                                                  module_name=trigger1.name,
-                                                                 parameters=trigger1.parameters)
+                                                                 parameters=trigger1.parameters,
+                                                                 resources_dir=trigger_folder)
             mock_get_class_instantiation.reset_mock()
 
             # Get the trigger 2
@@ -43,5 +47,6 @@ class TestTriggerLauncher(unittest.TestCase):
 
             mock_get_class_instantiation.assert_called_once_with(package_name="trigger",
                                                                  module_name=trigger2.name,
-                                                                 parameters=trigger2.parameters)
+                                                                 parameters=trigger2.parameters,
+                                                                 resources_dir=trigger_folder)
             mock_get_class_instantiation.reset_mock()
