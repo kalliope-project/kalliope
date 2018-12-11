@@ -20,6 +20,10 @@ class TriggerLauncher(object):
         :return: The instance of Trigger 
         :rtype: Trigger
         """
+        trigger_folder = None
+        if settings.resources:
+            trigger_folder = settings.resources.trigger_folder
+            
         trigger_instance = None
         for trigger in settings.triggers:
             if trigger.name == settings.default_trigger_name:
@@ -29,6 +33,7 @@ class TriggerLauncher(object):
                     "TriggerLauncher: Start trigger %s with parameters: %s" % (trigger.name, trigger.parameters))
                 trigger_instance = Utils.get_dynamic_class_instantiation(package_name="trigger",
                                                                          module_name=trigger.name,
-                                                                         parameters=trigger.parameters)
+                                                                         parameters=trigger.parameters,
+                                                                         resources_dir=trigger_folder)
                 break
         return trigger_instance
