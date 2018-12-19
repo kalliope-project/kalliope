@@ -1,2 +1,4 @@
 - input: "test"
   output: "order"
+- input: "hello the"
+  output: "i am"
