@@ -1,7 +1,6 @@
 import os
 import unittest
 
-
 from kalliope.core.Models import Brain
 from kalliope.core.Models import Neuron
 from kalliope.core.Models import Synapse
@@ -11,7 +10,6 @@ from kalliope.core.OrderAnalyser import OrderAnalyser
 
 
 class TestOrderAnalyser(unittest.TestCase):
-
     """Test case for the OrderAnalyser Class"""
 
     def setUp(self):
@@ -175,12 +173,12 @@ class TestOrderAnalyser(unittest.TestCase):
         self.assertEqual(OrderAnalyser._get_split_order_without_bracket(order_to_test), expected_result,
                          "With spaced brackets Fails to return the expected list")
 
-        order_to_test = "this is the {{order }}"    # left bracket without space
+        order_to_test = "this is the {{order }}"  # left bracket without space
         expected_result = ["this", "is", "the"]
         self.assertEqual(OrderAnalyser._get_split_order_without_bracket(order_to_test), expected_result,
                          "Left brackets Fails to return the expected list")
 
-        order_to_test = "this is the {{ order}}"    # right bracket without space
+        order_to_test = "this is the {{ order}}"  # right bracket without space
         expected_result = ["this", "is", "the"]
         self.assertEqual(OrderAnalyser._get_split_order_without_bracket(order_to_test), expected_result,
                          "Right brackets Fails to return the expected list")
@@ -232,6 +230,62 @@ class TestOrderAnalyser(unittest.TestCase):
 
         self.assertTrue(OrderAnalyser.is_normal_matching(user_order=test_order,
                                                          signal_order=test_signal))
+
+    def test_is_not_contain_matching(self):
+        # Test the normal matching use case with no excluded words matching in the order
+        test_order = "expected order in the signal"
+        test_signal = "expected order in the signal"
+        excluded_words = "test"
+
+        self.assertTrue(OrderAnalyser.is_not_contain_matching(user_order=test_order,
+                                                              signal_order=test_signal,
+                                                              not_containing_words=excluded_words))
+
+        # test with one excluded word matching in the order.
+        test_order = "expected order in the signal"
+        test_signal = "expected"
+        excluded_words = ["order"]
+
+        self.assertFalse(OrderAnalyser.is_not_contain_matching(user_order=test_order,
+                                                               signal_order=test_signal,
+                                                               not_containing_words=excluded_words))
+
+        # test with multiple excluded word and only one matching in the order.
+        test_order = "expected order in the signal"
+        test_signal = "expected"
+        excluded_words = ["blabla", "order", "bloblo"]
+
+        self.assertFalse(OrderAnalyser.is_not_contain_matching(user_order=test_order,
+                                                               signal_order=test_signal,
+                                                               not_containing_words=excluded_words))
+
+        # test with multiple excluded word and multiple are matching in the order.
+        test_order = "expected order in the signal"
+        test_signal = "expected"
+        excluded_words = ["in", "order", "in"]
+
+        self.assertFalse(OrderAnalyser.is_not_contain_matching(user_order=test_order,
+                                                               signal_order=test_signal,
+                                                               not_containing_words=excluded_words))
+
+        # test with multiple excluded word and only none is matching the order
+        test_order = "expected order in the signal"
+        test_signal = "expected order in"
+        excluded_words = ["blublu", "blabla", "bloblo"]
+
+        self.assertTrue(OrderAnalyser.is_not_contain_matching(user_order=test_order,
+                                                              signal_order=test_signal,
+                                                              not_containing_words=excluded_words))
+
+        # test with multiple excluded word and brackets.
+        test_order = "expected order the signal"
+        test_signal = "expected order {{ in }}"
+        excluded_words = ["blublu", "blabla", "in"]
+
+        self.assertTrue(OrderAnalyser.is_not_contain_matching(user_order=test_order,
+                                                              signal_order=test_signal,
+                                                              not_containing_words=excluded_words))
+
 
     def test_is_strict_matching(self):
         # same order with same amount of word

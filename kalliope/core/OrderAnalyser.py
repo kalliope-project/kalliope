@@ -146,7 +146,10 @@ class OrderAnalyser:
         not_containing_words = None
         try:
             not_containing_words = signal.parameters['words-in-order']
-            logger.debug("[OrderAnalyser] not-contain provided by user")
+            if isinstance(not_containing_words, str):
+                logger.debug("[OrderAnalyser] not contain words should be a list not a string.")
+                raise KeyError
+            logger.debug("[OrderAnalyser] not-contain provided by user : %s" % not_containing_words)
         except KeyError:
             logger.debug("[OrderAnalyser] No words-in-order provided, change expected_matching_type to normal")
         return not_containing_words
@@ -195,21 +198,18 @@ class OrderAnalyser:
             - if not containing words in the order
         :param user_order: order from the user
         :param signal_order: order in the signal
-        :param not_containing_words: words which are not present in the order
+        :param not_containing_words: list of words which are not present in the order
         :return: Boolean
         """
-        logger.debug("[OrderAnalyser] is_not_contain_matching called with user_order: %s, signal_order: %s" % (user_order,
-                                                                                                          signal_order))
-        split_user_order = user_order.split()
-        split_signal_order_without_brackets = cls._get_split_order_without_bracket(signal_order)
+        logger.debug("[OrderAnalyser] is_not_contain_matching called with user_order: %s, signal_order: %s and should not contains %s"
+                     % (user_order, signal_order, not_containing_words))
 
-        c1, c2 = Counter(split_signal_order_without_brackets), Counter(split_user_order)
-        for k, n in c1.items():
-            if n > c2[k]:
-                return False
+        # Check that normal matching is valid otherwise returns False
+        if not cls.is_normal_matching(user_order, signal_order):
+            return False
         for m in not_containing_words:
-            if m in c2:
-                return False                 
+            if m in user_order.split():
+                return False
         return True
 
     @classmethod
@@ -296,7 +296,7 @@ class OrderAnalyser:
         :param user_order: order from the user
         :param signal_order: order in the signal
         :param expected_order_type: type of order (normal, strict, ordered-strict)
-        :parm not_containing_words: words which are not present in the order
+        :param not_containing_words: words which are not present in the order
         :return: True if the order match
         """
         matching_type_function = {
