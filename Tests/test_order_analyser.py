@@ -428,6 +428,68 @@ class TestOrderAnalyser(unittest.TestCase):
         self.assertEqual(OrderAnalyser.order_correction(order=testing_order, signal=testing_signals),
                          expected_fixed_order)
 
+        # test with stt-correction that override multiple words.
+        testing_order = "thus is my test"
+
+        signal_parameter = {
+            "stt-correction": [
+                {"input": "is my test",
+                 "output": "is overridden"}
+            ]
+        }
+        testing_signals = Signal(name="test",
+                                 parameters=signal_parameter)
+
+        expected_fixed_order = "thus is overridden"
+        self.assertEqual(OrderAnalyser.order_correction(order=testing_order, signal=testing_signals),
+                         expected_fixed_order)
+
+        # test stt-correction that override one word with multiple words.
+        testing_order = "thus is my test"
+
+        signal_parameter = {
+            "stt-correction": [
+                {"input": "test",
+                 "output": "is overridden"}
+            ]
+        }
+        testing_signals = Signal(name="test",
+                                 parameters=signal_parameter)
+
+        expected_fixed_order = "thus is my is overridden"
+        self.assertEqual(OrderAnalyser.order_correction(order=testing_order, signal=testing_signals),
+                         expected_fixed_order)
+
+        # test stt-correction that multiple words override files one word.
+        testing_order = "thus is my test"
+
+        signal_parameter = {
+            "stt-correction": [
+                {"input": "test",
+                 "output": "the overridden"}
+            ],
+            "stt-correction-file": self.correction_file_to_test
+        }
+        testing_signals = Signal(name="test",
+                                 parameters=signal_parameter)
+
+        expected_fixed_order = "thus is my the overridden"
+        self.assertEqual(OrderAnalyser.order_correction(order=testing_order, signal=testing_signals),
+                         expected_fixed_order)
+
+        # test stt-correction with multiple inputs words in file.
+        testing_order = "hello the test"
+
+        signal_parameter = {
+            "stt-correction-file": self.correction_file_to_test
+        }
+        testing_signals = Signal(name="test",
+                                 parameters=signal_parameter)
+
+        expected_fixed_order = "i am order"
+        self.assertEqual(OrderAnalyser.order_correction(order=testing_order, signal=testing_signals),
+                         expected_fixed_order)
+
 
 if __name__ == '__main__':
     unittest.main()
