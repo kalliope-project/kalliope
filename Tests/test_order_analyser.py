@@ -376,6 +376,8 @@ class TestOrderAnalyser(unittest.TestCase):
         self.assertTrue(OrderAnalyser.is_order_matching_signal(user_order=test_order,
                                                                signal=test_signal))
 
+        # TODO more tests
+
     def test_override_order_with_correction(self):
         # test with provided correction
         order = "this is my test"
@@ -544,11 +546,29 @@ class TestOrderAnalyser(unittest.TestCase):
         self.assertEqual(OrderAnalyser.order_correction(order=testing_order, signal=testing_signals),
                          expected_fixed_order)
 
+    def test_get_signal_order(cls):
+        signal1 = Signal(name="order", parameters="expected order in the signal")
+        signal2 = Signal(name="order", parameters={"matching-type": "strict",
+                                                   "text": "that is the sentence"})
+        signal3 = Signal(name="order", parameters={"matching-type": "strict",
+                                                   "fake-value": "that is the sentence"})
+
+        # Signal order is a str
+        expected_signal_order = "expected order in the signal"
+        cls.assertEqual(expected_signal_order, OrderAnalyser.get_signal_order(signal=signal1))
+
+        # Signal order is a dict
+        expected_signal_order = "that is the sentence"
+        cls.assertEqual(expected_signal_order, OrderAnalyser.get_signal_order(signal=signal2))
+
+        # signal order is a dict and `text` element is missing
+        expected_signal_order = "" # not found !
+        cls.assertEqual(expected_signal_order, OrderAnalyser.get_signal_order(signal=signal3))
+
+
+# TODO def test_get_not_containing_words(cls):
+
+# TODO def test_get_list_match_synapse(cls):
 
 if __name__ == '__main__':
     unittest.main()
-
-    # suite = unittest.TestSuite()
-    # suite.addTest(TestOrderAnalyser("test_get_matching_synapse"))
-    # runner = unittest.TextTestRunner()
-    # runner.run(suite)
