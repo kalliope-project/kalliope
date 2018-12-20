@@ -286,7 +286,6 @@ class TestOrderAnalyser(unittest.TestCase):
                                                               signal_order=test_signal,
                                                               not_containing_words=excluded_words))
 
-
     def test_is_strict_matching(self):
         # same order with same amount of word
         test_order = "expected order in the signal"
@@ -363,18 +362,19 @@ class TestOrderAnalyser(unittest.TestCase):
         self.assertFalse(OrderAnalyser.is_ordered_strict_matching(user_order=test_order,
                                                                   signal_order=test_signal))
 
-    def test_is_order_matching(self):
+    def test_is_order_matching_signal(self):
         # all lowercase
         test_order = "expected order in the signal"
-        test_signal = "expected order in the signal"
-        self.assertTrue(OrderAnalyser.is_order_matching(user_order=test_order,
-                                                        signal_order=test_signal))
+        signal1 = Signal(name="order", parameters="expected order in the signal")
+        test_signal = signal1
+        self.assertTrue(OrderAnalyser.is_order_matching_signal(user_order=test_order,
+                                                               signal=test_signal))
 
         # with uppercase
         test_order = "Expected Order In The Signal"
-        test_signal = "expected order in the signal"
-        self.assertTrue(OrderAnalyser.is_order_matching(user_order=test_order,
-                                                        signal_order=test_signal))
+        test_signal = signal1
+        self.assertTrue(OrderAnalyser.is_order_matching_signal(user_order=test_order,
+                                                               signal=test_signal))
 
     def test_override_order_with_correction(self):
         # test with provided correction
