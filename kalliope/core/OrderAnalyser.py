@@ -294,7 +294,7 @@ class OrderAnalyser:
         signal_order = signal_order.lower()
 
         if expected_order_type in matching_type_function:
-            if expected_order_type is "not-contain":
+            if expected_order_type == "not-contain":
                 not_containing_words = cls.get_not_containing_words(signal)
                 return cls.is_not_contain_matching(user_order, signal_order, not_containing_words)
             else:
