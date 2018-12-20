@@ -12,7 +12,7 @@ Other way to write an order, with parameters:
 |---------------------|---------------------|---------|---------------------------------------------|--------------------------------------------------------|
 | text                | YES                 |         |                                             | The order to match                                     |
 | matching-type       | NO                  | normal  | normal, strict, ordered-strict, not-contain | Type of matching. See explanation bellow               |
-| words-in-order      | only if not-contain |         |                                             | The words which are present in the order to prevent other orders to be execute |
+| excluded_words      | only if not-contain |         |                                             | The words which are present in the order to prevent other orders to be execute |
 | stt-correction      | NO                  |         |                                             | List of words from the order to replace by other words |
 | stt-correction-file | NO                  |         |                                             | Same as stt-correction but load words from a YAML file |
 
@@ -44,14 +44,14 @@ When you will pronounce "say hello", it will trigger both synapses. To prevent t
 - **normal**: Will match if all words are present in the spoken order.
 - **strict**: All word are present. No more word must be present in the spoken order.
 - **ordered-strict**: All word are present, no more word and all word are in the same order as defined in the signal.
-- **not-contain**: The list of the given words in words-in-order will prevent that this synapse get execute if you call another synapse with a similar order which contains these words.
+- **not-contain**: It will match only if all the words are present in the spoken order WITHOUT the excluded_words .
 
 
 ```yaml
 - order: 
     text: "what is the weather"
     matching-type: "not-contain"
-    words-in-order:
+    excluded_words:
       - "in"
       - "at"
       - "on"
