@@ -71,48 +71,22 @@ class OrderAnalyser:
     @classmethod
     def get_list_match_synapse(cls, order, synapse_order_tuple):
         list_match_synapse = list()
-        order = order.lower() # Needed for STT Correction 
+        order = order.lower()  # Needed for STT Correction
+
         for synapse in cls.brain.synapses:
             if synapse.enabled:
-                fixed_order = order  # keep in mind the original order
                 for signal in synapse.signals:
                     logger.debug("[OrderAnalyser] Testing Synapse name %s" % synapse.name)
                     # we are only concerned by synapse with a order type of signal
                     if signal.name == "order":
-                        # get the type of matching expected, by default "normal"
-                        expected_matching_type = "normal"
-                        signal_order = None
-                        not_containing_words = None
-
-                        if isinstance(signal.parameters, str) or isinstance(signal.parameters, six.text_type):
-                            signal_order = signal.parameters
-                        if isinstance(signal.parameters, dict):
-                            try:
-                                signal_order = signal.parameters["text"]
-                            except KeyError:
-                                logger.debug("[OrderAnalyser] Warning, missing parameter 'text' in order. "
-                                             "Order will be skipped")
-                                continue
-
-                            expected_matching_type = cls.get_matching_type(signal)
-                            
-                            if expected_matching_type == "not-contain":
-                                not_containing_words = cls.get_not_containing_words(signal)
-                                if not not_containing_words:
-                                    expected_matching_type = "normal"
-
-                            fixed_order = cls.order_correction(order, signal)
-
-                        if cls.is_order_matching(user_order=fixed_order,
-                                                 signal_order=signal_order,
-                                                 not_containing_words=not_containing_words,
-                                                 expected_order_type=expected_matching_type
-                                                 ):
+                        # Check if signal is matching the order and parameters.
+                        if cls.is_order_matching_signal(user_order=order,
+                                                        signal=signal):
                             logger.debug("Order found! Run synapse name: %s" % synapse.name)
                             Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
                             list_match_synapse.append(synapse_order_tuple(synapse=synapse,
-                                                                          matched_order=signal_order,
-                                                                          user_order=fixed_order))
+                                                                          matched_order=cls.get_signal_order(signal),
+                                                                          user_order=order))
                             # we matched this synapse with an order, don't need to check another
                             break
         return list_match_synapse
@@ -139,7 +113,8 @@ class OrderAnalyser:
             logger.debug("[OrderAnalyser] stt-correction provided by user")
         except KeyError:
             logger.debug("[OrderAnalyser] No stt-correction provided")
-        return stt_correction
+        finally:
+            return stt_correction
 
     @staticmethod
     def get_not_containing_words(signal):
@@ -162,7 +137,8 @@ class OrderAnalyser:
             logger.debug("[OrderAnalyser] stt-correction-file provided by user")
         except KeyError:
             logger.debug("[OrderAnalyser] No stt-correction-file provided")
-        return stt_correction_file_path
+        finally:
+            return stt_correction_file_path
 
     @staticmethod
     def get_matching_type(signal):
@@ -172,7 +148,8 @@ class OrderAnalyser:
         except KeyError:
             logger.debug("[OrderAnalyser] Warning, missing parameter 'matching-type' in order. "
                          "Fallback to 'normal'")
-        return expected_matching_type
+        finally:
+            return expected_matching_type
 
     @staticmethod
     def _get_split_order_without_bracket(order):
@@ -201,8 +178,9 @@ class OrderAnalyser:
         :param not_containing_words: list of words which are not present in the order
         :return: Boolean
         """
-        logger.debug("[OrderAnalyser] is_not_contain_matching called with user_order: %s, signal_order: %s and should not contains %s"
-                     % (user_order, signal_order, not_containing_words))
+        logger.debug(
+            "[OrderAnalyser] is_not_contain_matching called with user_order: %s, signal_order: %s and should not contains %s"
+            % (user_order, signal_order, not_containing_words))
 
         # Check that normal matching is valid otherwise returns False
         if not cls.is_normal_matching(user_order, signal_order):
@@ -223,6 +201,8 @@ class OrderAnalyser:
         """
         logger.debug("[OrderAnalyser] is_normal_matching called with user_order: %s, signal_order: %s" % (user_order,
                                                                                                           signal_order))
+        if not signal_order: return False
+
         split_user_order = user_order.split()
         split_signal_order_without_brackets = cls._get_split_order_without_bracket(signal_order)
 
@@ -285,7 +265,7 @@ class OrderAnalyser:
         return False
 
     @classmethod
-    def is_order_matching(cls, user_order, signal_order, expected_order_type="normal", not_containing_words=None):
+    def is_order_matching_signal(cls, user_order, signal):
         """
         return True if the user_order matches the signal_order following the expected_order_type
         where "expected_order_type" is in
@@ -294,9 +274,7 @@ class OrderAnalyser:
         - ordered-strict: only word in the user order and in the same order
         - not-contain: skip order if not containing words are present
         :param user_order: order from the user
-        :param signal_order: order in the signal
-        :param expected_order_type: type of order (normal, strict, ordered-strict)
-        :param not_containing_words: words which are not present in the order
+        :param signal: The signal to compare with the user_order
         :return: True if the order match
         """
         matching_type_function = {
@@ -306,18 +284,36 @@ class OrderAnalyser:
             "not-contain": cls.is_not_contain_matching
         }
 
+        expected_order_type = cls.get_matching_type(signal)
+
+        signal_order = cls.get_signal_order(signal)
+        user_order = cls.order_correction(user_order, signal)
+
         # Lowercase all incoming
         user_order = user_order.lower()
         signal_order = signal_order.lower()
 
         if expected_order_type in matching_type_function:
-            if not_containing_words:
-                return matching_type_function[expected_order_type](user_order, signal_order, not_containing_words)
+            if expected_order_type is "not-contain":
+                not_containing_words = cls.get_not_containing_words(signal)
+                return cls.is_not_contain_matching(user_order, signal_order, not_containing_words)
             else:
                 return matching_type_function[expected_order_type](user_order, signal_order)
         else:
-            logger.debug("[OrderAnalyser] non existing matching-type: '%s', fallback to 'normal'" % expected_order_type)
-            return matching_type_function["normal"](user_order, signal_order)
+            return cls.is_normal_matching(user_order, signal_order)
+
+    @classmethod
+    def get_signal_order(cls, signal):
+        signal_order = ""
+        if isinstance(signal.parameters, str) or isinstance(signal.parameters, six.text_type):
+            signal_order = signal.parameters
+        if isinstance(signal.parameters, dict):
+            try:
+                signal_order = signal.parameters["text"]
+            except KeyError:
+                logger.debug("[OrderAnalyser] Warning, missing parameter 'text' in order. "
+                             "Signal Order will be skipped")
+        return signal_order
 
     @classmethod
     def _get_instantiated_order_signal_from_user_order(cls, signal_order, user_order):
@@ -354,8 +350,8 @@ class OrderAnalyser:
                 logger.debug("[OrderAnalyser] override_order_this_correction: "
                              "Missing key %s. Order will not be modified" % e)
                 return order
-    
-            if str(input_val) in order: # remove split for the case a correction contains more than one word
+
+            if str(input_val) in order:  # remove split for the case a correction contains more than one word
                 logger.debug("[OrderAnalyser] STT override '%s' by '%s'" % (input_val, output_val))
                 order = order.replace(input_val, output_val)
 

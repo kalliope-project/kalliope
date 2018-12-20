@@ -24,6 +24,7 @@ class InvalidParameterException(NeuronExceptions):
     """
     Some Neuron parameters are invalid.
     """
+
     def __init__(self, message):
         # Call the base class constructor with the parameters it needs
         super(InvalidParameterException, self).__init__(message)
@@ -65,6 +66,7 @@ class NeuronModule(object):
     This Abstract Class is representing main Class for Neuron.
     Each Neuron must implement this Class.
     """
+
     def __init__(self, **kwargs):
         """
         Class used by neuron for talking
@@ -252,8 +254,8 @@ class NeuronModule(object):
 
     @staticmethod
     def is_order_matching(order_said, order_match):
-        return OrderAnalyser().is_order_matching(signal_order=order_match,
-                                                 user_order=order_said)
+        return OrderAnalyser().is_normal_matching(signal_order=order_match,
+                                                  user_order=order_said)
 
     @staticmethod
     def _get_content_of_file(real_file_template_path):
