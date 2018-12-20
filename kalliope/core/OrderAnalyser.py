@@ -123,6 +123,7 @@ class OrderAnalyser:
             not_containing_words = signal.parameters['excluded_words']
             if isinstance(not_containing_words, str):
                 logger.debug("[OrderAnalyser] not contain words should be a list not a string.")
+                not_containing_words = None
                 raise KeyError
             logger.debug("[OrderAnalyser] not-contain provided by user : %s" % not_containing_words)
         except KeyError:

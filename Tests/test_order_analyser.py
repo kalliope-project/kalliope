@@ -562,11 +562,24 @@ class TestOrderAnalyser(unittest.TestCase):
         cls.assertEqual(expected_signal_order, OrderAnalyser.get_signal_order(signal=signal2))
 
         # signal order is a dict and `text` element is missing
-        expected_signal_order = "" # not found !
+        expected_signal_order = ""  # not found !
         cls.assertEqual(expected_signal_order, OrderAnalyser.get_signal_order(signal=signal3))
 
+    def test_get_not_containing_words(cls):
+        signal1 = Signal(name="order", parameters={"matching-type": "not-contain", "excluded_words": ["that", "is"]})
 
-# TODO def test_get_not_containing_words(cls):
+        # get the correct list of excluded words
+        expected_list_excluded_words = ["that", "is"]
+        cls.assertEqual(expected_list_excluded_words, OrderAnalyser.get_not_containing_words(signal=signal1))
+
+        # assert it returns None when a str is provided and not a list
+        signal1 = Signal(name="order", parameters={"matching-type": "not-contain", "excluded_words": "that"})
+        cls.assertIsNone(OrderAnalyser.get_not_containing_words(signal=signal1))
+
+        # assert it returns None when `excluded_words` is not provided
+        signal1 = Signal(name="order", parameters={"matching-type": "not-contain"})
+        cls.assertIsNone(OrderAnalyser.get_not_containing_words(signal=signal1))
+
 
 # TODO def test_get_list_match_synapse(cls):
 
