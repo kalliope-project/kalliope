@@ -268,12 +268,8 @@ class OrderAnalyser:
     @classmethod
     def is_order_matching_signal(cls, user_order, signal):
         """
-        return True if the user_order matches the signal_order following the expected_order_type
-        where "expected_order_type" is in
-        - normal: normal matching. all words are present in the user_order. this is the default
-        - strict: only word in the user order match. no more word
-        - ordered-strict: only word in the user order and in the same order
-        - not-contain: skip order if not containing words are present
+        return True if the user_order matches the provided signal. False otherwise
+        Note: it applies `stt-correction` and handles `not-contain` matching type.
         :param user_order: order from the user
         :param signal: The signal to compare with the user_order
         :return: True if the order match

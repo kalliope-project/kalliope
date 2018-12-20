@@ -46,6 +46,9 @@ class TestOrderAnalyser(unittest.TestCase):
                                                     "stt-correction": [
                                                         {"input": "one", "output": "1"}
                                                     ]})
+        signal13 = Signal(name="order", parameters={"matching-type": "not-contain",
+                                                    "text": "testing the not contain",
+                                                    "excluded_words": ["that", "in"]})
 
         synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
         synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
@@ -58,6 +61,7 @@ class TestOrderAnalyser(unittest.TestCase):
         synapse9 = Synapse(name="Synapse9", enabled=False, neurons=[neuron1, neuron2], signals=[signal9])
         synapse10 = Synapse(name="Synapse10", neurons=[neuron1], signals=[signal10, signal11])
         synapse11 = Synapse(name="Synapse11", neurons=[neuron1], signals=[signal12])
+        synapse12 = Synapse(name="Synapse13", neurons=[neuron1], signals=[signal13])
 
         all_synapse_list = [synapse1,
                             synapse2,
@@ -69,7 +73,8 @@ class TestOrderAnalyser(unittest.TestCase):
                             synapse8,
                             synapse9,
                             synapse10,
-                            synapse11]
+                            synapse11,
+                            synapse12]
 
         br = Brain(synapses=all_synapse_list)
 
@@ -160,6 +165,31 @@ class TestOrderAnalyser(unittest.TestCase):
         self.assertTrue("Synapse11" in matched_synapse.synapse.name for matched_synapse in matched_synapses)
         self.assertTrue(spoken_order in matched_synapse.user_order for matched_synapse in matched_synapses)
         self.assertTrue(len(matched_synapses) == 1)
+
+        # TEST10: with `not-contain`
+        spoken_order = "testing the not contain"
+        matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
+        self.assertTrue("Synapse12" in matched_synapse.synapse.name for matched_synapse in matched_synapses)
+        self.assertTrue(spoken_order in matched_synapse.user_order for matched_synapse in matched_synapses)
+        self.assertTrue(len(matched_synapses) == 1)
+
+        # test excluded word after the matching sentence
+        spoken_order = "testing the not contain in "
+        matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
+        self.assertFalse(matched_synapses)
+        self.assertTrue(len(matched_synapses) == 0)
+
+        # test excluded word before the matching sequence
+        spoken_order = "in testing the not contain"
+        matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
+        self.assertFalse(matched_synapses)
+        self.assertTrue(len(matched_synapses) == 0)
+
+        # test excluded word in the middle of the matching sequence
+        spoken_order = "testing the in not contain"
+        matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
+        self.assertFalse(matched_synapses)
+        self.assertTrue(len(matched_synapses) == 0)
 
     def test_get_split_order_without_bracket(self):
         # Success
@@ -363,6 +393,8 @@ class TestOrderAnalyser(unittest.TestCase):
                                                                   signal_order=test_signal))
 
     def test_is_order_matching_signal(self):
+        # Note: This is a private method, most of the test use cases are covered by `test_get_matching_synapse`
+
         # all lowercase
         test_order = "expected order in the signal"
         signal1 = Signal(name="order", parameters="expected order in the signal")
@@ -375,8 +407,6 @@ class TestOrderAnalyser(unittest.TestCase):
         test_signal = signal1
         self.assertTrue(OrderAnalyser.is_order_matching_signal(user_order=test_order,
                                                                signal=test_signal))
-
-        # TODO more tests
 
     def test_override_order_with_correction(self):
         # test with provided correction
@@ -580,8 +610,8 @@ class TestOrderAnalyser(unittest.TestCase):
         signal1 = Signal(name="order", parameters={"matching-type": "not-contain"})
         cls.assertIsNone(OrderAnalyser.get_not_containing_words(signal=signal1))
 
+    # TODO def test_get_list_match_synapse(cls):
 
-# TODO def test_get_list_match_synapse(cls):
 
 if __name__ == '__main__':
     unittest.main()
