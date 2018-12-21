@@ -48,7 +48,7 @@ class TestOrderAnalyser(unittest.TestCase):
                                                     ]})
         signal13 = Signal(name="order", parameters={"matching-type": "not-contain",
                                                     "text": "testing the not contain",
-                                                    "excluded_words": ["that", "in"]})
+                                                    "excluded-words": ["that", "in"]})
 
         synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
         synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
@@ -596,7 +596,7 @@ class TestOrderAnalyser(unittest.TestCase):
         cls.assertEqual(expected_signal_order, OrderAnalyser.get_signal_order(signal=signal3))
 
     def test_get_not_containing_words(cls):
-        signal1 = Signal(name="order", parameters={"matching-type": "not-contain", "excluded_words": ["that", "is"]})
+        signal1 = Signal(name="order", parameters={"matching-type": "not-contain", "excluded-words": ["that", "is"]})
 
         # get the correct list of excluded words
         expected_list_excluded_words = ["that", "is"]
@@ -609,8 +609,6 @@ class TestOrderAnalyser(unittest.TestCase):
         # assert it returns None when `excluded_words` is not provided
         signal1 = Signal(name="order", parameters={"matching-type": "not-contain"})
         cls.assertIsNone(OrderAnalyser.get_not_containing_words(signal=signal1))
-
-    # TODO def test_get_list_match_synapse(cls):
 
 
 if __name__ == '__main__':
