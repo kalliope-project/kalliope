@@ -120,14 +120,14 @@ class OrderAnalyser:
     def get_not_containing_words(signal):
         not_containing_words = None
         try:
-            not_containing_words = signal.parameters['excluded_words']
+            not_containing_words = signal.parameters['excluded-words']
             if isinstance(not_containing_words, str):
                 logger.debug("[OrderAnalyser] not contain words should be a list not a string.")
                 not_containing_words = None
                 raise KeyError
             logger.debug("[OrderAnalyser] not-contain provided by user : %s" % not_containing_words)
         except KeyError:
-            logger.debug("[OrderAnalyser] No excluded_words provided, change expected_matching_type to normal")
+            logger.debug("[OrderAnalyser] No excluded-words provided, change expected_matching_type to normal")
         return not_containing_words
 
     @staticmethod
