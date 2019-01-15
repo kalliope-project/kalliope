@@ -1,3 +1,13 @@
+v0.5.3 / 2019-01-15
+===================
+- Fix: Update request lib to fix security vulnerabilities.
+- Fix: Kalliope last stt message available on Cortex.
+- Enhancement: Add support for raspberry 3B v1.2 with armv6.
+- Enhancement: Introduce new Watson API features.
+- Feature: Add support for file template in say neuron.
+- Feature: Add a new matching type with 'excluded words' from the user order.
+- Feature: Add 'version' neuron to the core.
+
 v0.5.2 / 2018-09-07
 ===================
 - Fix: API receive audio and use now ffmpeg as format converter
