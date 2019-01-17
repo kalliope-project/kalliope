@@ -59,6 +59,7 @@ pages:
       - ansible_playbook: "brain/neurons/ansible_playbook.md"
       - brain: "brain/neurons/brain.md"
       - debug: "brain/neurons/debug.md"
+      - kalliope_version: "brain/neurons/kalliope_version.md"
       - kill_switch: "brain/neurons/kill_switch.md"
       - mqtt_publisher: "brain/neurons/mqtt_publisher.md"
       - neurotimer: "brain/neurons/neurotimer.md"
