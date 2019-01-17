@@ -1061,6 +1061,36 @@
             "title": "Synapses example"
         }, 
         {
+            "location": "/brain/neurons/kalliope_version/", 
+            "text": "Check if a new version of Kalliope is available.\n\n\nInput parameters\n\n\nNone\n\n\nReturned values\n\n\n\n\n\n\n\n\nName\n\n\nDescription\n\n\nType\n\n\nsample\n\n\n\n\n\n\n\n\n\n\ncurrent_version\n\n\nThe current version of Kalliope you are using\n\n\nstring\n\n\n0.5.1\n\n\n\n\n\n\nlast_master_version\n\n\nThe last available version number\n\n\nstring\n\n\n0.5.3\n\n\n\n\n\n\nnew_version_available\n\n\nTrue if a new version is available (current_version \n last_master_version)\n\n\nboolean\n\n\nTrue\n\n\n\n\n\n\n\n\nSynapses example\n\n\nCheck if a new version of Kalliope is available\n\n\n-\n \nname\n:\n \nnew-version\n\n  \nsignals\n:\n\n    \n-\n \norder\n:\n \nis\n \na\n \nnew\n \nversion\n \navailable\n\n  \nneurons\n:\n\n    \n-\n \nkalliope_version\n:\n\n        \nsay_template\n:\n \n{%\n \nif\n \nnew_version_available\n \n%}\n \nyes\n \n{%\n \nelse\n \n%}\n \nno\n \n{%\n \nendif\n \n%}\n\n\n\n\n\n\nGive the current version number and the last available version number\n\n\n-\n \nname\n:\n \nversion\n\n  \nsignals\n:\n\n    \n-\n \norder\n:\n \ngive\n \nme\n \nmy\n \nkalliope\n \nversion\n\n  \nneurons\n:\n\n    \n-\n \nkalliope_version\n:\n\n        \nsay_template\n:\n \nYou\n \nare\n \nusing\n \nversion\n \n{{\n \ncurrent_version\n \n}}.\n \nThe\n \nlast\n \navailable\n \nversion\n \nis\n \n{{\n \nlast_master_version\n \n}}", 
+            "title": "kalliope_version"
+        }, 
+        {
+            "location": "/brain/neurons/kalliope_version/#input-parameters", 
+            "text": "None", 
+            "title": "Input parameters"
+        }, 
+        {
+            "location": "/brain/neurons/kalliope_version/#returned-values", 
+            "text": "Name  Description  Type  sample      current_version  The current version of Kalliope you are using  string  0.5.1    last_master_version  The last available version number  string  0.5.3    new_version_available  True if a new version is available (current_version   last_master_version)  boolean  True", 
+            "title": "Returned values"
+        }, 
+        {
+            "location": "/brain/neurons/kalliope_version/#synapses-example", 
+            "text": "", 
+            "title": "Synapses example"
+        }, 
+        {
+            "location": "/brain/neurons/kalliope_version/#check-if-a-new-version-of-kalliope-is-available", 
+            "text": "-   name :   new-version \n   signals : \n     -   order :   is   a   new   version   available \n   neurons : \n     -   kalliope_version : \n         say_template :   {%   if   new_version_available   %}   yes   {%   else   %}   no   {%   endif   %}", 
+            "title": "Check if a new version of Kalliope is available"
+        }, 
+        {
+            "location": "/brain/neurons/kalliope_version/#give-the-current-version-number-and-the-last-available-version-number", 
+            "text": "-   name :   version \n   signals : \n     -   order :   give   me   my   kalliope   version \n   neurons : \n     -   kalliope_version : \n         say_template :   You   are   using   version   {{   current_version   }}.   The   last   available   version   is   {{   last_master_version   }}", 
+            "title": "Give the current version number and the last available version number"
+        }, 
+        {
             "location": "/brain/neurons/kill_switch/", 
             "text": "This neuron exits the Kalliope process.\n\n\nInput parameters\n\n\nNo parameters\n\n\nReturned values\n\n\nNo returned values\n\n\nSynapses example\n\n\nSimple example :\n\n\n  \n-\n \nname\n:\n \nstop-kalliope\n\n    \nsignals\n:\n\n      \n-\n \norder\n:\n \ngoodbye\n\n    \nneurons\n:\n\n      \n-\n \nkill_switch", 
             "title": "kill_switch"

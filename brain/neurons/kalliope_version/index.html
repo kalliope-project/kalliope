@@ -36,7 +36,7 @@
     
     
       
-        <title>sleep - Kalliope doc</title>
+        <title>kalliope_version - Kalliope doc</title>
       
     
     
@@ -100,7 +100,7 @@
                 Kalliope doc
               </span>
               <span class="md-header-nav__topic">
-                sleep
+                kalliope_version
               </span>
             
           
@@ -751,11 +751,79 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../kalliope_version/" title="kalliope_version" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        kalliope_version
+      </label>
+    
+    <a href="./" title="kalliope_version" class="md-nav__link md-nav__link--active">
       kalliope_version
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#input-parameters" title="Input parameters" class="md-nav__link">
+    Input parameters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#returned-values" title="Returned values" class="md-nav__link">
+    Returned values
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#synapses-example" title="Synapses example" class="md-nav__link">
+    Synapses example
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-if-a-new-version-of-kalliope-is-available" title="Check if a new version of Kalliope is available" class="md-nav__link">
+    Check if a new version of Kalliope is available
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#give-the-current-version-number-and-the-last-available-version-number" title="Give the current version number and the last available version number" class="md-nav__link">
+    Give the current version number and the last available version number
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -871,59 +939,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="toc">
-        sleep
-      </label>
-    
-    <a href="./" title="sleep" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../sleep/" title="sleep" class="md-nav__link">
       sleep
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#input-parameters" title="Input parameters" class="md-nav__link">
-    Input parameters
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#returned-values" title="Returned values" class="md-nav__link">
-    Returned values
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#synapses-example" title="Synapses example" class="md-nav__link">
-    Synapses example
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -1142,6 +1162,26 @@
     Synapses example
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-if-a-new-version-of-kalliope-is-available" title="Check if a new version of Kalliope is available" class="md-nav__link">
+    Check if a new version of Kalliope is available
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#give-the-current-version-number-and-the-last-available-version-number" title="Give the current version number and the last available version number" class="md-nav__link">
+    Give the current version number and the last available version number
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
       
@@ -1161,40 +1201,60 @@
               
                 
                 
-                  <h1>sleep</h1>
+                  <h1>kalliope_version</h1>
                 
-                <p>This neuron sleeps the system for a given time in seconds.</p>
+                <p>Check if a new version of Kalliope is available.</p>
 <h2 id="input-parameters">Input parameters</h2>
+<p>None</p>
+<h2 id="returned-values">Returned values</h2>
 <table>
 <thead>
 <tr>
-<th>parameter</th>
-<th>required</th>
-<th>default</th>
-<th>choices</th>
-<th>comment</th>
+<th>Name</th>
+<th>Description</th>
+<th>Type</th>
+<th>sample</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>seconds</td>
-<td>YES</td>
-<td></td>
-<td></td>
-<td>The number of seconds to sleep.</td>
+<td>current_version</td>
+<td>The current version of Kalliope you are using</td>
+<td>string</td>
+<td>0.5.1</td>
+</tr>
+<tr>
+<td>last_master_version</td>
+<td>The last available version number</td>
+<td>string</td>
+<td>0.5.3</td>
+</tr>
+<tr>
+<td>new_version_available</td>
+<td>True if a new version is available (current_version &lt; last_master_version)</td>
+<td>boolean</td>
+<td>True</td>
 </tr>
 </tbody>
 </table>
-<h2 id="returned-values">Returned values</h2>
-<p>No returned values</p>
 <h2 id="synapses-example">Synapses example</h2>
-<p>Simple example :</p>
-<div class="codehilite"><pre><span></span>  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&quot;run-simple-sleep&quot;</span>
-    <span class="l l-Scalar l-Scalar-Plain">signals</span><span class="p p-Indicator">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">order</span><span class="p p-Indicator">:</span> <span class="s">&quot;Wait</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">me</span><span class="nv"> </span><span class="s">&quot;</span>
-    <span class="l l-Scalar l-Scalar-Plain">neurons</span><span class="p p-Indicator">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sleep</span><span class="p p-Indicator">:</span>
-          <span class="l l-Scalar l-Scalar-Plain">seconds</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">60</span>
+<h3 id="check-if-a-new-version-of-kalliope-is-available">Check if a new version of Kalliope is available</h3>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&quot;new-version&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">signals</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">order</span><span class="p p-Indicator">:</span> <span class="s">&quot;is</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">new</span><span class="nv"> </span><span class="s">version</span><span class="nv"> </span><span class="s">available&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">neurons</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">kalliope_version</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">say_template</span><span class="p p-Indicator">:</span> <span class="s">&quot;{%</span><span class="nv"> </span><span class="s">if</span><span class="nv"> </span><span class="s">new_version_available</span><span class="nv"> </span><span class="s">%}</span><span class="nv"> </span><span class="s">yes</span><span class="nv"> </span><span class="s">{%</span><span class="nv"> </span><span class="s">else</span><span class="nv"> </span><span class="s">%}</span><span class="nv"> </span><span class="s">no</span><span class="nv"> </span><span class="s">{%</span><span class="nv"> </span><span class="s">endif</span><span class="nv"> </span><span class="s">%}&quot;</span>
+</pre></div>
+
+
+<h3 id="give-the-current-version-number-and-the-last-available-version-number">Give the current version number and the last available version number</h3>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&quot;version&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">signals</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">order</span><span class="p p-Indicator">:</span> <span class="s">&quot;give</span><span class="nv"> </span><span class="s">me</span><span class="nv"> </span><span class="s">my</span><span class="nv"> </span><span class="s">kalliope</span><span class="nv"> </span><span class="s">version&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">neurons</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">kalliope_version</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">say_template</span><span class="p p-Indicator">:</span> <span class="s">&quot;You</span><span class="nv"> </span><span class="s">are</span><span class="nv"> </span><span class="s">using</span><span class="nv"> </span><span class="s">version</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">current_version</span><span class="nv"> </span><span class="s">}}.</span><span class="nv"> </span><span class="s">The</span><span class="nv"> </span><span class="s">last</span><span class="nv"> </span><span class="s">available</span><span class="nv"> </span><span class="s">version</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">last_master_version</span><span class="nv"> </span><span class="s">}}&quot;</span>
 </pre></div>
                 
                   
@@ -1216,7 +1276,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../signals/" title="signals" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../debug/" title="debug" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1225,19 +1285,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                signals
+                debug
               </span>
             </div>
           </a>
         
         
-          <a href="../systemdate/" title="systemdate" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../kill_switch/" title="kill_switch" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                systemdate
+                kill_switch
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
