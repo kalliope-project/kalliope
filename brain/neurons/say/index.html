@@ -1185,6 +1185,20 @@
 <td></td>
 <td>A single message or a list of messages Kalliope could say</td>
 </tr>
+<tr>
+<td>file_template</td>
+<td>NO</td>
+<td></td>
+<td></td>
+<td>Path to a file template to use instead of a message</td>
+</tr>
+<tr>
+<td>parameters</td>
+<td>NO</td>
+<td></td>
+<td></td>
+<td>A dict of parameters to pass to the file template if used</td>
+</tr>
 </tbody>
 </table>
 <h2 id="returned-values">Returned values</h2>
@@ -1220,6 +1234,40 @@
   <span class="l l-Scalar l-Scalar-Plain">neurons</span><span class="p p-Indicator">:</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">say</span><span class="p p-Indicator">:</span>
         <span class="l l-Scalar l-Scalar-Plain">message</span><span class="p p-Indicator">:</span> <span class="s">&quot;Hello</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">friend_name</span><span class="nv"> </span><span class="s">}}&quot;</span>
+</pre></div>
+
+
+<p>With a template</p>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&quot;Say-hello-template&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">signals</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">order</span><span class="p p-Indicator">:</span> <span class="s">&quot;say</span><span class="nv"> </span><span class="s">hello&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">neurons</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">say</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">file_template</span><span class="p p-Indicator">:</span> <span class="s">&quot;say_something.j2&quot;</span> 
+        <span class="l l-Scalar l-Scalar-Plain">parameters</span><span class="p p-Indicator">:</span> 
+          <span class="l l-Scalar l-Scalar-Plain">friend_name</span><span class="p p-Indicator">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">friend_name</span><span class="nv"> </span><span class="s">}}&quot;</span>
+</pre></div>
+
+
+<p>Where <code>say_something.j2</code> would be</p>
+<div class="codehilite"><pre><span></span>Hello sir!
+</pre></div>
+
+
+<p>With a file template, and passing some variable from the order:</p>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&quot;Say-hello-to-friend-template&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">signals</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">order</span><span class="p p-Indicator">:</span> <span class="s">&quot;say</span><span class="nv"> </span><span class="s">hello</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">friend_name</span><span class="nv"> </span><span class="s">}}&quot;</span>
+  <span class="l l-Scalar l-Scalar-Plain">neurons</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">say</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">file_template</span><span class="p p-Indicator">:</span> <span class="s">&quot;my_template.j2&quot;</span> 
+        <span class="l l-Scalar l-Scalar-Plain">parameters</span><span class="p p-Indicator">:</span> 
+          <span class="l l-Scalar l-Scalar-Plain">forwarded_variable_name</span><span class="p p-Indicator">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">friend_name</span><span class="nv"> </span><span class="s">}}&quot;</span>
+</pre></div>
+
+
+<p>Where <code>my_template.j2</code> would be</p>
+<div class="codehilite"><pre><span></span><span class="x">Hello </span><span class="cp">{{</span> <span class="nv">forwarded_variable_name</span> <span class="cp">}}</span><span class="x"></span>
 </pre></div>
 
 

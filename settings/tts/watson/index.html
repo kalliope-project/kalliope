@@ -1181,12 +1181,11 @@
                 
                 <p>This TTS is based on the <a href="https://www.ibm.com/watson/services/text-to-speech/">IBM Watson engine</a>.</p>
 <h2 id="installation">Installation</h2>
-<p>You need to create an account and then a project to get a username and password.</p>
+<p>You need to create an account and then a project to get a location and an apikey.</p>
 <p>Once you project created, you should see your credentials like the following</p>
 <div class="codehilite"><pre><span></span><span class="p">{</span>
   <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://stream.watsonplatform.net/text-to-speech/api&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;785dazs-example-98dz-b324-a965478az&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;generated_password&quot;</span>
+  <span class="nt">&quot;apikey&quot;</span><span class="p">:</span> <span class="s2">&quot;myRANDOMAPIKEY&quot;</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -1204,18 +1203,18 @@
 </thead>
 <tbody>
 <tr>
-<td>username</td>
+<td>apikey</td>
 <td>yes</td>
 <td></td>
 <td></td>
-<td>Username of the created service in IBM cloud</td>
+<td>apikey provided by <a href="https://console.bluemix.net/docs/services/watson/getting-started-iam.html">IAM</a></td>
 </tr>
 <tr>
-<td>password</td>
-<td>yes</td>
+<td>location</td>
+<td>no</td>
+<td>LONDON</td>
 <td></td>
-<td></td>
-<td>Password related to the username</td>
+<td><a href="https://www.ibm.com/watson/developercloud/text-to-speech/api/v1/curl.html?curl#service-endpoint">endpoint location</a></td>
 </tr>
 <tr>
 <td>voice</td>
@@ -1314,9 +1313,9 @@
 
 <span class="l l-Scalar l-Scalar-Plain">text_to_speech</span><span class="p p-Indicator">:</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">watson</span><span class="p p-Indicator">:</span>
-      <span class="l l-Scalar l-Scalar-Plain">username</span><span class="p p-Indicator">:</span> <span class="s">&quot;username_code&quot;</span>
-      <span class="l l-Scalar l-Scalar-Plain">password</span><span class="p p-Indicator">:</span> <span class="s">&quot;generated_password&quot;</span>
+      <span class="l l-Scalar l-Scalar-Plain">apikey</span><span class="p p-Indicator">:</span> <span class="s">&quot;MyRANDOMAPIKEY&quot;</span>
       <span class="l l-Scalar l-Scalar-Plain">voice</span><span class="p p-Indicator">:</span> <span class="s">&quot;fr-FR_ReneeVoice&quot;</span>
+      <span class="l l-Scalar l-Scalar-Plain">location</span><span class="p p-Indicator">:</span> <span class="s">&quot;https://stream-fra.watsonplatform.net/text-to-speech/api&quot;</span>
 </pre></div>
 
 

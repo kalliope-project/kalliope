@@ -1360,8 +1360,15 @@
 <td>matching-type</td>
 <td>NO</td>
 <td>normal</td>
-<td>normal, strict, ordered-strict</td>
+<td>normal, strict, ordered-strict, not-contain</td>
 <td>Type of matching. See explanation bellow</td>
+</tr>
+<tr>
+<td>excluded-words</td>
+<td>only if not-contain</td>
+<td></td>
+<td></td>
+<td>The words which are present in the order to prevent other orders to be execute</td>
 </tr>
 <tr>
 <td>stt-correction</td>
@@ -1407,7 +1414,19 @@
 <li><strong>normal</strong>: Will match if all words are present in the spoken order.</li>
 <li><strong>strict</strong>: All word are present. No more word must be present in the spoken order.</li>
 <li><strong>ordered-strict</strong>: All word are present, no more word and all word are in the same order as defined in the signal.</li>
+<li><strong>not-contain</strong>: It will match only if all the words are present in the spoken order WITHOUT the excluded-words .</li>
 </ul>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">order</span><span class="p p-Indicator">:</span> 
+    <span class="l l-Scalar l-Scalar-Plain">text</span><span class="p p-Indicator">:</span> <span class="s">&quot;what</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">weather&quot;</span>
+    <span class="l l-Scalar l-Scalar-Plain">matching-type</span><span class="p p-Indicator">:</span> <span class="s">&quot;not-contain&quot;</span>
+    <span class="l l-Scalar l-Scalar-Plain">excluded-words</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;in&quot;</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;at&quot;</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;on&quot;</span>
+</pre></div>
+
+
+<p>This way you can call for example "whats the weather in Paris" and the above synapse will not be execute.</p>
 <h2 id="order-with-arguments">Order with arguments</h2>
 <p>You can add one or more arguments to an order by adding bracket to the sentence.</p>
 <p>Syntax:</p>
