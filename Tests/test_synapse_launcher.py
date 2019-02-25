@@ -31,10 +31,12 @@ class TestSynapseLauncher(unittest.TestCase):
         self.synapse1 = Synapse(name="Synapse1", neurons=[neuron1, neuron2], signals=[signal1])
         self.synapse2 = Synapse(name="Synapse2", neurons=[neuron3, neuron4], signals=[signal2])
         self.synapse3 = Synapse(name="Synapse3", neurons=[neuron2, neuron4], signals=[signal3])
+        self.synapse4 = Synapse(name="Synapse4", neurons=[neuron4], signals=[signal3])
 
         self.all_synapse_list = [self.synapse1,
                                  self.synapse2,
-                                 self.synapse3]
+                                 self.synapse3,
+                                 self.synapse4]
 
         self.brain_test = Brain(synapses=self.all_synapse_list)
         self.settings_test = Settings()
@@ -82,6 +84,16 @@ class TestSynapseLauncher(unittest.TestCase):
                                                            brain=self.brain_test,
                                                            overriding_parameter_dict=overriding_parameter_dict)
                 cortex_mock.assert_called_with(overriding_parameter_dict)
+
+        # check disable synapse is not run
+        self.synapse4.enabled = False
+        LifoManager.clean_saved_lifo()
+        with mock.patch("kalliope.core.Lifo.LIFOBuffer.execute"):
+            SynapseLauncher.start_synapse_by_list_name(["Synapse4"], brain=self.brain_test)
+            # we expect that the lifo has NOT been loaded with the disabled synapse
+            expected_result = [[]]
+            lifo_buffer = LifoManager.get_singleton_lifo()
+            self.assertEqual(expected_result, lifo_buffer.lifo_list)
 
     def test_start_synapse_by_list_name(self):
         # test to start a list of synapse
