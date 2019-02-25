@@ -50,7 +50,9 @@ class SynapseLauncher(object):
                 if not synapse_to_start:
                     raise SynapseNameNotFound("[SynapseLauncher] The synapse name \"%s\" does not exist "
                                               "in the brain file" % name)
-                list_synapse_object_to_start.append(synapse_to_start)
+                if synapse_to_start.enabled:
+                    list_synapse_object_to_start.append(synapse_to_start)
+                else: logger.debug("[SynapseLauncher] Synapse not activated: %s " % synapse_to_start)
 
             # run the LIFO with all synapse
             if new_lifo:
