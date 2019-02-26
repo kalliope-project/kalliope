@@ -1,3 +1,7 @@
+v0.5.4 / TBD
+===================
+- Fix #548: SynapseLauncher checks if the synapse is `enabled` before launching it. 
+
 v0.5.3 / 2019-01-15
 ===================
 - Fix: Update request lib to fix security vulnerabilities.
