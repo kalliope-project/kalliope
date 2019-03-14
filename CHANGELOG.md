@@ -1,6 +1,7 @@
 v0.5.4 / TBD
 ===================
 - Fix #548: SynapseLauncher checks if the synapse is `enabled` before launching it. 
+- Fix #550: in version 5.1 of PyYaml yaml `loader` has been deprecated, it has been replaced by `full_loader`
 
 v0.5.3 / 2019-01-15
 ===================
