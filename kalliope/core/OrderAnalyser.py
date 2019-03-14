@@ -358,7 +358,7 @@ class OrderAnalyser:
     def load_stt_correction_file(cls, stt_correction_file):
         stt_correction_file_path = Utils.get_real_file_path(stt_correction_file)
         stt_correction_file = open(stt_correction_file_path, "r")
-        stt_correction = yaml.load(stt_correction_file)
+        stt_correction = yaml.full_load(stt_correction_file)
 
         return stt_correction
 

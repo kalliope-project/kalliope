@@ -43,7 +43,7 @@ class Ansible_playbook(NeuronModule):
             playbooks = None
             with open(self.task_file, 'r') as stream:
                 try:
-                    playbooks = yaml.load(stream)
+                    playbooks = yaml.full_load(stream)
                 except yaml.YAMLError as exc:
                     print(exc)
 
