@@ -73,7 +73,7 @@ class IncludeImport(object):
 
         # load the yaml file
         with open(file_path, "r") as f:
-            self.data = yaml.load(f)
+            self.data = yaml.full_load(f)
 
         if self.data is None:
             raise YAMLFileEmpty("[YAMLLoader] File %s is empty" % file_path)
@@ -88,7 +88,7 @@ class IncludeImport(object):
                             inc = os.path.join(parent_dir, inc)
                             # logger.debug("New path: %s" % inc)
                         with open(inc, "r") as f:
-                            self.update(yaml.load(f))
+                            self.update(yaml.full_load(f))
 
     def get_data(self):
         """
