@@ -3,12 +3,13 @@ from collections import namedtuple
 import logging
 
 import yaml
+from ansible import context
 from ansible.executor.task_queue_manager import TaskQueueManager
 from ansible.inventory.manager import InventoryManager
 from ansible.parsing.dataloader import DataLoader
 from ansible.playbook.play import Play
 from ansible.vars.manager import VariableManager
-
+from ansible.module_utils.common.collections import ImmutableDict
 from kalliope.core.NeuronModule import NeuronModule, MissingParameterException
 
 logging.basicConfig()
@@ -26,7 +27,8 @@ class Ansible_playbook(NeuronModule):
 
         # check if parameters have been provided
         if self._is_parameters_ok():
-            options = self._get_options()
+            # since the API is constructed for CLI it expects certain options to always be set in the context object
+            context.CLIARGS = self._get_options()
 
             # initialize needed objects
             loader = DataLoader()
@@ -57,7 +59,6 @@ class Ansible_playbook(NeuronModule):
                     inventory=inventory,
                     variable_manager=variable_manager,
                     loader=loader,
-                    options=options,
                     passwords=passwords,
                     stdout_callback='default',
                     # Use our custom callback instead of the ``default`` callback plugin, which prints to stdout
@@ -85,19 +86,17 @@ class Ansible_playbook(NeuronModule):
     def _get_options(self):
         """
         Return a valid dict of option usable by Ansible depending on the sudo value if set
-        :return: dict of option
+        :return: ImmutableDict
         """
-        Options = namedtuple('Options',
-                             ['connection', 'forks', 'become', 'become_method', 'become_user', 'check', 'listhosts',
-                              'listtasks', 'listtags', 'syntax', 'module_path', 'diff'])
+
         if self.sudo:
-            options = Options(connection='local', forks=100, become=True, become_method="sudo",
-                              become_user=self.sudo_user, check=False, listhosts=False, listtasks=False, listtags=False,
-                              syntax=False, module_path="", diff=False)
+            options = ImmutableDict(connection='local', forks=100, become=True, become_method="sudo",
+                                    become_user=self.sudo_user, check=False, listhosts=False, listtasks=False, listtags=False,
+                                    syntax=False, module_path="", diff=False)
         else:
-            options = Options(connection='local', forks=100, become=None, become_method=None, become_user=None,
-                              check=False, listhosts=False, listtasks=False, listtags=False, syntax=False,
-                              module_path="", diff=False)
+            options = ImmutableDict(connection='local', forks=100, become=None, become_method=None, become_user=None,
+                                    check=False, listhosts=False, listtasks=False, listtags=False, syntax=False,
+                                    module_path="", diff=False)
 
         logger.debug("Ansible options: %s" % str(options))
         return options
