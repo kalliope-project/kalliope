@@ -1,7 +1,12 @@
-v0.5.4 / TBD
+v0.5.4 / 2019-06-16
 ===================
 - Fix #548: SynapseLauncher checks if the synapse is `enabled` before launching it. 
-- Fix #550: in version 5.1 of PyYaml yaml `loader` has been deprecated, it has been replaced by `full_loader`
+- Fix #550: in version 5.1 of PyYaml yaml `loader` has been deprecated, it has been replaced by `full_loader`.
+- Fix #556: Google tracker ID was misconfigured after setting the variable to `true` in the settings.yml.
+- Fix #553: Adapt code to the last ansible API.
+- Fix : Remove useless Logging messages when starting Kalliope.
+- Enhancement : Update the kalliope snowbow FR model with the last version trained with 117 samples.
+- Doc: Add Upgrade Kalliope version documentation.
 
 v0.5.3 / 2019-01-15
 ===================
