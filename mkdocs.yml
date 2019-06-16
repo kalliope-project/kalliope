@@ -24,6 +24,7 @@ pages:
     - "Raspberry": "installation/raspbian.md"
     - "Debian": "installation/debian.md"
     - "Ubuntu": "installation/ubuntu.md"
+  - Upgrade: "installation/upgrade.md"
   - Getting-started: "getting-started.md"
   - Settings:
     - settings.yml: "settings/settings.md"
