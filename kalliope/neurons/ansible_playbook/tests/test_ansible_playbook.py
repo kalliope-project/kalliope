@@ -3,6 +3,7 @@ import unittest
 from collections import namedtuple
 
 import mock
+from ansible.module_utils.common.collections import ImmutableDict
 
 from kalliope.neurons.ansible_playbook import Ansible_playbook
 from kalliope.core.NeuronModule import MissingParameterException
@@ -85,13 +86,9 @@ class TestAnsible_Playbook(unittest.TestCase):
             "sudo_password": "password"
         }
 
-        Options = namedtuple('Options',
-                             ['connection', 'forks', 'become', 'become_method', 'become_user', 'check', 'listhosts',
-                              'listtasks', 'listtags', 'syntax', 'module_path', 'diff'])
-
-        expected_option = Options(connection='local', forks=100, become=True, become_method="sudo",
-                                  become_user="user", check=False, listhosts=False, listtasks=False, listtags=False,
-                                  syntax=False, module_path="", diff=False)
+        expected_option = ImmutableDict(connection='local', forks=100, become=True, become_method="sudo",
+                                        become_user="user", check=False, listhosts=False, listtasks=False, listtags=False,
+                                        syntax=False, module_path="", diff=False)
 
         with mock.patch("ansible.executor.task_queue_manager.TaskQueueManager.run") as playbookExecutor:
             instance_neuron = Ansible_playbook(**param)
