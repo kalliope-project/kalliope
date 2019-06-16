@@ -1,0 +1,1416 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+    
+    
+      
+        <title>Create a Raspbian image with already installed Kalliope - Kalliope doc</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.0284f74d.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.01803549.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#009688">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="teal" data-md-color-accent="pink">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#create-a-raspbian-image-with-already-installed-kalliope" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="Kalliope doc" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Kalliope doc
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Create a Raspbian image with already installed Kalliope
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../.." title="Kalliope doc" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Kalliope doc
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Installation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Installation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../raspbian/" title="Raspberry" class="md-nav__link">
+      Raspberry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../debian/" title="Debian" class="md-nav__link">
+      Debian
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ubuntu/" title="Ubuntu" class="md-nav__link">
+      Ubuntu
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../upgrade/" title="Upgrade" class="md-nav__link">
+      Upgrade
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../getting-started/" title="Getting-started" class="md-nav__link">
+      Getting-started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Settings
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Settings
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/settings/" title="settings.yml" class="md-nav__link">
+      settings.yml
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-2" type="checkbox" id="nav-5-2">
+    
+    <label class="md-nav__link" for="nav-5-2">
+      Trigger
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-2">
+        Trigger
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/triggers/snowboy/" title="Snowboy" class="md-nav__link">
+      Snowboy
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-3" type="checkbox" id="nav-5-3">
+    
+    <label class="md-nav__link" for="nav-5-3">
+      Player
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-3">
+        Player
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/players/mplayer/" title="mplayer" class="md-nav__link">
+      mplayer
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/players/pyalsaaudio/" title="pyalsaaudio" class="md-nav__link">
+      pyalsaaudio
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/players/pyaudioplayer/" title="pyaudioplayer" class="md-nav__link">
+      pyaudioplayer
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/players/sounddeviceplayer/" title="sounddeviceplayer" class="md-nav__link">
+      sounddeviceplayer
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-4" type="checkbox" id="nav-5-4">
+    
+    <label class="md-nav__link" for="nav-5-4">
+      STT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-4">
+        STT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/stt/api.ai/" title="api.ai" class="md-nav__link">
+      api.ai
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/stt/bing/" title="Bing" class="md-nav__link">
+      Bing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/stt/CMUSphinx/" title="CMUSphinx" class="md-nav__link">
+      CMUSphinx
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/stt/google/" title="Google" class="md-nav__link">
+      Google
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/stt/houndify/" title="Houndify" class="md-nav__link">
+      Houndify
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/stt/wit.ai/" title="wit.ai" class="md-nav__link">
+      wit.ai
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-5" type="checkbox" id="nav-5-5">
+    
+    <label class="md-nav__link" for="nav-5-5">
+      TTS
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-5">
+        TTS
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/tts/espeak/" title="espeak" class="md-nav__link">
+      espeak
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/tts/googletts/" title="googletts" class="md-nav__link">
+      googletts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/tts/marytts/" title="marytts" class="md-nav__link">
+      marytts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/tts/pico2wave/" title="pico2wave" class="md-nav__link">
+      pico2wave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/tts/voicerss/" title="voicerss" class="md-nav__link">
+      voicerss
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/tts/watson/" title="watson" class="md-nav__link">
+      watson
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Brain
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Brain
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/brain/" title="brain.yml" class="md-nav__link">
+      brain.yml
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-2" type="checkbox" id="nav-6-2">
+    
+    <label class="md-nav__link" for="nav-6-2">
+      Core signals
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-2">
+        Core signals
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/signals/event/" title="event" class="md-nav__link">
+      event
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/signals/geolocation/" title="geolocation" class="md-nav__link">
+      geolocation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/signals/mqtt_subscriber/" title="mqtt_subscriber" class="md-nav__link">
+      mqtt_subscriber
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/signals/order/" title="order" class="md-nav__link">
+      order
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-3" type="checkbox" id="nav-6-3">
+    
+    <label class="md-nav__link" for="nav-6-3">
+      Core neurons
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-3">
+        Core neurons
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/ansible_playbook/" title="ansible_playbook" class="md-nav__link">
+      ansible_playbook
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/brain/" title="brain" class="md-nav__link">
+      brain
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/debug/" title="debug" class="md-nav__link">
+      debug
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/kalliope_version/" title="kalliope_version" class="md-nav__link">
+      kalliope_version
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/kill_switch/" title="kill_switch" class="md-nav__link">
+      kill_switch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/mqtt_publisher/" title="mqtt_publisher" class="md-nav__link">
+      mqtt_publisher
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/neurotimer/" title="neurotimer" class="md-nav__link">
+      neurotimer
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/neurotransmitter/" title="neurotransmitter" class="md-nav__link">
+      neurotransmitter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/say/" title="say" class="md-nav__link">
+      say
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/script/" title="script" class="md-nav__link">
+      script
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/settings/" title="settings" class="md-nav__link">
+      settings
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/shell/" title="shell" class="md-nav__link">
+      shell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/signals/" title="signals" class="md-nav__link">
+      signals
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/sleep/" title="sleep" class="md-nav__link">
+      sleep
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/systemdate/" title="systemdate" class="md-nav__link">
+      systemdate
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/uri/" title="uri" class="md-nav__link">
+      uri
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/community_modules/" title="Community modules" class="md-nav__link">
+      Community modules
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../cli/" title="CLI" class="md-nav__link">
+      CLI
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../rest_api/" title="API" class="md-nav__link">
+      API
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Contribute
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        Contribute
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribute/core/" title="Core" class="md-nav__link">
+      Core
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribute/neuron/" title="Neuron" class="md-nav__link">
+      Neuron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribute/stt/" title="STT" class="md-nav__link">
+      STT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribute/tts/" title="TTS" class="md-nav__link">
+      TTS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribute/documentation/" title="Documentation" class="md-nav__link">
+      Documentation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribute/installation_file/" title="install.yml" class="md-nav__link">
+      install.yml
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribute/dna/" title="dna.yml" class="md-nav__link">
+      dna.yml
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-the-image" title="Prepare the image" class="md-nav__link">
+    Prepare the image
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-image" title="Create the image" class="md-nav__link">
+    Create the image
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="create-a-raspbian-image-with-already-installed-kalliope">Create a Raspbian image with already installed Kalliope</h1>
+<p>This documentation aims at explaining how to creta a Raspbian image with pre installed Kalliope.</p>
+<p>Install a fresh <a href="http://downloads.raspberrypi.org/raspbian/images/">image of Raspbian</a> as usual on your raspberry Pi.
+Once deployed, follow manual steps bellow.</p>
+<blockquote>
+<p><strong>Note:</strong> From here I suppose that the Rpi has received a valid IP from your LAN DHCP server and can access to the internet.</p>
+</blockquote>
+<h2 id="prepare-the-image">Prepare the image</h2>
+<p>Login to your Rpi.</p>
+<p>Enable SSH</p>
+<div class="codehilite"><pre><span></span>sudo systemctl <span class="nb">enable</span> ssh
+sudo systemctl start ssh
+</pre></div>
+
+
+<p>You now have a SSH connection, you can connect remotely to your Pi to perform next steps from a console.</p>
+<blockquote>
+<p><strong>Note:</strong> The SSH server is listening on the default SSH port with the default Rasbpian credentials. This can be a security issue.
+It is recommended  to check that the Rpi is not directly accessible from the internet.</p>
+</blockquote>
+<p>Install Kalliope from the script</p>
+<div class="codehilite"><pre><span></span>curl -s https://raw.githubusercontent.com/kalliope-project/kalliope/master/install/rpi_install_kalliope.sh <span class="p">|</span> bash
+</pre></div>
+
+
+<p>If you want to install a particular branch you can specify it with an argument following the syntax bellow</p>
+<div class="codehilite"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">s</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="p">.</span><span class="n">githubusercontent</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">kalliope</span><span class="o">-</span><span class="n">project</span><span class="o">/</span><span class="n">kalliope</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">rpi_install_kalliope</span><span class="p">.</span><span class="n">sh</span> <span class="o">|</span> <span class="n">bash</span> <span class="o">-</span><span class="n">s</span> <span class="o">&lt;</span><span class="n">branch_name</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<p>E.g</p>
+<div class="codehilite"><pre><span></span>curl -s https://raw.githubusercontent.com/kalliope-project/kalliope/master/install/rpi_install_kalliope.sh <span class="p">|</span> bash -s dev
+</pre></div>
+
+
+<p>Check Kalliope is installed</p>
+<div class="codehilite"><pre><span></span>kalliope --version
+</pre></div>
+
+
+<p>Cleanup installation files</p>
+<div class="codehilite"><pre><span></span>rm -rf get-pip.py
+sudo rm -rf kalliope
+</pre></div>
+
+
+<p>Clone some starter kit</p>
+<div class="codehilite"><pre><span></span>git clone https://github.com/kalliope-project/kalliope_starter_fr.git
+git clone https://github.com/kalliope-project/kalliope_starter_en.git
+git clone https://github.com/kalliope-project/kalliope_starter_de.git
+</pre></div>
+
+
+<p>Change the hostname</p>
+<div class="codehilite"><pre><span></span>sudo hostnamectl set-hostname kalliope
+sudo sed -i <span class="s1">&#39;s/raspberrypi/kalliope/g&#39;</span> /etc/hosts
+</pre></div>
+
+
+<p>Clear the command line history</p>
+<div class="codehilite"><pre><span></span><span class="nb">history</span> -c
+</pre></div>
+
+
+<p>Shutdown the Rpi</p>
+<div class="codehilite"><pre><span></span>sudo shutdown -h now
+</pre></div>
+
+
+<h2 id="create-the-image">Create the image</h2>
+<p>Next commands have been tested on Ubuntu 16.04.</p>
+<p>In the next part we create an image an shrink it in order to take less storage space.</p>
+<blockquote>
+<p><strong>Note:</strong> Raspbian operating system comes with a tool to resize the filesystem to the largest size the SD card will support (sudo raspi-config, then select Expend Filesystem). You wont lose space by shrinking the image because you can expand it back again.</p>
+<p><strong>Note:</strong> Be sure of what you doing in next steps. Writing disk image on the wrong disk will destroy all your computer data. </p>
+</blockquote>
+<p>Remove the SD card from your Rpi and connect it into a Linux distrib via an external USB card reader.</p>
+<p>Check where the card is mounted</p>
+<div class="codehilite"><pre><span></span>df -h
+</pre></div>
+
+
+<p>The output should looks like this</p>
+<div class="codehilite"><pre><span></span>df -h
+Filesystem      Size  Used Avail Use% Mounted on
+--- TRUNCKATED ---
+/dev/sdb2        15G  <span class="m">1</span>.3G   13G  <span class="m">10</span>% /media/nico/f2100b2f-ed84-4647-b5ae-089280112716
+/dev/sdb1        41M   21M   21M  <span class="m">51</span>% /media/nico/boot
+</pre></div>
+
+
+<p>The SD card is on <strong>/dev/sdb device</strong>. It has two partition, <strong>/dev/sdb1</strong> and <strong>/dev/sdb2</strong>.</p>
+<blockquote>
+<p><strong>Note:</strong> Your system might mount the card somewhere else depending on the number of disk you already have like /dev/sdc or /dev/sde. 
+Note down the path where your SD is.</p>
+</blockquote>
+<p>Unmount the two partitions. Keep the SD card in the reader and connected to the system.</p>
+<div class="codehilite"><pre><span></span>sudo umount /dev/sdb1 /dev/sdb2
+</pre></div>
+
+
+<p>Make the image with <strong>dcfldd</strong>. This program is a replacement for the old dd disk utility program that show the progression of a copy.</p>
+<p>Install the tool</p>
+<div class="codehilite"><pre><span></span>sudo apt-get install dcfldd
+</pre></div>
+
+
+<p>Create the image following this syntax.</p>
+<div class="codehilite"><pre><span></span><span class="nv">sudo</span> <span class="nv">dcfldd</span> <span class="k">if</span><span class="o">=&lt;</span><span class="nv">my_sd_card_disk_path</span><span class="o">&gt;</span> <span class="nv">of</span><span class="o">=&lt;</span><span class="nv">target_path</span><span class="o">&gt;/</span><span class="nv">kalliope</span>.<span class="nv">img</span>
+</pre></div>
+
+
+<p>E.g</p>
+<div class="codehilite"><pre><span></span>sudo dcfldd <span class="k">if</span><span class="o">=</span>/dev/sdb <span class="nv">of</span><span class="o">=</span>kalliope.img
+</pre></div>
+
+
+<blockquote>
+<p><strong>Note:</strong> Be sure you have enough space available in the target path</p>
+</blockquote>
+<p>It will take a couple minutes to create the image depending of the size of your SD card.</p>
+<p>Once it's done, give the ownership back to your current user. (the image belong to root as we created it with sudo)</p>
+<div class="codehilite"><pre><span></span>sudo chown <span class="si">${</span><span class="nv">USER</span><span class="si">}</span>:<span class="si">${</span><span class="nv">USER</span><span class="si">}</span> kalliope.img
+</pre></div>
+
+
+<p>Now we have a file that can already be used to instantiate a Rpi. But the file is big as the SD card itself.
+To reduce the size of the image we need <code>gparted</code>. Install it</p>
+<div class="codehilite"><pre><span></span>sudo apt-get install gparted
+</pre></div>
+
+
+<p>Gparted is only able to edit physical device, so we need to create a virtual device from the image before using it.
+As we saw when we have identified our disk, Raspbian has two partitions. The fist one, boot, is already tiny and does not need to be shrank.
+The second partition is where everything is stored. It contains a lot of free space.</p>
+<p>Show partition info from the image</p>
+<div class="codehilite"><pre><span></span>sudo fdisk -l kalliope.img
+</pre></div>
+
+
+<p>The output should looks like this</p>
+<div class="codehilite"><pre><span></span><span class="nv">Device</span>        <span class="nv">Boot</span> <span class="nv">Start</span>      <span class="k">End</span>  <span class="nv">Sectors</span>  <span class="nv">Size</span> <span class="nv">Id</span> <span class="nv">Type</span>
+<span class="nv">kalliope</span>.<span class="nv">img1</span>       <span class="mi">8192</span>    <span class="mi">92159</span>    <span class="mi">83968</span>   <span class="mi">41</span><span class="nv">M</span>  <span class="nv">c</span> <span class="nv">W95</span> <span class="nv">FAT32</span> <span class="ss">(</span><span class="nv">LBA</span><span class="ss">)</span>
+<span class="nv">kalliope</span>.<span class="nv">img2</span>      <span class="mi">92160</span> <span class="mi">31116287</span> <span class="mi">31024128</span> <span class="mi">14</span>.<span class="mi">8</span><span class="nv">G</span> <span class="mi">83</span> <span class="nv">Linux</span>
+</pre></div>
+
+
+<p>Export the START sector of the second partition. The variable will be used in next commands.</p>
+<div class="codehilite"><pre><span></span><span class="nb">export</span> <span class="nv">START</span><span class="o">=</span><span class="m">92160</span>
+</pre></div>
+
+
+<p>Check the env variable is set correctly</p>
+<div class="codehilite"><pre><span></span><span class="nb">echo</span> <span class="si">${</span><span class="nv">START</span><span class="si">}</span>
+</pre></div>
+
+
+<p>Create the virtual drive with only the second patition</p>
+<div class="codehilite"><pre><span></span>sudo losetup /dev/loop0 kalliope.img -o <span class="k">$((</span>START*512<span class="k">))</span>
+</pre></div>
+
+
+<p>Now read the loopback device with gparted</p>
+<div class="codehilite"><pre><span></span>sudo gparted /dev/loop0
+</pre></div>
+
+
+<p>Gparted will show you the state of the partition. Click the <code>/dev/loop0</code> partition and select <strong>Resize/Move</strong> from the menu.
+change the value of "New Size" so that it is slighty abose the "Minimum Size". 
+Note down the new size! In this example the new size is <strong>2000 MB</strong>.
+Then apply the resizing and exit gparted.</p>
+<p>Remove the loopback device and create a new one with the whole image this time.</p>
+<div class="codehilite"><pre><span></span>sudo losetup -d /dev/loop0
+sudo losetup /dev/loop0 kalliope.img
+</pre></div>
+
+
+<p>Now, we use <strong>fdisk</strong> to edit the partition table in order to resize it to the new size.</p>
+<div class="codehilite"><pre><span></span>sudo fdisk /dev/loop0
+</pre></div>
+
+
+<p>You should now see the <strong>fdisk</strong> prompt.
+- Enter <strong>d 2</strong> to delete the table entry for the second partition
+- Enter n p 2 to create a new second partition entry
+- Enter the START sector number that you used earlier.
+- Enter <code>+NEWSIZE</code> as the new size. Don't forget the "+" at the start. For example <code>+2000M</code>
+- Enter w to write the new partition</p>
+<p>Output example</p>
+<div class="codehilite"><pre><span></span><span class="nv">Command</span> <span class="ss">(</span><span class="nv">m</span> <span class="k">for</span> <span class="nv">help</span><span class="ss">)</span>: <span class="nv">d</span>
+<span class="nv">Partition</span> <span class="nv">number</span> <span class="ss">(</span><span class="mi">1</span>,<span class="mi">2</span>, <span class="nv">default</span> <span class="mi">2</span><span class="ss">)</span>: <span class="mi">2</span>
+
+<span class="nv">Partition</span> <span class="mi">2</span> <span class="nv">has</span> <span class="nv">been</span> <span class="nv">deleted</span>.
+
+<span class="nv">Command</span> <span class="ss">(</span><span class="nv">m</span> <span class="k">for</span> <span class="nv">help</span><span class="ss">)</span>: <span class="nv">n</span>
+<span class="nv">Partition</span> <span class="nv">type</span>
+   <span class="nv">p</span>   <span class="nv">primary</span> <span class="ss">(</span><span class="mi">1</span> <span class="nv">primary</span>, <span class="mi">0</span> <span class="nv">extended</span>, <span class="mi">3</span> <span class="nv">free</span><span class="ss">)</span>
+   <span class="nv">e</span>   <span class="nv">extended</span> <span class="ss">(</span><span class="nv">container</span> <span class="k">for</span> <span class="nv">logical</span> <span class="nv">partitions</span><span class="ss">)</span>
+<span class="nv">Select</span> <span class="ss">(</span><span class="nv">default</span> <span class="nv">p</span><span class="ss">)</span>: <span class="nv">p</span>
+<span class="nv">Partition</span> <span class="nv">number</span> <span class="ss">(</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span>, <span class="nv">default</span> <span class="mi">2</span><span class="ss">)</span>: <span class="mi">2</span>
+<span class="nv">First</span> <span class="nv">sector</span> <span class="ss">(</span><span class="mi">2048</span><span class="o">-</span><span class="mi">31116287</span>, <span class="nv">default</span> <span class="mi">2048</span><span class="ss">)</span>: <span class="mi">92160</span>
+<span class="nv">Last</span> <span class="nv">sector</span>, <span class="o">+</span><span class="nv">sectors</span> <span class="nv">or</span> <span class="o">+</span><span class="nv">size</span>{<span class="nv">K</span>,<span class="nv">M</span>,<span class="nv">G</span>,<span class="nv">T</span>,<span class="nv">P</span>} <span class="ss">(</span><span class="mi">92160</span><span class="o">-</span><span class="mi">31116287</span>, <span class="nv">default</span> <span class="mi">31116287</span><span class="ss">)</span>: <span class="o">+</span><span class="mi">2000</span><span class="nv">M</span>
+
+<span class="nv">Created</span> <span class="nv">a</span> <span class="nv">new</span> <span class="nv">partition</span> <span class="mi">2</span> <span class="nv">of</span> <span class="nv">type</span> <span class="s1">&#39;</span><span class="s">Linux</span><span class="s1">&#39;</span> <span class="nv">and</span> <span class="nv">of</span> <span class="nv">size</span> <span class="mi">2</span> <span class="nv">GiB</span>.
+
+<span class="nv">Command</span> <span class="ss">(</span><span class="nv">m</span> <span class="k">for</span> <span class="nv">help</span><span class="ss">)</span>: <span class="nv">w</span>
+<span class="nv">The</span> <span class="nv">partition</span> <span class="nv">table</span> <span class="nv">has</span> <span class="nv">been</span> <span class="nv">altered</span>.
+<span class="nv">Calling</span> <span class="nv">ioctl</span><span class="ss">()</span> <span class="nv">to</span> <span class="nv">re</span><span class="o">-</span><span class="nv">read</span> <span class="nv">partition</span> <span class="nv">table</span>.
+</pre></div>
+
+
+<p>Let's take a look to the partition table again</p>
+<div class="codehilite"><pre><span></span><span class="nv">sudo</span> <span class="nv">fdisk</span> <span class="o">-</span><span class="nv">l</span> <span class="o">/</span><span class="nv">dev</span><span class="o">/</span><span class="nv">loop0</span>
+
+<span class="nv">Device</span>       <span class="nv">Boot</span> <span class="nv">Start</span>     <span class="k">End</span> <span class="nv">Sectors</span> <span class="nv">Size</span> <span class="nv">Id</span> <span class="nv">Type</span>
+<span class="o">/</span><span class="nv">dev</span><span class="o">/</span><span class="nv">loop0p1</span>       <span class="mi">8192</span>   <span class="mi">92159</span>   <span class="mi">83968</span>  <span class="mi">41</span><span class="nv">M</span>  <span class="nv">c</span> <span class="nv">W95</span> <span class="nv">FAT32</span> <span class="ss">(</span><span class="nv">LBA</span><span class="ss">)</span>
+<span class="o">/</span><span class="nv">dev</span><span class="o">/</span><span class="nv">loop0p2</span>      <span class="mi">92160</span> <span class="mi">4188159</span> <span class="mi">4096000</span>   <span class="mi">2</span><span class="nv">G</span> <span class="mi">83</span> <span class="nv">Linux</span>
+</pre></div>
+
+
+<p>Note down the ED sector of the second partition</p>
+<div class="codehilite"><pre><span></span><span class="nb">export</span> <span class="nv">END</span><span class="o">=</span><span class="m">4188159</span>
+</pre></div>
+
+
+<p>Destroy the loopback</p>
+<div class="codehilite"><pre><span></span>sudo losetup -d /dev/loop0
+</pre></div>
+
+
+<p>Now, trim the file to the new length.</p>
+<div class="codehilite"><pre><span></span><span class="nv">truncate</span> <span class="o">-</span><span class="nv">s</span> $<span class="ss">(((</span><span class="k">END</span><span class="o">+</span><span class="mi">1</span><span class="ss">)</span><span class="o">*</span><span class="mi">512</span><span class="ss">))</span> <span class="nv">kalliope</span>.<span class="nv">img</span>
+</pre></div>
+
+
+<p>Check the new size of the image</p>
+<div class="codehilite"><pre><span></span>du -hs kalliope.img 
+<span class="m">2</span>.0G    kalliope.img
+</pre></div>
+
+
+<p>You can now compress it to reduce a little more the size</p>
+<div class="codehilite"><pre><span></span>zip kalliope.img.zip kalliope.img
+</pre></div>
+
+
+<p>Final size</p>
+<div class="codehilite"><pre><span></span>du -hs kalliope.img.zip 
+727M    kalliope.img.zip
+</pre></div>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.245445c6.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+    
+  </body>
+</html>
