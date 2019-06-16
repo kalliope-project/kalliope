@@ -21,7 +21,7 @@ class HookManager(object):
     @classmethod
     def on_triggered(cls):
         sl = SettingLoader()
-        if sl.settings.send_anonymous_usage_stats > 0:  # the user allow to send hit
+        if sl.settings.tracker_anonymous_usage_stats_id != "not_defined_id":  # the user allow to send hit
             gt = GoogleTracking(cid=sl.settings.send_anonymous_usage_stats,
                                 kalliope_version=version_str,
                                 category='synapse',

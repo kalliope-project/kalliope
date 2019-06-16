@@ -147,7 +147,7 @@ class TestSettingLoader(unittest.TestCase):
                                  'on_start_speaking': None,
                                  'on_stop_speaking': None,
                                  }
-        settings_object.send_anonymous_usage_stats = 0
+        settings_object.tracker_anonymous_usage_stats_id = "not_defined_id"
 
         sl = SettingLoader(file_path=self.settings_file_to_test)
 

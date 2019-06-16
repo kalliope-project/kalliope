@@ -115,7 +115,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         variables = self._get_variables(settings)
         options = self._get_options(settings)
         hooks = self._get_hooks(settings)
-        send_anonymous_usage_stats = self._get_anonymous_usage_stats(settings)
+        tracker_anonymous_usage_stats_id = self._get_anonymous_usage_stats(settings)
 
         # Load the setting singleton with the parameters
         setting_object.default_tts_name = default_tts_name
@@ -132,7 +132,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
         setting_object.variables = variables
         setting_object.options = options
         setting_object.hooks = hooks
-        setting_object.send_anonymous_usage_stats = send_anonymous_usage_stats
+        setting_object.tracker_anonymous_usage_stats_id = tracker_anonymous_usage_stats_id
 
         return setting_object
 
@@ -690,8 +690,8 @@ class SettingLoader(with_metaclass(Singleton, object)):
 
         return hooks
 
-    def _get_anonymous_usage_stats(self, settings):
-
+    @staticmethod
+    def _get_anonymous_usage_stats(settings):
         cid = uuid.uuid4().hex
         try:
             send_anonymous_usage_stats = settings["send_anonymous_usage_stats"]
@@ -700,7 +700,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
                 # generate a unique user ID
                 send_anonymous_usage_stats = cid
             else:  # the user choose to disable stats
-                send_anonymous_usage_stats = 0
+                send_anonymous_usage_stats = "not_defined_id"
 
         except KeyError:
             # if the user haven't set this flag
