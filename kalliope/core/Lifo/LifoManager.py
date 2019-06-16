@@ -10,10 +10,12 @@ logger = logging.getLogger("kalliope")
 
 class LifoManager(with_metaclass(Singleton, object)):
 
-    lifo_buffer = LIFOBuffer()
+    lifo_buffer = None
 
     @classmethod
     def get_singleton_lifo(cls):
+        if cls.lifo_buffer is None:
+            cls._new_lifo_buffer()
         return cls.lifo_buffer
 
     @classmethod
@@ -28,3 +30,6 @@ class LifoManager(with_metaclass(Singleton, object)):
     def clean_saved_lifo(cls):
         cls.lifo_buffer = LIFOBuffer()
 
+    @classmethod
+    def _new_lifo_buffer(cls):
+        cls.lifo_buffer = LIFOBuffer()
