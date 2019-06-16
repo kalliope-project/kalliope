@@ -37,6 +37,7 @@ setup(
     version=version,
     description='Kalliope is a modular always-on voice controlled personal assistant designed for home automation.',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://github.com/kalliope-project/kalliope',
     author='The dream team of Kalliope-project',
     author_email='kalliope-project@googlegroups.com',
