@@ -35,9 +35,10 @@ class MissingParameterException(NeuronExceptions):
     Some Neuron parameters are missing.
     """
 
-    def __init__(self, message):
+    def __init__(self, message=None):
         # Call the base class constructor with the parameters it needs
         super(MissingParameterException, self).__init__(message)
+        self.message = message
 
 
 class NoTemplateException(Exception):
