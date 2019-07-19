@@ -1,6 +1,7 @@
 from functools import wraps
 from flask import request, Response
 
+from kalliope import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
 
 
@@ -32,3 +33,41 @@ def requires_auth(f):
                 return authenticate()
         return f(*args, **kwargs)
     return decorated
+
+
+def get_parameters_from_request(http_request):
+    """
+    Get "parameters" object from the
+    :param http_request:
+    :return:
+    """
+    parameters = None
+    try:
+        # Silent True in case no parameters it does not raise an error
+        received_json = http_request.get_json(silent=True, force=True)
+        if 'parameters' in received_json:
+            parameters = received_json['parameters']
+    except TypeError:
+        pass
+    return parameters
+
+
+def get_value_flag_from_request(http_request, flag_to_find, is_boolean=False):
+    """
+    Get the value flag from the request if exist, None otherwise !
+    :param http_request:
+    :param flag_to_find: json flag to find in the http_request
+    :param is_boolean: True if the expected value is a boolean, False Otherwise.
+    :return: the Value of the flag that has been found in the request
+    """
+    flag_value = None
+    try:
+        received_json = http_request.get_json(force=True, silent=True, cache=True)
+        if flag_to_find in received_json:
+            flag_value = received_json[flag_to_find]
+            if is_boolean:
+                flag_value = Utils.str_to_bool(flag_value)
+    except TypeError:
+        # no json received
+        pass
+    return flag_value
