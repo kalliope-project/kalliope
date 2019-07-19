@@ -288,14 +288,14 @@ class TestRestAPI(LiveServerTestCase):
         with mock.patch("os.system") as mock_os_system:
             # Scenario 1 : input wav file
             temp_file = "/tmp/kalliope/tempfile.wav"  # tempfile.NamedTemporaryFile(suffix=".wav")
-            result_file = FlaskAPI._convert_to_wav(temp_file)
+            result_file = self.flask_api.synapses_blueprint._convert_to_wav(temp_file)
             self.assertEqual(temp_file, result_file)
             mock_os_system.assert_not_called()
 
             # Scenario 2 : input not a wav file
             temp_file = "/tmp/kalliope/tempfile.amr"  # tempfile.NamedTemporaryFile(suffix=".wav")
             expected_result = "/tmp/kalliope/tempfile.wav"
-            result_file = FlaskAPI._convert_to_wav(temp_file)
+            result_file = self.flask_api.synapses_blueprint._convert_to_wav(temp_file)
             self.assertEqual(expected_result, result_file)
             mock_os_system.assert_called_once_with("ffmpeg -loglevel panic -y -i " + temp_file + " " + expected_result)
 
