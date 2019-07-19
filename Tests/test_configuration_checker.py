@@ -3,7 +3,7 @@ import unittest
 from kalliope.core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker, NoSynapeName, \
                                                 NoSynapeNeurons, NoSynapeSignals, NoValidSignal, MultipleSameSynapseName
 from kalliope.core.Models import Synapse
-from kalliope.core.Utils.Utils import ModuleNotFoundError
+from kalliope.core.Utils.Utils import KalliopeModuleNotFoundError
 
 
 class TestConfigurationChecker(unittest.TestCase):
@@ -53,7 +53,7 @@ class TestConfigurationChecker(unittest.TestCase):
 
         self.assertTrue(ConfigurationChecker.check_neuron_dict(valid_neuron))
 
-        with self.assertRaises(ModuleNotFoundError):
+        with self.assertRaises(KalliopeModuleNotFoundError):
             ConfigurationChecker.check_neuron_dict(invalid_neuron)
 
     def test_check_signal_dict(self):
@@ -62,7 +62,7 @@ class TestConfigurationChecker(unittest.TestCase):
 
         self.assertTrue(ConfigurationChecker.check_signal_dict(valid_signal))
 
-        with self.assertRaises(ModuleNotFoundError):
+        with self.assertRaises(KalliopeModuleNotFoundError):
             ConfigurationChecker.check_signal_dict(invalid_signal)
 
     def test_check_synapes(self):

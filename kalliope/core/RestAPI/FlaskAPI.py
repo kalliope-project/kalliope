@@ -55,10 +55,24 @@ class FlaskAPI(threading.Thread):
         self.app.add_url_rule('/shutdown/', view_func=self.shutdown_server, methods=['POST'])
 
         # Register blue prints
-        self.synapses_blueprint = SynapsesView('synapses', __name__, app=self.app, brain=self.brain, settings=self.settings)
+        self.synapses_blueprint = SynapsesView('synapses',
+                                               __name__,
+                                               app=self.app,
+                                               brain=self.brain,
+                                               settings=self.settings)
         self.app.register_blueprint(self.synapses_blueprint)
-        self.settings_blueprint = SettingsView('settings', __name__, app=self.app, brain=self.brain, settings=self.settings)
+        self.settings_blueprint = SettingsView('settings',
+                                               __name__,
+                                               app=self.app,
+                                               brain=self.brain,
+                                               settings=self.settings)
         self.app.register_blueprint(self.settings_blueprint)
+        self.neurons_blueprint = SettingsView('neurons',
+                                              __name__,
+                                              app=self.app,
+                                              brain=self.brain,
+                                              settings=self.settings)
+        self.app.register_blueprint(self.neurons_blueprint)
 
     def run(self):
         self.app.run(host='0.0.0.0', port=int(self.port), debug=True, threaded=True, use_reloader=False)
