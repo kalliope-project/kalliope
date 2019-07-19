@@ -8,7 +8,10 @@ from werkzeug.utils import secure_filename
 
 from kalliope import Utils
 from kalliope.core.ConfigurationManager import BrainLoader, SettingEditor
+from kalliope.core.ConfigurationManager.ConfigurationChecker import KalliopeModuleNotFoundError, ConfigurationChecker, \
+    InvalidSynapeName, NoSynapeNeurons, NoSynapeSignals
 from kalliope.core.Lifo.LifoManager import LifoManager
+from kalliope.core.Models import Synapse
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 from kalliope.core.OrderListener import OrderListener
 from kalliope.core.RestAPI import utils
@@ -36,6 +39,7 @@ class SynapsesView(Blueprint):
 
         # routes
         self.add_url_rule('/synapses', view_func=self.get_synapses, methods=['GET'])
+        self.add_url_rule('/synapses', view_func=self.create_synapses, methods=['POST'])
         self.add_url_rule('/synapses/<synapse_name>', view_func=self.get_synapse, methods=['GET'])
         self.add_url_rule('/synapses/start/id/<synapse_name>', view_func=self.run_synapse_by_name, methods=['POST'])
         self.add_url_rule('/synapses/start/order', view_func=self.run_synapse_by_order, methods=['POST'])
@@ -55,6 +59,59 @@ class SynapsesView(Blueprint):
             except KeyError:
                 pass
         return None
+
+    @requires_auth
+    def create_synapses(self):
+        """
+        curl -i -H "Content-Type: application/json" \
+        --user admin:secret \
+        -X POST \
+        -d '{
+          "name": "Say-hello",
+          "signals": [
+            {
+              "order": "je suis nicolas"
+            }
+          ],
+          "neurons": [
+            {
+              "say": {
+                "message": "je sais"
+              }
+            }
+          ]
+        }' \
+        http://127.0.0.1:5000/synapses
+        :return:
+        """
+        if not request.get_json() or 'name' not in request.get_json():
+            data = {
+                "Error": "Wrong parameters, 'name' not set"
+            }
+            return jsonify(error=data), 400
+
+        new_synapse = request.get_json()
+        try:
+            ConfigurationChecker().check_synape_dict(new_synapse)
+        except (InvalidSynapeName, NoSynapeNeurons, NoSynapeSignals) as e:
+            data = {
+                "error": "%s" % e
+            }
+            return jsonify(data), 400
+
+        try:
+            name = new_synapse["name"]
+            neurons = BrainLoader.get_neurons(new_synapse["neurons"], self.settings)
+            signals = BrainLoader.get_signals(new_synapse["signals"])
+            new_synapse_instance = Synapse(name=name, neurons=neurons, signals=signals)
+            self.brain.synapses.append(new_synapse_instance)
+            # TODO save the brain in yaml
+            return jsonify(new_synapse_instance.serialize()), 200
+        except KalliopeModuleNotFoundError as e:
+            data = {
+                "error": "%s" % e
+            }
+            return jsonify(data), 400
 
     @requires_auth
     def get_synapses(self):

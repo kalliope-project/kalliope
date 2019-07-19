@@ -2,7 +2,7 @@ import re
 import os
 import imp
 
-from kalliope.core.Utils.Utils import ModuleNotFoundError
+from kalliope.core.Utils.Utils import KalliopeModuleNotFoundError
 from kalliope.core.ConfigurationManager.SettingLoader import SettingLoader
 
 
@@ -151,11 +151,11 @@ class ConfigurationChecker:
                 mod = __import__(package_name, fromlist=[neuron_module_name.capitalize()])
                 getattr(mod, neuron_module_name.capitalize())
             except AttributeError:
-                raise ModuleNotFoundError("[AttributeError] The module %s does not exist in the package %s " % (
+                raise KalliopeModuleNotFoundError("[AttributeError] The module %s does not exist in the package %s " % (
                 neuron_module_name.capitalize(),
                 package_name))
             except ImportError:
-                raise ModuleNotFoundError(
+                raise KalliopeModuleNotFoundError(
                     "[ImportError] The module %s does not exist in the package %s " % (neuron_module_name.capitalize(),
                                                                                        package_name))
             return True
@@ -192,11 +192,11 @@ class ConfigurationChecker:
                 mod = __import__(package_name, fromlist=[signal_name.capitalize()])
                 getattr(mod, signal_name.capitalize())
             except AttributeError:
-                raise ModuleNotFoundError(
+                raise KalliopeModuleNotFoundError(
                     "[AttributeError] The module %s does not exist in the package %s " % (signal_name.capitalize(),
                                                                                           package_name))
             except ImportError:
-                raise ModuleNotFoundError(
+                raise KalliopeModuleNotFoundError(
                     "[ImportError] The module %s does not exist in the package %s " % (signal_name.capitalize(),
                                                                                        package_name))
             return True
