@@ -15,7 +15,7 @@ def pipe_print(line):
     print(line)
 
 
-class ModuleNotFoundError(Exception):
+class KalliopeModuleNotFoundError(Exception):
     """
     The module can not been found
 
@@ -129,7 +129,7 @@ class Utils(object):
             klass = getattr(mod, module_name.capitalize())
         except AttributeError:
             logger.debug("Error: No module named %s " % module_name.capitalize())
-            raise ModuleNotFoundError(
+            raise KalliopeModuleNotFoundError(
                 "The module %s does not exist in package %s" % (module_name.capitalize(), package_name))
 
         if klass is not None:

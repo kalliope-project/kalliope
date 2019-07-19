@@ -754,6 +754,91 @@ class TestRestAPI(LiveServerTestCase):
                          json.dumps(json.loads(result.get_data().decode('utf-8')), sort_keys=True))
         self.assertEqual(result.status_code, 200)
 
+    def test_create_synapse(self):
+        url = self.get_server_url() + "/synapses"
+        headers = {"Content-Type": "application/json"}
+
+        # test with valid synapse
+        data = {
+            "name": "create-synapse",
+            "signals": [
+                {
+                    "order": "I'm Batman"
+                }
+            ],
+            "neurons": [
+                {
+                    "say": {
+                        "message": "I know"
+                    }
+                }
+            ]
+        }
+
+        result = self.client.post(url,
+                                  headers=headers,
+                                  data=json.dumps(data))
+
+        expected_content = {
+          "enabled": True,
+          "name": "create-synapse",
+          "neurons": [
+            {
+              "name": "say",
+              "parameters": {
+                "message": "I know"
+              }
+            }
+          ],
+          "signals": [
+            {
+              "name": "order",
+              "parameters": "I'm Batman"
+            }
+          ]
+        }
+
+        self.assertEqual(result.status_code, 200)
+        self.assertEqual(json.dumps(expected_content, sort_keys=True),
+                         json.dumps(json.loads(result.get_data().decode('utf-8')), sort_keys=True))
+
+        # test with non existing neuron
+        data = {
+            "name": "create-synapse",
+            "signals": [
+                {
+                    "order": "I'm Batman"
+                }
+            ],
+            "neurons": [
+                {
+                    "notexist": {
+                        "key": "value"
+                    }
+                }
+            ]
+        }
+
+        result = self.client.post(url,
+                                  headers=headers,
+                                  data=json.dumps(data))
+        self.assertEqual(result.status_code, 400)
+
+        # test with non valid synapse
+        data = {
+            "name": "create-synapse",
+            "signals": [
+                {
+                    "order": "I'm Batman"
+                }
+            ]
+        }
+
+        result = self.client.post(url,
+                                  headers=headers,
+                                  data=json.dumps(data))
+        self.assertEqual(result.status_code, 400)
+
 
 if __name__ == '__main__':
     unittest.main()

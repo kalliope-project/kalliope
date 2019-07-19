@@ -89,8 +89,8 @@ class TestBrainLoader(unittest.TestCase):
         neuron = Neuron(name='say', parameters={'message': ['test message']})
 
         bl = BrainLoader(file_path=self.brain_to_test)
-        neurons_from_brain_loader = bl._get_neurons(neuron_list,
-                                                    settings=st)
+        neurons_from_brain_loader = bl.get_neurons(neuron_list,
+                                                   settings=st)
 
         self.assertEqual([neuron], neurons_from_brain_loader)
 
@@ -99,8 +99,8 @@ class TestBrainLoader(unittest.TestCase):
 
         st = Settings()
         bl = BrainLoader(file_path=self.brain_to_test)
-        neurons_from_brain_loader = bl._get_neurons(neuron_list,
-                                                    settings=st)
+        neurons_from_brain_loader = bl.get_neurons(neuron_list,
+                                                   settings=st)
 
         neuron = Neuron(name='say', parameters={'message': ['bonjour {{name}}']})
 
@@ -113,8 +113,8 @@ class TestBrainLoader(unittest.TestCase):
         neuron = Neuron(name='sleep', parameters={'seconds': 60})
 
         bl = BrainLoader(file_path=self.brain_to_test)
-        neurons_from_brain_loader = bl._get_neurons(neuron_list,
-                                                    settings=st)
+        neurons_from_brain_loader = bl.get_neurons(neuron_list,
+                                                   settings=st)
 
         self.assertEqual([neuron], neurons_from_brain_loader)
 
@@ -124,7 +124,7 @@ class TestBrainLoader(unittest.TestCase):
         signal = Signal(name="order", parameters="test_order")
 
         bl = BrainLoader(file_path=self.brain_to_test)
-        signals_from_brain_loader = bl._get_signals(signals)
+        signals_from_brain_loader = bl.get_signals(signals)
 
         self.assertEqual([signal], signals_from_brain_loader)
 

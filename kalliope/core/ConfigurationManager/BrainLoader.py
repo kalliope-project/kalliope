@@ -88,8 +88,8 @@ class BrainLoader(with_metaclass(Singleton, object)):
             if "includes" not in synapses_dict:     # we don't need to check includes as it's not a synapse
                 if ConfigurationChecker().check_synape_dict(synapses_dict):
                     name = synapses_dict["name"]
-                    neurons = self._get_neurons(synapses_dict["neurons"], self.settings)
-                    signals = self._get_signals(synapses_dict["signals"])
+                    neurons = self.get_neurons(synapses_dict["neurons"], self.settings)
+                    signals = self.get_signals(synapses_dict["signals"])
                     new_synapse = Synapse(name=name, neurons=neurons, signals=signals)
                     synapses.append(new_synapse)
         brain.synapses = synapses
@@ -104,7 +104,7 @@ class BrainLoader(with_metaclass(Singleton, object)):
         return brain
 
     @classmethod
-    def _get_neurons(cls, neurons_dict, settings):
+    def get_neurons(cls, neurons_dict, settings):
         """
         Get a list of Neuron object from a neuron dict
 
@@ -135,7 +135,7 @@ class BrainLoader(with_metaclass(Singleton, object)):
         return neurons
 
     @classmethod
-    def _get_signals(cls, signals_dict):
+    def get_signals(cls, signals_dict):
         """
         Get a list of Signal object from a signals dict
 
