@@ -1,28 +1,20 @@
+import glob
 import inspect
 import logging
 import os
-import time
-import glob
+
+import requests
+import yaml
 from flask import jsonify, Blueprint
-from flask import request
-from werkzeug.utils import secure_filename
 
 from kalliope import Utils
-from kalliope.core.ConfigurationManager import BrainLoader, SettingEditor
-from kalliope.core.ConfigurationManager.ConfigurationChecker import KalliopeModuleNotFoundError, ConfigurationChecker, \
-    InvalidSynapeName, NoSynapeNeurons, NoSynapeSignals
-from kalliope.core.Lifo.LifoManager import LifoManager
-from kalliope.core.Models import Synapse
-from kalliope.core.Models.MatchedSynapse import MatchedSynapse
-from kalliope.core.OrderListener import OrderListener
-from kalliope.core.RestAPI import utils
-from kalliope.core.RestAPI.utils import requires_auth
-from kalliope.core.SynapseLauncher import SynapseLauncher
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 
 LIST_EXCLUDED_DIR_NAME = ["__pycache__"]
+KALLIOPE_WEBSITE_NEURON_URL = "https://raw.githubusercontent.com/kalliope-project/kalliope-project.github.io/" \
+                              "sources/_data/community_neurons.yml"
 
 
 class NeuronsView(Blueprint):
@@ -34,6 +26,7 @@ class NeuronsView(Blueprint):
 
         # routes
         self.add_url_rule('/neurons', view_func=self.get_neurons, methods=['GET'])
+        self.add_url_rule('/store/neurons', view_func=self.get_installable_community_neuron, methods=['GET'])
 
     def get_neurons(self):
         """
@@ -50,6 +43,17 @@ class NeuronsView(Blueprint):
         data = jsonify(data)
         return data, 200
 
+    @staticmethod
+    def get_installable_community_neuron():
+        """
+        Get the list of installable community neuron from the kalliope website
+
+        curl -i --user admin:secret -X GET http://127.0.0.1:5000/store/neurons
+        :return:
+        """
+        r = requests.get(KALLIOPE_WEBSITE_NEURON_URL)
+        data = jsonify(yaml.load(r.text, Loader=yaml.FullLoader))
+        return data, 200
 
     def _get_list_core_neuron(self):
         current_path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
