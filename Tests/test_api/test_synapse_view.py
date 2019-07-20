@@ -65,6 +65,23 @@ class TestSynapseView(RestAPITestBase):
         self.assertEqual(json.dumps(expected_content, sort_keys=True),
                          json.dumps(json.loads(response.get_data().decode('utf-8')), sort_keys=True))
 
+    def test_delete_synapse(self):
+        # test with existing synapse
+        url = self.get_server_url() + "/synapses/test"
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 204)
+
+        # test with non existing synapse
+        url = self.get_server_url() + "/synapses/test-none"
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 404)
+        expected_content = {
+            "error": {
+                "synapse name not found": "test-none"
+            }
+        }
+        self.assertEqual(expected_content, json.loads(response.get_data().decode('utf-8')))
+
     def test_get_synapse_not_found(self):
         url = self.get_server_url() + "/synapses/test-none"
         result = self.client.get(url)

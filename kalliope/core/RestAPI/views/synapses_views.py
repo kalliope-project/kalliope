@@ -41,6 +41,7 @@ class SynapsesView(Blueprint):
         self.add_url_rule('/synapses', view_func=self.get_synapses, methods=['GET'])
         self.add_url_rule('/synapses', view_func=self.create_synapses, methods=['POST'])
         self.add_url_rule('/synapses/<synapse_name>', view_func=self.get_synapse, methods=['GET'])
+        self.add_url_rule('/synapses/<synapse_name>', view_func=self.delete_synapse, methods=['DELETE'])
         self.add_url_rule('/synapses/start/id/<synapse_name>', view_func=self.run_synapse_by_name, methods=['POST'])
         self.add_url_rule('/synapses/start/order', view_func=self.run_synapse_by_order, methods=['POST'])
         self.add_url_rule('/synapses/start/audio', view_func=self.run_synapse_by_audio, methods=['POST'])
@@ -136,6 +137,25 @@ class SynapsesView(Blueprint):
         if synapse_target is not None:
             data = jsonify(synapses=synapse_target.serialize())
             return data, 200
+
+        data = {
+            "synapse name not found": "%s" % synapse_name
+        }
+        return jsonify(error=data), 404
+
+    @requires_auth
+    def delete_synapse(self, synapse_name):
+        """
+        delete a synapse by its name
+        test with curl:
+        curl --user admin:secret -i -X DELETE  http://127.0.0.1:5000/synapses/say-hello-en
+        """
+        logger.debug("[FlaskAPI] delete_synapse -> %s" % synapse_name)
+        synapse_target = self._get_synapse_by_name(synapse_name)
+        if synapse_target is not None:
+            # delete from brain
+            self._delete_synapse_by_name(synapse_name)
+            return '', 204
 
         data = {
             "synapse name not found": "%s" % synapse_name
@@ -260,7 +280,8 @@ class SynapsesView(Blueprint):
         curl -i --user admin:secret -X POST  http://localhost:5000/synapses/start/audio -F "file=@/path/to/input.wav"
 
         With mute flag
-        curl -i --user admin:secret -X POST http://localhost:5000/synapses/start/audio -F "file=@path/to/file.wav" -F mute="true"
+        curl -i --user admin:secret -X POST \
+        http://localhost:5000/synapses/start/audio -F "file=@path/to/file.wav" -F mute="true"
         :return:
         """
 
@@ -361,3 +382,15 @@ class SynapsesView(Blueprint):
     def allowed_file(filename):
         return '.' in filename and \
                filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+    def _delete_synapse_by_name(self, synapse_name):
+        all_synapse = self.brain.synapses
+        for synapse in all_synapse:
+            try:
+                if synapse.name == synapse_name:
+                    logger.debug("[FlaskAPI] remove synapse from the brain: '%s'" % synapse_name)
+                    all_synapse.remove(synapse)
+                    # TODO save the brain in yaml
+            except KeyError:
+                pass
+        return None
