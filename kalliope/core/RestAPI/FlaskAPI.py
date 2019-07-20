@@ -8,6 +8,7 @@ from flask_cors import CORS
 from kalliope._version import version_str
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.RestAPI.utils import requires_auth
+from kalliope.core.RestAPI.views.neurones_view import NeuronsView
 from kalliope.core.RestAPI.views.settings_views import SettingsView
 from kalliope.core.RestAPI.views.synapses_views import SynapsesView
 from kalliope.core.Utils.FileManager import FileManager
@@ -67,11 +68,11 @@ class FlaskAPI(threading.Thread):
                                                brain=self.brain,
                                                settings=self.settings)
         self.app.register_blueprint(self.settings_blueprint)
-        self.neurons_blueprint = SettingsView('neurons',
-                                              __name__,
-                                              app=self.app,
-                                              brain=self.brain,
-                                              settings=self.settings)
+        self.neurons_blueprint = NeuronsView('neurons',
+                                             __name__,
+                                             app=self.app,
+                                             brain=self.brain,
+                                             settings=self.settings)
         self.app.register_blueprint(self.neurons_blueprint)
 
     def run(self):
