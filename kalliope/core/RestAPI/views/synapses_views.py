@@ -107,7 +107,7 @@ class SynapsesView(Blueprint):
             new_synapse_instance = Synapse(name=name, neurons=neurons, signals=signals)
             self.brain.synapses.append(new_synapse_instance)
             # TODO save the brain in yaml
-            return jsonify(new_synapse_instance.serialize()), 200
+            return jsonify(new_synapse_instance.serialize()), 201
         except KalliopeModuleNotFoundError as e:
             data = {
                 "error": "%s" % e

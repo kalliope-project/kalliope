@@ -298,7 +298,7 @@ class TestSynapseView(RestAPITestBase):
           ]
         }
 
-        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.status_code, 201)
         self.assertEqual(json.dumps(expected_content, sort_keys=True),
                          json.dumps(json.loads(result.get_data().decode('utf-8')), sort_keys=True))
 
