@@ -60,49 +60,67 @@ class ResourcesManager(object):
         self.install_file_path = self.tmp_path + os.sep + INSTALL_FILE_NAME
         self.dna = None
 
-    def install(self):
+    def install(self, force=False):
         """
         Module installation method.
+        :arg force: True to skip the version compatibility
+        :return True if installation is ok
         """
         # first, we clone the repo
         self._clone_repo(path=self.tmp_path,
                          git_url=self.git_url)
 
         # check the content of the cloned repo
-        if self.is_repo_ok(dna_file_path=self.dna_file_path,
-                           install_file_path=self.install_file_path):
+        if not self.is_repo_ok(dna_file_path=self.dna_file_path,
+                               install_file_path=self.install_file_path):
+            logger.debug("[ResourcesManager] Invalid resource repository")
+            self.cleanup_after_failed_installation()
+            raise ResourcesManagerException("Invalid resource repository")
 
-            # Load the dna.yml file
-            self.dna = DnaLoader(self.dna_file_path).get_dna()
-            if self.dna is not None:
-                logger.debug("[ResourcesManager] DNA file content: " + str(self.dna))
-                if self.is_settings_ok(resources=self.settings.resources, dna=self.dna):
-                    # the dna file is ok, check the supported version
-                    if self._check_supported_version(current_version=self.settings.kalliope_version,
-                                                     supported_versions=self.dna.kalliope_supported_version):
+        # Load the dna.yml file
+        self.dna = DnaLoader(self.dna_file_path).get_dna()
+        if self.dna is None:
+            logger.debug("[ResourcesManager] No DNA file found in the resource to install")
+            self.cleanup_after_failed_installation()
+            raise ResourcesManagerException("No DNA file found in the resource to install")
 
-                        # Let's find the target folder depending the type
-                        module_type = self.dna.module_type.lower()
-                        target_folder = self._get_target_folder(resources=self.settings.resources,
-                                                                module_type=module_type)
-                        if target_folder is not None:
-                            # let's move the tmp folder in the right folder and get a new path for the module
-                            module_name = self.dna.name.lower()
-                            target_path = self._rename_temp_folder(name=self.dna.name.lower(),
-                                                                   target_folder=target_folder,
-                                                                   tmp_path=self.tmp_path)
+        logger.debug("[ResourcesManager] DNA file content: " + str(self.dna))
+        if not self.is_settings_ok(resources=self.settings.resources, dna=self.dna):
+            logger.debug("[ResourcesManager] Invalid settings")
+            self.cleanup_after_failed_installation()
+            raise ResourcesManagerException("Invalid settings")
 
-                            # if the target_path exists, then run the install file within the new repository
-                            if target_path is not None:
-                                self.install_file_path = target_path + os.sep + INSTALL_FILE_NAME
-                                if self.run_ansible_playbook_module(install_file_path=self.install_file_path):
-                                    Utils.print_success("Module: %s installed" % module_name)
-                                else:
-                                    Utils.print_danger("Module: %s not installed" % module_name)
-                else:
-                    logger.debug("[ResourcesManager] installation cancelled, deleting temp repo %s"
-                                 % str(self.tmp_path))
-                    shutil.rmtree(self.tmp_path)
+        # the dna file is ok, check the supported version
+        if not force:
+            if not self._check_supported_version(current_version=self.settings.kalliope_version,
+                                                 supported_versions=self.dna.kalliope_supported_version):
+                logger.debug("[ResourcesManager] Non supported version")
+                self.cleanup_after_failed_installation()
+                raise ResourcesManagerException("Non supported version")
+
+        # Let's find the target folder depending the type
+        module_type = self.dna.module_type.lower()
+        target_folder = self._get_target_folder(resources=self.settings.resources,
+                                                module_type=module_type)
+        if target_folder is None:
+            self.cleanup_after_failed_installation()
+            raise ResourcesManagerException("No resource folder set in settings")
+
+        # let's move the tmp folder in the right folder and get a new path for the module
+        module_name = self.dna.name.lower()
+        target_path = self._rename_temp_folder(name=self.dna.name.lower(),
+                                               target_folder=target_folder,
+                                               tmp_path=self.tmp_path)
+
+        # if the target_path exists, then run the install file within the new repository
+        if target_path is not None:
+            self.install_file_path = target_path + os.sep + INSTALL_FILE_NAME
+            if self.run_ansible_playbook_module(install_file_path=self.install_file_path):
+                Utils.print_success("Module: %s installed" % module_name)
+                return True
+            else:
+                Utils.print_danger("Module: %s not installed" % module_name)
+                return False
 
     def uninstall(self, neuron_name=None,
                   tts_name=None,
@@ -342,3 +360,8 @@ class ResourcesManager(object):
 
         logger.debug("[ResourcesManager] check_supported_version: %s" % str(supported_version_found))
         return supported_version_found
+
+    def cleanup_after_failed_installation(self):
+        logger.debug("[ResourcesManager] installation cancelled, deleting temp repo %s"
+                     % str(self.tmp_path))
+        shutil.rmtree(self.tmp_path)
