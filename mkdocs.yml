@@ -75,7 +75,10 @@ pages:
       - uri: "brain/neurons/uri.md"
     - Community modules: "brain/community_modules.md"
   - CLI: "cli.md"
-  - API: "rest_api.md"
+  - API:
+    - Main: "rest_api.md"
+    - Synapses: "api/synapses.md"
+    - Settings: "api/settings.md"
   - Contribute:
     - Core: "contribute/core.md"
     - Neuron: "contribute/neuron.md"
