@@ -59,12 +59,13 @@ class ResourcesManager(object):
         self.dna_file_path = self.tmp_path + os.sep + DNA_FILE_NAME
         self.install_file_path = self.tmp_path + os.sep + INSTALL_FILE_NAME
         self.dna = None
+        self.sudo_password = kwargs.get('sudo_password', None)
 
     def install(self, force=False):
         """
         Module installation method.
         :arg force: True to skip the version compatibility
-        :return True if installation is ok
+        :return Dna object if resource installed
         """
         # first, we clone the repo
         self._clone_repo(path=self.tmp_path,
@@ -113,14 +114,16 @@ class ResourcesManager(object):
                                                tmp_path=self.tmp_path)
 
         # if the target_path exists, then run the install file within the new repository
-        if target_path is not None:
+        if target_path is None:
+            raise ResourcesManagerException("Resource already present")
+        else:
             self.install_file_path = target_path + os.sep + INSTALL_FILE_NAME
             if self.run_ansible_playbook_module(install_file_path=self.install_file_path):
                 Utils.print_success("Module: %s installed" % module_name)
-                return True
+                return self.dna
             else:
                 Utils.print_danger("Module: %s not installed" % module_name)
-                return False
+                return None
 
     def uninstall(self, neuron_name=None,
                   tts_name=None,
@@ -299,18 +302,21 @@ class ResourcesManager(object):
             logger.debug("[ResourcesManager] Deleting temp folder %s" % str(tmp_path))
             shutil.rmtree(tmp_path)
 
-    @staticmethod
-    def run_ansible_playbook_module(install_file_path):
+    def run_ansible_playbook_module(self, install_file_path):
         """
         Run the install.yml file through an Ansible playbook using the dedicated neuron !
 
+        :param sudo_password: locl machine sudo password required to install libraries
         :param install_file_path: the path of the Ansible playbook to run.
         :return:
         """
         logger.debug("[ResourcesManager] Run ansible playbook")
         Utils.print_info("Starting neuron installation")
         # ask the sudo password
-        pswd = getpass.getpass('Sudo password:')
+        if self.sudo_password is not None:
+            pswd = self.sudo_password
+        else:
+            pswd = getpass.getpass('Sudo password:')
         if not pswd or pswd == "":
             Utils.print_warning("You must enter a sudo password")
             return False

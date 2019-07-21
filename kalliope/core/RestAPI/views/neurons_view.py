@@ -3,11 +3,9 @@ import inspect
 import logging
 import os
 
-import requests
-import yaml
-from flask import jsonify, Blueprint
-
-from kalliope import Utils
+from flask import jsonify, Blueprint, request
+from kalliope.core.ResourcesManager import ResourcesManager, ResourcesManagerException
+from kalliope.core.Utils import Utils
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -26,7 +24,7 @@ class NeuronsView(Blueprint):
 
         # routes
         self.add_url_rule('/neurons', view_func=self.get_neurons, methods=['GET'])
-        self.add_url_rule('/store/neurons', view_func=self.get_installable_community_neuron, methods=['GET'])
+        self.add_url_rule('/neurons/install', view_func=self.install_resource_by_git_url, methods=['POST'])
 
     def get_neurons(self):
         """
@@ -44,16 +42,47 @@ class NeuronsView(Blueprint):
         return data, 200
 
     @staticmethod
-    def get_installable_community_neuron():
+    def install_resource_by_git_url():
         """
-        Get the list of installable community neuron from the kalliope website
+        Install a new resource from the given git URL. Call the resource manager
 
-        curl -i --user admin:secret -X GET http://127.0.0.1:5000/store/neurons
-        :return:
+        curl -i -H "Content-Type: application/json" \
+        --user admin:secret \
+        -X POST \
+        -d '
+        {
+            "git_url": "https://github.com/kalliope-project/kalliope_neuron_wikipedia.git",
+            "sudo_password": "azerty"  # TODO add kalliope to sudoer file and remove this
+        }
+        ' \
+        http://127.0.0.1:5000/neurons/install
         """
-        r = requests.get(KALLIOPE_WEBSITE_NEURON_URL)
-        data = jsonify(yaml.load(r.text, Loader=yaml.FullLoader))
-        return data, 200
+        if not request.get_json() or 'git_url' not in request.get_json():
+            data = {
+                "Error": "Wrong parameters, 'git_url' not set"
+            }
+            return jsonify(error=data), 400
+
+        parameters = {
+            "git_url": request.get_json()["git_url"],
+            "sudo_password": request.get_json()["sudo_password"]
+        }
+        res_manager = ResourcesManager(**parameters)
+        try:
+            dna = res_manager.install()
+        except ResourcesManagerException as e:
+            data = {
+                "error": "%s" % e
+            }
+            return jsonify(data), 400
+
+        if dna is not None:
+            return jsonify(dna.serialize()), 200
+        else:
+            data = {
+                "Error": "Error during resource installation"
+            }
+            return jsonify(error=data), 400
 
     def _get_list_core_neuron(self):
         current_path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
@@ -68,6 +97,13 @@ class NeuronsView(Blueprint):
 
     @staticmethod
     def _get_neuron_name_list_from_path(neuron_path_list):
+        """
+        From a given path, return all folder name as list.
+        E.g: /home/pi/kalliope/neurons
+        Will return [wikipedia_searcher, gmail]
+        :param neuron_path_list: path to the community neurons folder
+        :return:
+        """
 
         glob_neuron_path_list = glob.glob(neuron_path_list)
 

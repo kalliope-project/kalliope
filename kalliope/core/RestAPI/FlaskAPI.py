@@ -8,7 +8,7 @@ from flask_cors import CORS
 from kalliope._version import version_str
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.RestAPI.utils import requires_auth
-from kalliope.core.RestAPI.views.neurones_view import NeuronsView
+from kalliope.core.RestAPI.views.neurons_view import NeuronsView
 from kalliope.core.RestAPI.views.settings_views import SettingsView
 from kalliope.core.RestAPI.views.synapses_views import SynapsesView
 from kalliope.core.Utils.FileManager import FileManager
