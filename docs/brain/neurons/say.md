@@ -2,11 +2,11 @@ This neuron is the mouth of Kalliope and uses the TTS engine defined in your set
 
 ## Input parameters
 
-| parameter | required | default | choices | comment                                                    |
-|-----------|----------|---------|---------|------------------------------------------------------------|
-| message   | YES      |         |         | A single message or a list of messages Kalliope could say  |
-| file_template   | NO      |         |         | Path to a file template to use instead of a message  |
-| parameters   | NO      |         |         | A dict of parameters to pass to the file template if used  |
+| parameter     | required | default | choices | comment                                                   |
+|:--------------|:---------|:--------|:--------|:----------------------------------------------------------|
+| message       | YES      |         |         | A single message or a list of messages Kalliope could say |
+| file_template | NO       |         |         | Path to a file template to use instead of a message       |
+| parameters    | NO       |         |         | A dict of parameters to pass to the file template if used |
 
 ## Returned values
 
