@@ -25,13 +25,31 @@ echo "Installing python pip... [OK]"
 # install packages
 echo "Installing system packages..."
 sudo apt-get update
-sudo apt-get install -y git python-dev libsmpeg0 libttspico-utils libsmpeg0 \
+sudo apt-get install -y git python-dev libsmpeg0 \
 flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
-libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython2.7-dev libav-tools libjpeg-dev
+libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython2.7-dev libjpeg-dev
+
+debian_version=`cat /etc/os-release |grep buster`
+retVal=$?
+if [ $retVal -ne 0 ]; then
+    echo "Debian < 10"
+    sudo apt-get install libav-tools libttspico-utils
+else
+    echo "Debian 10 Buster detected. Installing pico2wave manually"
+    sudo apt-get install -y ffmpeg
+    wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico-utils_1.0+git20130326-9_armhf.deb
+    wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico0_1.0+git20130326-9_armhf.deb
+    wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico-data_1.0+git20130326-9_all.deb
+    sudo dpkg -i libttspico-data_1.0+git20130326-9_all.deb
+    sudo dpkg -i libttspico-utils_1.0+git20130326-9_armhf.deb
+    sudo dpkg -i libttspico0_1.0+git20130326-9_armhf.deb
+fi
 
 # this is used to help the RPI
-sudo apt-get install -y libportaudio0 libportaudio2 libportaudiocpp0 portaudio19-dev
-sudo apt-get install -y libffi-dev python-yaml python-pycparser python-paramiko python-markupsafe apt-transport-https
+sudo apt-get install -y libportaudio0 libportaudio2 libportaudiocpp0 python-yaml python-pycparser \
+python-paramiko python-markupsafe apt-transport-https
+sudo pip install ansible
+sudo pip install openpyxl
 echo "Installing system packages...[OK]"
 
 echo "Cloning the project"
