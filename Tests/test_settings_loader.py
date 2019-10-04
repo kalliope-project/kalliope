@@ -19,16 +19,11 @@ from kalliope.core.Models.settings.Tts import Tts
 class TestSettingLoader(unittest.TestCase):
 
     def setUp(self):
-        # get current script directory path. We are in /an/unknown/path/kalliope/core/tests
-        cur_script_directory = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-        # get parent dir. Now we are in /an/unknown/path/kalliope
-        root_dir = os.path.normpath(cur_script_directory + os.sep + os.pardir)
-
-        if "/Tests" in os.getcwd():
-            self.settings_file_to_test = root_dir + os.sep + "settings/settings_test.yml"
+        current_path = os.getcwd()
+        if "/Tests" in current_path:
+            self.settings_file_to_test = current_path + os.sep + "settings/settings_test.yml"
         else:
-            self.settings_file_to_test = root_dir + os.sep + "Tests/settings/settings_test.yml"
-
+            self.settings_file_to_test = current_path + os.sep + "Tests/settings/settings_test.yml"
         self.settings_dict = {
             'rest_api':
                 {'allowed_cors_origin': False,
