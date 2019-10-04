@@ -47,8 +47,7 @@ class TestNotificationManager(unittest.TestCase):
         # create a signal
         signal1 = FakeSignal()
         # with mock.patch("__main__.FakeSignal.on_notification_received") \
-        with mock.patch(self.test_path) \
-                as mock_on_notification_received:
+        with mock.patch(self.test_path) as mock_on_notification_received:
             test_notification = "test"
 
             NotificationManager.send_notification(test_notification)

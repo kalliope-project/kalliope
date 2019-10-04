@@ -2,7 +2,9 @@ from .test_brain_loader import TestBrainLoader
 from .test_configuration_checker import TestConfigurationChecker
 from .test_dynamic_loading import TestDynamicLoading
 from .test_file_manager import TestFileManager
-from Tests.test_api.test_rest_api import TestRestAPI
+from Tests.test_api.test_main_view import TestMainView
+from Tests.test_api.test_settings_view import TestSettingsView
+from Tests.test_api.test_synapse_view import TestSynapseView
 from .test_settings_loader import TestSettingLoader
 from .test_singleton import TestSingleton
 from .test_tts_module import TestTTSModule
