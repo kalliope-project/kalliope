@@ -4,6 +4,7 @@ import unittest
 from mock import mock
 
 from Tests.test_api.base import RestAPITestBase
+from kalliope.core.Cortex import Cortex
 
 
 class TestSynapseView(RestAPITestBase):
@@ -177,6 +178,8 @@ class TestSynapseView(RestAPITestBase):
         self.assertEqual(json.dumps(expected_content, sort_keys=True),
                          json.dumps(json.loads(result.get_data().decode('utf-8')), sort_keys=True))
         self.assertEqual(result.status_code, 201)
+        # check that the cortex contains the last order
+        self.assertEqual("test_order", Cortex.get_from_key("kalliope_last_order"))
 
         # test with a wrong parameter in a neuron
         data = {"order": "test_order_miss_configured_neuron"}

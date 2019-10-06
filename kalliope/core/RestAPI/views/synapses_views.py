@@ -10,6 +10,7 @@ from kalliope import Utils
 from kalliope.core.ConfigurationManager import BrainLoader, SettingEditor
 from kalliope.core.ConfigurationManager.ConfigurationChecker import KalliopeModuleNotFoundError, ConfigurationChecker, \
     InvalidSynapeName, NoSynapeNeurons, NoSynapeSignals
+from kalliope.core.Cortex import Cortex
 from kalliope.core.Lifo.LifoManager import LifoManager
 from kalliope.core.Models import Synapse
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
@@ -260,6 +261,7 @@ class SynapsesView(Blueprint):
                                                                            self.settings,
                                                                            is_api_call=True)
 
+            Cortex.save('kalliope_last_order', order_to_run)
             data = jsonify(api_response)
             if mute is not None:
                 SettingEditor.set_mute_status(mute=old_mute_value)
@@ -355,7 +357,7 @@ class SynapsesView(Blueprint):
                                                                        self.settings,
                                                                        is_api_call=True)
         self.api_response = api_response
-
+        Cortex.save('kalliope_last_order', order)
         # this boolean will notify the main process that the order have been processed
         self.order_analyser_return = True
 
