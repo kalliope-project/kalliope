@@ -178,6 +178,11 @@ class TestSynapseView(RestAPITestBase):
                          json.dumps(json.loads(result.get_data().decode('utf-8')), sort_keys=True))
         self.assertEqual(result.status_code, 201)
 
+        # test with a wrong parameter in a neuron
+        data = {"order": "test_order_miss_configured_neuron"}
+        result = self.client.post(url, headers=headers, data=json.dumps(data))
+        self.assertEqual(result.status_code, 201)
+
     def test_post_synapse_by_order_not_found(self):
         url = self.get_server_url() + "/synapses/start/order"
         data = {"order": "non existing order"}

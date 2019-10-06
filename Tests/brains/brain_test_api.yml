@@ -9,10 +9,10 @@
 
   - name: "test2"
     signals:
-      - order: "bonjour"
+      - order: "test_order_miss_configured_neuron"
     neurons:
       - say:
-          message:
+          not_valid_parameter:
             - "test message"
   
   - includes:
