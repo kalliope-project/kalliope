@@ -78,6 +78,7 @@ pages:
   - API:
     - Main: "rest_api.md"
     - Synapses: "api/synapses.md"
+    - Neurons: "api/neurons.md"
     - Settings: "api/settings.md"
   - Contribute:
     - Core: "contribute/core.md"
