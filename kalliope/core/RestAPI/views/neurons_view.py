@@ -20,7 +20,7 @@ class NeuronsView(Blueprint):
         self.brain = brain
         self.settings = settings
         self.app = app
-        super().__init__(name, import_name)
+        super(NeuronsView, self).__init__(name, import_name)
 
         # routes
         self.add_url_rule('/neurons', view_func=self.get_neurons, methods=['GET'])

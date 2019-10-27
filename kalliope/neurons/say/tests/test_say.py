@@ -1,7 +1,6 @@
 import os
 import unittest
-from unittest import mock
-from unittest.mock import patch
+import mock
 
 from kalliope import SynapseLauncher
 from kalliope.core.Models import Synapse, Neuron, Signal, Brain
@@ -53,7 +52,7 @@ class TestSay(unittest.TestCase):
             Say(**parameters)
             mock_tts.assert_called_once_with("hello sir")
 
-    # TODo fix this one. Working fine when running alone. Not working when running full test
+    # TODO fix this one. Working fine when running alone. Not working when running full test
     # def test_synapse_with_say(self):
     #     neuron1 = Neuron(name='say', parameters={'message': 'I say hello to {{ variable }}'})
     #     signal1 = Signal(name="order", parameters="hello {{ variable }}")
@@ -67,7 +66,7 @@ class TestSay(unittest.TestCase):
     #                                                         brain=brain_test,
     #                                                         settings=None)
     #         mock_tts.assert_called_once_with("I say hello to world")
-
+    #
     # def test_synapse_with_say_and_template(self):
     #     template_path = "test_say_neuron_template_with_variable.j2"
     #     current_path = os.getcwd()

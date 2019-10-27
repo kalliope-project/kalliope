@@ -6,20 +6,19 @@ services:
 python:
   - "2.7"
   - "3.6"
+  - "3.7"
 
 # command to install dependencies
 before_install:
-- docker build --force-rm=true --build-arg TRAVIS_BRANCH=${TRAVIS_BRANCH} --build-arg TRAVIS_EVENT_TYPE=${TRAVIS_EVENT_TYPE} --build-arg TRAVIS_PULL_REQUEST_SLUG=${TRAVIS_PULL_REQUEST_SLUG} --build-arg TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH} -t kalliope-ubuntu1604 -f docker/ubuntu_16_04.dockerfile .
-- docker build --force-rm=true --build-arg TRAVIS_BRANCH=${TRAVIS_BRANCH} --build-arg TRAVIS_EVENT_TYPE=${TRAVIS_EVENT_TYPE} --build-arg TRAVIS_PULL_REQUEST_SLUG=${TRAVIS_PULL_REQUEST_SLUG} --build-arg TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH} -t kalliope-debian8 -f docker/debian8.dockerfile .
-- sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty main restricted universe multiverse"
-- sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse"
-- sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
-- sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+#- docker build --force-rm=true --build-arg TRAVIS_BRANCH=${TRAVIS_BRANCH} --build-arg TRAVIS_EVENT_TYPE=${TRAVIS_EVENT_TYPE} --build-arg TRAVIS_PULL_REQUEST_SLUG=${TRAVIS_PULL_REQUEST_SLUG} --build-arg TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH} -t kalliope-ubuntu1604 -f docker/ubuntu_16_04.dockerfile .
+#- docker build --force-rm=true --build-arg TRAVIS_BRANCH=${TRAVIS_BRANCH} --build-arg TRAVIS_EVENT_TYPE=${TRAVIS_EVENT_TYPE} --build-arg TRAVIS_PULL_REQUEST_SLUG=${TRAVIS_PULL_REQUEST_SLUG} --build-arg TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH} -t kalliope-debian8 -f docker/debian8.dockerfile .
+- sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial main restricted universe multiverse"
+- sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial-updates main restricted universe multiverse"
+- sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial-backports main restricted universe multiverse"
+- sudo add-apt-repository -y ppa:deadsnakes/ppa # contains libpython3.6-dev
 - sudo apt-get update -q
 - sudo apt-get install $(cat install/files/deb-packages_requirements.txt)
-- sudo apt-get install gcc-4.9 libstdc++6 libpython3.4-dev
-- wget https://bootstrap.pypa.io/get-pip.py
-- sudo python get-pip.py
+- sudo apt-get install gcc-5 python3-dev libpython3.6-dev
 
 install:
   - pip install -r install/files/python_requirements.txt
@@ -27,9 +26,9 @@ install:
 
 # command to run tests
 script:
-#  - pytest
-  - docker run -it --rm kalliope-ubuntu1604
-  - docker run -it --rm kalliope-debian8
+  - pytest
+#  - docker run -it --rm kalliope-ubuntu1604
+#  - docker run -it --rm kalliope-debian8
   - coverage run --source=kalliope -m unittest discover
   - coverage report -m
 
