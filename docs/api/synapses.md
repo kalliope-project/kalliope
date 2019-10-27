@@ -160,7 +160,7 @@ Curl command:
 ```bash
 curl -i \
 --user admin:secret \
--X POST \
+-X DELETE \
 http://localhost:5000/synapses/start/id/say-hello
 ```
 
@@ -172,7 +172,7 @@ Curl command:
 ```bash
 curl -i \
 --user admin:secret \
--X DELETE \
+-X POST \
 http://127.0.0.1:5000/synapses/say-hello-en
 ```
 
