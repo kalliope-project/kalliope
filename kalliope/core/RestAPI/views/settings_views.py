@@ -20,7 +20,7 @@ class SettingsView(Blueprint):
         self.brain = brain
         self.settings = settings
         self.app = app
-        super().__init__(name, import_name)
+        super(SettingsView, self).__init__(name, import_name)
         self.add_url_rule('/settings', view_func=self.get_current_settings, methods=['GET'])
         self.add_url_rule('/settings/deaf/', view_func=self.get_deaf, methods=['GET'])
         self.add_url_rule('/settings/deaf/', view_func=self.set_deaf, methods=['POST'])

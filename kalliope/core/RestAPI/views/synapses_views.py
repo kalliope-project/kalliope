@@ -31,7 +31,7 @@ class SynapsesView(Blueprint):
         self.brain = brain
         self.settings = settings
         self.app = app
-        super().__init__(name, import_name)
+        super(SynapsesView, self).__init__(name, import_name)
 
         # api_response sent by the Order Analyser when using the /synapses/start/audio URL
         self.api_response = None
