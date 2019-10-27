@@ -31,12 +31,12 @@ class Script(NeuronModule):
         super(Script, self).__init__(**kwargs)
         self.path = kwargs.get("path", None)
         # get if the user select a blocking command or not
-        self.async = kwargs.get('async', False)
+        self.async_mode = kwargs.get('async', False)
 
         # check parameters
         if self._is_parameters_ok():
             # run the command
-            if not self.async:
+            if not self.async_mode:
                 p = subprocess.Popen(self.path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
                 (output, err) = p.communicate()
                 self.output = output.decode()

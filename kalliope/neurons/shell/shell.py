@@ -38,7 +38,7 @@ class Shell(NeuronModule):
         # get the command
         self.cmd = kwargs.get('cmd', None)
         # get if the user select a blocking command or not
-        self.async = kwargs.get('async', False)
+        self.async_mode = kwargs.get('async', False)
         self.query = kwargs.get('query', None)
 
         if self.query is not None:
@@ -47,7 +47,7 @@ class Shell(NeuronModule):
         # check parameters
         if self._is_parameters_ok():
             # run the command
-            if not self.async:
+            if not self.async_mode:
                 p = subprocess.Popen(self.cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
                 (output, err) = p.communicate()
                 self.output = output.decode()
