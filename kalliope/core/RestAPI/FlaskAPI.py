@@ -12,6 +12,7 @@ from kalliope.core.RestAPI.views.neurons_view import NeuronsView
 from kalliope.core.RestAPI.views.settings_views import SettingsView
 from kalliope.core.RestAPI.views.synapses_views import SynapsesView
 from kalliope.core.Utils.FileManager import FileManager
+from gevent.pywsgi import WSGIServer
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -76,7 +77,8 @@ class FlaskAPI(threading.Thread):
         self.app.register_blueprint(self.neurons_blueprint)
 
     def run(self):
-        self.app.run(host='0.0.0.0', port=int(self.port), debug=True, threaded=True, use_reloader=False)
+        http_server = WSGIServer(('', 5000), self.app)
+        http_server.serve_forever()
 
     @requires_auth
     def get_main_page(self):

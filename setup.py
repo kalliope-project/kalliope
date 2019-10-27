@@ -94,7 +94,8 @@ setup(
         'paho-mqtt>=1.4.0',
         'voicerss_tts>=1.0.6',
         'gTTS>=2.0.3',
-        'urllib3>=1.25.3'
+        'urllib3>=1.25.3',
+        'gevent==1.4.0'
     ],
 
 
