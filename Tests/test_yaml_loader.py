@@ -1,6 +1,7 @@
 import os
 import unittest
 
+from Tests.utils.utils import get_test_path
 from kalliope.core.ConfigurationManager.YAMLLoader import YAMLFileNotFound, YAMLLoader
 
 
@@ -13,11 +14,7 @@ class TestYAMLLoader(unittest.TestCase):
         pass
 
     def test_get_config(self):
-
-        if "/Tests" in os.getcwd():
-            valid_file_path_to_test = os.getcwd() + os.sep + "brains/brain_test.yml"
-        else:
-            valid_file_path_to_test = os.getcwd() + os.sep + "Tests/brains/brain_test.yml"
+        valid_file_path_to_test = get_test_path("brains/brain_test.yml")
 
         invalid_file_path = "brains/non_existing_brain.yml"
         expected_result = [

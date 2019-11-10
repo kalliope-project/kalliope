@@ -1,6 +1,7 @@
 import os
 import unittest
 
+from Tests.utils.utils import get_test_path
 from kalliope.core.Models import Brain
 from kalliope.core.Models import Neuron
 from kalliope.core.Models import Synapse
@@ -13,10 +14,7 @@ class TestOrderAnalyser(unittest.TestCase):
     """Test case for the OrderAnalyser Class"""
 
     def setUp(self):
-        if "/Tests" in os.getcwd():
-            self.correction_file_to_test = os.getcwd() + os.sep + "files/test-stt-correction.yml"
-        else:
-            self.correction_file_to_test = os.getcwd() + os.sep + "Tests/files/test-stt-correction.yml"
+        self.correction_file_to_test = get_test_path("files/test-stt-correction.yml")
 
     def test_get_matching_synapse(self):
         # Init

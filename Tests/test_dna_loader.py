@@ -1,6 +1,7 @@
 import os
 import unittest
 
+from Tests.utils.utils import get_test_path
 from kalliope.core.ConfigurationManager.DnaLoader import DnaLoader
 from kalliope.core.Models.Dna import Dna
 
@@ -8,10 +9,7 @@ from kalliope.core.Models.Dna import Dna
 class TestDnaLoader(unittest.TestCase):
 
     def setUp(self):
-        if "/Tests" in os.getcwd():
-            self.dna_test_file = "modules/test_valid_dna.yml"
-        else:
-            self.dna_test_file = "Tests/modules/test_valid_dna.yml"
+        self.dna_test_file = get_test_path("modules/test_valid_dna.yml")
 
     def tearDown(self):
         pass
@@ -48,10 +46,7 @@ class TestDnaLoader(unittest.TestCase):
         self.assertTrue(isinstance(dna_to_test, Dna))
 
         # test with a non valid DNA file
-        if "/Tests" in os.getcwd():
-            dna_invalid_test_file = "modules/test_invalid_dna.yml"
-        else:
-            dna_invalid_test_file = "Tests/modules/test_invalid_dna.yml"
+        dna_invalid_test_file = get_test_path("modules/test_invalid_dna.yml")
 
         self.assertIsNone(DnaLoader(dna_invalid_test_file)._load_dna())
 

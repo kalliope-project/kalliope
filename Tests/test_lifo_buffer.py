@@ -3,6 +3,7 @@ import unittest
 
 import mock
 
+from Tests.utils.utils import get_test_path
 from kalliope.core import LifoManager
 from kalliope.core.ConfigurationManager import BrainLoader
 from kalliope.core.Lifo.LIFOBuffer import Serialize, SynapseListAddedToLIFO
@@ -16,11 +17,7 @@ class TestLIFOBuffer(unittest.TestCase):
     def setUp(self):
         # be sure the brain haven't been instantiated before
         Singleton._instances = dict()
-
-        if "/Tests" in os.getcwd():
-            self.brain_to_test = os.getcwd() + os.sep + "brains/lifo_buffer_test_brain.yml"
-        else:
-            self.brain_to_test = os.getcwd() + os.sep + "Tests/brains/lifo_buffer_test_brain.yml"
+        self.brain_to_test = get_test_path("brains/lifo_buffer_test_brain.yml")
 
         BrainLoader(file_path=self.brain_to_test)
         # create a new lifo buffer
