@@ -1,36 +1,61 @@
 language: python
-
-services:
-  - docker
-
 python:
   - "2.7"
   - "3.6"
   - "3.7"
 
-# command to install dependencies
+env:
+  global:
+    - INSTALL_TYPE=setup
+
+matrix:
+  include:
+    - name: Test in Docker Ubuntu 18.04
+      env:
+        - INSTALL_TYPE=docker
+      services:
+        - docker
+      before_install:
+        - docker build --force-rm=true -t kalliope-ubuntu1804 -f docker/testing_ubuntu_18_04.dockerfile .
+      script:
+        - docker run -it --rm -e TRAVIS_BRANCH=${TRAVIS_BRANCH} -e TRAVIS_EVENT_TYPE=${TRAVIS_EVENT_TYPE} -e TRAVIS_PULL_REQUEST_SLUG=${TRAVIS_PULL_REQUEST_SLUG} -e TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH} kalliope-ubuntu1804
+
+    - name: Test in Docker Debian 10
+      env:
+        - INSTALL_TYPE=docker
+      services:
+        - docker
+      before_install:
+        - docker build --force-rm=true -t kalliope-debian10 -f docker/testing_debian10.dockerfile .
+      script:
+        - docker run -it --rm -e TRAVIS_BRANCH=${TRAVIS_BRANCH} -e TRAVIS_EVENT_TYPE=${TRAVIS_EVENT_TYPE} -e TRAVIS_PULL_REQUEST_SLUG=${TRAVIS_PULL_REQUEST_SLUG} -e TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH} kalliope-debian10
+
+
 before_install:
-#- docker build --force-rm=true --build-arg TRAVIS_BRANCH=${TRAVIS_BRANCH} --build-arg TRAVIS_EVENT_TYPE=${TRAVIS_EVENT_TYPE} --build-arg TRAVIS_PULL_REQUEST_SLUG=${TRAVIS_PULL_REQUEST_SLUG} --build-arg TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH} -t kalliope-ubuntu1604 -f docker/ubuntu_16_04.dockerfile .
-#- docker build --force-rm=true --build-arg TRAVIS_BRANCH=${TRAVIS_BRANCH} --build-arg TRAVIS_EVENT_TYPE=${TRAVIS_EVENT_TYPE} --build-arg TRAVIS_PULL_REQUEST_SLUG=${TRAVIS_PULL_REQUEST_SLUG} --build-arg TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH} -t kalliope-debian8 -f docker/debian8.dockerfile .
-- sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial main restricted universe multiverse"
-- sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial-updates main restricted universe multiverse"
-- sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial-backports main restricted universe multiverse"
-- sudo add-apt-repository -y ppa:deadsnakes/ppa # contains libpython3.6-dev
-- sudo apt-get update -q
-- sudo apt-get install $(cat install/files/deb-packages_requirements.txt)
-- sudo apt-get install gcc-5 python3-dev libpython3.6-dev
-
+  - |
+    if [ "${INSTALL_TYPE}" == "setup" ]; then
+      sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial main restricted universe multiverse"
+      sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial-updates main restricted universe multiverse"
+      sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu xenial-backports main restricted universe multiverse"
+      sudo add-apt-repository -y ppa:deadsnakes/ppa # contains libpython3.6-dev
+      sudo apt-get update -q
+      sudo apt-get install $(cat install/files/deb-packages_requirements.txt)
+      sudo apt-get install gcc-5 python3-dev libpython3.6-dev
+    fi
 install:
-  - pip install -r install/files/python_requirements.txt
-  - pip install coverage python-coveralls
-
-# command to run tests
+  - |
+    if [ "${INSTALL_TYPE}" == "setup" ]; then
+      pip install -r install/files/python_requirements.txt;
+      pip install coverage python-coveralls;
+    fi
 script:
-  - pytest
-#  - docker run -it --rm kalliope-ubuntu1604
-#  - docker run -it --rm kalliope-debian8
-  - coverage run --source=kalliope -m unittest discover
-  - coverage report -m
-
+  - |
+    if [ "${INSTALL_TYPE}" == "setup" ]; then
+      coverage run --source=kalliope -m unittest discover;
+      coverage report -m;
+    fi
 after_success:
-  - coveralls
+ - |
+    if [ "${INSTALL_TYPE}" == "setup" ]; then
+      coveralls
+    fi

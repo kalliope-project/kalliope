@@ -31,7 +31,7 @@ class TestSynapseView(RestAPITestBase):
                  "neurons": [{"name": "say", "parameters": {"message": ["test message"]}}],
                  "name": "test3", "enabled": True}]}
 
-        # a lot of char ti process
+        # a lot of char to process
         self.maxDiff = None
         self.assertEqual(response.status_code, 200)
         self.assertEqual(json.dumps(expected_content, sort_keys=True),

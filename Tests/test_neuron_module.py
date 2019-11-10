@@ -2,6 +2,7 @@ import os
 import unittest
 import mock
 
+from Tests.utils.utils import get_test_path
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.settings.Tts import Tts
 
@@ -17,20 +18,14 @@ class TestNeuronModule(unittest.TestCase):
 
         self.expected_result = "hello, this is a replaced word"
         # this allow us to run the test from an IDE and from the root with python -m unittest tests.TestNeuronModule
-        if "/Tests" in os.getcwd():
-            self.file_template = "templates/template_test.j2"
-        else:
-            self.file_template = "Tests/templates/template_test.j2"
+        self.file_template = get_test_path("templates/template_test.j2")
         self.say_template = "hello, this is a {{ test }}"
         self.message = {
             "test": "replaced word"
         }
         self.neuron_module_test = NeuronModule()
 
-        if "/Tests" in os.getcwd():
-            self.file_settings = "settings/settings_test.yml"
-        else:
-            self.file_settings = "Tests/settings/settings_test.yml"
+        self.file_settings = get_test_path("settings/settings_test.yml")
         self.settings = SettingLoader(file_path=self.file_settings).settings
 
     def tearDown(self):
