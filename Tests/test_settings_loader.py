@@ -4,6 +4,7 @@ import platform
 import shutil
 import unittest
 
+from Tests.utils.utils import get_test_path
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.Models import Singleton
 from kalliope.core.Models import Resources
@@ -19,11 +20,8 @@ from kalliope.core.Models.settings.Tts import Tts
 class TestSettingLoader(unittest.TestCase):
 
     def setUp(self):
-        current_path = os.getcwd()
-        if "/Tests" in current_path:
-            self.settings_file_to_test = current_path + os.sep + "settings/settings_test.yml"
-        else:
-            self.settings_file_to_test = current_path + os.sep + "Tests/settings/settings_test.yml"
+        self.settings_file_to_test = get_test_path("settings/settings_test.yml")
+
         self.settings_dict = {
             'rest_api':
                 {'allowed_cors_origin': False,

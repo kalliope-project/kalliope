@@ -1,8 +1,12 @@
+import logging
 from functools import wraps
 from flask import request, Response
 
 from kalliope import Utils
 from kalliope.core.ConfigurationManager import SettingLoader
+
+logging.basicConfig()
+logger = logging.getLogger("kalliope")
 
 
 def check_auth(username, password):
@@ -37,9 +41,9 @@ def requires_auth(f):
 
 def get_parameters_from_request(http_request):
     """
-    Get "parameters" object from the
-    :param http_request:
-    :return:
+    Get "parameters" object from the http_request
+    :param http_request: flask http request
+    :return: dict of parameters from the received json
     """
     parameters = None
     try:
@@ -48,6 +52,7 @@ def get_parameters_from_request(http_request):
         if 'parameters' in received_json:
             parameters = received_json['parameters']
     except TypeError:
+        logger.debug("[FlaskAPI] no parameters received in http request")
         pass
     return parameters
 

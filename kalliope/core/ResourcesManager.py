@@ -306,7 +306,7 @@ class ResourcesManager(object):
         """
         Run the install.yml file through an Ansible playbook using the dedicated neuron !
 
-        :param sudo_password: locl machine sudo password required to install libraries
+        :param sudo_password: local machine sudo password required to install libraries
         :param install_file_path: the path of the Ansible playbook to run.
         :return:
         """
