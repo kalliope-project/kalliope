@@ -1,3 +1,17 @@
+v0.5.5 / 2019-11-11
+===================
+- Fix #563 fix double exception when trying to get the message from MissingParameterException
+- Fix #564 kalliope_last_order now set when using API call
+- Fix #562 fix raspbian buster install
+- Feature: add kalliope official Docker image
+- Feature: api - add a synapse in the brain
+- Feature: api - get installed neuron list
+- Feature: api - delete synapse from the brain
+- Feature: api - install resource from api call
+- Enhancement: use gevent as Flask production web server
+- Enhancement: Add support for Python 3.7
+- 
+
 v0.5.4 / 2019-06-16
 ===================
 - Fix #548: SynapseLauncher checks if the synapse is `enabled` before launching it. 
