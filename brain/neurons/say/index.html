@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.3">
     
     
       
@@ -40,9 +40,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/application.0284f74d.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.01803549.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -153,7 +153,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -855,28 +855,28 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#input-parameters" title="Input parameters" class="md-nav__link">
+  <a href="#input-parameters" class="md-nav__link">
     Input parameters
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#returned-values" title="Returned values" class="md-nav__link">
+  <a href="#returned-values" class="md-nav__link">
     Returned values
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#synapses-example" title="Synapses example" class="md-nav__link">
+  <a href="#synapses-example" class="md-nav__link">
     Synapses example
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes" title="Notes" class="md-nav__link">
+  <a href="#notes" class="md-nav__link">
     Notes
   </a>
   
@@ -1016,10 +1016,70 @@
       
 
 
-  <li class="md-nav__item">
-    <a href="../../../rest_api/" title="API" class="md-nav__link">
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
       API
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        API
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../rest_api/" title="Main" class="md-nav__link">
+      Main
     </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../api/synapses/" title="Synapses" class="md-nav__link">
+      Synapses
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../api/neurons/" title="Neurons" class="md-nav__link">
+      Neurons
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../api/settings/" title="Settings" class="md-nav__link">
+      Settings
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -1150,28 +1210,28 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#input-parameters" title="Input parameters" class="md-nav__link">
+  <a href="#input-parameters" class="md-nav__link">
     Input parameters
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#returned-values" title="Returned values" class="md-nav__link">
+  <a href="#returned-values" class="md-nav__link">
     Returned values
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#synapses-example" title="Synapses example" class="md-nav__link">
+  <a href="#synapses-example" class="md-nav__link">
     Synapses example
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes" title="Notes" class="md-nav__link">
+  <a href="#notes" class="md-nav__link">
     Notes
   </a>
   
@@ -1201,34 +1261,34 @@
 <table>
 <thead>
 <tr>
-<th>parameter</th>
-<th>required</th>
-<th>default</th>
-<th>choices</th>
-<th>comment</th>
+<th align="left">parameter</th>
+<th align="left">required</th>
+<th align="left">default</th>
+<th align="left">choices</th>
+<th align="left">comment</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>message</td>
-<td>YES</td>
-<td></td>
-<td></td>
-<td>A single message or a list of messages Kalliope could say</td>
+<td align="left">message</td>
+<td align="left">YES</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">A single message or a list of messages Kalliope could say</td>
 </tr>
 <tr>
-<td>file_template</td>
-<td>NO</td>
-<td></td>
-<td></td>
-<td>Path to a file template to use instead of a message</td>
+<td align="left">file_template</td>
+<td align="left">NO</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Path to a file template to use instead of a message</td>
 </tr>
 <tr>
-<td>parameters</td>
-<td>NO</td>
-<td></td>
-<td></td>
-<td>A dict of parameters to pass to the file template if used</td>
+<td align="left">parameters</td>
+<td align="left">NO</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">A dict of parameters to pass to the file template if used</td>
 </tr>
 </tbody>
 </table>
@@ -1376,7 +1436,7 @@
       
     </div>
     
-      <script src="../../../assets/javascripts/application.245445c6.js"></script>
+      <script src="../../../assets/javascripts/application.ac79c3b0.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../../.."}})</script>
       

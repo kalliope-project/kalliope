@@ -1,0 +1,1867 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.3">
+    
+    
+      
+        <title>Synapses - Kalliope doc</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.30686662.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#009688">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="teal" data-md-color-accent="pink">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#kalliope-api-synapses" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="Kalliope doc" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Kalliope doc
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Synapses
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../.." title="Kalliope doc" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Kalliope doc
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Installation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Installation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../installation/raspbian/" title="Raspberry" class="md-nav__link">
+      Raspberry
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../installation/debian/" title="Debian" class="md-nav__link">
+      Debian
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../installation/ubuntu/" title="Ubuntu" class="md-nav__link">
+      Ubuntu
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../installation/upgrade/" title="Upgrade" class="md-nav__link">
+      Upgrade
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../getting-started/" title="Getting-started" class="md-nav__link">
+      Getting-started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Settings
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Settings
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/settings/" title="settings.yml" class="md-nav__link">
+      settings.yml
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-2" type="checkbox" id="nav-5-2">
+    
+    <label class="md-nav__link" for="nav-5-2">
+      Trigger
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-2">
+        Trigger
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/triggers/snowboy/" title="Snowboy" class="md-nav__link">
+      Snowboy
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-3" type="checkbox" id="nav-5-3">
+    
+    <label class="md-nav__link" for="nav-5-3">
+      Player
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-3">
+        Player
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/players/mplayer/" title="mplayer" class="md-nav__link">
+      mplayer
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/players/pyalsaaudio/" title="pyalsaaudio" class="md-nav__link">
+      pyalsaaudio
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/players/pyaudioplayer/" title="pyaudioplayer" class="md-nav__link">
+      pyaudioplayer
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/players/sounddeviceplayer/" title="sounddeviceplayer" class="md-nav__link">
+      sounddeviceplayer
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-4" type="checkbox" id="nav-5-4">
+    
+    <label class="md-nav__link" for="nav-5-4">
+      STT
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-4">
+        STT
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/stt/api.ai/" title="api.ai" class="md-nav__link">
+      api.ai
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/stt/bing/" title="Bing" class="md-nav__link">
+      Bing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/stt/CMUSphinx/" title="CMUSphinx" class="md-nav__link">
+      CMUSphinx
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/stt/google/" title="Google" class="md-nav__link">
+      Google
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/stt/houndify/" title="Houndify" class="md-nav__link">
+      Houndify
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/stt/wit.ai/" title="wit.ai" class="md-nav__link">
+      wit.ai
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-5" type="checkbox" id="nav-5-5">
+    
+    <label class="md-nav__link" for="nav-5-5">
+      TTS
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-5">
+        TTS
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/tts/espeak/" title="espeak" class="md-nav__link">
+      espeak
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/tts/googletts/" title="googletts" class="md-nav__link">
+      googletts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/tts/marytts/" title="marytts" class="md-nav__link">
+      marytts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/tts/pico2wave/" title="pico2wave" class="md-nav__link">
+      pico2wave
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/tts/voicerss/" title="voicerss" class="md-nav__link">
+      voicerss
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../settings/tts/watson/" title="watson" class="md-nav__link">
+      watson
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Brain
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Brain
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/brain/" title="brain.yml" class="md-nav__link">
+      brain.yml
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-2" type="checkbox" id="nav-6-2">
+    
+    <label class="md-nav__link" for="nav-6-2">
+      Core signals
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-2">
+        Core signals
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/signals/event/" title="event" class="md-nav__link">
+      event
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/signals/geolocation/" title="geolocation" class="md-nav__link">
+      geolocation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/signals/mqtt_subscriber/" title="mqtt_subscriber" class="md-nav__link">
+      mqtt_subscriber
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/signals/order/" title="order" class="md-nav__link">
+      order
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-3" type="checkbox" id="nav-6-3">
+    
+    <label class="md-nav__link" for="nav-6-3">
+      Core neurons
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-3">
+        Core neurons
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/ansible_playbook/" title="ansible_playbook" class="md-nav__link">
+      ansible_playbook
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/brain/" title="brain" class="md-nav__link">
+      brain
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/debug/" title="debug" class="md-nav__link">
+      debug
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/kalliope_version/" title="kalliope_version" class="md-nav__link">
+      kalliope_version
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/kill_switch/" title="kill_switch" class="md-nav__link">
+      kill_switch
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/mqtt_publisher/" title="mqtt_publisher" class="md-nav__link">
+      mqtt_publisher
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/neurotimer/" title="neurotimer" class="md-nav__link">
+      neurotimer
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/neurotransmitter/" title="neurotransmitter" class="md-nav__link">
+      neurotransmitter
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/say/" title="say" class="md-nav__link">
+      say
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/script/" title="script" class="md-nav__link">
+      script
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/settings/" title="settings" class="md-nav__link">
+      settings
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/shell/" title="shell" class="md-nav__link">
+      shell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/signals/" title="signals" class="md-nav__link">
+      signals
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/sleep/" title="sleep" class="md-nav__link">
+      sleep
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/systemdate/" title="systemdate" class="md-nav__link">
+      systemdate
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/neurons/uri/" title="uri" class="md-nav__link">
+      uri
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../brain/community_modules/" title="Community modules" class="md-nav__link">
+      Community modules
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../cli/" title="CLI" class="md-nav__link">
+      CLI
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8" checked>
+    
+    <label class="md-nav__link" for="nav-8">
+      API
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        API
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../rest_api/" title="Main" class="md-nav__link">
+      Main
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Synapses
+      </label>
+    
+    <a href="./" title="Synapses" class="md-nav__link md-nav__link--active">
+      Synapses
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#list-synapses" class="md-nav__link">
+    List synapses
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#show-synapse-details" class="md-nav__link">
+    Show synapse details
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-a-synapse-to-the-brain" class="md-nav__link">
+    Add a synapse to the brain
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delete-a-synapse-by-its-name" class="md-nav__link">
+    Delete a synapse by its name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-a-synapse-by-its-name" class="md-nav__link">
+    Run a synapse by its name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-a-synapse-from-an-order" class="md-nav__link">
+    Run a synapse from an order
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-a-synapse-from-an-audio-file" class="md-nav__link">
+    Run a synapse from an audio file
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-neurotransmitter-case" class="md-nav__link">
+    The neurotransmitter case
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../neurons/" title="Neurons" class="md-nav__link">
+      Neurons
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../settings/" title="Settings" class="md-nav__link">
+      Settings
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Contribute
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        Contribute
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribute/core/" title="Core" class="md-nav__link">
+      Core
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribute/neuron/" title="Neuron" class="md-nav__link">
+      Neuron
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribute/stt/" title="STT" class="md-nav__link">
+      STT
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribute/tts/" title="TTS" class="md-nav__link">
+      TTS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribute/documentation/" title="Documentation" class="md-nav__link">
+      Documentation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribute/installation_file/" title="install.yml" class="md-nav__link">
+      install.yml
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribute/dna/" title="dna.yml" class="md-nav__link">
+      dna.yml
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#list-synapses" class="md-nav__link">
+    List synapses
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#show-synapse-details" class="md-nav__link">
+    Show synapse details
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-a-synapse-to-the-brain" class="md-nav__link">
+    Add a synapse to the brain
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delete-a-synapse-by-its-name" class="md-nav__link">
+    Delete a synapse by its name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-a-synapse-by-its-name" class="md-nav__link">
+    Run a synapse by its name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-a-synapse-from-an-order" class="md-nav__link">
+    Run a synapse from an order
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-a-synapse-from-an-audio-file" class="md-nav__link">
+    Run a synapse from an audio file
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-neurotransmitter-case" class="md-nav__link">
+    The neurotransmitter case
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="kalliope-api-synapses">Kalliope API: Synapses</h1>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">URL</th>
+<th align="left">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">GET</td>
+<td align="left">/</td>
+<td align="left">Get kaliope version</td>
+</tr>
+<tr>
+<td align="left">GET</td>
+<td align="left">/synapses</td>
+<td align="left">List synapses</td>
+</tr>
+<tr>
+<td align="left">POST</td>
+<td align="left">/synapses</td>
+<td align="left">Add a synapse to the brain</td>
+</tr>
+<tr>
+<td align="left">DELETE</td>
+<td align="left">/synapses</td>
+<td align="left">Delete a synapse by name</td>
+</tr>
+<tr>
+<td align="left">GET</td>
+<td align="left">/synapses/<synapse_name></td>
+<td align="left">Get synapse details by name</td>
+</tr>
+<tr>
+<td align="left">POST</td>
+<td align="left">/synapses/start/id/<synapse_name></td>
+<td align="left">Run a synapse by its name</td>
+</tr>
+<tr>
+<td align="left">POST</td>
+<td align="left">/synapses/start/order</td>
+<td align="left">Run a synapse from a text order</td>
+</tr>
+<tr>
+<td align="left">POST</td>
+<td align="left">/synapses/start/audio</td>
+<td align="left">Run a synapse from an audio sample</td>
+</tr>
+</tbody>
+</table>
+<h2 id="list-synapses">List synapses</h2>
+<p>Normal response codes: 200
+Error response codes: unauthorized(401), itemNotFound(404)
+Curl command:</p>
+<div class="codehilite"><pre><span></span>curl -i <span class="se">\</span>
+--user admin:secret <span class="se">\</span>
+-X GET <span class="se">\</span>
+http://localhost:5000/synapses
+</pre></div>
+
+
+<p>Output example:</p>
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;synapses&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;stop-kalliope&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;neurons&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;say&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Good bye&quot;</span>
+            <span class="p">}</span>
+          <span class="p">},</span>
+          <span class="s2">&quot;kill_switch&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;signals&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;order&quot;</span><span class="p">:</span> <span class="s2">&quot;close&quot;</span>
+          <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;say-hello&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;neurons&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;say&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;message&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;Bonjour monsieur&quot;</span>
+              <span class="p">]</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;signals&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;order&quot;</span><span class="p">:</span> <span class="s2">&quot;bonjour&quot;</span>
+          <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="show-synapse-details">Show synapse details</h2>
+<p>Normal response codes: 200
+Error response codes: unauthorized(401), itemNotFound(404)
+Curl command:</p>
+<div class="codehilite"><pre><span></span>curl -i <span class="se">\</span>
+--user admin:secret <span class="se">\</span>
+-X GET <span class="se">\</span>
+http://localhost:5000/synapses/say-hello
+</pre></div>
+
+
+<p>Output example:</p>
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;synapses&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;say-hello&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;neurons&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;say&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;message&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;Bonjour monsieur&quot;</span>
+          <span class="p">]</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;signals&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;order&quot;</span><span class="p">:</span> <span class="s2">&quot;bonjour&quot;</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="add-a-synapse-to-the-brain">Add a synapse to the brain</h2>
+<p>Normal response codes: 201
+Error response codes: unauthorized(401), itemNotFound(404)
+Curl command:</p>
+<div class="codehilite"><pre><span></span>curl -i -H <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
+        --user admin:secret <span class="se">\</span>
+        -X POST <span class="se">\</span>
+        -d <span class="s1">&#39;{</span>
+<span class="s1">          &quot;name&quot;: &quot;Say-hello&quot;,</span>
+<span class="s1">          &quot;signals&quot;: [</span>
+<span class="s1">            {</span>
+<span class="s1">              &quot;order&quot;: &quot;I am Batman&quot;</span>
+<span class="s1">            }</span>
+<span class="s1">          ],</span>
+<span class="s1">          &quot;neurons&quot;: [</span>
+<span class="s1">            {</span>
+<span class="s1">              &quot;say&quot;: {</span>
+<span class="s1">                &quot;message&quot;: &quot;I know&quot;</span>
+<span class="s1">              }</span>
+<span class="s1">            }</span>
+<span class="s1">          ]</span>
+<span class="s1">        }&#39;</span> <span class="se">\</span>
+        http://127.0.0.1:5000/synapses
+</pre></div>
+
+
+<p>Output example:</p>
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> 
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Say-hello&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;neurons&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;say&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;I know&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">],</span> 
+  <span class="nt">&quot;signals&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;order&quot;</span><span class="p">,</span> 
+      <span class="nt">&quot;parameters&quot;</span><span class="p">:</span> <span class="s2">&quot;I am Batman&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="delete-a-synapse-by-its-name">Delete a synapse by its name</h2>
+<p>Normal response codes: 204
+Error response codes: unauthorized(401), itemNotFound(404)
+Curl command:</p>
+<div class="codehilite"><pre><span></span>curl -i <span class="se">\</span>
+--user admin:secret <span class="se">\</span>
+-X DELETE <span class="se">\</span>
+http://localhost:5000/synapses/start/id/say-hello
+</pre></div>
+
+
+<h2 id="run-a-synapse-by-its-name">Run a synapse by its name</h2>
+<p>Normal response codes: 201
+Error response codes: unauthorized(401), itemNotFound(404)
+Curl command:</p>
+<div class="codehilite"><pre><span></span>curl -i <span class="se">\</span>
+--user admin:secret <span class="se">\</span>
+-X POST <span class="se">\</span>
+http://127.0.0.1:5000/synapses/say-hello-en
+</pre></div>
+
+
+<p>The <a href="#mute-flag">mute flag</a> can be added to this call.
+Curl command:</p>
+<div class="codehilite"><pre><span></span>curl -i <span class="se">\</span>
+-H <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
+--user admin:secret <span class="se">\</span>
+-X POST <span class="se">\</span>
+-d <span class="s1">&#39;{&quot;mute&quot;:&quot;true&quot;}&#39;</span> <span class="se">\</span>
+http://127.0.0.1:5000/synapses/start/id/say-hello-fr
+</pre></div>
+
+
+<p>Some neuron inside a synapse will wait for parameters that comes from the order.
+You can provide those parameters by adding a <code>parameters</code> list of data.
+Curl command:</p>
+<div class="codehilite"><pre><span></span>curl -i <span class="se">\</span>
+-H <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
+--user admin:secret <span class="se">\</span>
+-X POST  <span class="se">\</span>
+-d <span class="s1">&#39;{&quot;parameters&quot;: {&quot;parameter1&quot;: &quot;value1&quot; }}&#39;</span> <span class="se">\</span>
+http://127.0.0.1:5000/synapses/start/id/synapse-id
+</pre></div>
+
+
+<h2 id="run-a-synapse-from-an-order">Run a synapse from an order</h2>
+<p>Normal response codes: 201
+Error response codes: unauthorized(401), itemNotFound(404)</p>
+<p>Curl command:</p>
+<div class="codehilite"><pre><span></span>curl -i <span class="se">\</span>
+--user admin:secret <span class="se">\</span>
+-H <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
+-X POST -d <span class="s1">&#39;{&quot;order&quot;:&quot;my order&quot;}&#39;</span> <span class="se">\</span>
+http://localhost:5000/synapses/start/order
+</pre></div>
+
+
+<p>If the order contains accent or quotes, use a file for testing with curl</p>
+<div class="codehilite"><pre><span></span>cat post.json
+<span class="o">{</span><span class="s2">&quot;order&quot;</span>:<span class="s2">&quot;j&#39;aime&quot;</span><span class="o">}</span>
+</pre></div>
+
+
+<p>Then</p>
+<div class="codehilite"><pre><span></span>curl -i <span class="se">\</span>
+--user admin:secret <span class="se">\</span>
+-H <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
+-X POST <span class="se">\</span>
+--data @post.json http://localhost:5000/synapses/start/order
+</pre></div>
+
+
+<p>Output example if the order have matched and so launched synapses:</p>
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;matched_synapses&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;matched_order&quot;</span><span class="p">:</span> <span class="s2">&quot;Bonjour&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;neuron_module_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;generated_message&quot;</span><span class="p">:</span> <span class="s2">&quot;Bonjour monsieur&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;neuron_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Say&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;synapse_name&quot;</span><span class="p">:</span> <span class="s2">&quot;say-hello-fr&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;complete&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;user_order&quot;</span><span class="p">:</span> <span class="s2">&quot;bonjour&quot;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>If the order haven't match any synapses it will try to run the default synapse if it exists in your settings:</p>
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;matched_synapses&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;matched_order&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+      <span class="nt">&quot;neuron_module_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;generated_message&quot;</span><span class="p">:</span> <span class="s2">&quot;Je n&#39;ai pas compris votre ordre&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;neuron_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Say&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;synapse_name&quot;</span><span class="p">:</span> <span class="s2">&quot;default-synapse&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;complete&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;user_order&quot;</span><span class="p">:</span> <span class="s2">&quot;not existing order&quot;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Or return an empty list of matched synapse</p>
+<div class="codehilite"><pre><span></span><span class="err">{</span>
+  <span class="ss">&quot;matched_synapses&quot;</span><span class="p">:</span> <span class="p">[],</span>
+  <span class="ss">&quot;status&quot;</span><span class="p">:</span> <span class="k">null</span><span class="p">,</span>
+  <span class="ss">&quot;user_order&quot;</span><span class="p">:</span> <span class="ss">&quot;not existing order&quot;</span>
+<span class="err">}</span>
+</pre></div>
+
+
+<p>The <a href="#mute-flag">mute flag</a> can be added to this call.
+Curl command:</p>
+<div class="codehilite"><pre><span></span>curl -i <span class="se">\</span>
+--user admin:secret -H <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
+-X POST <span class="se">\</span>
+-d <span class="s1">&#39;{&quot;order&quot;:&quot;my order&quot;, &quot;mute&quot;:&quot;true&quot;}&#39;</span> <span class="se">\</span>
+http://localhost:5000/synapses/start/order
+</pre></div>
+
+
+<h2 id="run-a-synapse-from-an-audio-file">Run a synapse from an audio file</h2>
+<p>Normal response codes: 201
+Error response codes: unauthorized(401), itemNotFound(404)</p>
+<p>The audio file must use WAV or MP3 extension.</p>
+<p>Curl command:</p>
+<div class="codehilite"><pre><span></span>curl -i <span class="se">\</span>
+--user admin:secret <span class="se">\</span>
+-X POST <span class="se">\</span>
+http://localhost:5000/synapses/start/audio <span class="se">\</span>
+-F <span class="s2">&quot;file=@/home/nico/Desktop/input.wav&quot;</span>
+</pre></div>
+
+
+<p>Output example if the order inside the audio have matched and so launched synapses:</p>
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;matched_synapses&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;matched_order&quot;</span><span class="p">:</span> <span class="s2">&quot;Bonjour&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;neuron_module_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;generated_message&quot;</span><span class="p">:</span> <span class="s2">&quot;Bonjour monsieur&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;neuron_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Say&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;synapse_name&quot;</span><span class="p">:</span> <span class="s2">&quot;say-hello-fr&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;complete&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;user_order&quot;</span><span class="p">:</span> <span class="s2">&quot;bonjour&quot;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>If the order haven't match any synapses it will try to run the default synapse if it exists in your settings:</p>
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;matched_synapses&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;matched_order&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+      <span class="nt">&quot;neuron_module_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;generated_message&quot;</span><span class="p">:</span> <span class="s2">&quot;Je n&#39;ai pas compris votre ordre&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;neuron_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Say&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;synapse_name&quot;</span><span class="p">:</span> <span class="s2">&quot;default-synapse&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;complete&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;user_order&quot;</span><span class="p">:</span> <span class="s2">&quot;not existing order&quot;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Or return an empty list of matched synapse</p>
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;matched_synapses&quot;</span><span class="p">:</span> <span class="p">[],</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="nt">&quot;user_order&quot;</span><span class="p">:</span> <span class="s2">&quot;not existing order&quot;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>The <a href="#mute-flag">mute flag</a> can be added to this call with a form.
+Curl command:</p>
+<div class="codehilite"><pre><span></span>curl -i <span class="se">\</span>
+--user admin:secret <span class="se">\</span>
+-X POST <span class="se">\</span>
+http://localhost:5000/synapses/start/audio <span class="se">\</span>
+-F <span class="s2">&quot;file=@path/to/file.wav&quot;</span> <span class="se">\</span>
+-F <span class="nv">mute</span><span class="o">=</span><span class="s2">&quot;true&quot;</span>
+</pre></div>
+
+
+<h2 id="the-neurotransmitter-case">The neurotransmitter case</h2>
+<p>In case of leveraging the <a href="../kalliope/neurons/neurotransmitter">neurotransmitter neuron</a>, Kalliope expects back and forth answers.
+Fortunately, the API provides a way to continue interaction with Kalliope and still use neurotransmitter neurons while doing API calls.</p>
+<p>When you start a synapse via its name or an order (like shown above), the answer of the API call will tell you in the response that kalliope is waiting for a response via the "status" return.</p>
+<p>Status can either by <code>complete</code> (nothing else to do) or <code>waiting_for_answer</code>, in which case Kalliope is waiting for your response :).</p>
+<p>In this case, you can launch another order containing your response.</p>
+<p>Let's take as an example the simple <a href="https://github.com/kalliope-project/kalliope_starter_en/blob/master/brains/neurotransmitter.yml">neurotransmitter brain of the EN starter kit</a>:</p>
+<p>First step is to fire the "ask me a question order":</p>
+<div class="codehilite"><pre><span></span>curl -i <span class="se">\</span>
+--user admin:secret <span class="se">\</span>
+-H <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
+-X POST <span class="se">\</span>
+-d <span class="s1">&#39;{&quot;order&quot;:&quot;ask me a question&quot;}&#39;</span> <span class="se">\</span>
+http://localhost:5000/synapses/start/order
+</pre></div>
+
+
+<p>The response should be as follow:</p>
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;matched_synapses&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;matched_order&quot;</span><span class="p">:</span> <span class="s2">&quot;ask me a question&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;neuron_module_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;generated_message&quot;</span><span class="p">:</span> <span class="s2">&quot;do you like french fries?&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;neuron_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Say&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;synapse_name&quot;</span><span class="p">:</span> <span class="s2">&quot;synapse1&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;waiting_for_answer&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;user_order&quot;</span><span class="p">:</span> <span class="s2">&quot;ask me a question&quot;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>The <code>"status": "waiting_for_answer"</code> indicates that it waits for a response, so let's send it:</p>
+<div class="codehilite"><pre><span></span>curl -i <span class="se">\</span>
+--user admin:secret <span class="se">\</span>
+-H <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
+-X POST <span class="se">\</span>
+-d <span class="s1">&#39;{&quot;order&quot;:&quot;not at all&quot;}&#39;</span> <span class="se">\</span>
+http://localhost:5000/synapses/start/order
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;matched_synapses&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;matched_order&quot;</span><span class="p">:</span> <span class="s2">&quot;ask me a question&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;neuron_module_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;generated_message&quot;</span><span class="p">:</span> <span class="s2">&quot;do you like french fries?&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;neuron_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Say&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;generated_message&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+          <span class="nt">&quot;neuron_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Neurotransmitter&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;synapse_name&quot;</span><span class="p">:</span> <span class="s2">&quot;synapse1&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;matched_order&quot;</span><span class="p">:</span> <span class="s2">&quot;not at all&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;neuron_module_list&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;generated_message&quot;</span><span class="p">:</span> <span class="s2">&quot;You don&#39;t like french fries.&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;neuron_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Say&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;synapse_name&quot;</span><span class="p">:</span> <span class="s2">&quot;synapse3&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;complete&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;user_order&quot;</span><span class="p">:</span> <span class="kc">null</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>And now the status is complete. This works also when you have nested neurotransmitter neurons, you just need to keep monitoring the status from the API answer.</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../rest_api/" title="Main" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Main
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../neurons/" title="Neurons" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Neurons
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.ac79c3b0.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+    
+  </body>
+</html>
