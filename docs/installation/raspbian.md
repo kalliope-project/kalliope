@@ -39,7 +39,19 @@ Install the required system libraries and software:
 
 ```bash
 sudo apt-get update
-sudo apt-get install git python-dev libsmpeg0 libttspico-utils libsmpeg0 flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython2.7-dev libav-tools libjpeg-dev
+sudo apt-get install git python-dev libttspico-utils libsmpeg0 flac \
+portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer \
+libyaml-dev libpython2.7-dev libav-tools libjpeg-dev ffmpeg
+```
+
+On Raspbian **Buster**, the default TTS engine is not installable directly from the package manager. Run command below to install it manually:
+```
+wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico-utils_1.0+git20130326-9_armhf.deb
+wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico0_1.0+git20130326-9_armhf.deb
+wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico-data_1.0+git20130326-9_all.deb
+sudo dpkg -i libttspico-data_1.0+git20130326-9_all.deb
+sudo dpkg -i libttspico-utils_1.0+git20130326-9_armhf.deb
+sudo dpkg -i libttspico0_1.0+git20130326-9_armhf.deb
 ```
 
 Install the last release of python-pip:
