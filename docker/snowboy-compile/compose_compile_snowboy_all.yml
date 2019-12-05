@@ -28,3 +28,9 @@ services:
       dockerfile: compile_snowboy_python36.dockerfile
     volumes:
       - /tmp/snowboy/python36:/data
+  python37:
+    build:
+      context: .
+      dockerfile: compile_snowboy_python37.dockerfile
+    volumes:
+      - /tmp/snowboy/python37:/data
