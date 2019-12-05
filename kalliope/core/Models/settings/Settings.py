@@ -1,5 +1,9 @@
+import logging
 import platform
 from kalliope._version import version_str as current_kalliope_version
+
+logging.basicConfig()
+logger = logging.getLogger("kalliope")
 
 
 class Settings(object):
@@ -38,6 +42,7 @@ class Settings(object):
         self.resources = resources
         self.variables = variables
         self.machine = platform.machine()   # can be x86_64 or armv7l
+        logger.debug("Current processor type: %s" % self.machine)
         self.kalliope_version = current_kalliope_version
         self.options = options
         self.hooks = hooks
