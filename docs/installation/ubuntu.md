@@ -2,43 +2,18 @@
 
 ## Pre requisite
 
-### Ubuntu 14.04
-
-Install some required system libraries and softwares:
-
-```bash
-sudo apt-get update
-sudo apt-get install git python-dev libsmpeg0 libttspico-utils libsmpeg0 flac libffi-dev libffi-dev libssl-dev libjack0 libjack-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer libav-tools libjpeg-dev
-```
-
-Recent version of GCC is needed
-```bash
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-sudo apt-get update -q
-sudo apt-get install gcc-4.9
-```
-
-### Ubuntu 16.04
-
-Install some required system libraries and softwares:
-
-```bash
-sudo apt-get update
-sudo apt-get install git python-dev libsmpeg0 libttspico-utils libsmpeg0 flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer libav-tools
-```
-
 ### Ubuntu 18.04
 
 Install some required system libraries and software:
 
 ```bash
 sudo apt update
-sudo apt install git python-dev libsmpeg0 libttspico-utils libsmpeg0 flac dialog libffi-dev libssl-dev portaudio19-dev build-essential libssl-dev sox libatlas3-base mplayer
-```
-
-Note, if you are using python 3,
-```
-sudo apt install python3-dev python3-dialog
+sudo install -y \
+    git python3-dev libsmpeg0 libttspico-utils libsmpeg0 flac \
+    libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
+    sox libatlas3-base mplayer wget vim sudo locales alsa-base alsa-utils \
+    pulseaudio-utils libasound2-plugins python3-pyaudio libasound-dev \
+    libportaudio2 libportaudiocpp0 ffmpeg
 ```
 
 ## Install lasted version of the python package manager
@@ -46,7 +21,7 @@ sudo apt install python3-dev python3-dialog
 Install the last release of python-pip
 ```bash
 wget https://bootstrap.pypa.io/get-pip.py
-sudo python get-pip.py
+sudo python3 get-pip.py
 ```
 
 ## Kalliope installation

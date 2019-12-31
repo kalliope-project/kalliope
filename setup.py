@@ -96,9 +96,7 @@ setup(
         'kalliope': [
             'brain.yml',
             'settings.yml',
-            'trigger/snowboy/x86_64/python36/_snowboydetect.so',
-            'trigger/snowboy/x86_64/python37/_snowboydetect.so',
-            'trigger/snowboy/resources/*',
+            'trigger/snowboy/*',
             'sounds/*'
          ],
     },
