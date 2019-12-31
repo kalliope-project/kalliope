@@ -18,7 +18,7 @@ There is multiple way to upgrade Kalliope depending on the way you've installed 
 
 If you've installed Kalliope from the pip package, you can upgrade with:
 ```
-pip install --upgrade kalliope
+pip3 install --upgrade kalliope
 ```
 
 ### Upgrade from source code
@@ -31,5 +31,5 @@ git pull
 
 Then run the installer
 ```
-sudo python setup.py install
+sudo python3 setup.py install
 ```
