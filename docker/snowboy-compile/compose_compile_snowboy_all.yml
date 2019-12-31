@@ -4,24 +4,6 @@
 
 version: '2.2'
 services:
-  python27:
-    build:
-      context: .
-      dockerfile: compile_snowboy_python27.dockerfile
-    volumes:
-      - /tmp/snowboy/python27:/data
-  python34:
-    build:
-      context: .
-      dockerfile: compile_snowboy_python34.dockerfile
-    volumes:
-      - /tmp/snowboy/python34:/data
-  python35:
-    build:
-      context: .
-      dockerfile: compile_snowboy_python35.dockerfile
-    volumes:
-      - /tmp/snowboy/python35:/data
   python36:
     build:
       context: .

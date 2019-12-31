@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 import re
-import sys
 from setuptools import setup, find_packages
 from codecs import open
 from os import path
@@ -25,12 +24,9 @@ def read_version_py(file_name):
         if mo:
             return mo.group(1)
 
+
 VERSION_PY_FILENAME = 'kalliope/_version.py'
 version = read_version_py(VERSION_PY_FILENAME)
-
-py2_prefix = ''
-if sys.version_info[0] < 3:
-    py2_prefix = 'python2-'
 
 setup(
     name='kalliope',
@@ -49,11 +45,8 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: POSIX :: Linux',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Home Automation',
         'Topic :: Multimedia :: Sound/Audio :: Speech',
         'Topic :: Multimedia :: Sound/Audio :: Sound Synthesis',
@@ -63,7 +56,7 @@ setup(
 
     # included packages
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
-
+    python_requires=">=3.6",
     # required libs
     install_requires=[
         'pyyaml>=5.1',
@@ -98,16 +91,11 @@ setup(
         'gevent==1.4.0'
     ],
 
-
     # additional files
     package_data={
         'kalliope': [
             'brain.yml',
             'settings.yml',
-            'trigger/snowboy/armv7l/python27/_snowboydetect.so',
-            'trigger/snowboy/x86_64/python27/_snowboydetect.so',
-            'trigger/snowboy/x86_64/python34/_snowboydetect.so',
-            'trigger/snowboy/x86_64/python35/_snowboydetect.so',
             'trigger/snowboy/x86_64/python36/_snowboydetect.so',
             'trigger/snowboy/x86_64/python37/_snowboydetect.so',
             'trigger/snowboy/resources/*',
