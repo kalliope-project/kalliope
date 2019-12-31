@@ -2,23 +2,8 @@
 
 Kalliope can be installed:
 
-- [Via the pre-compiled disk image](#install-via-the-pre-compiled-disk-image)
 - [Via script](#install-via-script)
 - [Manually](#manual-installation)
-
-
-## Install via the pre-compiled disk image
-
-Download the last image [from the release page](https://github.com/kalliope-project/kalliope/releases) of Kalliope and load it as usual onto an SD card.
-
-- **Login:** pi
-- **Password:** raspberry
-
-Once installed, use the `raspi-config` command to expand the file system and fill the available space on the SD card.
-The SSH server is enable by default. Get the IP of your Rpi via the command `ip a` and then connect via your favourite SSH client.
-
-You'll find a couple folders named "starter_kit_<language>" located in `/home/pi`. Those folders are basic configuration that will help you to start with Kalliope.
-
 
 ## Install via script
 
@@ -33,15 +18,17 @@ bash -c "$(curl -sL https://raw.githubusercontent.com/kalliope-project/kalliope/
 
 > **Note:** The first Raspberry Pi is not officially supported. The installation will works but a single core with only 700Mhz may produce latency.
 
+> **Note:** Python 2 is not supported anymore
+
 ### Debian packages requirements
 
 Install the required system libraries and software:
 
 ```bash
 sudo apt-get update
-sudo apt-get install git python-dev libttspico-utils libsmpeg0 flac \
-portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer \
-libyaml-dev libpython2.7-dev libav-tools libjpeg-dev ffmpeg
+sudo apt-get install -y git python3-dev libsmpeg0 \
+    flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
+    libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython3-dev libjpeg-dev
 ```
 
 On Raspbian **Buster**, the default TTS engine is not installable directly from the package manager. Run command below to install it manually:
@@ -57,7 +44,7 @@ sudo dpkg -i libttspico0_1.0+git20130326-9_armhf.deb
 Install the last release of python-pip:
 ```bash
 wget https://bootstrap.pypa.io/get-pip.py
-sudo python get-pip.py
+sudo python3 get-pip.py
 ```
 
 {!installation/manual_installation_common.md!}

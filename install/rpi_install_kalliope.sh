@@ -105,7 +105,7 @@ else
 fi
 
 ## install packages
-#install_default_packages
+install_default_packages
 
 if command -v python3 &>/dev/null; then
     echo_green "Python 3 is installed"
