@@ -194,11 +194,6 @@ class NeuronModule(object):
         if self.say_template is not None:
             returned_message = self._get_say_template(self.say_template, message_dict)
 
-        # trick to remove unicode problem when loading jinja template with non ascii char
-        if sys.version_info[0] == 2:
-            reload(sys)
-            sys.setdefaultencoding('utf-8')
-
         # the user chooses a file_template option
         if self.file_template is not None:  # the user choose a file_template option
             returned_message = self._get_file_template(self.file_template, message_dict)

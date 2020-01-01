@@ -1,6 +1,6 @@
 import json
 
-from mock import mock
+import mock
 
 from Tests.test_api.base import RestAPITestBase
 

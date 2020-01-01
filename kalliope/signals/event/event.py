@@ -73,8 +73,6 @@ class Event(SignalModule, Thread):
         """
         Check received event dictionary of parameter is valid:
 
-        :param event_dict: The event Dictionary
-        :type event_dict: Dict
         :return: True if event are ok
         :rtype: Boolean
         """
@@ -87,7 +85,7 @@ class Event(SignalModule, Thread):
 
         if parameters is None or parameters == "":
             raise MissingParameter("Event must contain at least one of those elements: "
-                                "year, month, day, week, day_of_week, hour, minute, second")
+                                   "year, month, day, week, day_of_week, hour, minute, second")
 
         # check content as at least on key
         year = get_key("year")
@@ -104,6 +102,6 @@ class Event(SignalModule, Thread):
         list_size = len(list_to_check)
         if number_of_none_object >= list_size:
             raise MissingParameter("Event must contain at least one of those elements: "
-                                "year, month, day, week, day_of_week, hour, minute, second")
+                                   "year, month, day, week, day_of_week, hour, minute, second")
 
         return True

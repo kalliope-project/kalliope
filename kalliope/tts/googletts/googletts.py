@@ -1,12 +1,10 @@
-import requests
 import warnings
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
+import requests
+import urllib3
 from gtts import gTTS
-
-from kalliope.core import FileManager
-from kalliope.core.TTS.TTSModule import TTSModule, FailToLoadSoundFile, MissingTTSParameter
+from kalliope.core.TTS.TTSModule import TTSModule, MissingTTSParameter
 import logging
-
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
@@ -45,7 +43,7 @@ class Googletts(TTSModule):
         """
 
         # Since the gTTS lib disabled the SSL verification we get rid of insecure request warning
-        requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         
         tts = gTTS(text=self.words, lang=self.language)
         

@@ -9,11 +9,11 @@ Install some required system libraries and software:
 ```bash
 sudo apt update
 sudo install -y \
-    git python3-dev libsmpeg0 libttspico-utils libsmpeg0 flac \
+    git python3-dev python3.7-dev libsmpeg0 libttspico-utils libsmpeg0 flac \
     libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
     sox libatlas3-base mplayer wget vim sudo locales alsa-base alsa-utils \
     pulseaudio-utils libasound2-plugins python3-pyaudio libasound-dev \
-    libportaudio2 libportaudiocpp0 ffmpeg
+    libportaudio2 libportaudiocpp0 ffmpeg 
 ```
 
 ## Install lasted version of the python package manager

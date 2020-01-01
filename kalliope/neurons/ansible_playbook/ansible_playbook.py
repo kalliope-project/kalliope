@@ -1,15 +1,14 @@
-from collections import namedtuple
-
 import logging
 
 import yaml
 from ansible import context
 from ansible.executor.task_queue_manager import TaskQueueManager
 from ansible.inventory.manager import InventoryManager
+from ansible.module_utils.common.collections import ImmutableDict
 from ansible.parsing.dataloader import DataLoader
 from ansible.playbook.play import Play
 from ansible.vars.manager import VariableManager
-from ansible.module_utils.common.collections import ImmutableDict
+
 from kalliope.core.NeuronModule import NeuronModule, MissingParameterException
 
 logging.basicConfig()

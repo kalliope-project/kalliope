@@ -1,18 +1,18 @@
 import inspect
 import logging
 import os
-from six import with_metaclass
-import six
 
-from kalliope.core.Models.Signal import Signal
-from .YAMLLoader import YAMLLoader
-from kalliope.core.Utils import Utils
+from six import with_metaclass
+
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.ConfigurationManager.ConfigurationChecker import ConfigurationChecker
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.Brain import Brain
 from kalliope.core.Models.Neuron import Neuron
+from kalliope.core.Models.Signal import Signal
 from kalliope.core.Models.Synapse import Synapse
+from kalliope.core.Utils import Utils
+from .YAMLLoader import YAMLLoader
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")

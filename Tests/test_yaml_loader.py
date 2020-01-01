@@ -1,4 +1,3 @@
-import os
 import unittest
 
 from Tests.utils.utils import get_test_path
