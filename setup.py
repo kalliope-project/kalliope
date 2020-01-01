@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
+import os
 import re
 from setuptools import setup, find_packages
 from codecs import open
@@ -25,8 +26,20 @@ def read_version_py(file_name):
             return mo.group(1)
 
 
+def package_files(directory):
+    paths = []
+    for (path, directories, filenames) in os.walk(directory):
+        for filename in filenames:
+            paths.append(os.path.join('..', path, filename))
+    return paths
+
+
 VERSION_PY_FILENAME = 'kalliope/_version.py'
 version = read_version_py(VERSION_PY_FILENAME)
+
+extra_files = package_files('kalliope/trigger/snowboy')
+extra_files.append('brain.yml')
+extra_files.append('settings.yml')
 
 setup(
     name='kalliope',
@@ -93,12 +106,7 @@ setup(
 
     # additional files
     package_data={
-        'kalliope': [
-            'brain.yml',
-            'settings.yml',
-            'trigger/snowboy/*',
-            'sounds/*'
-         ],
+        'kalliope': extra_files,
     },
 
     # entry point script
