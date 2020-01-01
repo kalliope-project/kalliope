@@ -221,7 +221,7 @@ class Utils(object):
 
         while True:
             Utils.print_warning(question + prompt)
-            choice = raw_input().lower()
+            choice = input().lower()
             if default is not None and choice == '':
                 return valid[default]
             elif choice in valid:
@@ -298,7 +298,7 @@ class Utils(object):
     @staticmethod
     def encode_text_utf8(text):
         if sys.version_info[0] < 3:
-            if isinstance(text, unicode):
+            if isinstance(text, str):
                 text = text.encode("utf-8")
         return text
 
