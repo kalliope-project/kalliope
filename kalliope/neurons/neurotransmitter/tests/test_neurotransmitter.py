@@ -1,6 +1,6 @@
 import unittest
 
-from mock import mock
+import mock
 
 from kalliope.core.NeuronModule import MissingParameterException, InvalidParameterException
 from kalliope.neurons.neurotransmitter import Neurotransmitter

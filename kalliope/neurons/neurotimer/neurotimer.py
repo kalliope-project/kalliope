@@ -116,11 +116,6 @@ class Neurotimer(NeuronModule):
         :return:
         """
         logger.debug("[Neurotimer] waiting time is over, start the synapse %s" % self.synapse)
-        # trick to remove unicode problem when loading jinja template with non ascii char
-        if sys.version_info[0] == 2:
-            reload(sys)
-            sys.setdefaultencoding('utf-8')
-
         self.run_synapse_by_name(synapse_name=self.synapse,
                                  high_priority=False,
                                  overriding_parameter_dict=self.forwarded_parameter)

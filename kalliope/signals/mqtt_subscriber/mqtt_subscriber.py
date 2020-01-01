@@ -1,13 +1,10 @@
 import logging
 from threading import Thread
 
-from kalliope.core import SignalModule, MissingParameter
-
-from kalliope.core.ConfigurationManager import BrainLoader
+from kalliope.core import SignalModule
+from kalliope.core import Utils
 from kalliope.signals.mqtt_subscriber.MqttClient import MqttClient
 from kalliope.signals.mqtt_subscriber.models import Broker, Topic
-
-from kalliope.core import Utils
 
 CLIENT_ID = "kalliope"
 
@@ -20,7 +17,7 @@ class Mqtt_subscriber(SignalModule, Thread):
     def __init__(self, **kwargs):
         super(Mqtt_subscriber, self).__init__(**kwargs)
         Thread.__init__(self, name=Mqtt_subscriber)
-        Utils.print_info('[Mqtt_subscriber] Starting manager')# variables
+        Utils.print_info('[Mqtt_subscriber] Starting manager')  # variables
         self.list_synapses_with_mqtt = list(super(Mqtt_subscriber, self).get_list_synapse())
         self.broker_ip = None
         self.topic = None
