@@ -3,7 +3,7 @@ import os
 import shutil
 import unittest
 
-from mock import mock
+import mock
 
 from kalliope import SettingLoader
 from kalliope.core.ConfigurationManager import SettingEditor

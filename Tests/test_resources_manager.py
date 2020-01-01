@@ -1,7 +1,6 @@
-import os
 import unittest
 
-from mock import mock
+import mock
 
 from Tests.utils.utils import get_test_path
 from kalliope import ResourcesManager

@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from mock import mock
+import mock
 
 from Tests.test_api.base import RestAPITestBase
 from kalliope.core.Cortex import Cortex

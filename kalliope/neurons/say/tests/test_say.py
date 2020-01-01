@@ -1,9 +1,8 @@
 import os
 import unittest
+
 import mock
 
-from kalliope import SynapseLauncher
-from kalliope.core.Models import Synapse, Neuron, Signal, Brain
 from kalliope.core.NeuronModule import MissingParameterException
 from kalliope.neurons.say.say import Say
 

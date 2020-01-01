@@ -1,6 +1,6 @@
 import unittest
 
-from mock import mock
+import mock
 
 from kalliope.core import OrderListener
 from kalliope.core.Models import Resources

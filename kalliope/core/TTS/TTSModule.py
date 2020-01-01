@@ -2,14 +2,12 @@
 import hashlib
 import logging
 import os
-import subprocess
 
 import six
 
 from kalliope.core.ConfigurationManager import SettingLoader
 from kalliope.core.PlayerLauncher import PlayerLauncher
 from kalliope.core.Utils.FileManager import FileManager
-from kalliope.core import Utils
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
