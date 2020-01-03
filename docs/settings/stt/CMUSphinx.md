@@ -10,7 +10,7 @@ sudo apt-get install swig libpulse-dev
 
 Then install the python lib
 ```bash
-sudo pip install pocketsphinx
+sudo pip3 install pocketsphinx
 ```
 
 ## Input parameters
