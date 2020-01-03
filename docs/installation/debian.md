@@ -36,7 +36,7 @@ sudo python3 get-pip.py
 
 Then, with pip, the last release of setuptools
 ```bash
-sudo pip install -U setuptools
+sudo pip3 install -U setuptools
 ```
 ## Kalliope installation
 

@@ -23,6 +23,7 @@ Let's see a basic playbook, the one used by the neuron wikipedia_searcher
       pip:
         name: wikipedia
         version: 1.4.0
+        executable: pip3
 ```
 
 As the file is a **playbook**, it can contains multiple **play**. That's why the file start with a "-", the yaml syntax to define a list of element. In this example, our playbook contains only one play.
