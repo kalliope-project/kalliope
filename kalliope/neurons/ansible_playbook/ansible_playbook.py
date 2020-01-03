@@ -46,27 +46,32 @@ class Ansible_playbook(NeuronModule):
                 try:
                     playbooks = yaml.full_load(stream)
                 except yaml.YAMLError as exc:
-                    print(exc)
+                    logger.debug("Ansibe playbook error: {}".format(exc))
 
-            play = Play().load(playbooks[0], variable_manager=variable_manager, loader=loader)
+            if playbooks is not None:
+                # force usage of python 3 interpreter
+                playbooks[0].setdefault("vars", {})
+                playbooks[0]["vars"]["ansible_python_interpreter"] = "/usr/bin/python3"
 
-            # Run it - instantiate task queue manager, which takes care of forking and setting up all objects
-            # to iterate over host list and tasks
-            tqm = None
-            try:
-                tqm = TaskQueueManager(
-                    inventory=inventory,
-                    variable_manager=variable_manager,
-                    loader=loader,
-                    passwords=passwords,
-                    stdout_callback='default',
-                    # Use our custom callback instead of the ``default`` callback plugin, which prints to stdout
-                )
-                tqm.run(play)  # most interesting data for a play is actually sent to the callback's methods
-            finally:
-                # we always need to cleanup child procs and the structres we use to communicate with them
-                if tqm is not None:
-                    tqm.cleanup()
+                play = Play().load(playbooks[0], variable_manager=variable_manager, loader=loader)
+
+                # Run it - instantiate task queue manager, which takes care of forking and setting up all objects
+                # to iterate over host list and tasks
+                tqm = None
+                try:
+                    tqm = TaskQueueManager(
+                        inventory=inventory,
+                        variable_manager=variable_manager,
+                        loader=loader,
+                        passwords=passwords,
+                        stdout_callback='default',
+                        # Use our custom callback instead of the ``default`` callback plugin, which prints to stdout
+                    )
+                    tqm.run(play)  # most interesting data for a play is actually sent to the callback's methods
+                finally:
+                    # we always need to cleanup child procs and the structres we use to communicate with them
+                    if tqm is not None:
+                        tqm.cleanup()
 
     def _is_parameters_ok(self):
         if self.task_file is None:
