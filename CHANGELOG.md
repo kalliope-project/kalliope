@@ -1,3 +1,9 @@
+v0.6.0 / 2020-01-07
+===================
+- Enhancement: Enforce python3 and remove support for python2
+- Fix: fix installation script. Now work on Raspbian Buster with Python 3.7
+- Fix: add compiled snowboy binary for Rpi with Python 3.7
+
 v0.5.5 / 2019-11-11
 ===================
 - Fix #563 fix double exception when trying to get the message from MissingParameterException
