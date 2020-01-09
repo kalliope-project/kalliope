@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.3">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
@@ -40,7 +40,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.30686662.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.1b62728e.css">
       
         <link rel="stylesheet" href="../../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -51,12 +51,12 @@
       
     
     
-      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+      <script src="../../assets/javascripts/modernizr.268332fc.js"></script>
     
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -1197,9 +1197,12 @@
                 
                   <h1>Manual installation common</h1>
                 
-                <h3 id="method-1-user-install-using-the-pip-package">Method 1 - User install using the PIP package</h3>
+                <blockquote>
+<p><strong>Note:</strong> Python 2 is not supported anymore</p>
+</blockquote>
+<h3 id="method-1-user-install-using-the-pip-package">Method 1 - User install using the PIP package</h3>
 <p>You can install kalliope on your system by using Pypi:</p>
-<div class="codehilite"><pre><span></span>sudo pip install kalliope
+<div class="codehilite"><pre><span></span>sudo pip3 install kalliope
 </pre></div>
 
 
@@ -1211,13 +1214,13 @@
 
 
 <p>Install the project:</p>
-<div class="codehilite"><pre><span></span>sudo python setup.py install
+<div class="codehilite"><pre><span></span>sudo python3 setup.py install
 </pre></div>
 
 
 <h3 id="method-3-developer-install-using-virtualenv">Method 3 - Developer install using Virtualenv</h3>
 <p>Install the <code>python-virtualenv</code> package:</p>
-<div class="codehilite"><pre><span></span>sudo apt-get install python-virtualenv
+<div class="codehilite"><pre><span></span>sudo pip3 install virtualenv
 </pre></div>
 
 
@@ -1227,18 +1230,18 @@
 </pre></div>
 
 
-<p>Generate a local python environment:</p>
-<div class="codehilite"><pre><span></span>virtualenv venv
-</pre></div>
-
-
-<p>Install the project using the local environment:</p>
-<div class="codehilite"><pre><span></span>venv/bin/pip install --editable .
+<p>Generate a local python3 virtual environment:</p>
+<div class="codehilite"><pre><span></span>virtualenv venv -p /usr/bin/python3
 </pre></div>
 
 
 <p>Activate the local environment:</p>
 <div class="codehilite"><pre><span></span><span class="nb">source</span> venv/bin/activate
+</pre></div>
+
+
+<p>Install Kalliope</p>
+<div class="codehilite"><pre><span></span>python3 setup.py install
 </pre></div>
 
 
@@ -1250,10 +1253,11 @@
 
 
 <p>Install the python dependencies directly:</p>
-<div class="codehilite"><pre><span></span>sudo pip install -r install/files/python_requirements.txt
+<div class="codehilite"><pre><span></span>sudo pip3 install -r install/files/python_requirements.txt
 </pre></div>
                 
                   
+                
                 
               
               
@@ -1286,7 +1290,7 @@
       
     </div>
     
-      <script src="../../assets/javascripts/application.ac79c3b0.js"></script>
+      <script src="../../assets/javascripts/application.808e90bb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       

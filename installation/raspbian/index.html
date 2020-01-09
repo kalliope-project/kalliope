@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.3">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
@@ -40,7 +40,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.30686662.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.1b62728e.css">
       
         <link rel="stylesheet" href="../../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -51,12 +51,12 @@
       
     
     
-      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+      <script src="../../assets/javascripts/modernizr.268332fc.js"></script>
     
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -236,13 +236,6 @@
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#install-via-the-pre-compiled-disk-image" class="md-nav__link">
-    Install via the pre-compiled disk image
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#install-via-script" class="md-nav__link">
@@ -1309,13 +1302,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-via-the-pre-compiled-disk-image" class="md-nav__link">
-    Install via the pre-compiled disk image
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#install-via-script" class="md-nav__link">
     Install via script
   </a>
@@ -1451,19 +1437,9 @@
                 <h1 id="kalliope-requirements-for-raspbian">Kalliope requirements for Raspbian</h1>
 <p>Kalliope can be installed:</p>
 <ul>
-<li><a href="#install-via-the-pre-compiled-disk-image">Via the pre-compiled disk image</a></li>
 <li><a href="#install-via-script">Via script</a></li>
 <li><a href="#manual-installation">Manually</a></li>
 </ul>
-<h2 id="install-via-the-pre-compiled-disk-image">Install via the pre-compiled disk image</h2>
-<p>Download the last image <a href="https://github.com/kalliope-project/kalliope/releases">from the release page</a> of Kalliope and load it as usual onto an SD card.</p>
-<ul>
-<li><strong>Login:</strong> pi</li>
-<li><strong>Password:</strong> raspberry</li>
-</ul>
-<p>Once installed, use the <code>raspi-config</code> command to expand the file system and fill the available space on the SD card.
-The SSH server is enable by default. Get the IP of your Rpi via the command <code>ip a</code> and then connect via your favourite SSH client.</p>
-<p>You'll find a couple folders named "starter_kit_<language>" located in <code>/home/pi</code>. Those folders are basic configuration that will help you to start with Kalliope.</p>
 <h2 id="install-via-script">Install via script</h2>
 <p>Just run the following bash command to install Kalliope on a freshly installed Raspberry Pi:</p>
 <div class="codehilite"><pre><span></span><span class="n">bash</span> <span class="o">-</span><span class="k">c</span> <span class="ss">&quot;$(curl -sL https://raw.githubusercontent.com/kalliope-project/kalliope/master/install/rpi_install_kalliope.sh)&quot;</span>
@@ -1474,13 +1450,14 @@ The SSH server is enable by default. Get the IP of your Rpi via the command <cod
 <blockquote>
 <p><strong>Note:</strong> It is recommended to use a <strong>lite</strong> installation of Raspbian without any graphical interface for a better experience.</p>
 <p><strong>Note:</strong> The first Raspberry Pi is not officially supported. The installation will works but a single core with only 700Mhz may produce latency.</p>
+<p><strong>Note:</strong> Python 2 is not supported anymore</p>
 </blockquote>
 <h3 id="debian-packages-requirements">Debian packages requirements</h3>
 <p>Install the required system libraries and software:</p>
 <div class="codehilite"><pre><span></span>sudo apt-get update
-sudo apt-get install git python-dev libttspico-utils libsmpeg0 flac <span class="se">\</span>
-portaudio19-dev build-essential libssl-dev libffi-dev sox libatlas3-base mplayer <span class="se">\</span>
-libyaml-dev libpython2.7-dev libav-tools libjpeg-dev ffmpeg
+sudo apt-get install -y git python3-dev libsmpeg0 <span class="se">\</span>
+    flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential <span class="se">\</span>
+    libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython3-dev libjpeg-dev
 </pre></div>
 
 
@@ -1496,13 +1473,16 @@ libyaml-dev libpython2.7-dev libav-tools libjpeg-dev ffmpeg
 
 <p>Install the last release of python-pip:</p>
 <div class="codehilite"><pre><span></span>wget https://bootstrap.pypa.io/get-pip.py
-sudo python get-pip.py
+sudo python3 get-pip.py
 </pre></div>
 
 
+<blockquote>
+<p><strong>Note:</strong> Python 2 is not supported anymore</p>
+</blockquote>
 <h3 id="method-1-user-install-using-the-pip-package">Method 1 - User install using the PIP package</h3>
 <p>You can install kalliope on your system by using Pypi:</p>
-<div class="codehilite"><pre><span></span>sudo pip install kalliope
+<div class="codehilite"><pre><span></span>sudo pip3 install kalliope
 </pre></div>
 
 
@@ -1514,13 +1494,13 @@ sudo python get-pip.py
 
 
 <p>Install the project:</p>
-<div class="codehilite"><pre><span></span>sudo python setup.py install
+<div class="codehilite"><pre><span></span>sudo python3 setup.py install
 </pre></div>
 
 
 <h3 id="method-3-developer-install-using-virtualenv">Method 3 - Developer install using Virtualenv</h3>
 <p>Install the <code>python-virtualenv</code> package:</p>
-<div class="codehilite"><pre><span></span>sudo apt-get install python-virtualenv
+<div class="codehilite"><pre><span></span>sudo pip3 install virtualenv
 </pre></div>
 
 
@@ -1530,18 +1510,18 @@ sudo python get-pip.py
 </pre></div>
 
 
-<p>Generate a local python environment:</p>
-<div class="codehilite"><pre><span></span>virtualenv venv
-</pre></div>
-
-
-<p>Install the project using the local environment:</p>
-<div class="codehilite"><pre><span></span>venv/bin/pip install --editable .
+<p>Generate a local python3 virtual environment:</p>
+<div class="codehilite"><pre><span></span>virtualenv venv -p /usr/bin/python3
 </pre></div>
 
 
 <p>Activate the local environment:</p>
 <div class="codehilite"><pre><span></span><span class="nb">source</span> venv/bin/activate
+</pre></div>
+
+
+<p>Install Kalliope</p>
+<div class="codehilite"><pre><span></span>python3 setup.py install
 </pre></div>
 
 
@@ -1553,7 +1533,7 @@ sudo python get-pip.py
 
 
 <p>Install the python dependencies directly:</p>
-<div class="codehilite"><pre><span></span>sudo pip install -r install/files/python_requirements.txt
+<div class="codehilite"><pre><span></span>sudo pip3 install -r install/files/python_requirements.txt
 </pre></div>
 
 
@@ -1736,6 +1716,7 @@ sudo systemctl <span class="nb">enable</span> kalliope
                 
                   
                 
+                
               
               
                 
@@ -1802,7 +1783,7 @@ sudo systemctl <span class="nb">enable</span> kalliope
       
     </div>
     
-      <script src="../../assets/javascripts/application.ac79c3b0.js"></script>
+      <script src="../../assets/javascripts/application.808e90bb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       
