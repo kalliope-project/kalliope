@@ -82,6 +82,8 @@ class OrderAnalyser:
                         # Check if signal is matching the order and parameters.
                         if cls.is_order_matching_signal(user_order=order,
                                                         signal=signal):
+                            order = cls.order_correction(order=order,
+                                                         signal=signal)
                             logger.debug("Order found! Run synapse name: %s" % synapse.name)
                             Utils.print_success("Order matched in the brain. Running synapse \"%s\"" % synapse.name)
                             list_match_synapse.append(synapse_order_tuple(synapse=synapse,

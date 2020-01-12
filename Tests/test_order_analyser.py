@@ -1,4 +1,3 @@
-import os
 import unittest
 
 from Tests.utils.utils import get_test_path
@@ -159,16 +158,19 @@ class TestOrderAnalyser(unittest.TestCase):
 
         # TEST9: with STT correction
         spoken_order = "just one test"
+        expected_order_with_correction = "just 1 test"
         matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
         self.assertTrue("Synapse11" in matched_synapse.synapse.name for matched_synapse in matched_synapses)
-        self.assertTrue(spoken_order in matched_synapse.user_order for matched_synapse in matched_synapses)
+        self.assertEqual(expected_order_with_correction, next(matched_synapse.matched_order for matched_synapse in
+                                                              matched_synapses))
         self.assertTrue(len(matched_synapses) == 1)
 
         # TEST10: with `not-contain`
         spoken_order = "testing the not contain"
         matched_synapses = OrderAnalyser.get_matching_synapse(order=spoken_order, brain=br)
         self.assertTrue("Synapse12" in matched_synapse.synapse.name for matched_synapse in matched_synapses)
-        self.assertTrue(spoken_order in matched_synapse.user_order for matched_synapse in matched_synapses)
+        self.assertEqual(spoken_order,
+                         next(matched_synapse.matched_order for matched_synapse in matched_synapses))
         self.assertTrue(len(matched_synapses) == 1)
 
         # test excluded word after the matching sentence
@@ -574,7 +576,7 @@ class TestOrderAnalyser(unittest.TestCase):
         self.assertEqual(OrderAnalyser.order_correction(order=testing_order, signal=testing_signals),
                          expected_fixed_order)
 
-    def test_get_signal_order(cls):
+    def test_get_signal_order(self):
         signal1 = Signal(name="order", parameters="expected order in the signal")
         signal2 = Signal(name="order", parameters={"matching-type": "strict",
                                                    "text": "that is the sentence"})
@@ -583,30 +585,30 @@ class TestOrderAnalyser(unittest.TestCase):
 
         # Signal order is a str
         expected_signal_order = "expected order in the signal"
-        cls.assertEqual(expected_signal_order, OrderAnalyser.get_signal_order(signal=signal1))
+        self.assertEqual(expected_signal_order, OrderAnalyser.get_signal_order(signal=signal1))
 
         # Signal order is a dict
         expected_signal_order = "that is the sentence"
-        cls.assertEqual(expected_signal_order, OrderAnalyser.get_signal_order(signal=signal2))
+        self.assertEqual(expected_signal_order, OrderAnalyser.get_signal_order(signal=signal2))
 
         # signal order is a dict and `text` element is missing
         expected_signal_order = ""  # not found !
-        cls.assertEqual(expected_signal_order, OrderAnalyser.get_signal_order(signal=signal3))
+        self.assertEqual(expected_signal_order, OrderAnalyser.get_signal_order(signal=signal3))
 
-    def test_get_not_containing_words(cls):
+    def test_get_not_containing_words(self):
         signal1 = Signal(name="order", parameters={"matching-type": "not-contain", "excluded-words": ["that", "is"]})
 
         # get the correct list of excluded words
         expected_list_excluded_words = ["that", "is"]
-        cls.assertEqual(expected_list_excluded_words, OrderAnalyser.get_not_containing_words(signal=signal1))
+        self.assertEqual(expected_list_excluded_words, OrderAnalyser.get_not_containing_words(signal=signal1))
 
         # assert it returns None when a str is provided and not a list
         signal1 = Signal(name="order", parameters={"matching-type": "not-contain", "excluded_words": "that"})
-        cls.assertIsNone(OrderAnalyser.get_not_containing_words(signal=signal1))
+        self.assertIsNone(OrderAnalyser.get_not_containing_words(signal=signal1))
 
         # assert it returns None when `excluded_words` is not provided
         signal1 = Signal(name="order", parameters={"matching-type": "not-contain"})
-        cls.assertIsNone(OrderAnalyser.get_not_containing_words(signal=signal1))
+        self.assertIsNone(OrderAnalyser.get_not_containing_words(signal=signal1))
 
 
 if __name__ == '__main__':
