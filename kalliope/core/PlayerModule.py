@@ -33,7 +33,7 @@ class PlayerModule(object):
         # temp file
         tmp_file_wav = file_path_mp3 + ".wav"
         # Convert mp3 to wave
-        subprocess.call(['avconv', '-y', '-i', file_path_mp3, tmp_file_wav],
+        subprocess.call(['ffmpeg', '-y', '-i', file_path_mp3, tmp_file_wav],
                         stdout=fnull, stderr=fnull)
         # remove the original file
         FileManager.remove_file(file_path_mp3)
