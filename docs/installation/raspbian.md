@@ -27,8 +27,7 @@ Install the required system libraries and software:
 ```bash
 sudo apt-get update
 sudo apt-get install -y git python3-dev libsmpeg0 \
-    flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
-    libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython3-dev libjpeg-dev
+    flac libffi-dev portaudio19-dev build-essential libssl-dev sox libatlas3-base mplayer libyaml-dev libpython3-dev libjpeg-dev ffmpeg
 ```
 
 On Raspbian **Buster**, the default TTS engine is not installable directly from the package manager. Run command below to install it manually:
