@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.3">
     
     
       
@@ -40,7 +40,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.30686662.css">
       
         <link rel="stylesheet" href="../../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -51,12 +51,12 @@
       
     
     
-      <script src="../../assets/javascripts/modernizr.268332fc.js"></script>
+      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
     
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -1371,7 +1371,7 @@ deb-src http://httpredir.debian.org/debian stretch main contrib non-free
 <div class="codehilite"><pre><span></span>sudo apt-get update
 sudo apt-get install -y <span class="se">\</span>
     git python3-dev libpython3-dev libsmpeg0 libttspico-utils libsmpeg0 flac <span class="se">\</span>
-    libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential <span class="se">\</span>
+    libffi-dev libssl-dev portaudio19-dev build-essential <span class="se">\</span>
     sox libatlas3-base mplayer wget vim sudo locales <span class="se">\</span>
     pulseaudio-utils libasound2-plugins python3-pyaudio libasound-dev <span class="se">\</span>
     libportaudio2 libportaudiocpp0 ffmpeg
@@ -1501,14 +1501,25 @@ sudo python3 get-pip.py
 </pre></div>
 
 
+<p>Create both log files and give rights to you user</p>
+<div class="codehilite"><pre><span></span>sudo touch /var/log/kalliope.log
+sudo touch /var/log/kalliope.err.log
+sudo chown pi:pi /var/log/kalliope*
+</pre></div>
+
+
 <p>Then, reload systemctl, start the service and enable it at startup</p>
 <div class="codehilite"><pre><span></span>sudo systemctl daemon-reload
 sudo systemctl start kalliope
 sudo systemctl <span class="nb">enable</span> kalliope
 </pre></div>
+
+
+<p>Check that the service is ok</p>
+<div class="codehilite"><pre><span></span><span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">status</span> <span class="n">kalliope</span>
+</pre></div>
                 
                   
-                
                 
               
               
@@ -1576,7 +1587,7 @@ sudo systemctl <span class="nb">enable</span> kalliope
       
     </div>
     
-      <script src="../../assets/javascripts/application.808e90bb.js"></script>
+      <script src="../../assets/javascripts/application.ac79c3b0.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       
