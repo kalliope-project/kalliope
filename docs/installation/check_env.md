@@ -57,9 +57,21 @@ User=pi
 WantedBy=multi-user.target
 ```
 
+Create both log files and give rights to you user
+```bash
+sudo touch /var/log/kalliope.log
+sudo touch /var/log/kalliope.err.log
+sudo chown pi:pi /var/log/kalliope*
+```
+
 Then, reload systemctl, start the service and enable it at startup
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl start kalliope
 sudo systemctl enable kalliope
+```
+
+Check that the service is ok
+```
+sudo systemctl status kalliope
 ```
