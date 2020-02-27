@@ -8,11 +8,13 @@ RUN apt-get update && apt-get install -y \
     git python3-dev libsmpeg0 libttspico-utils libsmpeg0 flac \
     libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
     sox libatlas3-base mplayer wget vim sudo locales alsa-base alsa-utils \
-    python3-pip pulseaudio-utils libasound2-plugins python3-pyaudio libasound-dev \
+    python3-distutils pulseaudio-utils libasound2-plugins python3-pyaudio libasound-dev \
     libportaudio2 libportaudiocpp0 ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
-RUN  pip3 install pyaudio
+RUN  wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py
+
+RUN  pip3 install pyaudio "ansible==2.9.5"
 
 # set UTF-8
 ARG lang=en_US
