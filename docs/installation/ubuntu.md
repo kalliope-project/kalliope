@@ -8,7 +8,7 @@ Install some required system libraries and software:
 
 ```bash
 sudo apt update
-sudo install -y \
+sudo apt install -y \
     git python3-dev python3.7-dev libsmpeg0 libttspico-utils flac \
     libffi-dev libssl-dev portaudio19-dev build-essential \
     sox libatlas3-base mplayer wget vim sudo locales alsa-base alsa-utils \
