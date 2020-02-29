@@ -1,3 +1,11 @@
+v0.6.0 / 2020-02-29
+===================
+- Fix: fix stt correction. order was not updated
+- Fix: #591 switch to ffmpeg for mp3 to wav convertion
+- Fix: security issue in Ansible. Lib upgraded
+- Fix: Typo in installation doc
+- Feature: Add volume neuron
+
 v0.6.0 / 2020-01-07
 ===================
 - Enhancement: Enforce python3 and remove support for python2
