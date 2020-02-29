@@ -85,6 +85,8 @@ install_kalliope(){
     fi
     # Install the project
     echo_yellow "Installing Kalliope..."
+    # fix for last ansible
+    sudo pip3 install "ansible==2.9.5"
     cd kalliope
     git checkout ${branch}
     sudo python3 setup.py install
