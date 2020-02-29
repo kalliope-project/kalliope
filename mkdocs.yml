@@ -73,6 +73,7 @@ pages:
       - sleep: "brain/neurons/sleep.md"
       - systemdate: "brain/neurons/systemdate.md"
       - uri: "brain/neurons/uri.md"
+      - volume: "brain/neurons/volume.md"
     - Community modules: "brain/community_modules.md"
   - CLI: "cli.md"
   - API:
