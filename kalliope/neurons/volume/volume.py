@@ -56,7 +56,7 @@ class Volume(NeuronModule):
                 SoundManager.set_volume(level_to_set)
             if self.action == "lower":
                 current_level = SoundManager.get_volume()
-                level_to_set = self.level - current_level
+                level_to_set = current_level - self.level
                 if level_to_set < 0:
                     level_to_set = 0
                 logger.debug("[Volume] set volume to: {}".format(level_to_set))
