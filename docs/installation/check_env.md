@@ -18,7 +18,9 @@ Your installation is now complete, let's take a look now to the [getting started
 
 ### (Optional) Start Kalliope automatically after a reboot
 
-If you want to start Kalliope automatically Place the script bellow in `/etc/systemd/system/kalliope.service`.
+If you want to start Kalliope automatically:
+
+Place the script bellow in `/etc/systemd/system/kalliope.service`.
 
 Update the path `<my_config_path>` with the path where you've placed your `brain.yml` and `settings.yml`.
 
