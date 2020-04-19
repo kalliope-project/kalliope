@@ -3,6 +3,7 @@ import unittest
 import mock
 
 from Tests.utils.utils import get_test_path
+from kalliope.core.Cortex import Cortex
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.settings.Tts import Tts
 
@@ -19,6 +20,7 @@ class TestNeuronModule(unittest.TestCase):
         self.expected_result = "hello, this is a replaced word"
         # this allow us to run the test from an IDE and from the root with python -m unittest tests.TestNeuronModule
         self.file_template = get_test_path("templates/template_test.j2")
+        self.file_template_contains_kalliope_memory = get_test_path("templates/template_test_with_kalliope_memory.j2")
         self.say_template = "hello, this is a {{ test }}"
         self.message = {
             "test": "replaced word"
@@ -102,6 +104,14 @@ class TestNeuronModule(unittest.TestCase):
     def test_get_file_template(self):
         # test with a valid template
         self.assertEqual(NeuronModule._get_file_template(self.file_template, self.message), self.expected_result)
+
+        # test with kalliope memory
+        Cortex.memory = {
+            "kalliope_last_tts_message": "memory"
+        }
+        expected = "hello, this is a replaced word with memory"
+        self.assertEqual(NeuronModule._get_file_template(self.file_template_contains_kalliope_memory, self.message),
+                         expected)
 
         # test raise with a non existing template
         file_template = "does_not_exist.j2"
