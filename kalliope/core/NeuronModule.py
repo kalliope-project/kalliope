@@ -1,7 +1,6 @@
 # coding: utf8
 import logging
 import random
-import sys
 
 import six
 from jinja2 import Template
@@ -217,10 +216,15 @@ class NeuronModule(object):
 
         # load the content of the file as template
         t = Template(cls._get_content_of_file(real_file_template_path))
+
+        # add kalliope memory
+        final_message_dict = dict()
+        final_message_dict["kalliope_memory"] = Cortex.get_memory()
+
         if message_dict:
-            returned_message = t.render(**message_dict)
-        else:
-            returned_message = t.render()
+            final_message_dict.update(**message_dict)
+
+        returned_message = t.render(final_message_dict)
         return returned_message
 
     @staticmethod
