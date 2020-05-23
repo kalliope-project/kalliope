@@ -21,7 +21,7 @@ Install some required system libraries and softwares:
 ```bash
 sudo apt-get update
 sudo apt-get install -y \
-    git python3-dev libpython3-dev libsmpeg0 libttspico-utils libsmpeg0 flac \
+    git python3-dev libpython3-dev libsmpeg0 libttspico-utils flac \
     libffi-dev libssl-dev portaudio19-dev build-essential \
     sox libatlas3-base mplayer wget vim sudo locales \
     pulseaudio-utils libasound2-plugins python3-pyaudio libasound-dev \
