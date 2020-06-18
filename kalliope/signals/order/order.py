@@ -27,8 +27,9 @@ class Order(SignalModule, Thread):
 
     states = ['init',
               'starting_trigger',
+              'unpausing_trigger',
               'waiting_for_trigger_callback',
-              'stopping_trigger',
+              'pausing_trigger',
               'start_order_listener',
               'waiting_for_order_listener_callback',
               'analysing_order']
@@ -64,10 +65,11 @@ class Order(SignalModule, Thread):
         self.machine = Machine(model=self, states=Order.states, initial='init', queued=True)
 
         # define transitions
-        self.machine.add_transition('start_trigger', ['init', 'analysing_order'], 'starting_trigger')
-        self.machine.add_transition('wait_trigger_callback', 'starting_trigger', 'waiting_for_trigger_callback')
-        self.machine.add_transition('stop_trigger', 'waiting_for_trigger_callback', 'stopping_trigger')
-        self.machine.add_transition('wait_for_order', 'stopping_trigger', 'waiting_for_order_listener_callback')
+        self.machine.add_transition('start_trigger', 'init', 'starting_trigger')
+        self.machine.add_transition('unpause_trigger',  'analysing_order', 'unpausing_trigger')
+        self.machine.add_transition('wait_trigger_callback', 'unpausing_trigger', 'waiting_for_trigger_callback')
+        self.machine.add_transition('pause_trigger', 'waiting_for_trigger_callback', 'pausing_trigger')
+        self.machine.add_transition('wait_for_order', 'pausing_trigger', 'waiting_for_order_listener_callback')
         self.machine.add_transition('analyse_order', 'waiting_for_order_listener_callback', 'analysing_order')
         self.machine.add_transition('start_order_listener', 'analysing_order', 'start_order_listener')
 
@@ -75,15 +77,15 @@ class Order(SignalModule, Thread):
 
         # add method which are called when changing state
         self.machine.on_enter_starting_trigger('start_trigger_process')
+        self.machine.on_enter_unpausing_trigger('unpausing_trigger_process')
         self.machine.on_enter_waiting_for_trigger_callback('waiting_for_trigger_callback_thread')
-        self.machine.on_enter_stopping_trigger('stop_trigger_process')
+        self.machine.on_enter_pausing_trigger('pause_trigger_process')
         self.machine.on_enter_start_order_listener('start_order_listener_thread')
         self.machine.on_enter_waiting_for_order_listener_callback('waiting_for_order_listener_callback_thread')
         self.machine.on_enter_analysing_order('analysing_order_thread')
-
+        
     def run(self):
         # run hook on_start
-        HookManager.on_start()
         self.start_trigger()
 
     def start_trigger_process(self):
@@ -91,13 +93,24 @@ class Order(SignalModule, Thread):
         This function will start the trigger thread that listen for the hotword
         """
         logger.debug("[Order] Entering state: %s" % self.state)
-        HookManager.on_waiting_for_trigger()
         self.trigger_instance = TriggerLauncher.get_trigger(settings=self.settings, callback=self.trigger_callback)
         self.trigger_callback_called = False
         self.trigger_instance.daemon = True
         # Wait that the kalliope trigger is pronounced by the user
         self.trigger_instance.start()
+        HookManager.on_start()
         self.next_state()
+
+    def unpausing_trigger_process(self):    
+        """ 
+        If the trigger was in pause, this method will unpause it to listen again for the hotword    
+        """ 
+        logger.debug("Entering state: %s" % self.state) 
+        HookManager.on_waiting_for_trigger()
+        self.trigger_instance.unpause()  
+        self.trigger_callback_called = False    
+        self.next_state()
+        #self.waiting_for_trigger_callback_thread()
 
     def waiting_for_trigger_callback_thread(self):
         """
@@ -135,13 +148,13 @@ class Order(SignalModule, Thread):
         logger.debug("[Order] Trigger callback called, switching to the next state")
         self.trigger_callback_called = True
 
-    def stop_trigger_process(self):
+    def pause_trigger_process(self):
         """
-        The trigger has been awaken, we don't needed it anymore
+        The trigger has been awaken, we pause it
         :return:
         """
         logger.debug("[Order] Entering state: %s" % self.state)
-        self.trigger_instance.stop()
+        self.trigger_instance.pause()
         self.next_state()
 
     def start_order_listener_thread(self):
@@ -149,8 +162,9 @@ class Order(SignalModule, Thread):
         Start the STT engine thread
         """
         logger.debug("[Order] Entering state: %s" % self.state)
-        HookManager.on_start_listening()
+
         # start listening for an order
+        HookManager.on_start_listening()
         self.order_listener_callback_called = False
         self.order_listener = OrderListener(callback=self.order_listener_callback)
         self.order_listener.daemon = True
@@ -187,7 +201,7 @@ class Order(SignalModule, Thread):
         if self.skip_trigger:
             self.start_order_listener()
         else:
-            self.start_trigger()
+            self.unpause_trigger()
 
     def on_notification_received(self, notification=None, payload=None):
         logger.debug("[Order] received notification, notification: %s, payload: %s" % (notification, payload))
@@ -225,6 +239,7 @@ class Order(SignalModule, Thread):
                 logger.debug("[Order] max_retry reached '0'. Set skip_trigger to False")
                 # the counter raised 0, we can stop to skip the trigger
                 self.skip_trigger = False
+            
         else:
             logger.debug("[Order] cannot decrease max_retry because current value is <= 0")
 
