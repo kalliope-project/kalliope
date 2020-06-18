@@ -77,10 +77,10 @@ class OrderListener(Thread):
         ffi = _FFI()
         ffi.cdef("""
         /* from stdio.h */
-        FILE* fopen(const char* path, const char* mode);
-        int fclose(FILE* fp);
-        FILE* stderr;  /* GNU C library */
-        FILE* __stderrp;  /* Mac OS X */
+        extern FILE* fopen(const char* path, const char* mode);
+        extern int fclose(FILE* fp);
+        extern FILE* stderr;  /* GNU C library */
+        extern FILE* __stderrp;  /* Mac OS X */
         """)
         stdio = ffi.dlopen(None)
         devnull = stdio.fopen(os.devnull.encode(), b'w')
