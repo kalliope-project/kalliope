@@ -74,10 +74,13 @@ Create a pulseaudio service in `/etc/systemd/system/pulseaudio.service`
 ```bash
 [Unit]
 Description=PulseAudio system server
+After=network.target
 
 [Service]
 Type=notify
 ExecStart=pulseaudio --daemonize=no --system --realtime --log-target=journal
+Restart=always
+RestartSec=30
 
 [Install]
 WantedBy=multi-user.target
