@@ -30,7 +30,7 @@ install_default_packages(){
     flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
     libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython3-dev libjpeg-dev
     sudo apt-get install -y libportaudio0 libportaudio2 libportaudiocpp0  \
-    apt-transport-https
+    apt-transport-https pulseaudio
     echo_green "Installing system packages...[OK]"
 
 }
