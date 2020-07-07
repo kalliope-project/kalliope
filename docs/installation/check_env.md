@@ -29,6 +29,7 @@ Update the `<username>` with a non root user. For example, on Raspbian you can s
 ```bash
 [Unit]
 Description=Kalliope
+After=pulseaudio.service
 
 [Service]
 WorkingDirectory=<my_config_path>
@@ -46,6 +47,7 @@ E.g
 ```bash
 [Unit]
 Description=Kalliope
+After=pulseaudio.service
 
 [Service]
 WorkingDirectory=/home/pi/my_kalliope_config
