@@ -131,7 +131,7 @@ setup_pulseaudio(){
     else
         echo_yellow "Create pulseaudio service"
         # Copy the pulseaudio service to /etc/systemd/system/
-        sudo cp kalliope/install/files/pulseaudio.service /etc/systemd/system/
+        sudo cp $(pwd)/kalliope/install/files/pulseaudio.service /etc/systemd/system/
         echo_green "Creating pulseaudio service..[OK]"
         sudo systemctl daemon-reload
         sudo systemctl start pulseaudio
