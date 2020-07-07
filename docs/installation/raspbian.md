@@ -69,7 +69,21 @@ Setting up default client settings by adding default server and disable autospaw
 printf '\ndefault-server = /var/run/pulse/native\nautospawn = no' | sudo tee -a /etc/pulse/client.conf
 ```
 
-Get the pulseaudio service script and move it to /etc/systemd/system/pulseaudio.service:
+Create a pulseaudio service in `/etc/systemd/system/pulseaudio.service`
+
+```bash
+[Unit]
+Description=PulseAudio system server
+
+[Service]
+Type=notify
+ExecStart=pulseaudio --daemonize=no --system --realtime --log-target=journal
+
+[Install]
+WantedBy=multi-user.target
+
+```
+Or use this command to download the script and move it to `/etc/systemd/system/`:
 ```bash
 wget https://raw.githubusercontent.com/kalliope-project/kalliope/master/install/files/pulseaudio.service && sudo mv pulseaudio.service /etc/systemd/system/
 ```
