@@ -78,6 +78,8 @@ Description=PulseAudio system server
 [Service]
 Type=notify
 ExecStart=pulseaudio --daemonize=no --system --realtime --log-target=journal
+Restart=always
+RestartSec=30
 
 [Install]
 WantedBy=multi-user.target
