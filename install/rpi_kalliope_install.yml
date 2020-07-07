@@ -65,6 +65,7 @@
         - python-paramiko
         - python-markupsafe
         - apt-transport-https
+        - pulseaudio
 
     - name: Clone the project
       git:
