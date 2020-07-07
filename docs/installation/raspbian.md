@@ -56,6 +56,7 @@ sudo python3 get-pip.py
 This section deals with the special configuration needed to get Kalliope working on a RPi.
 
 ### Pulseaudio configuration
+> **Note:** If you installed Kalliope via script, you can skip this part
 
 Add the pi user to the group pulse-access to allow to use the audio device:
 
