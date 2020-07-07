@@ -11,7 +11,7 @@
 # name of the branch to install
 branch="master"
 python_version="3.7.6"
-
+pulseaudio_service_path="/etc/systemd/system/pulseaudio.service"
 #------------------------------------------
 # Functions
 #------------------------------------------
@@ -94,6 +94,56 @@ install_kalliope(){
     echo_green "Installing Kalliope...[OK]"
 }
 
+setup_pulseaudio(){
+    # Get the current user
+    current_user=$(logname)
+
+    # Check if default-server already exists in client.conf
+    if grep -Fxq "default-server = /var/run/pulse/native" /etc/pulse/client.conf; then
+        echo_yellow '"default-server = /var/run/pulse/native" already in /etc/pulse/client.conf'
+    else
+        # If not, we add it to /etc/pulse/client.conf
+        echo_green "Adding default-server to /etc/pulse/client.conf..[OK]"
+        echo "default-server = /var/run/pulse/native" | sudo tee -a /etc/pulse/client.conf >/dev/null
+    fi
+
+    # Check if autospawn already exists in client.conf
+    if grep -Fxq "autospawn = no" /etc/pulse/client.conf; then
+        echo_yellow '"autospawn = no" already in /etc/pulse/client.conf'
+    else
+        # If not, we add it to /etc/pulse/client.conf
+        echo_green "Adding 'autospawn = no' to /etc/pulse/client.conf..[OK]"
+        echo 'autospawn = no' | sudo tee -a /etc/pulse/client.conf >/dev/null
+    fi
+
+    # The Pi users needs to be in pulse-access group, check if already a member
+    if id -nG "$current_user" | grep -qw "pulse-access"; then
+        echo_yellow "$current_user is already a member of the group pulse-access"
+    else
+        # If not, then we add it to pulse-access
+        echo_green "Adding user $current_user to group pulse-access"
+        sudo usermod -a -G pulse-access $current_user
+    fi
+
+    if [[ -f "/etc/systemd/system/pulseaudio.service" ]]; then
+        # If the service already exists, we can skip this step
+        echo_green "Pulseaudio service already existing"
+    else
+        echo_yellow "Create pulseaudio service"
+        # Get the pulseaudio service file
+        wget -q https://raw.githubusercontent.com/kalliope-project/kalliope/master/install/files/pulseaudio.service
+        # And move it to /etc/systemd/system
+        sudo mv pulseaudio.service /etc/systemd/system/pulseaudio.service
+        echo_green "Creating pulseaudio service..[OK]"
+        sudo systemctl daemon-reload
+        sudo systemctl start pulseaudio
+        sudo systemctl enable pulseaudio
+        echo_green "Enable and starting pulseaudio.service..[OK]"
+    fi
+    echo_green "Installing pulseaudio service..[OK]"
+}
+
+
 #------------------------------------------
 # Main
 #------------------------------------------
@@ -131,6 +181,7 @@ else
 fi
 
 install_kalliope
+setup_pulseaudio
 
 # fix https://github.com/kalliope-project/kalliope/issues/487
 sudo chmod -R o+r /usr/local/lib/python3.7/dist-packages/
