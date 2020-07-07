@@ -1,5 +1,6 @@
 [Unit]
 Description=PulseAudio system server
+After=network.target
 
 [Service]
 Type=notify

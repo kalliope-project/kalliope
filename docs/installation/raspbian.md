@@ -74,6 +74,7 @@ Create a pulseaudio service in `/etc/systemd/system/pulseaudio.service`
 ```bash
 [Unit]
 Description=PulseAudio system server
+After=network.target
 
 [Service]
 Type=notify
