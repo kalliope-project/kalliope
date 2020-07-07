@@ -1,4 +1,4 @@
-# Kalliope requirements for Raspbian
+# Kalliope requirements for Raspberry Pi OS
 
 Kalliope can be installed:
 
@@ -14,11 +14,14 @@ bash -c "$(curl -sL https://raw.githubusercontent.com/kalliope-project/kalliope/
 
 ## Manual installation
 
-> **Note:** It is recommended to use a **lite** installation of Raspbian without any graphical interface for a better experience.
+> **Note:** It is recommended to use a **lite** installation of Raspberry Pi OS without any graphical interface for a better experience.
 
 > **Note:** The first Raspberry Pi is not officially supported. The installation will works but a single core with only 700Mhz may produce latency.
 
 > **Note:** Python 2 is not supported anymore
+
+> **Note:** Raspbian was renamed to Raspberry Pi OS
+
 
 ### Debian packages requirements
 
@@ -27,10 +30,10 @@ Install the required system libraries and software:
 ```bash
 sudo apt-get update
 sudo apt-get install -y git python3-dev libsmpeg0 \
-    flac libffi-dev portaudio19-dev build-essential libssl-dev sox libatlas3-base mplayer libyaml-dev libpython3-dev libjpeg-dev ffmpeg
+    flac libffi-dev portaudio19-dev build-essential libssl-dev sox libatlas3-base mplayer libyaml-dev libpython3-dev libjpeg-dev ffmpeg pulseaudio
 ```
 
-On Raspbian **Buster**, the default TTS engine is not installable directly from the package manager. Run command below to install it manually:
+On Raspberry Pi OS **Buster**, the default TTS engine is not installable directly from the package manager. Run command below to install it manually:
 ```
 wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico-utils_1.0+git20130326-9_armhf.deb
 wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico0_1.0+git20130326-9_armhf.deb
@@ -50,82 +53,75 @@ sudo python3 get-pip.py
 
 ## Raspberry Pi configuration
 
-This section deals with the special configuration needed to get kalliope working on a RPi.
+This section deals with the special configuration needed to get Kalliope working on a RPi.
 
-### Microphone configuration
+### Pulseaudio configuration
+
+Add the pi user to the group pulse-access to allow to use the audio device:
+
+```bash
+sudo usermod -a -G pulse-access pi
+``` 
+
+Setting up default client settings by adding default server and disable autospawn to client.conf:
+```bash
+printf '\ndefault-server = /var/run/pulse/native\nautospawn = no' | sudo tee -a /etc/pulse/client.conf
+```
+
+Get the pulseaudio service script and move it to /etc/systemd/system/pulseaudio.service:
+```bash
+wget https://raw.githubusercontent.com/kalliope-project/kalliope/master/install/files/pulseaudio.service && sudo mv pulseaudio.service /etc/systemd/system/
+```
+
+Now reload systemctl, start the service and enable it at startup:
+```bash
+sudo systemctl daemon-reload
+sudo systemctl start pulseaudio
+sudo systemctl enable pulseaudio
+``` 
+
+### Microphone and speaker configuration
 
 Get the output card:
 ```bash
-aplay -l
+pactl list sinks short
 ```
 
-Output example with a USB headset connected:
+Output example with a speaker connected to the Raspberry jack:
 ```bash
-**** List of PLAYBACK Hardware Devices ****
-card 0: ALSA [bcm2835 ALSA], device 0: bcm2835 ALSA [bcm2835 ALSA]
-  Subdevices: 7/8
-  Subdevice #0: subdevice #0
-  Subdevice #1: subdevice #1
-  Subdevice #2: subdevice #2
-  Subdevice #3: subdevice #3
-  Subdevice #4: subdevice #4
-  Subdevice #5: subdevice #5
-  Subdevice #6: subdevice #6
-  Subdevice #7: subdevice #7
-card 0: ALSA [bcm2835 ALSA], device 1: bcm2835 ALSA [bcm2835 IEC958/HDMI]
-  Subdevices: 1/1
-  Subdevice #0: subdevice #0
-card 1: Headset [Logitech USB Headset], device 0: USB Audio [USB Audio]
-  Subdevices: 0/1
-  Subdevice #0: subdevice #0
+0 alsa_output.platform-soc_audio.analog-mono  module-alsa-card.c  s16le 1ch 44100Hz SUSPENDED
 ```
 
 Here we see that:
-
-- the analog audio (where the jack is connected) on card 0 and device 1
-- usb audio on card 1 and device 1
-
+- the analog audio (where the jack is connected) is on card 0
 
 Get the input (microphone card):
 ```bash
-arecord -l
+pactl list sources short
 ```
 
-Output example with a USB headset connected:
+Output example with a PS3 eye (which has a great Mircophone array for a cheap price) connected:
 ```bash
-**** List of CAPTURE Hardware Devices ****
-card 1: Headset [Logitech USB Headset], device 0: USB Audio [USB Audio]
-  Subdevices: 0/1
-  Subdevice #0: subdevice #0
+0 alsa_output.platform-soc_audio.analog-mono.monitor  module-alsa-card.c  s16le 1ch 44100Hz SUSPENDED
+1 alsa_input.usb-OmniVision_Technologies__Inc._USB_Camera-B4.09.24.1-01.multichannel-input  module-alsa-card.c  s16le 4ch 16000Hz SUSPENDED
 ```
 
-Here one shall see one peripheral on card 1 and device 0
+Here we see:
+- analog-mono.monitor which is used for e.g stereo mix (What we don't need)
+- The PS3 eye USB camera with the built in microphone array
 
-Create a configuration file that applies the following configuration:
+Now we can set our desire default input and output device.
 
-- output audio (what Kalliope says) on the analog audio (via speakers connected to the jack)
-- input audio (what is said to Kalliope) on the USB microphone
+To set the default output to the analog audio jack of the raspberry:
 
-Create a file in `/home/pi/.asoundrc` with the content below
-```
-pcm.!default {
-   type asym
-   playback.pcm {
-     type plug
-     slave.pcm "hw:0,0"
-   }
-   capture.pcm {
-     type plug
-     slave.pcm "hw:1,0"
-   }
-}
-```
-
-Where `playback.pcm` is the output audio and the `capture.pcm` is the input audio.
-
-Restart alsa to apply changes:
 ```bash
-sudo /etc/init.d/alsa-utils restart
+pactl set-default-sink 0
+```
+
+To set the default input, in this case the PS3 eye:
+
+```bash
+pactl set-default-source 1
 ```
 
 Adjust the microphone sensibility by running alsamixer:
@@ -133,8 +129,10 @@ Adjust the microphone sensibility by running alsamixer:
 alsamixer
 ```
 
-Select the microphone device by pressing F6 and move up the `mic` sensibility level:
+By pressing F5 you can set the microphone sensibility and speaker level for pulseaudio:
 ![logo](../images/alsamixer_mic_level.png)
+
+> **Note:** After changing the default input or output, you have to restart Kalliope
 
 ### HDMI / Analog audio
 
