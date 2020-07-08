@@ -2,7 +2,6 @@ import os
 import subprocess
 
 from kalliope.core.TTS.TTSModule import TTSModule, MissingTTSParameter
-import sox
 
 import logging
 import sys
@@ -15,7 +14,6 @@ class Pico2wave(TTSModule):
 
     def __init__(self, **kwargs):
         super(Pico2wave, self).__init__(**kwargs)
-        self.samplerate = kwargs.get('samplerate', None)
         self.path = kwargs.get('path', None)
 
         self._check_parameters()
@@ -65,14 +63,7 @@ class Pico2wave(TTSModule):
 
         # generate the file with pico2wav
         subprocess.call(final_command)
-        
-        # convert samplerate
-        if self.samplerate is not None:
-            tfm = sox.Transformer()
-            tfm.rate(samplerate=self.samplerate)
-            tfm.build(str(tmp_path), str(tmp_path) + "tmp_name.wav")
-            os.rename(str(tmp_path) + "tmp_name.wav", tmp_path)
-        
+
         # remove the extension .wav
         os.rename(tmp_path, self.file_path)
 

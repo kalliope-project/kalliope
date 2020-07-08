@@ -3,7 +3,6 @@ portaudio19-dev
 build-essential
 libssl-dev
 libffi-dev
-sox
 libatlas3-base
 mplayer
 libav-tools
