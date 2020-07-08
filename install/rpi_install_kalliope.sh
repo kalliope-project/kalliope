@@ -28,7 +28,7 @@ install_default_packages(){
     sudo apt-get update
     sudo apt-get install -y git python3-dev libsmpeg0 \
     flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
-    libssl-dev libffi-dev sox libatlas3-base mplayer libyaml-dev libpython3-dev libjpeg-dev
+    libssl-dev libffi-dev libatlas3-base mplayer libyaml-dev libpython3-dev libjpeg-dev
     sudo apt-get install -y libportaudio0 libportaudio2 libportaudiocpp0  \
     apt-transport-https pulseaudio
     echo_green "Installing system packages...[OK]"

@@ -23,7 +23,7 @@ sudo apt-get update
 sudo apt-get install -y \
     git python3-dev libpython3-dev libsmpeg0 libttspico-utils flac \
     libffi-dev libssl-dev portaudio19-dev build-essential \
-    sox libatlas3-base mplayer wget vim sudo locales \
+    libatlas3-base mplayer wget vim sudo locales \
     pulseaudio-utils libasound2-plugins python3-pyaudio libasound-dev \
     libportaudio2 libportaudiocpp0 ffmpeg
 ```

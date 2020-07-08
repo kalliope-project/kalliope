@@ -50,7 +50,6 @@
         - libssl-dev
         - portaudio19-dev
         - build-essential
-        - sox
         - libatlas3-base
         - mplayer
         - libyaml-dev

@@ -30,7 +30,7 @@ Install the required system libraries and software:
 ```bash
 sudo apt-get update
 sudo apt-get install -y git python3-dev libsmpeg0 \
-    flac libffi-dev portaudio19-dev build-essential libssl-dev sox libatlas3-base mplayer libyaml-dev libpython3-dev libjpeg-dev ffmpeg pulseaudio
+    flac libffi-dev portaudio19-dev build-essential libssl-dev libatlas3-base mplayer libyaml-dev libpython3-dev libjpeg-dev ffmpeg pulseaudio
 ```
 
 On Raspberry Pi OS **Buster**, the default TTS engine is not installable directly from the package manager. Run command below to install it manually:

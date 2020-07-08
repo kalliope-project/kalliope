@@ -7,7 +7,7 @@ RUN sed -i -- 's/buster main/buster main contrib non-free/g' /etc/apt/sources.li
 RUN apt-get update && apt-get install -y \
     git python3-dev libpython3-dev libsmpeg0 libttspico-utils libsmpeg0 flac \
     libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
-    sox libatlas3-base mplayer wget vim sudo locales \
+    libatlas3-base mplayer wget vim sudo locales \
     python3-distutils pulseaudio-utils libasound2-plugins python3-pyaudio libasound-dev \
     libportaudio2 libportaudiocpp0 ffmpeg \
     && rm -rf /var/lib/apt/lists/*

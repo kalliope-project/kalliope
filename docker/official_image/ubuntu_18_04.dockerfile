@@ -17,7 +17,7 @@ RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic  multiverse" >> /etc/a
 RUN apt-get update && apt-get install -y \
     git python3-dev libsmpeg0 libttspico-utils libsmpeg0 flac \
     libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
-    sox libatlas3-base mplayer wget vim sudo locales alsa-base alsa-utils \
+    libatlas3-base mplayer wget vim sudo locales alsa-base alsa-utils \
     python3-pip pulseaudio-utils libasound2-plugins \
     && rm -rf /var/lib/apt/lists/*
 

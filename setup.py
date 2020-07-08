@@ -97,7 +97,6 @@ setup(
         'sounddevice>=0.3.13',
         'SoundFile>=0.10.2',
         'pyalsaaudio>=0.8.4',
-        'sox>=1.3.7',
         'paho-mqtt>=1.4.0',
         'voicerss_tts>=1.0.6',
         'gTTS>=2.0.3',
