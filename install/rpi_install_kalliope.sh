@@ -125,6 +125,27 @@ setup_pulseaudio(){
         sudo usermod -a -G pulse-access $current_user
     fi
 
+    # Check if alsa-sink already exists in system.pa
+    if grep -Fxq 'load-module module-alsa-sink device="hw:0,0"' /etc/pulse/system.pa; then
+        echo_yellow '"load-module module-alsa-sink" already in /etc/pulse/system.pa'
+    else
+        # If not, we add it to /etc/pulse/system.pa
+        echo_green "Adding 'load-module module-alsa-sink device="hw:0,0"' to /etc/pulse/system.pa..[OK]"
+        echo 'load-module module-alsa-sink device="hw:0,0"' | sudo tee -a /etc/pulse/system.pa >/dev/null
+    fi
+
+    # Check if alsa_output.hw_0_0 is already set as default in system.pa
+    if grep -Fxq 'set-default-sink alsa_output.hw_0_0' /etc/pulse/system.pa; then
+        echo_yellow '"set-default-sink alsa_output.hw_0_0" already in /etc/pulse/system.pa'
+    else
+        # If not, we add it to /etc/pulse/system.pa
+        echo_green "Adding 'set-default-sink alsa_output.hw_0_0' to /etc/pulse/system.pa..[OK]"
+        echo 'set-default-sink alsa_output.hw_0_0' | sudo tee -a /etc/pulse/system.pa >/dev/null
+    fi
+
+    # We comment out load-module module-suspend-on-idle in /etc/pulse/system.pa to avoid a delay if the module is suspend
+    sudo sed -e '/load-module module-suspend-on-idle/ s/^#*/#/' -i /etc/pulse/system.pa
+    
     if [[ -f "/etc/systemd/system/pulseaudio.service" ]]; then
         # If the service already exists, we can skip this step
         echo_green "Pulseaudio service already existing"
