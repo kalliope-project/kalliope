@@ -66,7 +66,8 @@ sudo usermod -a -G pulse-access pi
 
 Setting up default client settings by adding default server and disable autospawn to client.conf:
 ```bash
-printf '\ndefault-server = /var/run/pulse/native\nautospawn = no' | sudo tee -a /etc/pulse/client.conf
+echo "default-server = /var/run/pulse/native" | sudo tee -a /etc/pulse/client.conf
+echo 'autospawn = no' | sudo tee -a /etc/pulse/client.conf
 ```
 
 Create a pulseaudio service in `/etc/systemd/system/pulseaudio.service`
@@ -91,6 +92,19 @@ Or use this command to download the script and move it to `/etc/systemd/system/`
 wget https://raw.githubusercontent.com/kalliope-project/kalliope/master/install/files/pulseaudio.service && sudo mv pulseaudio.service /etc/systemd/system/
 ```
 
+There is a bug if you use the analog jack output of the raspberry with pulseaudio, the audio player needs about 2 seconds longer to start the audio. 
+To speed it up add the following to the end of `/etc/pulse/system.pa`:
+
+```bash
+echo 'load-module module-alsa-sink device="hw:0,0"' | sudo tee -a /etc/pulse/system.pa
+echo 'set-default-sink alsa_output.hw_0_0' | sudo tee -a /etc/pulse/system.pa
+``` 
+
+We disable load-module module-suspend-on-idle in `/etc/pulse/system.pa`  
+```bash
+sed -e '/load-module module-suspend-on-idle/ s/^#*/#/' -i /etc/pulse/system.pa
+```
+
 Now reload systemctl, start the service and enable it at startup:
 ```bash
 sudo systemctl daemon-reload
@@ -107,11 +121,15 @@ pactl list sinks short
 
 Output example with a speaker connected to the Raspberry jack:
 ```bash
-0 alsa_output.platform-soc_audio.analog-mono  module-alsa-card.c  s16le 1ch 44100Hz SUSPENDED
+0   alsa_output.platform-soc_audio.analog-mono  module-alsa-card.c  s16le 1ch 44100Hz   IDLE
+1   alsa_output.hw_0_0  module-alsa-sink.c  s16le 2ch 48000Hz   IDLE
 ```
 
 Here we see that:
 - the analog audio (where the jack is connected) is on card 0
+- the fixed output (with less delay on pulseaudio) on card 1
+
+> **Note:** If you a USB sound card for output there is no delay at all.
 
 Get the input (microphone card):
 ```bash
@@ -133,7 +151,7 @@ Now we can set our desire default input and output device.
 To set the default output to the analog audio jack of the raspberry:
 
 ```bash
-pactl set-default-sink 0
+pactl set-default-sink 1
 ```
 
 To set the default input, in this case the PS3 eye:
