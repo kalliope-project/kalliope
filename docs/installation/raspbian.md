@@ -129,7 +129,7 @@ Here we see that:
 - the analog audio (where the jack is connected) is on card 0
 - the fixed output (with less delay on pulseaudio) on card 1
 
-> **Note:** If you a USB sound card for output there is no delay at all.
+> **Note:** If you use a USB sound card for output there is no delay at all.
 
 Get the input (microphone card):
 ```bash
