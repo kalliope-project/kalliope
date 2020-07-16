@@ -72,14 +72,14 @@ class Snowboy(Thread):
         pause the Snowboy main thread
         """
         logger.debug("Pausing snowboy process")
-        self.detector.paused = True
+        self.detector.pause()
 
     def unpause(self):
         """
         unpause the Snowboy main thread
         """
         logger.debug("Unpausing snowboy process")
-        self.detector.paused = False
+        self.detector.unpause()
 
     def stop(self):
         """

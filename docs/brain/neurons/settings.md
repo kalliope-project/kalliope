@@ -20,23 +20,25 @@ Currently available:
 
 ## Input parameters
 
-| parameter                       | required | type           | default | choices     | comment                                                         |
-|---------------------------------|----------|----------------|---------|-------------|-----------------------------------------------------------------|
-| default_tts                     | No       | Str            | None    |             | Pick a tts name from the list of text_to_speech                 |
-| default_stt                     | No       | Str            | None    |             | Pick a stt name from the list of speech_to_text                 |
-| default_trigger                 | No       | Str            | None    |             | Pick a trigger name from the list of triggers                   |
-| default_player                  | No       | Str            | None    |             | Pick a player name from the list of players                     |
-| text_to_speech                  | No       | list (of dict) | None    |             | Add or Update a tts to the list                                 |
-| speech_to_text                  | No       | list (of dict) | None    |             | Add or Update a stt to the list                                 |
-| triggers                        | No       | list (of dict) | None    |             | Add or Update a trigger to the list                             |
-| players                         | No       | list (of dict) | None    |             | Add or Update a player to the list                              |
-| hooks                           | No       | dict           | None    |             | Update the hooks dict from the settings with the given dict     |
-| var_files                       | No       | list           | None    |             | Update variables from the settings with the given files path    |
-| variable                        | No       | dict           | None    |             | Update the variable dict from the settings with the given dict  |
-| deaf                            | No       | boolean        | None    | True, False |                                                                 |
-| mute                            | No       | boolean        | None    | True, False |                                                                 |
-| energy_threshold                | No       | int            | None    |             |                                                                 |
-| adjust_for_ambient_noise_second | No       | int            | None    |             |                                                                 |
+| parameter                                 | required | type           | default | choices     | comment                                                         |
+|-------------------------------------------|----------|----------------|---------|-------------|-----------------------------------------------------------------|
+| default_tts                               | No       | Str            | None    |             | Pick a tts name from the list of text_to_speech                 |
+| default_stt                               | No       | Str            | None    |             | Pick a stt name from the list of speech_to_text                 |
+| default_trigger                           | No       | Str            | None    |             | Pick a trigger name from the list of triggers                   |
+| default_player                            | No       | Str            | None    |             | Pick a player name from the list of players                     |
+| text_to_speech                            | No       | list (of dict) | None    |             | Add or Update a tts to the list                                 |
+| speech_to_text                            | No       | list (of dict) | None    |             | Add or Update a stt to the list                                 |
+| triggers                                  | No       | list (of dict) | None    |             | Add or Update a trigger to the list                             |
+| players                                   | No       | list (of dict) | None    |             | Add or Update a player to the list                              |
+| hooks                                     | No       | dict           | None    |             | Update the hooks dict from the settings with the given dict     |
+| var_files                                 | No       | list           | None    |             | Update variables from the settings with the given files path    |
+| variable                                  | No       | dict           | None    |             | Update the variable dict from the settings with the given dict  |
+| deaf                                      | No       | boolean        | None    | True, False |                                                                 |
+| mute                                      | No       | boolean        | None    | True, False |                                                                 |
+| recognizer_multiplier                     | No       | int            | None    |             |                                                                 |
+| recognizer_energy_ratio                   | No       | int            | None    |             |                                                                 |
+| recognizer_recording_timeout              | No       | int            | None    |             |                                                                 |
+| recognizer_recording_timeout_with_silence | No       | int            | None    |             |                                                                 |
 
 ## Returned values
 

@@ -8,13 +8,21 @@ class Options(SettingsEntry):
     .. note:: must be defined in the settings.yml
     """
 
-    def __init__(self, energy_threshold=4000, adjust_for_ambient_noise_second=0, deaf=None, mute=None, stt_timeout=0):
+    def __init__(self, 
+                 recognizer_multiplier=1, 
+                 recognizer_energy_ratio=1.5, 
+                 recognizer_recording_timeout=15.0, 
+                 recognizer_recording_timeout_with_silence=3.0, 
+                 deaf=None, 
+                 mute=None):
+    
         super(Options, self).__init__(name="Options")
         self.deaf = deaf
         self.mute = mute
-        self.energy_threshold = energy_threshold
-        self.adjust_for_ambient_noise_second = adjust_for_ambient_noise_second
-        self.stt_timeout = stt_timeout
+        self.recognizer_multiplier = recognizer_multiplier
+        self.recognizer_energy_ratio = recognizer_energy_ratio
+        self.recognizer_recording_timeout = recognizer_recording_timeout
+        self.recognizer_recording_timeout_with_silence = recognizer_recording_timeout_with_silence
 
     def __str__(self):
         return str(self.serialize())
@@ -22,11 +30,12 @@ class Options(SettingsEntry):
     def serialize(self):
         return {
             'name': self.name,
-            'energy_threshold': self.energy_threshold,
-            'adjust_for_ambient_noise_second': self.adjust_for_ambient_noise_second,
+            'recognizer_multiplier': self.recognizer_multiplier,
+            'recognizer_energy_ratio': self.recognizer_energy_ratio,
+            'recognizer_recording_timeout': self.recognizer_recording_timeout,
+            'recognizer_recording_timeout_with_silence': self.recognizer_recording_timeout_with_silence,
             'deaf': self.deaf,
-            'mute': self.mute,
-            'stt_timeout': self.stt_timeout
+            'mute': self.mute
         }
 
     def __eq__(self, other):

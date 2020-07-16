@@ -26,13 +26,21 @@ class SettingsView(Blueprint):
         self.add_url_rule('/settings/deaf/', view_func=self.set_deaf, methods=['POST'])
         self.add_url_rule('/settings/mute/', view_func=self.get_mute, methods=['GET'])
         self.add_url_rule('/settings/mute/', view_func=self.set_mute, methods=['POST'])
-        self.add_url_rule('/settings/ambient_noise_second/', view_func=self.get_ambient_noise_second,
+        self.add_url_rule('/settings/recognizer_multiplier/', view_func=self.get_recognizer_multiplier,
                           methods=['GET'])
-        self.add_url_rule('/settings/ambient_noise_second/', view_func=self.set_adjust_for_ambient_noise_second,
+        self.add_url_rule('/settings/recognizer_multiplier/', view_func=self.set_recognizer_multiplier,
                           methods=['POST'])
-        self.add_url_rule('/settings/energy_threshold/', view_func=self.get_energy_threshold,
+        self.add_url_rule('/settings/recognizer_energy_ratio/', view_func=self.get_recognizer_energy_ratio,
                           methods=['GET'])
-        self.add_url_rule('/settings/energy_threshold/', view_func=self.set_energy_threshold,
+        self.add_url_rule('/settings/recognizer_energy_ratio/', view_func=self.set_recognizer_energy_ratio,
+                          methods=['POST'])
+        self.add_url_rule('/settings/recognizer_recording_timeout/', view_func=self.get_recognizer_recording_timeouto,
+                          methods=['GET'])
+        self.add_url_rule('/settings/recognizer_recording_timeout/', view_func=self.set_recognizer_recording_timeout,
+                          methods=['POST'])
+        self.add_url_rule('/settings/recognizer_recording_timeout_with_silence/', view_func=self.get_recognizer_recording_timeout_with_silence,
+                          methods=['GET'])
+        self.add_url_rule('/settings/recognizer_recording_timeout_with_silence/', view_func=self.set_recognizer_recording_timeout_with_silence,
                           methods=['POST'])
         self.add_url_rule('/settings/default_tts/', view_func=self.get_default_tts,
                           methods=['GET'])
@@ -165,100 +173,198 @@ class SettingsView(Blueprint):
         return jsonify(data), 200
 
     @requires_auth
-    def get_energy_threshold(self):
+    def get_recognizer_multiplier(self):
         """
-        Return the current energy_threshold value from settings
+        Return the current recognizer_multiplier value from settings
 
         Curl test
-        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/energy_threshold
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/recognizer_multiplier
         """
 
-        if self.settings.options.energy_threshold is not None:
+        if self.settings.options.recognizer_multiplier is not None:
             data = {
-                "energy_threshold": self.settings.options.energy_threshold
+                "recognizer_multiplier": self.settings.options.recognizer_multiplier
             }
             return jsonify(data), 200
 
         # if no Order instance
         data = {
-            "error": "energy_threshold status not defined"
+            "error": "recognizer_multiplier status not defined"
         }
         return jsonify(error=data), 400
 
     @requires_auth
-    def set_energy_threshold(self):
+    def set_recognizer_multiplier(self):
         """
-        Set the Kalliope Core energy_threshold value
+        Set the Kalliope Core recognizer_multiplier value
 
         Curl test:
         curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
-        -d '{"energy_threshold": "6666"}' http://127.0.0.1:5000/settings/energy_threshold
+        -d '{"recognizer_multiplier": "6666"}' http://127.0.0.1:5000/settings/recognizer_multiplier
         """
 
-        if not request.get_json() or 'energy_threshold' not in request.get_json():
+        if not request.get_json() or 'recognizer_multiplier' not in request.get_json():
             data = {
-                "Error": "Wrong parameters, 'energy_threshold' not set"
+                "Error": "Wrong parameters, 'recognizer_multiplier' not set"
             }
             return jsonify(error=data), 400
 
-        # get energy_threshold if present
-        energy_threshold = utils.get_value_flag_from_request(http_request=request,
-                                                             flag_to_find="energy_threshold",
-                                                             is_boolean=False)
+        # get recognizer_multiplier if present
+        recognizer_multiplier = utils.get_value_flag_from_request(http_request=request,
+                                                                  flag_to_find="recognizer_multiplier",
+                                                                  is_boolean=False)
 
-        SettingEditor.set_energy_threshold(energy_threshold=energy_threshold)
+        SettingEditor.set_recognizer_multiplier(recognizer_multiplier=recognizer_multiplier)
 
         data = {
-            "energy_threshold": energy_threshold
+            "recognizer_multiplier": recognizer_multiplier
         }
         return jsonify(data), 200
 
     @requires_auth
-    def get_ambient_noise_second(self):
+    def get_recognizer_energy_ratio(self):
         """
-        Return the current ambient_noise_second value from settings
+        Return the current recognizer_energy_ratio value from settings
 
         Curl test
-        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/ambient_noise_second
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/recognizer_energy_ratio
         """
 
-        if self.settings.options.adjust_for_ambient_noise_second is not None:
+        if self.settings.options.recognizer_energy_ratio is not None:
             data = {
-                "ambient_noise_second": self.settings.options.adjust_for_ambient_noise_second
+                "recognizer_energy_ratio": self.settings.options.recognizer_energy_ratio
             }
             return jsonify(data), 200
 
         # if no Order instance
         data = {
-            "error": "ambient_noise_second status not defined"
+            "error": "recognizer_energy_ratio status not defined"
         }
         return jsonify(error=data), 400
 
     @requires_auth
-    def set_adjust_for_ambient_noise_second(self):
+    def set_recognizer_energy_ratio(self):
         """
-        Set the Kalliope Core ambient_noise_second value
+        Set the Kalliope Core recognizer_energy_ratio value
 
         Curl test:
         curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
-        -d '{"energy_threshold": "6666"}' http://127.0.0.1:5000/settings/ambient_noise_second
+        -d '{"energy_threshold": "6666"}' http://127.0.0.1:5000/settings/recognizer_energy_ratio
         """
 
-        if not request.get_json() or 'ambient_noise_second' not in request.get_json():
+        if not request.get_json() or 'recognizer_energy_ratio' not in request.get_json():
             data = {
-                "Error": "Wrong parameters, 'ambient_noise_second' not set"
+                "Error": "Wrong parameters, 'recognizer_energy_ratio' not set"
             }
             return jsonify(error=data), 400
 
         # get if present
-        ambient_noise_second = utils.get_value_flag_from_request(http_request=request,
-                                                                 flag_to_find="ambient_noise_second",
-                                                                 is_boolean=False)
+        recognizer_energy_ratio = utils.get_value_flag_from_request(http_request=request,
+                                                                    flag_to_find="recognizer_energy_ratio",
+                                                                    is_boolean=False)
 
-        SettingEditor.set_adjust_for_ambient_noise_second(adjust_for_ambient_noise_second=ambient_noise_second)
+        SettingEditor.set_recognizer_energy_ratio(recognizer_energy_ratio=recognizer_energy_ratio)
 
         data = {
-            "ambient_noise_second": ambient_noise_second
+            "recognizer_energy_ratio": recognizer_energy_ratio
+        }
+        return jsonify(data), 200
+
+    @requires_auth
+    def get_recognizer_recording_timeout(self):
+        """
+        Return the current recognizer_recording_timeout value from settings
+
+        Curl test
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/recognizer_recording_timeout
+        """
+
+        if self.settings.options.recognizer_recording_timeout is not None:
+            data = {
+                "recognizer_recording_timeout": self.settings.options.recognizer_recording_timeout
+            }
+            return jsonify(data), 200
+
+        # if no Order instance
+        data = {
+            "error": "recognizer_recording_timeout status not defined"
+        }
+        return jsonify(error=data), 400
+
+    @requires_auth
+    def set_recognizer_recording_timeout(self):
+        """
+        Set the Kalliope Core recognizer_recording_timeout value
+
+        Curl test:
+        curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
+        -d '{"energy_threshold": "6666"}' http://127.0.0.1:5000/settings/recognizer_recording_timeout
+        """
+
+        if not request.get_json() or 'recognizer_recording_timeout' not in request.get_json():
+            data = {
+                "Error": "Wrong parameters, 'recognizer_recording_timeout' not set"
+            }
+            return jsonify(error=data), 400
+
+        # get if present
+        recognizer_recording_timeout = utils.get_value_flag_from_request(http_request=request,
+                                                                         flag_to_find="recognizer_recording_timeout",
+                                                                         is_boolean=False)
+
+        SettingEditor.set_recognizer_recording_timeout(recognizer_recording_timeout=recognizer_recording_timeout)
+
+        data = {
+            "recognizer_recording_timeout": recognizer_recording_timeout
+        }
+        return jsonify(data), 200
+
+    @requires_auth
+    def get_recognizer_recording_timeout_with_silence(self):
+        """
+        Return the current recognizer_recording_timeout_with_silence value from settings
+
+        Curl test
+        curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/recognizer_recording_timeout_with_silence
+        """
+
+        if self.settings.options.recognizer_recording_timeout_with_silence is not None:
+            data = {
+                "recognizer_recording_timeout_with_silence": self.settings.options.recognizer_recording_timeout_with_silence
+            }
+            return jsonify(data), 200
+
+        # if no Order instance
+        data = {
+            "error": "recognizer_recording_timeout_with_silence status not defined"
+        }
+        return jsonify(error=data), 400
+
+    @requires_auth
+    def set_recognizer_recording_timeout_with_silence(self):
+        """
+        Set the Kalliope Core recognizer_recording_timeout_with_silence value
+
+        Curl test:
+        curl -i -H "Content-Type: application/json" --user admin:secret  -X POST \
+        -d '{"energy_threshold": "6666"}' http://127.0.0.1:5000/settings/recognizer_recording_timeout_with_silence
+        """
+
+        if not request.get_json() or 'recognizer_recording_timeout_with_silence' not in request.get_json():
+            data = {
+                "Error": "Wrong parameters, 'recognizer_recording_timeout_with_silence' not set"
+            }
+            return jsonify(error=data), 400
+
+        # get if present
+        recognizer_recording_timeout_with_silence = utils.get_value_flag_from_request(http_request=request,
+                                                                                      flag_to_find="recognizer_recording_timeout_with_silence",
+                                                                                      is_boolean=False)
+
+        SettingEditor.set_recognizer_recording_timeout_with_silence(recognizer_recording_timeout_with_silence=recognizer_recording_timeout_with_silence)
+
+        data = {
+            "recognizer_recording_timeout_with_silence": recognizer_recording_timeout_with_silence
         }
         return jsonify(data), 200
 

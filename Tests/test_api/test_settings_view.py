@@ -87,82 +87,158 @@ class TestSettingsView(RestAPITestBase):
                              json.dumps(json.loads(result.get_data().decode('utf-8')), sort_keys=True))
             self.assertEqual(result.status_code, 200)
 
-    def test_get_energy_threshold(self):
+    def test_get_recognizer_multiplier(self):
         """
-        Test for api get energy threshold.
+        Test for api get recognizer_multiplier.
         """
-        url = self.get_server_url() + "/settings/energy_threshold"
+        url = self.get_server_url() + "/settings/recognizer_multiplier"
         headers = {"Content-Type": "application/json"}
-        self.settings.options.energy_threshold = 3000
+        self.settings.options.recognizer_multiplier = 3000
         result = self.client.get(url, headers=headers)
 
         expected_content = {
-            "energy_threshold": 3000
+            "recognizer_multiplier": 3000
         }
 
         self.assertEqual(json.dumps(expected_content, sort_keys=True),
                          json.dumps(json.loads(result.get_data().decode('utf-8')), sort_keys=True))
         self.assertEqual(result.status_code, 200)
 
-    def test_set_energy_threshold(self):
+    def test_set_recognizer_multiplier(self):
         """
-        Test for api set energy_threshold.
+        Test for api set recognizer_multiplier.
         """
-        url = self.get_server_url() + "/settings/energy_threshold"
-        data = {"energy_threshold": "6000"}
+        url = self.get_server_url() + "/settings/recognizer_multiplier"
+        data = {"recognizer_multiplier": "6000"}
         headers = {"Content-Type": "application/json"}
 
-        self.settings.energy_threshold = 4000
+        self.settings.recognizer_multiplier = 4000
         result = self.client.post(url,
                                   headers=headers,
                                   data=json.dumps(data))
 
         expected_content = {
-            "energy_threshold": "6000"
+            "recognizer_multiplier": "6000"
         }
 
         self.assertEqual(json.dumps(expected_content, sort_keys=True),
                          json.dumps(json.loads(result.get_data().decode('utf-8')), sort_keys=True))
         self.assertEqual(result.status_code, 200)
 
-    def test_get_ambient_noise_second(self):
+    def test_get_recognizer_energy_ratio(self):
         """
-        Test for api get adjust ambient noise second.
+        Test for api get recognizer_energy_ratio second.
         """
-        url = self.get_server_url() + "/settings/ambient_noise_second"
+        url = self.get_server_url() + "/settings/recognizer_energy_ratio"
         headers = {"Content-Type": "application/json"}
-        self.settings.options.adjust_for_ambient_noise_second = 30
+        self.settings.options.recognizer_energy_ratio = 30
         result = self.client.get(url, headers=headers)
 
         expected_content = {
-            "ambient_noise_second": 30
+            "recognizer_energy_ratio": 30
         }
 
         self.assertEqual(json.dumps(expected_content, sort_keys=True),
                          json.dumps(json.loads(result.get_data().decode('utf-8')), sort_keys=True))
         self.assertEqual(result.status_code, 200)
 
-    def test_set_ambient_noise_second(self):
+    def test_set_recognizer_energy_ratio(self):
         """
-        Test for api set ambient_noise_second.
+        Test for api set recognizer_energy_ratio.
         """
-        url = self.get_server_url() + "/settings/ambient_noise_second"
-        data = {"ambient_noise_second": "60"}
+        url = self.get_server_url() + "/settings/recognizer_energy_ratio"
+        data = {"recognizer_energy_ratio": "60"}
         headers = {"Content-Type": "application/json"}
 
-        self.settings.energy_threshold = 40
+        self.settings.recognizer_energy_ratio = 40
         result = self.client.post(url,
                                   headers=headers,
                                   data=json.dumps(data))
 
         expected_content = {
-            "ambient_noise_second": "60"
+            "recognizer_energy_ratio": "60"
         }
 
         self.assertEqual(json.dumps(expected_content, sort_keys=True),
                          json.dumps(json.loads(result.get_data().decode('utf-8')), sort_keys=True))
         self.assertEqual(result.status_code, 200)
 
+    def test_get_recognizer_recording_timeout(self):
+        """
+        Test for api get recognizer_recording_timeout.
+        """
+        url = self.get_server_url() + "/settings/recognizer_recording_timeout"
+        headers = {"Content-Type": "application/json"}
+        self.settings.options.recognizer_recording_timeout = 3000
+        result = self.client.get(url, headers=headers)
+
+        expected_content = {
+            "recognizer_recording_timeout": 3000
+        }
+
+        self.assertEqual(json.dumps(expected_content, sort_keys=True),
+                         json.dumps(json.loads(result.get_data().decode('utf-8')), sort_keys=True))
+        self.assertEqual(result.status_code, 200)
+
+    def test_set_recognizer_recording_timeout(self):
+        """
+        Test for api set recognizer_recording_timeout.
+        """
+        url = self.get_server_url() + "/settings/recognizer_recording_timeout"
+        data = {"recognizer_recording_timeout": "6000"}
+        headers = {"Content-Type": "application/json"}
+
+        self.settings.recognizer_recording_timeout = 4000
+        result = self.client.post(url,
+                                  headers=headers,
+                                  data=json.dumps(data))
+
+        expected_content = {
+            "recognizer_recording_timeout": "6000"
+        }
+
+        self.assertEqual(json.dumps(expected_content, sort_keys=True),
+                         json.dumps(json.loads(result.get_data().decode('utf-8')), sort_keys=True))
+        self.assertEqual(result.status_code, 200)
+
+    def test_get_recognizer_recording_timeout_with_silence(self):
+        """
+        Test for api get recognizer_recording_timeout_with_silence second.
+        """
+        url = self.get_server_url() + "/settings/recognizer_recording_timeout_with_silence"
+        headers = {"Content-Type": "application/json"}
+        self.settings.options.recognizer_recording_timeout_with_silence = 30
+        result = self.client.get(url, headers=headers)
+
+        expected_content = {
+            "recognizer_recording_timeout_with_silence": 30
+        }
+
+        self.assertEqual(json.dumps(expected_content, sort_keys=True),
+                         json.dumps(json.loads(result.get_data().decode('utf-8')), sort_keys=True))
+        self.assertEqual(result.status_code, 200)
+
+    def test_set_recognizer_recording_timeout_with_silence(self):
+        """
+        Test for api set recognizer_recording_timeout_with_silence.
+        """
+        url = self.get_server_url() + "/settings/recognizer_recording_timeout_with_silence"
+        data = {"recognizer_recording_timeout_with_silence": "60"}
+        headers = {"Content-Type": "application/json"}
+
+        self.settings.recognizer_recording_timeout_with_silence = 40
+        result = self.client.post(url,
+                                  headers=headers,
+                                  data=json.dumps(data))
+
+        expected_content = {
+            "recognizer_recording_timeout_with_silence": "60"
+        }
+
+        self.assertEqual(json.dumps(expected_content, sort_keys=True),
+                         json.dumps(json.loads(result.get_data().decode('utf-8')), sort_keys=True))
+        self.assertEqual(result.status_code, 200)
+        
     def test_get_default_tts(self):
         """
         Test for api get default tts name.
