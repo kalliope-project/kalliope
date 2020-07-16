@@ -8,7 +8,7 @@ from . import snowboydetect
 import time
 import os
 import logging
-
+from kalliope import Utils
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 TOP_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -26,10 +26,12 @@ class RingBuffer(object):
     """Ring buffer to hold audio from PortAudio"""
     def __init__(self, size = 4096):
         self._buf = collections.deque(maxlen=size)
+        self.paused = False
 
     def extend(self, data):
         """Adds data to the end of buffer"""
-        self._buf.extend(data)
+        if not self.paused:
+            self._buf.extend(data)
 
     def get(self):
         """Retrieves data from the beginning of buffer and clears it"""
@@ -37,6 +39,11 @@ class RingBuffer(object):
         self._buf.clear()
         return tmp
 
+    def pause(self):
+        self.paused = True
+
+    def unpause(self):
+        self.paused = False
 
 class HotwordDetector(Thread):
     """
@@ -186,3 +193,11 @@ class HotwordDetector(Thread):
         self.stream_in.close()
         self.audio.terminate()
         logger.debug("[Snowboy] Audio stream cleaned.")
+
+    def pause(self):
+        self.paused = True
+        self.ring_buffer.pause()
+
+    def unpause(self):
+        self.paused = False
+        self.ring_buffer.unpause()

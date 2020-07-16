@@ -78,16 +78,28 @@ class TestSettings(unittest.TestCase):
         self.neuron_settings.mute = True
         self.assertTrue(self.neuron_settings._is_parameters_ok())
 
-        # threshold
-        self.neuron_settings.energy_threshold = "randomString"
+        # recognizer_multiplier
+        self.neuron_settings.recognizer_multiplier = "randomString"
         self.assertFalse(self.neuron_settings._is_parameters_ok())
-        self.neuron_settings.energy_threshold = 60
+        self.neuron_settings.recognizer_multiplier = 60
         self.assertTrue(self.neuron_settings._is_parameters_ok())
 
-        # adjust_ambiant
-        self.neuron_settings.adjust_for_ambient_noise_second = "randomString"
+        # recognizer_energy_ratio
+        self.neuron_settings.recognizer_energy_ratio = "randomString"
         self.assertFalse(self.neuron_settings._is_parameters_ok())
-        self.neuron_settings.adjust_for_ambient_noise_second = 60
+        self.neuron_settings.recognizer_energy_ratio = 60
+        self.assertTrue(self.neuron_settings._is_parameters_ok())
+
+        # recognizer_recording_timeout
+        self.neuron_settings.recognizer_recording_timeout = "randomString"
+        self.assertFalse(self.neuron_settings._is_parameters_ok())
+        self.neuron_settings.recognizer_recording_timeout = 60
+        self.assertTrue(self.neuron_settings._is_parameters_ok())
+
+        # recognizer_recording_timeout_with_silence
+        self.neuron_settings.recognizer_recording_timeout_with_silence = "randomString"
+        self.assertFalse(self.neuron_settings._is_parameters_ok())
+        self.neuron_settings.recognizer_recording_timeout_with_silence = 60
         self.assertTrue(self.neuron_settings._is_parameters_ok())
 
     def test_set_settings(self):
@@ -168,15 +180,26 @@ class TestSettings(unittest.TestCase):
             self.neuron_settings._set_settings()
             mock_setting_editor.assert_called_once_with(True)
 
-        # set_energy_threshold
-        self.neuron_settings.energy_threshold = 50
-        with mock.patch("kalliope.core.ConfigurationManager.SettingEditor.set_energy_threshold") as mock_setting_editor:
+        # set_recognizer_multiplier
+        self.neuron_settings.recognizer_multiplier = 50
+        with mock.patch("kalliope.core.ConfigurationManager.SettingEditor.set_recognizer_multiplier") as mock_setting_editor:
             self.neuron_settings._set_settings()
             mock_setting_editor.assert_called_once_with(50)
 
-        # set_adjust_for_ambient_noise_second
-        self.neuron_settings.adjust_for_ambient_noise_second = 3000
-        with mock.patch(
-                "kalliope.core.ConfigurationManager.SettingEditor.set_adjust_for_ambient_noise_second") as mock_setting_editor:
+        # set_recognizer_energy_ratio
+        self.neuron_settings.recognizer_energy_ratio = 50
+        with mock.patch("kalliope.core.ConfigurationManager.SettingEditor.set_recognizer_energy_ratio") as mock_setting_editor:
             self.neuron_settings._set_settings()
-            mock_setting_editor.assert_called_once_with(3000)
+            mock_setting_editor.assert_called_once_with(50)
+
+        # set_recognizer_recording_timeout
+        self.neuron_settings.recognizer_recording_timeout = 50
+        with mock.patch("kalliope.core.ConfigurationManager.SettingEditor.set_recognizer_recording_timeout") as mock_setting_editor:
+            self.neuron_settings._set_settings()
+            mock_setting_editor.assert_called_once_with(50)
+
+        # set_recognizer_recording_timeout_with_silence
+        self.neuron_settings.recognizer_recording_timeout_with_silence = 50
+        with mock.patch("kalliope.core.ConfigurationManager.SettingEditor.set_recognizer_recording_timeout_with_silence") as mock_setting_editor:
+            self.neuron_settings._set_settings()
+            mock_setting_editor.assert_called_once_with(50)
