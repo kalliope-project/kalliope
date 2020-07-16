@@ -161,9 +161,10 @@ rest_api:
 # Options
 # -------------
 options:
-#  energy_threshold: 4000                 # Speech to text option
-#  adjust_for_ambient_noise_second: 1     # Speech to text option
-#  stt_timeout: 5                          # Speech to text option
+#  recognizer_multiplier: 1.0                       # Speech to text option
+#  recognizer_energy_ratio: 1.5                     # Speech to text option
+#  recognizer_recording_timeout: 15.0               # Speech to text option
+#  recognizer_recording_timeout_with_silence: 3.0   # Speech to text option
   deaf: False
   mute: False
 

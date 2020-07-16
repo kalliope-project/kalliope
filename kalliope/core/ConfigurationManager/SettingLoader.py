@@ -624,9 +624,10 @@ class SettingLoader(with_metaclass(Singleton, object)):
 
         deaf = False
         mute = False
-        energy_threshold = 4000
-        adjust_for_ambient_noise_second = 0
-        stt_timeout = 0
+        recognizer_multiplier = 1.0
+        recognizer_energy_ratio = 1.5
+        recognizer_recording_timeout = 15.0
+        recognizer_recording_timeout_with_silence = 3.0
 
         try:
             options = settings["options"]
@@ -634,21 +635,24 @@ class SettingLoader(with_metaclass(Singleton, object)):
                 deaf = options['deaf']
             if "mute" in options:
                 mute = options['mute']
-            if "energy_threshold" in options:
-                energy_threshold = options["energy_threshold"]
-            if "adjust_for_ambient_noise_second" in options:
-                adjust_for_ambient_noise_second = options["adjust_for_ambient_noise_second"]
-            if "stt_timeout" in options:
-                stt_timeout = options["stt_timeout"]
+            if "recognizer_multiplier" in options:
+                recognizer_multiplier = options["recognizer_multiplier"]
+            if "recognizer_energy_ratio" in options:
+                recognizer_energy_ratio = options["recognizer_energy_ratio"]
+            if "recognizer_recording_timeout" in options:
+                recognizer_recording_timeout = options["recognizer_recording_timeout"]
+            if "recognizer_recording_timeout_with_silence" in options:
+                recognizer_recording_timeout_with_silence = options["recognizer_recording_timeout_with_silence"]
         except KeyError as e:
             logger.debug("[SettingsLoader] missing settings key: %s" % e)
             pass
 
-        options = Options(energy_threshold=energy_threshold,
-                          adjust_for_ambient_noise_second=adjust_for_ambient_noise_second,
+        options = Options(recognizer_multiplier=recognizer_multiplier,
+                          recognizer_energy_ratio=recognizer_energy_ratio,
+                          recognizer_recording_timeout=recognizer_recording_timeout,
+                          recognizer_recording_timeout_with_silence=recognizer_recording_timeout_with_silence,
                           deaf=deaf,
-                          mute=mute,
-                          stt_timeout=stt_timeout)
+                          mute=mute)
         logger.debug("[SettingsLoader] Options: %s" % options)
         return options
 

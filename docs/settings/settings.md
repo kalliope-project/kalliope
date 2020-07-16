@@ -535,49 +535,14 @@ options:
 
 Available options:
 
-| Option                          | Description                                                                                  |
-| ------------------------------- | -------------------------------------------------------------------------------------------- |
-| mute                            | When mute, the STT engine will not be used to make Kalliope talking during neurons execution |
-| deaf                            | When deaf, the trigger engine is not started. Kalliope will not listen for a wake up word    |
-| energy_threshold                | [energy_threshold](#energy_threshold)                                                        |
-| adjust_for_ambient_noise_second | [adjust_for_ambient_noise_second](#adjust_for_ambient_noise_second)                          |
-| stt_timeout                     | Number of seconds before stop the STT process automatically                                  |
-
-
-### energy_threshold
-
-Represents the energy level threshold for sounds. By default set to **4000**.
-Values below this threshold are considered silence, and values above this threshold are considered speech.
-This is adjusted automatically if dynamic thresholds are enabled with `adjust_for_ambient_noise_second` parameter.
-
-This threshold is associated with the perceived loudness of the sound, but it is a nonlinear relationship.
-The actual energy threshold you will need depends on your microphone sensitivity or audio data.
-Typical values for a silent room are 0 to 100, and typical values for speaking are between 150 and 3500.
-Ambient (non-speaking) noise has a significant impact on what values will work best.
-
-If you're having trouble with the recognizer trying to recognize words even when you're not speaking, try tweaking this to a higher value.
-If you're having trouble with the recognizer not recognizing your words when you are speaking, try tweaking this to a lower value.
-For example, a sensitive microphone or microphones in louder rooms might have a ambient energy level of up to 4000.
-```yml
-options:
-  energy_threshold: 4000
-```
-
->**Note:** The default value is 4000 if not set
-
-### adjust_for_ambient_noise_second
-
-If defined, will adjusts the energy threshold dynamically by capturing the current ambient noise of the room during the number of second set in the parameter.
-When set, the `energy_threshold` parameter is overridden by the returned value of the noise calibration.
-This value should be at least 0.5 in order to get a representative sample of the ambient noise.
-
-```yml
-options:
-  adjust_for_ambient_noise_second: 1
-```
-
->**Note:** The number of second here represents the time between kalliope's awakening and the moment when you can give her your order.
-
+| Option                                    | Default | Description                                                                                  |
+| ----------------------------------------- | --------|--------------------------------------------------------------------------------------------- |
+| mute                                      | False   | When mute, the STT engine will not be used to make Kalliope talking during neurons execution |
+| deaf                                      | False   | When deaf, the trigger engine is not started. Kalliope will not listen for a wake up word    |
+| recognizer_multiplier                     | 1.0     | The multiplier acts on the Threshold
+| recognizer_energy_ratio                   | 1.5     | Is used in speech recognition to identify characteristics of audio, such as whether a person has stopped or started speaking |
+| recognizer_recording_timeout              | 15.0    | The maximum seconds a phrase can be recorded, provided there is noise the entire time        |
+| recognizer_recording_timeout_with_silence | 3.0     | The maximum time it will continue to record silence when not enough noise has been detected  |
 
 ## send_anonymous_usage_stats
 

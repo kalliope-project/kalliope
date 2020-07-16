@@ -29,8 +29,10 @@ class Settings(NeuronModule):
         - variable
         - deaf
         - mute
-        - energy_threshold
-        - adjust_for_ambient_noise_second
+        - recognizer_multiplier
+        - recognizer_energy_ratio
+        - recognizer_recording_timeout
+        - recognizer_recording_timeout_with_silence
     """
 
     def __init__(self, **kwargs):
@@ -52,8 +54,10 @@ class Settings(NeuronModule):
         # Options
         self.deaf = kwargs.get("deaf", None)
         self.mute = kwargs.get("mute", None)
-        self.energy_threshold = kwargs.get("energy_threshold", None)
-        self.adjust_for_ambient_noise_second = kwargs.get("adjust_for_ambient_noise_second", None)
+        self.recognizer_multiplier = kwargs.get("recognizer_multiplier", None)
+        self.recognizer_energy_ratio = kwargs.get("recognizer_energy_ratio", None)
+        self.recognizer_recording_timeout = kwargs.get("recognizer_recording_timeout", None)
+        self.recognizer_recording_timeout_with_silence = kwargs.get("recognizer_recording_timeout_with_silence", None)
 
         # Hooks
         self.hooks = kwargs.get("hooks", None)
@@ -156,17 +160,31 @@ class Settings(NeuronModule):
                 logger.debug("[Settings] mute %s is not a correct value, you must define True or False", self.mute)
                 return False
 
-        if self.energy_threshold is not None:
-            if not isinstance(self.energy_threshold, int):
-                logger.debug("[Settings] energy_threshold %s is not a correct integer, you must define a number",
-                             self.energy_threshold)
+        if self.recognizer_multiplier is not None:
+            if not isinstance(self.recognizer_multiplier, int):
+                logger.debug("[Settings] recognizer_multiplier %s is not a correct integer, you must define a number",
+                             self.recognizer_multiplier)
                 return False
 
-        if self.adjust_for_ambient_noise_second is not None:
-            if not isinstance(self.adjust_for_ambient_noise_second, int):
+        if self.recognizer_energy_ratio is not None:
+            if not isinstance(self.recognizer_energy_ratio, int):
                 logger.debug(
-                    "[Settings] adjust_for_ambient_noise_second %s is not a correct integer, you must define a number",
-                    self.adjust_for_ambient_noise_second)
+                    "[Settings] recognizer_energy_ratio %s is not a correct integer, you must define a number",
+                    self.recognizer_energy_ratio)
+                return False
+        
+        if self.recognizer_recording_timeout is not None:
+            if not isinstance(self.recognizer_recording_timeout, int):
+                logger.debug(
+                    "[Settings] recognizer_recording_timeout %s is not a correct integer, you must define a number",
+                    self.recognizer_recording_timeout)
+                return False
+
+        if self.recognizer_recording_timeout_with_silence is not None:
+            if not isinstance(self.recognizer_recording_timeout_with_silence, int):
+                logger.debug(
+                    "[Settings] recognizer_recording_timeout_with_silence %s is not a correct integer, you must define a number",
+                    self.recognizer_recording_timeout_with_silence)
                 return False
 
         # Hooks
@@ -261,11 +279,17 @@ class Settings(NeuronModule):
         if self.mute is not None:
             SettingEditor.set_mute_status(self.mute)
 
-        if self.energy_threshold is not None:
-            SettingEditor.set_energy_threshold(self.energy_threshold)
+        if self.recognizer_multiplier is not None:
+            SettingEditor.set_recognizer_multiplier(self.recognizer_multiplier)
 
-        if self.adjust_for_ambient_noise_second is not None:
-            SettingEditor.set_adjust_for_ambient_noise_second(self.adjust_for_ambient_noise_second)
+        if self.recognizer_energy_ratio is not None:
+            SettingEditor.set_recognizer_energy_ratio(self.recognizer_energy_ratio)
+
+        if self.recognizer_recording_timeout is not None:
+            SettingEditor.set_recognizer_recording_timeout(self.recognizer_recording_timeout)
+
+        if self.recognizer_recording_timeout_with_silence is not None:
+            SettingEditor.set_recognizer_recording_timeout_with_silence(self.recognizer_recording_timeout_with_silence)
 
         # Hooks
         if self.hooks:

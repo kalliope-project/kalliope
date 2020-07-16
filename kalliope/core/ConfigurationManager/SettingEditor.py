@@ -63,26 +63,48 @@ class SettingEditor(object):
         settings.options.deaf = deaf
 
     @staticmethod
-    def set_adjust_for_ambient_noise_second(adjust_for_ambient_noise_second):
+    def set_recognizer_multiplier(recognizer_multiplier):
         """
-        Set a new value for the adjust_for_ambient_noise_second;
+        Set the new value of the recognizer_multiplier to the settings.
         Must be an integer.
-        :param adjust_for_ambient_noise_second: new value to push to the adjust_for_ambient_noise_second in the Options settings
+        :param recognizer_multiplier: new value for the recognizer_multiplier to push into the settings
         """
-        if isinstance(adjust_for_ambient_noise_second, int):
+        if isinstance(recognizer_multiplier, int):
             settings = SettingLoader().settings
-            settings.options.adjust_for_ambient_noise_second = adjust_for_ambient_noise_second
+            settings.options.recognizer_multiplier = recognizer_multiplier
 
     @staticmethod
-    def set_energy_threshold(energy_threshold):
+    def set_recognizer_energy_ratio(recognizer_energy_ratio):
         """
-        Set the new value of the energy threshold to the settings.
+        Set a new value for the recognizer_energy_ratio;
         Must be an integer.
-        :param energy_threshold: new value for the energy_threshold to push into the settings
+        :param recognizer_energy_ratio: new value to push to the recognizer_energy_ratio in the Options settings
         """
-        if isinstance(energy_threshold, int):
+        if isinstance(recognizer_energy_ratio, int):
             settings = SettingLoader().settings
-            settings.options.energy_threshold = energy_threshold
+            settings.options.recognizer_energy_ratio = recognizer_energy_ratio
+
+    @staticmethod
+    def set_recognizer_recording_timeout(recognizer_recording_timeout):
+        """
+        Set the new value of the recognizer_recording_timeoutt to the settings.
+        Must be an integer.
+        :param recognizer_recording_timeout: new value for the recognizer_recording_timeout to push into the settings
+        """
+        if isinstance(recognizer_recording_timeout, int):
+            settings = SettingLoader().settings
+            settings.options.recognizer_recording_timeout = recognizer_recording_timeout
+
+    @staticmethod
+    def set_recognizer_recording_timeout_with_silence(recognizer_recording_timeout_with_silence):
+        """
+        Set the new value of the recognizer_recording_timeout_with_silence to the settings.
+        Must be an integer.
+        :param recognizer_recording_timeout_with_silence: new value for the recognizer_recording_timeout_with_silence to push into the settings
+        """
+        if isinstance(recognizer_recording_timeout_with_silence, int):
+            settings = SettingLoader().settings
+            settings.options.recognizer_recording_timeout_with_silence = recognizer_recording_timeout_with_silence
 
     # Players
     @classmethod
