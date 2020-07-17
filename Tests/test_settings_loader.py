@@ -122,7 +122,12 @@ class TestSettingLoader(unittest.TestCase):
             "test_number": 60,
             "test": "kalliope"
         }
-        settings_object.options = Options(energy_threshold=3000, deaf=True, mute=False)
+        settings_object.options = Options(recognizer_multiplier=3000, 
+                                          recognizer_energy_ratio=3000,
+                                          recognizer_recording_timeout=3000,
+                                          recognizer_recording_timeout_with_silence=3000,
+                                          deaf=True, 
+                                          mute=False)
         settings_object.machine = platform.machine()
         settings_object.hooks = {'on_waiting_for_trigger': 'test',
                                  'on_stop_listening': None,
@@ -221,7 +226,12 @@ class TestSettingLoader(unittest.TestCase):
                          sl._get_variables(self.settings_dict))
 
     def test_get_options(self):
-        expected_result = Options(energy_threshold=3000, deaf=True, mute=False)
+        expected_result = Options(recognizer_multiplier=3000, 
+                                  recognizer_energy_ratio=3000,
+                                  recognizer_recording_timeout=3000,
+                                  recognizer_recording_timeout_with_silence=3000,
+                                  deaf=True, 
+                                  mute=False)
         sl = SettingLoader(file_path=self.settings_file_to_test)
         self.assertEqual(expected_result,
                          sl._get_options(self.settings_dict))
