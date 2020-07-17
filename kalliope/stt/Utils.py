@@ -39,7 +39,7 @@ class SpeechRecognition(Thread):
         Start the thread that listen the microphone and then give the audio to the callback method
         """
         if self.audio_stream is None:
-            Utils.print_success("Listening...")
+            Utils.print_success("Say something!")
             with self.microphone as source:
                 self.audio_stream = self.recognizer.listen(source)
 
@@ -58,3 +58,4 @@ class SpeechRecognition(Thread):
         :return:
         """
         self.callback = callback
+        
