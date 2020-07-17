@@ -34,7 +34,7 @@ class SettingsView(Blueprint):
                           methods=['GET'])
         self.add_url_rule('/settings/recognizer_energy_ratio/', view_func=self.set_recognizer_energy_ratio,
                           methods=['POST'])
-        self.add_url_rule('/settings/recognizer_recording_timeout/', view_func=self.get_recognizer_recording_timeouto,
+        self.add_url_rule('/settings/recognizer_recording_timeout/', view_func=self.get_recognizer_recording_timeout,
                           methods=['GET'])
         self.add_url_rule('/settings/recognizer_recording_timeout/', view_func=self.set_recognizer_recording_timeout,
                           methods=['POST'])
