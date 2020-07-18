@@ -66,10 +66,10 @@ class SettingEditor(object):
     def set_recognizer_multiplier(recognizer_multiplier):
         """
         Set the new value of the recognizer_multiplier to the settings.
-        Must be an integer.
+        Must be an float.
         :param recognizer_multiplier: new value for the recognizer_multiplier to push into the settings
         """
-        if isinstance(recognizer_multiplier, int):
+        if isinstance(recognizer_multiplier, float):
             settings = SettingLoader().settings
             settings.options.recognizer_multiplier = recognizer_multiplier
 
@@ -77,10 +77,10 @@ class SettingEditor(object):
     def set_recognizer_energy_ratio(recognizer_energy_ratio):
         """
         Set a new value for the recognizer_energy_ratio;
-        Must be an integer.
+        Must be an float.
         :param recognizer_energy_ratio: new value to push to the recognizer_energy_ratio in the Options settings
         """
-        if isinstance(recognizer_energy_ratio, int):
+        if isinstance(recognizer_energy_ratio, float):
             settings = SettingLoader().settings
             settings.options.recognizer_energy_ratio = recognizer_energy_ratio
 
@@ -88,10 +88,10 @@ class SettingEditor(object):
     def set_recognizer_recording_timeout(recognizer_recording_timeout):
         """
         Set the new value of the recognizer_recording_timeoutt to the settings.
-        Must be an integer.
+        Must be an float.
         :param recognizer_recording_timeout: new value for the recognizer_recording_timeout to push into the settings
         """
-        if isinstance(recognizer_recording_timeout, int):
+        if isinstance(recognizer_recording_timeout, float):
             settings = SettingLoader().settings
             settings.options.recognizer_recording_timeout = recognizer_recording_timeout
 
@@ -99,10 +99,10 @@ class SettingEditor(object):
     def set_recognizer_recording_timeout_with_silence(recognizer_recording_timeout_with_silence):
         """
         Set the new value of the recognizer_recording_timeout_with_silence to the settings.
-        Must be an integer.
+        Must be an float.
         :param recognizer_recording_timeout_with_silence: new value for the recognizer_recording_timeout_with_silence to push into the settings
         """
-        if isinstance(recognizer_recording_timeout_with_silence, int):
+        if isinstance(recognizer_recording_timeout_with_silence, float):
             settings = SettingLoader().settings
             settings.options.recognizer_recording_timeout_with_silence = recognizer_recording_timeout_with_silence
 
