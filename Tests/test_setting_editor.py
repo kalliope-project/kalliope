@@ -53,26 +53,26 @@ class TestSettingEditor(unittest.TestCase):
     def test_set_recognizer_multiplier(self):
         with mock.patch("kalliope.core.ConfigurationManager.SettingLoader") as mock_setting_loader:
             mock_setting_loader.return_value(self.sl)
-            SettingEditor.set_recognizer_multiplier(600)
-            self.assertEqual(600, self.sl.settings.options.recognizer_multiplier)
+            SettingEditor.set_recognizer_multiplier(600.0)
+            self.assertEqual(600.0, self.sl.settings.options.recognizer_multiplier)
 
     def test_set_recognizer_energy_ratio(self):
         with mock.patch("kalliope.core.ConfigurationManager.SettingLoader") as mock_setting_loader:
             mock_setting_loader.return_value(self.sl)
-            SettingEditor.set_recognizer_energy_ratio(600)
-            self.assertEqual(600, self.sl.settings.options.recognizer_energy_ratio)
+            SettingEditor.set_recognizer_energy_ratio(600.0)
+            self.assertEqual(600.0, self.sl.settings.options.recognizer_energy_ratio)
     
     def test_set_recognizer_recording_timeout(self):
         with mock.patch("kalliope.core.ConfigurationManager.SettingLoader") as mock_setting_loader:
             mock_setting_loader.return_value(self.sl)
-            SettingEditor.set_recognizer_recording_timeout(600)
-            self.assertEqual(600, self.sl.settings.options.recognizer_recording_timeout)
+            SettingEditor.set_recognizer_recording_timeout(600.0)
+            self.assertEqual(600.0, self.sl.settings.options.recognizer_recording_timeout)
 
     def test_set_recognizer_recording_timeout_with_silence(self):
         with mock.patch("kalliope.core.ConfigurationManager.SettingLoader") as mock_setting_loader:
             mock_setting_loader.return_value(self.sl)
-            SettingEditor.set_recognizer_recording_timeout_with_silence(600)
-            self.assertEqual(600, self.sl.settings.options.recognizer_recording_timeout_with_silence)
+            SettingEditor.set_recognizer_recording_timeout_with_silence(600.0)
+            self.assertEqual(600.0, self.sl.settings.options.recognizer_recording_timeout_with_silence)
 
     def test_set_default_player(self):
         default_name = "NamePlayer"
