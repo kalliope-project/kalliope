@@ -2,10 +2,10 @@ import logging
 
 import jinja2
 import six
+import traceback
 
 from kalliope.core.ConfigurationManager.SettingLoader import SettingLoader
 from kalliope.core.Cortex import Cortex
-from kalliope.core.NeuronExceptions import NeuronExceptions
 from kalliope.core.Utils.Utils import Utils
 
 logging.basicConfig()
@@ -60,9 +60,10 @@ class NeuronLauncher:
                 return None
         try:
             instantiated_neuron = NeuronLauncher.launch_neuron(neuron)
-        except NeuronExceptions as e:
+        except Exception as e:
             Utils.print_danger("ERROR: Fail to execute neuron '%s'. "
-                               '%s' ". -> Execution skipped" % (neuron.name, e.message))
+                               '%s' ". -> Execution skipped, run with debug flag for more information" % (neuron.name, e.message))
+            logger.debug(traceback.format_exc())
             return None
         return instantiated_neuron
 
