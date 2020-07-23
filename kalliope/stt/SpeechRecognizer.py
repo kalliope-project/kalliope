@@ -256,6 +256,8 @@ class ResponsiveRecognizer(speech_recognition.Recognizer):
         # The maximum time it will continue to record silence
         # when not enough noise has been detected
         self.recording_timeout_with_silence = recording_timeout_with_silence
+        if not os.path.exists("/tmp/kalliope/"):
+            os.makedirs("/tmp/kalliope/")
         self.mic_level_file = "/tmp/kalliope/mic_level"
 
     def record_sound_chunk(self, source):
