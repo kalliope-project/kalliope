@@ -45,7 +45,7 @@ class Snowboy(Thread):
 
         self.pmdl_file = kwargs.get('pmdl_file', None)  # We notify the user that the pmdl_file parameter has been changed
         if self.pmdl_file:
-            raise MissingParameterException('"pmdl_file" parameter has changed to "keyword_file", please update your snowboy settings. \n Visit https://kalliope-project.github.io/kalliope/settings/triggers/snowboy/ for more information.')
+            raise MissingParameterException('"pmdl_file" parameter has changed to "file_path", please update your snowboy settings. \n Visit https://kalliope-project.github.io/kalliope/settings/triggers/snowboy/ for more information.')
 
         if self.keywords is None and self.keyword_file is None:
             raise MissingParameterException("At least one keyword is required with snowboy")
