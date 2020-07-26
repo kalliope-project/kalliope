@@ -4,12 +4,23 @@ You can create your magic word by connecting to [Snowboy](https://snowboy.kitt.a
 
 Once downloaded, place the file in your personal config folder and configure snowboy in your [your settings](../settings.md) following the table bellow
 
+For a single keyword:
 | parameter      | required | type   | default | choices         | comment                                                                                          |
 |----------------|----------|--------|---------|-----------------|--------------------------------------------------------------------------------------------------|
-| keyword_file   | TRUE     | string |         |                 | Path to the snowboy model file. The path can be absolute or relative to the brain file           |
-| keywords       | FALSE    | string |         |                 | If you want to use multiple keywords                                                             |
+| file_path      | TRUE     | string |         |                 | Path to the snowboy model file. The path can be absolute or relative to the brain file           |
+| sensitivity    | FALSE    | string | 0.5     | between 0 and 1 | Increasing the sensitivity value lead to better detection rate, but also higher false alarm rate. For some umdl models, it can be a list of strings |
+| apply_frontend | FALSE    | string | False   | True/False      | Some universal models (umdl files) need apply_frontend to work properly                          |        
+
+
+If you want to use more then one keyword:
+
+| parameter      | required | type   | default | choices         | comment                                                                                          |
+|----------------|----------|--------|---------|-----------------|--------------------------------------------------------------------------------------------------|
+| keywords       | TRUE     | string |         |                 | If you want to use multiple keywords                                                             |
+| file_path      | TRUE     | string |         |                 | Path to the snowboy model file. The path can be absolute or relative to the brain file           |
 | sensitivity    | FALSE    | string | 0.5     | between 0 and 1 | Increasing the sensitivity value lead to better detection rate, but also higher false alarm rate. For some umdl models, it can be a list |
 | apply_frontend | FALSE    | string | False   | True/False      | Some universal models (umdl files) need apply_frontend to work properly                          |        
+
 ## apply_frontend
 
 If `apply_frontend` is true, then apply frontend audio processing;
