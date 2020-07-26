@@ -30,6 +30,8 @@ processing, it may decrease the performance. The general rule of thumb is:
     1. For personal models, set it to false.
     2. For universal models, follow the instruction of each published model
 
+As the apply_frontend flag can only be set globally, please make sure that models you are using are all supporting it if you enable it.
+
 ### Universal models
 
 Some universal models contains two keywords, if we want to set a custom sensitivity we need to add two sensitivities for each keyword.  
