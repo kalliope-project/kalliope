@@ -46,20 +46,19 @@ class Snowboy(Thread):
         if self.keywords is None:
             raise MissingParameterException("At least one keyword is required with snowboy")
 
-        if self.keywords:
-            keyword_files = list()
-            sensitivities = list()
-            for keyword in self.keywords:
-                if self.check_if_path_is_valid(keyword['file_path']):
-                    keyword_files.append(keyword['file_path'])
-                try:
-                    if not isinstance(keyword['sensitivity'], list):
-                        sensitivities.append(keyword['sensitivity'])
-                    else:
-                        for sensitivity in keyword['sensitivity']:
-                            sensitivities.append(sensitivity)
-                except KeyError:
-                    sensitivities.append(0.5)
+        keyword_files = list()
+        sensitivities = list()
+        for keyword in self.keywords:
+            if self.check_if_path_is_valid(keyword['file_path']):
+                keyword_files.append(keyword['file_path'])
+            try:
+                if not isinstance(keyword['sensitivity'], list):
+                    sensitivities.append(keyword['sensitivity'])
+                else:
+                    for sensitivity in keyword['sensitivity']:
+                        sensitivities.append(sensitivity)
+            except KeyError:
+                sensitivities.append(0.5)
 
         self.detector = snowboydecoder.HotwordDetector(keyword_files,
                                                        sensitivity=sensitivities,
