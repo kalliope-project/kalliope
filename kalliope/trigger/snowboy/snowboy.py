@@ -7,7 +7,7 @@ from kalliope.trigger.snowboy import snowboydecoder
 from cffi import FFI as _FFI
 
 
-class SnowboyModelNotFounfd(Exception):
+class SnowboyModelNotFound(Exception):
     pass
 
 
@@ -29,26 +29,42 @@ class Snowboy(Thread):
 
         # get the sensitivity if set by the user
         self.sensitivity = kwargs.get('sensitivity', 0.5)
+        self.apply_frontend = kwargs.get('apply_frontend', False)
 
         # callback function to call when hotword caught
         self.callback = kwargs.get('callback', None)
         if self.callback is None:
             raise MissingParameterException("callback function is required with snowboy")
 
-        # get the pmdl file to load
-        self.pmdl = kwargs.get('pmdl_file', None)
-        if self.pmdl is None:
-            raise MissingParameterException("Pmdl file is required with snowboy")
+        # get the keywords to load
+        self.keywords = kwargs.get('keywords', None)
 
-        self.pmdl_path = Utils.get_real_file_path(self.pmdl)
-        if not os.path.isfile(self.pmdl_path):
-            raise SnowboyModelNotFounfd("The snowboy model file %s does not exist" % self.pmdl_path)
+        self.pmdl_file = kwargs.get('pmdl_file', None)  # We notify the user that the pmdl_file parameter has been changed
+        if self.pmdl_file:
+            raise MissingParameterException('"pmdl_file" parameter is deprecated, please update your snowboy settings. \n Visit https://kalliope-project.github.io/kalliope/settings/triggers/snowboy/ for more information.')
 
-        self.detector = snowboydecoder.HotwordDetector(self.pmdl_path,
-                                                       sensitivity=self.sensitivity,
+        if self.keywords is None:
+            raise MissingParameterException("At least one keyword is required with snowboy")
+
+        keyword_files = list()
+        sensitivities = list()
+        for keyword in self.keywords:
+            if self.check_if_path_is_valid(keyword['file_path']):
+                keyword_files.append(keyword['file_path'])
+            try:
+                if not isinstance(keyword['sensitivity'], list):
+                    sensitivities.append(keyword['sensitivity'])
+                else:
+                    for sensitivity in keyword['sensitivity']:
+                        sensitivities.append(sensitivity)
+            except KeyError:
+                sensitivities.append(0.5)
+
+        self.detector = snowboydecoder.HotwordDetector(keyword_files,
+                                                       sensitivity=sensitivities,
                                                        detected_callback=self.callback,
                                                        interrupt_check=self.interrupt_callback,
-                                                       sleep_time=0.03)
+                                                       apply_frontend=self.apply_frontend)
 
     def interrupt_callback(self):
         """
@@ -89,6 +105,15 @@ class Snowboy(Thread):
         logger.debug("Killing snowboy process")
         self.interrupted = True
         self.detector.terminate()
+
+
+    def check_if_path_is_valid(self, keyword_file):
+        try:
+            keyword_path = Utils.get_real_file_path(keyword_file)
+            os.path.isfile(keyword_path)
+        except TypeError: 
+            raise SnowboyModelNotFound("The keyword at %s does not exist" % keyword_file)
+        return True
 
     @staticmethod
     def _ignore_stderr():
