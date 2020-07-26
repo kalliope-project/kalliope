@@ -8,15 +8,11 @@ from . import snowboydetect
 import time
 import os
 import logging
-from kalliope import Utils
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
 TOP_DIR = os.path.dirname(os.path.abspath(__file__))
 
 RESOURCE_FILE = os.path.join(TOP_DIR, "resources/common.res")
-DETECT_DING = os.path.join(TOP_DIR, "resources/ding.wav")
-DETECT_DONG = os.path.join(TOP_DIR, "resources/dong.wav")
-
 
 class SnowboyOpenAudioException(Exception):
     pass
@@ -57,14 +53,21 @@ class HotwordDetector(Thread):
                               decoder. If an empty list is provided, then the
                               default sensitivity in the model will be used.
     :param audio_gain: multiply input volume by this factor.
+    :param apply_frontend: applies the frontend processing algorithm if True.
     """
-    def __init__(self, decoder_model, resource=RESOURCE_FILE, sensitivity=[], audio_gain=1, detected_callback=None,
-                 interrupt_check=lambda: False, sleep_time=0.03):
+    def __init__(self, 
+                 decoder_model, 
+                 resource=RESOURCE_FILE, 
+                 sensitivity=[], 
+                 audio_gain=1,
+                 apply_frontend=False,
+                 detected_callback=None,
+                 interrupt_check=lambda: False):
 
         super(HotwordDetector, self).__init__()
         self.detected_callback = detected_callback
         self.interrupt_check = interrupt_check
-        self.sleep_time = sleep_time
+        self.sleep_time = 0.03
         self.kill_received = False
         self.paused = False
 
@@ -84,14 +87,24 @@ class HotwordDetector(Thread):
         self.detector = snowboydetect.SnowboyDetect(
             resource_filename=resource.encode(), model_str=model_str.encode())
         self.detector.SetAudioGain(audio_gain)
+        self.detector.ApplyFrontend(apply_frontend)
         self.num_hotwords = self.detector.NumHotwords()
-
-        if len(decoder_model) > 1 and len(sensitivity) == 1:
-            sensitivity = sensitivity*self.num_hotwords
-        if len(sensitivity) != 0:
+        
+        if len(sensitivity) > self.num_hotwords:            # If more sensitivities available as hotwords, it will raise an AssertionError
             assert self.num_hotwords == len(sensitivity), \
                 "number of hotwords in decoder_model (%d) and sensitivity " \
                 "(%d) does not match" % (self.num_hotwords, len(sensitivity))
+
+        if len(sensitivity) != self.num_hotwords:           # Some umdl model contains more then one keyword.
+            sensitivity_match_hotwords = False             # If the user sets only one sensitivity, we add for the second model a default sensitivity of 0.5
+            while not sensitivity_match_hotwords:
+                sensitivity.append(0.5)
+                if len(sensitivity) == self.num_hotwords:
+                    sensitivity_match_hotwords = True
+        
+        if len(decoder_model) > 1 and len(sensitivity) == 1:
+            sensitivity = sensitivity*self.num_hotwords
+
         sensitivity_str = ",".join([str(t) for t in sensitivity])
         if len(sensitivity) != 0:
             self.detector.SetSensitivity(sensitivity_str.encode())
@@ -170,10 +183,8 @@ class HotwordDetector(Thread):
                 ans = self.detector.RunDetection(data)
                 if ans == -1:
                     logger.warning("Error initializing streams or reading audio data")
-                elif ans > 0:
-                    message = "Keyword " + str(ans) + " detected at time: "
-                    message += time.strftime("%Y-%m-%d %H:%M:%S",
-                                             time.localtime(time.time()))
+                elif ans > 0: 
+                    message = "Keyword %s detected" % ans
                     logger.debug(message)
                     callback = self.detected_callback[ans-1]
                     if callback is not None:
