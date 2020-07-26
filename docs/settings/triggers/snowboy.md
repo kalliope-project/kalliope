@@ -1,39 +1,42 @@
-## Parameters
+# Parameters
 
 You can create your magic word by connecting to [Snowboy](https://snowboy.kitt.ai/) and then download the trained model file.
 
 Once downloaded, place the file in your personal config folder and configure snowboy in your [your settings](../settings.md) following the table bellow
 
-For a single keyword:
-| parameter      | required | type   | default | choices         | comment                                                                                          |
-|----------------|----------|--------|---------|-----------------|--------------------------------------------------------------------------------------------------|
-| file_path      | TRUE     | string |         |                 | Path to the snowboy model file. The path can be absolute or relative to the brain file           |
-| sensitivity    | FALSE    | string | 0.5     | between 0 and 1 | Increasing the sensitivity value lead to better detection rate, but also higher false alarm rate. For some umdl models, it can be a list of strings |
-| apply_frontend | FALSE    | string | False   | True/False      | Some universal models (umdl files) need apply_frontend to work properly                          |        
+Snowboy config:
 
+| parameter      | required | type   | default | choices    | comment                                                                                        |
+| -------------- | -------- | ------ | ------- | ---------- | ---------------------------------------------------------------------------------------------- |
+| keywords       | TRUE     | list   |         |            | List of `Keyword` objects                                                           |
+| apply_frontend | FALSE    | string | False   | True/False | Some universal models (umdl files) need apply_frontend to work properly. See explanation below |
 
-If you want to use more then one keyword:
+`Keyword` object:
 
-| parameter      | required | type   | default | choices         | comment                                                                                          |
-|----------------|----------|--------|---------|-----------------|--------------------------------------------------------------------------------------------------|
-| keywords       | TRUE     | string |         |                 | If you want to use multiple keywords                                                             |
-| file_path      | TRUE     | string |         |                 | Path to the snowboy model file. The path can be absolute or relative to the brain file           |
-| sensitivity    | FALSE    | string | 0.5     | between 0 and 1 | Increasing the sensitivity value lead to better detection rate, but also higher false alarm rate. For some umdl models, it can be a list |
-| apply_frontend | FALSE    | string | False   | True/False      | Some universal models (umdl files) need apply_frontend to work properly                          |        
+| parameter   | required | type        | default | choices         | comment                                                                                                                                                         |
+| ----------- | -------- | ----------- | ------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| file_path   | TRUE     | string      |         |                 | Path to the snowboy model file. The path can be absolute or relative to the brain file                                                                          |
+| sensitivity | FALSE    | string/list | 0.5     | between 0 and 1 | Increasing the sensitivity value lead to better detection rate, but also higher false alarm rate. For some umdl models, it can be a string or a list of strings |
 
-## apply_frontend
+## Notes
+
+### apply_frontend
 
 If `apply_frontend` is true, then apply frontend audio processing;
-otherwise turns the audio processing off. Frontend audio processing
-includes algorithms such as automatic gain control (AGC), noise suppression
-(NS) and so on. Generally adding frontend audio processing helps the
-performance, but if the model is not trained with frontend audio
+otherwise turns the audio processing off. Frontend audio processing includes algorithms such as automatic gain control (AGC), noise suppression
+(NS) and so on. Generally adding frontend audio processing helps the performance, but if the model is not trained with frontend audio
 processing, it may decrease the performance. The general rule of thumb is:
+
     1. For personal models, set it to false.
     2. For universal models, follow the instruction of each published model
-    
-## Example settings for single keyword
 
+### Universal models
+
+Some universal models contains two keywords, if we want to set a custom sensitivity we need to add two sensitivities for each keyword.  
+
+## Configuration examples
+
+Example settings for single keyword
 ```yaml
 # This is the trigger engine that will catch your magic work to wake up Kalliope.
 default_trigger: "snowboy"
@@ -41,13 +44,13 @@ default_trigger: "snowboy"
 # Trigger engine configuration
 triggers:
   - snowboy:
-      keyword_file: "trigger/kalliope-FR.pmdl"
+      keywords:
+        - file_path: "trigger/kalliope-FR.pmdl"
+          sensitivity: "0.6"
 ```
 
-## Note
-Some universal models contains two keywords, if we want to set a custom sensitivity we need to add two sensitivities for each keyword.  
 
-## Example settings for multiple keywords, where we set the sensitivity for jarvis.umdl and set apply_frontend to True
+Example settings for multiple keywords, where we set the sensitivity for jarvis.umdl and set apply_frontend to True
 
 ```yaml
 # This is the trigger that will catch your magic work to wake up Kalliope
@@ -56,12 +59,11 @@ triggers:
   - snowboy:
       apply_frontend: True
       keywords:
-        - keyword_file: "trigger/kalliope-FR.pmdl"
-        - keyword_file: "trigger/jarvis.umdl"
+        - file_path: "trigger/kalliope-FR.pmdl"
+        - file_path: "trigger/jarvis.umdl"
           sensitivity:
             - "0.6"
             - "0.7"  
-
 ```
 ## Available Snowboy models
 

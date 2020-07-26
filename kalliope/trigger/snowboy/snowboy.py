@@ -29,33 +29,29 @@ class Snowboy(Thread):
 
         # get the sensitivity if set by the user
         self.sensitivity = kwargs.get('sensitivity', 0.5)
-
         self.apply_frontend = kwargs.get('apply_frontend', False)
-
 
         # callback function to call when hotword caught
         self.callback = kwargs.get('callback', None)
         if self.callback is None:
             raise MissingParameterException("callback function is required with snowboy")
 
-
         # get the keywords to load
         self.keywords = kwargs.get('keywords', None)
-        self.keyword_file = kwargs.get('keyword_file', None)
 
         self.pmdl_file = kwargs.get('pmdl_file', None)  # We notify the user that the pmdl_file parameter has been changed
         if self.pmdl_file:
-            raise MissingParameterException('"pmdl_file" parameter has changed to "file_path", please update your snowboy settings. \n Visit https://kalliope-project.github.io/kalliope/settings/triggers/snowboy/ for more information.')
+            raise MissingParameterException('"pmdl_file" parameter is deprecated, please update your snowboy settings. \n Visit https://kalliope-project.github.io/kalliope/settings/triggers/snowboy/ for more information.')
 
-        if self.keywords is None and self.keyword_file is None:
+        if self.keywords is None:
             raise MissingParameterException("At least one keyword is required with snowboy")
 
         if self.keywords:
             keyword_files = list()
             sensitivities = list()
             for keyword in self.keywords:
-                if self.check_if_path_is_valid(keyword['keyword_file']):
-                    keyword_files.append(keyword['keyword_file'])
+                if self.check_if_path_is_valid(keyword['file_path']):
+                    keyword_files.append(keyword['file_path'])
                 try:
                     if not isinstance(keyword['sensitivity'], list):
                         sensitivities.append(keyword['sensitivity'])
@@ -64,10 +60,6 @@ class Snowboy(Thread):
                             sensitivities.append(sensitivity)
                 except KeyError:
                     sensitivities.append(0.5)
-        else:
-            if self.check_if_path_is_valid(self.keyword_file):
-                keyword_files = self.keyword_file
-                sensitivities = self.sensitivity
 
         self.detector = snowboydecoder.HotwordDetector(keyword_files,
                                                        sensitivity=sensitivities,
