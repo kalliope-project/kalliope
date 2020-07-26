@@ -8,9 +8,19 @@ Once downloaded, place the file in your personal config folder and configure sno
 |----------------|----------|--------|---------|-----------------|--------------------------------------------------------------------------------------------------|
 | keyword_file   | TRUE     | string |         |                 | Path to the snowboy model file. The path can be absolute or relative to the brain file           |
 | keywords       | FALSE    | string |         |                 | If you want to use multiple keywords                                                             |
-| sensitivity    | FALSE    | string | 0.5     | between 0 and 1 | Increasing the sensitivity value lead to better detection rate, but also higher false alarm rate |
+| sensitivity    | FALSE    | string | 0.5     | between 0 and 1 | Increasing the sensitivity value lead to better detection rate, but also higher false alarm rate. For some umdl models, it can be a list |
 | apply_frontend | FALSE    | string | False   | True/False      | Some universal models (umdl files) need apply_frontend to work properly                          |        
+## apply_frontend
 
+If `apply_frontend` is true, then apply frontend audio processing;
+otherwise turns the audio processing off. Frontend audio processing
+includes algorithms such as automatic gain control (AGC), noise suppression
+(NS) and so on. Generally adding frontend audio processing helps the
+performance, but if the model is not trained with frontend audio
+processing, it may decrease the performance. The general rule of thumb is:
+    1. For personal models, set it to false.
+    2. For universal models, follow the instruction of each published model
+    
 ## Example settings for single keyword
 
 ```yaml
@@ -76,7 +86,7 @@ Then, open an issue or create a pull request to add the model to the list bellow
 ## Pretrained universal models
 
 Snowboy provides pretrained universal models.
-Ŷou can either find them [here](https://github.com/Kitt-AI/snowboy/tree/master/resources) or in the kalliope repo under `kalliope/kalliope/trigger/snowboy/resources/models/umdl` 
+Ŷou can either find them [here](https://github.com/Kitt-AI/snowboy/tree/master/resources)
 
 Here is the list of the umdl models, and the parameters that you have to use for them:
 
