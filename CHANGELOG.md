@@ -1,3 +1,15 @@
+v0.7.0 / 2020-07-28
+===================
+- Fix: fix volume neuron when decrease the volume
+- Fix: #612 kalliope_memory now available from file_template
+- Fix: remove output warnings
+- Enhancement: pause the trigger instead of killing it to save time in the process
+- Enhancement: add support for pulseaudio
+- Enhancement: refactor speech reco class to enhance performance
+- Enhancement: prevent kalliope from crashing when a neuron fail to execute
+- Enhancement: add multiple model support to Snowboy trigger
+- Enhancement: add support of python 3.8 for x86_64 systems
+
 v0.6.0 / 2020-02-29
 ===================
 - Fix: fix stt correction. order was not updated
