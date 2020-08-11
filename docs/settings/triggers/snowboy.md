@@ -101,7 +101,7 @@ Then, open an issue or create a pull request to add the model to the list bellow
 ## Pretrained universal models
 
 Snowboy provides pretrained universal models.
-Ŷou can either find them [here](https://github.com/Kitt-AI/snowboy/tree/master/resources)
+You can find them [here](https://github.com/Kitt-AI/snowboy/tree/master/resources).
 
 Here is the list of the umdl models, and the parameters that you have to use for them:
 
