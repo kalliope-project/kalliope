@@ -256,9 +256,6 @@ class ResponsiveRecognizer(speech_recognition.Recognizer):
         # The maximum time it will continue to record silence
         # when not enough noise has been detected
         self.recording_timeout_with_silence = recording_timeout_with_silence
-        if not os.path.exists("/tmp/kalliope/"):
-            os.makedirs("/tmp/kalliope/")
-        self.mic_level_file = "/tmp/kalliope/mic_level"
 
     def record_sound_chunk(self, source):
         return source.stream.read(source.CHUNK, self.overflow_exc)
@@ -315,21 +312,9 @@ class ResponsiveRecognizer(speech_recognition.Recognizer):
             # The phrase is complete if the noise_tracker end of sentence
             # criteria is met or if the  top-button is pressed
             phrase_complete = (noise_tracker.recording_complete())
-
-            # Periodically write the energy level to the mic level file.
-            if num_chunks % 10 == 0:
-                self.write_mic_level(energy, source)
-
+            
         return byte_data
     
-    def write_mic_level(self, energy, source):
-        with open(self.mic_level_file, 'w') as f:
-            f.write('Energy:  cur={} thresh={:.3f}'.format(
-                energy,
-                self.energy_threshold
-                )
-            )
-
     @staticmethod
     def _create_audio_data(raw_data, source):
         """

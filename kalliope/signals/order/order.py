@@ -110,7 +110,6 @@ class Order(SignalModule, Thread):
         self.trigger_instance.unpause()  
         self.trigger_callback_called = False    
         self.next_state()
-        #self.waiting_for_trigger_callback_thread()
 
     def waiting_for_trigger_callback_thread(self):
         """
@@ -125,8 +124,6 @@ class Order(SignalModule, Thread):
         # this loop is used to keep the main thread alive
         while not self.trigger_callback_called:
             sleep(0.1)
-        # if here, then the trigger has been called
-        HookManager.on_triggered()
         self.next_state()
 
     def waiting_for_order_listener_callback_thread(self):
@@ -155,6 +152,8 @@ class Order(SignalModule, Thread):
         """
         logger.debug("[Order] Entering state: %s" % self.state)
         self.trigger_instance.pause()
+        # if here, then the trigger has been called and paused
+        HookManager.on_triggered()
         self.next_state()
 
     def start_order_listener_thread(self):
