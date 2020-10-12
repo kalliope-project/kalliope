@@ -101,7 +101,7 @@ setup(
         'voicerss_tts>=1.0.6',
         'gTTS>=2.0.3',
         'urllib3>=1.25.3',
-        'gevent==1.4.0'
+        'gevent>=20.9.0'
     ],
 
     # additional files
