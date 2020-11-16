@@ -10,7 +10,8 @@ logger = logging.getLogger("kalliope")
 API_VERSION = "v1"
 TTS_URL = "https://stream.watsonplatform.net/text-to-speech/api/"
 TTS_CONTENT_TYPE = "audio/wav"
-
+TTS_PITCH = "default"
+TTS_RATE = "default"
 
 class Watson(TTSModule):
     def __init__(self, **kwargs):
@@ -20,6 +21,8 @@ class Watson(TTSModule):
         self.apikey = kwargs.get('apikey', None)
         self.location = kwargs.get('location', TTS_URL)
         self.voice = kwargs.get('voice', None)
+        self.pitch = kwargs.get('pitch', TTS_PITCH)
+        self.rate = kwargs.get('rate', TTS_RATE)
 
         self._check_parameters()
 
@@ -70,5 +73,5 @@ class Watson(TTSModule):
 
     def get_payload(self):
         return {
-            "text": self.words
+            "text": "<s><prosody pitch='"+self.pitch+"' rate='"+self.rate+"'>" + self.words + "</prosody></s>"
         }
