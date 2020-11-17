@@ -14,13 +14,14 @@ Once you project created, you should see your credentials like the following
 
 ## Input parameters
 
-| Parameters | Required | Default | Choices               | Comment                                           |
-|------------|----------|---------|-----------------------|---------------------------------------------------|
-| apikey     | yes      |         |                       | apikey provided by [IAM](https://console.bluemix.net/docs/services/watson/getting-started-iam.html) |
-| location   | no       |  LONDON |                       | [endpoint location](https://www.ibm.com/watson/developercloud/text-to-speech/api/v1/curl.html?curl#service-endpoint) |
-| voice      | yes      |         | See voice table below | Code that define the voice used for the synthesis |
-| pitch      | no       | medium  | [See accepted values here](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-elements#prosody-pitch) | Modifies the baseline pitch for the text  |
-| rate       | no       | medium  | [See accepted values here](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-elements#prosody-rate) | Change the speaking rate for the text |
+
+| Parameters | Required | Default | Choices                                                                                                           | Comment                                                                                                              |
+| ---------- | -------- | ------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| apikey     | yes      |         |                                                                                                                   | apikey provided by [IAM](https://console.bluemix.net/docs/services/watson/getting-started-iam.html)                  |
+| location   | no       | LONDON  |                                                                                                                   | [endpoint location](https://www.ibm.com/watson/developercloud/text-to-speech/api/v1/curl.html?curl#service-endpoint) |
+| voice      | yes      |         | See voice table below                                                                                             | Code that define the voice used for the synthesis                                                                    |
+| pitch      | no       | medium  | [See accepted values here](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-elements#prosody-pitch) | Modifies the baseline pitch for the text                                                                             |
+| rate       | no       | medium  | [See accepted values here](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-elements#prosody-rate)  | Change the speaking rate for the text                                                                                |
 
 ## Voice code
 
@@ -75,6 +76,8 @@ text_to_speech:
       apikey: "MyRANDOMAPIKEY"
       voice: "fr-FR_ReneeVoice"
       location: "https://stream-fra.watsonplatform.net/text-to-speech/api"
+      pitch: "+3st"
+      rate: "+10%"
 ```
 
 ## Notes
