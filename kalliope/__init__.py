@@ -232,6 +232,10 @@ def start_rest_api(settings, brain):
         flask_api.daemon = True
         flask_api.start()
 
+# signal handler to catch CONT and wake up trigger
+def wakeup(signo, _frame):
+    print("Interrupted by %d, waking up" % signo)
+    SignalLauncher.get_order_instance().wakeup()
 
 def start_kalliope(settings, brain):
     """
@@ -242,6 +246,7 @@ def start_kalliope(settings, brain):
     Utils.print_info("Press Ctrl+C for stopping")
     # catch signal for killing on Ctrl+C pressed
     signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGCONT, wakeup)
 
     # get a list of signal class to load from declared synapse in the brain
     # this list will contain string of signal class type.

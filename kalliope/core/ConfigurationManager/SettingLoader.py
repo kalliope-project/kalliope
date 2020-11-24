@@ -707,7 +707,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
                 send_anonymous_usage_stats = "not_defined_id"
 
         except KeyError:
-            # if the user haven't set this flag
-            send_anonymous_usage_stats = cid
+            # if the user haven't set this flag we default to silent
+            send_anonymous_usage_stats = "not_defined_id"
         logger.debug("[SettingsLoader] send_anonymous_usage_stats: %s" % send_anonymous_usage_stats)
         return send_anonymous_usage_stats

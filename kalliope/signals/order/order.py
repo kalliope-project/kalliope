@@ -1,6 +1,6 @@
 import logging
-from threading import Thread
-from time import sleep
+from threading import Thread, Event
+from time import sleep, time
 
 from kalliope.core.SignalModule import SignalModule
 from kalliope.core.Cortex import Cortex
@@ -83,6 +83,9 @@ class Order(SignalModule, Thread):
         self.machine.on_enter_start_order_listener('start_order_listener_thread')
         self.machine.on_enter_waiting_for_order_listener_callback('waiting_for_order_listener_callback_thread')
         self.machine.on_enter_analysing_order('analysing_order_thread')
+
+	# add thread to interrupt when sleeping
+        self.Wakeup = Event()
         
     def run(self):
         # run hook on_start
@@ -111,6 +114,11 @@ class Order(SignalModule, Thread):
         self.trigger_callback_called = False    
         self.next_state()
 
+    def wakeup(self):
+        logger.debug("Trigger is waking")
+        logger.debug("[Order] Entering wakeup state: %s" % self.state)
+        self.Wakeup.set()
+
     def waiting_for_trigger_callback_thread(self):
         """
         Method to print in debug that the main process is waiting for a trigger detection
@@ -121,9 +129,27 @@ class Order(SignalModule, Thread):
             self.trigger_instance.pause()
         else:
             Utils.print_info("Waiting for trigger detection")
+
         # this loop is used to keep the main thread alive
-        while not self.trigger_callback_called:
-            sleep(0.1)
+        if self.settings.variables["max_time"] == 0:
+           while not self.trigger_callback_called:
+              sleep(0.1)
+        else:
+          while not self.trigger_callback_called: # keep main thread alive
+            self.Wakeup.clear()
+            self.settings.variables["finish_time"] = time()
+            logger.debug(str(self.settings.variables["finish_time"]))
+            while self.settings.variables["finish_time"] > time() - self.settings.variables["max_time"] and not self.trigger_callback_called:
+               sleep(0.1)
+            if not self.trigger_callback_called:
+               logger.debug("Entering thread wait")
+               logger.debug(str(self.settings.variables["finish_time"]))
+               self.trigger_instance.pause()
+               self.Wakeup.wait(36000)
+               self.trigger_instance.unpause() # signal 18 has been sent to to wakeup
+        # if here, then the trigger has been called
+        logger.debug("Trigger callback called, switching to the next state: %s" % self.state)
+        HookManager.on_triggered()
         self.next_state()
 
     def waiting_for_order_listener_callback_thread(self):
