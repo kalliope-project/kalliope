@@ -1,17 +1,38 @@
 
 
 
+
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
       
       
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.3.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.3">
     
     
       
@@ -19,9 +40,9 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.6e35a1a6.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a46bcfb3.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -30,13 +51,16 @@
       
     
     
+      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+    
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
     
     
     
@@ -45,76 +69,71 @@
     
   </head>
   
+    
+    
+    <body dir="ltr" data-md-color-primary="teal" data-md-color-accent="pink">
   
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="pink">
-  
-    
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#brainyml" class="md-skip">
-          Skip to content
-        </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#brainyml" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
     
       <header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="../.." title="Kalliope doc" class="md-header-nav__button md-logo" aria-label="Kalliope doc">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
-
-    </a>
-    <label class="md-header-nav__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
-    </label>
-    <div class="md-header-nav__title" data-md-component="header-title">
-      
-        <div class="md-header-nav__ellipsis">
-          <span class="md-header-nav__topic md-ellipsis">
-            Kalliope doc
-          </span>
-          <span class="md-header-nav__topic md-ellipsis">
-            
-              brain.yml
-            
-          </span>
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="Kalliope doc" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Kalliope doc
+            </span>
+            <span class="md-header-nav__topic">
+              
+                brain.yml
+              
+            </span>
+          
         </div>
-      
-    </div>
-    
-      <label class="md-header-nav__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-      </label>
-      
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
-      <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
       </button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
+        <div class="md-search-result" data-md-component="result">
           <div class="md-search-result__meta">
-            Initializing search
+            Type to start searching
           </div>
           <ol class="md-search-result__list"></ol>
         </div>
@@ -122,32 +141,31 @@
     </div>
   </div>
 </div>
-    
-    
+        
+      </div>
+      
+    </div>
   </nav>
 </header>
     
-    <div class="md-container" data-md-component="container">
+    <div class="md-container">
       
         
       
       
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
           
             
               <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Kalliope doc" class="md-nav__button md-logo" aria-label="Kalliope doc">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../.." title="Kalliope doc" class="md-nav__button md-logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
-
+        <i class="md-icon"></i>
+      
     </a>
     Kalliope doc
   </label>
@@ -173,19 +191,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       Installation
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Installation" data-md-level="1">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-2">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Installation
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -263,19 +275,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
     
     <label class="md-nav__link" for="nav-5">
       Settings
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Settings" data-md-level="1">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-5">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Settings
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -300,19 +306,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5-2" type="checkbox" id="nav-5-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-2" type="checkbox" id="nav-5-2">
     
     <label class="md-nav__link" for="nav-5-2">
       Trigger
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Trigger" data-md-level="2">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-5-2">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Trigger
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -342,19 +342,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5-3" type="checkbox" id="nav-5-3">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-3" type="checkbox" id="nav-5-3">
     
     <label class="md-nav__link" for="nav-5-3">
       Player
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Player" data-md-level="2">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-5-3">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Player
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -420,19 +414,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5-4" type="checkbox" id="nav-5-4">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-4" type="checkbox" id="nav-5-4">
     
     <label class="md-nav__link" for="nav-5-4">
       STT
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="STT" data-md-level="2">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-5-4">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         STT
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -522,19 +510,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5-5" type="checkbox" id="nav-5-5">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-5" type="checkbox" id="nav-5-5">
     
     <label class="md-nav__link" for="nav-5-5">
       TTS
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="TTS" data-md-level="2">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-5-5">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         TTS
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -631,19 +613,13 @@
 
   <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
     
     <label class="md-nav__link" for="nav-6">
       Brain
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Brain" data-md-level="1">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-6">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Brain
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -658,16 +634,13 @@
 
   <li class="md-nav__item md-nav__item--active">
     
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
       
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
         brain.yml
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
-        </span>
       </label>
     
     <a href="./" title="brain.yml" class="md-nav__link md-nav__link--active">
@@ -675,18 +648,13 @@
     </a>
     
       
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+<nav class="md-nav md-nav--secondary">
   
   
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </span>
-      Table of contents
-    </label>
+    <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
@@ -694,7 +662,7 @@
     Signals
   </a>
   
-    <nav class="md-nav" aria-label="Signals">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -728,7 +696,7 @@
     Neurons
   </a>
   
-    <nav class="md-nav" aria-label="Neurons">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -757,7 +725,7 @@
     kalliope_memory
   </a>
   
-    <nav class="md-nav" aria-label="kalliope_memory">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -798,6 +766,10 @@
   
 </li>
       
+      
+      
+      
+      
     </ul>
   
 </nav>
@@ -812,19 +784,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6-2" type="checkbox" id="nav-6-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-2" type="checkbox" id="nav-6-2">
     
     <label class="md-nav__link" for="nav-6-2">
       Core signals
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Core signals" data-md-level="2">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-6-2">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Core signals
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -890,19 +856,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6-3" type="checkbox" id="nav-6-3">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-3" type="checkbox" id="nav-6-3">
     
     <label class="md-nav__link" for="nav-6-3">
       Core neurons
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Core neurons" data-md-level="2">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-6-3">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Core neurons
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1153,19 +1113,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
     
     <label class="md-nav__link" for="nav-8">
       API
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="API" data-md-level="1">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-8">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         API
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1231,19 +1185,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
     
     <label class="md-nav__link" for="nav-9">
       Contribute
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Contribute" data-md-level="1">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-9">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Contribute
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1349,18 +1297,13 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+<nav class="md-nav md-nav--secondary">
   
   
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </span>
-      Table of contents
-    </label>
+    <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
@@ -1368,7 +1311,7 @@
     Signals
   </a>
   
-    <nav class="md-nav" aria-label="Signals">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1402,7 +1345,7 @@
     Neurons
   </a>
   
-    <nav class="md-nav" aria-label="Neurons">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1431,7 +1374,7 @@
     kalliope_memory
   </a>
   
-    <nav class="md-nav" aria-label="kalliope_memory">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1472,6 +1415,10 @@
   
 </li>
       
+      
+      
+      
+      
     </ul>
   
 </nav>
@@ -1483,9 +1430,6 @@
           <div class="md-content">
             <article class="md-content__inner md-typeset">
               
-                
-                
-                  
                 
                 
                 <h1 id="brainyml">brain.yml</h1>
@@ -1501,42 +1445,42 @@
 <h3 id="syntax">Syntax</h3>
 <p>A signal is an input event triggered by a synapse. When a signal from the list is caught, Kalliope runs attached neurons of the synapse.</p>
 <p>The syntax is the following</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">signals</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">signals</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">signal_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">parameter</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Or</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">signals</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">signals</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">signal_name</span><span class="p">:</span>
       <span class="nt">parameter_key1</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">parameter_value1</span>
       <span class="nt">parameter_key2</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">parameter_value2</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Example:</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">signals</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">signals</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;hello</span><span class="nv"> </span><span class="s">kalliope&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
-<div class="codehilite"><pre><span></span><code><span class="nt">signals</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">signals</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">event</span><span class="p">:</span>
       <span class="nt">hour</span><span class="p">:</span> <span class="s">&quot;8&quot;</span>
       <span class="nt">minute</span><span class="p">:</span> <span class="s">&quot;30&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>You can also set an empty list as signals. This means that the synapse can only be started from the CLI, the API, a hook or from another synapse.</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">signals</span><span class="p">:</span> <span class="p p-Indicator">[]</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="nt">signals</span><span class="p">:</span> <span class="p p-Indicator">[]</span>
+</pre></div>
 
 
 <h3 id="output-parameters">Output parameters</h3>
 <p>Some signals will send a list of parameters to all neurons when triggered. Neurons are then free to use them or not.
 For example, the signal mqtt_subscriber(signals/mqtt_subscriber.md) send a variable called "mqtt_subscriber_message" when triggered. In the example bellow, the neuron "say" use this variable to make Kalliope speak out loud a status received from the MQTT broker.</p>
 <p>E.g</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;mqtt&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;mqtt&quot;</span>
   <span class="nt">signals</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">mqtt_subscriber</span><span class="p">:</span>   <span class="c1"># this signal send a &quot;mqtt_subscriber_message&quot; when triggered</span>
         <span class="nt">broker_ip</span><span class="p">:</span> <span class="s">&quot;127.0.0.1&quot;</span>
@@ -1545,7 +1489,7 @@ For example, the signal mqtt_subscriber(signals/mqtt_subscriber.md) send a varia
     <span class="p p-Indicator">-</span> <span class="nt">say</span><span class="p">:</span>
         <span class="nt">message</span><span class="p">:</span>
           <span class="p p-Indicator">-</span> <span class="s">&quot;The</span><span class="nv"> </span><span class="s">light</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">now</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">mqtt_subscriber_message</span><span class="nv"> </span><span class="s">}}&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <h3 id="available-signals">Available signals</h3>
@@ -1583,19 +1527,19 @@ You can add as many neurons as you want to a synapse. The neurons are executed o
 <h3 id="syntax_1">Syntax</h3>
 <p>Neurons are declared in the <code>neurons</code> section of a synapse in your brain file.
 The <code>neurons</code> section is a list (because it starts with a "-") which contains neuron modules names</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">neurons</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">neurons</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">neuron_1_name</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">neuron_2_name</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">another_neuron</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Some neurons need parameters that can be passed as arguments following the syntax bellow:</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">neurons</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">neurons</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">neuron_name</span><span class="p">:</span>
         <span class="nt">parameter1</span><span class="p">:</span> <span class="s">&quot;value1&quot;</span>
         <span class="nt">parameter2</span><span class="p">:</span> <span class="s">&quot;value2&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Eg:</p>
@@ -1613,38 +1557,38 @@ The <code>neurons</code> section is a list (because it starts with a "-") which 
 <li>kalliope memory</li>
 </ul>
 <p>From the neuron declaration:</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">neurons</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">neurons</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">neuron_name</span><span class="p">:</span>
         <span class="nt">parameter1</span><span class="p">:</span> <span class="s">&quot;value1&quot;</span>
         <span class="nt">parameter2</span><span class="p">:</span> <span class="s">&quot;value2&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>From global variables: (cf: <a href="../../settings/settings/#global-variables">settings</a>)</p>
-<div class="codehilite"><pre><span></span><code>  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;run-simple-sleep&quot;</span>
+<div class="codehilite"><pre><span></span>  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;run-simple-sleep&quot;</span>
     <span class="nt">signals</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;Wait</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">me</span><span class="nv"> </span><span class="s">&quot;</span>
     <span class="nt">neurons</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">sleep</span><span class="p">:</span>
           <span class="nt">seconds</span><span class="p">:</span> <span class="p p-Indicator">{{</span><span class="nv">variable</span><span class="p p-Indicator">}}</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>From the captured order:</p>
-<div class="codehilite"><pre><span></span><code>  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;say-hello&quot;</span>
+<div class="codehilite"><pre><span></span>  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;say-hello&quot;</span>
     <span class="nt">signals</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;say</span><span class="nv"> </span><span class="s">hello</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">name</span><span class="nv"> </span><span class="s">}}&quot;</span>
     <span class="nt">neurons</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">say</span><span class="p">:</span>
           <span class="nt">message</span><span class="p">:</span>
             <span class="p p-Indicator">-</span> <span class="s">&quot;Hello</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">name</span><span class="nv"> </span><span class="s">}}&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Here, the spoken value captured by the TTS engine will be passed as an argument to the neuron in every parameters that want use it.</p>
 <p>Example, with the synapse declaration above, if you say "say hello to Bob". The parameter message is instantiated and all <code>{{ name }}</code> are replaced by "bob".</p>
 <p>From parameters sent by a signal(E.g, mqtt subscriber)</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;mqtt&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;mqtt&quot;</span>
   <span class="nt">signals</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">mqtt_subscriber</span><span class="p">:</span>   <span class="c1"># this signal send a &quot;mqtt_subscriber_message&quot; when triggered</span>
         <span class="nt">broker_ip</span><span class="p">:</span> <span class="s">&quot;127.0.0.1&quot;</span>
@@ -1653,7 +1597,7 @@ The <code>neurons</code> section is a list (because it starts with a "-") which 
     <span class="p p-Indicator">-</span> <span class="nt">say</span><span class="p">:</span>
         <span class="nt">message</span><span class="p">:</span>
           <span class="p p-Indicator">-</span> <span class="s">&quot;The</span><span class="nv"> </span><span class="s">light</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">now</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">mqtt_subscriber_message</span><span class="nv"> </span><span class="s">}}&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <blockquote>
@@ -1667,40 +1611,40 @@ the <a href="https://en.wikipedia.org/wiki/Jinja_(template_engine)">template eng
 <p>The template engine used in Kalliope is <a href="http://jinja.pocoo.org/docs/dev/">Jinja2</a>.</p>
 <p>For example, if we look at the <a href="../neurons/systemdate/">documentation of the neuron systemedate</a>, we can see that the neuron will return a dictionary of value like <code>minute</code>, <code>hours</code> and all other values about the current time on the system where Kalliope is installed.</p>
 <p>A simple, that only use <strong>variables</strong>, template would be</p>
-<div class="codehilite"><pre><span></span><code><span class="x">It is </span><span class="cp">{{</span> <span class="nv">hours</span> <span class="cp">}}</span><span class="x"> and </span><span class="cp">{{</span> <span class="nv">minutes</span> <span class="cp">}}</span><span class="x"> minutes.</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="x">It is </span><span class="cp">{{</span> <span class="nv">hours</span> <span class="cp">}}</span><span class="x"> and </span><span class="cp">{{</span> <span class="nv">minutes</span> <span class="cp">}}</span><span class="x"> minutes.</span>
+</pre></div>
 
 
 <p>Placed in a complete synapse, it looks like the following</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;time&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;time&quot;</span>
     <span class="nt">signals</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;what</span><span class="nv"> </span><span class="s">time</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">it&quot;</span>
     <span class="nt">neurons</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">systemdate</span><span class="p">:</span>
           <span class="nt">say_template</span><span class="p">:</span>
             <span class="p p-Indicator">-</span> <span class="s">&quot;It</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">hours</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">hours</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">minutes</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">minutes&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Here, we use <a href="http://jinja.pocoo.org/docs/dev/templates/#variables">variables</a> from the neuron into our template file. Both variables will be interpreted by the template engine.
 So, what the user will hear is something like <code>It is 9 hours and 21 minutes</code>.</p>
 <p>We can add some logic to a template with tags. Here a simple example with <a href="http://jinja.pocoo.org/docs/dev/templates/#if">a test tag</a>, that will make Kalliope change the pronounced sentence depending on the current time.</p>
-<div class="codehilite"><pre><span></span><code><span class="cp">{%</span> <span class="k">if</span> <span class="nv">hours</span> <span class="o">&gt;</span> <span class="m">8</span> <span class="cp">%}</span><span class="x"></span>
-<span class="x">    It is late, isn&#39;t it?</span>
-<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span><span class="x"></span>
-<span class="x">    We still have time</span>
-<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"></span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span>{<span class="o">%</span> <span class="k">if</span> <span class="nv">hours</span> <span class="o">&gt;</span> <span class="mi">8</span> <span class="o">%</span>}
+    <span class="nv">It</span> <span class="nv">is</span> <span class="nv">late</span>, <span class="nv">isn</span><span class="s1">&#39;</span><span class="s">t it?</span>
+{<span class="o">%</span> <span class="k">else</span> <span class="o">%</span>}
+    <span class="nv">We</span> <span class="nv">still</span> <span class="nv">have</span> <span class="nv">time</span>
+{<span class="o">%</span> <span class="k">endif</span> <span class="o">%</span>}
+</pre></div>
 
 
 <p>As this is multi-lines, we can put the content in a file and use a <code>file_template</code> instead of a <code>say_template</code> for more clarity.</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;time&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;time&quot;</span>
     <span class="nt">signals</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;what</span><span class="nv"> </span><span class="s">time</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">it&quot;</span>
     <span class="nt">neurons</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">systemdate</span><span class="p">:</span>
           <span class="nt">file_template</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/path/to/file/template.j2</span>
-</code></pre></div>
+</pre></div>
 
 
 <h3 id="kalliope_memory">kalliope_memory</h3>
@@ -1711,7 +1655,7 @@ So, what the user will hear is something like <code>It is 9 hours and 21 minutes
 Please not that this memory is not preserved after a restart of Kalliope.</p>
 <h4 id="store-parameters-generated-by-a-neuron">Store parameters generated by a neuron</h4>
 <p>Syntax with output parameters from a neuron</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-name&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-name&quot;</span>
   <span class="nt">signals</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;my</span><span class="nv"> </span><span class="s">order&quot;</span>
   <span class="nt">neurons</span><span class="p">:</span>
@@ -1719,25 +1663,25 @@ Please not that this memory is not preserved after a restart of Kalliope.</p>
         <span class="nt">kalliope_memory</span><span class="p">:</span>
           <span class="nt">key_name_in_memory</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">output_variable_from_neuron</span><span class="nv"> </span><span class="s">}}&quot;</span>
           <span class="nt">other_key_name_in_memory</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">other_output_variable_from_neuron</span><span class="nv"> </span><span class="s">}}&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Syntax to reuse memorized parameters in another synapse</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-name&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-name&quot;</span>
   <span class="nt">signals</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;an</span><span class="nv"> </span><span class="s">order&quot;</span>
   <span class="nt">neurons</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">neuron_name</span><span class="p">:</span>
         <span class="nt">parameter1</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">kalliope_memory[&#39;key_name_in_memory&#39;]</span><span class="nv"> </span><span class="s">}}&quot;</span>
         <span class="nt">parameter2</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">kalliope_memory[&#39;other_key_name_in_memory&#39;]</span><span class="nv"> </span><span class="s">}}&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <blockquote>
 <p><strong>Note:</strong> The key name need to be placed into simple quotes</p>
 </blockquote>
 <p>Example with a core neuron like <code>systemdate</code></p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-name&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-name&quot;</span>
   <span class="nt">signals</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;my</span><span class="nv"> </span><span class="s">order&quot;</span>
   <span class="nt">neurons</span><span class="p">:</span>
@@ -1747,57 +1691,57 @@ Please not that this memory is not preserved after a restart of Kalliope.</p>
         <span class="nt">kalliope_memory</span><span class="p">:</span>
           <span class="nt">hours_when_asked</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">hours</span><span class="nv"> </span><span class="s">}}&quot;</span>
           <span class="nt">minutes_when_asked</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">minutes</span><span class="nv"> </span><span class="s">}}&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Here, the <code>systemdate</code> neuron generates variables that haven been passed to the template like described in the previous section and to the memory of Kalliope.</p>
 <p>Those parameters can now be used in a next call</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-name-2&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-name-2&quot;</span>
   <span class="nt">signals</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;a</span><span class="nv"> </span><span class="s">what</span><span class="nv"> </span><span class="s">time</span><span class="nv"> </span><span class="s">I&#39;ve</span><span class="nv"> </span><span class="s">asked</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">time?&quot;</span>
   <span class="nt">neurons</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">say</span><span class="p">:</span>
         <span class="nt">message</span><span class="p">:</span>
           <span class="p p-Indicator">-</span> <span class="s">&quot;at</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">kalliope_memory[&#39;hours_when_asked&#39;]}}</span><span class="nv"> </span><span class="s">hours</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">kalliope_memory[&#39;minutes_when_asked&#39;]}}</span><span class="nv"> </span><span class="s">minutes&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>As it's based on a template, the value can be modified by adding a string</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">kalliope_memory</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">kalliope_memory</span><span class="p">:</span>
   <span class="nt">my_saved_key</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">neuron_parameter_name</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">word&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Multiple parameters can be used and concatenated in the same memorized key</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">kalliope_memory</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">kalliope_memory</span><span class="p">:</span>
   <span class="nt">my_saved_key</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">neuron_parameter_name1</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">neuron_parameter_name2</span><span class="nv"> </span><span class="s">}}&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <h4 id="store-parameters-captured-from-orders">Store parameters captured from orders</h4>
 <p>Syntax</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-name&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-name&quot;</span>
   <span class="nt">signals</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;my</span><span class="nv"> </span><span class="s">order</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">variable</span><span class="nv"> </span><span class="s">}}&quot;</span>
   <span class="nt">neurons</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">neuron_name</span><span class="p">:</span>
         <span class="nt">kalliope_memory</span><span class="p">:</span>
           <span class="nt">key_name_in_memory</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">variable</span><span class="nv"> </span><span class="s">}}&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>The syntax to reuse memorized parameters in another synapse is the same as the one used with neuron parameters</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-name&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-name&quot;</span>
   <span class="nt">signals</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;an</span><span class="nv"> </span><span class="s">order&quot;</span>
   <span class="nt">neurons</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">neuron_name</span><span class="p">:</span>
         <span class="nt">parameter1</span><span class="p">:</span> <span class="p p-Indicator">{{</span> <span class="nv">kalliope_memory</span><span class="p p-Indicator">[</span><span class="s">&#39;key_name_in_memory&#39;</span><span class="p p-Indicator">]}}</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Example</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-id&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-id&quot;</span>
   <span class="nt">signals</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;say</span><span class="nv"> </span><span class="s">hello</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">name</span><span class="nv"> </span><span class="s">}}&quot;</span>
   <span class="nt">neurons</span><span class="p">:</span>
@@ -1806,19 +1750,19 @@ Please not that this memory is not preserved after a restart of Kalliope.</p>
           <span class="p p-Indicator">-</span> <span class="s">&quot;Hello</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">name</span><span class="nv"> </span><span class="s">}}&quot;</span>
         <span class="nt">kalliope_memory</span><span class="p">:</span>
           <span class="nt">friend</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">name</span><span class="nv"> </span><span class="s">}}&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Here, the variable "name" has been used directly into the template and also saved in memory behind the key "friend".
 The value can now be used in a next call like the following</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-id&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;synapse-id&quot;</span>
   <span class="nt">signals</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;what</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">name</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">my</span><span class="nv"> </span><span class="s">friend?&quot;</span>
   <span class="nt">neurons</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">say</span><span class="p">:</span>
         <span class="nt">message</span><span class="p">:</span>
           <span class="p p-Indicator">-</span> <span class="s">&quot;It&#39;s</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">kalliope_memory[&#39;friend&#39;]</span><span class="nv"> </span><span class="s">}}</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Here is another example brain whit use the <code>neurotimer</code> neuron. In this scenario, you want to remember to do something</p>
@@ -1828,7 +1772,7 @@ The value can now be used in a next call like the following</p>
 15 minutes later..<br>
 <strong>Kalliope:</strong> You asked me to remind you to call mom 15 minutes ago</p>
 </blockquote>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;remember-synapse&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;remember-synapse&quot;</span>
   <span class="nt">signals</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;remind</span><span class="nv"> </span><span class="s">me</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">remember</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">time</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">minutes&quot;</span>
   <span class="nt">neurons</span><span class="p">:</span>
@@ -1848,7 +1792,7 @@ The value can now be used in a next call like the following</p>
     <span class="p p-Indicator">-</span> <span class="nt">say</span><span class="p">:</span>
         <span class="nt">message</span><span class="p">:</span>
           <span class="p p-Indicator">-</span> <span class="s">&quot;You</span><span class="nv"> </span><span class="s">asked</span><span class="nv"> </span><span class="s">me</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">remind</span><span class="nv"> </span><span class="s">you</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">kalliope_memory[&#39;remember&#39;]</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">kalliope_memory[&#39;time&#39;]</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">minutes</span><span class="nv"> </span><span class="s">ago&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <h4 id="get-the-last-order-generated-tts-message">Get the last order generated TTS message</h4>
@@ -1861,66 +1805,68 @@ To get the last order, use the key <code>{{ kalliope_memory['kalliope_last_order
 So you need to catch messages you want to process in the right hook like <code>on_start_speaking</code> or <code>on_stop_speaking</code>.</p>
 <p>An example of usage is to send each message to an API each time Kalliope start speaking.</p>
 <p>You need at first to create a hook in your <code>settings.yaml</code> like the following</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">hooks</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">hooks</span><span class="p">:</span>
   <span class="nt">on_start_speaking</span><span class="p">:</span> <span class="s">&quot;mm-say&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Then create a synapse in your <code>brain</code> that is linked to the hook to send each message.
 As a concrete example, here the <a href="https://github.com/kalliope-project/kalliope_neuron_magic_mirror">magic mirror neuron</a> is used to send each spelt out loud message to the Magic Mirror API in order to show them on the screen.</p>
-<div class="codehilite"><pre><span></span><code>  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;mm-say&quot;</span>
+<div class="codehilite"><pre><span></span>  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;mm-say&quot;</span>
     <span class="nt">signals</span><span class="p">:</span> <span class="p p-Indicator">[]</span>
     <span class="nt">neurons</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">magic_mirror</span><span class="p">:</span>
           <span class="nt">mm_url</span><span class="p">:</span> <span class="s">&quot;http://127.0.0.1:8080/kalliope&quot;</span>
           <span class="nt">notification</span><span class="p">:</span> <span class="s">&quot;KALLIOPE&quot;</span>
           <span class="nt">payload</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">kalliope_memory[&#39;kalliope_last_tts_message&#39;]</span><span class="nv"> </span><span class="s">}}&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><strong>Note</strong></p>
 <p><code>kalliope_last_tts_message</code> is overridden each time Kalliope says something.
 For example, a common practice is to have a synapse placed in the hook <code>on_triggered</code> in order to know when the hotword has been triggered.
 So, if this synapse is configured like the following</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;on-triggered-synapse&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;on-triggered-synapse&quot;</span>
   <span class="nt">signals</span><span class="p">:</span> <span class="p p-Indicator">[]</span>
   <span class="nt">neurons</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">say</span><span class="p">:</span>
         <span class="nt">message</span><span class="p">:</span> <span class="s">&quot;what</span><span class="nv"> </span><span class="s">can</span><span class="nv"> </span><span class="s">i</span><span class="nv"> </span><span class="s">do</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">you?&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>And you try the get the last generated message with a synapse like the following</p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;last-message&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;last-message&quot;</span>
     <span class="nt">signals</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">order</span><span class="p">:</span> <span class="s">&quot;what</span><span class="nv"> </span><span class="s">was</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">last</span><span class="nv"> </span><span class="s">message?&quot;</span>
     <span class="nt">neurons</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">say</span><span class="p">:</span>
           <span class="nt">message</span><span class="p">:</span> <span class="s">&quot;it</span><span class="nv"> </span><span class="s">was</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">kalliope_memory[&#39;kalliope_last_tts_message&#39;]</span><span class="nv"> </span><span class="s">}}&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Then the answer will always be "it was what can i do for you?" because the variable <code>kalliope_last_tts_message</code> has been overridden during the execution of the <code>on-triggered-synapse</code>.</p>
 <h2 id="split-the-brain">Split the brain</h2>
 <p>If you want a better visibly, or simply sort your actions in different files, you can split the main brain file into multiple ones.</p>
 <p>To do that, use the import statement in the entry brain.yml file with the following syntax:</p>
-<div class="codehilite"><pre><span></span><code>  <span class="p p-Indicator">-</span> <span class="nt">includes</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span>  <span class="p p-Indicator">-</span> <span class="nt">includes</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">path/to/sub_brain.yml</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">path/to/another_sub_brain.yml</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>E.g:</p>
-<div class="codehilite"><pre><span></span><code>  <span class="p p-Indicator">-</span> <span class="nt">includes</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span>  <span class="p p-Indicator">-</span> <span class="nt">includes</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">brains/rolling_shutter_commands.yml</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">brains/find_my_phone.yml</span>
-</code></pre></div>
+</pre></div>
 
 
 <blockquote>
 <p><strong>Note:</strong> You can only use the <code>include</code> statement in the main brain file.</p>
 <p><strong>Note:</strong> the includes statement must start with a <code>-</code></p>
 </blockquote>
+                
+                  
                 
               
               
@@ -1937,34 +1883,34 @@ So, if this synapse is configured like the following</p>
 <footer class="md-footer">
   
     <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+      <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../../settings/tts/watson/" title="watson" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          <a href="../../settings/tts/watson/" title="watson" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
                 watson
-              </div>
+              </span>
             </div>
           </a>
         
         
-          <a href="../signals/event/" title="event" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
+          <a href="../signals/event/" title="event" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
                 event
-              </div>
+              </span>
             </div>
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
             </div>
           </a>
         
@@ -1975,10 +1921,11 @@ So, if this synapse is configured like the following</p>
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
         
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
       </div>
       
     </div>
@@ -1987,18 +1934,9 @@ So, if this synapse is configured like the following</p>
       
     </div>
     
-      <script src="../../assets/javascripts/vendor.d710d30a.min.js"></script>
-      <script src="../../assets/javascripts/bundle.a14cc5fd.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      <script src="../../assets/javascripts/application.ac79c3b0.js"></script>
       
-      <script>
-        app = initialize({
-          base: "../..",
-          features: [],
-          search: Object.assign({
-            worker: "../../assets/javascripts/worker/search.7a2ea5ba.min.js"
-          }, typeof search !== "undefined" && search)
-        })
-      </script>
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       
     
   </body>

@@ -1,17 +1,38 @@
 
 
 
+
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
       
       
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.3.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.3">
     
     
       
@@ -19,9 +40,9 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.6e35a1a6.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.30686662.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a46bcfb3.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -30,13 +51,16 @@
       
     
     
+      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+    
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
     
     
     
@@ -45,76 +69,71 @@
     
   </head>
   
+    
+    
+    <body dir="ltr" data-md-color-primary="teal" data-md-color-accent="pink">
   
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="pink">
-  
-    
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#settingsyml" class="md-skip">
-          Skip to content
-        </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#settingsyml" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
     
       <header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="../.." title="Kalliope doc" class="md-header-nav__button md-logo" aria-label="Kalliope doc">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
-
-    </a>
-    <label class="md-header-nav__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
-    </label>
-    <div class="md-header-nav__title" data-md-component="header-title">
-      
-        <div class="md-header-nav__ellipsis">
-          <span class="md-header-nav__topic md-ellipsis">
-            Kalliope doc
-          </span>
-          <span class="md-header-nav__topic md-ellipsis">
-            
-              settings.yml
-            
-          </span>
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="Kalliope doc" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Kalliope doc
+            </span>
+            <span class="md-header-nav__topic">
+              
+                settings.yml
+              
+            </span>
+          
         </div>
-      
-    </div>
-    
-      <label class="md-header-nav__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-      </label>
-      
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
-      <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
       </button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
+        <div class="md-search-result" data-md-component="result">
           <div class="md-search-result__meta">
-            Initializing search
+            Type to start searching
           </div>
           <ol class="md-search-result__list"></ol>
         </div>
@@ -122,32 +141,31 @@
     </div>
   </div>
 </div>
-    
-    
+        
+      </div>
+      
+    </div>
   </nav>
 </header>
     
-    <div class="md-container" data-md-component="container">
+    <div class="md-container">
       
         
       
       
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
           
             
               <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Kalliope doc" class="md-nav__button md-logo" aria-label="Kalliope doc">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../.." title="Kalliope doc" class="md-nav__button md-logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
-
+        <i class="md-icon"></i>
+      
     </a>
     Kalliope doc
   </label>
@@ -173,19 +191,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
     
     <label class="md-nav__link" for="nav-2">
       Installation
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Installation" data-md-level="1">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-2">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Installation
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -265,19 +277,13 @@
 
   <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
     
     <label class="md-nav__link" for="nav-5">
       Settings
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Settings" data-md-level="1">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-5">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Settings
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -292,16 +298,13 @@
 
   <li class="md-nav__item md-nav__item--active">
     
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
       
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
         settings.yml
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
-        </span>
       </label>
     
     <a href="./" title="settings.yml" class="md-nav__link md-nav__link--active">
@@ -309,18 +312,13 @@
     </a>
     
       
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+<nav class="md-nav md-nav--secondary">
   
   
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </span>
-      Table of contents
-    </label>
+    <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
@@ -328,7 +326,7 @@
     Triggers configuration
   </a>
   
-    <nav class="md-nav" aria-label="Triggers configuration">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -369,7 +367,7 @@
     Players configuration
   </a>
   
-    <nav class="md-nav" aria-label="Players configuration">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -410,7 +408,7 @@
     Speech to text configuration
   </a>
   
-    <nav class="md-nav" aria-label="Speech to text configuration">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -451,7 +449,7 @@
     Text to speech configuration
   </a>
   
-    <nav class="md-nav" aria-label="Text to speech configuration">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -499,7 +497,7 @@
     Hooks
   </a>
   
-    <nav class="md-nav" aria-label="Hooks">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -549,6 +547,10 @@
   
 </li>
       
+      
+      
+      
+      
     </ul>
   
 </nav>
@@ -563,19 +565,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5-2" type="checkbox" id="nav-5-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-2" type="checkbox" id="nav-5-2">
     
     <label class="md-nav__link" for="nav-5-2">
       Trigger
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Trigger" data-md-level="2">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-5-2">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Trigger
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -605,19 +601,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5-3" type="checkbox" id="nav-5-3">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-3" type="checkbox" id="nav-5-3">
     
     <label class="md-nav__link" for="nav-5-3">
       Player
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Player" data-md-level="2">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-5-3">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Player
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -683,19 +673,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5-4" type="checkbox" id="nav-5-4">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-4" type="checkbox" id="nav-5-4">
     
     <label class="md-nav__link" for="nav-5-4">
       STT
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="STT" data-md-level="2">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-5-4">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         STT
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -785,19 +769,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5-5" type="checkbox" id="nav-5-5">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5-5" type="checkbox" id="nav-5-5">
     
     <label class="md-nav__link" for="nav-5-5">
       TTS
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="TTS" data-md-level="2">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-5-5">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         TTS
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -892,19 +870,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
     
     <label class="md-nav__link" for="nav-6">
       Brain
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Brain" data-md-level="1">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-6">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Brain
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -929,19 +901,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6-2" type="checkbox" id="nav-6-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-2" type="checkbox" id="nav-6-2">
     
     <label class="md-nav__link" for="nav-6-2">
       Core signals
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Core signals" data-md-level="2">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-6-2">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Core signals
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1007,19 +973,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6-3" type="checkbox" id="nav-6-3">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-3" type="checkbox" id="nav-6-3">
     
     <label class="md-nav__link" for="nav-6-3">
       Core neurons
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Core neurons" data-md-level="2">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
       <label class="md-nav__title" for="nav-6-3">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Core neurons
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1270,19 +1230,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
     
     <label class="md-nav__link" for="nav-8">
       API
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="API" data-md-level="1">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-8">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         API
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1348,19 +1302,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
     
     <label class="md-nav__link" for="nav-9">
       Contribute
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
-      </span>
     </label>
-    <nav class="md-nav" aria-label="Contribute" data-md-level="1">
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-9">
-        <span class="md-nav__icon md-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-        </span>
         Contribute
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1466,18 +1414,13 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+<nav class="md-nav md-nav--secondary">
   
   
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </span>
-      Table of contents
-    </label>
+    <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
@@ -1485,7 +1428,7 @@
     Triggers configuration
   </a>
   
-    <nav class="md-nav" aria-label="Triggers configuration">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1526,7 +1469,7 @@
     Players configuration
   </a>
   
-    <nav class="md-nav" aria-label="Players configuration">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1567,7 +1510,7 @@
     Speech to text configuration
   </a>
   
-    <nav class="md-nav" aria-label="Speech to text configuration">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1608,7 +1551,7 @@
     Text to speech configuration
   </a>
   
-    <nav class="md-nav" aria-label="Text to speech configuration">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1656,7 +1599,7 @@
     Hooks
   </a>
   
-    <nav class="md-nav" aria-label="Hooks">
+    <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1706,6 +1649,10 @@
   
 </li>
       
+      
+      
+      
+      
     </ul>
   
 </nav>
@@ -1717,9 +1664,6 @@
           <div class="md-content">
             <article class="md-content__inner md-typeset">
               
-                
-                
-                  
                 
                 
                 <h1 id="settingsyml">settings.yml</h1>
@@ -1735,37 +1679,37 @@
 <p>The trigger is the engine in charge of detecting the hotword that will wake up Kalliope.
 Common usage of hotword include "Alexa" on Amazon Echo, "OK Google" on some Android devices and "Hey Siri" on iPhones.</p>
 <p>Specify the name of the trigger module you want to use.</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">default_trigger</span><span class="p">:</span> <span class="s">&quot;trigger_name&quot;</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="nt">default_trigger</span><span class="p">:</span> <span class="s">&quot;trigger_name&quot;</span>
+</pre></div>
 
 
 <p>E.g</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">default_trigger</span><span class="p">:</span> <span class="s">&quot;snowboy&quot;</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="nt">default_trigger</span><span class="p">:</span> <span class="s">&quot;snowboy&quot;</span>
+</pre></div>
 
 
 <h3 id="triggers">triggers</h3>
 <p>The hotword (also called a wake word or trigger word) detector is the engine in charge of waking up Kalliope.</p>
 <p>Each Trigger has it own configuration. This configuration is passed as argument following the syntax bellow</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">triggers</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">triggers</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">trigger_name</span><span class="p">:</span>
       <span class="nt">parameter_name</span><span class="p">:</span> <span class="s">&quot;value&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>E.g, the default Snowboy trigger configuration is</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">triggers</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">triggers</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">snowboy</span><span class="p">:</span>
       <span class="nt">pmdl_file</span><span class="p">:</span> <span class="s">&quot;trigger/snowboy/resources/model.pmdl&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <h3 id="settings-example">Settings example</h3>
-<div class="codehilite"><pre><span></span><code><span class="nt">default_trigger</span><span class="p">:</span> <span class="s">&quot;snowboy&quot;</span>
+<div class="codehilite"><pre><span></span><span class="nt">default_trigger</span><span class="p">:</span> <span class="s">&quot;snowboy&quot;</span>
 <span class="nt">triggers</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">snowboy</span><span class="p">:</span>
       <span class="nt">pmdl_file</span><span class="p">:</span> <span class="s">&quot;trigger/snowboy/resources/model.pmdl&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <h3 id="available-trigger-engine">Available trigger engine</h3>
@@ -1788,32 +1732,32 @@ Common usage of hotword include "Alexa" on Amazon Echo, "OK Google" on some Andr
 With Kalliope project, you can set whatever sound player you want to use.</p>
 <h3 id="default_player">default_player</h3>
 <p>Specify the name of the player module you want to use.</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">default_player</span><span class="p">:</span> <span class="s">&quot;player_name&quot;</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="nt">default_player</span><span class="p">:</span> <span class="s">&quot;player_name&quot;</span>
+</pre></div>
 
 
 <p>E.g</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">default_player</span><span class="p">:</span> <span class="s">&quot;mplayer&quot;</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="nt">default_player</span><span class="p">:</span> <span class="s">&quot;mplayer&quot;</span>
+</pre></div>
 
 
 <h3 id="players">players</h3>
 <p>Each Players has it own configuration.
 This configuration is passed as argument following the syntax bellow</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">players</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">players</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">player_name</span><span class="p">:</span>
       <span class="nt">parameter_name</span><span class="p">:</span> <span class="s">&quot;value&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>When no parameters are required set an empty object:</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">players</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">players</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">mplayer</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
-</code></pre></div>
+</pre></div>
 
 
 <h3 id="settings-example_1">Settings example</h3>
-<div class="codehilite"><pre><span></span><code><span class="nt">players</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">players</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">mplayer</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
   <span class="p p-Indicator">-</span> <span class="nt">pyalsaaudio</span><span class="p">:</span>
      <span class="nt">device</span><span class="p">:</span> <span class="s">&quot;default&quot;</span>
@@ -1822,7 +1766,7 @@ This configuration is passed as argument following the syntax bellow</p>
      <span class="nt">convert_to_wav</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
   <span class="p p-Indicator">-</span> <span class="nt">sounddeviceplayer</span><span class="p">:</span>
      <span class="nt">convert_to_wav</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
-</code></pre></div>
+</pre></div>
 
 
 <blockquote>
@@ -1865,47 +1809,47 @@ Click on a Player engine link in the <code>Current CORE Available Players</code>
 <p>A Speech To Text(STT) is an engine used to translate what you say into a text that can be processed by Kalliope core.
 By default, Kalliope uses google STT engine.</p>
 <p>The following syntax is used to provide the engine name:</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">default_speech_to_text</span><span class="p">:</span> <span class="s">&quot;stt_name&quot;</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="nt">default_speech_to_text</span><span class="p">:</span> <span class="s">&quot;stt_name&quot;</span>
+</pre></div>
 
 
 <p>E.g</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">default_speech_to_text</span><span class="p">:</span> <span class="s">&quot;google&quot;</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="nt">default_speech_to_text</span><span class="p">:</span> <span class="s">&quot;google&quot;</span>
+</pre></div>
 
 
 <h3 id="speech_to_text">speech_to_text</h3>
 <p>Each STT has it own configuration. This configuration is passed as argument as shown bellow</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">speech_to_text</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">speech_to_text</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">stt_name</span><span class="p">:</span>
       <span class="nt">parameter_name</span><span class="p">:</span> <span class="s">&quot;value&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>E.g:</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">speech_to_text</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">speech_to_text</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">google</span><span class="p">:</span>
       <span class="nt">language</span><span class="p">:</span> <span class="s">&quot;fr-FR&quot;</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">bing</span>
-</code></pre></div>
+</pre></div>
 
 
 <h3 id="settings-example_2">Settings example</h3>
-<div class="codehilite"><pre><span></span><code><span class="c">default_speech_to_text: &quot;google&quot;</span>
-<span class="c">speech_to_text:</span>
-<span class="c">  - google:</span>
-<span class="c">      language: &quot;fr-FR&quot;</span>
-<span class="c">  - wit:</span>
-<span class="c">      key: &quot;MYKEYS&quot;</span>
-<span class="c">  - bing:</span>
-<span class="c">      key: &quot;MYKEYS&quot;</span>
-<span class="c">  - apiai:</span>
-<span class="c">      key: &quot;MYKEYS&quot;</span>
-<span class="c">      language: &quot;fr&quot;</span>
-<span class="c">  - houndify:</span>
-<span class="c">      key: &quot;MYKEYS&quot;</span>
-<span class="c">      client_id: &quot;MYCLIENTID&quot;</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="n">default_speech_to_text</span><span class="p">:</span> <span class="ss">&quot;google&quot;</span>
+<span class="n">speech_to_text</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">google</span><span class="p">:</span>
+      <span class="k">language</span><span class="p">:</span> <span class="ss">&quot;fr-FR&quot;</span>
+  <span class="o">-</span> <span class="n">wit</span><span class="p">:</span>
+      <span class="k">key</span><span class="p">:</span> <span class="ss">&quot;MYKEYS&quot;</span>
+  <span class="o">-</span> <span class="n">bing</span><span class="p">:</span>
+      <span class="k">key</span><span class="p">:</span> <span class="ss">&quot;MYKEYS&quot;</span>
+  <span class="o">-</span> <span class="n">apiai</span><span class="p">:</span>
+      <span class="k">key</span><span class="p">:</span> <span class="ss">&quot;MYKEYS&quot;</span>
+      <span class="k">language</span><span class="p">:</span> <span class="ss">&quot;fr&quot;</span>
+  <span class="o">-</span> <span class="n">houndify</span><span class="p">:</span>
+      <span class="k">key</span><span class="p">:</span> <span class="ss">&quot;MYKEYS&quot;</span>
+      <span class="n">client_id</span><span class="p">:</span> <span class="ss">&quot;MYCLIENTID&quot;</span>
+</pre></div>
 
 
 <h3 id="available-stt">Available STT</h3>
@@ -1949,30 +1893,30 @@ By default, Kalliope uses google STT engine.</p>
 <p>A Text To Speech is an engine used to translate written text into a speech, into an audio stream.
 By default, Kalliope use Pico2wave TTS engine.</p>
 <p>The following syntax is used to provide the TTS engine name</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">default_text_to_speech</span><span class="p">:</span> <span class="s">&quot;tts_name&quot;</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="nt">default_text_to_speech</span><span class="p">:</span> <span class="s">&quot;tts_name&quot;</span>
+</pre></div>
 
 
 <p>Eg</p>
-<div class="codehilite"><pre><span></span><code><span class="c">default_text_to_speech: &quot;pico2wave&quot;</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="n">default_text_to_speech</span><span class="p">:</span> <span class="ss">&quot;pico2wave&quot;</span>
+</pre></div>
 
 
 <h3 id="text_to_speech">text_to_speech</h3>
 <p>Each TTS has it own configuration. This configuration is passed as argument following the syntax bellow</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">text_to_speech</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">text_to_speech</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">tts_name</span><span class="p">:</span>
       <span class="nt">parameter_name</span><span class="p">:</span> <span class="s">&quot;value&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>E.g</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">text_to_speech</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">text_to_speech</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">pico2wave</span><span class="p">:</span>
       <span class="nt">language</span><span class="p">:</span> <span class="s">&quot;fr-FR&quot;</span>
   <span class="p p-Indicator">-</span> <span class="nt">googletts</span><span class="p">:</span>
       <span class="nt">language</span><span class="p">:</span> <span class="s">&quot;fr&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <h3 id="cache_path">cache_path</h3>
@@ -1980,8 +1924,8 @@ By default, Kalliope use Pico2wave TTS engine.</p>
 is played by the audio player. Before generating a new audio file, Kalliope will take a look to the cache to load it directly without having to call the
 TSS engine if the file has been generated before.</p>
 <p>You must set a path where the cache will be saved in the tag <code>cache_path</code>. This one is placed in /tmp by default.</p>
-<div class="codehilite"><pre><span></span><code><span class="c">cache_path: &quot;/tmp/kalliope_tts_cache&quot;</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="n">cache_path</span><span class="p">:</span> <span class="ss">&quot;/tmp/kalliope_tts_cache&quot;</span>
+</pre></div>
 
 
 <blockquote>
@@ -1990,7 +1934,7 @@ TSS engine if the file has been generated before.</p>
 generated audio files that will not be played more than once.</p>
 </blockquote>
 <h3 id="settings-example_3">Settings example</h3>
-<div class="codehilite"><pre><span></span><code><span class="nt">default_text_to_speech</span><span class="p">:</span> <span class="s">&quot;voicerss&quot;</span>
+<div class="codehilite"><pre><span></span><span class="nt">default_text_to_speech</span><span class="p">:</span> <span class="s">&quot;voicerss&quot;</span>
 
 <span class="nt">cache_path</span><span class="p">:</span> <span class="s">&quot;/tmp/kalliope_tts_cache&quot;</span>
 
@@ -2007,7 +1951,7 @@ generated audio files that will not be played more than once.</p>
   <span class="p p-Indicator">-</span> <span class="nt">voicerss</span><span class="p">:</span>
       <span class="nt">language</span><span class="p">:</span> <span class="s">&quot;fr-fr&quot;</span>
       <span class="nt">cache</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
-</code></pre></div>
+</pre></div>
 
 
 <h3 id="available-tts">Available TTS</h3>
@@ -2051,18 +1995,18 @@ generated audio files that will not be played more than once.</p>
 For example, it's useful to know when Kalliope has detected the hotword from the trigger engine and make her spell out loud that she's ready to listen your order.</p>
 <p>To use a hook, attach the name of the hook to a synapse (or list of synapse) which exists in your brain.</p>
 <p>Syntax:</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">hooks</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">hooks</span><span class="p">:</span>
   <span class="nt">hook_name1</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">synapse_name</span>
   <span class="nt">hook_name2</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">synapse_name_1</span>
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">synapse_name_2</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>E.g.</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">hooks</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">hooks</span><span class="p">:</span>
   <span class="nt">on_start</span><span class="p">:</span> <span class="s">&quot;on-start-synapse&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>List of available hook</p>
@@ -2139,13 +2083,13 @@ For example, it's useful to know when Kalliope has detected the hotword from the
 <h3 id="settings-example_4">Settings example</h3>
 <p>Example: You want to hear a random answer when the hotword has been triggered</p>
 <p><strong>settings.yml</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="nt">hooks</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">hooks</span><span class="p">:</span>
   <span class="nt">on_triggered</span><span class="p">:</span> <span class="s">&quot;on-triggered-synapse&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><strong>brain.yml</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;on-triggered-synapse&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;on-triggered-synapse&quot;</span>
   <span class="nt">signals</span><span class="p">:</span> <span class="p p-Indicator">[]</span>
   <span class="nt">neurons</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">say</span><span class="p">:</span>
@@ -2157,18 +2101,18 @@ For example, it's useful to know when Kalliope has detected the hotword from the
           <span class="p p-Indicator">-</span> <span class="s">&quot;what</span><span class="nv"> </span><span class="s">can</span><span class="nv"> </span><span class="s">i</span><span class="nv"> </span><span class="s">do</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">you?&quot;</span>
           <span class="p p-Indicator">-</span> <span class="s">&quot;Speaking&quot;</span>
           <span class="p p-Indicator">-</span> <span class="s">&quot;how</span><span class="nv"> </span><span class="s">can</span><span class="nv"> </span><span class="s">i</span><span class="nv"> </span><span class="s">help</span><span class="nv"> </span><span class="s">you?&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Example: You want to know that your order has not been found</p>
 <p><strong>settings.yml</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="nt">hooks</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">hooks</span><span class="p">:</span>
   <span class="nt">on_order_not_found</span><span class="p">:</span> <span class="s">&quot;order-not-found-synapse&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><strong>brain.yml</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;order-not-found-synapse&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;order-not-found-synapse&quot;</span>
     <span class="nt">signals</span><span class="p">:</span> <span class="p p-Indicator">[]</span>
     <span class="nt">neurons</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="nt">say</span><span class="p">:</span>
@@ -2179,20 +2123,20 @@ For example, it's useful to know when Kalliope has detected the hotword from the
             <span class="p p-Indicator">-</span> <span class="s">&quot;Would</span><span class="nv"> </span><span class="s">you</span><span class="nv"> </span><span class="s">please</span><span class="nv"> </span><span class="s">reword</span><span class="nv"> </span><span class="s">your</span><span class="nv"> </span><span class="s">order&quot;</span>
             <span class="p p-Indicator">-</span> <span class="s">&quot;Can</span><span class="nv"> </span><span class="s">ou</span><span class="nv"> </span><span class="s">please</span><span class="nv"> </span><span class="s">reformulate</span><span class="nv"> </span><span class="s">your</span><span class="nv"> </span><span class="s">order&quot;</span>
             <span class="p p-Indicator">-</span> <span class="s">&quot;I</span><span class="nv"> </span><span class="s">don&#39;t</span><span class="nv"> </span><span class="s">recognize</span><span class="nv"> </span><span class="s">that</span><span class="nv"> </span><span class="s">order&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Example: You are running Kalliope on a Rpi. You've made a script that turn on or off a led.
 You can call this script every time kalliope start or stop speaking</p>
 <p><strong>settings.yaml</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="nt">hooks</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">hooks</span><span class="p">:</span>
   <span class="nt">on_start_speaking</span><span class="p">:</span> <span class="s">&quot;turn-on-led&quot;</span>
   <span class="nt">on_stop_speaking</span><span class="p">:</span> <span class="s">&quot;turn-off-led&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><strong>brain.yml</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;turn-on-led&quot;</span>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;turn-on-led&quot;</span>
   <span class="nt">signals</span><span class="p">:</span> <span class="p p-Indicator">[]</span>
   <span class="nt">neurons</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">script</span><span class="p">:</span>
@@ -2203,7 +2147,7 @@ You can call this script every time kalliope start or stop speaking</p>
   <span class="nt">neurons</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">script</span><span class="p">:</span>
         <span class="nt">path</span><span class="p">:</span> <span class="s">&quot;/path/to/script.sh</span><span class="nv"> </span><span class="s">off&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <blockquote>
@@ -2221,14 +2165,14 @@ You cannot use the "say" neuron inside the "on_start_speaking" or "on_stop_speak
 </ul>
 <p>For the complete API ref see the <a href="../../rest_api/">REST API documentation</a></p>
 <p>Settings examples:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">rest_api</span><span class="o">:</span>
+<div class="codehilite"><pre><span></span><span class="n">rest_api</span><span class="o">:</span>
   <span class="n">active</span><span class="o">:</span> <span class="n">True</span>
   <span class="n">port</span><span class="o">:</span> <span class="mi">5000</span>
   <span class="n">password_protected</span><span class="o">:</span> <span class="n">True</span>
   <span class="n">login</span><span class="o">:</span> <span class="n">admin</span>
   <span class="n">password</span><span class="o">:</span> <span class="n">secret</span>
   <span class="n">allowed_cors_origin</span><span class="o">:</span> <span class="s2">&quot;*&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <table>
@@ -2276,101 +2220,101 @@ You cannot use the "say" neuron inside the "on_start_speaking" or "on_stop_speak
 <p>If you want to allow request from external application, you'll need to enable the CORS requests settings by defining authorized origins.
 To do so, just indicated the origins that are allowed to leverage the API. The authorize values are:</p>
 <p>False to forbid CORS request.</p>
-<div class="codehilite"><pre><span></span><code><span class="n">allowed_cors_origin</span><span class="o">:</span> <span class="n">False</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="n">allowed_cors_origin</span><span class="o">:</span> <span class="n">False</span>
+</pre></div>
 
 
 <p>or either a string or a list:</p>
-<div class="codehilite"><pre><span></span><code><span class="c">allowed_cors_origin: &quot;*&quot;</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="n">allowed_cors_origin</span><span class="p">:</span> <span class="ss">&quot;*&quot;</span>
+</pre></div>
 
 
 <p>(in case of "*", all origins are accepted).
 or</p>
-<div class="codehilite"><pre><span></span><code><span class="c">allowed_cors_origin:</span>
-<span class="c">  - &#39;http://mydomain.com/*&#39;</span>
-<span class="c">  - &#39;http://localhost:4200/*&#39;</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="n">allowed_cors_origin</span><span class="p">:</span>
+  <span class="o">-</span> <span class="s1">&#39;http://mydomain.com/*&#39;</span>
+  <span class="o">-</span> <span class="s1">&#39;http://localhost:4200/*&#39;</span>
+</pre></div>
 
 
 <p>Remember that an origin is composed of the scheme (http(s)), the port (eg: 80, 4200,…) and the domain (mydomain.com, localhost).</p>
 <h2 id="resources-directory">Resources directory</h2>
 <p>The resources directory is the path where Kalliope will try to load community modules like Neurons, STTs or TTSs.
 Set a valid path is required if you want to install community neuron. The path can be relative or absolute.</p>
-<div class="codehilite"><pre><span></span><code><span class="n">resource_directory</span><span class="o">:</span>
+<div class="codehilite"><pre><span></span><span class="n">resource_directory</span><span class="o">:</span>
   <span class="n">resource_name</span><span class="o">:</span> <span class="s2">&quot;path&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>E.g</p>
-<div class="codehilite"><pre><span></span><code><span class="n">resource_directory</span><span class="o">:</span>
+<div class="codehilite"><pre><span></span><span class="n">resource_directory</span><span class="o">:</span>
   <span class="n">neuron</span><span class="o">:</span> <span class="s2">&quot;resources/neurons&quot;</span>
   <span class="n">stt</span><span class="o">:</span> <span class="s2">&quot;resources/stt&quot;</span>
   <span class="n">tts</span><span class="o">:</span> <span class="s2">&quot;resources/tts&quot;</span>
   <span class="n">trigger</span><span class="o">:</span> <span class="s2">&quot;/full/path/to/trigger&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <h2 id="global-variables">Global Variables</h2>
 <p>The Global Variables paths list where to load the global variables.
 Those variables can be reused in neuron parameters within double brackets.</p>
 <p>E.g</p>
-<div class="codehilite"><pre><span></span><code><span class="c">var_files:</span>
-<span class="c">  - variables.yml</span>
-<span class="c">  - variables2.yml</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="n">var_files</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">variables</span><span class="p">.</span><span class="n">yml</span>
+  <span class="o">-</span> <span class="n">variables2</span><span class="p">.</span><span class="n">yml</span>
+</pre></div>
 
 
 <blockquote>
 <p><strong>Note:</strong> If a variable is defined in different files, the last file defines the value.</p>
 </blockquote>
 <p>In the files the variables are defined by key/value:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">variable</span><span class="o">:</span> <span class="mi">60</span>
+<div class="codehilite"><pre><span></span><span class="n">variable</span><span class="o">:</span> <span class="mi">60</span>
 <span class="n">baseURL</span><span class="o">:</span> <span class="s2">&quot;http://blabla.com/&quot;</span>
 <span class="n">password</span><span class="o">:</span> <span class="s2">&quot;secret&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>And use variables in your neurons:</p>
-<div class="codehilite"><pre><span></span><code><span class="x">  - name: &quot;run-simple-sleep&quot;</span>
-<span class="x">    signals:</span>
-<span class="x">      - order: &quot;Wait for me &quot;</span>
-<span class="x">    neurons:</span>
-<span class="x">      - uri:</span>
-<span class="x">          url: &quot;</span><span class="cp">{{</span><span class="nv">baseURL</span><span class="cp">}}</span><span class="x">get/1&quot;</span>
-<span class="x">          user: &quot;admin&quot;</span>
-<span class="x">          password: &quot;</span><span class="cp">{{</span><span class="nv">password</span><span class="cp">}}</span><span class="x">&quot;</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span>  <span class="o">-</span> <span class="nv">name</span>: <span class="s2">&quot;</span><span class="s">run-simple-sleep</span><span class="s2">&quot;</span>
+    <span class="nv">signals</span>:
+      <span class="o">-</span> <span class="nv">order</span>: <span class="s2">&quot;</span><span class="s">Wait for me </span><span class="s2">&quot;</span>
+    <span class="nv">neurons</span>:
+      <span class="o">-</span> <span class="nv">uri</span>:
+          <span class="nv">url</span>: <span class="s2">&quot;</span><span class="s">{{baseURL}}get/1</span><span class="s2">&quot;</span>
+          <span class="nv">user</span>: <span class="s2">&quot;</span><span class="s">admin</span><span class="s2">&quot;</span>
+          <span class="nv">password</span>: <span class="s2">&quot;</span><span class="s">{{password}}</span><span class="s2">&quot;</span>
+</pre></div>
 
 
 <blockquote>
 <p><strong>Note:</strong> Because YAML format does no allow double braces not surrounded by quotes: you must use the variable between double quotes.</p>
 </blockquote>
 <p>A global variable can be a dictionary. Example:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">contacts</span><span class="o">:</span>
+<div class="codehilite"><pre><span></span><span class="n">contacts</span><span class="o">:</span>
   <span class="n">nico</span><span class="o">:</span> <span class="s2">&quot;1234&quot;</span>
   <span class="n">tibo</span><span class="o">:</span> <span class="s2">&quot;5678&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>And a synapse that use this dict:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">-</span><span class="w"> </span><span class="nl">name</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;test-var&quot;</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><span class="o">-</span><span class="w"> </span><span class="nl">name</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;test-var&quot;</span><span class="w"></span>
 <span class="w">  </span><span class="nl">signals</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="o">-</span><span class="w"> </span><span class="k">order</span><span class="err">:</span><span class="w"> </span><span class="ss">&quot;give me the number of {{ contact_to_search }}&quot;</span><span class="w"></span>
 <span class="w">  </span><span class="nl">neurons</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="o">-</span><span class="w"> </span><span class="nl">say</span><span class="p">:</span><span class="w"></span>
 <span class="w">        </span><span class="nl">message</span><span class="p">:</span><span class="w"></span>
 <span class="w">        </span><span class="o">-</span><span class="w"> </span><span class="ss">&quot;the number is {{ contacts[contact_to_search] }}&quot;</span><span class="w"></span>
-</code></pre></div>
+</pre></div>
 
 
 <h2 id="options">Options</h2>
 <p>Options that can be defined for Kalliope.</p>
 <p>Example config</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">options</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="nt">options</span><span class="p">:</span>
   <span class="nt">mute</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
   <span class="nt">deaf</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Available options:</p>
@@ -2418,13 +2362,15 @@ Those variables can be reused in neuron parameters within double brackets.</p>
 <h2 id="send_anonymous_usage_stats">send_anonymous_usage_stats</h2>
 <p>This flag allow Kalliope to send some stats in order to anonymously evaluate the global usage of Kalliope app by users.</p>
 <p>Syntax:</p>
-<div class="codehilite"><pre><span></span><code><span class="c">send_anonymous_usage_stats: &lt;boolean&gt;</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="n">send_anonymous_usage_stats</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">boolean</span><span class="o">&gt;</span>
+</pre></div>
 
 
 <p>E.g:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">send_anonymous_usage_stats</span><span class="o">:</span> <span class="n">False</span>
-</code></pre></div>
+<div class="codehilite"><pre><span></span><span class="n">send_anonymous_usage_stats</span><span class="o">:</span> <span class="n">False</span>
+</pre></div>
+                
+                  
                 
               
               
@@ -2441,34 +2387,34 @@ Those variables can be reused in neuron parameters within double brackets.</p>
 <footer class="md-footer">
   
     <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+      <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../../getting-started/" title="Getting-started" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          <a href="../../getting-started/" title="Getting-started" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
                 Getting-started
-              </div>
+              </span>
             </div>
           </a>
         
         
-          <a href="../triggers/snowboy/" title="Snowboy" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-footer-nav__title">
-              <div class="md-ellipsis">
+          <a href="../triggers/snowboy/" title="Snowboy" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
                 Snowboy
-              </div>
+              </span>
             </div>
-            <div class="md-footer-nav__button md-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
             </div>
           </a>
         
@@ -2479,10 +2425,11 @@ Those variables can be reused in neuron parameters within double brackets.</p>
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
         
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
       </div>
       
     </div>
@@ -2491,18 +2438,9 @@ Those variables can be reused in neuron parameters within double brackets.</p>
       
     </div>
     
-      <script src="../../assets/javascripts/vendor.d710d30a.min.js"></script>
-      <script src="../../assets/javascripts/bundle.a14cc5fd.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      <script src="../../assets/javascripts/application.ac79c3b0.js"></script>
       
-      <script>
-        app = initialize({
-          base: "../..",
-          features: [],
-          search: Object.assign({
-            worker: "../../assets/javascripts/worker/search.7a2ea5ba.min.js"
-          }, typeof search !== "undefined" && search)
-        })
-      </script>
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       
     
   </body>
