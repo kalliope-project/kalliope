@@ -1,3 +1,9 @@
+v0.7.1 / 2020-12-06
+===================
+- Fix: hook pause trigger process was not executed
+- Fix: gevent segmentation fault
+- Enhancement: Watson TTS now support rate
+
 v0.7.0 / 2020-07-28
 ===================
 - Fix: fix volume neuron when decrease the volume
