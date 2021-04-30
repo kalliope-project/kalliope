@@ -18,7 +18,7 @@ markdown_extensions:
       base_path: docs
   - codehilite
 
-pages:
+nav:
   - Home: "index.md"
   - Installation:
     - "Raspberry": "installation/raspbian.md"
