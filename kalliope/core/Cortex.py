@@ -1,8 +1,6 @@
-import json
 import logging
 
 import jinja2
-from conversionutil import ex
 
 from kalliope.core.Utils.Utils import Utils
 
