@@ -39,8 +39,8 @@ wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico-utils_1.0+g
 wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico0_1.0+git20130326-9_armhf.deb
 wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico-data_1.0+git20130326-9_all.deb
 sudo dpkg -i libttspico-data_1.0+git20130326-9_all.deb
-sudo dpkg -i libttspico-utils_1.0+git20130326-9_armhf.deb
 sudo dpkg -i libttspico0_1.0+git20130326-9_armhf.deb
+sudo dpkg -i libttspico-utils_1.0+git20130326-9_armhf.deb
 ```
 
 Install the last release of python-pip:
