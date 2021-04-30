@@ -66,21 +66,15 @@ class TestCortex(unittest.TestCase):
         self.assertDictEqual(expected_temp_dict, Cortex.memory)
 
     def test_save_neuron_parameter_in_memory(self):
-
         # test with a list of parameter with bracket
-
         neuron1_parameters = {
             "key1": "value1",
             "key2": "value2"
         }
-
         dict_val_to_save = {"my_key_in_memory": "{{key1}}"}
-
         expected_dict = {"my_key_in_memory": "value1"}
-
         Cortex.save_neuron_parameter_in_memory(kalliope_memory_dict=dict_val_to_save,
                                                neuron_parameters=neuron1_parameters)
-
         self.assertDictEqual(expected_dict, Cortex.memory)
 
         # test with a list of parameter with brackets and string
@@ -89,14 +83,10 @@ class TestCortex(unittest.TestCase):
             "key1": "value1",
             "key2": "value2"
         }
-
         dict_val_to_save = {"my_key_in_memory": "string {{key1}}"}
-
         expected_dict = {"my_key_in_memory": "string value1"}
-
         Cortex.save_neuron_parameter_in_memory(kalliope_memory_dict=dict_val_to_save,
                                                neuron_parameters=neuron1_parameters)
-
         self.assertDictEqual(expected_dict, Cortex.memory)
 
         # test with a list of parameter with only a string. Neuron parameters are not used
@@ -105,30 +95,35 @@ class TestCortex(unittest.TestCase):
             "key1": "value1",
             "key2": "value2"
         }
-
         dict_val_to_save = {"my_key_in_memory": "string"}
-
         expected_dict = {"my_key_in_memory": "string"}
-
         Cortex.save_neuron_parameter_in_memory(kalliope_memory_dict=dict_val_to_save,
                                                neuron_parameters=neuron1_parameters)
-
         self.assertDictEqual(expected_dict, Cortex.memory)
 
         # test with an empty list of parameter to save (no kalliope_memory set)
         self.setUp()  # clean
-
         neuron1_parameters = {
             "key1": "value1",
             "key2": "value2"
         }
-
         dict_val_to_save = None
-
         Cortex.save_neuron_parameter_in_memory(kalliope_memory_dict=dict_val_to_save,
                                                neuron_parameters=neuron1_parameters)
-
         self.assertDictEqual(dict(), Cortex.memory)
+
+        # test with a neuron that return a dict in each parameter
+        self.setUp()  # clean
+        neuron1_parameters = {
+            "key1": {"key2": "value2",
+                     "key3": "value3"}
+        }
+        dict_val_to_save = {"my_key_in_memory": "{{key1}}"}
+        expected_dict = {"my_key_in_memory": {"key2": "value2",
+                                              "key3": "value3"}}
+        Cortex.save_neuron_parameter_in_memory(kalliope_memory_dict=dict_val_to_save,
+                                               neuron_parameters=neuron1_parameters)
+        self.assertDictEqual(expected_dict, Cortex.memory)
 
     def test_save_parameter_from_order_in_memory(self):
         # Test with a value that exist in the temp memory
