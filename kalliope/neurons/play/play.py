@@ -7,12 +7,12 @@ from kalliope.core.PlayerLauncher import PlayerLauncher
 class Play(NeuronModule):
     def __init__(self, **kwargs):
         super(Play, self).__init__(**kwargs)
-        self.file = kwargs.get('file', None)
+        self.filename = kwargs.get('filename', None)
         self.player = PlayerLauncher.get_player(settings=self.settings)
 
         # check if parameters have been provided
         if self._is_parameters_ok():
-            self.player.play(self.file)
+            self.player.play(self.filename)
 
     def _is_parameters_ok(self):
         """
@@ -21,10 +21,10 @@ class Play(NeuronModule):
 
         .. raises:: MissingParameterException
         """
-        if self.file is None:
-            raise MissingParameterException("You must specify a file")
-        if isinstance(self.file, list):
-            self.file = random.choice(self.file)
-        if os.path.isfile(self.file) is False:
-            raise InvalidParameterException("You must specify an existing file")
+        if self.filename is None:
+            raise MissingParameterException("You must specify a filename")
+        if isinstance(self.filename, list):
+            self.filename = random.choice(self.filename)
+        if os.path.isfile(self.filename) is False:
+            raise InvalidParameterException("You must specify an existing filename")
         return True

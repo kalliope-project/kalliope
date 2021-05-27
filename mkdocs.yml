@@ -65,6 +65,7 @@ pages:
       - mqtt_publisher: "brain/neurons/mqtt_publisher.md"
       - neurotimer: "brain/neurons/neurotimer.md"
       - neurotransmitter: "brain/neurons/neurotransmitter.md"
+      - play: "brain/neurons/play.md"
       - say: "brain/neurons/say.md"
       - script: "brain/neurons/script.md"
       - settings: "brain/neurons/settings.md"
