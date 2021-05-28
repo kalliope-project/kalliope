@@ -123,16 +123,26 @@ class Utils(object):
                 logger.debug("[Utils]-> get_dynamic_class_instantiation : loading path : %s, as package %s" % (
                     neuron_resource_path, package_path))
 
-        mod = __import__(package_path, fromlist=[module_name.capitalize()])
+        klass = None
+        if not hasattr(cls, 'klass_cache'):
+            cls.klass_cache = {}
+        if package_path in cls.klass_cache:
+            klass = cls.klass_cache[package_path]
+            logger.debug("[Utils]-> get_dynamic_class_instantiation : retrieving from cache : %s" % package_path)
 
-        try:
-            klass = getattr(mod, module_name.capitalize())
-        except AttributeError:
-            logger.debug("Error: No module named %s " % module_name.capitalize())
-            raise KalliopeModuleNotFoundError(
-                "The module %s does not exist in package %s" % (module_name.capitalize(), package_name))
+        if klass is None:
+            try:
+                mod = __import__(package_path, fromlist=[module_name.capitalize()])
+                klass = getattr(mod, module_name.capitalize())
+            except AttributeError:
+                logger.debug("Error: No module named %s " % module_name.capitalize())
+                raise KalliopeModuleNotFoundError(
+                    "The module %s does not exist in package %s" % (module_name.capitalize(), package_name))
 
         if klass is not None:
+            if package_path not in cls.klass_cache:
+                cls.klass_cache[package_path] = klass
+                logger.debug("[Utils]-> get_dynamic_class_instantiation : adding to cache : %s" % package_path)
             # run the plugin
             if not parameters:
                 return klass()
