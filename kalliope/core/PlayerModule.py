@@ -2,6 +2,7 @@
 import logging
 import os
 import subprocess
+import pathlib
 
 from kalliope.core.Utils.FileManager import FileManager
 
@@ -28,14 +29,15 @@ class PlayerModule(object):
         This function assumes ffmpeg is available on the system
         :param file_path_mp3: the file path to convert from mp3 to wav
         """
-        logger.debug("[PlayerModule] Converting mp3 file to wav file: %s" % file_path_mp3)
-        fnull = open(os.devnull, 'w')
-        # temp file
-        tmp_file_wav = file_path_mp3 + ".wav"
-        # Convert mp3 to wave
-        subprocess.call(['ffmpeg', '-y', '-i', file_path_mp3, tmp_file_wav],
+        if pathlib.Path(file_path_mp3).suffix != ".wav":
+            logger.debug("[PlayerModule] Converting mp3 file to wav file: %s" % file_path_mp3)
+            fnull = open(os.devnull, 'w')
+            # temp file
+            tmp_file_wav = file_path_mp3 + ".wav"
+            # Convert mp3 to wave
+            subprocess.call(['ffmpeg', '-y', '-i', file_path_mp3, tmp_file_wav],
                         stdout=fnull, stderr=fnull)
-        # remove the original file
-        FileManager.remove_file(file_path_mp3)
-        # rename the temp file with the same name as the original file
-        os.rename(tmp_file_wav, file_path_mp3)
+            # remove the original file
+            FileManager.remove_file(file_path_mp3)
+            # rename the temp file with the same name as the original file
+            os.rename(tmp_file_wav, file_path_mp3)
