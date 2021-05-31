@@ -1,7 +1,10 @@
 import os
 import random
+import sndhdr
+
 from kalliope.core.NeuronModule import NeuronModule, MissingParameterException, InvalidParameterException
 from kalliope.core.PlayerLauncher import PlayerLauncher
+from kalliope.core import Utils
 
 
 class Play(NeuronModule):
@@ -22,9 +25,13 @@ class Play(NeuronModule):
         .. raises:: MissingParameterException
         """
         if self.filename is None:
-            raise MissingParameterException("You must specify a filename")
-        if isinstance(self.filename, list):
-            self.filename = random.choice(self.filename)
-        if os.path.isfile(self.filename) is False:
-            raise InvalidParameterException("You must specify an existing filename")
+            raise MissingParameterException("You must specify (at least one) filename")
+        if not isinstance(self.filename, list):
+            self.filename = [self.filename]
+        self.filename[:] = [x for x in self.filename if os.path.isfile(x)]
+        self.filename[:] = [x for x in self.filename if sndhdr.whathdr(x) is not None]
+        self.filename[:] = [x for x in self.filename if sndhdr.whathdr(x).filetype == 'wav']
+        if len(self.filename) == 0:
+            raise InvalidParameterException("You must specify at least one valid wav file (none remained after validation)")
+        self.filename = random.choice(self.filename)
         return True
