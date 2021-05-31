@@ -4,7 +4,7 @@ This neuron plays a given sound file.
 
 | parameter     | required | default | choices | comment                                                                                                             |
 |:--------------|:---------|:--------|:--------|:--------------------------------------------------------------------------------------------------------------------|
-| filename      | YES      |         |         | A single filename or a list of filenames for sound files that Kalliope should play (randomly picking one if a list) |
+| filename      | YES      |         |         | A single filename or a list of filenames for sound files that Kalliope should play (randomly picking one if a list). Please note that only ".wav" files should be used due to file modifications if conversion is required (in PlayerModule.convert_mp3_to_wav() |
 
 ## Returned values
 
