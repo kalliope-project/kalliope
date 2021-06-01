@@ -1,6 +1,7 @@
 import logging
 
 import jinja2
+
 from kalliope.core.Utils.Utils import Utils
 
 from kalliope.core.Models import Singleton
@@ -92,6 +93,14 @@ class Cortex(with_metaclass(Singleton, object)):
                 if isinstance(neuron_parameters, dict):
                     if Utils.is_containing_bracket(value):
                         value = jinja2.Template(value).render(neuron_parameters)
+                        try:
+                            # try to transform the value into a dict if it was a string of a dict
+                            import ast
+                            value = ast.literal_eval(value)
+                        except ValueError:
+                            pass
+                        except SyntaxError:
+                            pass
                     Cortex.save(key, value)
 
     @classmethod
