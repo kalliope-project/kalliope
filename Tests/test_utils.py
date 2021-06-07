@@ -132,12 +132,18 @@ class TestUtils(unittest.TestCase):
         sl.settings.resource_dir = '/var/tmp/test/resources'
 
         neuron = Neuron(name='Say', parameters={'message': 'test dynamic class instantiate'})
-        self.assertTrue(isinstance(Utils.get_dynamic_class_instantiation(package_name="neurons",
-                                                                         module_name=neuron.name.capitalize(),
-                                                                         parameters=neuron.parameters,
-                                                                         resources_dir='/var/tmp/test/resources'),
-                                   Say),
-                        "Fail instantiate a class")
+        say1 = Utils.get_dynamic_class_instantiation(package_name="neurons",
+                                                     module_name=neuron.name.capitalize(),
+                                                     parameters=neuron.parameters,
+                                                     resources_dir='/var/tmp/test/resources')
+        self.assertTrue(isinstance(say1, Say), "Failed to dynamically instantiate neuron 'Say'")
+        say2 = Utils.get_dynamic_class_instantiation(package_name="neurons",
+                                                     module_name=neuron.name.capitalize(),
+                                                     parameters=neuron.parameters,
+                                                     resources_dir='/var/tmp/test/resources')
+        self.assertTrue(isinstance(say2, Say), "Failed to dynamically instantiate neuron 'Say'")
+        self.assertNotEqual(id(say1), id(say2),
+                            "Dynamic class instantiations must return unique instances")
 
     def test_is_containing_bracket(self):
         #  Success
