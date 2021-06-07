@@ -62,7 +62,7 @@ class Pyalsaaudio(PlayerModule):
     def play(self, file_path):
 
         if self.convert:
-            self.convert_mp3_to_wav(file_path_mp3=file_path)
+            self.convert_to_wav(file_path=file_path)
         f = wave.open(file_path, 'rb')
         pcm_type = alsaaudio.PCM_PLAYBACK
         stream = alsaaudio.PCM(type=pcm_type,
