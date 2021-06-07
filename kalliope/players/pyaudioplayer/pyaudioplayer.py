@@ -29,7 +29,7 @@ class Pyaudioplayer(PlayerModule):
         :type file_path: str              
         """
         if self.convert:
-            self.convert_mp3_to_wav(file_path_mp3=file_path)
+            self.convert_to_wav(file_path=file_path)
         # open the wave file
         wf = wave.open(file_path, 'rb')
 

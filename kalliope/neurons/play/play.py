@@ -4,7 +4,6 @@ import sndhdr
 
 from kalliope.core.NeuronModule import NeuronModule, MissingParameterException, InvalidParameterException
 from kalliope.core.PlayerLauncher import PlayerLauncher
-from kalliope.core import Utils
 
 
 class Play(NeuronModule):
