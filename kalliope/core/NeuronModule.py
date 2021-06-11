@@ -27,6 +27,7 @@ class InvalidParameterException(NeuronExceptions):
     def __init__(self, message):
         # Call the base class constructor with the parameters it needs
         super(InvalidParameterException, self).__init__(message)
+        self.message = message
 
 
 class MissingParameterException(NeuronExceptions):
