@@ -93,3 +93,17 @@ ENV/
 
 # mkdocs
 site
+
+# vscode configuration files
+.vscode
+
+# python virtual environment using pythons's
+# virtualenv binary
+bin
+lib
+lib64
+include
+
+# python's virtual envrionment configuration 
+# file
+pyvenv.cfg
