@@ -72,7 +72,7 @@ setup(
     python_requires=">=3.6",
     # required libs
     install_requires=[
-        'Werkzeug==0.16.1',
+        'Werkzeug>=2.0',
         'pyyaml>=5.1',
         'six>=1.12.0',
         'SpeechRecognition>=3.8.1',
