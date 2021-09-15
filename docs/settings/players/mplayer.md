@@ -16,4 +16,4 @@ players:
 
 ## Notes
 
->**Note:** This Player handles mp3 and wav format.
+> **Note:** This Player handles mp3 and wav format.

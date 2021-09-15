@@ -4,8 +4,8 @@ This TTS is based on the [eSpeak engine](http://espeak.sourceforge.net/).
 
 | Parameters | Required | Default         | Choices                | Comment                                                   |
 | ---------- | -------- | --------------- | ---------------------- | --------------------------------------------------------- |
-| voice      | yes      |                 | all voice installed    | see the full list with command "espeak --voices=LANGUAGE" |
-| variant    | no       |                 | all language installed | see the full list with command "espeak --voices=variant"  |
+| voice      | yes      |                 | all voice installed    | See the full list with command "espeak --voices=LANGUAGE" |
+| variant    | no       |                 | all language installed | See the full list with command "espeak --voices=variant"  |
 | speed      | no       | 160             | 80 to 450              | Speed in words per minute                                 |
 | amplitude  | no       | 100             | 0 to 200               | Amplitude                                                 |
 | pitch      | no       | 50              | 0 to 99                | Pitch adjustment                                          |
@@ -15,21 +15,25 @@ This TTS is based on the [eSpeak engine](http://espeak.sourceforge.net/).
 ## Installation
 
 Espeak package need to be installed
+
 ```bash
 sudo apt-get install espeak
 ```
 
 To see the full list of language and voices:
+
 ```bash
 espeak --voices
 ```
 
 To see the full list of voices:
+
 ```bash
 espeak --voices=LANGUAGE
 ```
 
 Example:
+
 ```
 espeak --voices=fr
 Pty Language Age/Gender VoiceName          File          Other Languages
@@ -39,17 +43,20 @@ Pty Language Age/Gender VoiceName          File          Other Languages
  5  fr-be          M  french-Belgium       europe/fr-be  (fr 8)
 ```
 
-Configuration for "7  fr             M  french-mbrola-1      mb/mb-fr1"
+Configuration for "7 fr M french-mbrola-1 mb/mb-fr1"
+
 ```yaml
 voice: "mb-fr1"
 ```
 
 To see the full list of variant:
+
 ```bash
 espeak --voices=variant
 ```
 
 Example:
+
 ```
 espeak --voices=variant
 Pty Language Age/Gender VoiceName          File          Other Languages
@@ -63,7 +70,8 @@ Pty Language Age/Gender VoiceName          File          Other Languages
  [...]
 ```
 
-Configuration for "5  variant        F  female3              !v/f3".
+Configuration for "5 variant F female3 !v/f3".
+
 ```yaml
 voice: "fr"
 variant: "f3"
@@ -75,8 +83,7 @@ variant: "f3"
 default_text_to_speech: "espeak"
 
 text_to_speech:
-    - espeak:
-        voice: "fr"
-        variant: "f3"
+  - espeak:
+      voice: "fr"
+      variant: "f3"
 ```
-

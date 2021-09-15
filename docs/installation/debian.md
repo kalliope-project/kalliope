@@ -5,18 +5,20 @@
 Edit `/etc/apt/sources.list` and check that you have `contrib` and `non-free` are enabled:
 
 On Debian Jessie:
+
 ```bash
 deb http://httpredir.debian.org/debian jessie main contrib non-free
 deb-src http://httpredir.debian.org/debian jessie main contrib non-free
 ```
 
 On Debian Stretch:
+
 ```bash
 deb http://httpredir.debian.org/debian stretch main contrib non-free
 deb-src http://httpredir.debian.org/debian stretch main contrib non-free
 ```
 
-Install some required system libraries and softwares:
+Install some required system libraries and software:
 
 ```bash
 sudo apt-get update
@@ -29,15 +31,18 @@ sudo apt-get install -y \
 ```
 
 Let's install the last release of python-pip
+
 ```bash
 wget https://bootstrap.pypa.io/get-pip.py
 sudo python3 get-pip.py
 ```
 
 Then, with pip, the last release of setuptools
+
 ```bash
 sudo pip3 install -U setuptools
 ```
+
 ## Kalliope installation
 
 {!installation/manual_installation_common.md!}

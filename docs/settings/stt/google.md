@@ -8,10 +8,10 @@ This STT is free for less than 60 minutes of usage per month. After that you nee
 | key       | No       | None    |                                                                               |             |
 | language  | No       | en-US   | [lang](https://en.wikipedia.org/wiki/Google_Voice_Search#Supported_languages) | LCID string |
 
-
 ## Settings example
 
 Free usage
+
 ```yaml
 default_speech_to_text: "google"
 
@@ -21,6 +21,7 @@ speech_to_text:
 ```
 
 For paying users
+
 ```yaml
 default_speech_to_text: "google"
 

@@ -11,15 +11,16 @@ Kalliope can run on all Linux Debian based distribution including a Raspberry Pi
 Kalliope is easy-peasy to use, see the hello world
 
 ```yaml
-  - name: "Hello-world"
-    signals:
-      - order: "say hello"
-    neurons:
-      - say:
-          message: "Hello world!"
+- name: "Hello-world"
+  signals:
+    - order: "say hello"
+  neurons:
+    - say:
+        message: "Hello world!"
 ```
 
 If you want an idea of what you can do with Kalliope, click on the image below
+
 <p align="center">
 [![ENGLISH DEMO](https://img.youtube.com/vi/PcLzo4H18S4/0.jpg)](https://www.youtube.com/watch?v=PcLzo4H18S4)
 </p>

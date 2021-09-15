@@ -1,10 +1,10 @@
 # brain.yml
 
-The brain is a main component of Kalliope. It's a module that gives a configuration of your own personal assistant and, so, determines it's behavior and fonctionnalities.
+The brain is a main component of Kalliope. It's a module that gives a configuration of your own personal assistant and, so, determines it's behavior and functionalities.
 
-Kalliope will look for the brain in the order bellow:
+Kalliope will look for the brain in the order below:
 
-- From you current folder, E.g `/home/pi/my_kalliope/brain.yml`
+- From your current folder, E.g `/home/pi/my_kalliope/brain.yml`
 - From `/etc/kalliope/brain.yml`
 - From the default `brain.yml` located in the root of the project tree.
 
@@ -17,12 +17,14 @@ Brain is composed by **synapses**: a synapse is the link between input(**signals
 A signal is an input event triggered by a synapse. When a signal from the list is caught, Kalliope runs attached neurons of the synapse.
 
 The syntax is the following
+
 ```yaml
 signals:
   - signal_name: parameter
 ```
 
 Or
+
 ```yaml
 signals:
   - signal_name:
@@ -31,6 +33,7 @@ signals:
 ```
 
 Example:
+
 ```yaml
 signals:
   - order: "hello kalliope"
@@ -44,6 +47,7 @@ signals:
 ```
 
 You can also set an empty list as signals. This means that the synapse can only be started from the CLI, the API, a hook or from another synapse.
+
 ```yaml
 signals: []
 ```
@@ -51,13 +55,14 @@ signals: []
 ### Output parameters
 
 Some signals will send a list of parameters to all neurons when triggered. Neurons are then free to use them or not.
-For example, the signal mqtt_subscriber(signals/mqtt_subscriber.md) send a variable called "mqtt_subscriber_message" when triggered. In the example bellow, the neuron "say" use this variable to make Kalliope speak out loud a status received from the MQTT broker.
+For example, the signal [mqtt_subscriber](signals/mqtt_subscriber.md) send a variable called "mqtt_subscriber_message" when triggered. In the example below, the neuron "say" use this variable to make Kalliope speak out loud a status received from the MQTT broker.
 
 E.g
+
 ```yaml
 - name: "mqtt"
   signals:
-    - mqtt_subscriber:   # this signal send a "mqtt_subscriber_message" when triggered
+    - mqtt_subscriber: # this signal send a "mqtt_subscriber_message" when triggered
         broker_ip: "127.0.0.1"
         topic: "topic1"
   neurons:
@@ -68,14 +73,14 @@ E.g
 
 ### Available signals
 
-Here is a list of core signal that are installed natively with Kalliope
+Here is a list of core signals that are installed natively with Kalliope
 
-| Name                                                   | Description                                                       |
-|--------------------------------------------------------|-------------------------------------------------------------------|
+| Name                                       | Description                                                       |
+| ------------------------------------------ | ----------------------------------------------------------------- |
 | [event](signals/event)                     | Launch synapses periodically at fixed times, dates, or intervals. |
-| [mqtt_subscriber](signals/mqtt_subscriber) | Launch synapse from when receive a message from a MQTT broker     |
-| [order](signals/order)                     | Launch synapses from captured vocal order from the microphone     |
-| [geolocation](signals/geolocation)         | Define synapses to be triggered by clients handling geolocation   |
+| [mqtt_subscriber](signals/mqtt_subscriber) | Launch synapse when receive a message from a MQTT broker.         |
+| [order](signals/order)                     | Launch synapses from captured vocal order from the microphone.    |
+| [geolocation](signals/geolocation)         | Define synapses to be triggered by clients handling geolocation.  |
 
 See the full list of core and community signals on the [Kalliope's website](https://kalliope-project.github.io/signals_marketplace.html).
 
@@ -88,24 +93,26 @@ You can add as many neurons as you want to a synapse. The neurons are executed o
 
 Neurons are declared in the `neurons` section of a synapse in your brain file.
 The `neurons` section is a list (because it starts with a "-") which contains neuron modules names
+
 ```yaml
 neurons:
-    - neuron_1_name
-    - neuron_2_name
-    - another_neuron
+  - neuron_1_name
+  - neuron_2_name
+  - another_neuron
 ```
 
-Some neurons need parameters that can be passed as arguments following the syntax bellow:
+Some neurons need parameters that can be passed as arguments following the syntax below:
+
 ```yaml
 neurons:
-    - neuron_name:
-        parameter1: "value1"
-        parameter2: "value2"
+  - neuron_name:
+      parameter1: "value1"
+      parameter2: "value2"
 ```
 
 Eg:
 
-> **note:** parameters are indented with two spaces bellow the neuron's name following the YAML syntax.
+> **note:** parameters are indented with two spaces below the neuron's name following the YAML syntax.
 
 > **note:** Kalliope will try to load the neuron from your resources directory, then from core neuron packages.
 
@@ -120,42 +127,47 @@ Neurons require some **parameters** from the synapse declaration to work. Those 
 - kalliope memory
 
 From the neuron declaration:
+
 ```yaml
 neurons:
-    - neuron_name:
-        parameter1: "value1"
-        parameter2: "value2"
+  - neuron_name:
+      parameter1: "value1"
+      parameter2: "value2"
 ```
 
 From global variables: (cf: [settings](../settings/settings.md#global-variables))
+
 ```yaml
-  - name: "run-simple-sleep"
-    signals:
-      - order: "Wait for me "
-    neurons:
-      - sleep:
-          seconds: {{variable}}
+- name: "run-simple-sleep"
+  signals:
+    - order: "Wait for me "
+  neurons:
+    - sleep:
+        seconds: { { variable } }
 ```
 
 From the captured order:
+
 ```yaml
-  - name: "say-hello"
-    signals:
-      - order: "say hello to {{ name }}"
-    neurons:
-      - say:
-          message:
-            - "Hello {{ name }}"
+- name: "say-hello"
+  signals:
+    - order: "say hello to {{ name }}"
+  neurons:
+    - say:
+        message:
+          - "Hello {{ name }}"
 ```
-Here, the spoken value captured by the TTS engine will be passed as an argument to the neuron in every parameters that want use it.
+
+Here, the spoken value captured by the TTS engine will be passed as an argument to the neuron in every parameters that want to use it.
 
 Example, with the synapse declaration above, if you say "say hello to Bob". The parameter message is instantiated and all `{{ name }}` are replaced by "bob".
 
-From parameters sent by a signal(E.g, mqtt subscriber)
+From parameters sent by a signal (E.g, mqtt subscriber)
+
 ```yaml
 - name: "mqtt"
   signals:
-    - mqtt_subscriber:   # this signal send a "mqtt_subscriber_message" when triggered
+    - mqtt_subscriber: # this signal send a "mqtt_subscriber_message" when triggered
         broker_ip: "127.0.0.1"
         topic: "topic1"
   neurons:
@@ -169,20 +181,22 @@ From parameters sent by a signal(E.g, mqtt subscriber)
 ### Output values
 
 Some neurons will return variables into a dictionary of value. Those values can be used to make your own Kalliope answer through a template.
-The objective of using a template is to let the user choosing what he wants to make Kalliope saying in its own language.
+The objective of using a template is to let the user choose what he wants to make Kalliope saying in its own language.
 A template is a text file that contains **variables**, which get replaced with values when the template is evaluated by
-the [template engine](https://en.wikipedia.org/wiki/Jinja_(template_engine)), and **tags**, which control the logic of the template.
+the [template engine](<https://en.wikipedia.org/wiki/Jinja_(template_engine)>), and **tags**, which control the logic of the template.
 
 The template engine used in Kalliope is [Jinja2](http://jinja.pocoo.org/docs/dev/).
 
-For example, if we look at the [documentation of the neuron systemedate](neurons/systemdate.md), we can see that the neuron will return a dictionary of value like `minute`, `hours` and all other values about the current time on the system where Kalliope is installed.
+For example, if we look at the [documentation of the neuron systemedate](neurons/systemdate.md), we can see that the neuron will return a dictionary of value like `minutes`, `hours` and all other values about the current time on the system where Kalliope is installed.
 
 A simple, that only use **variables**, template would be
+
 ```
-It is {{ hours }} and {{ minutes }} minutes.
+It is {{ hours }} hours and {{ minutes }} minutes.
 ```
 
 Placed in a complete synapse, it looks like the following
+
 ```yaml
 - name: "time"
     signals:
@@ -197,6 +211,7 @@ Here, we use [variables](http://jinja.pocoo.org/docs/dev/templates/#variables) f
 So, what the user will hear is something like `It is 9 hours and 21 minutes`.
 
 We can add some logic to a template with tags. Here a simple example with [a test tag](http://jinja.pocoo.org/docs/dev/templates/#if), that will make Kalliope change the pronounced sentence depending on the current time.
+
 ```jinja2
 {% if hours > 8 %}
     It is late, isn't it?
@@ -206,6 +221,7 @@ We can add some logic to a template with tags. Here a simple example with [a tes
 ```
 
 As this is multi-lines, we can put the content in a file and use a `file_template` instead of a `say_template` for more clarity.
+
 ```yaml
 - name: "time"
     signals:
@@ -218,7 +234,8 @@ As this is multi-lines, we can put the content in a file and use a `file_templat
 ### kalliope_memory
 
 Kalliope can store in a short term memory a variable from an order or generated from a neuron:
-- output parameters from a neuron
+
+- output parameters from a neuron.
 - variable parameters captured from an order.
 
 Stored parameters can then be used in other synapses during a future call.
@@ -227,6 +244,7 @@ Please not that this memory is not preserved after a restart of Kalliope.
 #### Store parameters generated by a neuron
 
 Syntax with output parameters from a neuron
+
 ```yaml
 - name: "synapse-name"
   signals:
@@ -239,6 +257,7 @@ Syntax with output parameters from a neuron
 ```
 
 Syntax to reuse memorized parameters in another synapse
+
 ```yaml
 - name: "synapse-name"
   signals:
@@ -249,10 +268,10 @@ Syntax to reuse memorized parameters in another synapse
         parameter2: "{{ kalliope_memory['other_key_name_in_memory'] }}"
 ```
 
->**Note:** The key name need to be placed into simple quotes
-
+> **Note:** The key name need to be placed into simple quotes
 
 Example with a core neuron like `systemdate`
+
 ```yaml
 - name: "synapse-name"
   signals:
@@ -260,7 +279,7 @@ Example with a core neuron like `systemdate`
   neurons:
     - systemdate:
         say_template:
-          - "It' {{ hours }} hours and {{ minutes }} minutes"
+          - "It's {{ hours }} hours and {{ minutes }} minutes"
         kalliope_memory:
           hours_when_asked: "{{ hours }}"
           minutes_when_asked: "{{ minutes }}"
@@ -269,10 +288,11 @@ Example with a core neuron like `systemdate`
 Here, the `systemdate` neuron generates variables that haven been passed to the template like described in the previous section and to the memory of Kalliope.
 
 Those parameters can now be used in a next call
+
 ```yaml
 - name: "synapse-name-2"
   signals:
-    - order: "a what time I've asked the time?"
+    - order: "what time I've asked the time?"
   neurons:
     - say:
         message:
@@ -280,12 +300,14 @@ Those parameters can now be used in a next call
 ```
 
 As it's based on a template, the value can be modified by adding a string
+
 ```yaml
 kalliope_memory:
   my_saved_key: "{{ neuron_parameter_name }} with a word"
 ```
 
 Multiple parameters can be used and concatenated in the same memorized key
+
 ```yaml
 kalliope_memory:
   my_saved_key: "{{ neuron_parameter_name1 }} and {{ neuron_parameter_name2 }}"
@@ -294,6 +316,7 @@ kalliope_memory:
 #### Store parameters captured from orders
 
 Syntax
+
 ```yaml
 - name: "synapse-name"
   signals:
@@ -305,6 +328,7 @@ Syntax
 ```
 
 The syntax to reuse memorized parameters in another synapse is the same as the one used with neuron parameters
+
 ```yaml
 - name: "synapse-name"
   signals:
@@ -315,6 +339,7 @@ The syntax to reuse memorized parameters in another synapse is the same as the o
 ```
 
 Example
+
 ```yaml
 - name: "synapse-id"
   signals:
@@ -329,6 +354,7 @@ Example
 
 Here, the variable "name" has been used directly into the template and also saved in memory behind the key "friend".
 The value can now be used in a next call like the following
+
 ```yaml
 - name: "synapse-id"
   signals:
@@ -339,12 +365,12 @@ The value can now be used in a next call like the following
           - "It's {{ kalliope_memory['friend'] }}
 ```
 
-Here is another example brain whit use the `neurotimer` neuron. In this scenario, you want to remember to do something
+Here is another example of brain with the use of `neurotimer` neuron. In this scenario, you want to remember to do something
 
 > **You:** remind me to call mom in 15 minutes<br>
-**Kalliope:** I'll notify you in 15 minutes<br>
-15 minutes later..<br>
-**Kalliope:** You asked me to remind you to call mom 15 minutes ago
+> **Kalliope:** I'll notify you in 15 minutes<br>
+> 15 minutes later..<br>
+> **Kalliope:** You asked me to remind you to call mom 15 minutes ago
 
 ```yaml
 - name: "remember-synapse"
@@ -372,8 +398,9 @@ Here is another example brain whit use the `neurotimer` neuron. In this scenario
 #### Get the last order generated TTS message
 
 Kalliope will save in memory automatically:
-- the last generated TTS message .
-- the last caught order
+
+- the last generated TTS message.
+- the last caught order.
 
 To get the last generated message, use the key `{{ kalliope_memory['kalliope_last_tts_message'] }}` in your synapse.
 To get the last order, use the key `{{ kalliope_memory['kalliope_last_order'] }}` in your synapse.
@@ -383,7 +410,8 @@ So you need to catch messages you want to process in the right hook like `on_sta
 
 An example of usage is to send each message to an API each time Kalliope start speaking.
 
-You need at first to create a hook in your `settings.yaml` like the following
+You need at first to create a hook in your `settings.yaml` like the following:
+
 ```yaml
 hooks:
   on_start_speaking: "mm-say"
@@ -391,14 +419,15 @@ hooks:
 
 Then create a synapse in your `brain` that is linked to the hook to send each message.
 As a concrete example, here the [magic mirror neuron](https://github.com/kalliope-project/kalliope_neuron_magic_mirror) is used to send each spelt out loud message to the Magic Mirror API in order to show them on the screen.
+
 ```yaml
-  - name: "mm-say"
-    signals: []
-    neurons:
-      - magic_mirror:
-          mm_url: "http://127.0.0.1:8080/kalliope"
-          notification: "KALLIOPE"
-          payload: "{{ kalliope_memory['kalliope_last_tts_message'] }}"
+- name: "mm-say"
+  signals: []
+  neurons:
+    - magic_mirror:
+        mm_url: "http://127.0.0.1:8080/kalliope"
+        notification: "KALLIOPE"
+        payload: "{{ kalliope_memory['kalliope_last_tts_message'] }}"
 ```
 
 **Note**
@@ -406,6 +435,7 @@ As a concrete example, here the [magic mirror neuron](https://github.com/kalliop
 `kalliope_last_tts_message` is overridden each time Kalliope says something.
 For example, a common practice is to have a synapse placed in the hook `on_triggered` in order to know when the hotword has been triggered.
 So, if this synapse is configured like the following
+
 ```yaml
 - name: "on-triggered-synapse"
   signals: []
@@ -414,7 +444,8 @@ So, if this synapse is configured like the following
         message: "what can i do for you?"
 ```
 
-And you try the get the last generated message with a synapse like the following
+And you try to get the last generated message with a synapse like the following
+
 ```yaml
 - name: "last-message"
     signals:
@@ -431,19 +462,21 @@ Then the answer will always be "it was what can i do for you?" because the varia
 If you want a better visibly, or simply sort your actions in different files, you can split the main brain file into multiple ones.
 
 To do that, use the import statement in the entry brain.yml file with the following syntax:
+
 ```yaml
-  - includes:
-      - path/to/sub_brain.yml
-      - path/to/another_sub_brain.yml
+- includes:
+    - path/to/sub_brain.yml
+    - path/to/another_sub_brain.yml
 ```
 
 E.g:
+
 ```yaml
-  - includes:
-      - brains/rolling_shutter_commands.yml
-      - brains/find_my_phone.yml
+- includes:
+    - brains/rolling_shutter_commands.yml
+    - brains/find_my_phone.yml
 ```
 
->**Note:** You can only use the `include` statement in the main brain file.
+> **Note:** You can only use the `include` statement in the main brain file.
 
->**Note:** the includes statement must start with a `-`
+> **Note:** the includes statement must start with a `-`

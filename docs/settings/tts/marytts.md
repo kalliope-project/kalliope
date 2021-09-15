@@ -12,7 +12,8 @@ MaryTTS is an open-source, multilingual Text-to-Speech Synthesis platform writte
 ## Settings example
 
 For english voice on localhost add the following lines in your settings.yml:
-```
+
+```yml
 text_to_speech:
   - marytts:
       voice: "cmu-bdl"
@@ -21,7 +22,8 @@ text_to_speech:
 ```
 
 For english voice on remote host with default port:
-```
+
+```yml
 text_to_speech:
   - marytts:
       voice: "cmu-bdl"
@@ -29,6 +31,7 @@ text_to_speech:
       host: 192.168.0.25
       cache: True
 ```
+
 ## Notes :
 
->**Note:** You need to [install Marytts server](https://github.com/marytts/marytts-installer).
+> **Note:** You need to [install Marytts server](https://github.com/marytts/marytts-installer).

@@ -10,12 +10,17 @@ Kalliope provides the REST API to manage the synapses. For configuring the API r
 ### Get Kalliope's version
 
 Normal response codes: 200
+
 Error response codes: unauthorized(401)
+
 Curl command:
+
 ```bash
 curl -i --user admin:secret -X GET  http://localhost:5000/
 ```
+
 Output example:
+
 ```JSON
 {
   "Kalliope version": "0.4.2"

@@ -6,11 +6,11 @@ None
 
 ## Returned values
 
-| Name                   | Description                                                                                             | Type     | sample |
-|----------------------- | ------------------------------------------------------------------------------------------------------- | -------- | -------|
-| current_version        | The current version of Kalliope you are using                                                           | string   | 0.5.1  |
-| last_master_version    | The last available version number                                                                       | string   | 0.5.3  |
-| new_version_available  | True if a new version is available (current_version < last_master_version)                              | boolean  | True   |
+| Name                  | Description                                                                | Type    | sample |
+| --------------------- | -------------------------------------------------------------------------- | ------- | ------ |
+| current_version       | The current version of Kalliope you are using                              | string  | 0.5.1  |
+| last_master_version   | The last available version number                                          | string  | 0.5.3  |
+| new_version_available | True if a new version is available (current_version < last_master_version) | boolean | True   |
 
 ## Synapses example
 

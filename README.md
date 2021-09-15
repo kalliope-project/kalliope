@@ -3,13 +3,13 @@
 </p>
 
 # Kalliope
+
 [![Build Status](https://travis-ci.org/kalliope-project/kalliope.svg?branch=master)](https://travis-ci.org/kalliope-project/kalliope)
 [![Coverage Status](https://coveralls.io/repos/github/kalliope-project/kalliope/badge.svg)](https://coveralls.io/github/kalliope-project/kalliope)
 [![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/kalliope-project/Lobby)
 [![PyPI version](https://badge.fury.io/py/kalliope.svg)](https://badge.fury.io/py/kalliope)
 [![PyPI](https://img.shields.io/pypi/pyversions/kalliope.svg)](https://pypi.python.org/pypi/kalliope/)
 [![Beerpay](https://beerpay.io/kalliope-project/kalliope/badge.svg?style=flat)](https://beerpay.io/kalliope-project/kalliope)
-
 
 Kalliope is a framework that will help you to create your own personal assistant.
 
@@ -22,12 +22,12 @@ Kalliope can run on all Linux Debian based distribution including a Raspberry Pi
 Kalliope is easy-peasy to use, see the hello world
 
 ```yaml
-  - name: "Hello-world"
-    signals:
-      - order: "say hello"
-    neurons:
-      - say:
-          message: "Hello world!"
+- name: "Hello-world"
+  signals:
+    - order: "say hello"
+  neurons:
+    - say:
+        message: "Hello world!"
 ```
 
 If you want an idea of what you can do with Kalliope, click on the image below
@@ -47,17 +47,17 @@ If you want an idea of what you can do with Kalliope, click on the image below
 ## Credits
 
 > **Meaning of Kalliope** Kalliope means "beautiful voice" from Greek καλλος (kallos) "beauty" and οψ (ops) "voice".
-In Greek mythology she was a goddess of epic poetry and eloquence, one of the nine Muses.
+> In Greek mythology she was a goddess of epic poetry and eloquence, one of the nine Muses.
 
-- kə-LIE-ə-pee    (English)
-- Ka-li-o-pé      (French)
-- каллиопа        (Russian)
+- kə-LIE-ə-pee (English)
+- Ka-li-o-pé (French)
+- каллиопа (Russian)
 
 ## License
 
 Copyright (c) 2018. All rights reserved.
 
-Kalliope is covered by the  GNU GENERAL PUBLIC LICENSE v3.0.
+Kalliope is covered by the GNU GENERAL PUBLIC LICENSE v3.0.
 Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications,
 which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved.
 Contributors provide an express grant of patent rights.

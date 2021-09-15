@@ -1,22 +1,22 @@
 Update your brain from a neuron
 
 Current actions available:
+
 - enable / disable a synapse from the brain
 
 ## Input parameters
 
-| parameter    | required | type    | default | choices     | comment                           |
-|--------------|----------|---------|---------|-------------|-----------------------------------|
-| synapse_name | YES      | string  |         |             | The name of the synapse to update |
-| enabled      | YES      | boolean |         | True, False | if True, the synapse is enabled.  |
-
+| parameter    | required | type    | default | choices     | comment                            |
+| ------------ | -------- | ------- | ------- | ----------- | ---------------------------------- |
+| synapse_name | YES      | string  |         |             | The name of the synapse to update. |
+| enabled      | YES      | boolean |         | True, False | if True, the synapse is enabled.   |
 
 ## Returned values
 
-| Name         | Description                | Type    | sample                      |
-|--------------|----------------------------|---------|-----------------------------|
-| synapse_name | The updated synapse name   | string  | to-deactivate               |
-| status       | New status of the synapse  | boolean | enabled, disabled, unknown  |
+| Name         | Description               | Type    | sample                     |
+| ------------ | ------------------------- | ------- | -------------------------- |
+| synapse_name | The updated synapse name  | string  | to-deactivate              |
+| status       | New status of the synapse | boolean | enabled, disabled, unknown |
 
 ## Synapses example
 
@@ -47,4 +47,4 @@ Current actions available:
 
 ## Notes
 
->**Note:** Changes made to the brain from this neuron are not persistent. The brain will be loaded again following the yaml file at the next start of Kalliope.
+> **Note:** Changes made to the brain from this neuron are not persistent. The brain will be loaded again following the yaml file at the next start of Kalliope.

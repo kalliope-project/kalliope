@@ -3,8 +3,8 @@ Update the volume
 ## Input parameters
 
 | parameter | required | type   | default | choices         | comment                                                                            |
-|:----------|:---------|:-------|:--------|:----------------|:-----------------------------------------------------------------------------------|
-| level     | yes      | int    | None    |                 | The volume level to set or increase or decrease depending of the selected 'action' |
+| :-------- | :------- | :----- | :------ | :-------------- | :--------------------------------------------------------------------------------- |
+| level     | yes      | int    | None    |                 | The volume level to set or increase or decrease depending on the selected 'action' |
 | action    | no       | string | set     | set,raise,lower | The action to apply to the volume                                                  |
 
 Action type:
@@ -16,15 +16,15 @@ Action type:
 ## Returned values
 
 | name          | description                            | type   | sample |
-|:--------------|:---------------------------------------|:-------|:-------|
+| :------------ | :------------------------------------- | :----- | :----- |
 | asked_level   | The level variable sent to the neuron  | int    | 22     |
 | asked_action  | The action variable sent to the neuron | string | set    |
 | current_level | The current volume level on the system | int    | 50     |
 
-
 ## Synapses example
 
 Set the volume to 50%
+
 ```yaml
 - name: "set-volume"
   signals:
@@ -35,6 +35,7 @@ Set the volume to 50%
 ```
 
 Set the volume dynamically
+
 ```yaml
 - name: "set-volume-dynamic"
   signals:
@@ -43,9 +44,11 @@ Set the volume dynamically
     - volume:
         level: "{{ volume }}"
 ```
->**Note:** Depending of your STT engine, the caught 'volume' variable can be a string. For example "twenty" instead of "20". 
+
+> **Note:** Depending on your STT engine, the caught 'volume' variable can be a string. For example "twenty" instead of "20".
 
 Raise the volume
+
 ```yaml
 - name: "raise-volume"
   signals:
@@ -57,6 +60,7 @@ Raise the volume
 ```
 
 Reduce the volume
+
 ```yaml
 - name: "lower-volume"
   signals:

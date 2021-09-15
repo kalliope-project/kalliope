@@ -11,10 +11,11 @@ No returned values
 ## Synapses example
 
 Simple example :
+
 ```yaml
-  - name: "stop-kalliope"
-    signals:
-      - order: "goodbye"
-    neurons:
-      - kill_switch
+- name: "stop-kalliope"
+  signals:
+    - order: "goodbye"
+  neurons:
+    - kill_switch
 ```

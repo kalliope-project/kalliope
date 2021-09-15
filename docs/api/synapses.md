@@ -1,7 +1,7 @@
 # Kalliope API: Synapses
 
 | Method | URL                               | Action                             |
-|:-------|:----------------------------------|:-----------------------------------|
+| :----- | :-------------------------------- | :--------------------------------- |
 | GET    | /                                 | Get kaliope version                |
 | GET    | /synapses                         | List synapses                      |
 | POST   | /synapses                         | Add a synapse to the brain         |
@@ -15,7 +15,9 @@
 
 Normal response codes: 200
 Error response codes: unauthorized(401), itemNotFound(404)
+
 Curl command:
+
 ```bash
 curl -i \
 --user admin:secret \
@@ -24,6 +26,7 @@ http://localhost:5000/synapses
 ```
 
 Output example:
+
 ```JSON
 {
   "synapses": [
@@ -72,7 +75,9 @@ Output example:
 
 Normal response codes: 200
 Error response codes: unauthorized(401), itemNotFound(404)
+
 Curl command:
+
 ```bash
 curl -i \
 --user admin:secret \
@@ -81,6 +86,7 @@ http://localhost:5000/synapses/say-hello
 ```
 
 Output example:
+
 ```JSON
 {
   "synapses": {
@@ -107,7 +113,9 @@ Output example:
 
 Normal response codes: 201
 Error response codes: unauthorized(401), itemNotFound(404)
+
 Curl command:
+
 ```bash
 curl -i -H "Content-Type: application/json" \
         --user admin:secret \
@@ -131,21 +139,22 @@ curl -i -H "Content-Type: application/json" \
 ```
 
 Output example:
+
 ```JSON
 {
-  "enabled": true, 
-  "name": "Say-hello", 
+  "enabled": true,
+  "name": "Say-hello",
   "neurons": [
     {
-      "name": "say", 
+      "name": "say",
       "parameters": {
         "message": "I know"
       }
     }
-  ], 
+  ],
   "signals": [
     {
-      "name": "order", 
+      "name": "order",
       "parameters": "I am Batman"
     }
   ]
@@ -156,7 +165,9 @@ Output example:
 
 Normal response codes: 204
 Error response codes: unauthorized(401), itemNotFound(404)
+
 Curl command:
+
 ```bash
 curl -i \
 --user admin:secret \
@@ -168,7 +179,9 @@ http://localhost:5000/synapses/start/id/say-hello
 
 Normal response codes: 201
 Error response codes: unauthorized(401), itemNotFound(404)
+
 Curl command:
+
 ```bash
 curl -i \
 --user admin:secret \
@@ -177,7 +190,9 @@ http://127.0.0.1:5000/synapses/say-hello-en
 ```
 
 The [mute flag](#mute-flag) can be added to this call.
+
 Curl command:
+
 ```bash
 curl -i \
 -H "Content-Type: application/json" \
@@ -190,6 +205,7 @@ http://127.0.0.1:5000/synapses/start/id/say-hello-fr
 Some neuron inside a synapse will wait for parameters that comes from the order.
 You can provide those parameters by adding a `parameters` list of data.
 Curl command:
+
 ```bash
 curl -i \
 -H "Content-Type: application/json" \
@@ -205,6 +221,7 @@ Normal response codes: 201
 Error response codes: unauthorized(401), itemNotFound(404)
 
 Curl command:
+
 ```bash
 curl -i \
 --user admin:secret \
@@ -214,11 +231,14 @@ http://localhost:5000/synapses/start/order
 ```
 
 If the order contains accent or quotes, use a file for testing with curl
+
 ```bash
 cat post.json
 {"order":"j'aime"}
 ```
+
 Then
+
 ```bash
 curl -i \
 --user admin:secret \
@@ -228,6 +248,7 @@ curl -i \
 ```
 
 Output example if the order have matched and so launched synapses:
+
 ```JSON
 {
   "matched_synapses": [
@@ -247,7 +268,8 @@ Output example if the order have matched and so launched synapses:
 }
 ```
 
-If the order haven't match any synapses it will try to run the default synapse if it exists in your settings:
+If the order haven't matched any synapses it will try to run the default synapse if it exists in your settings:
+
 ```JSON
 {
   "matched_synapses": [
@@ -268,6 +290,7 @@ If the order haven't match any synapses it will try to run the default synapse i
 ```
 
 Or return an empty list of matched synapse
+
 ```
 {
   "matched_synapses": [],
@@ -277,7 +300,9 @@ Or return an empty list of matched synapse
 ```
 
 The [mute flag](#mute-flag) can be added to this call.
+
 Curl command:
+
 ```bash
 curl -i \
 --user admin:secret -H "Content-Type: application/json" \
@@ -294,6 +319,7 @@ Error response codes: unauthorized(401), itemNotFound(404)
 The audio file must use WAV or MP3 extension.
 
 Curl command:
+
 ```bash
 curl -i \
 --user admin:secret \
@@ -303,6 +329,7 @@ http://localhost:5000/synapses/start/audio \
 ```
 
 Output example if the order inside the audio have matched and so launched synapses:
+
 ```JSON
 {
   "matched_synapses": [
@@ -322,7 +349,8 @@ Output example if the order inside the audio have matched and so launched synaps
 }
 ```
 
-If the order haven't match any synapses it will try to run the default synapse if it exists in your settings:
+If the order haven't matched any synapses it will try to run the default synapse if it exists in your settings:
+
 ```JSON
 {
   "matched_synapses": [
@@ -343,6 +371,7 @@ If the order haven't match any synapses it will try to run the default synapse i
 ```
 
 Or return an empty list of matched synapse
+
 ```JSON
 {
   "matched_synapses": [],
@@ -352,7 +381,9 @@ Or return an empty list of matched synapse
 ```
 
 The [mute flag](#mute-flag) can be added to this call with a form.
+
 Curl command:
+
 ```bash
 curl -i \
 --user admin:secret \
@@ -369,7 +400,7 @@ Fortunately, the API provides a way to continue interaction with Kalliope and st
 
 When you start a synapse via its name or an order (like shown above), the answer of the API call will tell you in the response that kalliope is waiting for a response via the "status" return.
 
-Status can either by ```complete``` (nothing else to do) or ```waiting_for_answer```, in which case Kalliope is waiting for your response :).
+Status can either by `complete` (nothing else to do) or `waiting_for_answer`, in which case Kalliope is waiting for your response :).
 
 In this case, you can launch another order containing your response.
 
@@ -407,7 +438,7 @@ The response should be as follow:
 }
 ```
 
-The ```"status": "waiting_for_answer"``` indicates that it waits for a response, so let's send it:
+The `"status": "waiting_for_answer"` indicates that it waits for a response, so let's send it:
 
 ```bash
 curl -i \

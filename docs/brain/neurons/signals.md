@@ -11,10 +11,10 @@ A basic example of usage is to [disable the trigger from the Order signal](../si
 | notification | YES      | string |         |         | The notification string identifier that will be recognized by launched signals                           |
 | payload      | NO       | dict   |         |         | Dict of parameters to send with the notification. The payload must match the target Signal documentation |
 
-
 ## Synapse examples
 
 Syntax:
+
 ```yaml
 - name: "my-synapse"
   signals: {}
@@ -27,6 +27,7 @@ Syntax:
 ```
 
 E.g:
+
 ```yaml
 - name: "start-skip-trigger"
   signals: {}
@@ -43,19 +44,20 @@ See a complete example from the [order signal documentation](../signals/order#co
 
 ## How to implement notifications in my community signals
 
-You Signal will implement 2 classes, SignalModule and Thread.
+Your Signal will implement 2 classes, SignalModule and Thread.
 
 - SignalModule is used to implement methods like notification
 - Thread is used to keep the signal awaken during the Kalliope process execution.
 
 Here is a basic implementation of a signal.
+
 ```python
 class Mysignal(SignalModule, Thread):
     def __init__(self):
         super(Mysignal, self).__init__()
         Thread.__init__(self, name=Mysignal)
 
-    def run:
+    def run():
         # do my signal job
 ```
 
@@ -67,7 +69,7 @@ class Mysignal(SignalModule, Thread):
         super(Mysignal, self).__init__()
         Thread.__init__(self, name=Mysignal)
 
-    def run:
+    def run():
         # do my signal job
 
     def on_notification_received(self, notification=None, payload=None):

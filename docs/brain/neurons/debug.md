@@ -1,12 +1,11 @@
 Print a message in the console. This neuron can be used to check your [captured variable from an order](../signals/order/#order-with-arguments) or check the content of variable placed
 in [Kalliope memory](../brain/#kalliope_memory).
 
-
 ## Input parameters
 
-| parameter | required | default | choices | comment                                  |
-|-----------|----------|---------|---------|------------------------------------------|
-| message   | YES      |         |         | Message to print in the console output   |
+| parameter | required | default | choices | comment                                |
+| --------- | -------- | ------- | ------- | -------------------------------------- |
+| message   | YES      |         |         | Message to print in the console output |
 
 ## Returned values
 
@@ -14,7 +13,8 @@ No returned values
 
 ## Synapses example
 
-Simple example :
+Simple example:
+
 ```yaml
 - name: "debug"
   signals:
@@ -25,11 +25,13 @@ Simple example :
 ```
 
 Output example:
+
 ```
 [Debug neuron, 2017-12-17 17:30:53] this is a debug line
 ```
 
 Show the content of captured variables from the spoken order
+
 ```yaml
 - name: "debug"
   signals:
@@ -40,6 +42,7 @@ Show the content of captured variables from the spoken order
 ```
 
 Show the content of a variable placed in Kalliope memory
+
 ```yaml
 - name: "debug"
   signals:

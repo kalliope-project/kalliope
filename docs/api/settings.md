@@ -1,33 +1,33 @@
 # Kalliope API: Settings
 
-| Method | URL                                                 | Action                                              |
-|--------|-----------------------------------------------------|-----------------------------------------------------|
-| GET    | /settings/deaf                                      | Get the current deaf status                         |
-| POST   | /settings/deaf                                      | Switch the deaf status                              |
-| GET    | /settings/mute                                      | Get the current mute status                         |
-| POST   | /settings/mute                                      | Switch the mute status                              |
-| GET    | /settings/recognizer_multiplier                     | Get the current recognizer_multiplier               |
-| POST   | /settings/recognizer_multiplier                     | Update the recognizer_multiplier value              |
-| GET    | /settings/recognizer_energy_ratio                   | Get the recognizer_energy_ratio                     |
-| POST   | /settings/recognizer_energy_ratio                   | Update the recognizer_energy_ratio                  |
-| GET    | /settings/recognizer_recording_timeout              | Get the current recognizer_recording_timeout        |
-| POST   | /settings/recognizer_recording_timeout              | Update the recognizer_recording_timeout value       |
-| GET    | /settings/recognizer_recording_timeout_with_silence | Get the recognizer_recording_timeout_with_silence   |
-| POST   | /settings/recognizer_recording_timeout_with_silence | Update the recognizer_recording_timeout_with_silence|
-| GET    | /settings/hooks                                     | Get the current hooks                               |
-| POST   | /settings/hooks                                     | Update the hooks list                               |
-| GET    | /settings/variables                                 | Get the variables list                              |
-| POST   | /settings/variables                                 | Update the variables list                           |
-| GET    | /settings/default_tts                               | Get current tts                                     |
-| POST   | /settings/default_tts                               | Update current tts                                  |
-| GET    | /settings/default_stt                               | Get current stt                                     |
-| POST   | /settings/default_stt                               | Update current stt                                  |
-| GET    | /settings/default_player                            | Get the current player                              |
-| POST   | /settings/default_player                            | Update current player                               |
-| GET    | /settings/default_trigger                           | Get the current trigger                             |
-| POST   | /settings/default_trigger                           | Update the current trigger                          |
+| Method | URL                                                 | Action                                               |
+| ------ | --------------------------------------------------- | ---------------------------------------------------- |
+| GET    | /settings/deaf                                      | Get the current deaf status                          |
+| POST   | /settings/deaf                                      | Switch the deaf status                               |
+| GET    | /settings/mute                                      | Get the current mute status                          |
+| POST   | /settings/mute                                      | Switch the mute status                               |
+| GET    | /settings/recognizer_multiplier                     | Get the current recognizer_multiplier                |
+| POST   | /settings/recognizer_multiplier                     | Update the recognizer_multiplier value               |
+| GET    | /settings/recognizer_energy_ratio                   | Get the recognizer_energy_ratio                      |
+| POST   | /settings/recognizer_energy_ratio                   | Update the recognizer_energy_ratio                   |
+| GET    | /settings/recognizer_recording_timeout              | Get the current recognizer_recording_timeout         |
+| POST   | /settings/recognizer_recording_timeout              | Update the recognizer_recording_timeout value        |
+| GET    | /settings/recognizer_recording_timeout_with_silence | Get the recognizer_recording_timeout_with_silence    |
+| POST   | /settings/recognizer_recording_timeout_with_silence | Update the recognizer_recording_timeout_with_silence |
+| GET    | /settings/hooks                                     | Get the current hooks                                |
+| POST   | /settings/hooks                                     | Update the hooks list                                |
+| GET    | /settings/variables                                 | Get the variables list                               |
+| POST   | /settings/variables                                 | Update the variables list                            |
+| GET    | /settings/default_tts                               | Get current tts                                      |
+| POST   | /settings/default_tts                               | Update current tts                                   |
+| GET    | /settings/default_stt                               | Get current stt                                      |
+| POST   | /settings/default_stt                               | Update current stt                                   |
+| GET    | /settings/default_player                            | Get the current player                               |
+| POST   | /settings/default_player                            | Update current player                                |
+| GET    | /settings/default_trigger                           | Get the current trigger                              |
+| POST   | /settings/default_trigger                           | Update the current trigger                           |
 
->**Note:** --user is only needed if `password_protected` is True
+> **Note:** --user is only needed if `password_protected` is True
 
 ## Get current settings
 
@@ -35,11 +35,13 @@ Normal response codes: 200
 Error response codes: unauthorized(401), Bad request(400)
 
 Curl command:
+
 ```bash
 curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings
 ```
 
 Output example:
+
 ```JSON
 {
   "settings": {
@@ -202,11 +204,13 @@ Normal response codes: 200
 Error response codes: unauthorized(401), Bad request(400)
 
 Curl command:
+
 ```bash
 curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/deaf
 ```
 
 Output example:
+
 ```JSON
 {
   "deaf": true
@@ -214,18 +218,21 @@ Output example:
 ```
 
 ### Switch deaf status
-Kalliope can switch to 'deaf' mode, so she can not ear you anymore, the trigger/hotword is desactivated.
+
+Kalliope can switch to 'deaf' mode, so she can not hear you anymore, the trigger/hotword is de-activated.
 However Kalliope continues to process synapses.
 
 Normal response codes: 200
 Error response codes: unauthorized(401), Bad request(400)
 
 Curl command:
+
 ```bash
 curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"deaf": "True"}' http://127.0.0.1:5000/deaf
 ```
 
 Output example:
+
 ```JSON
 {
   "deaf": true
@@ -243,13 +250,14 @@ When `mute` is switched to true, Kalliope will not speak out loud on the server 
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
 
-
 Curl command:
+
 ```bash
 curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/mute
 ```
 
 Output example:
+
 ```JSON
 {
   "mute": true
@@ -261,13 +269,14 @@ Output example:
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
 
-
 Curl command:
+
 ```bash
 curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"mute": "True"}' http://127.0.0.1:5000/mute
 ```
 
 Output example:
+
 ```JSON
 {
   "mute": true
@@ -283,13 +292,14 @@ Define the [recognizer_multiplier](settings/settings.md#recognizer_multiplier) i
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
 
-
 Curl command:
+
 ```bash
 curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/recognizer_multiplier
 ```
 
 Output example:
+
 ```JSON
 {
   "recognizer_multiplier": 4000
@@ -301,13 +311,14 @@ Output example:
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
 
-
 Curl command:
+
 ```bash
 curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"recognizer_multiplier": 1.0}' http://127.0.0.1:5000/settings/recognizer_multiplier
 ```
 
 Output example:
+
 ```JSON
 {
   "recognizer_multiplier": 1.0
@@ -323,13 +334,14 @@ Define the [recognizer_energy_ratio](settings/settings.md#recognizer_energy_rati
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
 
-
 Curl command:
+
 ```bash
 curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/recognizer_energy_ratio
 ```
 
 Output example:
+
 ```JSON
 {
   "recognizer_energy_ratio": 1.5
@@ -341,13 +353,14 @@ Output example:
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
 
-
 Curl command:
+
 ```bash
 curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"recognizer_energy_ratio": 1.5}' http://127.0.0.1:5000/settings/recognizer_energy_ratio
 ```
 
 Output example:
+
 ```JSON
 {
   "recognizer_energy_ratio": 1.5
@@ -363,13 +376,14 @@ Define the [recognizer_recording_timeout](settings/settings.md#recognizer_record
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
 
-
 Curl command:
+
 ```bash
 curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/recognizer_recording_timeout
 ```
 
 Output example:
+
 ```JSON
 {
   "recognizer_recording_timeout": 15.0
@@ -381,13 +395,14 @@ Output example:
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
 
-
 Curl command:
+
 ```bash
 curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"recognizer_recording_timeout": 15.0}' http://127.0.0.1:5000/settings/recognizer_recording_timeout
 ```
 
 Output example:
+
 ```JSON
 {
   "recognizer_recording_timeout": 15.0
@@ -403,13 +418,14 @@ Define the [recognizer_recording_timeout_with_silence](settings/settings.md#reco
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
 
-
 Curl command:
+
 ```bash
 curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/recognizer_recording_timeout_with_silence
 ```
 
 Output example:
+
 ```JSON
 {
   "recognizer_recording_timeout_with_silence": 3.0
@@ -421,13 +437,14 @@ Output example:
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
 
-
 Curl command:
+
 ```bash
 curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"recognizer_recording_timeout_with_silence": 3.0}' http://127.0.0.1:5000/settings/recognizer_recording_timeout_with_silence
 ```
 
 Output example:
+
 ```JSON
 {
   "recognizer_recording_timeout_with_silence": 3.0
@@ -441,13 +458,14 @@ Output example:
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
 
-
 Curl command:
+
 ```bash
 curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/variables
 ```
 
 Output example:
+
 ```JSON
 {
   "variables": {
@@ -462,13 +480,14 @@ Output example:
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
 
-
 Curl command:
+
 ```bash
 curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"mySecondVariable": "SecondValue", "Nickname2": "Nico"}' http://127.0.0.1:5000/settings/variables
 ```
 
 Output example:
+
 ```JSON
 {
   "variables": {
@@ -480,8 +499,6 @@ Output example:
 }
 ```
 
-
-
 ## default tts, stt, player, trigger
 
 ### Get
@@ -489,8 +506,8 @@ Output example:
 Normal response codes: 200
 Error response codes : unauthorized(401), Bad request(400)
 
-
 Curl command:
+
 ```bash
 curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/default_tts
 curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/default_stt
@@ -499,6 +516,7 @@ curl -i --user admin:secret  -X GET  http://127.0.0.1:5000/settings/default_trig
 ```
 
 Output example:
+
 ```JSON
 {
   "default_tts": "pico2wave"
@@ -513,11 +531,13 @@ Error response codes : unauthorized(401), Bad request(400)
 /!\ Note: To update a tts, stt, player, trigger it should be properly defined in the 'settings.yml' in the corresponding list.
 
 Curl command:
+
 ```bash
 curl -i -H "Content-Type: application/json" --user admin:secret  -X POST -d '{"default_tts": "pico2wave"}' http://127.0.0.1:5000/settings/default_tts
 ```
 
 Output example:
+
 ```JSON
 {
   "default_tts": "googletts"

@@ -2,9 +2,9 @@
 
 This part of the documentation explains the main configuration of Kalliope placed in the `settings.yml` file.
 
-Kalliope will look for the settings file in the order bellow:
+Kalliope will look for the settings file in the order below:
 
-- From you current folder, E.g `/home/pi/my_kalliope/settings.yml`
+- From your current folder, E.g `/home/pi/my_kalliope/settings.yml`
 - From `/etc/kalliope/settings.yml`
 - From the default `settings.yml` located in the root of the project tree.
 
@@ -12,23 +12,27 @@ Kalliope will look for the settings file in the order bellow:
 
 ### default_trigger
 
-The trigger is the engine in charge of detecting the hotword that will wake up Kalliope.
+The trigger is the engine in charge of detecting the hotword that will wake up Kalliope. <br>
 Common usage of hotword include "Alexa" on Amazon Echo, "OK Google" on some Android devices and "Hey Siri" on iPhones.
 
 Specify the name of the trigger module you want to use.
+
 ```yaml
 default_trigger: "trigger_name"
 ```
 
 E.g
+
 ```yaml
 default_trigger: "snowboy"
 ```
 
 ### triggers
+
 The hotword (also called a wake word or trigger word) detector is the engine in charge of waking up Kalliope.
 
-Each Trigger has it own configuration. This configuration is passed as argument following the syntax bellow
+Each Trigger has its own configuration. This configuration is passed as argument following the syntax below:
+
 ```yaml
 triggers:
   - trigger_name:
@@ -36,6 +40,7 @@ triggers:
 ```
 
 E.g, the default Snowboy trigger configuration is
+
 ```yaml
 triggers:
   - snowboy:
@@ -59,24 +64,28 @@ triggers:
 
 ## Players configuration
 
-The player is the library/software used to make Kalliope talk.
+The player is the library/software used to make Kalliope talk. <br>
 With Kalliope project, you can set whatever sound player you want to use.
 
 ### default_player
 
 Specify the name of the player module you want to use.
+
 ```yaml
 default_player: "player_name"
 ```
+
 E.g
+
 ```yaml
 default_player: "mplayer"
 ```
 
 ### players
 
-Each Players has it own configuration.
-This configuration is passed as argument following the syntax bellow
+Each Players has it own configuration. <br>
+This configuration is passed as argument following the syntax below:
+
 ```yaml
 players:
   - player_name:
@@ -84,6 +93,7 @@ players:
 ```
 
 When no parameters are required set an empty object:
+
 ```yaml
 players:
   - mplayer: {}
@@ -95,26 +105,26 @@ players:
 players:
   - mplayer: {}
   - pyalsaaudio:
-     device: "default"
-     convert_to_wav: True
+      device: "default"
+      convert_to_wav: True
   - pyaudioplayer:
-     convert_to_wav: True
+      convert_to_wav: True
   - sounddeviceplayer:
-     convert_to_wav: True
+      convert_to_wav: True
 ```
 
->**Note:** Sometime, parameters will be necessary to use an engine.
-Click on a Player engine link in the `Current CORE Available Players` section to know which parameter are required.
+> **Note:** Sometime, parameters will be necessary to use an engine.
+> Click on a Player engine link in the `Current CORE Available Players` section to know which parameters are required.
 
->**Note:** A player which does not ask for input parameters need to be declared as an empty dict. E.g: ```- player_name: {}```
+> **Note:** A player which does not ask for input parameters need to be declared as an empty dict. E.g: `- player_name: {}`
 
->**Note:** Core players are already packaged with the installation of Kalliope an can be used out of the box.
+> **Note:** Core players are already packaged with the installation of Kalliope and can be used out of the box.
 
->**Note:** Most cloud based TTS generate a file in MP3 format. Some players are not able to read this format and then a conversion to wav is needed.
+> **Note:** Most cloud based TTS generate a file in MP3 format. Some players are not able to read this format and then a conversion to wav is needed.
 
 ### Available players
 
-Core Players are already packaged with the installation of Kalliope an can be used out of the box.
+Core Players are already packaged with the installation of Kalliope and can be used out of the box.
 
 | Doc                                               | Note                                                                                    |
 | ------------------------------------------------- | --------------------------------------------------------------------------------------- |
@@ -123,26 +133,29 @@ Core Players are already packaged with the installation of Kalliope an can be us
 | [pyaudioplayer](players/pyaudioplayer.md)         | Based on [pyaudio](https://people.csail.mit.edu/hubert/pyaudio/docs/) lib               |
 | [sounddeviceplayer](players/sounddeviceplayer.md) | Based on [sounddevice](https://pypi.python.org/pypi/sounddevice) lib                    |
 
-
 ## Speech to text configuration
 
 ### default_speech_to_text
 
-A Speech To Text(STT) is an engine used to translate what you say into a text that can be processed by Kalliope core.
+A Speech To Text (STT) is an engine used to translate what you say into a text that can be processed by Kalliope's core. <br>
 By default, Kalliope uses google STT engine.
 
 The following syntax is used to provide the engine name:
+
 ```yaml
 default_speech_to_text: "stt_name"
 ```
 
 E.g
+
 ```yaml
 default_speech_to_text: "google"
 ```
 
 ### speech_to_text
-Each STT has it own configuration. This configuration is passed as argument as shown bellow
+
+Each STT has its own configuration. This configuration is passed as argument as shown below
+
 ```yaml
 speech_to_text:
   - stt_name:
@@ -150,6 +163,7 @@ speech_to_text:
 ```
 
 E.g:
+
 ```yaml
 speech_to_text:
   - google:
@@ -174,12 +188,11 @@ speech_to_text:
   - houndify:
       key: "MYKEYS"
       client_id: "MYCLIENTID"
-
 ```
 
 ### Available STT
 
-Core STTs are already packaged with the installation of Kalliope an can be used out of the box.
+Core STTs are already packaged with the installation of Kalliope and can be used out of the box.
 
 | Name                          | Type        |
 | ----------------------------- | ----------- |
@@ -193,22 +206,26 @@ Core STTs are already packaged with the installation of Kalliope an can be used 
 ## Text to speech configuration
 
 ### default_text_to_speech
-A Text To Speech is an engine used to translate written text into a speech, into an audio stream.
+
+A Text To Speech is an engine used to translate written text into a speech, into an audio stream. <br>
 By default, Kalliope use Pico2wave TTS engine.
 
 The following syntax is used to provide the TTS engine name
+
 ```yaml
 default_text_to_speech: "tts_name"
 ```
 
 Eg
+
 ```yml
 default_text_to_speech: "pico2wave"
 ```
 
 ### text_to_speech
 
-Each TTS has it own configuration. This configuration is passed as argument following the syntax bellow
+Each TTS has its own configuration. This configuration is passed as argument following the syntax below:
+
 ```yaml
 text_to_speech:
   - tts_name:
@@ -216,6 +233,7 @@ text_to_speech:
 ```
 
 E.g
+
 ```yaml
 text_to_speech:
   - pico2wave:
@@ -228,17 +246,18 @@ text_to_speech:
 
 TTS engines work all the same, we give them a text, they give back an audio file and we play the audio file. The generated audio file is placed in cache until it
 is played by the audio player. Before generating a new audio file, Kalliope will take a look to the cache to load it directly without having to call the
-TSS engine if the file has been generated before.
+TTS engine if the file has been generated before.
 
 You must set a path where the cache will be saved in the tag `cache_path`. This one is placed in /tmp by default.
+
 ```yml
 cache_path: "/tmp/kalliope_tts_cache"
 ```
 
->**Note:** The path must be a valid path, and the current user must has enough right to read and write in it.
+> **Note:** The path must be a valid path, and the current user must have enough rights to read and write in it.
 
->**Note:** The consumed disk space can dramatically increase in the cache path folder. It is recommended to set your neuron correctly to clean up automatically
-generated audio files that will not be played more than once.
+> **Note:** The consumed disk space can dramatically increase in the cache path folder. It is recommended to set your neuron correctly to clean up automatically
+> generated audio files that will not be played more than once.
 
 ### Settings example
 
@@ -264,7 +283,7 @@ text_to_speech:
 
 ### Available TTS
 
-Core TTSs are already packaged with the installation of Kalliope an can be used out of the box.
+Core TTSs are already packaged with the installation of Kalliope and can be used out of the box.
 
 | Name                          | Type        |
 | ----------------------------- | ----------- |
@@ -275,15 +294,15 @@ Core TTSs are already packaged with the installation of Kalliope an can be used 
 | [voicerss](tts/voicerss.md)   | Cloud based |
 | [watson](tts/watson.md)       | Cloud based |
 
-
 ## Hooks
 
-Hooking allow to bind actions to events based on the lifecycle of Kalliope.
+Hooking allow to bind actions to events based on the lifecycle of Kalliope. <br>
 For example, it's useful to know when Kalliope has detected the hotword from the trigger engine and make her spell out loud that she's ready to listen your order.
 
 To use a hook, attach the name of the hook to a synapse (or list of synapse) which exists in your brain.
 
 Syntax:
+
 ```yaml
 hooks:
   hook_name1: synapse_name
@@ -293,6 +312,7 @@ hooks:
 ```
 
 E.g.
+
 ```yaml
 hooks:
   on_start: "on-start-synapse"
@@ -310,10 +330,10 @@ List of available hook
 | on_order_found         | When the pronounced order has been found in the brain           |
 | on_order_not_found     | When the pronounced order has not been found in the brain       |
 | on_processed_synapses  | When all neurons in synapses have been processed                |
-| on_deaf                | When Kalliope switches from non deaf to deaf                    |
-| on_undeaf              | When Kalliope switches from deaf to non deaf                    |
-| on_mute                | When Kalliope switches from non mute to mute                    |
-| on_unmute              | When Kalliope switches from mute to non mute                    |
+| on_deaf                | When Kalliope switches from non-deaf to deaf                    |
+| on_undeaf              | When Kalliope switches from deaf to non-deaf                    |
+| on_mute                | When Kalliope switches from non-mute to mute                    |
+| on_unmute              | When Kalliope switches from mute to non-mute                    |
 | on_start_speaking      | When Kalliope starts speaking via the text to speech engine     |
 | on_stop_speaking       | When Kalliope stops speaking                                    |
 | on_stt_error           | When an error appeared during the STT processing                |
@@ -323,12 +343,14 @@ List of available hook
 Example: You want to hear a random answer when the hotword has been triggered
 
 **settings.yml**
+
 ```yaml
 hooks:
   on_triggered: "on-triggered-synapse"
 ```
 
 **brain.yml**
+
 ```yaml
 - name: "on-triggered-synapse"
   signals: []
@@ -347,12 +369,14 @@ hooks:
 Example: You want to know that your order has not been found
 
 **settings.yml**
+
 ```yaml
 hooks:
   on_order_not_found: "order-not-found-synapse"
 ```
 
 **brain.yml**
+
 ```yaml
 - name: "order-not-found-synapse"
     signals: []
@@ -367,10 +391,11 @@ hooks:
             - "I don't recognize that order"
 ```
 
-Example: You are running Kalliope on a Rpi. You've made a script that turn on or off a led.
-You can call this script every time kalliope start or stop speaking
+Example: You are running Kalliope on a Raspberry Pi. You've made a script that turn on or off a led. <br>
+You can call this script every time kalliope start or stop speaking.
 
 **settings.yaml**
+
 ```yaml
 hooks:
   on_start_speaking: "turn-on-led"
@@ -378,6 +403,7 @@ hooks:
 ```
 
 **brain.yml**
+
 ```yaml
 - name: "turn-on-led"
   signals: []
@@ -392,8 +418,8 @@ hooks:
         path: "/path/to/script.sh off"
 ```
 
->**Note:** You cannot use a neurotransmitter neuron inside a synapse called from a hook.
-You cannot use the "say" neuron inside the "on_start_speaking" or "on_stop_speaking" or it will create an infinite loop
+> **Note:** You cannot use a neurotransmitter neuron inside a synapse called from a hook. <br>
+> You cannot use the "say" neuron inside the "on_start_speaking" or "on_stop_speaking" or it will create an infinite loop.
 
 ## Rest API
 
@@ -405,9 +431,10 @@ A Rest API can be activated in order to:
 - Update settings
 - Update the brain
 
-For the complete API ref see the [REST API documentation](../rest_api.md)
+For the complete API reference see the [REST API documentation](../rest_api.md)
 
 Settings examples:
+
 ```yml
 rest_api:
   active: True
@@ -421,32 +448,36 @@ rest_api:
 | parameter           | type    | comment                                                                                            |
 | ------------------- | ------- | -------------------------------------------------------------------------------------------------- |
 | active              | boolean | To enable the rest api server                                                                      |
-| port                | integer | TThe listening port of the web server. Must be an integer in range 1024-65535                      |
+| port                | integer | The listening port of the web server. Must be an integer in range 1024-65535                       |
 | password_protected  | boolean | If `True`, the whole api will be password protected                                                |
 | login               | string  | Login used by the basic HTTP authentication. Must be provided if `password_protected` is `True`    |
 | password            | string  | Password used by the basic HTTP authentication. Must be provided if `password_protected` is `True` |
-| allowed_cors_origin | string  | Allow request from external application. See examples bellow                                       |
+| allowed_cors_origin | string  | Allow request from external application. See examples below                                        |
 
 **Cors request**
 
 If you want to allow request from external application, you'll need to enable the CORS requests settings by defining authorized origins.
-To do so, just indicated the origins that are allowed to leverage the API. The authorize values are:
+To do so, just indicated the origins that are allowed to leverage the API. The authorized values are:
 
 False to forbid CORS request.
+
 ```yml
 allowed_cors_origin: False
 ```
 
 or either a string or a list:
+
 ```yml
 allowed_cors_origin: "*"
 ```
-(in case of "*", all origins are accepted).
+
+(in case of "\*", all origins are accepted).
 or
+
 ```yml
 allowed_cors_origin:
-  - 'http://mydomain.com/*'
-  - 'http://localhost:4200/*'
+  - "http://mydomain.com/*"
+  - "http://localhost:4200/*"
 ```
 
 Remember that an origin is composed of the scheme (http(s)), the port (eg: 80, 4200,…) and the domain (mydomain.com, localhost).
@@ -454,7 +485,7 @@ Remember that an origin is composed of the scheme (http(s)), the port (eg: 80, 4
 ## Resources directory
 
 The resources directory is the path where Kalliope will try to load community modules like Neurons, STTs or TTSs.
-Set a valid path is required if you want to install community neuron. The path can be relative or absolute.
+A valid path is required if you want to install community neuron. The path can be relative or absolute.
 
 ```yml
 resource_directory:
@@ -462,6 +493,7 @@ resource_directory:
 ```
 
 E.g
+
 ```yml
 resource_directory:
   neuron: "resources/neurons"
@@ -472,18 +504,21 @@ resource_directory:
 
 ## Global Variables
 
-The Global Variables paths list where to load the global variables.
-Those variables can be reused in neuron parameters within double brackets.
+The Global Variables path lists where to load the global variables.
+Those variables can be re-used in neuron parameters within double brackets.
 
 E.g
+
 ```yml
 var_files:
   - variables.yml
   - variables2.yml
 ```
+
 > **Note:** If a variable is defined in different files, the last file defines the value.
 
 In the files the variables are defined by key/value:
+
 ```yml
 variable: 60
 baseURL: "http://blabla.com/"
@@ -491,27 +526,30 @@ password: "secret"
 ```
 
 And use variables in your neurons:
+
 ```yml
-  - name: "run-simple-sleep"
-    signals:
-      - order: "Wait for me "
-    neurons:
-      - uri:
-          url: "{{baseURL}}get/1"
-          user: "admin"
-          password: "{{password}}"
+- name: "run-simple-sleep"
+  signals:
+    - order: "Wait for me "
+  neurons:
+    - uri:
+        url: "{{baseURL}}get/1"
+        user: "admin"
+        password: "{{password}}"
 ```
 
-> **Note:** Because YAML format does no allow double braces not surrounded by quotes: you must use the variable between double quotes.
+> **Note:** Because YAML format does no allow double braces not surrounded by quotes; you must use the variable between double quotes.
 
 A global variable can be a dictionary. Example:
+
 ```yml
 contacts:
   nico: "1234"
   tibo: "5678"
 ```
 
-And a synapse that use this dict:
+And a synapse that uses this dictionary:
+
 ```yml
 - name: "test-var"
   signals:
@@ -519,7 +557,7 @@ And a synapse that use this dict:
   neurons:
     - say:
         message:
-        - "the number is {{ contacts[contact_to_search] }}"
+          - "the number is {{ contacts[contact_to_search] }}"
 ```
 
 ## Options
@@ -527,6 +565,7 @@ And a synapse that use this dict:
 Options that can be defined for Kalliope.
 
 Example config
+
 ```yaml
 options:
   mute: True
@@ -535,25 +574,27 @@ options:
 
 Available options:
 
-| Option                                    | Default | Description                                                                                  |
-| ----------------------------------------- | --------|--------------------------------------------------------------------------------------------- |
-| mute                                      | False   | When mute, the STT engine will not be used to make Kalliope talking during neurons execution |
-| deaf                                      | False   | When deaf, the trigger engine is not started. Kalliope will not listen for a wake up word    |
-| recognizer_multiplier                     | 1.0     | The multiplier acts on the Threshold
+| Option                                    | Default | Description                                                                                                                  |
+| ----------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| mute                                      | False   | When mute, the STT engine will not be used to make Kalliope talk during neurons execution                                    |
+| deaf                                      | False   | When deaf, the trigger engine is not started. Kalliope will not listen for a wake up word                                    |
+| recognizer_multiplier                     | 1.0     | The multiplier acts on the Threshold                                                                                         |
 | recognizer_energy_ratio                   | 1.5     | Is used in speech recognition to identify characteristics of audio, such as whether a person has stopped or started speaking |
-| recognizer_recording_timeout              | 15.0    | The maximum seconds a phrase can be recorded, provided there is noise the entire time        |
-| recognizer_recording_timeout_with_silence | 3.0     | The maximum time it will continue to record silence when not enough noise has been detected  |
+| recognizer_recording_timeout              | 15.0    | The maximum seconds a phrase can be recorded, provided there is noise the entire time                                        |
+| recognizer_recording_timeout_with_silence | 3.0     | The maximum time it will continue to record silence when not enough noise has been detected                                  |
 
 ## send_anonymous_usage_stats
 
 This flag allow Kalliope to send some stats in order to anonymously evaluate the global usage of Kalliope app by users.
 
 Syntax:
+
 ```yml
 send_anonymous_usage_stats: <boolean>
 ```
 
 E.g:
+
 ```yml
 send_anonymous_usage_stats: False
 ```

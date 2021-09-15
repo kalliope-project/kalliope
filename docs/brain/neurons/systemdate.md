@@ -7,7 +7,7 @@ None
 ## Returned values
 
 | name      | description                                       | type   | sample |
-|-----------|---------------------------------------------------|--------|--------|
+| --------- | ------------------------------------------------- | ------ | ------ |
 | hours     | Hour (24-hour clock) as a decimal number [00,23]. | string | 22     |
 | minutes   | Minute as a decimal number [00,59].               | string | 54     |
 | weekday   | Weekday as a decimal number [0(Sunday),6].        | string | 4      |
@@ -15,10 +15,10 @@ None
 | day_month | Day of the month as a decimal number [01,31].     | string | 12     |
 | year      | Year with century as a decimal number             | string | 2016   |
 
-
 ## Synapses example
 
 Simple synapse that give the current time with only hours and minutes
+
 ```yaml
 - name: "time"
   signals:
@@ -30,6 +30,7 @@ Simple synapse that give the current time with only hours and minutes
 ```
 
 Synapse that give complete date and time with a template file.
+
 ```yaml
 - name: "time"
   signals:
@@ -39,15 +40,16 @@ Synapse that give complete date and time with a template file.
         file_template: en_systemdate_template_example.j2
 ```
 
-
 ## Templates example
 
 This template will transcribe received numbers from the neuron into natural language
+
 ```
 "It's {{ hours }} hours and {{ minutes }} minutes
 ```
 
-This template, which it must be placed in a file_template, will give the complete date and time.
+This template, which must be placed in a file_template, will give the complete date and time.
+
 ```jinja2
 {% set day_of_week = {
     "0": "sunday",
@@ -104,4 +106,4 @@ We are the {{ day_of_week }} {{ month_word }} the {{ day_month_formated }} {{ ye
 ## Notes
 
 > **Note:** As the neuron is based on the local system date, this last must be well configured. A good practice is the installation and configuration of a NTP client
- to synchronize the time on your Linux system with a centralized NTP server.
+> to synchronize the time on your Linux system with a centralized NTP server.

@@ -1,8 +1,9 @@
 ## Test your env
 
-### Check your microphone and speaker config
+### Check your microphone and speaker configuration
 
 To ensure that you can record your voice, run the following command to capture audio input from your microphone:
+
 ```bash
 rec test.wav
 ```
@@ -10,6 +11,7 @@ rec test.wav
 Press CTRL-C after capturing a sample of your voice.
 
 Then play the recorded audio file
+
 ```bash
 mplayer test.wav
 ```
@@ -44,6 +46,7 @@ WantedBy=multi-user.target
 ```
 
 E.g
+
 ```bash
 [Unit]
 Description=Kalliope
@@ -61,7 +64,8 @@ User=pi
 WantedBy=multi-user.target
 ```
 
-Create both log files and give rights to you user
+Create both log files and give rights to your user
+
 ```bash
 sudo touch /var/log/kalliope.log
 sudo touch /var/log/kalliope.err.log
@@ -69,6 +73,7 @@ sudo chown pi:pi /var/log/kalliope*
 ```
 
 Then, reload systemctl, start the service and enable it at startup
+
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl start kalliope
@@ -76,6 +81,7 @@ sudo systemctl enable kalliope
 ```
 
 Check that the service is ok
+
 ```
 sudo systemctl status kalliope
 ```

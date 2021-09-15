@@ -13,7 +13,7 @@ sudo apt install -y \
     libffi-dev libssl-dev portaudio19-dev build-essential \
     libatlas3-base mplayer wget vim sudo locales alsa-base alsa-utils \
     pulseaudio-utils libasound2-plugins python3-pyaudio libasound-dev \
-    libportaudio2 libportaudiocpp0 ffmpeg 
+    libportaudio2 libportaudiocpp0 ffmpeg
 ```
 
 ### Ubuntu 20.04
@@ -27,12 +27,13 @@ sudo apt install -y \
     libffi-dev libssl-dev portaudio19-dev build-essential \
     libatlas3-base mplayer wget vim sudo locales alsa-base alsa-utils \
     pulseaudio-utils libasound2-plugins python3-pyaudio libasound-dev \
-    libportaudio2 libportaudiocpp0 ffmpeg 
+    libportaudio2 libportaudiocpp0 ffmpeg
 ```
 
 ## Install lasted version of the python package manager
 
 Install the last release of python-pip
+
 ```bash
 wget https://bootstrap.pypa.io/get-pip.py
 sudo python3 get-pip.py

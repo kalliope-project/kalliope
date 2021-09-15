@@ -4,7 +4,8 @@ This TTS is based on the [IBM Watson engine](https://www.ibm.com/watson/services
 
 You need to create an account and then a project to get a location and an apikey.
 
-Once you project created, you should see your credentials like the following
+Once your project is created, you should see your credentials like the following:
+
 ```json
 {
   "url": "https://stream.watsonplatform.net/text-to-speech/api",
@@ -14,21 +15,20 @@ Once you project created, you should see your credentials like the following
 
 ## Input parameters
 
-
 | Parameters | Required | Default | Choices                                                                                                           | Comment                                                                                                              |
 | ---------- | -------- | ------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| apikey     | yes      |         |                                                                                                                   | apikey provided by [IAM](https://console.bluemix.net/docs/services/watson/getting-started-iam.html)                  |
-| location   | no       | LONDON  |                                                                                                                   | [endpoint location](https://www.ibm.com/watson/developercloud/text-to-speech/api/v1/curl.html?curl#service-endpoint) |
-| voice      | yes      |         | See voice table below                                                                                             | Code that define the voice used for the synthesis                                                                    |
+| apikey     | yes      |         |                                                                                                                   | Apikey provided by [IBM](https://console.bluemix.net/docs/services/watson/getting-started-iam.html)                  |
+| location   | no       | LONDON  |                                                                                                                   | [Endpoint location](https://www.ibm.com/watson/developercloud/text-to-speech/api/v1/curl.html?curl#service-endpoint) |
+| voice      | yes      |         | See voice table below                                                                                             | Code that defines the voice used for the synthesis                                                                    |
 | pitch      | no       | medium  | [See accepted values here](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-elements#prosody-pitch) | Modifies the baseline pitch for the text                                                                             |
-| rate       | no       | medium  | [See accepted values here](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-elements#prosody-rate)  | Change the speaking rate for the text                                                                                |
+| rate       | no       | medium  | [See accepted values here](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-elements#prosody-rate)  | Changes the speaking rate for the text                                                                                |
 
 ## Voice code
 
 Voice code that can be used in the voice flag of your configuration
 
 | Languages              | Code                             | Gender |
-|------------------------|----------------------------------|--------|
+| ---------------------- | -------------------------------- | ------ |
 | German                 | de-DE_BirgitVoice                | Female |
 | German                 | de-DE_BirgitV3Voice              | Female |
 | German                 | de-DE_DieterVoice                | Male   |

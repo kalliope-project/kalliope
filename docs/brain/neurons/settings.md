@@ -20,25 +20,25 @@ Currently available:
 
 ## Input parameters
 
-| parameter                                 | required | type           | default | choices     | comment                                                         |
-|-------------------------------------------|----------|----------------|---------|-------------|-----------------------------------------------------------------|
-| default_tts                               | No       | Str            | None    |             | Pick a tts name from the list of text_to_speech                 |
-| default_stt                               | No       | Str            | None    |             | Pick a stt name from the list of speech_to_text                 |
-| default_trigger                           | No       | Str            | None    |             | Pick a trigger name from the list of triggers                   |
-| default_player                            | No       | Str            | None    |             | Pick a player name from the list of players                     |
-| text_to_speech                            | No       | list (of dict) | None    |             | Add or Update a tts to the list                                 |
-| speech_to_text                            | No       | list (of dict) | None    |             | Add or Update a stt to the list                                 |
-| triggers                                  | No       | list (of dict) | None    |             | Add or Update a trigger to the list                             |
-| players                                   | No       | list (of dict) | None    |             | Add or Update a player to the list                              |
-| hooks                                     | No       | dict           | None    |             | Update the hooks dict from the settings with the given dict     |
-| var_files                                 | No       | list           | None    |             | Update variables from the settings with the given files path    |
-| variable                                  | No       | dict           | None    |             | Update the variable dict from the settings with the given dict  |
-| deaf                                      | No       | boolean        | None    | True, False |                                                                 |
-| mute                                      | No       | boolean        | None    | True, False |                                                                 |
-| recognizer_multiplier                     | No       | int            | None    |             |                                                                 |
-| recognizer_energy_ratio                   | No       | int            | None    |             |                                                                 |
-| recognizer_recording_timeout              | No       | int            | None    |             |                                                                 |
-| recognizer_recording_timeout_with_silence | No       | int            | None    |             |                                                                 |
+| parameter                                 | required | type           | default | choices     | comment                                                        |
+| ----------------------------------------- | -------- | -------------- | ------- | ----------- | -------------------------------------------------------------- |
+| default_tts                               | No       | Str            | None    |             | Pick a tts name from the list of text_to_speech                |
+| default_stt                               | No       | Str            | None    |             | Pick a stt name from the list of speech_to_text                |
+| default_trigger                           | No       | Str            | None    |             | Pick a trigger name from the list of triggers                  |
+| default_player                            | No       | Str            | None    |             | Pick a player name from the list of players                    |
+| text_to_speech                            | No       | list (of dict) | None    |             | Add or Update a tts to the list                                |
+| speech_to_text                            | No       | list (of dict) | None    |             | Add or Update a stt to the list                                |
+| triggers                                  | No       | list (of dict) | None    |             | Add or Update a trigger to the list                            |
+| players                                   | No       | list (of dict) | None    |             | Add or Update a player to the list                             |
+| hooks                                     | No       | dict           | None    |             | Update the hooks dict from the settings with the given dict    |
+| var_files                                 | No       | list           | None    |             | Update variables from the settings with the given files path   |
+| variable                                  | No       | dict           | None    |             | Update the variable dict from the settings with the given dict |
+| deaf                                      | No       | boolean        | None    | True, False |                                                                |
+| mute                                      | No       | boolean        | None    | True, False |                                                                |
+| recognizer_multiplier                     | No       | int            | None    |             |                                                                |
+| recognizer_energy_ratio                   | No       | int            | None    |             |                                                                |
+| recognizer_recording_timeout              | No       | int            | None    |             |                                                                |
+| recognizer_recording_timeout_with_silence | No       | int            | None    |             |                                                                |
 
 ## Returned values
 
@@ -47,51 +47,55 @@ None
 ## Synapses example
 
 ### tts, stt, triggers, players
+
 ```yaml
-  - name: "say-hello-en"
-    signals:
-      - order: "Hello"
-    neurons:
-      - settings:
-          default_tts: "googletts"
-      - say:
-          message:
-            - "Hello sir"
+- name: "say-hello-en"
+  signals:
+    - order: "Hello"
+  neurons:
+    - settings:
+        default_tts: "googletts"
+    - say:
+        message:
+          - "Hello sir"
 ```
 
 To update the list of text_to_speech
+
 ```yaml
-  - name: "say-hello-en"
-    signals:
-      - order: "Hello"
-    neurons:
-      - settings:
-          text_to_speech:
-            - googletts:
-                language: "en"
-            - pico2wave:
-                language: "fr-FR"
-                cache: False
-          default_tts: "googletts"
-      - say:
-          message:
-            - "Hello sir"
+- name: "say-hello-en"
+  signals:
+    - order: "Hello"
+  neurons:
+    - settings:
+        text_to_speech:
+          - googletts:
+              language: "en"
+          - pico2wave:
+              language: "fr-FR"
+              cache: False
+        default_tts: "googletts"
+    - say:
+        message:
+          - "Hello sir"
 ```
 
 ### Options (deaf, mute, ...)
+
 ```yaml
-  - name: "say-hello-en"
-    signals:
-      - order: "Hello"
-    neurons:
-      - settings:
-          mute: True
-      - say:
-          message:
-            - "Hello sir"
+- name: "say-hello-en"
+  signals:
+    - order: "Hello"
+  neurons:
+    - settings:
+        mute: True
+    - say:
+        message:
+          - "Hello sir"
 ```
 
 ### Hooks
+
 ```yaml
 - name: "say-hello-en"
     signals:
@@ -109,38 +113,39 @@ To update the list of text_to_speech
 ```
 
 ### Variables
-```yaml
-  - name: "say-hello-en"
-    signals:
-      - order: "Hello"
-    neurons:
-      - settings:
-          variable:
-            nickname: "monf"
-      - say:
-          message:
-            - "Hello {{nickname}}"
 
+```yaml
+- name: "say-hello-en"
+  signals:
+    - order: "Hello"
+  neurons:
+    - settings:
+        variable:
+          nickname: "monf"
+    - say:
+        message:
+          - "Hello {{nickname}}"
 ```
 
->The keyword is 'var_files' for files
+> The keyword is 'var_files' for files
 
 The {{nickname}} will be loaded from the variables.yml file.
+
 ```yaml
-  - name: "say-hello-en"
-    signals:
-      - order: "Hello"
-    neurons:
-      - settings:
-          var_files:
-            - variables.yml
-      - say:
-          message:
-            - "Hello {{nickname}}"
+- name: "say-hello-en"
+  signals:
+    - order: "Hello"
+  neurons:
+    - settings:
+        var_files:
+          - variables.yml
+    - say:
+        message:
+          - "Hello {{nickname}}"
 ```
 
 ## Notes
 
->**Note:** It is not possible to update the REST API config nor the ressources path nor the cache path for tts.
+> **Note:** It is not possible to update the REST API config nor the ressources path nor the cache path for tts.
 
->**Note:** Changes made to the settings from this neuron are not persistent. Settings will be loaded again following the yaml file at the next start of Kalliope.
+> **Note:** Changes made to the settings from this neuron are not persistent. Settings will be loaded again following the yaml file at the next start of Kalliope.

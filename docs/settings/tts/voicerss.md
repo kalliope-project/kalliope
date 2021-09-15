@@ -5,7 +5,7 @@ This TTS is based on the [VoiceRSS engine](http://www.voicerss.org/). [Official 
 | Parameters   | Required | Default              | Choices                                                                           | Comment                                         |
 | ------------ | -------- | -------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------- |
 | language     | YES      |                      | [26 languages](http://www.voicerss.org/api/documentation.aspx), example : "fr-fr" | Languages are identified by the LCID string     |
-| key          | YES      |                      |                                                                                   | register in the official website to get API key |
+| key          | YES      |                      |                                                                                   | Register in the official website to get API key |
 | rate         | NO       | 0                    | any int                                                                           | Audio Rate                                      |
 | codec        | NO       | 'MP3'                | 'MP3', 'WAV', 'AAC', 'OGG', 'CAF'                                                 | Audio Codecs                                    |
 | audio_format | NO       | '44khz_16bit_stereo' | [51 choices](http://www.voicerss.org/api/documentation.aspx), '8khz_8bit_mono'    | Audio formats                                   |
@@ -20,14 +20,14 @@ This TTS is based on the [VoiceRSS engine](http://www.voicerss.org/). [Official 
 default_text_to_speech: "voicerss"
 
 text_to_speech:
-    - voicerss:
-        language: "fr-fr"
-        key: "API_Key"
+  - voicerss:
+      language: "fr-fr"
+      key: "API_Key"
 ```
 
 ## Notes
 
 limitations : 100KB per request
 
-The Free edition is limited to 350 daily requests.
+The Free edition is limited to 350 daily requests. <br>
 Possibility to [upgrade the plan](http://www.voicerss.org/personel/upgrade.aspx).
