@@ -26,6 +26,8 @@ RUN cat /etc/locale.gen | grep ${lang} && \
  update-locale LANG=${lang}.UTF-8
 ENV LC_ALL ${lang}.UTF-8
 ENV LC_CTYPE ${lang}.UTF-8
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
 
 # add a standart user
 RUN useradd -m -u 1000 kalliope
