@@ -1,31 +1,37 @@
-FROM ubuntu:18.04
+# BUILD
+#docker build \
+#--force-rm=true \
+#--build-arg TRAVIS_BRANCH=fix-install \
+#-t kalliope-ubuntu2004-testing \
+#-f docker/testing_ubuntu_20_04.dockerfile .
+
+# RUN
+# docker run -it --rm kalliope-ubuntu2004-testing
+FROM ubuntu:20.04
 
 # pico2wav is a multiverse package
-RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ bionic  multiverse" >> /etc/apt/sources.list
+RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ focal multiverse" >> /etc/apt/sources.list
 
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Paris
 # install packages
 RUN apt-get update && apt-get install -y \
     git python3-dev libsmpeg0 libttspico-utils libsmpeg0 flac \
     libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
     libatlas3-base mplayer wget vim sudo locales alsa-base alsa-utils \
-    python3-distutils pulseaudio-utils libasound2-plugins python3-pyaudio libasound-dev \
-    libportaudio2 libportaudiocpp0 ffmpeg \
+    pulseaudio-utils libasound2-plugins \
     && rm -rf /var/lib/apt/lists/*
 
 RUN  wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py
 
-RUN  pip3 install pyaudio "ansible==2.9.5"
+RUN  pip3 install pyaudio "ansible==4.5.0"
 
-# set UTF-8
-ARG lang=en_US
-RUN cat /etc/locale.gen | grep ${lang} && \
- sh -c "lang=${lang}; sed -i -e '/${lang}/s/^#*\s*//g' /etc/locale.gen" && \
- cat /etc/locale.gen | grep ${lang} && \
- echo 'LANG="${lang}.UTF-8"'>/etc/default/locale && \
- dpkg-reconfigure --frontend=noninteractive locales && \
- update-locale LANG=${lang}.UTF-8
-ENV LC_ALL ${lang}.UTF-8
-ENV LC_CTYPE ${lang}.UTF-8
+# Set the locale
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
+    locale-gen
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 # add a standart user
 RUN useradd -m -u 1000 kalliope

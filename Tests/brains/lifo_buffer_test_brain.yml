@@ -57,7 +57,14 @@
   neurons:
     - neurotransmitter:
         from_answer_link:
-          - synapse: "synapse5"
+          - synapse: "synapse7"
             answers:
               - "synapse 6 answer"
         default: "synapse4"
+
+- name: "synapse7"
+  signals:
+    - order: "synapse7"
+  neurons:
+    - say:
+        message: "execution of synapse 7"
