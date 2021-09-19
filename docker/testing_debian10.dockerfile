@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN  wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py
-RUN  pip3 install pyaudio "ansible==2.9.5"
+RUN  pip3 install pyaudio "ansible==4.5.0"
 #RUN  pip3 install pyaudio
 
 # add a standart user

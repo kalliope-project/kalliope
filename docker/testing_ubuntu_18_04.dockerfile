@@ -14,20 +14,15 @@ RUN apt-get update && apt-get install -y \
 
 RUN  wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py
 
-RUN  pip3 install pyaudio "ansible==2.9.5"
+RUN  pip3 install pyaudio "ansible==4.5.0"
 
-# set UTF-8
-ARG lang=en_US
-RUN cat /etc/locale.gen | grep ${lang} && \
- sh -c "lang=${lang}; sed -i -e '/${lang}/s/^#*\s*//g' /etc/locale.gen" && \
- cat /etc/locale.gen | grep ${lang} && \
- echo 'LANG="${lang}.UTF-8"'>/etc/default/locale && \
- dpkg-reconfigure --frontend=noninteractive locales && \
- update-locale LANG=${lang}.UTF-8
-ENV LC_ALL ${lang}.UTF-8
-ENV LC_CTYPE ${lang}.UTF-8
-ENV LANG en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
+# Set the locale
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
+    locale-gen
+ENV LANG en_US.UTF-8  
+ENV LANGUAGE en_US:en  
+ENV LC_ALL en_US.UTF-8     
+
 
 # add a standart user
 RUN useradd -m -u 1000 kalliope
