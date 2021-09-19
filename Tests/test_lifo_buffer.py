@@ -1,4 +1,3 @@
-import os
 import unittest
 
 import mock
@@ -7,7 +6,6 @@ from Tests.utils.utils import get_test_path
 from kalliope.core import LifoManager
 from kalliope.core.ConfigurationManager import BrainLoader
 from kalliope.core.Lifo.LIFOBuffer import Serialize, SynapseListAddedToLIFO
-
 from kalliope.core.Models import Singleton
 from kalliope.core.Models.MatchedSynapse import MatchedSynapse
 
@@ -343,7 +341,8 @@ class TestLIFOBuffer(unittest.TestCase):
         self.lifo_buffer.set_answer("synapse 6 answer")
         with mock.patch("kalliope.core.TTS.TTSModule.generate_and_play"):
             self.assertRaises(SynapseListAddedToLIFO,
-                              self.lifo_buffer._process_neuron_list(matched_synapse=matched_synapse))
+                              self.lifo_buffer._process_neuron_list,
+                              **{'matched_synapse': matched_synapse})
 
 
 if __name__ == '__main__':
