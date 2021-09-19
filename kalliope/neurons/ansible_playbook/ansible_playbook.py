@@ -32,7 +32,7 @@ class Ansible_playbook(NeuronModule):
             # initialize needed objects
             loader = DataLoader()
 
-            passwords = {'become_pass': self.sudo_password}
+            passwords = {'vault_pass': self.sudo_password}
 
             inventory = InventoryManager(loader=loader, sources="localhost,")
 

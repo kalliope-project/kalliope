@@ -167,7 +167,7 @@ class LIFOBuffer(object):
                 self.answer = None
             # todo fix this when we have a full client/server call. The client would be the voice or api call
             neuron.parameters["is_api_call"] = self.is_api_call
-            logger.debug("[LIFOBuffer] process_neuron_list: is_api_call: %s" % (self.is_api_call))
+            logger.debug("[LIFOBuffer] process_neuron_list: is_api_call: %s" % self.is_api_call)
             # execute the neuron
             instantiated_neuron = NeuronLauncher.start_neuron(neuron=neuron,
                                                               parameters_dict=matched_synapse.parameters)
