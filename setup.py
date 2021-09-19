@@ -37,6 +37,12 @@ def required():
     with open(os.path.join(basedir, "install/files/python_requirements.txt"), 'r') as f:
         return f.read().splitlines()
 
+# required libs
+required_packages = required()
+for package in required_packages:
+    pip.main(["install", package])
+    
+
 VERSION_PY_FILENAME = 'kalliope/_version.py'
 version = read_version_py(VERSION_PY_FILENAME)
 
@@ -73,9 +79,7 @@ setup(
     # included packages
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     python_requires=">=3.6",
-    # required libs
-    install_requires=required(),
-
+    
     # additional files
     package_data={
         'kalliope': extra_files,
