@@ -1,26 +1,12 @@
 import logging
 
 from kalliope.core.Cortex import Cortex
+from kalliope.core.Lifo.LifoException import SynapseListAddedToLIFO, Serialize
 from kalliope.core.NeuronLauncher import NeuronLauncher
 from kalliope.core.Models.APIResponse import APIResponse
 
 logging.basicConfig()
 logger = logging.getLogger("kalliope")
-
-
-class Serialize(Exception):
-    """
-    When raised, the LIFO class return the current API response to the caller
-    """
-    pass
-
-
-class SynapseListAddedToLIFO(Exception):
-    """
-    When raised, a synapse list to process has been added to the LIFO list.
-    The LIFO must start over and process the last synapse list added
-    """
-    pass
 
 
 class LIFOBuffer(object):

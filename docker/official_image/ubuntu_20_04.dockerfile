@@ -56,7 +56,3 @@ USER kalliope
 COPY . /home/kalliope
 # RUN sudo pip3 install --upgrade --force-reinstall setuptools
 RUN sudo python3 setup.py install
-
-# fix a lib
-# RUN sudo chmod a+r /usr/local/lib/python3.6/dist-packages/httpretty-0.9.6-py3.6.egg/EGG-INFO/requires.txt
-
