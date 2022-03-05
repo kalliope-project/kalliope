@@ -61,8 +61,8 @@ class NeuronLauncher:
         try:
             instantiated_neuron = NeuronLauncher.launch_neuron(neuron)
         except Exception as e:
-            Utils.print_danger("ERROR: Fail to execute neuron '%s'. "
-                               '%s' ". -> Execution skipped, run with debug flag for more information" % (neuron.name, e.message))
+            Utils.print_danger(f"ERROR: Fail to execute neuron '{neuron.name}'. "
+                               'e.message' ". -> Execution skipped, run with debug flag for more information")
             logger.debug(traceback.format_exc())
             return None
         return instantiated_neuron
