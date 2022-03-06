@@ -1,0 +1,37 @@
+name: On pull request
+
+on: [pull_request]  # set to this value when pushing in prod
+#on: [push] # set this one for dev the ci/cd
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            git python3-dev libsmpeg0 libttspico-utils flac \
+            libffi-dev libssl-dev portaudio19-dev build-essential \
+            libatlas3-base mplayer wget vim sudo locales alsa-base alsa-utils \
+            pulseaudio-utils libasound2-plugins python3-pyaudio libasound-dev \
+            libportaudio2 libportaudiocpp0 ffmpeg cargo
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install python dependencies
+        run: |
+          pip3 install -r install/files/python_requirements.txt
+
+      - name: Run Tests
+        run: |
+          python3 -m unittest discover
