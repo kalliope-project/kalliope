@@ -10,7 +10,7 @@
 #------------------------------------------
 # name of the branch to install
 branch="master"
-python_version="3.7.6"
+python_version="3.9.9"
 pulseaudio_service_path="/etc/systemd/system/pulseaudio.service"
 #------------------------------------------
 # Functions
@@ -86,7 +86,7 @@ install_kalliope(){
     # Install the project
     echo_yellow "Installing Kalliope..."
     # fix for last ansible
-    sudo pip3 install "ansible==2.9.5"
+#    sudo pip3 install "ansible==2.9.5"
     cd kalliope
     git checkout ${branch}
     sudo python3 setup.py install
@@ -203,4 +203,4 @@ install_kalliope
 setup_pulseaudio
 
 # fix https://github.com/kalliope-project/kalliope/issues/487
-sudo chmod -R o+r /usr/local/lib/python3.7/dist-packages/
+#sudo chmod -R o+r /usr/local/lib/python3.7/dist-packages/
