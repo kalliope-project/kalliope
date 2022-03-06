@@ -17,7 +17,7 @@ cd kalliope
 
 Install the project:
 ```bash
-sudo python3 setup.py install
+sudo python3 -m pip install .
 ```
 
 ### Method 3 - Developer install using Virtualenv
@@ -45,7 +45,7 @@ source venv/bin/activate
 
 Install Kalliope
 ```bash
-python3 setup.py install
+python3 -m pip install .
 ```
 
 ### Method 4 - Developer, dependencies install only

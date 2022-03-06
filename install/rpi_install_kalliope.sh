@@ -10,7 +10,7 @@
 #------------------------------------------
 # name of the branch to install
 branch="master"
-python_version="3.7.6"
+python_version="3.9.9"
 pulseaudio_service_path="/etc/systemd/system/pulseaudio.service"
 #------------------------------------------
 # Functions
@@ -30,7 +30,7 @@ install_default_packages(){
     flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
     libssl-dev libffi-dev libatlas3-base mplayer libyaml-dev libpython3-dev libjpeg-dev
     sudo apt-get install -y libportaudio0 libportaudio2 libportaudiocpp0  \
-    apt-transport-https pulseaudio
+    apt-transport-https pulseaudio cargo
     echo_green "Installing system packages...[OK]"
 
 }
@@ -57,20 +57,19 @@ install_pip3(){
 }
 
 install_pico2wave(){
-    debian_version=`cat /etc/os-release |grep buster`
-    retVal=$?
-    if [[ ${retVal} -ne 0 ]]; then
+    debian_version=`grep "^VERSION_ID=" /etc/os-release | cut -d'=' -f2 | tr -d '"'`
+    if (( ${debian_version} <= 10 )); then   # less than
         echo "Debian < 10"
-        sudo apt-get install ffmpeg libttspico-utils
+        sudo apt-get install -y ffmpeg libttspico-utils
     else
-        echo "Debian 10 Buster detected. Installing pico2wave manually"
+        echo "Debian > 10. Installing pico2wave manually"
         sudo apt-get install -y ffmpeg
         wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico-utils_1.0+git20130326-9_armhf.deb
         wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico0_1.0+git20130326-9_armhf.deb
         wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico-data_1.0+git20130326-9_all.deb
         sudo dpkg -i libttspico-data_1.0+git20130326-9_all.deb
-        sudo dpkg -i libttspico-utils_1.0+git20130326-9_armhf.deb
         sudo dpkg -i libttspico0_1.0+git20130326-9_armhf.deb
+        sudo dpkg -i libttspico-utils_1.0+git20130326-9_armhf.deb
     fi
 }
 
@@ -84,12 +83,12 @@ install_kalliope(){
         echo_green "Cloning the project...[OK]"
     fi
     # Install the project
-    echo_yellow "Installing Kalliope..."
+    echo_yellow "Installing Kalliope... This can take up to 60 minutes..."
     # fix for last ansible
-    sudo pip3 install "ansible==2.9.5"
+#    sudo pip3 install "ansible==2.9.5"
     cd kalliope
     git checkout ${branch}
-    sudo python3 setup.py install
+    sudo python3 -m pip -v install .
     cd ..
     echo_green "Installing Kalliope...[OK]"
 }
@@ -145,7 +144,7 @@ setup_pulseaudio(){
 
     # We comment out load-module module-suspend-on-idle in /etc/pulse/system.pa to avoid a delay if the module is suspend
     sudo sed -e '/load-module module-suspend-on-idle/ s/^#*/#/' -i /etc/pulse/system.pa
-    
+
     if [[ -f "/etc/systemd/system/pulseaudio.service" ]]; then
         # If the service already exists, we can skip this step
         echo_green "Pulseaudio service already existing"
@@ -155,11 +154,14 @@ setup_pulseaudio(){
         sudo cp $(pwd)/kalliope/install/files/pulseaudio.service /etc/systemd/system/
         echo_green "Creating pulseaudio service..[OK]"
         sudo systemctl daemon-reload
-        sudo systemctl start pulseaudio
         sudo systemctl enable pulseaudio
         echo_green "Enable and starting pulseaudio.service..[OK]"
     fi
+    # Restart pulseaudio anyway
+    sudo systemctl restart pulseaudio
     echo_green "Installing pulseaudio service..[OK]"
+    echo_green "Remember to setup speaker and microphone properly."
+    echo_green "https://kalliope-project.github.io/kalliope/installation/raspbian/#microphone-and-speaker-configuration"
 }
 
 
@@ -203,4 +205,4 @@ install_kalliope
 setup_pulseaudio
 
 # fix https://github.com/kalliope-project/kalliope/issues/487
-sudo chmod -R o+r /usr/local/lib/python3.7/dist-packages/
+#sudo chmod -R o+r /usr/local/lib/python3.7/dist-packages/
