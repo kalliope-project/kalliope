@@ -7,7 +7,7 @@ Kalliope can be installed:
 
 ## Install via script
 
-Just run the following bash command to install Kalliope on a freshly installed Raspberry Pi:
+Just run the following bash command to install Kalliope on a freshly installed Raspberry Pi (32bit):
 ```
 bash -c "$(curl -sL https://raw.githubusercontent.com/kalliope-project/kalliope/master/install/rpi_install_kalliope.sh)"
 ```

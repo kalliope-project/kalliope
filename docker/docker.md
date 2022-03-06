@@ -69,7 +69,7 @@ docker-compose -f compose_compile_snowboy_all.yml up
 ## Compile Snowboy for a Raspberry from amd64 system
 
 Check current platform
-```
+```bash
 docker buildx ls
 NAME/NODE DRIVER/ENDPOINT STATUS  PLATFORMS
 default * docker                  
@@ -77,12 +77,12 @@ default * docker
 ```
 
 Activate arm platforms
-```
+```bash
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 ```
 
 Check
-```
+```bash
 docker buildx ls
 NAME/NODE DRIVER/ENDPOINT STATUS  PLATFORMS
 default * docker                  
@@ -90,22 +90,25 @@ default * docker
 ```
 
 Create a builder
-```
+```bash
 docker buildx create --name rpibuilder --driver docker-container --use
 ```
 
 Bootstrap the builder
-```
+```bash
 docker buildx inspect --bootstrap
 ```
 
 Build the image
-```
+```bash
+# 32 bit
 docker buildx build --platform linux/arm/v7 --load --force-rm=true -t compile_snowboy_python39_rpi -f compile_snowboy_python39.dockerfile .
+# 64 bit
+docker buildx build --platform linux/arm64 --load --force-rm=true -t compile_snowboy_python39_rpi -f compile_snowboy_python39.dockerfile .
 ```
 
 Get the built Snowboy binary
-```
+```bash
 docker run -it --rm -v /tmp/snowboy:/data compile_snowboy_python39_rpi
 ```
 
