@@ -1,3 +1,11 @@
+v0.7.2 / 2022-03-06
+==================
+
+- Fix error when trying to save in memory a returned dict
+- Added new core neuron: play
+- Fix installation on last Raspbian 32 bit
+- Added Python 3.9 support
+
 v0.7.1 / 2020-12-06
 ===================
 - Fix: hook pause trigger process was not executed
