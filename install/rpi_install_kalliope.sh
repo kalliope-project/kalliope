@@ -83,7 +83,7 @@ install_kalliope(){
         echo_green "Cloning the project...[OK]"
     fi
     # Install the project
-    echo_yellow "Installing Kalliope... This can take up to 15 minutes..."
+    echo_yellow "Installing Kalliope... This can take up to 60 minutes..."
     # fix for last ansible
 #    sudo pip3 install "ansible==2.9.5"
     cd kalliope
