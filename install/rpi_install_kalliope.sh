@@ -30,7 +30,7 @@ install_default_packages(){
     flac libffi-dev libffi-dev libssl-dev portaudio19-dev build-essential \
     libssl-dev libffi-dev libatlas3-base mplayer libyaml-dev libpython3-dev libjpeg-dev
     sudo apt-get install -y libportaudio0 libportaudio2 libportaudiocpp0  \
-    apt-transport-https pulseaudio
+    apt-transport-https pulseaudio cargo
     echo_green "Installing system packages...[OK]"
 
 }
@@ -144,7 +144,7 @@ setup_pulseaudio(){
 
     # We comment out load-module module-suspend-on-idle in /etc/pulse/system.pa to avoid a delay if the module is suspend
     sudo sed -e '/load-module module-suspend-on-idle/ s/^#*/#/' -i /etc/pulse/system.pa
-    
+
     if [[ -f "/etc/systemd/system/pulseaudio.service" ]]; then
         # If the service already exists, we can skip this step
         echo_green "Pulseaudio service already existing"
@@ -154,11 +154,14 @@ setup_pulseaudio(){
         sudo cp $(pwd)/kalliope/install/files/pulseaudio.service /etc/systemd/system/
         echo_green "Creating pulseaudio service..[OK]"
         sudo systemctl daemon-reload
-        sudo systemctl start pulseaudio
         sudo systemctl enable pulseaudio
         echo_green "Enable and starting pulseaudio.service..[OK]"
     fi
+    # Restart pulseaudio anyway
+    sudo systemctl restart pulseaudio
     echo_green "Installing pulseaudio service..[OK]"
+    echo_green "Remember to setup speaker and microphone properly."
+    echo_green "https://kalliope-project.github.io/kalliope/installation/raspbian/#microphone-and-speaker-configuration"
 }
 
 

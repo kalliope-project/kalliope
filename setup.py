@@ -43,17 +43,6 @@ extra_files = package_files('kalliope/trigger/snowboy')
 extra_files.append('brain.yml')
 extra_files.append('settings.yml')
 
-
-def required():
-    with open(os.path.join(basedir, "install/files/python_requirements.txt"), 'r') as f:
-        return f.read().splitlines()
-
-
-# required libs
-required_packages = required()
-for package in required_packages:
-    pip.main(["install", package])
-
 setup(
     name='kalliope',
     version=version,
@@ -85,7 +74,39 @@ setup(
     # included packages
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     python_requires=">=3.6",
-
+    # required libs
+    install_requires=[
+        'Werkzeug>=2.0',
+        'pyyaml>=5.4.1',
+        'six>=1.12.0',
+        'SpeechRecognition>=3.8.1',
+        'markupsafe>=1.1.1',
+        'pyaudio>=0.2.11',
+        'pyasn1>=0.4.5',
+        'ansible>=4.5',
+        'jinja2>=2.10.1',
+        'cffi>=1.12.3',
+        'ipaddress>=1.0.17',
+        'flask>=2.0.1',
+        'Flask-Restful>=0.3.7',
+        'flask_cors>=3.0.8',
+        'requests>=2.22.0',
+        'httpretty>=0.8.14',
+        'mock>=3.0.5',
+        'Flask-Testing>=0.8.1',
+        'apscheduler>=3.6.0',
+        'GitPython>=2.1.11',
+        'packaging>=19.0',
+        'transitions>=0.6.9',
+        'sounddevice>=0.3.13',
+        'SoundFile>=0.10.2',
+        'pyalsaaudio>=0.8.4',
+        'paho-mqtt>=1.4.0',
+        'voicerss_tts>=1.0.6',
+        'gTTS>=2.2.3',
+        'urllib3>=1.25.3',
+        'gevent>=20.9.0'
+    ],
     # additional files
     package_data={
         'kalliope': extra_files,
