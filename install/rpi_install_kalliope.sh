@@ -57,13 +57,12 @@ install_pip3(){
 }
 
 install_pico2wave(){
-    debian_version=`cat /etc/os-release |grep buster`
-    retVal=$?
-    if [[ ${retVal} -ne 0 ]]; then
+    debian_version=`grep "^VERSION_ID=" /etc/os-release | cut -d'=' -f2 | tr -d '"'`
+    if (( ${debian_version} <= 10 )); then   # less than
         echo "Debian < 10"
-        sudo apt-get install ffmpeg libttspico-utils
+        sudo apt-get install -y ffmpeg libttspico-utils
     else
-        echo "Debian 10 Buster detected. Installing pico2wave manually"
+        echo "Debian > 10. Installing pico2wave manually"
         sudo apt-get install -y ffmpeg
         wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico-utils_1.0+git20130326-9_armhf.deb
         wget http://ftp.fr.debian.org/debian/pool/non-free/s/svox/libttspico0_1.0+git20130326-9_armhf.deb
