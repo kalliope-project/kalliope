@@ -49,6 +49,6 @@ class RestAPITestBase(LiveServerTestCase):
 
         self.app = Flask(__name__)
         self.app.config['TESTING'] = True
-        self.flask_api = FlaskAPI(self.app, listen=self.settings.listen port=self.settings.port, brain=brain)
+        self.flask_api = FlaskAPI(self.app, listen=self.settings.listen, port=self.settings.port, brain=brain)
         self.client = self.app.test_client()
         return self.flask_api.app
