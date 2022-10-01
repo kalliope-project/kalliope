@@ -22,7 +22,7 @@ ALLOWED_EXTENSIONS = {'wav'}
 
 
 class FlaskAPI(threading.Thread):
-    def __init__(self, app, port=5000, brain=None, allowed_cors_origin=False):
+    def __init__(self, app, listen='', port=5000, brain=None, allowed_cors_origin=False):
         """
 
         :param app: Flask API
@@ -32,6 +32,7 @@ class FlaskAPI(threading.Thread):
         """
         super(FlaskAPI, self).__init__()
         self.app = app
+        self.listen = listen
         self.port = port
         self.brain = brain
         self.allowed_cors_origin = allowed_cors_origin
@@ -77,7 +78,7 @@ class FlaskAPI(threading.Thread):
         self.app.register_blueprint(self.neurons_blueprint)
 
     def run(self):
-        http_server = WSGIServer(('', 5000), self.app)
+        http_server = WSGIServer((self.listen, self.port), self.app)
         http_server.serve_forever()
 
     @requires_auth

@@ -36,6 +36,7 @@ class RestAPITestBase(LiveServerTestCase):
         self.settings = self.sl.settings
         self.settings.rest_api.password_protected = False
         self.settings.active = True
+        self.settings.listen = ''
         self.settings.port = 5000
         self.settings.allowed_cors_origin = "*"
         self.settings.default_synapse = None
@@ -48,6 +49,6 @@ class RestAPITestBase(LiveServerTestCase):
 
         self.app = Flask(__name__)
         self.app.config['TESTING'] = True
-        self.flask_api = FlaskAPI(self.app, port=5000, brain=brain)
+        self.flask_api = FlaskAPI(self.app, listen=self.settings.listen port=self.settings.port, brain=brain)
         self.client = self.app.test_client()
         return self.flask_api.app

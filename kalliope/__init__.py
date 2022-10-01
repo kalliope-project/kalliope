@@ -226,6 +226,7 @@ def start_rest_api(settings, brain):
         Utils.print_info("Starting REST API Listening port: %s" % settings.rest_api.port)
         app = Flask(__name__)
         flask_api = FlaskAPI(app=app,
+                             listen=settings.rest_api.listen,
                              port=settings.rest_api.port,
                              brain=brain,
                              allowed_cors_origin=settings.rest_api.allowed_cors_origin)

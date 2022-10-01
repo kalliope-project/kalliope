@@ -438,6 +438,9 @@ class SettingLoader(with_metaclass(Singleton, object)):
                 active = rest_api["active"]
                 if active is None:
                     raise NullSettingException("active setting cannot be null")
+                listen = rest_api["listen"]
+                if listen is None:
+                    raise NullSettingException("listen setting cannot be null")
                 port = rest_api["port"]
                 if port is None:
                     raise NullSettingException("port setting cannot be null")
@@ -460,7 +463,7 @@ class SettingLoader(with_metaclass(Singleton, object)):
 
             # config ok, we can return the rest api object
             rest_api_obj = RestAPI(password_protected=password_protected, login=login, password=password,
-                                   active=active, port=port, allowed_cors_origin=allowed_cors_origin)
+                                   active=active, listen=listen, port=port, allowed_cors_origin=allowed_cors_origin)
             return rest_api_obj
         else:
             raise NullSettingException("rest_api settings cannot be null")

@@ -10,6 +10,7 @@ class RestAPI(SettingsEntry):
                  password_protected=None,
                  login=None, password=None,
                  active=None,
+                 listen=None,
                  port=None,
                  allowed_cors_origin=None):
         """
@@ -17,6 +18,8 @@ class RestAPI(SettingsEntry):
         :param login: login used if auth is activated
         :param password: password used if auth is activated
         :param active: specify if the rest api is loaded on start with Kalliope
+        :param listen: specify if the rest api should be bound to a specific ip address
+        :param port: specify if the rest api is should be bound to a specific tcp port
         :param allowed_cors_origin: specify allowed origins
         """
         super(RestAPI, self).__init__("RestAPI")
@@ -24,6 +27,7 @@ class RestAPI(SettingsEntry):
         self.login = login
         self.password = password
         self.active = active
+        self.listen = listen
         self.port = port
         self.allowed_cors_origin = allowed_cors_origin
 
@@ -43,6 +47,7 @@ class RestAPI(SettingsEntry):
             'login': self.login,
             'password': self.password,
             'active': self.active,
+            'listen': self.listen,
             'port': self.port,
             'allowed_cors_origin': self.allowed_cors_origin
         }
