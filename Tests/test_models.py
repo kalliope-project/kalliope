@@ -203,7 +203,8 @@ class TestModels(unittest.TestCase):
             'neuron_folder': '/path/neuron',
             'stt_folder': '/path/stt',
             'trigger_folder': '/path/trigger',
-            'signal_folder': None
+            'signal_folder': None,
+            'player_folder': None
         }
 
         self.assertDictEqual(expected_result_serialize, resource1.serialize())
@@ -300,7 +301,7 @@ class TestModels(unittest.TestCase):
                                 send_anonymous_usage_stats=0)
             setting3.kalliope_version = "0.4.5"
 
-            expected_result_serialize = {'default_tts_name': 'pico2wav', 'default_stt_name': 'google', 'default_trigger_name': 'swoyboy', 'default_player_name': 'mplayer', 'ttss': [{'name': 'tts1', 'parameters': {}}], 'stts': [{'name': 'stt1', 'parameters': {}}], 'triggers': [{'name': 'snowboy', 'parameters': {}}], 'players': [{'name': 'player1', 'parameters': None}], 'rest_api': {'password_protected': True, 'login': 'admin', 'password': 'password', 'active': True, 'port': 5000, 'allowed_cors_origin': '*'}, 'cache_path': '/tmp/kalliope', 'resources': {'neuron_folder': None, 'stt_folder': None, 'tts_folder': None, 'trigger_folder': None, 'signal_folder': None}, 'variables': {'key1': 'val1'}, 'machine': 'pumpkins', 'kalliope_version': '0.4.5', 'options': {'name': 'Options', 'recognizer_multiplier': 1.0, 'recognizer_energy_ratio': 1.5, 'recognizer_recording_timeout': 15.0, 'recognizer_recording_timeout_with_silence': 3.0, 'deaf': None, 'mute': None}, 'hooks': None, 'send_anonymous_usage_stats': 0}
+            expected_result_serialize = {'default_tts_name': 'pico2wav', 'default_stt_name': 'google', 'default_trigger_name': 'swoyboy', 'default_player_name': 'mplayer', 'ttss': [{'name': 'tts1', 'parameters': {}}], 'stts': [{'name': 'stt1', 'parameters': {}}], 'triggers': [{'name': 'snowboy', 'parameters': {}}], 'players': [{'name': 'player1', 'parameters': None}], 'rest_api': {'password_protected': True, 'login': 'admin', 'password': 'password', 'active': True, 'port': 5000, 'allowed_cors_origin': '*'}, 'cache_path': '/tmp/kalliope', 'resources': {'neuron_folder': None, 'stt_folder': None, 'tts_folder': None, 'trigger_folder': None, 'signal_folder': None, 'player_folder': None}, 'variables': {'key1': 'val1'}, 'machine': 'pumpkins', 'kalliope_version': '0.4.5', 'options': {'name': 'Options', 'recognizer_multiplier': 1.0, 'recognizer_energy_ratio': 1.5, 'recognizer_recording_timeout': 15.0, 'recognizer_recording_timeout_with_silence': 3.0, 'deaf': None, 'mute': None}, 'hooks': None, 'send_anonymous_usage_stats': 0}
 
             self.maxDiff = None
             self.assertDictEqual(expected_result_serialize, setting1.serialize())

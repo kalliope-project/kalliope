@@ -62,6 +62,7 @@ def parse_args(args):
     parser.add_argument("--tts-name", help="TTS name to uninstall")
     parser.add_argument("--trigger-name", help="Trigger name to uninstall")
     parser.add_argument("--signal-name", help="Signal name to uninstall")
+    parser.add_argument("--player-name", help="Player name to uninstall")
     parser.add_argument("--deaf", action='store_true', help="Starts Kalliope deaf")
     parser.add_argument('-v', '--version', action='version',
                         version='Kalliope ' + version_str)
@@ -115,13 +116,15 @@ def main():
                 and not parser.stt_name \
                 and not parser.tts_name \
                 and not parser.trigger_name \
-                and not parser.signal_name:
+                and not parser.signal_name \
+                and not parser.player_name:
             Utils.print_danger("You must specify a module name with "
                                "--neuron-name "
                                "or --stt-name "
                                "or --tts-name "
                                "or --trigger-name "
-                               "or --signal-name")
+                               "or --signal-name "
+                               "or --player-name")
             sys.exit(1)
         else:
             res_manager = ResourcesManager()
@@ -129,7 +132,8 @@ def main():
                                   stt_name=parser.stt_name,
                                   tts_name=parser.tts_name,
                                   trigger_name=parser.trigger_name,
-                                  signal_name=parser.signal_name)
+                                  signal_name=parser.signal_name,
+                                  player_name=parser.player_name)
         return
 
     # load the brain once

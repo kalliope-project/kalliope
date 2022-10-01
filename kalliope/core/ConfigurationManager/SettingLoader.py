@@ -568,14 +568,23 @@ class SettingLoader(with_metaclass(Singleton, object)):
                 else:
                     raise SettingInvalidException("The path %s does not exist on the system" % signal_folder)
 
+            if "player" in resource_dir:
+                player_folder = resource_dir["player"]
+                if os.path.exists(player_folder):
+                    logger.debug("[SettingLoader] Player resource folder path loaded: %s" % player_folder)
+                    resource_object.player_folder = player_folder
+                else:
+                    raise SettingInvalidException("The path %s does not exist on the system" % player_folder)
+
             if neuron_folder is None \
                     and stt_folder is None \
                     and tts_folder is None \
                     and trigger_folder is None \
-                    and signal_folder is None:
+                    and signal_folder is None \
+                    and player_folder is None:
                 raise SettingInvalidException("No required folder has been provided in the setting resource_directory. "
                                               "Define : \'neuron\' or/and \'stt\' or/and \'tts\' or/and \'trigger\' "
-                                              "or/and \'signal\'")
+                                              "or/and \'signal\' or/and \'player\'")
 
         except KeyError:
             logger.debug("Resource directory not found in settings")
