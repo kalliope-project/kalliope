@@ -109,7 +109,7 @@ class TestSettingLoader(unittest.TestCase):
         player2 = Player(name="pyalsaaudio", parameters={"device": "default"})
         settings_object.players = [player1, player2]
         settings_object.rest_api = RestAPI(password_protected=True, active=True,
-                                           login="admin", password="secret", port=5000,
+                                           login="admin", password="secret", listen="0.0.0.0", port=5000,
                                            allowed_cors_origin=False)
         settings_object.cache_path = '/tmp/kalliope_tts_cache'
         resources = Resources(neuron_folder="/tmp/kalliope/tests/kalliope_resources_dir/neurons",
@@ -194,7 +194,7 @@ class TestSettingLoader(unittest.TestCase):
 
     def test_get_rest_api(self):
         expected_rest_api = RestAPI(password_protected=True, active=True,
-                                    login="admin", password="secret", port=5000,
+                                    login="admin", password="secret", listen="0.0.0.0", port=5000,
                                     allowed_cors_origin=False)
 
         sl = SettingLoader(file_path=self.settings_file_to_test)

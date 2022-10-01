@@ -438,9 +438,9 @@ class SettingLoader(with_metaclass(Singleton, object)):
                 active = rest_api["active"]
                 if active is None:
                     raise NullSettingException("active setting cannot be null")
+                if "listen" not in rest_api:
+                    rest_api["listen"] = '0.0.0.0'
                 listen = rest_api["listen"]
-                if listen is None:
-                    raise NullSettingException("listen setting cannot be null")
                 port = rest_api["port"]
                 if port is None:
                     raise NullSettingException("port setting cannot be null")

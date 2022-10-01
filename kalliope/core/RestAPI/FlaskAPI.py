@@ -22,7 +22,7 @@ ALLOWED_EXTENSIONS = {'wav'}
 
 
 class FlaskAPI(threading.Thread):
-    def __init__(self, app, listen='', port=5000, brain=None, allowed_cors_origin=False):
+    def __init__(self, app, listen='0.0.0.0', port=5000, brain=None, allowed_cors_origin=False):
         """
 
         :param app: Flask API
