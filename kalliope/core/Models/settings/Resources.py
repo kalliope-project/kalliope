@@ -5,13 +5,14 @@ class Resources(SettingsEntry):
     """
 
     """
-    def __init__(self, neuron_folder=None, stt_folder=None, tts_folder=None, trigger_folder=None, signal_folder=None):
+    def __init__(self, neuron_folder=None, stt_folder=None, tts_folder=None, trigger_folder=None, signal_folder=None, player_folder=None):
         super(Resources, self).__init__("Resources")
         self.neuron_folder = neuron_folder
         self.stt_folder = stt_folder
         self.tts_folder = tts_folder
         self.trigger_folder = trigger_folder
         self.signal_folder = signal_folder
+        self.player_folder = player_folder
 
     def __str__(self):
         return str(self.serialize())
@@ -29,7 +30,8 @@ class Resources(SettingsEntry):
             'stt_folder': self.stt_folder,
             'tts_folder': self.tts_folder,
             'trigger_folder': self.trigger_folder,
-            'signal_folder': self.signal_folder
+            'signal_folder': self.signal_folder,
+            'player_folder': self.player_folder
         }
 
     def __eq__(self, other):

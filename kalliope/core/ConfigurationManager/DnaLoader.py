@@ -9,7 +9,7 @@ class InvalidDNAException(Exception):
     pass
 
 
-VALID_DNA_MODULE_TYPE = ["neuron", "stt", "tts", "trigger", "signal"]
+VALID_DNA_MODULE_TYPE = ["neuron", "stt", "tts", "trigger", "signal", "player"]
 
 
 class DnaLoader(object):
