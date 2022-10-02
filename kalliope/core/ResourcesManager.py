@@ -33,6 +33,7 @@ TYPE_TTS = "tts"
 TYPE_STT = "stt"
 TYPE_TRIGGER = "trigger"
 TYPE_SIGNAL = "signal"
+TYPE_PLAYER = "player"
 
 
 class ResourcesManagerException(Exception):
@@ -129,7 +130,8 @@ class ResourcesManager(object):
                   tts_name=None,
                   stt_name=None,
                   trigger_name=None,
-                  signal_name=None):
+                  signal_name=None,
+                  player_name=None):
         """
         Uninstall a community resource
         """
@@ -156,6 +158,11 @@ class ResourcesManager(object):
             target_path_to_delete = self._get_target_folder(resources=self.settings.resources,
                                                             module_type=TYPE_SIGNAL)
             module_name = signal_name
+
+        if player_name is not None:
+            target_path_to_delete = self._get_target_folder(resources=self.settings.resources,
+                                                            module_type=TYPE_PLAYER)
+            module_name = player_name
 
         if target_path_to_delete is not None:
             try:
@@ -249,7 +256,8 @@ class ResourcesManager(object):
                 TYPE_STT: resources.stt_folder,
                 TYPE_TTS: resources.tts_folder,
                 TYPE_TRIGGER: resources.trigger_folder,
-                TYPE_SIGNAL: resources.signal_folder
+                TYPE_SIGNAL: resources.signal_folder,
+                TYPE_PLAYER: resources.player_folder
             }
         except AttributeError:
             # will be raised if the resource folder is not set in settings

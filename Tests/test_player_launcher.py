@@ -31,7 +31,8 @@ class TestPlayerLauncher(unittest.TestCase):
 
             mock_get_class_instantiation.assert_called_once_with(package_name="players",
                                                                  module_name=player1.name,
-                                                                 parameters=player1.parameters)
+                                                                 parameters=player1.parameters,
+                                                                 resources_dir=None)
             mock_get_class_instantiation.reset_mock()
 
             # Get the player 2
@@ -40,5 +41,6 @@ class TestPlayerLauncher(unittest.TestCase):
 
             mock_get_class_instantiation.assert_called_once_with(package_name="players",
                                                                  module_name=player2.name,
-                                                                 parameters=player2.parameters)
+                                                                 parameters=player2.parameters,
+                                                                 resources_dir=None)
             mock_get_class_instantiation.reset_mock()
