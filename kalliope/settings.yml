@@ -33,6 +33,7 @@ default_speech_to_text: "google"
 # - apiai
 # - houndify
 # - cmusphinx (must be installed first)
+# - whisper (must be installed first)
 speech_to_text:
   - google:
       language: "fr-FR"
@@ -47,6 +48,10 @@ speech_to_text:
       key: "fakekey" # example : "7zj90T7qAV74OYXk4X4vI2Xhk7wPsJu4aEZ0G5Ll-BMmV1JGtFpCxtSH9SmTY4G3bpEJ7a5y_GTQid-CAKI6vw=="
       client_id: "fakeclientid" # example : "lN4JXeaSticbSo9-llczbA=="
   #- cmusphinx
+  #- whisper:
+  #   model: "tiny-en"
+  #   language: "english"
+  #   translate: no
 
 
 # ---------------------------
