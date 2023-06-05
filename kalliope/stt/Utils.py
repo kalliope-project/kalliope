@@ -1,5 +1,6 @@
 import threading
 from threading import Thread
+from time import time
 import logging
 from kalliope import Utils, SettingLoader
 from kalliope.stt import SpeechRecognizer
@@ -42,16 +43,20 @@ class SpeechRecognition(Thread):
         if self.audio_stream is None:
             HookManager.on_start_listening()
             Utils.print_success("Say something!")
+            time_start = time()
             with self.microphone as source:
                 self.audio_stream = self.recognizer.listen(source)
+            secs = time() - time_start
             HookManager.on_stop_listening()
-            Utils.print_success("Finished listening!")
+            Utils.print_success(f"Finished listening ({secs} seconds)!")
 
         HookManager.on_start_stt_processing()
         Utils.print_success("Processing via STT engine!")
+        time_start = time()
         self.callback(self.recognizer, self.audio_stream)
+        secs = time() - time_start
         HookManager.on_stop_stt_processing()
-        Utils.print_success("Finished processing!")
+        Utils.print_success(f"Finished processing ({secs} seconds)!")
 
     def start_processing(self):
         """
