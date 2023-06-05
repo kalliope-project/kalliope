@@ -163,7 +163,6 @@ class Order(SignalModule, Thread):
         logger.debug("[Order] Entering state: %s" % self.state)
 
         # start listening for an order
-        HookManager.on_start_listening()
         self.order_listener_callback_called = False
         self.order_listener = OrderListener(callback=self.order_listener_callback)
         self.order_listener.daemon = True
@@ -177,7 +176,6 @@ class Order(SignalModule, Thread):
         :type order: str
         """
         logger.debug("[Order] Order listener callback called. Order to process: %s" % order)
-        HookManager.on_stop_listening()
         self.order_to_process = order
         self.order_listener_callback_called = True
         # save in kalliope memory the last order

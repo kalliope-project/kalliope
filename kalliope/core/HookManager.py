@@ -38,6 +38,14 @@ class HookManager(object):
         return cls.execute_synapses_in_hook_name("on_stop_listening")
 
     @classmethod
+    def on_start_stt_processing(cls):
+        return cls.execute_synapses_in_hook_name("on_start_stt_processing")
+
+    @classmethod
+    def on_stop_stt_processing(cls):
+        return cls.execute_synapses_in_hook_name("on_stop_stt_processing")
+
+    @classmethod
     def on_order_found(cls):
         return cls.execute_synapses_in_hook_name("on_order_found")
 
