@@ -3,6 +3,7 @@ from threading import Thread
 import logging
 from kalliope import Utils, SettingLoader
 from kalliope.stt import SpeechRecognizer
+from kalliope.core.HookManager import HookManager
 import speech_recognition as sr
 
 logging.basicConfig()
@@ -39,11 +40,18 @@ class SpeechRecognition(Thread):
         Start the thread that listen the microphone and then give the audio to the callback method
         """
         if self.audio_stream is None:
+            HookManager.on_start_listening()
             Utils.print_success("Say something!")
             with self.microphone as source:
                 self.audio_stream = self.recognizer.listen(source)
+            HookManager.on_stop_listening()
+            Utils.print_success("Finished listening!")
 
+        HookManager.on_start_stt_processing()
+        Utils.print_success("Processing via STT engine!")
         self.callback(self.recognizer, self.audio_stream)
+        HookManager.on_stop_stt_processing()
+        Utils.print_success("Finished processing!")
 
     def start_processing(self):
         """

@@ -273,7 +273,6 @@ class NeuronModule(object):
         Call the default STT to get an audio sample and return it into the callback method
         :param callback: A callback function
         """
-        HookManager.on_start_listening()
         # call the order listener
         ol = OrderListener(callback=callback)
         ol.start()
@@ -281,7 +280,6 @@ class NeuronModule(object):
         # wait that the STT engine has finish his job (or the neurotransmitter neuron will be killed)
         if ol.stt_instance is not None:
             ol.stt_instance.join()
-        HookManager.on_stop_listening()
 
     def get_neuron_name(self):
         """

@@ -687,6 +687,8 @@ class SettingLoader(with_metaclass(Singleton, object)):
             "on_triggered",
             "on_start_listening",
             "on_stop_listening",
+            "on_start_stt_processing",
+            "on_stop_stt_processing",
             "on_order_found",
             "on_order_not_found",
             "on_deaf",
