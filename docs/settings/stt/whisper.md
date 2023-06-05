@@ -14,8 +14,8 @@ python3 -m pip install git+https://github.com/openai/whisper.git soundfile
 | model           | no       | string | tiny |         | One of the valid [SpeechRecognition OpenAI Whisper model values](https://github.com/Uberi/speech_recognition/blob/master/reference/library-reference.rst#recognizer_instancerecognize_whisperaudio_data-audiodata-model-strbase-show_dict-boolfalse-load_options-dictany-anynone-languageoptionalstrnone-translateboolfalse-transcribe_options) |
 | language        | no       | string | None |         | One of the valid [SpeechRecognition OpenAI Whisper language values](https://github.com/Uberi/speech_recognition/blob/master/reference/library-reference.rst#recognizer_instancerecognize_whisperaudio_data-audiodata-model-strbase-show_dict-boolfalse-load_options-dictany-anynone-languageoptionalstrnone-translateboolfalse-transcribe_options). If not set, defaults to auto-translation which requires a full (i.e. non-`en`) model. |
 | translate       | no       | bool   | False | True, False | Translate the spoken text into English before returning. Requires a full (i.e. non-`en`) model and `language` not set. |
-| unformat        | no       | bool   | False  | True, False | Return text as all-lowercase and stripped of the characters in `unformat_characters`. |
-| unformat_characters | no | list | | | A list of characters to remove from the text when using `unformat`. |
+| unformat        | no       | bool   | True | True, False | Return text as all-lowercase and stripped of the characters in `unformat_characters`; enabled by default but with no characters set. |
+| unformat_characters | no | list | (empty) | | A list of characters to remove from the text when using `unformat`. |
 
 ## Settings example
 
