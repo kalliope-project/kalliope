@@ -64,6 +64,12 @@ class TestInit(unittest.TestCase):
     def test_on_stop_listening(self):
         self.assertIsNone(HookManager.on_stop_listening())
 
+    def test_on_start_stt_processing(self):
+        self.assertIsNone(HookManager.on_start_stt_processing())
+
+    def test_on_stop_stt_processing(self):
+        self.assertIsNone(HookManager.on_stop_stt_processing())
+
     def test_on_order_found(self):
         self.assertIsNone(HookManager.on_order_found())
 
