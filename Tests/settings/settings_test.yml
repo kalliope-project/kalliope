@@ -88,6 +88,8 @@ hooks:
     - "on-triggered-synapse"
   on_start_listening:
   on_stop_listening:
+  on_start_stt_processing:
+  on_stop_stt_processing:
   on_order_found:
   on_order_not_found:
     - "order-not-found-synapse"
