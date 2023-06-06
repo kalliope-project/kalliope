@@ -83,7 +83,7 @@ setup(
         'markupsafe>=1.1.1',
         'pyaudio>=0.2.11',
         'pyasn1>=0.4.5',
-        'ansible>=4.5',
+        'ansible>=4.5,<5',
         'jinja2>=2.10.1',
         'cffi>=1.12.3',
         'ipaddress>=1.0.17',
