@@ -71,7 +71,7 @@ class MqttClient(Thread):
                 logger.debug("[MqttClient] Trying to subscribe to topic %s" % topic.name)
                 client.subscribe(topic.name)
         else:
-            logger.debug("[MqttClient] Broker %s connection failled. Disconnect" % self.broker.broker_ip)
+            logger.debug("[MqttClient] Broker %s connection failed. Disconnect" % self.broker.broker_ip)
             self.client.disconnect()
 
     def on_message(self, client, userdata, msg):
